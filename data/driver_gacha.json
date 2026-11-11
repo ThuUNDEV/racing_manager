@@ -1,0 +1,36 @@
+{
+ "schema_version": 1,
+ "_note": "Gia tri can bang (ti le, gia, bao dam, manh, chi so moi level) la placeholder cau hinh. Tham chieu goi Pro/All-Star cua Race Star chi dung de dat ten va co che bao dam.",
+ "tier_ids": ["rookie", "pro", "elite", "legend"],
+ "coupon_types": ["pro", "allstar"],
+ "packs": [
+  {
+   "id": "pro",
+   "name": "PRO PACK",
+   "subtitle": "Chắc chắn có Elite sau 13 lượt",
+   "coupon": "pro",
+   "price_x1": 10,
+   "price_x10": 100,
+   "tiers": {"rookie": 60, "pro": 33, "elite": 7},
+   "pity_draws": 13,
+   "pity_tier": "elite"
+  },
+  {
+   "id": "allstar",
+   "name": "ALL-STAR PACK",
+   "subtitle": "Chắc chắn có Legend sau 10 lượt",
+   "coupon": "allstar",
+   "price_x1": 30,
+   "price_x10": 300,
+   "tiers": {"pro": 55, "elite": 38, "legend": 7},
+   "pity_draws": 10,
+   "pity_tier": "legend"
+  }
+ ],
+ "tier_defaults": {
+  "rookie": {"max_level": 5, "level_up_shards": [10, 20, 40, 80, 160], "duplicate_shards": 5, "stat_bonus_per_level": 1},
+  "pro": {"max_level": 5, "level_up_shards": [10, 20, 40, 80, 160], "duplicate_shards": 5, "stat_bonus_per_level": 1},
+  "elite": {"max_level": 5, "level_up_shards": [10, 20, 40, 80, 160], "duplicate_shards": 5, "stat_bonus_per_level": 1},
+  "legend": {"max_level": 5, "level_up_shards": [10, 20, 40, 80, 160], "duplicate_shards": 5, "stat_bonus_per_level": 1}
+ }
+}

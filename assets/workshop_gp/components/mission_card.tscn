@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://assets/workshop_gp/components/asset_widget.gd" id="1"]
+
+[node name="MissionCard" type="PanelContainer"]
+script = ExtResource("1")
+kind = "mission"
+title = "Hoàn thành cuộc đua đầu"
+subtitle = "1/1 · Thưởng 100 tiền"
+image_path = "res://assets/workshop_gp/icons/vector_dark/mission.svg"
+action_text = "Nhận thưởng"

@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://assets/workshop_gp/components/asset_widget.gd" id="1"]
+
+[node name="LeagueCard" type="PanelContainer"]
+script = ExtResource("1")
+kind = "league"
+title = "Giải tập sự"
+subtitle = "24 / 36 điểm"
+image_path = "res://assets/workshop_gp/rewards/rookie_cup.tres"
+action_text = ""

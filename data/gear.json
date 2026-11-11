@@ -1,0 +1,302 @@
+{
+ "schema_version": 1,
+ "_note": "Gia tri can bang (so manh, chi so, manh khi trung) la placeholder cau hinh, chua lay tu game goc. Chi tieu manh cua chinh phu kien.",
+ "coupon_types": [
+  "standard",
+  "elite"
+ ],
+ "packs": [
+  {
+   "id": "standard",
+   "name": "STANDARD GEAR",
+   "subtitle": "Chance to get Epic Gear",
+   "coupon": "standard",
+   "price_x1": 10,
+   "price_x10": 100,
+   "tiers": {
+    "rare": 85,
+    "epic": 15
+   }
+  },
+  {
+   "id": "elite",
+   "name": "ELITE GEAR",
+   "subtitle": "Chance to get Legendary Gear",
+   "coupon": "elite",
+   "price_x1": 30,
+   "price_x10": 300,
+   "tiers": {
+    "epic": 85,
+    "legendary": 15
+   }
+  }
+ ],
+ "rarity_defaults": {
+  "rare": {
+   "initial_level": 0,
+   "max_level": 5,
+   "level_up_shards": [
+    10,
+    20,
+    40,
+    80,
+    160
+   ],
+   "duplicate_shards": 5,
+   "stats_by_level": [
+    {
+     "attack": 20,
+     "defense": 20
+    },
+    {
+     "attack": 30,
+     "defense": 30
+    },
+    {
+     "attack": 40,
+     "defense": 40
+    },
+    {
+     "attack": 50,
+     "defense": 50
+    },
+    {
+     "attack": 60,
+     "defense": 60
+    },
+    {
+     "attack": 70,
+     "defense": 70
+    }
+   ]
+  },
+  "epic": {
+   "initial_level": 0,
+   "max_level": 5,
+   "level_up_shards": [
+    10,
+    20,
+    40,
+    80,
+    160
+   ],
+   "duplicate_shards": 8,
+   "stats_by_level": [
+    {
+     "attack": 40,
+     "defense": 40
+    },
+    {
+     "attack": 60,
+     "defense": 60
+    },
+    {
+     "attack": 80,
+     "defense": 80
+    },
+    {
+     "attack": 100,
+     "defense": 100
+    },
+    {
+     "attack": 120,
+     "defense": 120
+    },
+    {
+     "attack": 140,
+     "defense": 140
+    }
+   ]
+  },
+  "legendary": {
+   "initial_level": 0,
+   "max_level": 5,
+   "level_up_shards": [
+    10,
+    20,
+    40,
+    80,
+    160
+   ],
+   "duplicate_shards": 12,
+   "stats_by_level": [
+    {
+     "attack": 80,
+     "defense": 80
+    },
+    {
+     "attack": 120,
+     "defense": 120
+    },
+    {
+     "attack": 160,
+     "defense": 160
+    },
+    {
+     "attack": 200,
+     "defense": 200
+    },
+    {
+     "attack": 240,
+     "defense": 240
+    },
+    {
+     "attack": 280,
+     "defense": 280
+    }
+   ]
+  }
+ },
+ "items": [
+  {
+   "id": "gear_balaclava",
+   "name": "Balaclava",
+   "rarity": "rare"
+  },
+  {
+   "id": "gear_racing_gloves",
+   "name": "Racing Gloves",
+   "rarity": "rare"
+  },
+  {
+   "id": "gear_pit_cap",
+   "name": "Pit Cap",
+   "rarity": "rare"
+  },
+  {
+   "id": "gear_neck_brace",
+   "name": "Neck Brace",
+   "rarity": "rare"
+  },
+  {
+   "id": "gear_knee_pads",
+   "name": "Knee Pads",
+   "rarity": "rare"
+  },
+  {
+   "id": "gear_driver_boots",
+   "name": "Driver Boots",
+   "rarity": "rare"
+  },
+  {
+   "id": "gear_visor_strip",
+   "name": "Visor Strip",
+   "rarity": "rare"
+  },
+  {
+   "id": "gear_team_scarf",
+   "name": "Team Scarf",
+   "rarity": "rare"
+  },
+  {
+   "id": "gear_lucky_charm",
+   "name": "Lucky Charm",
+   "rarity": "rare"
+  },
+  {
+   "id": "gear_stopwatch",
+   "name": "Stopwatch",
+   "rarity": "rare"
+  },
+  {
+   "id": "gear_cooling_vest",
+   "name": "Cooling Vest",
+   "rarity": "rare"
+  },
+  {
+   "id": "gear_grip_tape",
+   "name": "Grip Tape",
+   "rarity": "rare"
+  },
+  {
+   "id": "gear_carbon_helmet",
+   "name": "Carbon Helmet",
+   "rarity": "epic"
+  },
+  {
+   "id": "gear_fireproof_suit",
+   "name": "Fireproof Suit",
+   "rarity": "epic"
+  },
+  {
+   "id": "gear_aero_gloves",
+   "name": "Aero Gloves",
+   "rarity": "epic"
+  },
+  {
+   "id": "gear_reflex_goggles",
+   "name": "Reflex Goggles",
+   "rarity": "epic"
+  },
+  {
+   "id": "gear_hydration_pack",
+   "name": "Hydration Pack",
+   "rarity": "epic"
+  },
+  {
+   "id": "gear_radio_headset",
+   "name": "Radio Headset",
+   "rarity": "epic"
+  },
+  {
+   "id": "gear_pro_boots",
+   "name": "Pro Boots",
+   "rarity": "epic"
+  },
+  {
+   "id": "gear_gel_seat",
+   "name": "Gel Seat",
+   "rarity": "epic"
+  },
+  {
+   "id": "gear_titanium_visor",
+   "name": "Titanium Visor",
+   "rarity": "epic"
+  },
+  {
+   "id": "gear_telemetry_watch",
+   "name": "Telemetry Watch",
+   "rarity": "epic"
+  },
+  {
+   "id": "gear_focus_band",
+   "name": "Focus Band",
+   "rarity": "epic"
+  },
+  {
+   "id": "gear_pit_wall_tablet",
+   "name": "Pit Wall Tablet",
+   "rarity": "epic"
+  },
+  {
+   "id": "gear_golden_helmet",
+   "name": "Golden Helmet",
+   "rarity": "legendary"
+  },
+  {
+   "id": "gear_phoenix_suit",
+   "name": "Phoenix Suit",
+   "rarity": "legendary"
+  },
+  {
+   "id": "gear_champion_gloves",
+   "name": "Champion Gloves",
+   "rarity": "legendary"
+  },
+  {
+   "id": "gear_comet_boots",
+   "name": "Comet Boots",
+   "rarity": "legendary"
+  },
+  {
+   "id": "gear_victory_laurel",
+   "name": "Victory Laurel",
+   "rarity": "legendary"
+  },
+  {
+   "id": "gear_master_visor",
+   "name": "Master Visor",
+   "rarity": "legendary"
+  }
+ ]
+}

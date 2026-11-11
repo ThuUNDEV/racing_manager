@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://assets/workshop_gp/components/asset_widget.gd" id="1"]
+
+[node name="RewardCard" type="PanelContainer"]
+script = ExtResource("1")
+kind = "reward"
+title = "Quà hằng ngày"
+subtitle = "200 tiền"
+image_path = "res://assets/workshop_gp/rewards/daily_gift.tres"
+action_text = "Nhận quà"

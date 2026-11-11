@@ -1,0 +1,256 @@
+{
+  "schema_version": 1,
+  "drivers": [
+    {
+      "id": "driver_an",
+      "name": "An",
+      "tier": 0,
+      "role": "all_round",
+      "pace": 40,
+      "technique": 40,
+      "composure": 40,
+      "launch": 40,
+      "braking": 40,
+      "racecraft": 40,
+      "endurance": 40,
+      "style": "counter",
+      "trait": "",
+      "unlock": {
+        "type": "start"
+      },
+      "entry_tier": 0,
+      "coin_cost_base": "600"
+    },
+    {
+      "id": "driver_binh",
+      "name": "Bình",
+      "tier": 0,
+      "role": "speed",
+      "pace": 50,
+      "technique": 34,
+      "composure": 36,
+      "launch": 52,
+      "braking": 34,
+      "racecraft": 42,
+      "endurance": 36,
+      "style": "inside",
+      "trait": "fast_start",
+      "unlock": {
+        "type": "season_complete",
+        "count": 1
+      },
+      "entry_tier": 0,
+      "coin_cost_base": "600"
+    },
+    {
+      "id": "driver_chi",
+      "name": "Chi",
+      "tier": 0,
+      "role": "technical",
+      "pace": 34,
+      "technique": 50,
+      "composure": 42,
+      "launch": 34,
+      "braking": 48,
+      "racecraft": 38,
+      "endurance": 44,
+      "style": "sweeper",
+      "trait": "smooth_corners",
+      "unlock": {
+        "type": "league",
+        "league": 2
+      },
+      "entry_tier": 2,
+      "coin_cost_base": "600"
+    },
+    {
+      "id": "driver_dung",
+      "name": "Dũng",
+      "tier": 1,
+      "role": "calm",
+      "pace": 41,
+      "technique": 43,
+      "composure": 53,
+      "launch": 40,
+      "braking": 42,
+      "racecraft": 44,
+      "endurance": 56,
+      "style": "defender",
+      "trait": "calm",
+      "unlock": {
+        "type": "league",
+        "league": 1
+      },
+      "entry_tier": 1,
+      "coin_cost_base": "3000"
+    },
+    {
+      "id": "driver_ha",
+      "name": "Hà",
+      "tier": 1,
+      "role": "speed",
+      "pace": 55,
+      "technique": 39,
+      "composure": 41,
+      "launch": 50,
+      "braking": 38,
+      "racecraft": 48,
+      "endurance": 44,
+      "style": "inside",
+      "trait": "sprint",
+      "unlock": {
+        "type": "league",
+        "league": 1
+      },
+      "entry_tier": 1,
+      "coin_cost_base": "3000"
+    },
+    {
+      "id": "driver_khoi",
+      "name": "Khôi",
+      "tier": 1,
+      "role": "technical",
+      "pace": 39,
+      "technique": 55,
+      "composure": 47,
+      "launch": 38,
+      "braking": 50,
+      "racecraft": 56,
+      "endurance": 44,
+      "style": "counter",
+      "trait": "hunter",
+      "unlock": {
+        "type": "league",
+        "league": 1
+      },
+      "entry_tier": 1,
+      "coin_cost_base": "3000"
+    },
+    {
+      "id": "driver_lam",
+      "name": "Lâm",
+      "tier": 2,
+      "role": "all_round",
+      "pace": 50,
+      "technique": 50,
+      "composure": 50,
+      "launch": 48,
+      "braking": 50,
+      "racecraft": 50,
+      "endurance": 54,
+      "style": "defender",
+      "trait": "defender",
+      "unlock": {
+        "type": "league",
+        "league": 3
+      },
+      "entry_tier": 3,
+      "coin_cost_base": "15000"
+    },
+    {
+      "id": "driver_my",
+      "name": "My",
+      "tier": 2,
+      "role": "speed",
+      "pace": 60,
+      "technique": 44,
+      "composure": 46,
+      "launch": 56,
+      "braking": 42,
+      "racecraft": 46,
+      "endurance": 48,
+      "style": "sweeper",
+      "trait": "straight_line",
+      "unlock": {
+        "type": "league",
+        "league": 3
+      },
+      "entry_tier": 3,
+      "coin_cost_base": "15000"
+    },
+    {
+      "id": "driver_nhan",
+      "name": "Nhân",
+      "tier": 2,
+      "role": "technical",
+      "pace": 44,
+      "technique": 60,
+      "composure": 52,
+      "launch": 42,
+      "braking": 56,
+      "racecraft": 50,
+      "endurance": 52,
+      "style": "sweeper",
+      "trait": "steady",
+      "unlock": {
+        "type": "league",
+        "league": 3
+      },
+      "entry_tier": 3,
+      "coin_cost_base": "15000"
+    },
+    {
+      "id": "driver_phuong",
+      "name": "Phương",
+      "tier": 3,
+      "role": "calm",
+      "pace": 51,
+      "technique": 53,
+      "composure": 61,
+      "launch": 50,
+      "braking": 52,
+      "racecraft": 54,
+      "endurance": 64,
+      "style": "defender",
+      "trait": "recovery",
+      "unlock": {
+        "type": "league",
+        "league": 4
+      },
+      "entry_tier": 4,
+      "coin_cost_base": "75000"
+    },
+    {
+      "id": "driver_quang",
+      "name": "Quang",
+      "tier": 3,
+      "role": "speed",
+      "pace": 65,
+      "technique": 49,
+      "composure": 51,
+      "launch": 60,
+      "braking": 46,
+      "racecraft": 58,
+      "endurance": 50,
+      "style": "inside",
+      "trait": "golden",
+      "unlock": {
+        "type": "league",
+        "league": 4
+      },
+      "entry_tier": 4,
+      "coin_cost_base": "75000"
+    },
+    {
+      "id": "driver_son",
+      "name": "Sơn",
+      "tier": 3,
+      "role": "technical",
+      "pace": 49,
+      "technique": 65,
+      "composure": 51,
+      "launch": 46,
+      "braking": 60,
+      "racecraft": 52,
+      "endurance": 56,
+      "style": "counter",
+      "trait": "discipline",
+      "unlock": {
+        "type": "league",
+        "league": 4
+      },
+      "entry_tier": 4,
+      "coin_cost_base": "75000"
+    }
+  ]
+}

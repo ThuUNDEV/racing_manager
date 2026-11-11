@@ -1,0 +1,101 @@
+{
+ "schema_version": 1,
+ "leagues": [
+  {
+   "id": "league_0",
+   "index": 0,
+   "name": "Tập sự",
+   "car_base": 40,
+   "driver_base": 40,
+   "min_car_class": 1,
+   "color": "green",
+   "schedule": [
+    "track_harbor",
+    "track_pine",
+    "track_harbor",
+    "track_city",
+    "track_pine"
+   ]
+  },
+  {
+   "id": "league_1",
+   "index": 1,
+   "name": "Bán chuyên",
+   "car_base": 52,
+   "driver_base": 44,
+   "min_car_class": 1,
+   "color": "blue",
+   "schedule": [
+    "track_lakeside",
+    "track_quarry",
+    "track_harbor",
+    "track_oldtown",
+    "track_neon"
+   ]
+  },
+  {
+   "id": "league_2",
+   "index": 2,
+   "name": "Chuyên nghiệp",
+   "car_base": 68,
+   "driver_base": 50,
+   "min_car_class": 2,
+   "color": "purple",
+   "schedule": [
+    "track_pine",
+    "track_desert",
+    "track_city",
+    "track_mountain",
+    "track_lakeside"
+   ]
+  },
+  {
+   "id": "league_3",
+   "index": 3,
+   "name": "Quốc gia",
+   "car_base": 86,
+   "driver_base": 56,
+   "min_car_class": 3,
+   "color": "orange",
+   "schedule": [
+    "track_quarry",
+    "track_neon",
+    "track_oldtown",
+    "track_speedway",
+    "track_mountain"
+   ]
+  },
+  {
+   "id": "league_4",
+   "index": 4,
+   "name": "Châu lục",
+   "car_base": 106,
+   "driver_base": 62,
+   "min_car_class": 4,
+   "color": "red",
+   "schedule": [
+    "track_desert",
+    "track_city",
+    "track_lakeside",
+    "track_quarry",
+    "track_speedway"
+   ]
+  },
+  {
+   "id": "league_5",
+   "index": 5,
+   "name": "Thế giới",
+   "car_base": 128,
+   "driver_base": 68,
+   "min_car_class": 5,
+   "color": "gold",
+   "schedule": [
+    "track_speedway",
+    "track_mountain",
+    "track_oldtown",
+    "track_desert",
+    "track_neon"
+   ]
+  }
+ ]
+}

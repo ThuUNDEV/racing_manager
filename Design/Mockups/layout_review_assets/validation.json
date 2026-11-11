@@ -1,0 +1,427 @@
+{
+  "scope": "HTML design mockup; no Godot runtime verification",
+  "views": [
+    {
+      "width": 320,
+      "screen": "race",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 320,
+      "screen": "revenue",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 320,
+      "screen": "bag",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 320,
+      "screen": "packs",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 320,
+      "screen": "drivers",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 320,
+      "screen": "recruit",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 320,
+      "screen": "garage",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 320,
+      "screen": "collection",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 320,
+      "screen": "parts",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 320,
+      "screen": "look",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 320,
+      "screen": "league",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 320,
+      "screen": "shop",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 320,
+      "screen": "result",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 320,
+      "screen": "offline",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 320,
+      "screen": "settings",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 360,
+      "screen": "race",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 360,
+      "screen": "revenue",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 360,
+      "screen": "bag",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 360,
+      "screen": "packs",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 360,
+      "screen": "drivers",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 360,
+      "screen": "recruit",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 360,
+      "screen": "garage",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 360,
+      "screen": "collection",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 360,
+      "screen": "parts",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 360,
+      "screen": "look",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 360,
+      "screen": "league",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 360,
+      "screen": "shop",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 360,
+      "screen": "result",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 360,
+      "screen": "offline",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 360,
+      "screen": "settings",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 390,
+      "screen": "race",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 390,
+      "screen": "revenue",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 390,
+      "screen": "bag",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 390,
+      "screen": "packs",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 390,
+      "screen": "drivers",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 390,
+      "screen": "recruit",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 390,
+      "screen": "garage",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 390,
+      "screen": "collection",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 390,
+      "screen": "parts",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 390,
+      "screen": "look",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 390,
+      "screen": "league",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 390,
+      "screen": "shop",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 390,
+      "screen": "result",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 390,
+      "screen": "offline",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 390,
+      "screen": "settings",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 412,
+      "screen": "race",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 412,
+      "screen": "revenue",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 412,
+      "screen": "bag",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 412,
+      "screen": "packs",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 412,
+      "screen": "drivers",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 412,
+      "screen": "recruit",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 412,
+      "screen": "garage",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 412,
+      "screen": "collection",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 412,
+      "screen": "parts",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 412,
+      "screen": "look",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 412,
+      "screen": "league",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 412,
+      "screen": "shop",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 412,
+      "screen": "result",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 412,
+      "screen": "offline",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    },
+    {
+      "width": 412,
+      "screen": "settings",
+      "overflow": [],
+      "brokenImages": 0,
+      "empty": false
+    }
+  ],
+  "errors": [],
+  "passed": true
+}

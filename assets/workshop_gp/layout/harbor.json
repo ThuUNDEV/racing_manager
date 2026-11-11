@@ -1,0 +1,83 @@
+{
+  "id": "harbor",
+  "texture": "textures/workshop_oval.png",
+  "origin": "top-left",
+  "point_format": [
+    "x",
+    "y",
+    "in_x",
+    "in_y",
+    "out_x",
+    "out_y"
+  ],
+  "points": [
+    [
+      0.5,
+      0.775,
+      -0.08,
+      0,
+      0.08,
+      0
+    ],
+    [
+      0.737,
+      0.775,
+      -0.1,
+      0,
+      0.1065,
+      0
+    ],
+    [
+      0.93,
+      0.5,
+      0,
+      0.152,
+      0,
+      -0.152
+    ],
+    [
+      0.737,
+      0.225,
+      0.1065,
+      0,
+      -0.1,
+      0
+    ],
+    [
+      0.263,
+      0.225,
+      0.1,
+      0,
+      -0.1065,
+      0
+    ],
+    [
+      0.07,
+      0.5,
+      0,
+      -0.152,
+      0,
+      0.152
+    ],
+    [
+      0.263,
+      0.775,
+      -0.1065,
+      0,
+      0.1,
+      0
+    ],
+    [
+      0.5,
+      0.775,
+      -0.08,
+      0,
+      0.08,
+      0
+    ]
+  ],
+  "closed": true,
+  "car_forward": "+Y",
+  "mapping": "Normalized lap_fraction maps to baked visual curve length; gameplay sectors remain owned by RaceSim.",
+  "direction": "bottom start line toward right, then upward around the circuit"
+}

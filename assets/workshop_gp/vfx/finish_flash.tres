@@ -1,0 +1,24 @@
+[gd_resource type="SpriteFrames" load_steps=11 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/workshop_gp/vfx/finish_flash/frame_00.svg" id="1"]
+[ext_resource type="Texture2D" path="res://assets/workshop_gp/vfx/finish_flash/frame_01.svg" id="2"]
+[ext_resource type="Texture2D" path="res://assets/workshop_gp/vfx/finish_flash/frame_02.svg" id="3"]
+[ext_resource type="Texture2D" path="res://assets/workshop_gp/vfx/finish_flash/frame_03.svg" id="4"]
+[ext_resource type="Texture2D" path="res://assets/workshop_gp/vfx/finish_flash/frame_04.svg" id="5"]
+[ext_resource type="Texture2D" path="res://assets/workshop_gp/vfx/finish_flash/frame_05.svg" id="6"]
+[ext_resource type="Texture2D" path="res://assets/workshop_gp/vfx/finish_flash/frame_06.svg" id="7"]
+[ext_resource type="Texture2D" path="res://assets/workshop_gp/vfx/finish_flash/frame_07.svg" id="8"]
+[ext_resource type="Texture2D" path="res://assets/workshop_gp/vfx/finish_flash/frame_08.svg" id="9"]
+[ext_resource type="Texture2D" path="res://assets/workshop_gp/vfx/finish_flash/frame_09.svg" id="10"]
+
+[resource]
+animations = [{"frames": [{"duration": 1.0, "texture": ExtResource("1")},
+{"duration": 1.0, "texture": ExtResource("2")},
+{"duration": 1.0, "texture": ExtResource("3")},
+{"duration": 1.0, "texture": ExtResource("4")},
+{"duration": 1.0, "texture": ExtResource("5")},
+{"duration": 1.0, "texture": ExtResource("6")},
+{"duration": 1.0, "texture": ExtResource("7")},
+{"duration": 1.0, "texture": ExtResource("8")},
+{"duration": 1.0, "texture": ExtResource("9")},
+{"duration": 1.0, "texture": ExtResource("10")}], "loop": false, "name": &"default", "speed": 24.0}]

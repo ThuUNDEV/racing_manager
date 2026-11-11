@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "default_paint": "orange",
+  "default_decal": "none",
+  "paints": [
+    {"id": "orange", "name": "Cam", "color": "#f47510", "texture": "cars/orange.tres"},
+    {"id": "red", "name": "Đỏ", "color": "#d1423b", "texture": "cars/red.tres"},
+    {"id": "blue", "name": "Xanh dương", "color": "#3a78d6", "texture": "cars/blue.tres"},
+    {"id": "yellow", "name": "Vàng", "color": "#f2c230", "texture": "cars/yellow.tres"},
+    {"id": "white", "name": "Trắng", "color": "#ece8dd", "texture": "cars/white.tres"},
+    {"id": "graphite", "name": "Graphite", "color": "#3b3e44", "texture": "cars/graphite.tres"},
+    {"id": "teal", "name": "Xanh ngọc", "color": "#2aa5a0", "texture": "cars/teal.tres"},
+    {"id": "purple", "name": "Tím", "color": "#8a5bd0", "texture": "cars/purple.tres"}
+  ],
+  "decals": [
+    {"id": "none", "name": "Trống"},
+    {"id": "double_stripe", "name": "Sọc đôi"},
+    {"id": "lightning", "name": "Tia chớp"},
+    {"id": "checker", "name": "Ô bàn cờ"}
+  ]
+}

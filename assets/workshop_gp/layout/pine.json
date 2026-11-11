@@ -1,0 +1,91 @@
+{
+  "id": "pine",
+  "texture": "textures/pine_circuit.png",
+  "origin": "top-left",
+  "point_format": [
+    "x",
+    "y",
+    "in_x",
+    "in_y",
+    "out_x",
+    "out_y"
+  ],
+  "points": [
+    [
+      0.5,
+      0.803,
+      -0.08,
+      0,
+      0.08,
+      0
+    ],
+    [
+      0.735,
+      0.803,
+      -0.12,
+      0,
+      0.115,
+      0
+    ],
+    [
+      0.932,
+      0.485,
+      0,
+      0.177,
+      0,
+      -0.177
+    ],
+    [
+      0.747,
+      0.185,
+      0.105,
+      0,
+      -0.09,
+      0
+    ],
+    [
+      0.5,
+      0.303,
+      0.1,
+      0,
+      -0.1,
+      0
+    ],
+    [
+      0.24,
+      0.185,
+      0.1,
+      0,
+      -0.1,
+      0
+    ],
+    [
+      0.066,
+      0.47,
+      0,
+      -0.16,
+      0,
+      0.18
+    ],
+    [
+      0.265,
+      0.803,
+      -0.11,
+      0,
+      0.12,
+      0
+    ],
+    [
+      0.5,
+      0.803,
+      -0.08,
+      0,
+      0.08,
+      0
+    ]
+  ],
+  "closed": true,
+  "car_forward": "+Y",
+  "mapping": "Normalized lap_fraction maps to baked visual curve length; gameplay sectors remain owned by RaceSim.",
+  "direction": "bottom start line toward right, then upward around the circuit"
+}

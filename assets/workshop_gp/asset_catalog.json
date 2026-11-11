@@ -1,0 +1,1118 @@
+{
+  "name": "Workshop GP",
+  "version": "1.0",
+  "format": "2D PNG atlases + SVG sources + Godot 4 resources + PCM WAV",
+  "tracks": [
+    {
+      "id": "harbor",
+      "texture": "textures/workshop_oval.png",
+      "path": "layout/harbor.json",
+      "neutral_road_samples": 1.0,
+      "samples": 280
+    },
+    {
+      "id": "pine",
+      "texture": "textures/pine_circuit.png",
+      "path": "layout/pine.json",
+      "neutral_road_samples": 1.0,
+      "samples": 320
+    },
+    {
+      "id": "city",
+      "texture": "textures/city_technical.png",
+      "path": "layout/city.json",
+      "neutral_road_samples": 1.0,
+      "samples": 400
+    }
+  ],
+  "drivers": [
+    {
+      "id": "an",
+      "resource": "portraits/driver_an.tres"
+    },
+    {
+      "id": "binh",
+      "resource": "portraits/driver_binh.tres"
+    },
+    {
+      "id": "chi",
+      "resource": "portraits/driver_chi.tres"
+    }
+  ],
+  "cars": [
+    "cars/orange.tres",
+    "cars/graphite.tres",
+    "cars/white.tres",
+    "cars/blue.tres",
+    "cars/red.tres",
+    "cars/yellow.tres",
+    "cars/teal.tres",
+    "cars/purple.tres"
+  ],
+  "primary_icons": [
+    "icons/car_control.tres",
+    "icons/coins.tres",
+    "icons/defense.tres",
+    "icons/driver.tres",
+    "icons/events.tres",
+    "icons/gear.tres",
+    "icons/gem.tres",
+    "icons/league.tres",
+    "icons/overtaking.tres",
+    "icons/pace.tres",
+    "icons/shop.tres",
+    "icons/team.tres"
+  ],
+  "utility_icons": [
+    "icons/vector/back.svg",
+    "icons/vector/chassis.svg",
+    "icons/vector/check.svg",
+    "icons/vector/clock.svg",
+    "icons/vector/close.svg",
+    "icons/vector/coin_small.svg",
+    "icons/vector/engine.svg",
+    "icons/vector/fan.svg",
+    "icons/vector/flag.svg",
+    "icons/vector/gearbox.svg",
+    "icons/vector/gem_small.svg",
+    "icons/vector/gift.svg",
+    "icons/vector/help.svg",
+    "icons/vector/home.svg",
+    "icons/vector/info.svg",
+    "icons/vector/lap.svg",
+    "icons/vector/lock.svg",
+    "icons/vector/mail.svg",
+    "icons/vector/minus.svg",
+    "icons/vector/mission.svg",
+    "icons/vector/motion.svg",
+    "icons/vector/music.svg",
+    "icons/vector/mute.svg",
+    "icons/vector/next.svg",
+    "icons/vector/offline.svg",
+    "icons/vector/pause.svg",
+    "icons/vector/play.svg",
+    "icons/vector/plus.svg",
+    "icons/vector/rank_up.svg",
+    "icons/vector/refresh.svg",
+    "icons/vector/save.svg",
+    "icons/vector/settings.svg",
+    "icons/vector/sound.svg",
+    "icons/vector/star.svg",
+    "icons/vector/training.svg",
+    "icons/vector/tyre.svg",
+    "icons/vector/unlock.svg",
+    "icons/vector/venue.svg",
+    "icons/vector/vibration.svg",
+    "icons/vector/warning.svg"
+  ],
+  "ui_states": [
+    "normal",
+    "hover",
+    "pressed",
+    "disabled",
+    "selected",
+    "locked",
+    "success",
+    "danger",
+    "focus"
+  ],
+  "components": [
+    "components/confirm_dialog.tscn",
+    "components/daily_reward_dialog.tscn",
+    "components/driver_card.tscn",
+    "components/league_card.tscn",
+    "components/mission_card.tscn",
+    "components/modal_card.tscn",
+    "components/offline_dialog.tscn",
+    "components/resource_card.tscn",
+    "components/result_dialog.tscn",
+    "components/reward_card.tscn",
+    "components/season_dialog.tscn",
+    "components/stat_card.tscn",
+    "components/toast_card.tscn",
+    "components/upgrade_card.tscn"
+  ],
+  "effects": [
+    {
+      "id": "coin_spin",
+      "scene": "vfx/coin_spin.tscn",
+      "frames": 12
+    },
+    {
+      "id": "confetti",
+      "scene": "vfx/confetti.tscn",
+      "frames": 16
+    },
+    {
+      "id": "finish_flash",
+      "scene": "vfx/finish_flash.tscn",
+      "frames": 10
+    },
+    {
+      "id": "player_ring",
+      "scene": "vfx/player_ring.tscn",
+      "frames": 12
+    },
+    {
+      "id": "reward_burst",
+      "scene": "vfx/reward_burst.tscn",
+      "frames": 12
+    },
+    {
+      "id": "upgrade",
+      "scene": "vfx/upgrade.tscn",
+      "frames": 12
+    }
+  ],
+  "atlas_regions": [
+    {
+      "id": "blue",
+      "resource": "cars/blue.tres",
+      "atlas": "atlases/cars.png",
+      "region": [
+        1226,
+        51,
+        237,
+        421
+      ]
+    },
+    {
+      "id": "graphite",
+      "resource": "cars/graphite.tres",
+      "atlas": "atlases/cars.png",
+      "region": [
+        458,
+        51,
+        237,
+        421
+      ]
+    },
+    {
+      "id": "orange",
+      "resource": "cars/orange.tres",
+      "atlas": "atlases/cars.png",
+      "region": [
+        73,
+        51,
+        238,
+        421
+      ]
+    },
+    {
+      "id": "purple",
+      "resource": "cars/purple.tres",
+      "atlas": "atlases/cars.png",
+      "region": [
+        1226,
+        563,
+        237,
+        421
+      ]
+    },
+    {
+      "id": "red",
+      "resource": "cars/red.tres",
+      "atlas": "atlases/cars.png",
+      "region": [
+        73,
+        563,
+        238,
+        421
+      ]
+    },
+    {
+      "id": "teal",
+      "resource": "cars/teal.tres",
+      "atlas": "atlases/cars.png",
+      "region": [
+        842,
+        563,
+        237,
+        421
+      ]
+    },
+    {
+      "id": "white",
+      "resource": "cars/white.tres",
+      "atlas": "atlases/cars.png",
+      "region": [
+        842,
+        51,
+        237,
+        421
+      ]
+    },
+    {
+      "id": "yellow",
+      "resource": "cars/yellow.tres",
+      "atlas": "atlases/cars.png",
+      "region": [
+        458,
+        563,
+        237,
+        421
+      ]
+    },
+    {
+      "id": "car_control",
+      "resource": "icons/car_control.tres",
+      "atlas": "atlases/ui_icons.png",
+      "region": [
+        327,
+        495,
+        289,
+        292
+      ]
+    },
+    {
+      "id": "coins",
+      "resource": "icons/coins.tres",
+      "atlas": "atlases/ui_icons.png",
+      "region": [
+        38,
+        165,
+        275,
+        279
+      ]
+    },
+    {
+      "id": "defense",
+      "resource": "icons/defense.tres",
+      "atlas": "atlases/ui_icons.png",
+      "region": [
+        39,
+        490,
+        255,
+        295
+      ]
+    },
+    {
+      "id": "driver",
+      "resource": "icons/driver.tres",
+      "atlas": "atlases/ui_icons.png",
+      "region": [
+        29,
+        841,
+        284,
+        283
+      ]
+    },
+    {
+      "id": "events",
+      "resource": "icons/events.tres",
+      "atlas": "atlases/ui_icons.png",
+      "region": [
+        644,
+        842,
+        267,
+        272
+      ]
+    },
+    {
+      "id": "gear",
+      "resource": "icons/gear.tres",
+      "atlas": "atlases/ui_icons.png",
+      "region": [
+        941,
+        494,
+        286,
+        283
+      ]
+    },
+    {
+      "id": "gem",
+      "resource": "icons/gem.tres",
+      "atlas": "atlases/ui_icons.png",
+      "region": [
+        335,
+        179,
+        277,
+        238
+      ]
+    },
+    {
+      "id": "league",
+      "resource": "icons/league.tres",
+      "atlas": "atlases/ui_icons.png",
+      "region": [
+        332,
+        845,
+        281,
+        273
+      ]
+    },
+    {
+      "id": "overtaking",
+      "resource": "icons/overtaking.tres",
+      "atlas": "atlases/ui_icons.png",
+      "region": [
+        940,
+        187,
+        292,
+        220
+      ]
+    },
+    {
+      "id": "pace",
+      "resource": "icons/pace.tres",
+      "atlas": "atlases/ui_icons.png",
+      "region": [
+        633,
+        156,
+        287,
+        289
+      ]
+    },
+    {
+      "id": "shop",
+      "resource": "icons/shop.tres",
+      "atlas": "atlases/ui_icons.png",
+      "region": [
+        946,
+        849,
+        292,
+        268
+      ]
+    },
+    {
+      "id": "team",
+      "resource": "icons/team.tres",
+      "atlas": "atlases/ui_icons.png",
+      "region": [
+        642,
+        489,
+        262,
+        294
+      ]
+    },
+    {
+      "id": "driver_an",
+      "resource": "portraits/driver_an.tres",
+      "atlas": "portraits/driver_orange.png",
+      "region": [
+        0,
+        0,
+        1254,
+        1254
+      ]
+    },
+    {
+      "id": "driver_avatar",
+      "resource": "portraits/driver_avatar.tres",
+      "atlas": "portraits/driver_orange.png",
+      "region": [
+        300,
+        0,
+        660,
+        820
+      ]
+    },
+    {
+      "id": "driver_binh",
+      "resource": "portraits/driver_binh.tres",
+      "atlas": "atlases/drivers_extra.png",
+      "region": [
+        174,
+        4,
+        724,
+        720
+      ]
+    },
+    {
+      "id": "driver_binh_avatar",
+      "resource": "portraits/driver_binh_avatar.tres",
+      "atlas": "atlases/drivers_extra.png",
+      "region": [
+        320,
+        0,
+        460,
+        510
+      ]
+    },
+    {
+      "id": "driver_chi",
+      "resource": "portraits/driver_chi.tres",
+      "atlas": "atlases/drivers_extra.png",
+      "region": [
+        1305,
+        10,
+        614,
+        714
+      ]
+    },
+    {
+      "id": "driver_chi_avatar",
+      "resource": "portraits/driver_chi_avatar.tres",
+      "atlas": "atlases/drivers_extra.png",
+      "region": [
+        1410,
+        0,
+        430,
+        510
+      ]
+    },
+    {
+      "id": "barrier",
+      "resource": "props/barrier.tres",
+      "atlas": "atlases/workshop_props.png",
+      "region": [
+        38,
+        711,
+        329,
+        140
+      ]
+    },
+    {
+      "id": "broadleaf",
+      "resource": "props/broadleaf.tres",
+      "atlas": "atlases/workshop_props.png",
+      "region": [
+        1207,
+        92,
+        262,
+        345
+      ]
+    },
+    {
+      "id": "garage",
+      "resource": "props/garage.tres",
+      "atlas": "atlases/workshop_props.png",
+      "region": [
+        55,
+        125,
+        304,
+        298
+      ]
+    },
+    {
+      "id": "grandstand",
+      "resource": "props/grandstand.tres",
+      "atlas": "atlases/workshop_props.png",
+      "region": [
+        407,
+        146,
+        361,
+        270
+      ]
+    },
+    {
+      "id": "light_pole",
+      "resource": "props/light_pole.tres",
+      "atlas": "atlases/workshop_props.png",
+      "region": [
+        1255,
+        576,
+        183,
+        351
+      ]
+    },
+    {
+      "id": "pine",
+      "resource": "props/pine.tres",
+      "atlas": "atlases/workshop_props.png",
+      "region": [
+        856,
+        74,
+        234,
+        369
+      ]
+    },
+    {
+      "id": "tool_cabinet",
+      "resource": "props/tool_cabinet.tres",
+      "atlas": "atlases/workshop_props.png",
+      "region": [
+        837,
+        640,
+        272,
+        259
+      ]
+    },
+    {
+      "id": "tyre_stack",
+      "resource": "props/tyre_stack.tres",
+      "atlas": "atlases/workshop_props.png",
+      "region": [
+        486,
+        637,
+        225,
+        265
+      ]
+    },
+    {
+      "id": "daily_gift",
+      "resource": "rewards/daily_gift.tres",
+      "atlas": "atlases/rewards.png",
+      "region": [
+        1172,
+        118,
+        330,
+        346
+      ]
+    },
+    {
+      "id": "finish_flags",
+      "resource": "rewards/finish_flags.tres",
+      "atlas": "atlases/rewards.png",
+      "region": [
+        768,
+        615,
+        379,
+        310
+      ]
+    },
+    {
+      "id": "money_bag",
+      "resource": "rewards/money_bag.tres",
+      "atlas": "atlases/rewards.png",
+      "region": [
+        395,
+        589,
+        328,
+        365
+      ]
+    },
+    {
+      "id": "pro_cup",
+      "resource": "rewards/pro_cup.tres",
+      "atlas": "atlases/rewards.png",
+      "region": [
+        779,
+        108,
+        343,
+        357
+      ]
+    },
+    {
+      "id": "rookie_cup",
+      "resource": "rewards/rookie_cup.tres",
+      "atlas": "atlases/rewards.png",
+      "region": [
+        39,
+        123,
+        311,
+        343
+      ]
+    },
+    {
+      "id": "semi_pro_cup",
+      "resource": "rewards/semi_pro_cup.tres",
+      "atlas": "atlases/rewards.png",
+      "region": [
+        414,
+        114,
+        321,
+        351
+      ]
+    },
+    {
+      "id": "toolbox",
+      "resource": "rewards/toolbox.tres",
+      "atlas": "atlases/rewards.png",
+      "region": [
+        23,
+        614,
+        342,
+        317
+      ]
+    },
+    {
+      "id": "venue_model",
+      "resource": "rewards/venue_model.tres",
+      "atlas": "atlases/rewards.png",
+      "region": [
+        1157,
+        615,
+        367,
+        311
+      ]
+    }
+  ],
+  "audio": [
+    {
+      "path": "audio/ui_click.wav",
+      "duration": 0.165,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.18354,
+      "rms": 0.06883,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/ui_back.wav",
+      "duration": 0.21,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.29621,
+      "rms": 0.08585,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/ui_tab.wav",
+      "duration": 0.21,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.30219,
+      "rms": 0.08593,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/ui_confirm.wav",
+      "duration": 0.21,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.31291,
+      "rms": 0.08627,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/upgrade.wav",
+      "duration": 0.68,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.30882,
+      "rms": 0.0792,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/reward.wav",
+      "duration": 0.68,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.2898,
+      "rms": 0.07921,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/unlock.wav",
+      "duration": 0.68,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.2898,
+      "rms": 0.07917,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/mission_complete.wav",
+      "duration": 0.58,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.28751,
+      "rms": 0.07421,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/promotion.wav",
+      "duration": 0.78,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.2898,
+      "rms": 0.08265,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/coin_pickup.wav",
+      "duration": 0.48,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.27213,
+      "rms": 0.06661,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/daily_gift.wav",
+      "duration": 0.58,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.29081,
+      "rms": 0.07423,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/finish.wav",
+      "duration": 0.78,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.2898,
+      "rms": 0.08269,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/ui_error.wav",
+      "duration": 0.38,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.14631,
+      "rms": 0.04266,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/countdown_tick.wav",
+      "duration": 0.14,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.19639,
+      "rms": 0.06386,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/countdown_go.wav",
+      "duration": 0.45,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.33439,
+      "rms": 0.0636,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/engine_idle_loop.wav",
+      "duration": 4.0,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": true,
+      "peak": 0.24335,
+      "rms": 0.10816,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/engine_race_loop.wav",
+      "duration": 4.0,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": true,
+      "peak": 0.24415,
+      "rms": 0.10816,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/car_pass.wav",
+      "duration": 0.6,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.35572,
+      "rms": 0.07975,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/tyre_squeak.wav",
+      "duration": 0.32,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.12003,
+      "rms": 0.03585,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/music_workshop_loop.wav",
+      "duration": 32.0,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": true,
+      "peak": 0.20557,
+      "rms": 0.04874,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/music_race_loop.wav",
+      "duration": 32.0,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": true,
+      "peak": 0.29679,
+      "rms": 0.05172,
+      "origin": "original procedural synthesis, not a recording"
+    }
+  ],
+  "audio_checks": [
+    {
+      "path": "audio/ui_click.wav",
+      "frames": 7276,
+      "peak": 0.18354,
+      "boundary_delta": 0.0,
+      "loop": false
+    },
+    {
+      "path": "audio/ui_back.wav",
+      "frames": 9261,
+      "peak": 0.29621,
+      "boundary_delta": 0.0,
+      "loop": false
+    },
+    {
+      "path": "audio/ui_tab.wav",
+      "frames": 9261,
+      "peak": 0.30219,
+      "boundary_delta": 0.0,
+      "loop": false
+    },
+    {
+      "path": "audio/ui_confirm.wav",
+      "frames": 9261,
+      "peak": 0.31291,
+      "boundary_delta": 0.0,
+      "loop": false
+    },
+    {
+      "path": "audio/upgrade.wav",
+      "frames": 29988,
+      "peak": 0.30882,
+      "boundary_delta": 0.0,
+      "loop": false
+    },
+    {
+      "path": "audio/reward.wav",
+      "frames": 29988,
+      "peak": 0.2898,
+      "boundary_delta": 0.0,
+      "loop": false
+    },
+    {
+      "path": "audio/unlock.wav",
+      "frames": 29988,
+      "peak": 0.2898,
+      "boundary_delta": 0.0,
+      "loop": false
+    },
+    {
+      "path": "audio/mission_complete.wav",
+      "frames": 25578,
+      "peak": 0.28751,
+      "boundary_delta": 0.0,
+      "loop": false
+    },
+    {
+      "path": "audio/promotion.wav",
+      "frames": 34398,
+      "peak": 0.2898,
+      "boundary_delta": 0.0,
+      "loop": false
+    },
+    {
+      "path": "audio/coin_pickup.wav",
+      "frames": 21168,
+      "peak": 0.27213,
+      "boundary_delta": 0.0,
+      "loop": false
+    },
+    {
+      "path": "audio/daily_gift.wav",
+      "frames": 25578,
+      "peak": 0.29081,
+      "boundary_delta": 0.0,
+      "loop": false
+    },
+    {
+      "path": "audio/finish.wav",
+      "frames": 34398,
+      "peak": 0.2898,
+      "boundary_delta": 0.0,
+      "loop": false
+    },
+    {
+      "path": "audio/ui_error.wav",
+      "frames": 16758,
+      "peak": 0.14631,
+      "boundary_delta": 0.0,
+      "loop": false
+    },
+    {
+      "path": "audio/countdown_tick.wav",
+      "frames": 6174,
+      "peak": 0.19639,
+      "boundary_delta": 0.0,
+      "loop": false
+    },
+    {
+      "path": "audio/countdown_go.wav",
+      "frames": 19845,
+      "peak": 0.33439,
+      "boundary_delta": 0.0,
+      "loop": false
+    },
+    {
+      "path": "audio/engine_idle_loop.wav",
+      "frames": 176400,
+      "peak": 0.24335,
+      "boundary_delta": 0.007691,
+      "loop": true
+    },
+    {
+      "path": "audio/engine_race_loop.wav",
+      "frames": 176400,
+      "peak": 0.24415,
+      "boundary_delta": 0.015351,
+      "loop": true
+    },
+    {
+      "path": "audio/car_pass.wav",
+      "frames": 26460,
+      "peak": 0.35572,
+      "boundary_delta": 0.0,
+      "loop": false
+    },
+    {
+      "path": "audio/tyre_squeak.wav",
+      "frames": 14112,
+      "peak": 0.12003,
+      "boundary_delta": 0.0,
+      "loop": false
+    },
+    {
+      "path": "audio/music_workshop_loop.wav",
+      "frames": 1411200,
+      "peak": 0.20557,
+      "boundary_delta": 0.008332,
+      "loop": true
+    },
+    {
+      "path": "audio/music_race_loop.wav",
+      "frames": 1411200,
+      "peak": 0.29679,
+      "boundary_delta": 0.014496,
+      "loop": true
+    }
+  ],
+  "coverage": "ASSET_COVERAGE.md",
+  "native_resources": [
+    "audio/default_bus_layout.tres",
+    "cars/blue.tres",
+    "cars/graphite.tres",
+    "cars/orange.tres",
+    "cars/purple.tres",
+    "cars/red.tres",
+    "cars/teal.tres",
+    "cars/white.tres",
+    "cars/yellow.tres",
+    "components/confirm_dialog.tscn",
+    "components/daily_reward_dialog.tscn",
+    "components/driver_card.tscn",
+    "components/league_card.tscn",
+    "components/mission_card.tscn",
+    "components/modal_card.tscn",
+    "components/offline_dialog.tscn",
+    "components/resource_card.tscn",
+    "components/result_dialog.tscn",
+    "components/reward_card.tscn",
+    "components/season_dialog.tscn",
+    "components/stat_card.tscn",
+    "components/toast_card.tscn",
+    "components/upgrade_card.tscn",
+    "icons/car_control.tres",
+    "icons/coins.tres",
+    "icons/defense.tres",
+    "icons/driver.tres",
+    "icons/events.tres",
+    "icons/gear.tres",
+    "icons/gem.tres",
+    "icons/league.tres",
+    "icons/overtaking.tres",
+    "icons/pace.tres",
+    "icons/shop.tres",
+    "icons/team.tres",
+    "portraits/driver_an.tres",
+    "portraits/driver_avatar.tres",
+    "portraits/driver_binh.tres",
+    "portraits/driver_binh_avatar.tres",
+    "portraits/driver_chi.tres",
+    "portraits/driver_chi_avatar.tres",
+    "preview/asset_gallery.tscn",
+    "preview/workshop_gp_preview.tscn",
+    "props/barrier.tres",
+    "props/broadleaf.tres",
+    "props/garage.tres",
+    "props/grandstand.tres",
+    "props/light_pole.tres",
+    "props/pine.tres",
+    "props/tool_cabinet.tres",
+    "props/tyre_stack.tres",
+    "rewards/daily_gift.tres",
+    "rewards/finish_flags.tres",
+    "rewards/money_bag.tres",
+    "rewards/pro_cup.tres",
+    "rewards/rookie_cup.tres",
+    "rewards/semi_pro_cup.tres",
+    "rewards/toolbox.tres",
+    "rewards/venue_model.tres",
+    "styles/avatar.tres",
+    "styles/button.tres",
+    "styles/button_danger.tres",
+    "styles/button_disabled.tres",
+    "styles/button_hover.tres",
+    "styles/button_pressed.tres",
+    "styles/button_secondary.tres",
+    "styles/button_success.tres",
+    "styles/capsule.tres",
+    "styles/card.tres",
+    "styles/card_locked.tres",
+    "styles/card_selected.tres",
+    "styles/graphite.tres",
+    "styles/modal.tres",
+    "styles/nav_selected.tres",
+    "styles/stat.tres",
+    "styles/toast.tres",
+    "theme.tres",
+    "vfx/coin_spin.tres",
+    "vfx/coin_spin.tscn",
+    "vfx/confetti.tres",
+    "vfx/confetti.tscn",
+    "vfx/finish_flash.tres",
+    "vfx/finish_flash.tscn",
+    "vfx/player_ring.tres",
+    "vfx/player_ring.tscn",
+    "vfx/reward_burst.tres",
+    "vfx/reward_burst.tscn",
+    "vfx/upgrade.tres",
+    "vfx/upgrade.tscn"
+  ],
+  "folder_counts": {
+    "cars": 8,
+    "icons": 12,
+    "portraits": 7,
+    "props": 8,
+    "rewards": 8,
+    "badges": 6,
+    "ui": 31,
+    "styles": 17,
+    "components": 19,
+    "vfx": 12,
+    "audio": 23
+  }
+}

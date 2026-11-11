@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Đội · Tay đua (thiết kế lại)</title>
+<style>
+:root{
+  --cream:#F3EBDD;--panel:#FBF6EC;--line:#D9CDB9;--ink:#25282C;--muted:#6E6A60;
+  --orange:#ED742B;--orange-d:#C95A16;--gold:#E8B53A;--teal:#2C8C84;--blue:#2E8FD8;--red:#C8432F;--green:#3E9B52;
+}
+*{box-sizing:border-box;margin:0}
+body{background:#cfc6b4;font:14px/1.4 system-ui,"Segoe UI",sans-serif;color:var(--ink);display:flex;justify-content:center;padding:16px}
+button{font:inherit;color:inherit;cursor:pointer;min-height:44px;border:0;background:none}
+button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+button:disabled{cursor:not-allowed}
+.phone{width:100%;max-width:390px;height:844px;background:var(--cream);border-radius:22px;border:1px solid var(--line);position:relative;overflow:hidden;display:flex;flex-direction:column}
+
+/* header */
+.res{display:flex;align-items:center;gap:10px;padding:12px 14px 8px}
+.coin,.gem{display:flex;align-items:baseline;gap:6px;font-weight:800;font-size:19px;color:var(--orange-d)}
+.coin small,.gem small{font-size:11px;font-weight:600;color:var(--muted)}
+.gem{margin-left:auto;color:var(--blue)}
+.scroll{flex:1;overflow-y:auto;padding:0 14px 14px}
+.title{display:flex;justify-content:space-between;align-items:baseline;margin:6px 0 10px}
+.title h1{font-size:20px}
+.title span{font-size:12px;color:var(--muted)}
+
+/* subtabs */
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.seg button{border-radius:12px;font-weight:700;border:1px solid var(--line);background:var(--panel)}
+.seg button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+/* SP progress */
+.sp{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px;margin-bottom:12px}
+.sp-top{display:flex;justify-content:space-between;align-items:baseline}
+.sp-top b{font-size:22px;color:var(--orange-d)}
+.sp-top span{font-size:12px;color:var(--muted)}
+.bar{height:10px;border-radius:6px;background:#E6DAC3;overflow:hidden;margin:8px 0 6px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--orange),var(--gold));border-radius:6px}
+.sp p{font-size:12px;color:var(--muted)}
+.sp p b{color:var(--ink)}
+
+/* active hero */
+.hero{display:grid;grid-template-columns:96px 1fr;gap:12px;background:linear-gradient(135deg,#FFF3E4,#FBE3C6);border:2px solid var(--orange);border-radius:18px;padding:12px;margin-bottom:12px}
+.hero .ph{width:96px;height:120px;border-radius:14px;background:#F6D3AA;overflow:hidden;display:grid;place-items:end center}
+.hero .ph img,.ph img{width:100%;height:100%;object-fit:cover;object-position:top}
+.badge{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.3px;padding:2px 8px;border-radius:20px;background:var(--orange);color:#fff}
+.hero h2{font-size:20px;margin:4px 0 0}
+.hero .sty{font-size:12px;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.chip{font-size:11px;padding:2px 8px;border-radius:20px;background:#fff;border:1px solid var(--line);color:var(--ink)}
+.chip.t{background:#E2F2EF;border-color:#B7DDD8;color:#1E6B64}
+
+/* filters */
+.filters{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;margin-bottom:4px}
+.filters button{flex:none;min-height:36px;padding:0 12px;border-radius:20px;border:1px solid var(--line);background:var(--panel);font-size:13px;font-weight:600}
+.filters button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+/* grid */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card{position:relative;text-align:left;display:block;width:100%;min-height:0;background:var(--panel);border:1.5px solid var(--line);border-radius:16px;padding:10px;overflow:hidden}
+.card.sel{border-color:var(--orange);box-shadow:0 0 0 2px #ED742B33}
+.card .av{height:84px;border-radius:12px;display:grid;place-items:center;font-size:34px;font-weight:800;color:#fff;margin-bottom:8px;overflow:hidden}
+.card h3{font-size:16px;display:flex;justify-content:space-between;align-items:center}
+.card .sty{font-size:11px;color:var(--muted);min-height:15px}
+.state{font-size:11px;font-weight:800;padding:1px 7px;border-radius:20px}
+.s-active{background:var(--orange);color:#fff}
+.s-owned{background:#DDEFE0;color:#2A6E3A}
+.s-avail{background:#FFE9C4;color:#8A5A00}
+.s-lock{background:#E9E4D9;color:var(--muted)}
+.mini{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin:8px 0 6px}
+.mini span{font-size:10px;text-align:center;color:var(--muted)}
+.mini b{display:block;font-size:13px;color:var(--ink)}
+.cost{font-size:12px;display:flex;gap:6px;flex-wrap:wrap}
+.cost .ok{color:var(--green)}.cost .no{color:var(--red)}
+.card.lock{opacity:.72}
+.card.lock .av{filter:grayscale(1) brightness(.9)}
+
+/* bottom sheet */
+.scrim{position:absolute;inset:0;background:#25282C88;display:none;align-items:flex-end;z-index:5}
+.scrim.open{display:flex}
+.sheet{width:100%;max-height:92%;overflow-y:auto;background:var(--cream);border-radius:22px 22px 0 0;padding:14px;box-shadow:0 -8px 30px #0004}
+.grab{width:42px;height:4px;border-radius:3px;background:var(--line);margin:0 auto 10px}
+.sh-head{display:grid;grid-template-columns:64px 1fr auto;gap:10px;align-items:center}
+.sh-head .av{width:64px;height:64px;border-radius:14px;display:grid;place-items:center;font-size:28px;font-weight:800;color:#fff;overflow:hidden}
+.sh-head h2{font-size:20px}
+.close{width:44px;font-size:26px;color:var(--muted)}
+.cmp-note{font-size:12px;color:var(--muted);margin:10px 0 2px}
+.radar{display:block;margin:0 auto;width:100%;max-width:300px}
+.legend{display:flex;justify-content:center;gap:14px;font-size:12px;margin-bottom:6px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px}
+.rows{display:grid;gap:5px;margin:8px 0 10px}
+.row{display:grid;grid-template-columns:72px 1fr 32px 44px;align-items:center;gap:8px;font-size:12px}
+.row .tr{height:8px;border-radius:5px;background:#E6DAC3;position:relative}
+.row .tr i{position:absolute;left:0;top:0;bottom:0;border-radius:5px;background:var(--orange)}
+.row .tr u{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--ink);opacity:.55}
+.row b{text-align:right}
+.d-up{color:var(--green);font-weight:700;text-align:right}.d-dn{color:var(--red);font-weight:700;text-align:right}.d-eq{color:var(--muted);text-align:right}
+.trait{background:#E2F2EF;border:1px solid #B7DDD8;border-radius:12px;padding:8px 10px;font-size:12px;margin-bottom:10px}
+.req{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px;margin-bottom:10px;display:grid;gap:6px}
+.req div{display:flex;justify-content:space-between;font-size:13px}
+.req .ok{color:var(--green);font-weight:700}.req .no{color:var(--red);font-weight:700}
+.cta{width:100%;border-radius:14px;font-weight:800;font-size:16px;background:var(--orange);color:#fff;border-bottom:3px solid var(--orange-d)}
+.cta:disabled{background:#CFC6B4;color:#7A7468;border-bottom-color:#B8AE9A}
+.cta.alt{background:var(--ink);border-bottom-color:#000}
+.hint{font-size:12px;color:var(--muted);text-align:center;margin-top:6px}
+
+/* toast + nav */
+.toast{position:absolute;left:14px;right:14px;bottom:86px;background:var(--ink);color:#fff;padding:10px 12px;border-radius:12px;font-size:13px;opacity:0;transform:translateY(8px);transition:.2s;z-index:9;pointer-events:none}
+.toast.show{opacity:1;transform:none}
+.nav{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:8px 10px 12px;background:#E9DEC8;border-top:1px solid var(--line)}
+.nav button{display:grid;place-items:center;border-radius:12px;min-height:52px;font-size:12px;font-weight:700;background:var(--panel);border:1px solid var(--line);color:var(--muted)}
+.nav button.on{background:var(--orange);color:#fff;border-color:var(--orange-d)}
+
+/* khung đua */
+.race{display:block;margin:0 14px 8px;background:#1F2A24;border-radius:16px;overflow:hidden;position:relative;flex:none;transition:height .25s}
+.race.mini,.race.full{height:300px} /* cùng kích thước ở Đua/Túi/Đội */
+.race[hidden]{display:none}
+.race-hud{position:absolute;left:0;right:0;top:0;z-index:2;display:flex;align-items:center;gap:10px;padding:6px 8px;background:linear-gradient(#0009,#0000);color:#fff}
+.pos{font-weight:800;font-size:20px;color:var(--gold)}
+.pos small{font-size:12px;color:#fff9;font-weight:600}
+.lap{font-size:12px;font-weight:600;flex:1}
+.expand{min-height:36px;padding:0 10px;border-radius:10px;background:#ffffff26;color:#fff;font-size:12px;font-weight:700}
+.expand{display:none}
+.race canvas{width:100%;height:100%;display:block}
+.ticker{position:absolute;left:8px;right:8px;bottom:6px;font-size:12px;color:#fff;background:#0008;border-radius:8px;padding:3px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#ph{display:grid;place-items:center;color:var(--muted);text-align:center;padding:20px}
+#ph[hidden]{display:none}
+.scroll[hidden]{display:none}
+.cap{max-width:390px;margin:8px auto 0;font-size:12px;color:#5b564b}
+.wrap{display:flex;flex-direction:column;align-items:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="phone" id="app">
+  <div class="res">
+    <div class="coin"><span id="coins">100K</span> tiền <small>8/giây</small></div>
+    <div class="gem">0 gem</div>
+  </div>
+  <!-- Khung đua dùng chung: thu nhỏ ở Túi/Đội, mở rộng ở Đua, ẩn ở Giải/Shop -->
+  <section class="race" id="race" aria-label="Cuộc đua đang diễn ra">
+    <div class="race-hud">
+      <span class="pos" id="pos">P6<small>/10</small></span>
+      <span class="lap" id="lap">Vòng 2/3 · 00:50</span>
+      <button class="expand" id="expand" aria-label="Mở màn Đua">Mở rộng ⤢</button>
+    </div>
+    <canvas id="cv" width="720" height="260"></canvas>
+    <div class="ticker" id="ticker" aria-live="polite">An vượt Cúc ở cua 3</div>
+  </section>
+  <div class="scroll" id="ph" hidden></div>
+  <div class="scroll" id="scroll">
+    <div class="seg"><button class="on">Tay đua</button><button>Garage</button></div>
+    <div class="title"><h1>Tay đua</h1><span id="count"></span></div>
+
+    <section class="sp" aria-label="Điểm tuyển">
+      <div class="sp-top"><b id="sp">323 SP</b><span id="next">Lần tuyển kế: 40 SP</span></div>
+      <div class="bar"><i id="spbar" style="width:100%"></i></div>
+      <p id="spnote"></p>
+    </section>
+
+    <section class="hero" id="hero" aria-label="Tay đua đang dùng"></section>
+
+    <div class="filters" id="filters" role="tablist">
+      <button data-f="all" class="on">Tất cả</button>
+      <button data-f="avail">Có thể tuyển</button>
+      <button data-f="owned">Đã có</button>
+      <button data-f="lock">Khóa</button>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <nav class="nav" id="nav"><button data-t="race">Đua</button><button data-t="bag">Túi</button><button data-t="team" class="on">Đội</button><button data-t="league">Giải</button><button data-t="shop">Shop</button></nav>
+  <div class="toast" id="toast" role="status"></div>
+
+  <div class="scrim" id="scrim"><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
+</div>
+<p class="cap">Mockup tương tác · dữ liệu lấy từ <code>data/drivers.json</code>. Ví fixture: 100K tiền, 323 SP. Chi phí tiền là giá cơ sở (chưa nhân Q×S); thao tác chỉ đổi dữ liệu preview, không ghi save.</p>
+</div>
+
+<script>
+const STATS=[["launch","Xuất phát"],["pace","Tốc độ"],["braking","Phanh"],["technique","Vào cua"],["racecraft","Đua sát"],["composure","Bình tĩnh"],["endurance","Bền sức"]];
+const STYLE={counter:["Counterpuncher","Bám đuôi, tận dụng hút gió"],inside:["Late-brake attacker","Phanh muộn, tấn công đường trong"],sweeper:["Momentum rider","Giữ đà khi cua thoáng"],defender:["Tactical defender","Phòng thủ chắc, giữ chế độ lâu"]};
+const TRAIT={"":"Không có đặc tính","fast_start":"Xuất phát nhanh","smooth_corners":"Cua mượt","calm":"Điềm tĩnh","sprint":"Nước rút","hunter":"Thợ săn","defender":"Phòng thủ","straight_line":"Đường thẳng","steady":"Ổn định","recovery":"Hồi phục","golden":"Vàng","discipline":"Kỷ luật"};
+const COL={driver_an:"#ED742B",driver_binh:"#2C8C84",driver_chi:"#C8432F",driver_dung:"#5B6C8F",driver_ha:"#9A5CB8",driver_khoi:"#2E8FD8",driver_lam:"#7A8B3A",driver_my:"#D1507A",driver_nhan:"#3F7F9E",driver_phuong:"#B8862B",driver_quang:"#A8402A",driver_son:"#4E5A64"};
+const D=[
+ ["driver_an","An",0,40,40,40,40,40,40,40,"counter","", "start",0,0],
+ ["driver_binh","Bình",0,50,34,36,52,34,42,36,"inside","fast_start","Hoàn tất 1 mùa",600,0],
+ ["driver_chi","Chi",0,34,50,42,34,48,38,44,"sweeper","smooth_corners","Mở Giải 2",600,2],
+ ["driver_dung","Dũng",1,41,43,53,40,42,44,56,"defender","calm","Mở Giải 1",3000,1],
+ ["driver_ha","Hà",1,55,39,41,50,38,48,44,"inside","sprint","Mở Giải 1",3000,1],
+ ["driver_khoi","Khôi",1,39,55,47,38,50,56,44,"counter","hunter","Mở Giải 1",3000,1],
+ ["driver_lam","Lâm",2,50,50,50,48,50,50,54,"defender","defender","Mở Giải 3",15000,3],
+ ["driver_my","My",2,60,44,46,56,42,46,48,"sweeper","straight_line","Mở Giải 3",15000,3],
+ ["driver_nhan","Nhân",2,44,60,52,42,56,50,52,"sweeper","steady","Mở Giải 3",15000,3],
+ ["driver_phuong","Phương",3,51,53,61,50,52,54,64,"defender","recovery","Mở Giải 4",75000,4],
+ ["driver_quang","Quang",3,65,49,51,60,46,58,50,"inside","golden","Mở Giải 4",75000,4],
+ ["driver_son","Sơn",3,49,65,51,46,60,52,56,"counter","discipline","Mở Giải 4",75000,4]
+].map(a=>({id:a[0],name:a[1],tier:a[2],pace:a[3],technique:a[4],composure:a[5],launch:a[6],braking:a[7],racecraft:a[8],endurance:a[9],style:a[10],trait:a[11],unlockText:a[12],coin:a[13],league:a[14]}));
+
+// Fixture: đã hoàn tất 1 mùa, mở tới Giải 1; chỉ có An
+const S={coins:100000,sp:323,owned:new Set(["driver_an"]),active:"driver_an",leagueOpen:1,seasonDone:true,filter:"all",view:null};
+const $=s=>document.querySelector(s);
+const fmt=n=>n>=1e6?(n/1e6).toFixed(n%1e6?2:0)+"M":n>=1e3?(n/1e3).toFixed(n%1e3?1:0).replace(/\.0$/,"")+"K":String(n);
+const nextSP=()=>40+20*(S.owned.size-1);
+const unlocked=d=>d.id==="driver_an"||(d.id==="driver_binh"?S.seasonDone:S.leagueOpen>=d.league);
+const status=d=>S.active===d.id?"active":S.owned.has(d.id)?"owned":unlocked(d)?"avail":"lock";
+const total=d=>STATS.reduce((a,[k])=>a+d[k],0);
+const role=d=>{const m=STATS.reduce((a,b)=>d[a[0]]>=d[b[0]]?a:b);return m[1]};
+
+function avatar(d,cls){
+  const inner=d.id==="driver_an"?`<img alt="" src="../../assets/workshop_gp/portraits/driver_orange.png" onerror="this.replaceWith(document.createTextNode('${d.name[0]}'))">`:d.name[0];
+  return `<div class="${cls}" style="background:${COL[d.id]}">${inner}</div>`;
+}
+function stateBadge(s){return {active:'<span class="state s-active">Đang dùng</span>',owned:'<span class="state s-owned">Đã có</span>',avail:'<span class="state s-avail">Có thể tuyển</span>',lock:'<span class="state s-lock">🔒 Khóa</span>'}[s]}
+
+function renderTop(){
+  $("#coins").textContent=fmt(S.coins);
+  $("#sp").textContent=S.sp+" SP";
+  const need=nextSP(),left=12-S.owned.size;
+  $("#count").textContent=`${S.owned.size}/12 đã tuyển`;
+  if(left===0){$("#next").textContent="Đã đủ đội hình";$("#spbar").style.width="100%";$("#spnote").textContent="Bạn đã tuyển toàn bộ tay đua.";}
+  else{
+    $("#next").textContent=`Lần tuyển kế: ${need} SP`;
+    $("#spbar").style.width=Math.min(100,S.sp/need*100)+"%";
+    const times=Math.floor(S.sp/need);
+    $("#spnote").innerHTML=S.sp>=need?`Đủ SP cho <b>${times} lần tuyển</b>. Mỗi chặng đua cộng khoảng 5–14 SP.`:`Còn thiếu <b>${need-S.sp} SP</b>. Mỗi chặng đua cộng khoảng 5–14 SP.`;
+  }
+  const a=D.find(d=>d.id===S.active);
+  $("#hero").innerHTML=`${avatar(a,"ph")}<div><span class="badge">ĐANG DÙNG</span><h2>${a.name}</h2><div class="sty">${STYLE[a.style][0]}</div>
+   <div class="chips"><span class="chip t">${TRAIT[a.trait]}</span><span class="chip">Mạnh nhất: ${role(a)}</span><span class="chip">Tổng ${total(a)}</span></div>
+   <div class="chips" style="margin-top:8px"><button class="chip" style="min-height:32px;padding:0 12px" data-open="${a.id}">Xem chi tiết</button></div></div>`;
+  $("#hero [data-open]").onclick=()=>openSheet(a.id);
+}
+
+function renderGrid(){
+  const list=D.filter(d=>{const s=status(d);return S.filter==="all"||(S.filter==="owned"?(s==="owned"||s==="active"):s===S.filter)});
+  $("#grid").innerHTML=list.map(d=>{
+    const s=status(d);
+    const cost=s==="avail"?`<div class="cost"><span class="${S.coins>=d.coin?"ok":"no"}">${fmt(d.coin)} tiền</span><span class="${S.sp>=nextSP()?"ok":"no"}">${nextSP()} SP</span></div>`
+      :s==="lock"?`<div class="cost" style="color:var(--muted)">${d.unlockText}</div>`:`<div class="cost" style="color:var(--muted)">${s==="active"?"Đang đua":"Chạm để chọn"}</div>`;
+    return `<button class="card ${s==="lock"?"lock":""} ${S.view===d.id?"sel":""}" data-id="${d.id}">
+      ${avatar(d,"av")}
+      <h3>${d.name}</h3><div class="sty">${STYLE[d.style][0]}</div>
+      <div style="margin:6px 0">${stateBadge(s)}</div>
+      <div class="mini">${[["launch","XP"],["pace","TĐ"],["braking","PH"],["technique","CU"]].map(([k,l])=>`<span>${l}<b>${d[k]}</b></span>`).join("")}</div>
+      ${cost}</button>`}).join("")||'<p class="hint" style="grid-column:1/-1;padding:20px">Chưa có tay đua nào trong mục này.</p>';
+  document.querySelectorAll(".card").forEach(c=>c.onclick=()=>openSheet(c.dataset.id));
+}
+
+function radar(a,b){
+  const cx=150,cy=130,R=88,n=STATS.length;
+  const pt=(i,v)=>{const ang=-Math.PI/2+i*2*Math.PI/n,r=R*v/70;return[cx+r*Math.cos(ang),cy+r*Math.sin(ang)]};
+  const poly=(d,fill,stroke,dash)=>`<polygon points="${STATS.map(([k],i)=>pt(i,d[k]).join(",")).join(" ")}" fill="${fill}" stroke="${stroke}" stroke-width="2" ${dash?'stroke-dasharray="5 3"':""}/>`;
+  const rings=[.25,.5,.75,1].map(f=>`<polygon points="${STATS.map((_,i)=>pt(i,70*f).join(",")).join(" ")}" fill="none" stroke="#D9CDB9"/>`).join("");
+  const axes=STATS.map(([,l],i)=>{const[x,y]=pt(i,70),[lx,ly]=pt(i,86);return `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="#E6DAC3"/><text x="${lx}" y="${ly}" font-size="11" text-anchor="middle" dominant-baseline="middle" fill="#6E6A60">${l}</text>`}).join("");
+  return `<svg class="radar" viewBox="0 0 300 260" role="img" aria-label="Biểu đồ chỉ số">${rings}${axes}${b?poly(b,"#25282C14","#25282C",true):""}${poly(a,"#ED742B40","#ED742B")}</svg>`;
+}
+
+function openSheet(id){
+  S.view=id;renderGrid();
+  const d=D.find(x=>x.id===id),act=D.find(x=>x.id===S.active),s=status(d),cmp=s!=="active";
+  const rows=STATS.map(([k,l])=>{
+    const diff=d[k]-act[k];
+    return `<div class="row"><span>${l}</span><div class="tr"><i style="width:${d[k]/70*100}%"></i>${cmp?`<u style="left:${act[k]/70*100}%" title="${act.name}"></u>`:""}</div><b>${d[k]}</b>${cmp?`<span class="${diff>0?"d-up":diff<0?"d-dn":"d-eq"}">${diff>0?"+":diff<0?"−":"="}${diff?Math.abs(diff):""}</span>`:"<span></span>"}</div>`}).join("");
+  const needSP=nextSP(),okC=S.coins>=d.coin,okS=S.sp>=needSP;
+  let body="",cta="";
+  if(s==="avail"){
+    body=`<div class="req"><div><span>Tiền</span><span class="${okC?"ok":"no"}">${fmt(d.coin)} · bạn có ${fmt(S.coins)}${okC?"":` · thiếu ${fmt(d.coin-S.coins)}`}</span></div><div><span>Điểm tuyển</span><span class="${okS?"ok":"no"}">${needSP} SP · bạn có ${S.sp}${okS?"":` · thiếu ${needSP-S.sp}`}</span></div></div>`;
+    cta=`<button class="cta" id="act" ${okC&&okS?"":"disabled"}>Tuyển ${d.name}</button><p class="hint">Tuyển không tự chọn. Không ngẫu nhiên, không trùng lặp.</p>`;
+  }else if(s==="lock"){
+    body=`<div class="req"><div><span>Điều kiện mở</span><span class="no">${d.unlockText}</span></div></div>`;
+    cta=`<button class="cta" disabled>Chưa thể tuyển</button><p class="hint">Bạn vẫn xem được chỉ số để lập kế hoạch.</p>`;
+  }else if(s==="owned"){
+    cta=`<button class="cta alt" id="act">Chọn ${d.name} cho lượt kế</button><p class="hint">Áp dụng từ lượt đua kế tiếp; lượt đang chạy giữ nguyên.</p>`;
+  }else cta=`<button class="cta" disabled>Đang dùng</button>`;
+  $("#sheet").innerHTML=`<div class="grab"></div>
+   <div class="sh-head">${avatar(d,"av")}<div><h2>${d.name}</h2><div class="sty" style="font-size:12px;color:var(--muted)">${STYLE[d.style][0]} · ${STYLE[d.style][1]}</div><div style="margin-top:4px">${stateBadge(s)}</div></div><button class="close" id="x" aria-label="Đóng">×</button></div>
+   <p class="cmp-note">${cmp?`So với tay đua đang dùng (${act.name}) · vạch đen là chỉ số của ${act.name}`:"Chỉ số của tay đua đang dùng"}</p>
+   <div class="legend"><span><i style="background:#ED742B"></i>${d.name}</span>${cmp?`<span><i style="background:#25282C"></i>${act.name}</span>`:""}</div>
+   ${radar(d,cmp?act:null)}
+   <div class="rows">${rows}</div>
+   <div class="trait"><b>Đặc tính:</b> ${TRAIT[d.trait]} · Tổng chỉ số ${total(d)}${cmp?` (${total(d)-total(act)>=0?"+":"−"}${Math.abs(total(d)-total(act))})`:""}</div>
+   ${body}${cta}`;
+  const rc=$("#race");$("#scrim").style.top=rc.hidden?"0px":(rc.offsetTop+rc.offsetHeight+8)+"px"; // sheet không che khung đua
+  $("#scrim").classList.add("open");
+  $("#x").onclick=closeSheet;
+  const act$=$("#act");
+  if(act$)act$.onclick=()=>{
+    if(s==="avail"){S.coins-=d.coin;S.sp-=needSP;S.owned.add(d.id);toast(`Đã tuyển ${d.name}: −${fmt(d.coin)} tiền, −${needSP} SP. Bấm lại để chọn.`);}
+    else{S.active=d.id;toast(`${d.name} sẽ đua từ lượt kế.`);}
+    renderTop();renderGrid();openSheet(d.id);if(s==="owned")closeSheet();
+  };
+}
+function closeSheet(){S.view=null;$("#scrim").classList.remove("open");renderGrid()}
+$("#scrim").addEventListener("click",e=>{if(e.target.id==="scrim")closeSheet()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeSheet()});
+document.querySelectorAll("#filters button").forEach(b=>b.onclick=()=>{S.filter=b.dataset.f;document.querySelectorAll("#filters button").forEach(x=>x.classList.toggle("on",x===b));renderGrid()});
+let tt;function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("show"),2400)}
+/* ---------- khung đua dùng chung ---------- */
+const cv=$("#cv"),cx=cv.getContext("2d");
+const CARS=[["Bạn","#ED742B",0],["Cúc","#2E8FD8",.016],["Dương","#C8432F",.03],["Em","#9A5CB8",.044],["Giang","#E8B53A",-.014],["Hải","#3E9B52",-.028],["Khánh","#D1507A",.058],["Lan","#4E5A64",-.044],["Minh","#2C8C84",.072],["Nam","#7A8B3A",-.06]];
+let t0=performance.now(),lastTick=0;
+function drawRace(now){
+  const w=cv.width,h=cv.height,t=(now-t0)/1000;
+  cx.clearRect(0,0,w,h);cx.fillStyle="#2E8B4A";cx.fillRect(0,0,w,h);
+  const px=w/2,py=h/2+12,rx=w*.40,ry=h*.30;
+  cx.lineWidth=h*.17;cx.strokeStyle="#5C5E62";cx.beginPath();cx.ellipse(px,py,rx,ry,0,0,7);cx.stroke();
+  cx.lineWidth=2;cx.setLineDash([10,10]);cx.strokeStyle="#ffffff88";cx.beginPath();cx.ellipse(px,py,rx,ry,0,0,7);cx.stroke();cx.setLineDash([]);
+  cx.fillStyle="#fff";cx.fillRect(px+rx-h*.085,py-3,h*.17,6);
+  CARS.forEach(([n,c,off],i)=>{
+    const a=t*.55+off*9-i*.0+(i===0?0:0);const ang=a+off*14;
+    const x=px+rx*Math.cos(ang),y=py+ry*Math.sin(ang),me=i===0;
+    cx.beginPath();cx.arc(x,y,me?11:8,0,7);cx.fillStyle=c;cx.fill();
+    if(me){cx.lineWidth=3;cx.strokeStyle="#fff";cx.stroke();cx.fillStyle="#fff";cx.font="bold 18px system-ui";cx.textAlign="center";cx.fillText("Bạn",x,y-17)}
+  });
+  if(now-lastTick>1000){lastTick=now;const s=Math.floor(t)%60;$("#lap").textContent=`Vòng ${1+Math.floor(t/60)%3}/3 · 00:${String(50-(s%50)).padStart(2,"0")}`}
+  requestAnimationFrame(drawRace);
+}
+requestAnimationFrame(drawRace);
+const EVENTS=["Bạn vượt Cúc ở cua 3","Dương phanh muộn, áp sát Bạn","Em mắc lỗi, mất 0,6 giây","Giang tận dụng hút gió trên đoạn thẳng"];
+let ei=0;setInterval(()=>{$("#ticker").textContent=EVENTS[ei++%EVENTS.length]},3500);
+
+const NAMES={race:"Đua",bag:"Túi",team:"Đội",league:"Giải",shop:"Shop"};
+function setTab(tab){
+  S.tab=tab;closeSheet();
+  document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===tab));
+  const race=$("#race");
+  race.hidden=!["race","bag","team"].includes(tab);
+  race.className="race "+(tab==="race"?"full":"mini");
+  $("#scroll").hidden=tab!=="team";
+  $("#ph").hidden=tab==="team";
+  $("#ph").textContent=tab==="race"?"Lưới nâng cấp của màn Đua nằm ở đây (không đổi trong mockup này).":`${NAMES[tab]}: ngoài phạm vi mockup này.`;
+}
+document.querySelectorAll("#nav button").forEach(b=>b.onclick=()=>setTab(b.dataset.t));
+$("#expand").onclick=()=>setTab("race");
+setTab("team");
+renderTop();renderGrid();
+</script>
+</body>
+</html>

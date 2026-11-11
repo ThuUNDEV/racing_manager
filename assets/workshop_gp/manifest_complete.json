@@ -1,0 +1,2011 @@
+{
+  "name": "Workshop GP",
+  "version": "1.0",
+  "scope": "2D MVP art and audio; 3 tracks, 3 drivers, 8 cars, 5 tabs and supporting dialogs",
+  "source_rasters_edited": false,
+  "vector_icon_ids": [
+    "back",
+    "chassis",
+    "check",
+    "clock",
+    "close",
+    "coin_small",
+    "engine",
+    "fan",
+    "flag",
+    "gearbox",
+    "gem_small",
+    "gift",
+    "help",
+    "home",
+    "info",
+    "lap",
+    "lock",
+    "mail",
+    "minus",
+    "mission",
+    "motion",
+    "music",
+    "mute",
+    "next",
+    "offline",
+    "pause",
+    "play",
+    "plus",
+    "rank_up",
+    "refresh",
+    "save",
+    "settings",
+    "sound",
+    "star",
+    "training",
+    "tyre",
+    "unlock",
+    "venue",
+    "vibration",
+    "warning"
+  ],
+  "audio": [
+    {
+      "path": "audio/ui_click.wav",
+      "duration": 0.165,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.18354,
+      "rms": 0.06883,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/ui_back.wav",
+      "duration": 0.21,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.29621,
+      "rms": 0.08585,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/ui_tab.wav",
+      "duration": 0.21,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.30219,
+      "rms": 0.08593,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/ui_confirm.wav",
+      "duration": 0.21,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.31291,
+      "rms": 0.08627,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/upgrade.wav",
+      "duration": 0.68,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.30882,
+      "rms": 0.0792,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/reward.wav",
+      "duration": 0.68,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.2898,
+      "rms": 0.07921,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/unlock.wav",
+      "duration": 0.68,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.2898,
+      "rms": 0.07917,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/mission_complete.wav",
+      "duration": 0.58,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.28751,
+      "rms": 0.07421,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/promotion.wav",
+      "duration": 0.78,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.2898,
+      "rms": 0.08265,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/coin_pickup.wav",
+      "duration": 0.48,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.27213,
+      "rms": 0.06661,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/daily_gift.wav",
+      "duration": 0.58,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.29081,
+      "rms": 0.07423,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/finish.wav",
+      "duration": 0.78,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.2898,
+      "rms": 0.08269,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/ui_error.wav",
+      "duration": 0.38,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.14631,
+      "rms": 0.04266,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/countdown_tick.wav",
+      "duration": 0.14,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.19639,
+      "rms": 0.06386,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/countdown_go.wav",
+      "duration": 0.45,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.33439,
+      "rms": 0.0636,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/engine_idle_loop.wav",
+      "duration": 4.0,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": true,
+      "peak": 0.24335,
+      "rms": 0.10816,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/engine_race_loop.wav",
+      "duration": 4.0,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": true,
+      "peak": 0.24415,
+      "rms": 0.10816,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/car_pass.wav",
+      "duration": 0.6,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.35572,
+      "rms": 0.07975,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/tyre_squeak.wav",
+      "duration": 0.32,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": false,
+      "peak": 0.12003,
+      "rms": 0.03585,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/music_workshop_loop.wav",
+      "duration": 32.0,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": true,
+      "peak": 0.20557,
+      "rms": 0.04874,
+      "origin": "original procedural synthesis, not a recording"
+    },
+    {
+      "path": "audio/music_race_loop.wav",
+      "duration": 32.0,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16,
+      "loop": true,
+      "peak": 0.29679,
+      "rms": 0.05172,
+      "origin": "original procedural synthesis, not a recording"
+    }
+  ],
+  "files": [
+    {
+      "path": "asset_catalog.json",
+      "bytes": 25065,
+      "sha256": "475c0afd2578a94776eba610bc5d9f5df7260e72a148f400b3ee5f2c5830c65a"
+    },
+    {
+      "path": "ASSET_COVERAGE.md",
+      "bytes": 2466,
+      "sha256": "65441d78656b6e26f415d8c3b09f375fe05d73d84a3631e420ff7ad0310b91bd"
+    },
+    {
+      "path": "atlases/cars.png",
+      "bytes": 1920941,
+      "sha256": "2570bb00cfc7ea870532f4da741231a788b0496cdf4826b9ed6768bbcb43951b",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "transparent_pixels": 922996
+    },
+    {
+      "path": "atlases/drivers_extra.png",
+      "bytes": 1214281,
+      "sha256": "30a57736e07847ee7710b7405363beb53b5a92c9cee04896ab1bd813c22865d1",
+      "width": 2172,
+      "height": 724,
+      "mode": "RGBA",
+      "transparent_pixels": 1008919
+    },
+    {
+      "path": "atlases/rewards.png",
+      "bytes": 1982655,
+      "sha256": "0a1f48db6c6be941e24db59f47c1fc75c1da247b38f3a089a5f54f0fbf6088e4",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "transparent_pixels": 868995
+    },
+    {
+      "path": "atlases/ui_icons.png",
+      "bytes": 1393753,
+      "sha256": "8e80afae07ac476ff1e49dcb60428c4b049ff365121b66bfec5cd5c0cdfd09be",
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "transparent_pixels": 906068
+    },
+    {
+      "path": "atlases/workshop_props.png",
+      "bytes": 1808067,
+      "sha256": "ae6879c6f6bd683ca6423ad71a9c48367d83d0c62ad0beac5e596f0072416551",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "transparent_pixels": 1109555
+    },
+    {
+      "path": "audio/car_pass.wav",
+      "bytes": 105884,
+      "sha256": "bf3a4555d586d1d1c77d3b2d553483e7e7dfe92426e33c615227ebd77373ba38"
+    },
+    {
+      "path": "audio/catalog.json",
+      "bytes": 5506,
+      "sha256": "c5a13d5a1395b50c777d2740fd21eb892c5d79f980a8788b16f451e3b4a598c9"
+    },
+    {
+      "path": "audio/coin_pickup.wav",
+      "bytes": 84716,
+      "sha256": "d6d3e59dd1c0b29fe839789b5dea9a06fba84afe0d639afd91ff1c38f6398a67"
+    },
+    {
+      "path": "audio/countdown_go.wav",
+      "bytes": 79424,
+      "sha256": "186e325ee6bfb21dc17751d1a7e84f6cd8e6d42ecbdc6e0375898fad3a235769"
+    },
+    {
+      "path": "audio/countdown_tick.wav",
+      "bytes": 24740,
+      "sha256": "e3dd9eda1f11cf5d11fe227433da8480f7551c237dfec0d674d7615738a1245c"
+    },
+    {
+      "path": "audio/daily_gift.wav",
+      "bytes": 102356,
+      "sha256": "c15ab1bca60871d579e70dfd698e93ca7af3993cbdebd853885d5318d75ac622"
+    },
+    {
+      "path": "audio/default_bus_layout.tres",
+      "bytes": 322,
+      "sha256": "05f72cc1a810ef5a9f8ae67d27162e9383b149321909d795f326a889f93e9931"
+    },
+    {
+      "path": "audio/engine_idle_loop.wav",
+      "bytes": 705644,
+      "sha256": "c9c26e187503c6f31d4b8dea5b7c18ef5d35b3f00753e1b1d21e9b297f0e4abb"
+    },
+    {
+      "path": "audio/engine_race_loop.wav",
+      "bytes": 705644,
+      "sha256": "7e1c567745ec871751923bf16c6ae30eb378c7fe32e012ca8c46c9185b9a7eec"
+    },
+    {
+      "path": "audio/finish.wav",
+      "bytes": 137636,
+      "sha256": "7efedf614ade78e25b14525d4937305404308e5aaed04938b8a9b909e7cea54d"
+    },
+    {
+      "path": "audio/mission_complete.wav",
+      "bytes": 102356,
+      "sha256": "ff3a15658609255471b50b6f07316b0357323faed499422b43e02878a64c1277"
+    },
+    {
+      "path": "audio/music_race_loop.wav",
+      "bytes": 5644844,
+      "sha256": "1c48803fdc31ddda40eb7e913d8396aa163a76725bebcbe750fd3b8217d550b8"
+    },
+    {
+      "path": "audio/music_workshop_loop.wav",
+      "bytes": 5644844,
+      "sha256": "ae0c07f4960b405c5a05031adb0f442a0f07b0359d01bd4586d69c1e96aed153"
+    },
+    {
+      "path": "audio/promotion.wav",
+      "bytes": 137636,
+      "sha256": "2089a9760de2b095b9674d135a8ac5dacad63e4a064bd435273b8080bb940165"
+    },
+    {
+      "path": "audio/reward.wav",
+      "bytes": 119996,
+      "sha256": "1f204524761155bbbf690e98e86c0f8a8de89143a09083b1e7743b671f6a4223"
+    },
+    {
+      "path": "audio/tyre_squeak.wav",
+      "bytes": 56492,
+      "sha256": "14a0d0ce35abcc6bb75df602679aa5bc6fb66835d28d8651bf789c2c95883c90"
+    },
+    {
+      "path": "audio/ui_back.wav",
+      "bytes": 37088,
+      "sha256": "80e3b9972491a04e23daf958e38ee01832ea08bb64d0cd2082204a63084434a9"
+    },
+    {
+      "path": "audio/ui_click.wav",
+      "bytes": 29148,
+      "sha256": "b016a8707455bc9d01abd16c2d1dbb3c169aa4f9b51890e7de42150bca903ef5"
+    },
+    {
+      "path": "audio/ui_confirm.wav",
+      "bytes": 37088,
+      "sha256": "5d26375c0effff8582d8e6ea0805deac37489337259664cedb4272cea58fdd72"
+    },
+    {
+      "path": "audio/ui_error.wav",
+      "bytes": 67076,
+      "sha256": "ab44afaf0ab96a34491dbb1a200bdafde2f199119b4049747694739eff5b758e"
+    },
+    {
+      "path": "audio/ui_tab.wav",
+      "bytes": 37088,
+      "sha256": "db650d40d50032942978bd3dfc085fb537db84e6403ab9ad2e0bf9900ef9b5d3"
+    },
+    {
+      "path": "audio/unlock.wav",
+      "bytes": 119996,
+      "sha256": "056184c6a86476334dba14f94ff89df6edf770c2b395aa97f2ec64ede2618b48"
+    },
+    {
+      "path": "audio/upgrade.wav",
+      "bytes": 119996,
+      "sha256": "e1f107c036102962089c10f7021372f583d16c8640fce0e893b864f5a3fcf17b"
+    },
+    {
+      "path": "badges/medal_1.svg",
+      "bytes": 325,
+      "sha256": "ef94eef136072565f9cc9f49202fa17968bb49dfb98fcb90944b84d70726636c"
+    },
+    {
+      "path": "badges/medal_2.svg",
+      "bytes": 325,
+      "sha256": "4175e3d5f8e80cf1cba3c723d4e060e6becb53ce59ab59a7dbc537296e2bdcdd"
+    },
+    {
+      "path": "badges/medal_3.svg",
+      "bytes": 325,
+      "sha256": "8e93f17a1934d58d1324a9ec247decff0be36b595f133361786d446b5bd4858e"
+    },
+    {
+      "path": "badges/pro.svg",
+      "bytes": 483,
+      "sha256": "742f5288bb65a2a0cfab6deaa586781893957f6ef74b024ce80ed5d9ded7c516"
+    },
+    {
+      "path": "badges/rookie.svg",
+      "bytes": 347,
+      "sha256": "ca1476ab9634fae79b22a6cc349db056e01f411b873c28f82b0fe2c967f99969"
+    },
+    {
+      "path": "badges/semi_pro.svg",
+      "bytes": 415,
+      "sha256": "b88068a2310749f6c8674d83692419a89d1b330016913449f5f540fb73da68a4"
+    },
+    {
+      "path": "branding/app_icon.svg",
+      "bytes": 575,
+      "sha256": "c69b3833fd95e72469652169f4606348c5ee7831e8f53b158e10ccb2f26f9460"
+    },
+    {
+      "path": "branding/splash_background.svg",
+      "bytes": 308,
+      "sha256": "2631048e3c640c40dcfd9e2149d52538a9c2835e80a23be89128f0b0aba1e1b3"
+    },
+    {
+      "path": "cars/blue.tres",
+      "bytes": 244,
+      "sha256": "0565ae0160a4fec698d07316d75ae6aed793eec02937bb443238f4c5eaa7c7f6"
+    },
+    {
+      "path": "cars/graphite.tres",
+      "bytes": 243,
+      "sha256": "0599a3b95b993a46fb24eac835060c325dd7ce73433fed77d4e184524dd2a72f"
+    },
+    {
+      "path": "cars/orange.tres",
+      "bytes": 242,
+      "sha256": "a8445d0fc3b83aae7fd7d5b0576e5565d02f56630723ca26d1973abc1bffae1a"
+    },
+    {
+      "path": "cars/purple.tres",
+      "bytes": 245,
+      "sha256": "4ef68d2c907d6f19ce1d9f6b2338b40480c17cacf49dbde8cfca9998c12c1168"
+    },
+    {
+      "path": "cars/red.tres",
+      "bytes": 243,
+      "sha256": "409cb6f6612eacee04ccb4fb49cb1e59b406b7bcaa520968682e43847a16023e"
+    },
+    {
+      "path": "cars/teal.tres",
+      "bytes": 244,
+      "sha256": "dfd655a0fbcf230ee5c4241ca3db3371b23147486323c7e95653a4ed577da9c1"
+    },
+    {
+      "path": "cars/white.tres",
+      "bytes": 243,
+      "sha256": "16806b0f5bef03e264b863b0c793f9871971ea76bb7860f051815ca8a3bbc67a"
+    },
+    {
+      "path": "cars/yellow.tres",
+      "bytes": 244,
+      "sha256": "7defc13eb32da131f6213c7f05f7e3132ca9138e341f446a347e57da803f38c0"
+    },
+    {
+      "path": "components/asset_dialog.gd",
+      "bytes": 2779,
+      "sha256": "91905cd06a3cbdbb60c965e848abf4027f8bd4a5f305b59ffbcfe9cb399cc9eb"
+    },
+    {
+      "path": "components/asset_widget.gd",
+      "bytes": 3963,
+      "sha256": "412afe4e46e5aa909d7324ecb85b228a3faba026ebc62bdd324254ed1d92a5fd"
+    },
+    {
+      "path": "components/confirm_dialog.tscn",
+      "bytes": 487,
+      "sha256": "b43e8cab031743de42592f125acaed72b337d2542e7c106ed0e2b59d809672b6"
+    },
+    {
+      "path": "components/daily_reward_dialog.tscn",
+      "bytes": 528,
+      "sha256": "98d4ca589622ccf933422fbe3523587dfab1ded3b0ecf8967aa6ca228a0499ec"
+    },
+    {
+      "path": "components/driver_card.tscn",
+      "bytes": 398,
+      "sha256": "450df651b4890d4e164e447bdc19fac3bebf0bcdea3b2ac248577cdebc98c9e4"
+    },
+    {
+      "path": "components/fx_player.gd",
+      "bytes": 307,
+      "sha256": "817efa03cdad12b4e3cf08ae634e7de2e4148fd1c5e6bb1027b20f4fc6946029"
+    },
+    {
+      "path": "components/league_card.tscn",
+      "bytes": 368,
+      "sha256": "7b0a6da49fe7a89bfff9a590d0251fdf5f62cfc2469d705ea198e9be9247834d"
+    },
+    {
+      "path": "components/mission_card.tscn",
+      "bytes": 418,
+      "sha256": "5b71ebd060b5e0e0a734169d814503762ead5ff100c660d360b3f52eff34a3ce"
+    },
+    {
+      "path": "components/modal_card.tscn",
+      "bytes": 411,
+      "sha256": "b2a43ee3d4f9b2eee7df70694c4ca2c3391774bc9c8231e1a6ee139ff8804fb4"
+    },
+    {
+      "path": "components/offline_dialog.tscn",
+      "bytes": 541,
+      "sha256": "ebaa0c147ebbc32107f8c5768728db6cca624f1905ec5aa1723893984b3a34c7"
+    },
+    {
+      "path": "components/resource_card.tscn",
+      "bytes": 345,
+      "sha256": "c2b7e0baafb928c736555046de3ee150594143357d8110bc32b029f80c760889"
+    },
+    {
+      "path": "components/result_dialog.tscn",
+      "bytes": 542,
+      "sha256": "6fa2c039e88f3feb0328f6f38b319b89b9ca67e35d08e0b151254316af04f50e"
+    },
+    {
+      "path": "components/reward_card.tscn",
+      "bytes": 374,
+      "sha256": "afc61c367dc827afd2904f1c7a57c0f633e173a98c49d5294d419ea02246a8df"
+    },
+    {
+      "path": "components/season_dialog.tscn",
+      "bytes": 533,
+      "sha256": "b2fbc40e798f92b747c1a4ae71766b3e664c449b3373c0c43a68aeecf7b827a2"
+    },
+    {
+      "path": "components/stat_card.tscn",
+      "bytes": 356,
+      "sha256": "2c0f4da3a3709a8031de829c2751b8f68b1b8b51c3c5d5dd738d46d24bcb0704"
+    },
+    {
+      "path": "components/toast_card.tscn",
+      "bytes": 391,
+      "sha256": "9ba6a06ed11c656f5d155afd04b85c98944971972d1c9c47de49dc0c508a9568"
+    },
+    {
+      "path": "components/track_art.gd",
+      "bytes": 2431,
+      "sha256": "b787033f76931b4c3d9bbecd15eeb4c31e2d1c0cc832dc9f8472052b306a4c85"
+    },
+    {
+      "path": "components/upgrade_card.tscn",
+      "bytes": 392,
+      "sha256": "9f72f555db1f82f7aed335497be3a0f40d49ef70c7d2a65c7a7476d2d1b57965"
+    },
+    {
+      "path": "components/workshop_audio.gd",
+      "bytes": 1895,
+      "sha256": "47d9e848f84a067ecb177396f4759fb78a285541b7675c34b0e74395f23f3bf2"
+    },
+    {
+      "path": "icons/car_control.tres",
+      "bytes": 248,
+      "sha256": "530473495b4ff879d0660514cf578ff6414803ddbb7dfcc7196f7666b0d7dc66"
+    },
+    {
+      "path": "icons/coins.tres",
+      "bytes": 247,
+      "sha256": "b8dede16ceccd41ab4d4618d005800703ce6683f1c48641f32941c98dcde7b6f"
+    },
+    {
+      "path": "icons/defense.tres",
+      "bytes": 247,
+      "sha256": "8c2940b3c6499ba5bb53f8d7417e0c307a3c21a7ae77d59dfe2b73147393a3f6"
+    },
+    {
+      "path": "icons/driver.tres",
+      "bytes": 247,
+      "sha256": "ccdcb981f17e1176b7ea488ae7edad3d4bfe6ab6171d130e26bb0a051d24adeb"
+    },
+    {
+      "path": "icons/events.tres",
+      "bytes": 248,
+      "sha256": "24bb2298592caac708549b17bbe10f02dfa8918128403e6f7875715d04659e9c"
+    },
+    {
+      "path": "icons/gear.tres",
+      "bytes": 248,
+      "sha256": "8b14db01d32158dc687c4d2fd9d9908d4829a39134253c91ea08d9a24fcd3fab"
+    },
+    {
+      "path": "icons/gem.tres",
+      "bytes": 248,
+      "sha256": "51d883c08cc11d7141b0428f1bc4d363bafd0496da71a4985f323246f4daab9d"
+    },
+    {
+      "path": "icons/league.tres",
+      "bytes": 248,
+      "sha256": "38ca48e10bd9c8efa489c8b38c16156a267059894963235a78f4a9a5d24df936"
+    },
+    {
+      "path": "icons/overtaking.tres",
+      "bytes": 248,
+      "sha256": "8faa8a10339da7764455e8336c0f271a19959856f55390c832ee7e7cd49763a4"
+    },
+    {
+      "path": "icons/pace.tres",
+      "bytes": 248,
+      "sha256": "aee387c940e34312b626c735aca9693b068765cbf8e073095c932651f0e23508"
+    },
+    {
+      "path": "icons/shop.tres",
+      "bytes": 248,
+      "sha256": "e6bb748005e1e47c6b06fcf9902daee2ccbf60c48e39a5f2d8c5b11cb6aeb2d9"
+    },
+    {
+      "path": "icons/team.tres",
+      "bytes": 248,
+      "sha256": "82c39a0bbace7696a2b723048dfef50ece73822c0674c3d895837e5e19526f1a"
+    },
+    {
+      "path": "icons/vector/back.svg",
+      "bytes": 404,
+      "sha256": "b641318b56f0a630b63622cfe169ce71ea1c2e2d5c9adea272402d52fe600d19"
+    },
+    {
+      "path": "icons/vector/chassis.svg",
+      "bytes": 590,
+      "sha256": "0d0d97ac55d7e8207f7210bf3ed8a5acc2e3074a13763f430bab33db6a3c448b"
+    },
+    {
+      "path": "icons/vector/check.svg",
+      "bytes": 386,
+      "sha256": "b239f2e5d8fd93a5f20daa0fff0afb30d2cd19c3ec8d145be99ba2f8604c86b3"
+    },
+    {
+      "path": "icons/vector/clock.svg",
+      "bytes": 442,
+      "sha256": "524ae082c074b44e743242322e1910927bb37ba92c8731debe06c5fc5adc8e9d"
+    },
+    {
+      "path": "icons/vector/close.svg",
+      "bytes": 396,
+      "sha256": "67a01b89d51c230bc40b3cac1db9def9fbf3174eade06ad9a6cde1b3fb97e07b"
+    },
+    {
+      "path": "icons/vector/coin_small.svg",
+      "bytes": 578,
+      "sha256": "dfa8efcbac32a5a91ed69333a1f33df3a3ae43448bbc53c5e29071d8e808ec08"
+    },
+    {
+      "path": "icons/vector/engine.svg",
+      "bytes": 552,
+      "sha256": "c246032e7d3f8a358ddca202281fa82afcc171fe6c8ccb6f7adbfc09079a1ad3"
+    },
+    {
+      "path": "icons/vector/fan.svg",
+      "bytes": 678,
+      "sha256": "40624a1f8f17879e9e29ab680a55bf9bd5e99c351d9b63e77f3a4ebcf58bc646"
+    },
+    {
+      "path": "icons/vector/flag.svg",
+      "bytes": 552,
+      "sha256": "03616596f51cdbb818624928ccc597a87887cc54c71c6af04331ae63d1b8f895"
+    },
+    {
+      "path": "icons/vector/gearbox.svg",
+      "bytes": 680,
+      "sha256": "10587c80be9ca088404673a48dca73d736f4af1e748c21ec62230755c5df3564"
+    },
+    {
+      "path": "icons/vector/gem_small.svg",
+      "bytes": 526,
+      "sha256": "d65aeb265ccbe068380b7d0e7e9d31d35827e3f5ee6def01ac9dae8a397fe78d"
+    },
+    {
+      "path": "icons/vector/gift.svg",
+      "bytes": 650,
+      "sha256": "48290336b91f7733ff330cf2b333f414ad4cb792e0c9d209744036de4f326b97"
+    },
+    {
+      "path": "icons/vector/help.svg",
+      "bytes": 514,
+      "sha256": "cb97c4bd9d97ef72b7b2197289b78e88a5c5468e5ce8a1136fe7119ad0bc11a1"
+    },
+    {
+      "path": "icons/vector/home.svg",
+      "bytes": 452,
+      "sha256": "c5790de2d1061f505c677144e7b142f62251911e0023cc94cc76b4db4e812fa4"
+    },
+    {
+      "path": "icons/vector/info.svg",
+      "bytes": 448,
+      "sha256": "66160bb0d223548bf63de10fb84ec429b3166e35d0b280308b3f8f97f2b9f1a6"
+    },
+    {
+      "path": "icons/vector/lap.svg",
+      "bytes": 580,
+      "sha256": "757a9c7773e50a1818741e0e244cb110245533d21115cdaf8cf26ef2129de9f0"
+    },
+    {
+      "path": "icons/vector/lock.svg",
+      "bytes": 528,
+      "sha256": "0268ef46d3fc47ffd20ecc2db0e7ad94ed610f59d8430d2e2044340e4117bf35"
+    },
+    {
+      "path": "icons/vector/mail.svg",
+      "bytes": 538,
+      "sha256": "b52c9d4852b7ebc6ae755f73199a25633b4266b5e9f2b3b779bc434c3101ba49"
+    },
+    {
+      "path": "icons/vector/minus.svg",
+      "bytes": 366,
+      "sha256": "bad24a2742ca888add931ec9178d07359a7c93cb021962e2ee44b0c485bcfe3d"
+    },
+    {
+      "path": "icons/vector/mission.svg",
+      "bytes": 590,
+      "sha256": "7d77282c8e45adeb27aff41c3ed5b32e27a9262917cd938ff4f779e329423c22"
+    },
+    {
+      "path": "icons/vector/motion.svg",
+      "bytes": 442,
+      "sha256": "bfcb3b50721238dba6fcc3d796e088bb959267f060295f4699f9ac7fe7c66119"
+    },
+    {
+      "path": "icons/vector/music.svg",
+      "bytes": 576,
+      "sha256": "ade0bbc874f22782aa617439fd369bbe800dfbca5ff4fb7cc67fe3a84be2bb89"
+    },
+    {
+      "path": "icons/vector/mute.svg",
+      "bytes": 456,
+      "sha256": "0ff088fa83b85f114df5fd32f8655286b8a2087ea67091d21e675603a60a299a"
+    },
+    {
+      "path": "icons/vector/next.svg",
+      "bytes": 384,
+      "sha256": "238e42f3ac816b387773ce6e405f83e1aa794a70115a4bb094b004d2c2f2f67f"
+    },
+    {
+      "path": "icons/vector/offline.svg",
+      "bytes": 534,
+      "sha256": "6b175e52e706539049fd9247ff2ece211d8428d1e7fd54ec07be2527b271e945"
+    },
+    {
+      "path": "icons/vector/pause.svg",
+      "bytes": 384,
+      "sha256": "fb9dafa597f5d0a6ff87ce140a709288077e35a5855753e414a10b4d07b93fe9"
+    },
+    {
+      "path": "icons/vector/play.svg",
+      "bytes": 390,
+      "sha256": "2bfce010d6f89d0e5fcb778aea5f98d4841ffc6910c97237aa0f0e961bfcff09"
+    },
+    {
+      "path": "icons/vector/plus.svg",
+      "bytes": 384,
+      "sha256": "42bc0c83d4fbf793ac2b4b8519d3f3e6dc9590e6ee153dd6ef07020ada4abea0"
+    },
+    {
+      "path": "icons/vector/rank_up.svg",
+      "bytes": 444,
+      "sha256": "1ee2beee8edc57ba58cb34d79b70818abb522ec89839ddd6e4d36692af0d21e8"
+    },
+    {
+      "path": "icons/vector/refresh.svg",
+      "bytes": 426,
+      "sha256": "df668bc8c30b267870c1587f80161d16b4386be5050518358233c5d8f04d275b"
+    },
+    {
+      "path": "icons/vector/save.svg",
+      "bytes": 478,
+      "sha256": "330492eaf9144034c8bdcdecf0c1ae96d5518c4dcca10020b496ca95f0d73b46"
+    },
+    {
+      "path": "icons/vector/settings.svg",
+      "bytes": 650,
+      "sha256": "f37537221f2ca75cfe562f538b09c9b624babf9b42d44e1b7c19953e16201bcf"
+    },
+    {
+      "path": "icons/vector/sound.svg",
+      "bytes": 480,
+      "sha256": "625c0230370b10bfe665ad186efde0adaf8c1548dfa69ef154a4d2ee8ca68bc1"
+    },
+    {
+      "path": "icons/vector/star.svg",
+      "bytes": 476,
+      "sha256": "f05eb68763458f437253164f5fc10830b67f3dd0d12ee34fec5f1d05a96fd727"
+    },
+    {
+      "path": "icons/vector/training.svg",
+      "bytes": 440,
+      "sha256": "3b35f8cb076a214229777ec199cf4d74cf9687bf5ff4afc1eb69fc7d682a0822"
+    },
+    {
+      "path": "icons/vector/tyre.svg",
+      "bytes": 688,
+      "sha256": "4373f76bfe23e293f557a4e539014d5100a932c72d3abc628d66dc02c866a592"
+    },
+    {
+      "path": "icons/vector/unlock.svg",
+      "bytes": 522,
+      "sha256": "7e3cd3df60f1a5a5cfc4051a9f1a876088e74906dac252d4175b884c1fbd7c96"
+    },
+    {
+      "path": "icons/vector/venue.svg",
+      "bytes": 490,
+      "sha256": "1fc4898b2080f7c514c0f869b70223d47e5614ba5a246644d5b1fe26eedea572"
+    },
+    {
+      "path": "icons/vector/vibration.svg",
+      "bytes": 598,
+      "sha256": "a5f7ef9ff64b757a5402e9a05ffe49117dfcd3a80de6be4b71016d148d371472"
+    },
+    {
+      "path": "icons/vector/warning.svg",
+      "bytes": 420,
+      "sha256": "fb22d2b2ef7a50814888717d80a9acdea54d715fd389006cdcf8dfb53e995937"
+    },
+    {
+      "path": "icons/vector_dark/back.svg",
+      "bytes": 235,
+      "sha256": "09796c7b55557b498a5fca825e6bd731ac3a05f73f1273a41ce16d9a2aa94054"
+    },
+    {
+      "path": "icons/vector_dark/chassis.svg",
+      "bytes": 328,
+      "sha256": "e97100306b0a72c1408c75018a8781459899e0859df0c45ac532a0852770597e"
+    },
+    {
+      "path": "icons/vector_dark/check.svg",
+      "bytes": 226,
+      "sha256": "4f4d974ad085b9c86595f631ba069576f3fe1ed886deba674939ade526076362"
+    },
+    {
+      "path": "icons/vector_dark/clock.svg",
+      "bytes": 254,
+      "sha256": "a3702f1814ab97ab63e5dc13631c340ee041dd3abf8f1e43ce100713195e025a"
+    },
+    {
+      "path": "icons/vector_dark/close.svg",
+      "bytes": 231,
+      "sha256": "45beba91143fbf154472a47ba4e99f6a6fb68b78c81cccf657a10d0ecc0a1900"
+    },
+    {
+      "path": "icons/vector_dark/coin_small.svg",
+      "bytes": 322,
+      "sha256": "918bd7cf25db1983cbf9f0b7c437a470c3fd57acd41541726300c52474249a58"
+    },
+    {
+      "path": "icons/vector_dark/engine.svg",
+      "bytes": 309,
+      "sha256": "63f17dccab16479555e99809cb1f60ae0413a5e3bfb7142015a5f2540265caa2"
+    },
+    {
+      "path": "icons/vector_dark/fan.svg",
+      "bytes": 372,
+      "sha256": "a56e9171ce1e2fcfb6ec547cadef52834e5cd635bc487d12cfec365c5fe56ef2"
+    },
+    {
+      "path": "icons/vector_dark/flag.svg",
+      "bytes": 309,
+      "sha256": "510c26b656dec5a988926220dd8160ec899b9ec0fa054b2db4f0c7421a647e15"
+    },
+    {
+      "path": "icons/vector_dark/gearbox.svg",
+      "bytes": 373,
+      "sha256": "3c8871f62d57a331a26c8b48972c6552f93f51af2fb46c422af5d71eb90c4c86"
+    },
+    {
+      "path": "icons/vector_dark/gem_small.svg",
+      "bytes": 296,
+      "sha256": "fa07bafb3bd842991746251d1e940946e0d12713b6904313d93bf69afbfcbc19"
+    },
+    {
+      "path": "icons/vector_dark/gift.svg",
+      "bytes": 358,
+      "sha256": "0e1491dfc933f2d24cfb909ec1945d73c07cdcdeba22a583ef87c24f8d722f8b"
+    },
+    {
+      "path": "icons/vector_dark/help.svg",
+      "bytes": 290,
+      "sha256": "2f3ca69c54a5d7052a8816fad5c1fbe49e71b5f6d3cb250e4370ae7e8bc621c4"
+    },
+    {
+      "path": "icons/vector_dark/home.svg",
+      "bytes": 259,
+      "sha256": "1c198f63719761fade032d322f239bf9286a30fb047007fd8cf444ce8a058715"
+    },
+    {
+      "path": "icons/vector_dark/info.svg",
+      "bytes": 257,
+      "sha256": "b1df596384988f251180243641a67038fbac6c34fda0767d56e78478c46bd0eb"
+    },
+    {
+      "path": "icons/vector_dark/lap.svg",
+      "bytes": 323,
+      "sha256": "0773cc15397ede873a8e64f0ce02974f4805d2913b31c27195e01fe0dec81c5e"
+    },
+    {
+      "path": "icons/vector_dark/lock.svg",
+      "bytes": 297,
+      "sha256": "3645a59ff356e3dc79a2c2f17324b53165c7a1087d2175a66904f948faebe4e5"
+    },
+    {
+      "path": "icons/vector_dark/mail.svg",
+      "bytes": 302,
+      "sha256": "4f526cc6f496b53c6efa0c5a8936f6bb8bc2e1101d79404bacd45b88d32109c4"
+    },
+    {
+      "path": "icons/vector_dark/minus.svg",
+      "bytes": 216,
+      "sha256": "1a29088640285859d9abb1954c87b1ca1de092390382ff9b3148d48d2fd4c221"
+    },
+    {
+      "path": "icons/vector_dark/mission.svg",
+      "bytes": 328,
+      "sha256": "b37794da846d9cc3755517b3a773b850f9f12f12e017b83587ecea7884c67d4b"
+    },
+    {
+      "path": "icons/vector_dark/motion.svg",
+      "bytes": 254,
+      "sha256": "c8e4d06374f76f5bbc31549afc9ea9fd122ee663921a894777ab55be47e78605"
+    },
+    {
+      "path": "icons/vector_dark/music.svg",
+      "bytes": 321,
+      "sha256": "3f88c5f1d8e47e87e2507c9c22bedf57b7b1b5065ca1527cbcc9ac7d96366919"
+    },
+    {
+      "path": "icons/vector_dark/mute.svg",
+      "bytes": 261,
+      "sha256": "0115c64adc1642d239d37352da44de3eb8fd88199b1a26c16be41c25755ab69b"
+    },
+    {
+      "path": "icons/vector_dark/next.svg",
+      "bytes": 225,
+      "sha256": "f533ecea19504793df3ca0d80487f9f6a71ce1b74b1203a3794487e73766e9f8"
+    },
+    {
+      "path": "icons/vector_dark/offline.svg",
+      "bytes": 300,
+      "sha256": "44b8ff38b586d8ff07461da70604e059ae3b1be7d66f3e279e6741f4a0b1a2b7"
+    },
+    {
+      "path": "icons/vector_dark/pause.svg",
+      "bytes": 225,
+      "sha256": "b86b96107cc678f14e151485d17d69323368eba73ffbbd326fcccf2b99176c7d"
+    },
+    {
+      "path": "icons/vector_dark/play.svg",
+      "bytes": 228,
+      "sha256": "f44722559d2932a26a4d7be8e5dee2d0a5d9f3f5a5947f10389becc88f5b2898"
+    },
+    {
+      "path": "icons/vector_dark/plus.svg",
+      "bytes": 225,
+      "sha256": "6c6f6926688b252fc6b1477d2abb76d7054540cfb0160a75e8ef69daea4a4626"
+    },
+    {
+      "path": "icons/vector_dark/rank_up.svg",
+      "bytes": 255,
+      "sha256": "0d3a4da6a9a5d2add3d7a34ef668d77801f77e0543afc9da279866149593e1ac"
+    },
+    {
+      "path": "icons/vector_dark/refresh.svg",
+      "bytes": 246,
+      "sha256": "051b4adfb76b1e7bf759008fba4778581ca67eb0ca432ad521f76fa5e3849bbd"
+    },
+    {
+      "path": "icons/vector_dark/save.svg",
+      "bytes": 272,
+      "sha256": "ce0c58394923f59530794b18f9700fee4f5a5d3c901d749285866fece50b52ce"
+    },
+    {
+      "path": "icons/vector_dark/settings.svg",
+      "bytes": 358,
+      "sha256": "a3f5f1a158d4ffe8415294e7a233415c01b0ef61293b570668aa8df5c21b9081"
+    },
+    {
+      "path": "icons/vector_dark/sound.svg",
+      "bytes": 273,
+      "sha256": "8c4a08e5cf1fc7e94048ae3423ed1abfc35ab49e1310ac162df1c289826f7f56"
+    },
+    {
+      "path": "icons/vector_dark/star.svg",
+      "bytes": 271,
+      "sha256": "230d155c2dbe3980572d436245d81a42da6a55796d1eeb35d4a91564ad2c1113"
+    },
+    {
+      "path": "icons/vector_dark/training.svg",
+      "bytes": 253,
+      "sha256": "d6385aeadad98580750d0a4f0b34618942c0fee7382a0202a2ccc8e43e5deb4d"
+    },
+    {
+      "path": "icons/vector_dark/tyre.svg",
+      "bytes": 377,
+      "sha256": "0e13d07a8984211cb3b4182c844a158cddd04357b4e8e5c9909699525d23fe91"
+    },
+    {
+      "path": "icons/vector_dark/unlock.svg",
+      "bytes": 294,
+      "sha256": "a6f3866d16cda437fb479f6d2138b67e90f92b8214bd5e2d401c41ccedde67dc"
+    },
+    {
+      "path": "icons/vector_dark/venue.svg",
+      "bytes": 278,
+      "sha256": "c881862fb3d1a7b5f72e4234e4e83ce9abb4bca855961bf24618f99d19a44842"
+    },
+    {
+      "path": "icons/vector_dark/vibration.svg",
+      "bytes": 332,
+      "sha256": "ac37f6db12e4895fece20a72fe10fb75cfd006aa728889c65baf80d27cd1cf3b"
+    },
+    {
+      "path": "icons/vector_dark/warning.svg",
+      "bytes": 243,
+      "sha256": "3833d37722adb9f3bb2a6bb6ff567045daccab7ec9f94c14f00779872c8f32f0"
+    },
+    {
+      "path": "layout/city.json",
+      "bytes": 1431,
+      "sha256": "2a98335ad421c88d3e2788416bd81fd3fbf1cf2cdd686dd8eea4d9303ea1afb8"
+    },
+    {
+      "path": "layout/harbor.json",
+      "bytes": 1166,
+      "sha256": "bc9142e9dfa62ab251f6f34a1fc9ba1ce3ac8cabbd8d2eda140b16b933c3ab7b"
+    },
+    {
+      "path": "layout/pine.json",
+      "bytes": 1246,
+      "sha256": "22eea1dd9dc0e04d1e8a7bbdb07d5b5d6a422c17eb7e70699c9026bd3cfaeb09"
+    },
+    {
+      "path": "layout/workshop_oval_path.json",
+      "bytes": 610,
+      "sha256": "30c144a7d7354cd17f1e7a22b81c248f53dae7967c7fe1d440e3339013c18ab1"
+    },
+    {
+      "path": "manifest.json",
+      "bytes": 224,
+      "sha256": "219a19690d251417bbe1038e628ee5cad7b5878fd04c91db868ac1536b26c2f1"
+    },
+    {
+      "path": "portraits/driver_an.tres",
+      "bytes": 253,
+      "sha256": "a57b5360f079a3fb8712d13def08ad1294bf379a34b6f4b9758570162958f6c3"
+    },
+    {
+      "path": "portraits/driver_avatar.tres",
+      "bytes": 253,
+      "sha256": "cb207f2d56afc3a9edec0d01a08304d7076ec96d2a0304b98a90cbdc5a4fd3b5"
+    },
+    {
+      "path": "portraits/driver_binh.tres",
+      "bytes": 251,
+      "sha256": "6a06def3373fce36d60ee699c57894d123a608e1be30989293979df63726b8b5"
+    },
+    {
+      "path": "portraits/driver_binh_avatar.tres",
+      "bytes": 251,
+      "sha256": "fb9241bd88f231a21a76ccdd97e8c923da00623576a7a36ab46c23902916a5e8"
+    },
+    {
+      "path": "portraits/driver_chi.tres",
+      "bytes": 253,
+      "sha256": "c092b64cdd1e393b89d8514cdc4ccddb3faae9ac60b88c4abe7336e930fd3607"
+    },
+    {
+      "path": "portraits/driver_chi_avatar.tres",
+      "bytes": 252,
+      "sha256": "5392feeac5ebae66b3d70b5272b4a109be4372c38e497f3a955c8b34734a1b5b"
+    },
+    {
+      "path": "portraits/driver_orange.png",
+      "bytes": 1828784,
+      "sha256": "7bca55ffc9aa6cf33f16b69752eb41a8eac82b993885011c0b14a0d2c8738783",
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "transparent_pixels": 754518
+    },
+    {
+      "path": "preview/asset_gallery.gd",
+      "bytes": 28921,
+      "sha256": "081e7ea9897960118a7efe03a57f71ff101cf40c20bfb09907f0f64ae90ea942"
+    },
+    {
+      "path": "preview/asset_gallery.tscn",
+      "bytes": 319,
+      "sha256": "62a06b2e93f0d5623d60aa804782e009ea92e4d4761e720e1777eae9f9edc030"
+    },
+    {
+      "path": "preview/track_preview.gd",
+      "bytes": 2211,
+      "sha256": "1b27c95fef409653587273cfad4876aee45de2856a03bc961355567f60966cc8"
+    },
+    {
+      "path": "preview/workshop_gp_preview.gd",
+      "bytes": 8909,
+      "sha256": "1a8e549fe82d946f34eb46eafd941f9ce1dd55189221b59ca36ca166f644d59f"
+    },
+    {
+      "path": "preview/workshop_gp_preview.tscn",
+      "bytes": 325,
+      "sha256": "ec6cdfdb7c75a5dc0d2f992fb044926a4b0b959ad975046c185f68d44f792792"
+    },
+    {
+      "path": "props/barrier.tres",
+      "bytes": 253,
+      "sha256": "b9098777a2211fd51776aeb186f19392c05afdb103a42457e115adf193db0833"
+    },
+    {
+      "path": "props/broadleaf.tres",
+      "bytes": 254,
+      "sha256": "80ca962d2a5678d167d1951657e8f767950ff06c70f6850fb021b2aad6125caf"
+    },
+    {
+      "path": "props/garage.tres",
+      "bytes": 253,
+      "sha256": "d9e972e17311cfad31ae96ec0937a0d87883b854aae00b2da64176784130a727"
+    },
+    {
+      "path": "props/grandstand.tres",
+      "bytes": 254,
+      "sha256": "b1309559d14ce69d7a377ad7386d2f5e2cecfed7223004fe62d5ad3ab83f72a6"
+    },
+    {
+      "path": "props/light_pole.tres",
+      "bytes": 255,
+      "sha256": "aa8e7fc825ee747791a8124ee89a0836c8508e92c30cc3986d802aaef6ebf504"
+    },
+    {
+      "path": "props/pine.tres",
+      "bytes": 253,
+      "sha256": "c83ddfe8c9cb0dbf1931c29b7f181b25dde5b7386493bfa5d334a43735bb08f8"
+    },
+    {
+      "path": "props/tool_cabinet.tres",
+      "bytes": 254,
+      "sha256": "cdec264bb526df4f89b071739d02e0c0ad9fca79670cc0c376c3c2de5c801cf9"
+    },
+    {
+      "path": "props/tyre_stack.tres",
+      "bytes": 254,
+      "sha256": "893a3511a97832913e9348862bb9b2650eb71f509a8090be8bbb2a590ed40438"
+    },
+    {
+      "path": "PROVENANCE.md",
+      "bytes": 1140,
+      "sha256": "f7930a934a1ea8dc60b4b6a577d5eec1e8510473730dbf127db5fb741e9c7cd3"
+    },
+    {
+      "path": "QA.md",
+      "bytes": 2963,
+      "sha256": "d85ef2e0a17df5876de2b05b5a6ca8e9d04099ce169a17dc7b38fb1e55edfe98"
+    },
+    {
+      "path": "README.md",
+      "bytes": 6737,
+      "sha256": "4c54fac9917205b6161ea042757c4fcda5b3b7f32d44bb98e8e0b281fa357998"
+    },
+    {
+      "path": "rewards/daily_gift.tres",
+      "bytes": 248,
+      "sha256": "1ed3d13de3c034ce6af5ebfe04757e7c6c2c447f2b04babb37d55c96b94aecea"
+    },
+    {
+      "path": "rewards/finish_flags.tres",
+      "bytes": 247,
+      "sha256": "e174c941964b672d29a7c1946b33fa557719e19fcc7d281aee3c75aef31e1410"
+    },
+    {
+      "path": "rewards/money_bag.tres",
+      "bytes": 247,
+      "sha256": "dc4a797a6f6a7ff3beb8bf5f5bc9ee71bd07a629a07c3633ef7d3a8b10f18383"
+    },
+    {
+      "path": "rewards/pro_cup.tres",
+      "bytes": 247,
+      "sha256": "0aa5e37ef88d7af56cb6ace3a4ee1482135953f1c929a3da51b7f8653ba94c8e"
+    },
+    {
+      "path": "rewards/rookie_cup.tres",
+      "bytes": 246,
+      "sha256": "cb0da500b12d3993a06dd4ff570753977c144564b2e9679281d1d5aabe9e8687"
+    },
+    {
+      "path": "rewards/semi_pro_cup.tres",
+      "bytes": 247,
+      "sha256": "e05eb17c9f9ae9035eb09889f38c2dbd85577b9201c11f2ed0fc7e87ac4327a4"
+    },
+    {
+      "path": "rewards/toolbox.tres",
+      "bytes": 246,
+      "sha256": "321e810e879a4dd5c5b259b68627ffddcd367ea88803a7e7e4dc622b5a6469bb"
+    },
+    {
+      "path": "rewards/venue_model.tres",
+      "bytes": 248,
+      "sha256": "68f0c9ff9a381a4e6f42f840134555a3aad5a6ccc67c2f9bf715dc5cd5a261e6"
+    },
+    {
+      "path": "styles/avatar.tres",
+      "bytes": 422,
+      "sha256": "fbfb0cf156a467a5a97f1bb79780464fa12e351d0aa375da53dd0b4541f9b488"
+    },
+    {
+      "path": "styles/button.tres",
+      "bytes": 423,
+      "sha256": "90fd07628dc2cdddab104c1bd04638996cd1a0cc969b9f854bc2c2992ac149ec"
+    },
+    {
+      "path": "styles/button_danger.tres",
+      "bytes": 425,
+      "sha256": "cbb479ebd176fec131ba27b5c6f809bbfa8ada95f88a8894e2acfd8f0660eb40"
+    },
+    {
+      "path": "styles/button_disabled.tres",
+      "bytes": 425,
+      "sha256": "36b08f85e9f8e6ed01b14f84a8c2330ff8da5f81bb57b035e418bc7271f296da"
+    },
+    {
+      "path": "styles/button_hover.tres",
+      "bytes": 429,
+      "sha256": "022527a41199fffb20aee7d3338a8052f881537eec9fbb95045c7f62f80244e1"
+    },
+    {
+      "path": "styles/button_pressed.tres",
+      "bytes": 431,
+      "sha256": "22279e07d30e43742966eb0dcd863e6784dc4948e426cab360aeb60dc3574107"
+    },
+    {
+      "path": "styles/button_secondary.tres",
+      "bytes": 428,
+      "sha256": "e820767eac0830ed147844fa24e415183d44c0d024cb3353d0b778daaaab8635"
+    },
+    {
+      "path": "styles/button_success.tres",
+      "bytes": 426,
+      "sha256": "5c7b5ad30212c2d03f4a327ed9eae47b63c9ffe2498aea4dd0cc9d1b994ccc97"
+    },
+    {
+      "path": "styles/capsule.tres",
+      "bytes": 421,
+      "sha256": "bf2ac707b3f28ffda197de6bad8eb67252175ad85fce86f58c1bb722ec0a2352"
+    },
+    {
+      "path": "styles/card.tres",
+      "bytes": 418,
+      "sha256": "88d1702738930a04905d040e8c58d1532c8ebfd8e0c195b7ecd26b49a3406aac"
+    },
+    {
+      "path": "styles/card_locked.tres",
+      "bytes": 423,
+      "sha256": "c25e45dd65b20be1a042e1ca5d4e012ab7bde2670fe649daa58c22c263635a01"
+    },
+    {
+      "path": "styles/card_selected.tres",
+      "bytes": 425,
+      "sha256": "db4b8c41fc42cf2d5af1d379f497ee7377f5822191d773fe37e81f5c1ad0789b"
+    },
+    {
+      "path": "styles/graphite.tres",
+      "bytes": 422,
+      "sha256": "bf739b65278d0b30a9f2987f6a7511674bf66f225b4e0b284a1a079c796480cb"
+    },
+    {
+      "path": "styles/modal.tres",
+      "bytes": 417,
+      "sha256": "5d682590b704921bab6a8cf16ad1fa50fefbfbedcfd85765fab2c8aef705c456"
+    },
+    {
+      "path": "styles/nav_selected.tres",
+      "bytes": 420,
+      "sha256": "84f2500c309e9d070a75537da89db7c7a4fef1fdd79b9c83e41ab6a522295893"
+    },
+    {
+      "path": "styles/stat.tres",
+      "bytes": 417,
+      "sha256": "cfd673d367d3a95719166554837bbcd2baa9a2b2f18150f7861175ac488fad08"
+    },
+    {
+      "path": "styles/toast.tres",
+      "bytes": 417,
+      "sha256": "0b841159f24c36f30d4ed99ef6445cddfbccd96c10ef81590f8acdd7a1e889ca"
+    },
+    {
+      "path": "textures/city_technical.png",
+      "bytes": 3141321,
+      "sha256": "ea83be3902995b92d27d6074a3f23c655baa8b952585aba68b764c02e6391eb7",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGB"
+    },
+    {
+      "path": "textures/pine_circuit.png",
+      "bytes": 3418513,
+      "sha256": "08f69457b230b79388156244e2316398c88ff4d49f34a8bba5504229db7bca57",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGB"
+    },
+    {
+      "path": "textures/workshop_oval.png",
+      "bytes": 3126146,
+      "sha256": "9cd212bd3ffb1f2131ea7e8f408c1f77c0cd68d02e24c4034cc56d0ca88ebb6f",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGB"
+    },
+    {
+      "path": "theme.tres",
+      "bytes": 1588,
+      "sha256": "63e7918e39ef0f3fc30df648de735d439585b20ae3fc61a7269d2c92fa3fcdf8"
+    },
+    {
+      "path": "tools/build_complete_pack.py",
+      "bytes": 30013,
+      "sha256": "b1eaf3155ad49711766eb2703f88e97cee2f32d52830094672c902d5057cd7af"
+    },
+    {
+      "path": "tools/build_pack.py",
+      "bytes": 10942,
+      "sha256": "4ed2fe4cecf112dbe1bb0fbc619f43092a84f7498c45394b18d94e0c79542a3c"
+    },
+    {
+      "path": "tools/build_preview_project.py",
+      "bytes": 1231,
+      "sha256": "e40f3f0c79aff6bd86c6bd38d43d61fb5ce4b0d30eb0c84eda8d5fc26870f8a6"
+    },
+    {
+      "path": "tools/package_pack.py",
+      "bytes": 4238,
+      "sha256": "368d2b3f4709ddfdd64cc6769f9380414992827c18f98c603ee2585c1510a436"
+    },
+    {
+      "path": "tools/render_previews.ps1",
+      "bytes": 1305,
+      "sha256": "09eee0717b0ea7a45310006ca2da7b5ada96916b5758e3511b8b1f65dc7c7a6d"
+    },
+    {
+      "path": "tools/requirements.txt",
+      "bytes": 36,
+      "sha256": "620921512a386ac0b438d45f53f122b49b85cd27e2b31dc368f38e834f40b2cc"
+    },
+    {
+      "path": "tools/validate_complete_pack.py",
+      "bytes": 6683,
+      "sha256": "92717985dc6ce76ac3283a54028386a08f2d58c223488ce872e523b3f5706221"
+    },
+    {
+      "path": "tools/validate_godot.gd",
+      "bytes": 3773,
+      "sha256": "27703443374d48aeb02a435a21f26da548f9640058f405c4dfa24a0af5101612"
+    },
+    {
+      "path": "ui/app_background.svg",
+      "bytes": 510,
+      "sha256": "41629946fbc7d293824b31c680e5a847e538dfa25b0197802273ad3c55ac07b0"
+    },
+    {
+      "path": "ui/button_danger.svg",
+      "bytes": 573,
+      "sha256": "45b7a141fcd9468c1e54d62ff93c0c34488b03c5adcb24f378e1000c4e579812"
+    },
+    {
+      "path": "ui/button_disabled.svg",
+      "bytes": 571,
+      "sha256": "a43b8a850670b9d2a6cc31659ae3ad453f9cf96b85dc3337cc214ab7aef97d41"
+    },
+    {
+      "path": "ui/button_orange.svg",
+      "bytes": 571,
+      "sha256": "69d2a4fb88c5b1a24b1d0c1669286ebecdbb34fa90c49b29f7637031b8762c1c"
+    },
+    {
+      "path": "ui/button_orange_hover.svg",
+      "bytes": 571,
+      "sha256": "fdcb5d6720bcc5186768765c4f08840b19cb26393300a4815e3ae06010b3dc64"
+    },
+    {
+      "path": "ui/button_orange_pressed.svg",
+      "bytes": 571,
+      "sha256": "467d4d01191d00f93d0c5aecad6fa67bddf4b2265c54690856a0e5feaae5ed89"
+    },
+    {
+      "path": "ui/button_secondary.svg",
+      "bytes": 573,
+      "sha256": "3fc6772b6b346819005d282ec9aea5945ec302881d22f2818f58812f0a7ef149"
+    },
+    {
+      "path": "ui/button_success.svg",
+      "bytes": 573,
+      "sha256": "a89a7f28e830d11558c9f7fe9e5bc5be974903543b06b8111d5bb8ccd4f97216"
+    },
+    {
+      "path": "ui/capsule_ivory.svg",
+      "bytes": 568,
+      "sha256": "c749539c3a78416a4a788f0945850499fb0e53bdf6700d13ef201952686ad306"
+    },
+    {
+      "path": "ui/card_cream.svg",
+      "bytes": 573,
+      "sha256": "dfdbea4254e7d68d8736c2dc49d711fcd258424410e2fd75fa218f96ad465b02"
+    },
+    {
+      "path": "ui/card_locked.svg",
+      "bytes": 573,
+      "sha256": "4319544a9dfdd12abd8b9fd604904af7a924d665cbec6dd83324a11ad6834197"
+    },
+    {
+      "path": "ui/card_selected.svg",
+      "bytes": 573,
+      "sha256": "f74d8f3973994c78e911cd3bf199bf0be32d1d4706b546783b0083307646791f"
+    },
+    {
+      "path": "ui/checkbox_off.svg",
+      "bytes": 189,
+      "sha256": "2258ccc6f149e0581e312bf96b9275c69716902bcc8cd009ab3e077eb9972f6b"
+    },
+    {
+      "path": "ui/checkbox_on.svg",
+      "bytes": 286,
+      "sha256": "6f4acfef805da4b1a30ff334124e7e4902afc09897c7e0ffd97058b7dbcc3df4"
+    },
+    {
+      "path": "ui/empty_state.svg",
+      "bytes": 263,
+      "sha256": "5f7d20d63250344abbd690cbd3c358a9aa90e1bf8b95f30db9a903b361f14d45"
+    },
+    {
+      "path": "ui/loading_spinner.svg",
+      "bytes": 279,
+      "sha256": "d58a481d324574bd53c389386b2f63599ddd797b7fc20e25ea24ddcc8f623565"
+    },
+    {
+      "path": "ui/modal.svg",
+      "bytes": 573,
+      "sha256": "7af59970da4182e8ec2e01ebaa9c0213bcdc6368f72d0fbb61bfbc2cc78c0208"
+    },
+    {
+      "path": "ui/modal_overlay.svg",
+      "bytes": 150,
+      "sha256": "1f8d03adefec31ea28691c29ff716f06bc92ceb31908cfb0aee450f15a9db245"
+    },
+    {
+      "path": "ui/nav_selected.svg",
+      "bytes": 573,
+      "sha256": "e4da0e7631c4c95a6f5ef34044ee6359882a0951fd348d5ff5cd6940f27a1403"
+    },
+    {
+      "path": "ui/notification_dot.svg",
+      "bytes": 172,
+      "sha256": "d49120a5f294b7173668b77b7de82cc52fc585d264baba2a0b88545a62637b6d"
+    },
+    {
+      "path": "ui/panel_graphite.svg",
+      "bytes": 573,
+      "sha256": "edf473fe23314370610b2225fdd50765bd911394b5766abaeb4c2005e872b418"
+    },
+    {
+      "path": "ui/progress_fill.svg",
+      "bytes": 237,
+      "sha256": "6f2fa7d23cd68a968fc481d7c20864c6ed9aab637ed98d02441c074e021c70d0"
+    },
+    {
+      "path": "ui/progress_track.svg",
+      "bytes": 193,
+      "sha256": "2196a39c4bc90c4053e619ed69e7fc917e6d731565aa7ee9ed689eedac180a75"
+    },
+    {
+      "path": "ui/slider_grabber.svg",
+      "bytes": 172,
+      "sha256": "4224efb63028572f06b688788c5adeed3e8ec4201691ffffa923cb438709ad96"
+    },
+    {
+      "path": "ui/slider_track.svg",
+      "bytes": 157,
+      "sha256": "a356b743f13323e247d48a6056329a370266fd8566f556b73322f4e4fe880e6e"
+    },
+    {
+      "path": "ui/stat_chip.svg",
+      "bytes": 565,
+      "sha256": "05d76a702f4fe06f689891d427a1cade8ca9786f573b1452b26e12e125396bef"
+    },
+    {
+      "path": "ui/toast.svg",
+      "bytes": 573,
+      "sha256": "27688c2e7289517635dacd07f5231be94ca5e08d550c9a36762277656daf23af"
+    },
+    {
+      "path": "ui/toggle_off.svg",
+      "bytes": 203,
+      "sha256": "5c92ef3c3b91c927a44e2c585cfc10e87c8fc6027d05dcfb1dbee87e8927f3ab"
+    },
+    {
+      "path": "ui/toggle_on.svg",
+      "bytes": 203,
+      "sha256": "03145b2dbe2fb2b203b54a3c1ebcf381b13877ecb9fbed3aad27cbd07b3003e2"
+    },
+    {
+      "path": "ui/tooltip_arrow.svg",
+      "bytes": 132,
+      "sha256": "a5f8fe49ac55a21e32a48a95df3851e29b1ed8a5e15f5a32bb144b28eebd64cf"
+    },
+    {
+      "path": "ui/tutorial_hand.svg",
+      "bytes": 497,
+      "sha256": "495b4f7f411c994cfa62385ec667aff88e64f7d9fb830a3bb365af65e6803c41"
+    },
+    {
+      "path": "vfx/coin_spin/frame_00.svg",
+      "bytes": 284,
+      "sha256": "d93cec881942041ab1516f559e1e11cb1d06fddf6df3d7a5aa628074b1cf02e6"
+    },
+    {
+      "path": "vfx/coin_spin/frame_01.svg",
+      "bytes": 284,
+      "sha256": "89a848e0115e12953c372062f24d09472de7aec330f163b8e8a8707832d7df39"
+    },
+    {
+      "path": "vfx/coin_spin/frame_02.svg",
+      "bytes": 284,
+      "sha256": "4f06921ec8bb8ff692a31bde721309e933d952be63790ffb291f49f5a9c107c7"
+    },
+    {
+      "path": "vfx/coin_spin/frame_03.svg",
+      "bytes": 284,
+      "sha256": "7fe5833eb7c1d8f47f3128d5b9c5c18d4396f069ba1d979e09d3305e1409a06e"
+    },
+    {
+      "path": "vfx/coin_spin/frame_04.svg",
+      "bytes": 284,
+      "sha256": "36a30113b14fb4da19511b017ac340feb42090f2cbd241f2b65229e2e13de735"
+    },
+    {
+      "path": "vfx/coin_spin/frame_05.svg",
+      "bytes": 284,
+      "sha256": "43e33ebd6d63e59b612c3801d36c2b748e24840d23e07b06bec29e3660fb0518"
+    },
+    {
+      "path": "vfx/coin_spin/frame_06.svg",
+      "bytes": 284,
+      "sha256": "43e33ebd6d63e59b612c3801d36c2b748e24840d23e07b06bec29e3660fb0518"
+    },
+    {
+      "path": "vfx/coin_spin/frame_07.svg",
+      "bytes": 284,
+      "sha256": "36a30113b14fb4da19511b017ac340feb42090f2cbd241f2b65229e2e13de735"
+    },
+    {
+      "path": "vfx/coin_spin/frame_08.svg",
+      "bytes": 284,
+      "sha256": "7fe5833eb7c1d8f47f3128d5b9c5c18d4396f069ba1d979e09d3305e1409a06e"
+    },
+    {
+      "path": "vfx/coin_spin/frame_09.svg",
+      "bytes": 284,
+      "sha256": "4f06921ec8bb8ff692a31bde721309e933d952be63790ffb291f49f5a9c107c7"
+    },
+    {
+      "path": "vfx/coin_spin/frame_10.svg",
+      "bytes": 284,
+      "sha256": "89a848e0115e12953c372062f24d09472de7aec330f163b8e8a8707832d7df39"
+    },
+    {
+      "path": "vfx/coin_spin/frame_11.svg",
+      "bytes": 284,
+      "sha256": "d93cec881942041ab1516f559e1e11cb1d06fddf6df3d7a5aa628074b1cf02e6"
+    },
+    {
+      "path": "vfx/coin_spin.tres",
+      "bytes": 1933,
+      "sha256": "67396eb6c5479309b5a1b692119a776a05abd8fb60767d39b90a3f898c3881d5"
+    },
+    {
+      "path": "vfx/coin_spin.tscn",
+      "bytes": 356,
+      "sha256": "b00c9810c2ca74737d639727569646d238850b4ac7d9c8b5243f573f6f0825b6"
+    },
+    {
+      "path": "vfx/confetti/frame_00.svg",
+      "bytes": 3136,
+      "sha256": "98a80cac0cb49a85be34890e7ccff34790d86e6081be226d1dafdf128037a15c"
+    },
+    {
+      "path": "vfx/confetti/frame_01.svg",
+      "bytes": 3138,
+      "sha256": "d3f3d6c1dfc786df28b00bb44c998c522c3c5a346905c1adec4f5e06200b7c01"
+    },
+    {
+      "path": "vfx/confetti/frame_02.svg",
+      "bytes": 3145,
+      "sha256": "74633f6c981d4980e51d33ece2ddccababec3ec408f7d7a858b9c62cb026b685"
+    },
+    {
+      "path": "vfx/confetti/frame_03.svg",
+      "bytes": 3158,
+      "sha256": "dec501bdc375706736862284272bed02466778e279a397c631a8ab18b4793b8a"
+    },
+    {
+      "path": "vfx/confetti/frame_04.svg",
+      "bytes": 3163,
+      "sha256": "6c9178f2ff688a32d5d91e8fbb5ea0c71dac1d1547ef56e6bac3edcdf13a8d7e"
+    },
+    {
+      "path": "vfx/confetti/frame_05.svg",
+      "bytes": 3166,
+      "sha256": "878981bb8c8278a8dfd0fc1303299e811423b6398f6b5eb196ccf1cc11a5aa1e"
+    },
+    {
+      "path": "vfx/confetti/frame_06.svg",
+      "bytes": 3167,
+      "sha256": "c10ff68cef8e4fe9efc1dcb43cbcc9fdd6231e156424fe9787c6555830055b6d"
+    },
+    {
+      "path": "vfx/confetti/frame_07.svg",
+      "bytes": 3167,
+      "sha256": "e7612b57d582c686816c4b11c4490c7dac9d72a7741af7fad9d86ca8596ae412"
+    },
+    {
+      "path": "vfx/confetti/frame_08.svg",
+      "bytes": 3171,
+      "sha256": "0b6dfdf711ebe30435ea81d5549adc48291953ec7d762fa12d6a3a48d51a6f6b"
+    },
+    {
+      "path": "vfx/confetti/frame_09.svg",
+      "bytes": 3173,
+      "sha256": "cc100db5e71a57de547bd79f0ff098fe567527af02e2c3052b545cd9f98067a4"
+    },
+    {
+      "path": "vfx/confetti/frame_10.svg",
+      "bytes": 3175,
+      "sha256": "ec1f74ce6ddd9e02452543d7703ffc0c32d1d9439c6239423490b8fb0d8e28c2"
+    },
+    {
+      "path": "vfx/confetti/frame_11.svg",
+      "bytes": 3175,
+      "sha256": "1fda16a2042a0c7dcde28c73e3d9610e3061a1ba575392d52bbdb673766da024"
+    },
+    {
+      "path": "vfx/confetti/frame_12.svg",
+      "bytes": 3175,
+      "sha256": "76dfa769310d7b0d17600046dea558df1b9e7b417503a42ba24c3916a326fe5d"
+    },
+    {
+      "path": "vfx/confetti/frame_13.svg",
+      "bytes": 3175,
+      "sha256": "86da889ba515ee953e5615aeb5e5a86cbd6d8fe4ce3fb13fcb58da048274b725"
+    },
+    {
+      "path": "vfx/confetti/frame_14.svg",
+      "bytes": 3175,
+      "sha256": "30e900df76732c19dc8d1052e80c21b8a3add72f001cfee95368ff7551d26c9d"
+    },
+    {
+      "path": "vfx/confetti/frame_15.svg",
+      "bytes": 3175,
+      "sha256": "d5f406c295dbe42c5368893bf237f64f71ba61322309b25c04cffeec2376f67d"
+    },
+    {
+      "path": "vfx/confetti.tres",
+      "bytes": 2518,
+      "sha256": "4021ce83ade301a7ef08758bda2dc2bbea262aa1e653f2f1ace575faf056ab52"
+    },
+    {
+      "path": "vfx/confetti.tscn",
+      "bytes": 355,
+      "sha256": "9bf16d65b91a1e2ee6401edfb2be6e3ac81e3314a11e96ef86a9619458f7c617"
+    },
+    {
+      "path": "vfx/finish_flash/frame_00.svg",
+      "bytes": 784,
+      "sha256": "d02f7c4d1ec27c7df67344815d1ad63ef9d98afc7411cea55a4f7383938b93de"
+    },
+    {
+      "path": "vfx/finish_flash/frame_01.svg",
+      "bytes": 784,
+      "sha256": "f35d56d691127074afd60889cb2f420c2cac28f8c9f2508b729d41e31e6f5821"
+    },
+    {
+      "path": "vfx/finish_flash/frame_02.svg",
+      "bytes": 785,
+      "sha256": "b6b23d8f018bd8fac0aa50ebc85af1e0665f28ff1a3ff844d8736009a0458731"
+    },
+    {
+      "path": "vfx/finish_flash/frame_03.svg",
+      "bytes": 785,
+      "sha256": "153b79e5418b64ef4340406af70aed17250943f7cdd235799aeb2fc56adfbc41"
+    },
+    {
+      "path": "vfx/finish_flash/frame_04.svg",
+      "bytes": 785,
+      "sha256": "b9dd478c88f1f24313c95366a4fd1a09f7a164c5c88482bd324f8b8c3fff86f4"
+    },
+    {
+      "path": "vfx/finish_flash/frame_05.svg",
+      "bytes": 785,
+      "sha256": "ca5835f243aa677d27a0aa3e5d2407a80b0e713786e2bc0f880c63aab2ea8768"
+    },
+    {
+      "path": "vfx/finish_flash/frame_06.svg",
+      "bytes": 785,
+      "sha256": "0fcd82ac31076c5dc646f7021c0bcb77be92901aca2d7092620d343267fc824c"
+    },
+    {
+      "path": "vfx/finish_flash/frame_07.svg",
+      "bytes": 785,
+      "sha256": "8feee78af5ff2edc0b6987b10bb7a165ed0bb0b55236a61155783a18dc32391a"
+    },
+    {
+      "path": "vfx/finish_flash/frame_08.svg",
+      "bytes": 785,
+      "sha256": "7649aecc649aa070c4765bd97c67dfb4ef336228d9ffcd8fb53bcc05c8e5f949"
+    },
+    {
+      "path": "vfx/finish_flash/frame_09.svg",
+      "bytes": 784,
+      "sha256": "e1939474b54a3318c5dbc52d8bf51a8f46f85c0178961bd2823cb36dd9bc9465"
+    },
+    {
+      "path": "vfx/finish_flash.tres",
+      "bytes": 1664,
+      "sha256": "7708788603356b744c3feb89ee5074d2d47bc0d96a2d79c3f3ca06efe469c882"
+    },
+    {
+      "path": "vfx/finish_flash.tscn",
+      "bytes": 362,
+      "sha256": "0ffb87c46cce13aede6a021b1b30d07cea0d4a87bb4f6a21bc9ae467ff9128c9"
+    },
+    {
+      "path": "vfx/player_ring/frame_00.svg",
+      "bytes": 287,
+      "sha256": "70f497b21d083247c9f11dbcc02ee0b1f8000640d12a8135111030b39ec9a169"
+    },
+    {
+      "path": "vfx/player_ring/frame_01.svg",
+      "bytes": 287,
+      "sha256": "ed40cae655bc75618dee4950ffeac0c3e9b44b5eb73a5ed6d7b4bcff95e71739"
+    },
+    {
+      "path": "vfx/player_ring/frame_02.svg",
+      "bytes": 287,
+      "sha256": "137cb1ee74e83e97d0177d70084307d17aadd584320f956e7df39a878655d569"
+    },
+    {
+      "path": "vfx/player_ring/frame_03.svg",
+      "bytes": 287,
+      "sha256": "3b6cab2c6abacc59de3603f6d96ef61d868b902e730eeaea8329cf1a8b717256"
+    },
+    {
+      "path": "vfx/player_ring/frame_04.svg",
+      "bytes": 287,
+      "sha256": "43b17f98b74ebf359e9f06a975170e7127f0b21e94876c7b615f049517b8d76a"
+    },
+    {
+      "path": "vfx/player_ring/frame_05.svg",
+      "bytes": 287,
+      "sha256": "975980883150695423decf870db9408fe6ad7c051ed55a1ebcc03137e7f79053"
+    },
+    {
+      "path": "vfx/player_ring/frame_06.svg",
+      "bytes": 287,
+      "sha256": "3eb2052b29682cfb2f1f632c41e0c7902c37b0331f07c6d14993bc1aaed7e519"
+    },
+    {
+      "path": "vfx/player_ring/frame_07.svg",
+      "bytes": 287,
+      "sha256": "d0e5abff3eee6305a2cf260bafb982a542f3353afbeebb78488019ff349da047"
+    },
+    {
+      "path": "vfx/player_ring/frame_08.svg",
+      "bytes": 287,
+      "sha256": "1b0e171b90e6e3e55befcb2a039480aa2b258ea512acb28eabafeae192af7acd"
+    },
+    {
+      "path": "vfx/player_ring/frame_09.svg",
+      "bytes": 287,
+      "sha256": "172d994f9d50a54cd02ba966644d0c42af1583339694d7fe6bdd1e6a0c9995f8"
+    },
+    {
+      "path": "vfx/player_ring/frame_10.svg",
+      "bytes": 287,
+      "sha256": "e03ee0064484844f94c2a040608a665ac45b4f94acc91890b96e982b785af2dd"
+    },
+    {
+      "path": "vfx/player_ring/frame_11.svg",
+      "bytes": 287,
+      "sha256": "70f497b21d083247c9f11dbcc02ee0b1f8000640d12a8135111030b39ec9a169"
+    },
+    {
+      "path": "vfx/player_ring.tres",
+      "bytes": 1957,
+      "sha256": "56f3ba3bf199882c74c0ab4d7155adea7309077ac98e5915de561b820f932eab"
+    },
+    {
+      "path": "vfx/player_ring.tscn",
+      "bytes": 360,
+      "sha256": "5f7c56fecda7930b133a175a5a3079d30e25d606d8716abd9fa3152e13404ce8"
+    },
+    {
+      "path": "vfx/reward_burst/frame_00.svg",
+      "bytes": 2813,
+      "sha256": "ed64c29a9b66d4f08689ee2a5e316d09c52b54cb1372cb555a352c4e340bc380"
+    },
+    {
+      "path": "vfx/reward_burst/frame_01.svg",
+      "bytes": 2813,
+      "sha256": "d092a6898fba7914d7f726034d0562047bc2a34c722c13761b67c83587ff722d"
+    },
+    {
+      "path": "vfx/reward_burst/frame_02.svg",
+      "bytes": 2813,
+      "sha256": "febf672cd9c26cf3d25bf43ff32cdfc10a362f516cfc956e9306d86fa52d2384"
+    },
+    {
+      "path": "vfx/reward_burst/frame_03.svg",
+      "bytes": 2809,
+      "sha256": "91c52bba0984bc609fb3471269334b1e4206fe57e75b8fc4b0949a084707bd45"
+    },
+    {
+      "path": "vfx/reward_burst/frame_04.svg",
+      "bytes": 2807,
+      "sha256": "2170c145801bfdfc5719e7b016acc7299514ddfdec64a9a55a773824b93ea191"
+    },
+    {
+      "path": "vfx/reward_burst/frame_05.svg",
+      "bytes": 2803,
+      "sha256": "a86d9fe150329be6025170c38f6de90e89d3af451750203ec6c4937de04b070e"
+    },
+    {
+      "path": "vfx/reward_burst/frame_06.svg",
+      "bytes": 2800,
+      "sha256": "3bba7d03c94c695a009fd99fdb1eba995579d07307a568e417d65eaa9595e541"
+    },
+    {
+      "path": "vfx/reward_burst/frame_07.svg",
+      "bytes": 2799,
+      "sha256": "af35a2a92866e2b64b6e67d123e97cdbe4cd1ed44594d64d60e59698e9fdaa11"
+    },
+    {
+      "path": "vfx/reward_burst/frame_08.svg",
+      "bytes": 2798,
+      "sha256": "8305bfc7b412142716cbb36225c39984f1c9e510889c131cea3603bb567ce5e2"
+    },
+    {
+      "path": "vfx/reward_burst/frame_09.svg",
+      "bytes": 2796,
+      "sha256": "11fedcc1b9b7b323fdf6324fd26856da8e550f40b9e4aee42935cde0f3ec9531"
+    },
+    {
+      "path": "vfx/reward_burst/frame_10.svg",
+      "bytes": 2793,
+      "sha256": "f2aa7dd05baf786aed1c29765b7eb877bfb9914ccb66cbbfbb4edb238a5a93c1"
+    },
+    {
+      "path": "vfx/reward_burst/frame_11.svg",
+      "bytes": 2794,
+      "sha256": "8c27c5a0f51f9c39ff02fa444a417da27c2b1a54515bed82301dfa4f35a56992"
+    },
+    {
+      "path": "vfx/reward_burst.tres",
+      "bytes": 1970,
+      "sha256": "a22011faa787d75fb575b707e6844df1c5c36166857ce94a7e4a2ad7becac85a"
+    },
+    {
+      "path": "vfx/reward_burst.tscn",
+      "bytes": 362,
+      "sha256": "05ba327c32adc853b04d506542a267e0b2492538057c2ba409c4d020a51770be"
+    },
+    {
+      "path": "vfx/upgrade/frame_00.svg",
+      "bytes": 1764,
+      "sha256": "fbc78a0047d3c5cca90354b58cb370bdd4fc407135a07b9d11bdaa3d721ac579"
+    },
+    {
+      "path": "vfx/upgrade/frame_01.svg",
+      "bytes": 1853,
+      "sha256": "186b8c691bec1eed7098a3a6211c0ab5c6ffd05e09fb592b213369a867f912fd"
+    },
+    {
+      "path": "vfx/upgrade/frame_02.svg",
+      "bytes": 1844,
+      "sha256": "2824ee7cc9a6fca97c723d6c390c0f078d9147cea8a53dc4339cf5c71512ebc7"
+    },
+    {
+      "path": "vfx/upgrade/frame_03.svg",
+      "bytes": 1860,
+      "sha256": "80bdeb15cf879206c29f1f841bf744931f422d4f3a31c558a61d648b359ef0b8"
+    },
+    {
+      "path": "vfx/upgrade/frame_04.svg",
+      "bytes": 1860,
+      "sha256": "9589d27ea04f2fad0669f5acd2c7dc84dc237369204c7247afd0280f9120914c"
+    },
+    {
+      "path": "vfx/upgrade/frame_05.svg",
+      "bytes": 1849,
+      "sha256": "32b5c6eceb104aa70acf97cda4afab916676d5ad5779287697bb2d93f90ef5fb"
+    },
+    {
+      "path": "vfx/upgrade/frame_06.svg",
+      "bytes": 1846,
+      "sha256": "acf0507937fc3e018e73e4de9cb1ca85c70b34a628e21e3f9ece0e2de5fff17d"
+    },
+    {
+      "path": "vfx/upgrade/frame_07.svg",
+      "bytes": 1830,
+      "sha256": "891afd9adbda52bb2ea3f5438ea8f9d76f5185e5010b806ef928245815d76139"
+    },
+    {
+      "path": "vfx/upgrade/frame_08.svg",
+      "bytes": 1833,
+      "sha256": "62a0d6831585e075009cf068cad5e9d446dfece8d8de8a3ba792f9eb3c562f10"
+    },
+    {
+      "path": "vfx/upgrade/frame_09.svg",
+      "bytes": 1828,
+      "sha256": "ed2d572beeaeb293f5f026c5f3fa31298481c303e98911a79d3d36bdf0f01a28"
+    },
+    {
+      "path": "vfx/upgrade/frame_10.svg",
+      "bytes": 1835,
+      "sha256": "10f500ba699c39c020870211f6e3d9eaa16a7b0823e61a2219c7cf5179af24a6"
+    },
+    {
+      "path": "vfx/upgrade/frame_11.svg",
+      "bytes": 1753,
+      "sha256": "55a073a4c0d9a4f48e5ed8fc5d9006cb4c0e34496fb11f140a02ab251ccfaf41"
+    },
+    {
+      "path": "vfx/upgrade.tres",
+      "bytes": 1910,
+      "sha256": "dc3b25005bb6203b1680afceaf376c4e733feb2165eb54168cf665ae302bb4ae"
+    },
+    {
+      "path": "vfx/upgrade.tscn",
+      "bytes": 353,
+      "sha256": "222a45412dcc5eda1ee9b1fd1d88a61297be4918390ec0830e1a3bbeb5783507"
+    }
+  ]
+}

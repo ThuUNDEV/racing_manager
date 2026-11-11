@@ -1,0 +1,458 @@
+{
+  "name": "Workshop GP Shop",
+  "version": "1.0",
+  "icons": [
+    {
+      "id": "daily_reward",
+      "resource": "icons/daily_reward.tres",
+      "region": [
+        0,
+        0,
+        313,
+        313
+      ],
+      "alpha_bounds": [
+        0,
+        9,
+        313,
+        311
+      ]
+    },
+    {
+      "id": "season_pass",
+      "resource": "icons/season_pass.tres",
+      "region": [
+        313,
+        0,
+        314,
+        313
+      ],
+      "alpha_bounds": [
+        1,
+        0,
+        296,
+        313
+      ]
+    },
+    {
+      "id": "monthly_pass",
+      "resource": "icons/monthly_pass.tres",
+      "region": [
+        627,
+        0,
+        313,
+        313
+      ],
+      "alpha_bounds": [
+        19,
+        32,
+        312,
+        310
+      ]
+    },
+    {
+      "id": "gem",
+      "resource": "icons/gem.tres",
+      "region": [
+        940,
+        0,
+        314,
+        313
+      ],
+      "alpha_bounds": [
+        24,
+        9,
+        298,
+        302
+      ]
+    },
+    {
+      "id": "no_ads",
+      "resource": "icons/no_ads.tres",
+      "region": [
+        0,
+        313,
+        313,
+        314
+      ],
+      "alpha_bounds": [
+        0,
+        3,
+        313,
+        307
+      ]
+    },
+    {
+      "id": "income_boost_small",
+      "resource": "icons/income_boost_small.tres",
+      "region": [
+        313,
+        313,
+        314,
+        314
+      ],
+      "alpha_bounds": [
+        0,
+        0,
+        314,
+        314
+      ]
+    },
+    {
+      "id": "income_boost_large",
+      "resource": "icons/income_boost_large.tres",
+      "region": [
+        627,
+        313,
+        313,
+        314
+      ],
+      "alpha_bounds": [
+        17,
+        15,
+        300,
+        312
+      ]
+    },
+    {
+      "id": "offline_boost",
+      "resource": "icons/offline_boost.tres",
+      "region": [
+        940,
+        313,
+        314,
+        314
+      ],
+      "alpha_bounds": [
+        24,
+        15,
+        300,
+        314
+      ]
+    },
+    {
+      "id": "gear_card",
+      "resource": "icons/gear_card.tres",
+      "region": [
+        0,
+        627,
+        313,
+        313
+      ],
+      "alpha_bounds": [
+        0,
+        0,
+        313,
+        283
+      ]
+    },
+    {
+      "id": "driver_card",
+      "resource": "icons/driver_card.tres",
+      "region": [
+        313,
+        627,
+        314,
+        313
+      ],
+      "alpha_bounds": [
+        0,
+        1,
+        306,
+        313
+      ]
+    },
+    {
+      "id": "gear_crate",
+      "resource": "icons/gear_crate.tres",
+      "region": [
+        627,
+        627,
+        313,
+        313
+      ],
+      "alpha_bounds": [
+        7,
+        7,
+        313,
+        310
+      ]
+    },
+    {
+      "id": "driver_helmet",
+      "resource": "icons/driver_helmet.tres",
+      "region": [
+        940,
+        627,
+        314,
+        313
+      ],
+      "alpha_bounds": [
+        0,
+        0,
+        294,
+        313
+      ]
+    },
+    {
+      "id": "cash_small",
+      "resource": "icons/cash_small.tres",
+      "region": [
+        0,
+        940,
+        313,
+        314
+      ],
+      "alpha_bounds": [
+        0,
+        8,
+        313,
+        294
+      ]
+    },
+    {
+      "id": "cash_medium",
+      "resource": "icons/cash_medium.tres",
+      "region": [
+        313,
+        940,
+        314,
+        314
+      ],
+      "alpha_bounds": [
+        0,
+        0,
+        298,
+        284
+      ]
+    },
+    {
+      "id": "cash_large",
+      "resource": "icons/cash_large.tres",
+      "region": [
+        627,
+        940,
+        313,
+        314
+      ],
+      "alpha_bounds": [
+        9,
+        8,
+        298,
+        276
+      ]
+    },
+    {
+      "id": "coins",
+      "resource": "icons/coins.tres",
+      "region": [
+        940,
+        940,
+        314,
+        314
+      ],
+      "alpha_bounds": [
+        17,
+        0,
+        298,
+        269
+      ]
+    }
+  ],
+  "banners": [
+    "textures/offer_combo.png",
+    "textures/offer_starter.png"
+  ],
+  "styles": [
+    "styles/card.tres",
+    "styles/pass.tres",
+    "styles/button_normal.tres",
+    "styles/button_hover.tres",
+    "styles/button_pressed.tres",
+    "styles/button_disabled.tres",
+    "styles/reward.tres",
+    "styles/currency.tres"
+  ],
+  "files": [
+    {
+      "path": "icons/cash_large.tres",
+      "sha256": "e287784b194fba2927b4529f0f1e5d4380d288215e12955678e9104eb440a004"
+    },
+    {
+      "path": "icons/cash_medium.tres",
+      "sha256": "e89acb856e61d11c437bb3372d186eccb2909e0d84ab99bfe7d4cdfb23552bbd"
+    },
+    {
+      "path": "icons/cash_small.tres",
+      "sha256": "c52ed427620b3f0e43975c19ac4c067e91dd20154fb32956d575e836f4e79fde"
+    },
+    {
+      "path": "icons/coins.tres",
+      "sha256": "d3d233bdfa640705f401ac3ea599bccc197ff992d7475b0c3bfad7f4d6841693"
+    },
+    {
+      "path": "icons/daily_reward.tres",
+      "sha256": "417eb4e5c172d53e6344e5f39d7cbddd50e452e388d604b4fcb7da7d7c80a3e8"
+    },
+    {
+      "path": "icons/driver_card.tres",
+      "sha256": "7b171b145f6943cc566c60c1d13c356b74136182cbfc68429b1ade8dfea637b2"
+    },
+    {
+      "path": "icons/driver_helmet.tres",
+      "sha256": "7a0e0d8282f8388d75e3c646dad59ab4d127cd8f1aba897ff4191fa7eceb8281"
+    },
+    {
+      "path": "icons/gear_card.tres",
+      "sha256": "9253aff74478bbcb02b3c818cc740e585a9dacd08eb045de274119d47ee8430e"
+    },
+    {
+      "path": "icons/gear_crate.tres",
+      "sha256": "44b4380cfb935665a5f54097050a1e97ca3c74485fc5bfe1793761eb4bc26e93"
+    },
+    {
+      "path": "icons/gem.tres",
+      "sha256": "457023d431e3b74588c8680678c4b5b0a46153cd186619bc083d148c3df4c6ed"
+    },
+    {
+      "path": "icons/income_boost_large.tres",
+      "sha256": "640c343618160d0e21ac9b1b4a4eec5f138c28fdf89a0918b6631de647751c8e"
+    },
+    {
+      "path": "icons/income_boost_small.tres",
+      "sha256": "16045a9b68af3b052c2d4fa5efff6d11557e854f8a94ab0123ae4fe2d4769841"
+    },
+    {
+      "path": "icons/monthly_pass.tres",
+      "sha256": "6528d33f9cf80909d93e75c10a5df226c451835e5064f2fbf3d582f5baa5e2fc"
+    },
+    {
+      "path": "icons/no_ads.tres",
+      "sha256": "1a83d1deccc0cebc2ab647f5a0101579576fb2303630d99aab2ec2ac441ff6d7"
+    },
+    {
+      "path": "icons/offline_boost.tres",
+      "sha256": "4af1a7f402ba96b57a652c4ba2e91d48e1c52fdf203e022f73865387b20952c2"
+    },
+    {
+      "path": "icons/season_pass.tres",
+      "sha256": "08216cfa136a0f5a35af09e70c5c30e24d2bc10b026a975c4a2670e1e838627a"
+    },
+    {
+      "path": "preview/asset_sheet.png",
+      "sha256": "b906d30767e9839ad5c9426ad4739f0bd076897750af88e4ace0061998965b16",
+      "size": [
+        1440,
+        1100
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "path": "preview/gallery.gd",
+      "sha256": "729006892c0540324bdeffc4a8c13b88cfa97c31b0a5170d4845a19ea8cf218a"
+    },
+    {
+      "path": "QA.md",
+      "sha256": "a5e6d5faac82b20f0e60580a0c8327bb0825a1f976074e7abd922ee8b06ac50f"
+    },
+    {
+      "path": "README.md",
+      "sha256": "a2cf20eb17d7f7ec8a4e1b94a3e4bd8e7a75da482975876ed912a6865f927bad"
+    },
+    {
+      "path": "styles/button_disabled.tres",
+      "sha256": "ad243f7aaa822b8ab18a87f8b5b10924ed215d08bba71ce032e7db9278f181f4"
+    },
+    {
+      "path": "styles/button_hover.tres",
+      "sha256": "5d811e95b5732cbdbad1557d3ae440f5506be44a3e0004225608eea794c5339c"
+    },
+    {
+      "path": "styles/button_normal.tres",
+      "sha256": "de581ead525853d8ca093e7466c39302668baacc50aaf5a8f1d628df54841f4c"
+    },
+    {
+      "path": "styles/button_pressed.tres",
+      "sha256": "f5c5e6b37c7bb1a84daf1072d532dff517d9d1d7eb3f41c3cf5f4bc420862b86"
+    },
+    {
+      "path": "styles/card.tres",
+      "sha256": "c8d35fbbe6f33ee836ae07dba71ce7bdba8dba0b8c899c01a8588faacc6dec50"
+    },
+    {
+      "path": "styles/currency.tres",
+      "sha256": "e48eeda7f52445f371d3589dd6edf1f2e2913181ad1707ce5d42ad534fda1c72"
+    },
+    {
+      "path": "styles/pass.tres",
+      "sha256": "351bc7b150de99c7ea06a127e398362e4b58d2ae405b074f09ed94fccc861d56"
+    },
+    {
+      "path": "styles/reward.tres",
+      "sha256": "01a04509e6980307f878d46a379a132e8ee24978cab97f43fa8cca987942268a"
+    },
+    {
+      "path": "textures/offer_combo.png",
+      "sha256": "54ab512046b86fd7ff6ccce29bc8b76304894f58208846bf6f8a13b72fad08f6",
+      "size": [
+        2172,
+        724
+      ],
+      "mode": "RGB"
+    },
+    {
+      "path": "textures/offer_starter.png",
+      "sha256": "6eb16882ed672807c2e21ad93915d5ac121c23b28aa94c3bb340abac35123989",
+      "size": [
+        2172,
+        724
+      ],
+      "mode": "RGB"
+    },
+    {
+      "path": "textures/shop_icons.png",
+      "sha256": "c6a698065b692a3f11a5eccb5085c00746b774309af2e330405ea85f943d7f45",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "path": "tools/package_assets.py",
+      "sha256": "303c22ed34458fb5d7fa0a04d16a5141b9840002c5a7025c9c2c1cbe55283ebd"
+    },
+    {
+      "path": "ui/button_disabled.svg",
+      "sha256": "39072c64f9bdba4a862b7425a5fb872d1dfc24858e1a3e4ce022ac8d4245fb47"
+    },
+    {
+      "path": "ui/button_hover.svg",
+      "sha256": "5d65a4f3bdd5304a2959637700f70e5c774d204b887e747bcf3513f880afd2e1"
+    },
+    {
+      "path": "ui/button_normal.svg",
+      "sha256": "923fc9dd1c424bc71065ed30551faf35f0327236a0b0ac94a7bd501d3210c980"
+    },
+    {
+      "path": "ui/button_pressed.svg",
+      "sha256": "f1c00fbfbf7012bec51bb5bbbd474078b06976a2f1f9719da54014d5bf16d231"
+    },
+    {
+      "path": "ui/card.svg",
+      "sha256": "bcf5fbe10dd6d48dc94df70cb2041e6d4a768a7d73118ef0b13bd53465df315d"
+    },
+    {
+      "path": "ui/currency.svg",
+      "sha256": "8b4c7cd61ba38dc486b6e4c184b749b571171a97a3786dc5fdcc208ce6258cc9"
+    },
+    {
+      "path": "ui/pass.svg",
+      "sha256": "a834d871e565b30aed0bd656266da35643e7cfe931acde04853f79992e99104a"
+    },
+    {
+      "path": "ui/reward.svg",
+      "sha256": "f01429ec335d9497bc2833febf9ee767a093f4fb27a62f39db759440b6d83da9"
+    }
+  ]
+}

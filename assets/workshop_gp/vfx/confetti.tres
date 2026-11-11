@@ -1,0 +1,36 @@
+[gd_resource type="SpriteFrames" load_steps=17 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/workshop_gp/vfx/confetti/frame_00.svg" id="1"]
+[ext_resource type="Texture2D" path="res://assets/workshop_gp/vfx/confetti/frame_01.svg" id="2"]
+[ext_resource type="Texture2D" path="res://assets/workshop_gp/vfx/confetti/frame_02.svg" id="3"]
+[ext_resource type="Texture2D" path="res://assets/workshop_gp/vfx/confetti/frame_03.svg" id="4"]
+[ext_resource type="Texture2D" path="res://assets/workshop_gp/vfx/confetti/frame_04.svg" id="5"]
+[ext_resource type="Texture2D" path="res://assets/workshop_gp/vfx/confetti/frame_05.svg" id="6"]
+[ext_resource type="Texture2D" path="res://assets/workshop_gp/vfx/confetti/frame_06.svg" id="7"]
+[ext_resource type="Texture2D" path="res://assets/workshop_gp/vfx/confetti/frame_07.svg" id="8"]
+[ext_resource type="Texture2D" path="res://assets/workshop_gp/vfx/confetti/frame_08.svg" id="9"]
+[ext_resource type="Texture2D" path="res://assets/workshop_gp/vfx/confetti/frame_09.svg" id="10"]
+[ext_resource type="Texture2D" path="res://assets/workshop_gp/vfx/confetti/frame_10.svg" id="11"]
+[ext_resource type="Texture2D" path="res://assets/workshop_gp/vfx/confetti/frame_11.svg" id="12"]
+[ext_resource type="Texture2D" path="res://assets/workshop_gp/vfx/confetti/frame_12.svg" id="13"]
+[ext_resource type="Texture2D" path="res://assets/workshop_gp/vfx/confetti/frame_13.svg" id="14"]
+[ext_resource type="Texture2D" path="res://assets/workshop_gp/vfx/confetti/frame_14.svg" id="15"]
+[ext_resource type="Texture2D" path="res://assets/workshop_gp/vfx/confetti/frame_15.svg" id="16"]
+
+[resource]
+animations = [{"frames": [{"duration": 1.0, "texture": ExtResource("1")},
+{"duration": 1.0, "texture": ExtResource("2")},
+{"duration": 1.0, "texture": ExtResource("3")},
+{"duration": 1.0, "texture": ExtResource("4")},
+{"duration": 1.0, "texture": ExtResource("5")},
+{"duration": 1.0, "texture": ExtResource("6")},
+{"duration": 1.0, "texture": ExtResource("7")},
+{"duration": 1.0, "texture": ExtResource("8")},
+{"duration": 1.0, "texture": ExtResource("9")},
+{"duration": 1.0, "texture": ExtResource("10")},
+{"duration": 1.0, "texture": ExtResource("11")},
+{"duration": 1.0, "texture": ExtResource("12")},
+{"duration": 1.0, "texture": ExtResource("13")},
+{"duration": 1.0, "texture": ExtResource("14")},
+{"duration": 1.0, "texture": ExtResource("15")},
+{"duration": 1.0, "texture": ExtResource("16")}], "loop": false, "name": &"default", "speed": 24.0}]

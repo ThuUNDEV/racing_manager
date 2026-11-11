@@ -1,0 +1,245 @@
+{
+  "schema_version": 1,
+  "cars": [
+    {
+      "id": "car_pico_tia_chop",
+      "class": 1,
+      "class_name": "Pico",
+      "variant": "tia_chop",
+      "name": "Pico Tia chớp",
+      "base": {
+        "S": 46,
+        "H": 38,
+        "B": 38,
+        "A": 38
+      },
+      "price": "0",
+      "starter": true,
+      "entry_tier": 0
+    },
+    {
+      "id": "car_pico_bam_duong",
+      "class": 1,
+      "class_name": "Pico",
+      "variant": "bam_duong",
+      "name": "Pico Bám đường",
+      "base": {
+        "S": 38,
+        "H": 46,
+        "B": 38,
+        "A": 38
+      },
+      "price": "2500",
+      "starter": false,
+      "entry_tier": 0
+    },
+    {
+      "id": "car_pico_ben_bi",
+      "class": 1,
+      "class_name": "Pico",
+      "variant": "ben_bi",
+      "name": "Pico Bền bỉ",
+      "base": {
+        "S": 37,
+        "H": 37,
+        "B": 43,
+        "A": 43
+      },
+      "price": "5000",
+      "starter": false,
+      "entry_tier": 0
+    },
+    {
+      "id": "car_nova_tia_chop",
+      "class": 2,
+      "class_name": "Nova",
+      "variant": "tia_chop",
+      "name": "Nova Tia chớp",
+      "base": {
+        "S": 62,
+        "H": 54,
+        "B": 54,
+        "A": 54
+      },
+      "price": "2335200000",
+      "starter": false,
+      "entry_tier": 2
+    },
+    {
+      "id": "car_nova_bam_duong",
+      "class": 2,
+      "class_name": "Nova",
+      "variant": "bam_duong",
+      "name": "Nova Bám đường",
+      "base": {
+        "S": 54,
+        "H": 62,
+        "B": 54,
+        "A": 54
+      },
+      "price": "3502800000",
+      "starter": false,
+      "entry_tier": 2
+    },
+    {
+      "id": "car_nova_ben_bi",
+      "class": 2,
+      "class_name": "Nova",
+      "variant": "ben_bi",
+      "name": "Nova Bền bỉ",
+      "base": {
+        "S": 53,
+        "H": 53,
+        "B": 59,
+        "A": 59
+      },
+      "price": "4670400000",
+      "starter": false,
+      "entry_tier": 2
+    },
+    {
+      "id": "car_apex_tia_chop",
+      "class": 3,
+      "class_name": "Apex",
+      "variant": "tia_chop",
+      "name": "Apex Tia chớp",
+      "base": {
+        "S": 80,
+        "H": 72,
+        "B": 72,
+        "A": 72
+      },
+      "price": "4670400000000",
+      "starter": false,
+      "entry_tier": 3
+    },
+    {
+      "id": "car_apex_bam_duong",
+      "class": 3,
+      "class_name": "Apex",
+      "variant": "bam_duong",
+      "name": "Apex Bám đường",
+      "base": {
+        "S": 72,
+        "H": 80,
+        "B": 72,
+        "A": 72
+      },
+      "price": "7005600000000",
+      "starter": false,
+      "entry_tier": 3
+    },
+    {
+      "id": "car_apex_ben_bi",
+      "class": 3,
+      "class_name": "Apex",
+      "variant": "ben_bi",
+      "name": "Apex Bền bỉ",
+      "base": {
+        "S": 71,
+        "H": 71,
+        "B": 77,
+        "A": 77
+      },
+      "price": "9340800000000",
+      "starter": false,
+      "entry_tier": 3
+    },
+    {
+      "id": "car_titan_tia_chop",
+      "class": 4,
+      "class_name": "Titan",
+      "variant": "tia_chop",
+      "name": "Titan Tia chớp",
+      "base": {
+        "S": 100,
+        "H": 92,
+        "B": 92,
+        "A": 92
+      },
+      "price": "9340800000000000",
+      "starter": false,
+      "entry_tier": 4
+    },
+    {
+      "id": "car_titan_bam_duong",
+      "class": 4,
+      "class_name": "Titan",
+      "variant": "bam_duong",
+      "name": "Titan Bám đường",
+      "base": {
+        "S": 92,
+        "H": 100,
+        "B": 92,
+        "A": 92
+      },
+      "price": "14011200000000000",
+      "starter": false,
+      "entry_tier": 4
+    },
+    {
+      "id": "car_titan_ben_bi",
+      "class": 4,
+      "class_name": "Titan",
+      "variant": "ben_bi",
+      "name": "Titan Bền bỉ",
+      "base": {
+        "S": 91,
+        "H": 91,
+        "B": 97,
+        "A": 97
+      },
+      "price": "18681600000000000",
+      "starter": false,
+      "entry_tier": 4
+    },
+    {
+      "id": "car_zenith_tia_chop",
+      "class": 5,
+      "class_name": "Zenith",
+      "variant": "tia_chop",
+      "name": "Zenith Tia chớp",
+      "base": {
+        "S": 122,
+        "H": 114,
+        "B": 114,
+        "A": 114
+      },
+      "price": "18681600000000000000",
+      "starter": false,
+      "entry_tier": 5
+    },
+    {
+      "id": "car_zenith_bam_duong",
+      "class": 5,
+      "class_name": "Zenith",
+      "variant": "bam_duong",
+      "name": "Zenith Bám đường",
+      "base": {
+        "S": 114,
+        "H": 122,
+        "B": 114,
+        "A": 114
+      },
+      "price": "28022400000000000000",
+      "starter": false,
+      "entry_tier": 5
+    },
+    {
+      "id": "car_zenith_ben_bi",
+      "class": 5,
+      "class_name": "Zenith",
+      "variant": "ben_bi",
+      "name": "Zenith Bền bỉ",
+      "base": {
+        "S": 113,
+        "H": 113,
+        "B": 119,
+        "A": 119
+      },
+      "price": "37363200000000000000",
+      "starter": false,
+      "entry_tier": 5
+    }
+  ]
+}

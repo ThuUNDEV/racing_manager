@@ -1,0 +1,78 @@
+﻿id,name,data_id,priority,screens,export_px,fallback,brief,status
+A01,Động cơ,engine,P0,L01;L06,512x512,HD energy/gear/crane/research (tạm),Icon đúng vật thể; transparent; đọc ở 48px,Đề xuất; chưa sản xuất
+A02,Lốp,tyre,P0,L01;L06,512x512,HD energy/gear/crane/research (tạm),Icon đúng vật thể; transparent; đọc ở 48px,Đề xuất; chưa sản xuất
+A03,Khung gầm,chassis,P0,L01;L06,512x512,HD energy/gear/crane/research (tạm),Icon đúng vật thể; transparent; đọc ở 48px,Đề xuất; chưa sản xuất
+A04,Hộp số,gearbox,P0,L01;L06,512x512,HD energy/gear/crane/research (tạm),Icon đúng vật thể; transparent; đọc ở 48px,Đề xuất; chưa sản xuất
+A05,Tiếp thị vé,ticket,P1,L02;L08,768x512,HD cash/crown/garage/seats,Vignette 3/4; không chữ; đọc ở 64px,Đề xuất; chưa sản xuất
+A06,Ăn mừng chiến thắng,celebration,P1,L02;L08,768x512,HD cash/crown/garage/seats,Vignette 3/4; không chữ; đọc ở 64px,Đề xuất; chưa sản xuất
+A07,Bãi đỗ,parking,P1,L02;L08,768x512,HD cash/crown/garage/seats,Vignette 3/4; không chữ; đọc ở 64px,Đề xuất; chưa sản xuất
+A08,Khán đài,grandstands,P1,L02;L08,768x512,HD cash/crown/garage/seats,Vignette 3/4; không chữ; đọc ở 64px,Đề xuất; chưa sản xuất
+A09,Balaclava,gear_balaclava,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A10,Racing Gloves,gear_racing_gloves,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A11,Pit Cap,gear_pit_cap,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A12,Neck Brace,gear_neck_brace,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A13,Knee Pads,gear_knee_pads,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A14,Driver Boots,gear_driver_boots,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A15,Visor Strip,gear_visor_strip,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A16,Team Scarf,gear_team_scarf,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A17,Lucky Charm,gear_lucky_charm,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A18,Stopwatch,gear_stopwatch,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A19,Cooling Vest,gear_cooling_vest,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A20,Grip Tape,gear_grip_tape,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A21,Carbon Helmet,gear_carbon_helmet,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A22,Fireproof Suit,gear_fireproof_suit,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A23,Aero Gloves,gear_aero_gloves,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A24,Reflex Goggles,gear_reflex_goggles,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A25,Hydration Pack,gear_hydration_pack,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A26,Radio Headset,gear_radio_headset,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A27,Pro Boots,gear_pro_boots,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A28,Gel Seat,gear_gel_seat,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A29,Titanium Visor,gear_titanium_visor,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A30,Telemetry Watch,gear_telemetry_watch,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A31,Focus Band,gear_focus_band,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A32,Pit Wall Tablet,gear_pit_wall_tablet,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A33,Golden Helmet,gear_golden_helmet,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A34,Phoenix Suit,gear_phoenix_suit,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A35,Champion Gloves,gear_champion_gloves,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A36,Comet Boots,gear_comet_boots,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A37,Victory Laurel,gear_victory_laurel,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A38,Master Visor,gear_master_visor,P0,L03;L11,512x512,Tên món + placeholder trung tính,Một vật thể riêng; không rarity/level bake; silhouette sinh từ alpha,Đề xuất; chưa sản xuất
+A39,Gói gear Standard,standard_gear_pack,P0,L03;L09;L11,512x512,shop/icons/gear_crate.tres,Phân biệt bằng hình và nhãn UI; không chỉ màu,Đề xuất; chưa sản xuất
+A40,Gói gear Elite,elite_gear_pack,P0,L03;L09;L11,512x512,shop/icons/gear_crate.tres,Phân biệt bằng hình và nhãn UI; không chỉ màu,Đề xuất; chưa sản xuất
+A41,Coupon Standard,standard_coupon,P0,L03;L09;L11,512x512,shop/icons/gear_crate.tres,Phân biệt bằng hình và nhãn UI; không chỉ màu,Đề xuất; chưa sản xuất
+A42,Coupon Elite,elite_coupon,P0,L03;L09;L11,512x512,shop/icons/gear_crate.tres,Phân biệt bằng hình và nhãn UI; không chỉ màu,Đề xuất; chưa sản xuất
+A43,Kiếm,attack,P0,L03,256x256,Nhãn Kiếm/Khiên,Đọc ở 20–24px; không thêm công thức bonus,Đề xuất; chưa sản xuất
+A44,Khiên,defense,P0,L03,256x256,Nhãn Kiếm/Khiên,Đọc ở 20–24px; không thêm công thức bonus,Đề xuất; chưa sản xuất
+A45,Portrait Dũng,driver_dung,P0,L04;L11,512x512,Chữ đầu tên trong UI,Chân dung riêng; avatar crop mặt; khác silhouette,Đề xuất; chưa sản xuất
+A46,Portrait Hà,driver_ha,P0,L04;L11,512x512,Chữ đầu tên trong UI,Chân dung riêng; avatar crop mặt; khác silhouette,Đề xuất; chưa sản xuất
+A47,Portrait Khôi,driver_khoi,P0,L04;L11,512x512,Chữ đầu tên trong UI,Chân dung riêng; avatar crop mặt; khác silhouette,Đề xuất; chưa sản xuất
+A48,Portrait Lâm,driver_lam,P0,L04;L11,512x512,Chữ đầu tên trong UI,Chân dung riêng; avatar crop mặt; khác silhouette,Đề xuất; chưa sản xuất
+A49,Portrait My,driver_my,P0,L04;L11,512x512,Chữ đầu tên trong UI,Chân dung riêng; avatar crop mặt; khác silhouette,Đề xuất; chưa sản xuất
+A50,Portrait Nhân,driver_nhan,P0,L04;L11,512x512,Chữ đầu tên trong UI,Chân dung riêng; avatar crop mặt; khác silhouette,Đề xuất; chưa sản xuất
+A51,Portrait Phương,driver_phuong,P0,L04;L11,512x512,Chữ đầu tên trong UI,Chân dung riêng; avatar crop mặt; khác silhouette,Đề xuất; chưa sản xuất
+A52,Portrait Quang,driver_quang,P0,L04;L11,512x512,Chữ đầu tên trong UI,Chân dung riêng; avatar crop mặt; khác silhouette,Đề xuất; chưa sản xuất
+A53,Portrait Sơn,driver_son,P0,L04;L11,512x512,Chữ đầu tên trong UI,Chân dung riêng; avatar crop mặt; khác silhouette,Đề xuất; chưa sản xuất
+A54,Đồng bộ portrait An,driver_an,P2,L04;L11,512x512,workshop_gp/portraits/driver_an.tres,Đồng bộ nét/ánh sáng với HD; giữ nhận diện,Đề xuất; chưa sản xuất
+A55,Đồng bộ portrait Bình,driver_binh,P2,L04;L11,512x512,workshop_gp/portraits/driver_binh.tres,Đồng bộ nét/ánh sáng với HD; giữ nhận diện,Đề xuất; chưa sản xuất
+A56,Đồng bộ portrait Chi,driver_chi,P2,L04;L11,512x512,workshop_gp/portraits/driver_chi.tres,Đồng bộ nét/ánh sáng với HD; giữ nhận diện,Đề xuất; chưa sản xuất
+A57,Badge phong cách inside,inside,P2,L04,256x256,Tên phong cách bằng chữ,Đọc ở 24px; không thay 7 chỉ số,Đề xuất; chưa sản xuất
+A58,Badge phong cách sweeper,sweeper,P2,L04,256x256,Tên phong cách bằng chữ,Đọc ở 24px; không thay 7 chỉ số,Đề xuất; chưa sản xuất
+A59,Badge phong cách counter,counter,P2,L04,256x256,Tên phong cách bằng chữ,Đọc ở 24px; không thay 7 chỉ số,Đề xuất; chưa sản xuất
+A60,Badge phong cách defender,defender,P2,L04,256x256,Tên phong cách bằng chữ,Đọc ở 24px; không thay 7 chỉ số,Đề xuất; chưa sản xuất
+A61,Thân xe Pico,class_1,P1,L01;L05;L06;L07,1024x640 + 256x256,HD icons/car_red.png; workshop_gp/cars/*.tres,3/4 neutral + top-down; mask sơn/decal; 3 biến thể mỗi hạng,Đề xuất; chưa sản xuất
+A62,Thân xe Nova,class_2,P1,L01;L05;L06;L07,1024x640 + 256x256,HD icons/car_red.png; workshop_gp/cars/*.tres,3/4 neutral + top-down; mask sơn/decal; 3 biến thể mỗi hạng,Đề xuất; chưa sản xuất
+A63,Thân xe Apex,class_3,P1,L01;L05;L06;L07,1024x640 + 256x256,HD icons/car_red.png; workshop_gp/cars/*.tres,3/4 neutral + top-down; mask sơn/decal; 3 biến thể mỗi hạng,Đề xuất; chưa sản xuất
+A64,Thân xe Titan,class_4,P1,L01;L05;L06;L07,1024x640 + 256x256,HD icons/car_red.png; workshop_gp/cars/*.tres,3/4 neutral + top-down; mask sơn/decal; 3 biến thể mỗi hạng,Đề xuất; chưa sản xuất
+A65,Thân xe Zenith,class_5,P1,L01;L05;L06;L07,1024x640 + 256x256,HD icons/car_red.png; workshop_gp/cars/*.tres,3/4 neutral + top-down; mask sơn/decal; 3 biến thể mỗi hạng,Đề xuất; chưa sản xuất
+A66,Sàn showroom,showroom,P1,L05;L06;L07,1024x640,Gradient UI,Không xe/không chữ; không gắn bóng xe,Đề xuất; chưa sản xuất
+A67,Decal Sọc đôi,double_stripe,P1,L07;L01,512x512 + bản đua giản lược,Họa tiết vẽ bằng UI hiện tại,Mask alpha; anchor theo 5 thân; không bonus,Đề xuất; chưa sản xuất
+A68,Decal Tia chớp,lightning,P1,L07;L01,512x512 + bản đua giản lược,Họa tiết vẽ bằng UI hiện tại,Mask alpha; anchor theo 5 thân; không bonus,Đề xuất; chưa sản xuất
+A69,Decal Ô bàn cờ,checker,P1,L07;L01,512x512 + bản đua giản lược,Họa tiết vẽ bằng UI hiện tại,Mask alpha; anchor theo 5 thân; không bonus,Đề xuất; chưa sản xuất
+A70,Bóng xe dùng chung,car_shadow,P1,L05;L06;L07,512x256,Bóng UI,Alpha mềm; tách khỏi xe và sàn,Đề xuất; chưa sản xuất
+A71,Cơ sở bậc 1,facility_tier_1,P2,L08,768x480,Huy hiệu + tên bậc từ dữ liệu,Vignette tăng quy mô; không ám chỉ map mới,Đề xuất; chưa sản xuất
+A72,Cơ sở bậc 2,facility_tier_2,P2,L08,768x480,Huy hiệu + tên bậc từ dữ liệu,Vignette tăng quy mô; không ám chỉ map mới,Đề xuất; chưa sản xuất
+A73,Cơ sở bậc 3,facility_tier_3,P2,L08,768x480,Huy hiệu + tên bậc từ dữ liệu,Vignette tăng quy mô; không ám chỉ map mới,Đề xuất; chưa sản xuất
+A74,Cơ sở bậc 4,facility_tier_4,P2,L08,768x480,Huy hiệu + tên bậc từ dữ liệu,Vignette tăng quy mô; không ám chỉ map mới,Đề xuất; chưa sản xuất
+A75,Cơ sở bậc 5,facility_tier_5,P2,L08,768x480,Huy hiệu + tên bậc từ dữ liệu,Vignette tăng quy mô; không ám chỉ map mới,Đề xuất; chưa sản xuất
+A76,Gói tay đua standard,standard_driver_pack,P2,L04;L09;L11,512x512,shop/icons/driver_helmet.tres,Đồng bộ 2 gear pack; nhận diện hình riêng,Đề xuất; chưa sản xuất
+A77,Gói tay đua elite,elite_driver_pack,P2,L04;L09;L11,512x512,shop/icons/driver_helmet.tres,Đồng bộ 2 gear pack; nhận diện hình riêng,Đề xuất; chưa sản xuất

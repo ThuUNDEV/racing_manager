@@ -1,0 +1,647 @@
+{
+  "status": "design_model_not_runtime_or_player_validation",
+  "precision": "Python Decimal 40 significant digits; not BigNumber conformance",
+  "assumptions": "continuous online, fixed position input, instantaneous purchases; no promotion probability simulated",
+  "scenarios": {
+    "p2_roi_63s": [
+      {
+        "tier": 0,
+        "minutes": 10.3,
+        "cumulative_minutes": 10.3,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          12,
+          12,
+          12,
+          12
+        ],
+        "part_levels": [
+          8,
+          8,
+          8,
+          8
+        ],
+        "exit_rate_per_second": "1946.00",
+        "gross_earned": "935005.39375",
+        "financial_goal_reached": true
+      },
+      {
+        "tier": 1,
+        "minutes": 34.02,
+        "cumulative_minutes": 44.32,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          12,
+          12,
+          12,
+          12
+        ],
+        "part_levels": [
+          10,
+          10,
+          10,
+          10
+        ],
+        "exit_rate_per_second": "1946000.00",
+        "gross_earned": "4166270393.75000",
+        "financial_goal_reached": true
+      },
+      {
+        "tier": 2,
+        "minutes": 68.25,
+        "cumulative_minutes": 112.57,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          12,
+          12,
+          12,
+          12
+        ],
+        "part_levels": [
+          10,
+          10,
+          10,
+          10
+        ],
+        "exit_rate_per_second": "1946000000.00",
+        "gross_earned": "8544814118750.00000",
+        "financial_goal_reached": true
+      },
+      {
+        "tier": 3,
+        "minutes": 135.43,
+        "cumulative_minutes": 248.0,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          12,
+          12,
+          12,
+          12
+        ],
+        "part_levels": [
+          10,
+          10,
+          10,
+          10
+        ],
+        "exit_rate_per_second": "1946000000000.00",
+        "gross_earned": "17002045181250000.00000",
+        "financial_goal_reached": true
+      },
+      {
+        "tier": 4,
+        "minutes": 268.8,
+        "cumulative_minutes": 516.8,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          12,
+          12,
+          12,
+          12
+        ],
+        "part_levels": [
+          10,
+          10,
+          10,
+          10
+        ],
+        "exit_rate_per_second": "1946000000000000.00",
+        "gross_earned": "34031247706250000000.00000",
+        "financial_goal_reached": true
+      },
+      {
+        "tier": 5,
+        "minutes": 972.5,
+        "cumulative_minutes": 1489.3,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          20,
+          20,
+          20,
+          20
+        ],
+        "part_levels": [
+          20,
+          20,
+          20,
+          20
+        ],
+        "exit_rate_per_second": "5038000000000000000.00",
+        "gross_earned": "267481961662500000000000.00000",
+        "financial_goal_reached": true
+      }
+    ],
+    "p8_roi_63s": [
+      {
+        "tier": 0,
+        "minutes": 10.5,
+        "cumulative_minutes": 10.5,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          12,
+          12,
+          12,
+          12
+        ],
+        "part_levels": [
+          8,
+          8,
+          8,
+          8
+        ],
+        "exit_rate_per_second": "1946.00",
+        "gross_earned": "935275.15000",
+        "financial_goal_reached": true
+      },
+      {
+        "tier": 1,
+        "minutes": 37.0,
+        "cumulative_minutes": 47.5,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          12,
+          12,
+          12,
+          12
+        ],
+        "part_levels": [
+          10,
+          10,
+          10,
+          10
+        ],
+        "exit_rate_per_second": "1946000.00",
+        "gross_earned": "4165497600.00000",
+        "financial_goal_reached": true
+      },
+      {
+        "tier": 2,
+        "minutes": 74.9,
+        "cumulative_minutes": 122.4,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          12,
+          12,
+          12,
+          12
+        ],
+        "part_levels": [
+          10,
+          10,
+          10,
+          10
+        ],
+        "exit_rate_per_second": "1946000000.00",
+        "gross_earned": "8502742150000.00000",
+        "financial_goal_reached": true
+      },
+      {
+        "tier": 3,
+        "minutes": 148.63,
+        "cumulative_minutes": 271.03,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          12,
+          12,
+          12,
+          12
+        ],
+        "part_levels": [
+          10,
+          10,
+          10,
+          10
+        ],
+        "exit_rate_per_second": "1946000000000.00",
+        "gross_earned": "17003090750000000.00000",
+        "financial_goal_reached": true
+      },
+      {
+        "tier": 4,
+        "minutes": 296.18,
+        "cumulative_minutes": 567.22,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          12,
+          12,
+          12,
+          12
+        ],
+        "part_levels": [
+          10,
+          10,
+          10,
+          10
+        ],
+        "exit_rate_per_second": "1946000000000000.00",
+        "gross_earned": "34003306600000000000.00000",
+        "financial_goal_reached": true
+      },
+      {
+        "tier": 5,
+        "minutes": 1073.47,
+        "cumulative_minutes": 1640.68,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          20,
+          20,
+          20,
+          20
+        ],
+        "part_levels": [
+          20,
+          20,
+          20,
+          20
+        ],
+        "exit_rate_per_second": "5038000000000000000.00",
+        "gross_earned": "267485491150000000000000.00000",
+        "financial_goal_reached": true
+      }
+    ],
+    "p2_cheapest_63s": [
+      {
+        "tier": 0,
+        "minutes": 15.77,
+        "cumulative_minutes": 15.77,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          12,
+          12,
+          12,
+          12
+        ],
+        "part_levels": [
+          8,
+          8,
+          8,
+          8
+        ],
+        "exit_rate_per_second": "1946.00",
+        "gross_earned": "935516.82500",
+        "financial_goal_reached": true
+      },
+      {
+        "tier": 1,
+        "minutes": 36.02,
+        "cumulative_minutes": 51.78,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          12,
+          12,
+          12,
+          12
+        ],
+        "part_levels": [
+          10,
+          10,
+          10,
+          10
+        ],
+        "exit_rate_per_second": "1946000.00",
+        "gross_earned": "4165555825.00000",
+        "financial_goal_reached": true
+      },
+      {
+        "tier": 2,
+        "minutes": 93.38,
+        "cumulative_minutes": 145.17,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          12,
+          12,
+          12,
+          12
+        ],
+        "part_levels": [
+          10,
+          10,
+          10,
+          10
+        ],
+        "exit_rate_per_second": "1946000000.00",
+        "gross_earned": "8502304493750.00000",
+        "financial_goal_reached": true
+      },
+      {
+        "tier": 3,
+        "minutes": 184.12,
+        "cumulative_minutes": 329.28,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          12,
+          12,
+          12,
+          12
+        ],
+        "part_levels": [
+          10,
+          10,
+          10,
+          10
+        ],
+        "exit_rate_per_second": "1946000000000.00",
+        "gross_earned": "17003024712500000.00000",
+        "financial_goal_reached": true
+      },
+      {
+        "tier": 4,
+        "minutes": 366.57,
+        "cumulative_minutes": 695.85,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          12,
+          12,
+          12,
+          12
+        ],
+        "part_levels": [
+          10,
+          10,
+          10,
+          10
+        ],
+        "exit_rate_per_second": "1946000000000000.00",
+        "gross_earned": "34003244143750000000.00000",
+        "financial_goal_reached": true
+      },
+      {
+        "tier": 5,
+        "minutes": 1389.72,
+        "cumulative_minutes": 2085.57,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          20,
+          20,
+          20,
+          20
+        ],
+        "part_levels": [
+          20,
+          20,
+          20,
+          20
+        ],
+        "exit_rate_per_second": "5038000000000000000.00",
+        "gross_earned": "267481331887500000000000.00000",
+        "financial_goal_reached": true
+      }
+    ],
+    "p2_roi_33s": [
+      {
+        "tier": 0,
+        "minutes": 9.7,
+        "cumulative_minutes": 9.7,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          12,
+          12,
+          12,
+          12
+        ],
+        "part_levels": [
+          8,
+          8,
+          8,
+          8
+        ],
+        "exit_rate_per_second": "1946.00",
+        "gross_earned": "935382.09375",
+        "financial_goal_reached": true
+      },
+      {
+        "tier": 1,
+        "minutes": 33.53,
+        "cumulative_minutes": 43.23,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          12,
+          12,
+          12,
+          12
+        ],
+        "part_levels": [
+          10,
+          10,
+          10,
+          10
+        ],
+        "exit_rate_per_second": "1946000.00",
+        "gross_earned": "4165004431.25000",
+        "financial_goal_reached": true
+      },
+      {
+        "tier": 2,
+        "minutes": 67.67,
+        "cumulative_minutes": 110.9,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          12,
+          12,
+          12,
+          12
+        ],
+        "part_levels": [
+          10,
+          10,
+          10,
+          10
+        ],
+        "exit_rate_per_second": "1946000000.00",
+        "gross_earned": "8502513818750.00000",
+        "financial_goal_reached": true
+      },
+      {
+        "tier": 3,
+        "minutes": 134.52,
+        "cumulative_minutes": 245.42,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          12,
+          12,
+          12,
+          12
+        ],
+        "part_levels": [
+          10,
+          10,
+          10,
+          10
+        ],
+        "exit_rate_per_second": "1946000000000.00",
+        "gross_earned": "17001853762500000.00000",
+        "financial_goal_reached": true
+      },
+      {
+        "tier": 4,
+        "minutes": 267.88,
+        "cumulative_minutes": 513.3,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          12,
+          12,
+          12,
+          12
+        ],
+        "part_levels": [
+          10,
+          10,
+          10,
+          10
+        ],
+        "exit_rate_per_second": "1946000000000000.00",
+        "gross_earned": "34004586662500000000.00000",
+        "financial_goal_reached": true
+      },
+      {
+        "tier": 5,
+        "minutes": 971.43,
+        "cumulative_minutes": 1484.73,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          20,
+          20,
+          20,
+          20
+        ],
+        "part_levels": [
+          20,
+          20,
+          20,
+          20
+        ],
+        "exit_rate_per_second": "5038000000000000000.00",
+        "gross_earned": "267484464693750000000000.00000",
+        "financial_goal_reached": true
+      }
+    ],
+    "p2_roi_93s": [
+      {
+        "tier": 0,
+        "minutes": 10.32,
+        "cumulative_minutes": 10.32,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          12,
+          12,
+          12,
+          12
+        ],
+        "part_levels": [
+          8,
+          8,
+          8,
+          8
+        ],
+        "exit_rate_per_second": "1946.00",
+        "gross_earned": "935866.50625",
+        "financial_goal_reached": true
+      },
+      {
+        "tier": 1,
+        "minutes": 34.32,
+        "cumulative_minutes": 44.63,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          12,
+          12,
+          12,
+          12
+        ],
+        "part_levels": [
+          10,
+          10,
+          10,
+          10
+        ],
+        "exit_rate_per_second": "1946000.00",
+        "gross_earned": "4166476100.00000",
+        "financial_goal_reached": true
+      },
+      {
+        "tier": 2,
+        "minutes": 69.02,
+        "cumulative_minutes": 113.65,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          12,
+          12,
+          12,
+          12
+        ],
+        "part_levels": [
+          10,
+          10,
+          10,
+          10
+        ],
+        "exit_rate_per_second": "1946000000.00",
+        "gross_earned": "8502722562500.00000",
+        "financial_goal_reached": true
+      },
+      {
+        "tier": 3,
+        "minutes": 135.98,
+        "cumulative_minutes": 249.63,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          12,
+          12,
+          12,
+          12
+        ],
+        "part_levels": [
+          10,
+          10,
+          10,
+          10
+        ],
+        "exit_rate_per_second": "1946000000000.00",
+        "gross_earned": "17002207468750000.00000",
+        "financial_goal_reached": true
+      },
+      {
+        "tier": 4,
+        "minutes": 269.7,
+        "cumulative_minutes": 519.33,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          12,
+          12,
+          12,
+          12
+        ],
+        "part_levels": [
+          10,
+          10,
+          10,
+          10
+        ],
+        "exit_rate_per_second": "1946000000000000.00",
+        "gross_earned": "34010115343750000000.00000",
+        "financial_goal_reached": true
+      },
+      {
+        "tier": 5,
+        "minutes": 973.4,
+        "cumulative_minutes": 1492.73,
+        "first_upgrade_seconds": 0,
+        "revenue_levels": [
+          20,
+          20,
+          20,
+          20
+        ],
+        "part_levels": [
+          20,
+          20,
+          20,
+          20
+        ],
+        "exit_rate_per_second": "5038000000000000000.00",
+        "gross_earned": "267486771843750000000000.00000",
+        "financial_goal_reached": true
+      }
+    ]
+  }
+}

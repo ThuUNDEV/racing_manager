@@ -1,0 +1,18 @@
+{
+  "description": "Measured approximate centerline of the generated road; coordinates normalized to texture bounds.",
+  "texture": "textures/workshop_oval.png",
+  "texture_size": [
+    1536,
+    1024
+  ],
+  "loop_direction": "counterclockwise in screen coordinates starting bottom-left, moving right",
+  "car_forward": "+Y",
+  "stadium": {
+    "left_center_x": 0.263,
+    "right_center_x": 0.737,
+    "center_y": 0.5,
+    "radius_x": 0.193,
+    "radius_y": 0.275
+  },
+  "warning": "Visual guide only. Match render path to gameplay distance/sector mapping before integrating with RaceSim."
+}

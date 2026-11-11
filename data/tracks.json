@@ -1,0 +1,554 @@
+{
+ "schema_version": 1,
+ "tracks": [
+  {
+   "id": "track_harbor",
+   "name": "Harbor Oval",
+   "straight_pct": 75,
+   "sectors": [
+    {
+     "len": 150,
+     "type": "S"
+    },
+    {
+     "len": 50,
+     "type": "C"
+    },
+    {
+     "len": 150,
+     "type": "S"
+    },
+    {
+     "len": 50,
+     "type": "C"
+    }
+   ],
+   "important": [
+    "engine",
+    "tyre"
+   ],
+   "hint": "Động cơ tăng tốc độ trên đoạn thẳng."
+  },
+  {
+   "id": "track_pine",
+   "name": "Pine Circuit",
+   "straight_pct": 50,
+   "sectors": [
+    {
+     "len": 100,
+     "type": "S"
+    },
+    {
+     "len": 50,
+     "type": "C"
+    },
+    {
+     "len": 50,
+     "type": "C"
+    },
+    {
+     "len": 100,
+     "type": "S"
+    },
+    {
+     "len": 50,
+     "type": "C"
+    },
+    {
+     "len": 50,
+     "type": "C"
+    }
+   ],
+   "important": [
+    "tyre",
+    "engine"
+   ],
+   "hint": "Lốp giúp xe giữ tốc độ qua cua."
+  },
+  {
+   "id": "track_city",
+   "name": "City Technical",
+   "straight_pct": 30,
+   "sectors": [
+    {
+     "len": 120,
+     "type": "S"
+    },
+    {
+     "len": 40,
+     "type": "C"
+    },
+    {
+     "len": 50,
+     "type": "C"
+    },
+    {
+     "len": 50,
+     "type": "C"
+    },
+    {
+     "len": 50,
+     "type": "C"
+    },
+    {
+     "len": 40,
+     "type": "C"
+    },
+    {
+     "len": 50,
+     "type": "C"
+    }
+   ],
+   "important": [
+    "tyre",
+    "gearbox"
+   ],
+   "hint": "Lốp giúp xe giữ tốc độ qua cua."
+  },
+  {
+   "id": "track_desert",
+   "name": "Desert Highway",
+   "straight_pct": 85,
+   "sectors": [
+    {
+     "len": 170,
+     "type": "S"
+    },
+    {
+     "len": 30,
+     "type": "C"
+    },
+    {
+     "len": 170,
+     "type": "S"
+    },
+    {
+     "len": 30,
+     "type": "C"
+    }
+   ],
+   "important": [
+    "engine",
+    "gearbox"
+   ],
+   "hint": "Động cơ tăng tốc độ trên đoạn thẳng."
+  },
+  {
+   "id": "track_lakeside",
+   "name": "Lakeside",
+   "straight_pct": 65,
+   "sectors": [
+    {
+     "len": 130,
+     "type": "S"
+    },
+    {
+     "len": 50,
+     "type": "C"
+    },
+    {
+     "len": 130,
+     "type": "S"
+    },
+    {
+     "len": 40,
+     "type": "C"
+    },
+    {
+     "len": 50,
+     "type": "C"
+    }
+   ],
+   "important": [
+    "engine",
+    "tyre"
+   ],
+   "hint": "Động cơ tăng tốc độ trên đoạn thẳng."
+  },
+  {
+   "id": "track_quarry",
+   "name": "Quarry Loop",
+   "straight_pct": 60,
+   "sectors": [
+    {
+     "len": 120,
+     "type": "S"
+    },
+    {
+     "len": 40,
+     "type": "C"
+    },
+    {
+     "len": 40,
+     "type": "C"
+    },
+    {
+     "len": 120,
+     "type": "S"
+    },
+    {
+     "len": 40,
+     "type": "C"
+    },
+    {
+     "len": 40,
+     "type": "C"
+    }
+   ],
+   "important": [
+    "engine",
+    "tyre"
+   ],
+   "hint": "Động cơ tăng tốc độ trên đoạn thẳng."
+  },
+  {
+   "id": "track_mountain",
+   "name": "Mountain Pass",
+   "straight_pct": 40,
+   "sectors": [
+    {
+     "len": 80,
+     "type": "S"
+    },
+    {
+     "len": 60,
+     "type": "C"
+    },
+    {
+     "len": 60,
+     "type": "C"
+    },
+    {
+     "len": 80,
+     "type": "S"
+    },
+    {
+     "len": 60,
+     "type": "C"
+    },
+    {
+     "len": 60,
+     "type": "C"
+    }
+   ],
+   "important": [
+    "tyre",
+    "gearbox"
+   ],
+   "hint": "Lốp giúp xe giữ tốc độ qua cua."
+  },
+  {
+   "id": "track_oldtown",
+   "name": "Old Town",
+   "straight_pct": 35,
+   "sectors": [
+    {
+     "len": 70,
+     "type": "S"
+    },
+    {
+     "len": 45,
+     "type": "C"
+    },
+    {
+     "len": 45,
+     "type": "C"
+    },
+    {
+     "len": 45,
+     "type": "C"
+    },
+    {
+     "len": 70,
+     "type": "S"
+    },
+    {
+     "len": 45,
+     "type": "C"
+    },
+    {
+     "len": 45,
+     "type": "C"
+    },
+    {
+     "len": 35,
+     "type": "C"
+    }
+   ],
+   "important": [
+    "tyre",
+    "gearbox"
+   ],
+   "hint": "Lốp giúp xe giữ tốc độ qua cua."
+  },
+  {
+   "id": "track_neon",
+   "name": "Neon Docks",
+   "straight_pct": 55,
+   "sectors": [
+    {
+     "len": 110,
+     "type": "S"
+    },
+    {
+     "len": 45,
+     "type": "C"
+    },
+    {
+     "len": 45,
+     "type": "C"
+    },
+    {
+     "len": 110,
+     "type": "S"
+    },
+    {
+     "len": 45,
+     "type": "C"
+    },
+    {
+     "len": 45,
+     "type": "C"
+    }
+   ],
+   "important": [
+    "tyre",
+    "gearbox"
+   ],
+   "hint": "Lốp giúp xe giữ tốc độ qua cua."
+  },
+  {
+   "id": "track_speedway",
+   "name": "Grand Speedway",
+   "straight_pct": 70,
+   "sectors": [
+    {
+     "len": 140,
+     "type": "S"
+    },
+    {
+     "len": 40,
+     "type": "C"
+    },
+    {
+     "len": 40,
+     "type": "C"
+    },
+    {
+     "len": 140,
+     "type": "S"
+    },
+    {
+     "len": 40,
+     "type": "C"
+    }
+   ],
+   "important": [
+    "engine",
+    "gearbox"
+   ],
+   "hint": "Động cơ tăng tốc độ trên đoạn thẳng."
+  },
+  {
+   "id": "track_circuit_a",
+   "name": "Circuit A",
+   "experimental": true,
+   "straight_pct": 40,
+   "sectors": [
+    {
+     "len": 34,
+     "type": "S",
+     "width": 4.0,
+     "zone": true
+    },
+    {
+     "len": 70,
+     "type": "C",
+     "turn": 151.1563,
+     "width": 4.0,
+     "zone": true,
+     "width_end": 3.5
+    },
+    {
+     "len": 67,
+     "type": "S",
+     "width": 3.5,
+     "zone": true
+    },
+    {
+     "len": 31,
+     "type": "C",
+     "turn": 66.7,
+     "width": 3.5,
+     "zone": false
+    },
+    {
+     "len": 38,
+     "type": "C",
+     "turn": -31.5,
+     "width": 3.5,
+     "zone": false
+    },
+    {
+     "len": 36,
+     "type": "C",
+     "turn": 79.4962,
+     "width": 3.5,
+     "zone": false
+    },
+    {
+     "len": 64,
+     "type": "C",
+     "turn": 94.1475,
+     "width": 3.5,
+     "width_end": 4.0,
+     "zone": true
+    },
+    {
+     "len": 60,
+     "type": "S",
+     "width": 4.0,
+     "zone": true
+    }
+   ],
+   "important": [
+    "tyre",
+    "engine"
+   ],
+   "hint": "Lốp giữ tốc độ qua chuỗi chữ S; Động cơ giúp vượt ở đoạn thẳng."
+  },
+  {
+   "id": "track_circuit_b",
+   "name": "Circuit B",
+   "experimental": true,
+   "lap_length": 924,
+   "straight_pct": 43,
+   "sectors": [
+    {
+     "len": 100,
+     "type": "S",
+     "width": 4.0,
+     "zone": true
+    },
+    {
+     "len": 52,
+     "type": "C",
+     "turn": 115.38311,
+     "width": 4.0,
+     "zone": false
+    },
+    {
+     "len": 30,
+     "type": "S",
+     "width": 4.0,
+     "zone": true
+    },
+    {
+     "len": 44,
+     "type": "C",
+     "turn": -70,
+     "width": 4.0,
+     "zone": false
+    },
+    {
+     "len": 50,
+     "type": "C",
+     "turn": 100,
+     "width": 4.0,
+     "zone": false
+    },
+    {
+     "len": 36,
+     "type": "S",
+     "width": 4.0,
+     "zone": true
+    },
+    {
+     "len": 44,
+     "type": "C",
+     "turn": -80,
+     "width": 4.0,
+     "zone": false
+    },
+    {
+     "len": 54,
+     "type": "C",
+     "turn": 147.465418,
+     "width": 4.0,
+     "zone": false
+    },
+    {
+     "len": 56,
+     "type": "S",
+     "width": 4.0,
+     "zone": true
+    },
+    {
+     "len": 48,
+     "type": "C",
+     "turn": -65,
+     "width": 4.0,
+     "zone": false
+    },
+    {
+     "len": 46,
+     "type": "C",
+     "turn": 95,
+     "width": 4.0,
+     "zone": false
+    },
+    {
+     "len": 44,
+     "type": "S",
+     "width": 4.0,
+     "zone": true
+    },
+    {
+     "len": 46,
+     "type": "C",
+     "turn": -70,
+     "width": 4.0,
+     "zone": false
+    },
+    {
+     "len": 50,
+     "type": "C",
+     "turn": 147.151472,
+     "width": 4.0,
+     "zone": false
+    },
+    {
+     "len": 40,
+     "type": "S",
+     "width": 4.0,
+     "zone": true
+    },
+    {
+     "len": 46,
+     "type": "C",
+     "turn": -60,
+     "width": 4.0,
+     "zone": false
+    },
+    {
+     "len": 48,
+     "type": "C",
+     "turn": 100,
+     "width": 4.0,
+     "zone": false
+    },
+    {
+     "len": 90,
+     "type": "S",
+     "width": 4.0,
+     "zone": true
+    }
+   ],
+   "important": [
+    "tyre",
+    "engine"
+   ],
+   "hint": "Chuỗi cua liên tiếp: Lốp giữ tốc độ qua cua; Động cơ giúp vượt ở đoạn thẳng xuất phát."
+  }
+ ]
+}

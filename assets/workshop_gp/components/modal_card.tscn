@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://assets/workshop_gp/components/asset_widget.gd" id="1"]
+
+[node name="ModalCard" type="PanelContainer"]
+script = ExtResource("1")
+kind = "modal"
+title = "Chào mừng trở lại"
+subtitle = "Thu nhập cơ sở khi bạn vắng mặt"
+image_path = "res://assets/workshop_gp/rewards/money_bag.tres"
+action_text = "Tiếp tục"

@@ -1,0 +1,19 @@
+# Godot
+.godot/
+*.translation
+# Build / export
+export/
+build/
+*.apk
+*.aab
+*.ipa
+# Secrets (khóa ký, API key không nằm trong repo)
+*.keystore
+*.jks
+*.p12
+.env
+# Kết quả tạm
+tests/lab/out_*.txt
+*.tmp
+
+.save_backup_tmp/

@@ -1,0 +1,37 @@
+{
+  "tracks": 3,
+  "drivers": 3,
+  "cars": 8,
+  "primary_icons": 12,
+  "utility_icons": 40,
+  "components": 14,
+  "effects": 6,
+  "animation_frames": 74,
+  "audio_cues": 21,
+  "native_resources": 89,
+  "atlas_regions": 42,
+  "audio_loop_checks": "PASS",
+  "track_path_checks": [
+    {
+      "id": "harbor",
+      "texture": "textures/workshop_oval.png",
+      "path": "layout/harbor.json",
+      "neutral_road_samples": 1.0,
+      "samples": 280
+    },
+    {
+      "id": "pine",
+      "texture": "textures/pine_circuit.png",
+      "path": "layout/pine.json",
+      "neutral_road_samples": 1.0,
+      "samples": 320
+    },
+    {
+      "id": "city",
+      "texture": "textures/city_technical.png",
+      "path": "layout/city.json",
+      "neutral_road_samples": 1.0,
+      "samples": 400
+    }
+  ]
+}

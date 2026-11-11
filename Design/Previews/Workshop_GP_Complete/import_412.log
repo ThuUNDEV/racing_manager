@@ -1,0 +1,710 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Project initialization (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Scanning file structure...[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Loading global class names...[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifying GDExtensions...[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Creating autoload scripts...[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Initializing plugins...[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Starting file scan...[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | Started Registering global classes... (9 steps)[39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  10% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  20% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  30% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  40% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  50% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  60% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  70% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  80% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[92m[ DONE ][39m [1mupdate_scripts_classes[22m
+[0m
+[   0% ] [90m[1m_update_scan_actions[22m | Started Scanning actions... (223 steps)[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | cars.png[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | drivers_extra.png[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | rewards.png[39m[0m
+[   1% ] [90m[1m_update_scan_actions[22m | ui_icons.png[39m[0m
+[   1% ] [90m[1m_update_scan_actions[22m | workshop_props.png[39m[0m
+[   2% ] [90m[1m_update_scan_actions[22m | car_pass.wav[39m[0m
+[   2% ] [90m[1m_update_scan_actions[22m | coin_pickup.wav[39m[0m
+[   3% ] [90m[1m_update_scan_actions[22m | countdown_go.wav[39m[0m
+[   3% ] [90m[1m_update_scan_actions[22m | countdown_tick.wav[39m[0m
+[   4% ] [90m[1m_update_scan_actions[22m | daily_gift.wav[39m[0m
+[   4% ] [90m[1m_update_scan_actions[22m | engine_idle_loop.wav[39m[0m
+[   4% ] [90m[1m_update_scan_actions[22m | engine_race_loop.wav[39m[0m
+[   5% ] [90m[1m_update_scan_actions[22m | finish.wav[39m[0m
+[   5% ] [90m[1m_update_scan_actions[22m | mission_complete.wav[39m[0m
+[   6% ] [90m[1m_update_scan_actions[22m | music_race_loop.wav[39m[0m
+[   6% ] [90m[1m_update_scan_actions[22m | music_workshop_loop.wav[39m[0m
+[   7% ] [90m[1m_update_scan_actions[22m | promotion.wav[39m[0m
+[   7% ] [90m[1m_update_scan_actions[22m | reward.wav[39m[0m
+[   8% ] [90m[1m_update_scan_actions[22m | tyre_squeak.wav[39m[0m
+[   8% ] [90m[1m_update_scan_actions[22m | ui_back.wav[39m[0m
+[   8% ] [90m[1m_update_scan_actions[22m | ui_click.wav[39m[0m
+[   9% ] [90m[1m_update_scan_actions[22m | ui_confirm.wav[39m[0m
+[   9% ] [90m[1m_update_scan_actions[22m | ui_error.wav[39m[0m
+[  10% ] [90m[1m_update_scan_actions[22m | ui_tab.wav[39m[0m
+[  10% ] [90m[1m_update_scan_actions[22m | unlock.wav[39m[0m
+[  11% ] [90m[1m_update_scan_actions[22m | upgrade.wav[39m[0m
+[  11% ] [90m[1m_update_scan_actions[22m | medal_1.svg[39m[0m
+[  12% ] [90m[1m_update_scan_actions[22m | medal_2.svg[39m[0m
+[  12% ] [90m[1m_update_scan_actions[22m | medal_3.svg[39m[0m
+[  12% ] [90m[1m_update_scan_actions[22m | pro.svg[39m[0m
+[  13% ] [90m[1m_update_scan_actions[22m | rookie.svg[39m[0m
+[  13% ] [90m[1m_update_scan_actions[22m | semi_pro.svg[39m[0m
+[  14% ] [90m[1m_update_scan_actions[22m | app_icon.svg[39m[0m
+[  14% ] [90m[1m_update_scan_actions[22m | splash_background.svg[39m[0m
+[  15% ] [90m[1m_update_scan_actions[22m | back.svg[39m[0m
+[  15% ] [90m[1m_update_scan_actions[22m | chassis.svg[39m[0m
+[  16% ] [90m[1m_update_scan_actions[22m | check.svg[39m[0m
+[  16% ] [90m[1m_update_scan_actions[22m | clock.svg[39m[0m
+[  16% ] [90m[1m_update_scan_actions[22m | close.svg[39m[0m
+[  17% ] [90m[1m_update_scan_actions[22m | coin_small.svg[39m[0m
+[  17% ] [90m[1m_update_scan_actions[22m | engine.svg[39m[0m
+[  18% ] [90m[1m_update_scan_actions[22m | fan.svg[39m[0m
+[  18% ] [90m[1m_update_scan_actions[22m | flag.svg[39m[0m
+[  19% ] [90m[1m_update_scan_actions[22m | gearbox.svg[39m[0m
+[  19% ] [90m[1m_update_scan_actions[22m | gem_small.svg[39m[0m
+[  20% ] [90m[1m_update_scan_actions[22m | gift.svg[39m[0m
+[  20% ] [90m[1m_update_scan_actions[22m | help.svg[39m[0m
+[  20% ] [90m[1m_update_scan_actions[22m | home.svg[39m[0m
+[  21% ] [90m[1m_update_scan_actions[22m | info.svg[39m[0m
+[  21% ] [90m[1m_update_scan_actions[22m | lap.svg[39m[0m
+[  22% ] [90m[1m_update_scan_actions[22m | lock.svg[39m[0m
+[  22% ] [90m[1m_update_scan_actions[22m | mail.svg[39m[0m
+[  23% ] [90m[1m_update_scan_actions[22m | minus.svg[39m[0m
+[  23% ] [90m[1m_update_scan_actions[22m | mission.svg[39m[0m
+[  24% ] [90m[1m_update_scan_actions[22m | motion.svg[39m[0m
+[  24% ] [90m[1m_update_scan_actions[22m | music.svg[39m[0m
+[  25% ] [90m[1m_update_scan_actions[22m | mute.svg[39m[0m
+[  25% ] [90m[1m_update_scan_actions[22m | next.svg[39m[0m
+[  25% ] [90m[1m_update_scan_actions[22m | offline.svg[39m[0m
+[  26% ] [90m[1m_update_scan_actions[22m | pause.svg[39m[0m
+[  26% ] [90m[1m_update_scan_actions[22m | play.svg[39m[0m
+[  27% ] [90m[1m_update_scan_actions[22m | plus.svg[39m[0m
+[  27% ] [90m[1m_update_scan_actions[22m | rank_up.svg[39m[0m
+[  28% ] [90m[1m_update_scan_actions[22m | refresh.svg[39m[0m
+[  28% ] [90m[1m_update_scan_actions[22m | save.svg[39m[0m
+[  29% ] [90m[1m_update_scan_actions[22m | settings.svg[39m[0m
+[  29% ] [90m[1m_update_scan_actions[22m | sound.svg[39m[0m
+[  29% ] [90m[1m_update_scan_actions[22m | star.svg[39m[0m
+[  30% ] [90m[1m_update_scan_actions[22m | training.svg[39m[0m
+[  30% ] [90m[1m_update_scan_actions[22m | tyre.svg[39m[0m
+[  31% ] [90m[1m_update_scan_actions[22m | unlock.svg[39m[0m
+[  31% ] [90m[1m_update_scan_actions[22m | venue.svg[39m[0m
+[  32% ] [90m[1m_update_scan_actions[22m | vibration.svg[39m[0m
+[  32% ] [90m[1m_update_scan_actions[22m | warning.svg[39m[0m
+[  33% ] [90m[1m_update_scan_actions[22m | back.svg[39m[0m
+[  33% ] [90m[1m_update_scan_actions[22m | chassis.svg[39m[0m
+[  33% ] [90m[1m_update_scan_actions[22m | check.svg[39m[0m
+[  34% ] [90m[1m_update_scan_actions[22m | clock.svg[39m[0m
+[  34% ] [90m[1m_update_scan_actions[22m | close.svg[39m[0m
+[  35% ] [90m[1m_update_scan_actions[22m | coin_small.svg[39m[0m
+[  35% ] [90m[1m_update_scan_actions[22m | engine.svg[39m[0m
+[  36% ] [90m[1m_update_scan_actions[22m | fan.svg[39m[0m
+[  36% ] [90m[1m_update_scan_actions[22m | flag.svg[39m[0m
+[  37% ] [90m[1m_update_scan_actions[22m | gearbox.svg[39m[0m
+[  37% ] [90m[1m_update_scan_actions[22m | gem_small.svg[39m[0m
+[  37% ] [90m[1m_update_scan_actions[22m | gift.svg[39m[0m
+[  38% ] [90m[1m_update_scan_actions[22m | help.svg[39m[0m
+[  38% ] [90m[1m_update_scan_actions[22m | home.svg[39m[0m
+[  39% ] [90m[1m_update_scan_actions[22m | info.svg[39m[0m
+[  39% ] [90m[1m_update_scan_actions[22m | lap.svg[39m[0m
+[  40% ] [90m[1m_update_scan_actions[22m | lock.svg[39m[0m
+[  40% ] [90m[1m_update_scan_actions[22m | mail.svg[39m[0m
+[  41% ] [90m[1m_update_scan_actions[22m | minus.svg[39m[0m
+[  41% ] [90m[1m_update_scan_actions[22m | mission.svg[39m[0m
+[  41% ] [90m[1m_update_scan_actions[22m | motion.svg[39m[0m
+[  42% ] [90m[1m_update_scan_actions[22m | music.svg[39m[0m
+[  42% ] [90m[1m_update_scan_actions[22m | mute.svg[39m[0m
+[  43% ] [90m[1m_update_scan_actions[22m | next.svg[39m[0m
+[  43% ] [90m[1m_update_scan_actions[22m | offline.svg[39m[0m
+[  44% ] [90m[1m_update_scan_actions[22m | pause.svg[39m[0m
+[  44% ] [90m[1m_update_scan_actions[22m | play.svg[39m[0m
+[  45% ] [90m[1m_update_scan_actions[22m | plus.svg[39m[0m
+[  45% ] [90m[1m_update_scan_actions[22m | rank_up.svg[39m[0m
+[  45% ] [90m[1m_update_scan_actions[22m | refresh.svg[39m[0m
+[  46% ] [90m[1m_update_scan_actions[22m | save.svg[39m[0m
+[  46% ] [90m[1m_update_scan_actions[22m | settings.svg[39m[0m
+[  47% ] [90m[1m_update_scan_actions[22m | sound.svg[39m[0m
+[  47% ] [90m[1m_update_scan_actions[22m | star.svg[39m[0m
+[  48% ] [90m[1m_update_scan_actions[22m | training.svg[39m[0m
+[  48% ] [90m[1m_update_scan_actions[22m | tyre.svg[39m[0m
+[  49% ] [90m[1m_update_scan_actions[22m | unlock.svg[39m[0m
+[  49% ] [90m[1m_update_scan_actions[22m | venue.svg[39m[0m
+[  50% ] [90m[1m_update_scan_actions[22m | vibration.svg[39m[0m
+[  50% ] [90m[1m_update_scan_actions[22m | warning.svg[39m[0m
+[  50% ] [90m[1m_update_scan_actions[22m | driver_orange.png[39m[0m
+[  51% ] [90m[1m_update_scan_actions[22m | city_technical.png[39m[0m
+[  51% ] [90m[1m_update_scan_actions[22m | pine_circuit.png[39m[0m
+[  52% ] [90m[1m_update_scan_actions[22m | workshop_oval.png[39m[0m
+[  52% ] [90m[1m_update_scan_actions[22m | app_background.svg[39m[0m
+[  53% ] [90m[1m_update_scan_actions[22m | button_danger.svg[39m[0m
+[  53% ] [90m[1m_update_scan_actions[22m | button_disabled.svg[39m[0m
+[  54% ] [90m[1m_update_scan_actions[22m | button_orange.svg[39m[0m
+[  54% ] [90m[1m_update_scan_actions[22m | button_orange_hover.svg[39m[0m
+[  54% ] [90m[1m_update_scan_actions[22m | button_orange_pressed.svg[39m[0m
+[  55% ] [90m[1m_update_scan_actions[22m | button_secondary.svg[39m[0m
+[  55% ] [90m[1m_update_scan_actions[22m | button_success.svg[39m[0m
+[  56% ] [90m[1m_update_scan_actions[22m | capsule_ivory.svg[39m[0m
+[  56% ] [90m[1m_update_scan_actions[22m | card_cream.svg[39m[0m
+[  57% ] [90m[1m_update_scan_actions[22m | card_locked.svg[39m[0m
+[  57% ] [90m[1m_update_scan_actions[22m | card_selected.svg[39m[0m
+[  58% ] [90m[1m_update_scan_actions[22m | checkbox_off.svg[39m[0m
+[  58% ] [90m[1m_update_scan_actions[22m | checkbox_on.svg[39m[0m
+[  58% ] [90m[1m_update_scan_actions[22m | empty_state.svg[39m[0m
+[  59% ] [90m[1m_update_scan_actions[22m | loading_spinner.svg[39m[0m
+[  59% ] [90m[1m_update_scan_actions[22m | modal.svg[39m[0m
+[  60% ] [90m[1m_update_scan_actions[22m | modal_overlay.svg[39m[0m
+[  60% ] [90m[1m_update_scan_actions[22m | nav_selected.svg[39m[0m
+[  61% ] [90m[1m_update_scan_actions[22m | notification_dot.svg[39m[0m
+[  61% ] [90m[1m_update_scan_actions[22m | panel_graphite.svg[39m[0m
+[  62% ] [90m[1m_update_scan_actions[22m | progress_fill.svg[39m[0m
+[  62% ] [90m[1m_update_scan_actions[22m | progress_track.svg[39m[0m
+[  62% ] [90m[1m_update_scan_actions[22m | slider_grabber.svg[39m[0m
+[  63% ] [90m[1m_update_scan_actions[22m | slider_track.svg[39m[0m
+[  63% ] [90m[1m_update_scan_actions[22m | stat_chip.svg[39m[0m
+[  64% ] [90m[1m_update_scan_actions[22m | toast.svg[39m[0m
+[  64% ] [90m[1m_update_scan_actions[22m | toggle_off.svg[39m[0m
+[  65% ] [90m[1m_update_scan_actions[22m | toggle_on.svg[39m[0m
+[  65% ] [90m[1m_update_scan_actions[22m | tooltip_arrow.svg[39m[0m
+[  66% ] [90m[1m_update_scan_actions[22m | tutorial_hand.svg[39m[0m
+[  66% ] [90m[1m_update_scan_actions[22m | frame_00.svg[39m[0m
+[  66% ] [90m[1m_update_scan_actions[22m | frame_01.svg[39m[0m
+[  67% ] [90m[1m_update_scan_actions[22m | frame_02.svg[39m[0m
+[  67% ] [90m[1m_update_scan_actions[22m | frame_03.svg[39m[0m
+[  68% ] [90m[1m_update_scan_actions[22m | frame_04.svg[39m[0m
+[  68% ] [90m[1m_update_scan_actions[22m | frame_05.svg[39m[0m
+[  69% ] [90m[1m_update_scan_actions[22m | frame_06.svg[39m[0m
+[  69% ] [90m[1m_update_scan_actions[22m | frame_07.svg[39m[0m
+[  70% ] [90m[1m_update_scan_actions[22m | frame_08.svg[39m[0m
+[  70% ] [90m[1m_update_scan_actions[22m | frame_09.svg[39m[0m
+[  70% ] [90m[1m_update_scan_actions[22m | frame_10.svg[39m[0m
+[  71% ] [90m[1m_update_scan_actions[22m | frame_11.svg[39m[0m
+[  71% ] [90m[1m_update_scan_actions[22m | frame_00.svg[39m[0m
+[  72% ] [90m[1m_update_scan_actions[22m | frame_01.svg[39m[0m
+[  72% ] [90m[1m_update_scan_actions[22m | frame_02.svg[39m[0m
+[  73% ] [90m[1m_update_scan_actions[22m | frame_03.svg[39m[0m
+[  73% ] [90m[1m_update_scan_actions[22m | frame_04.svg[39m[0m
+[  74% ] [90m[1m_update_scan_actions[22m | frame_05.svg[39m[0m
+[  74% ] [90m[1m_update_scan_actions[22m | frame_06.svg[39m[0m
+[  75% ] [90m[1m_update_scan_actions[22m | frame_07.svg[39m[0m
+[  75% ] [90m[1m_update_scan_actions[22m | frame_08.svg[39m[0m
+[  75% ] [90m[1m_update_scan_actions[22m | frame_09.svg[39m[0m
+[  76% ] [90m[1m_update_scan_actions[22m | frame_10.svg[39m[0m
+[  76% ] [90m[1m_update_scan_actions[22m | frame_11.svg[39m[0m
+[  77% ] [90m[1m_update_scan_actions[22m | frame_12.svg[39m[0m
+[  77% ] [90m[1m_update_scan_actions[22m | frame_13.svg[39m[0m
+[  78% ] [90m[1m_update_scan_actions[22m | frame_14.svg[39m[0m
+[  78% ] [90m[1m_update_scan_actions[22m | frame_15.svg[39m[0m
+[  79% ] [90m[1m_update_scan_actions[22m | frame_00.svg[39m[0m
+[  79% ] [90m[1m_update_scan_actions[22m | frame_01.svg[39m[0m
+[  79% ] [90m[1m_update_scan_actions[22m | frame_02.svg[39m[0m
+[  80% ] [90m[1m_update_scan_actions[22m | frame_03.svg[39m[0m
+[  80% ] [90m[1m_update_scan_actions[22m | frame_04.svg[39m[0m
+[  81% ] [90m[1m_update_scan_actions[22m | frame_05.svg[39m[0m
+[  81% ] [90m[1m_update_scan_actions[22m | frame_06.svg[39m[0m
+[  82% ] [90m[1m_update_scan_actions[22m | frame_07.svg[39m[0m
+[  82% ] [90m[1m_update_scan_actions[22m | frame_08.svg[39m[0m
+[  83% ] [90m[1m_update_scan_actions[22m | frame_09.svg[39m[0m
+[  83% ] [90m[1m_update_scan_actions[22m | frame_00.svg[39m[0m
+[  83% ] [90m[1m_update_scan_actions[22m | frame_01.svg[39m[0m
+[  84% ] [90m[1m_update_scan_actions[22m | frame_02.svg[39m[0m
+[  84% ] [90m[1m_update_scan_actions[22m | frame_03.svg[39m[0m
+[  85% ] [90m[1m_update_scan_actions[22m | frame_04.svg[39m[0m
+[  85% ] [90m[1m_update_scan_actions[22m | frame_05.svg[39m[0m
+[  86% ] [90m[1m_update_scan_actions[22m | frame_06.svg[39m[0m
+[  86% ] [90m[1m_update_scan_actions[22m | frame_07.svg[39m[0m
+[  87% ] [90m[1m_update_scan_actions[22m | frame_08.svg[39m[0m
+[  87% ] [90m[1m_update_scan_actions[22m | frame_09.svg[39m[0m
+[  87% ] [90m[1m_update_scan_actions[22m | frame_10.svg[39m[0m
+[  88% ] [90m[1m_update_scan_actions[22m | frame_11.svg[39m[0m
+[  88% ] [90m[1m_update_scan_actions[22m | frame_00.svg[39m[0m
+[  89% ] [90m[1m_update_scan_actions[22m | frame_01.svg[39m[0m
+[  89% ] [90m[1m_update_scan_actions[22m | frame_02.svg[39m[0m
+[  90% ] [90m[1m_update_scan_actions[22m | frame_03.svg[39m[0m
+[  90% ] [90m[1m_update_scan_actions[22m | frame_04.svg[39m[0m
+[  91% ] [90m[1m_update_scan_actions[22m | frame_05.svg[39m[0m
+[  91% ] [90m[1m_update_scan_actions[22m | frame_06.svg[39m[0m
+[  91% ] [90m[1m_update_scan_actions[22m | frame_07.svg[39m[0m
+[  92% ] [90m[1m_update_scan_actions[22m | frame_08.svg[39m[0m
+[  92% ] [90m[1m_update_scan_actions[22m | frame_09.svg[39m[0m
+[  93% ] [90m[1m_update_scan_actions[22m | frame_10.svg[39m[0m
+[  93% ] [90m[1m_update_scan_actions[22m | frame_11.svg[39m[0m
+[  94% ] [90m[1m_update_scan_actions[22m | frame_00.svg[39m[0m
+[  94% ] [90m[1m_update_scan_actions[22m | frame_01.svg[39m[0m
+[  95% ] [90m[1m_update_scan_actions[22m | frame_02.svg[39m[0m
+[  95% ] [90m[1m_update_scan_actions[22m | frame_03.svg[39m[0m
+[  95% ] [90m[1m_update_scan_actions[22m | frame_04.svg[39m[0m
+[  96% ] [90m[1m_update_scan_actions[22m | frame_05.svg[39m[0m
+[  96% ] [90m[1m_update_scan_actions[22m | frame_06.svg[39m[0m
+[  97% ] [90m[1m_update_scan_actions[22m | frame_07.svg[39m[0m
+[  97% ] [90m[1m_update_scan_actions[22m | frame_08.svg[39m[0m
+[  98% ] [90m[1m_update_scan_actions[22m | frame_09.svg[39m[0m
+[  98% ] [90m[1m_update_scan_actions[22m | frame_10.svg[39m[0m
+[  99% ] [90m[1m_update_scan_actions[22m | frame_11.svg[39m[0m
+[92m[ DONE ][39m [1m_update_scan_actions[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (223 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   0% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   0% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   1% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   1% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   2% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   2% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   3% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   3% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   4% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   4% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   4% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   5% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   5% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   6% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   6% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   7% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   7% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   8% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   8% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   8% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   9% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   9% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  10% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  10% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  11% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  11% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  12% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  12% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  12% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  13% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  13% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  14% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  14% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  15% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  15% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  16% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  16% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  16% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  17% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  17% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  18% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  18% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  19% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  19% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  20% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  20% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  20% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  21% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  21% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  22% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  22% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  23% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  23% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  24% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  24% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  25% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  25% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  25% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  26% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  26% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  27% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  27% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  28% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  28% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  29% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  29% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  29% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  30% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  30% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  31% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  31% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  32% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  32% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  33% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  33% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  33% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  34% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  34% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  35% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  35% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  36% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  36% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  37% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  37% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  37% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  38% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  38% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  39% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  39% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  40% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  40% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  41% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  41% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  41% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  42% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  42% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  43% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  43% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  44% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  44% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  45% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  45% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  45% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  46% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  46% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  47% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  47% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  48% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  48% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  49% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  49% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  50% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  50% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  50% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  51% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  51% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  52% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  52% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  53% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  53% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  54% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  54% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  54% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  55% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  55% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  56% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  56% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  57% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  57% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  58% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  58% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  58% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  59% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  59% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  60% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  60% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  61% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  61% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  62% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  62% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  62% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  63% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  63% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  64% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  64% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  65% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  65% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  66% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  66% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  66% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  67% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  67% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  68% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  68% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  69% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  69% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  70% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  70% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  70% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  71% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  71% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  72% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  72% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  73% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  73% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  74% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  74% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  75% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  75% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  75% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  76% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  76% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  77% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  77% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  78% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  78% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  79% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  79% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  79% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  80% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  80% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  81% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  81% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  82% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  82% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  83% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  83% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  83% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  84% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  84% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  85% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  85% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  86% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  86% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  87% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  87% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  87% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  88% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  88% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  89% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  89% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  90% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  90% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  91% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  91% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  91% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  92% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  92% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  93% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  93% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  94% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  94% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  95% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  95% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  95% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  96% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  96% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  97% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  97% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  98% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  98% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[  99% ] [90m[1mreimport[22m | Preparing files to reimport...[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing pre-reimport operations...[39m[0m
+[   0% ] [90m[1mreimport[22m | progress_track.svg[39m[0m
+[   0% ] [90m[1mreimport[22m | slider_grabber.svg[39m[0m
+[   0% ] [90m[1mreimport[22m | slider_track.svg[39m[0m
+[   1% ] [90m[1mreimport[22m | stat_chip.svg[39m[0m
+[   1% ] [90m[1mreimport[22m | toast.svg[39m[0m
+[   2% ] [90m[1mreimport[22m | toggle_off.svg[39m[0m
+[   2% ] [90m[1mreimport[22m | toggle_on.svg[39m[0m
+[   3% ] [90m[1mreimport[22m | tooltip_arrow.svg[39m[0m
+[   3% ] [90m[1mreimport[22m | tutorial_hand.svg[39m[0m
+[   4% ] [90m[1mreimport[22m | frame_00.svg[39m[0m
+[   4% ] [90m[1mreimport[22m | frame_01.svg[39m[0m
+[   4% ] [90m[1mreimport[22m | frame_02.svg[39m[0m
+[   5% ] [90m[1mreimport[22m | frame_03.svg[39m[0m
+[   5% ] [90m[1mreimport[22m | frame_04.svg[39m[0m
+[   6% ] [90m[1mreimport[22m | frame_05.svg[39m[0m
+[   6% ] [90m[1mreimport[22m | frame_06.svg[39m[0m
+[   7% ] [90m[1mreimport[22m | frame_07.svg[39m[0m
+[   7% ] [90m[1mreimport[22m | frame_08.svg[39m[0m
+[   8% ] [90m[1mreimport[22m | frame_09.svg[39m[0m
+[   8% ] [90m[1mreimport[22m | frame_10.svg[39m[0m
+[   8% ] [90m[1mreimport[22m | frame_11.svg[39m[0m
+[   9% ] [90m[1mreimport[22m | frame_00.svg[39m[0m
+[   9% ] [90m[1mreimport[22m | frame_01.svg[39m[0m
+[  10% ] [90m[1mreimport[22m | frame_02.svg[39m[0m
+[  10% ] [90m[1mreimport[22m | frame_03.svg[39m[0m
+[  11% ] [90m[1mreimport[22m | frame_04.svg[39m[0m
+[  11% ] [90m[1mreimport[22m | frame_05.svg[39m[0m
+[  12% ] [90m[1mreimport[22m | vibration.svg[39m[0m
+[  12% ] [90m[1mreimport[22m | warning.svg[39m[0m
+[  12% ] [90m[1mreimport[22m | driver_orange.png[39m[0m
+[  13% ] [90m[1mreimport[22m | city_technical.png[39m[0m
+[  13% ] [90m[1mreimport[22m | pine_circuit.png[39m[0m
+[  14% ] [90m[1mreimport[22m | workshop_oval.png[39m[0m
+[  14% ] [90m[1mreimport[22m | app_background.svg[39m[0m
+[  15% ] [90m[1mreimport[22m | button_danger.svg[39m[0m
+[  15% ] [90m[1mreimport[22m | button_disabled.svg[39m[0m
+[  16% ] [90m[1mreimport[22m | button_orange.svg[39m[0m
+[  16% ] [90m[1mreimport[22m | button_orange_hover.svg[39m[0m
+[  16% ] [90m[1mreimport[22m | button_orange_pressed.svg[39m[0m
+[  17% ] [90m[1mreimport[22m | button_secondary.svg[39m[0m
+[  17% ] [90m[1mreimport[22m | button_success.svg[39m[0m
+[  18% ] [90m[1mreimport[22m | capsule_ivory.svg[39m[0m
+[  18% ] [90m[1mreimport[22m | card_cream.svg[39m[0m
+[  19% ] [90m[1mreimport[22m | card_locked.svg[39m[0m
+[  19% ] [90m[1mreimport[22m | card_selected.svg[39m[0m
+[  20% ] [90m[1mreimport[22m | checkbox_off.svg[39m[0m
+[  20% ] [90m[1mreimport[22m | checkbox_on.svg[39m[0m
+[  20% ] [90m[1mreimport[22m | empty_state.svg[39m[0m
+[  21% ] [90m[1mreimport[22m | loading_spinner.svg[39m[0m
+[  21% ] [90m[1mreimport[22m | modal.svg[39m[0m
+[  22% ] [90m[1mreimport[22m | modal_overlay.svg[39m[0m
+[  22% ] [90m[1mreimport[22m | nav_selected.svg[39m[0m
+[  23% ] [90m[1mreimport[22m | notification_dot.svg[39m[0m
+[  23% ] [90m[1mreimport[22m | panel_graphite.svg[39m[0m
+[  24% ] [90m[1mreimport[22m | progress_fill.svg[39m[0m
+[  24% ] [90m[1mreimport[22m | frame_08.svg[39m[0m
+[  25% ] [90m[1mreimport[22m | frame_09.svg[39m[0m
+[  25% ] [90m[1mreimport[22m | frame_10.svg[39m[0m
+[  25% ] [90m[1mreimport[22m | frame_11.svg[39m[0m
+[  26% ] [90m[1mreimport[22m | frame_00.svg[39m[0m
+[  26% ] [90m[1mreimport[22m | frame_01.svg[39m[0m
+[  27% ] [90m[1mreimport[22m | frame_02.svg[39m[0m
+[  27% ] [90m[1mreimport[22m | frame_03.svg[39m[0m
+[  28% ] [90m[1mreimport[22m | frame_04.svg[39m[0m
+[  28% ] [90m[1mreimport[22m | frame_05.svg[39m[0m
+[  29% ] [90m[1mreimport[22m | frame_06.svg[39m[0m
+[  29% ] [90m[1mreimport[22m | frame_07.svg[39m[0m
+[  29% ] [90m[1mreimport[22m | frame_08.svg[39m[0m
+[  30% ] [90m[1mreimport[22m | frame_09.svg[39m[0m
+[  30% ] [90m[1mreimport[22m | frame_10.svg[39m[0m
+[  31% ] [90m[1mreimport[22m | frame_11.svg[39m[0m
+[  31% ] [90m[1mreimport[22m | frame_00.svg[39m[0m
+[  32% ] [90m[1mreimport[22m | frame_01.svg[39m[0m
+[  32% ] [90m[1mreimport[22m | frame_02.svg[39m[0m
+[  33% ] [90m[1mreimport[22m | frame_03.svg[39m[0m
+[  33% ] [90m[1mreimport[22m | frame_04.svg[39m[0m
+[  33% ] [90m[1mreimport[22m | frame_05.svg[39m[0m
+[  34% ] [90m[1mreimport[22m | frame_06.svg[39m[0m
+[  34% ] [90m[1mreimport[22m | frame_07.svg[39m[0m
+[  35% ] [90m[1mreimport[22m | frame_08.svg[39m[0m
+[  35% ] [90m[1mreimport[22m | frame_09.svg[39m[0m
+[  36% ] [90m[1mreimport[22m | frame_10.svg[39m[0m
+[  36% ] [90m[1mreimport[22m | frame_11.svg[39m[0m
+[  37% ] [90m[1mreimport[22m | frame_06.svg[39m[0m
+[  37% ] [90m[1mreimport[22m | frame_07.svg[39m[0m
+[  37% ] [90m[1mreimport[22m | frame_08.svg[39m[0m
+[  38% ] [90m[1mreimport[22m | frame_09.svg[39m[0m
+[  38% ] [90m[1mreimport[22m | frame_10.svg[39m[0m
+[  39% ] [90m[1mreimport[22m | frame_11.svg[39m[0m
+[  39% ] [90m[1mreimport[22m | frame_12.svg[39m[0m
+[  40% ] [90m[1mreimport[22m | frame_13.svg[39m[0m
+[  40% ] [90m[1mreimport[22m | frame_14.svg[39m[0m
+[  41% ] [90m[1mreimport[22m | frame_15.svg[39m[0m
+[  41% ] [90m[1mreimport[22m | frame_00.svg[39m[0m
+[  41% ] [90m[1mreimport[22m | frame_01.svg[39m[0m
+[  42% ] [90m[1mreimport[22m | frame_02.svg[39m[0m
+[  42% ] [90m[1mreimport[22m | frame_03.svg[39m[0m
+[  43% ] [90m[1mreimport[22m | frame_04.svg[39m[0m
+[  43% ] [90m[1mreimport[22m | frame_05.svg[39m[0m
+[  44% ] [90m[1mreimport[22m | frame_06.svg[39m[0m
+[  44% ] [90m[1mreimport[22m | frame_07.svg[39m[0m
+[  45% ] [90m[1mreimport[22m | frame_08.svg[39m[0m
+[  45% ] [90m[1mreimport[22m | frame_09.svg[39m[0m
+[  45% ] [90m[1mreimport[22m | frame_00.svg[39m[0m
+[  46% ] [90m[1mreimport[22m | frame_01.svg[39m[0m
+[  46% ] [90m[1mreimport[22m | frame_02.svg[39m[0m
+[  47% ] [90m[1mreimport[22m | frame_03.svg[39m[0m
+[  47% ] [90m[1mreimport[22m | frame_04.svg[39m[0m
+[  48% ] [90m[1mreimport[22m | frame_05.svg[39m[0m
+[  48% ] [90m[1mreimport[22m | frame_06.svg[39m[0m
+[  49% ] [90m[1mreimport[22m | frame_07.svg[39m[0m
+[  49% ] [90m[1mreimport[22m | gem_small.svg[39m[0m
+[  50% ] [90m[1mreimport[22m | gift.svg[39m[0m
+[  50% ] [90m[1mreimport[22m | help.svg[39m[0m
+[  50% ] [90m[1mreimport[22m | home.svg[39m[0m
+[  51% ] [90m[1mreimport[22m | info.svg[39m[0m
+[  51% ] [90m[1mreimport[22m | lap.svg[39m[0m
+[  52% ] [90m[1mreimport[22m | lock.svg[39m[0m
+[  52% ] [90m[1mreimport[22m | mail.svg[39m[0m
+[  53% ] [90m[1mreimport[22m | minus.svg[39m[0m
+[  53% ] [90m[1mreimport[22m | mission.svg[39m[0m
+[  54% ] [90m[1mreimport[22m | motion.svg[39m[0m
+[  54% ] [90m[1mreimport[22m | music.svg[39m[0m
+[  54% ] [90m[1mreimport[22m | mute.svg[39m[0m
+[  55% ] [90m[1mreimport[22m | next.svg[39m[0m
+[  55% ] [90m[1mreimport[22m | offline.svg[39m[0m
+[  56% ] [90m[1mreimport[22m | pause.svg[39m[0m
+[  56% ] [90m[1mreimport[22m | play.svg[39m[0m
+[  57% ] [90m[1mreimport[22m | plus.svg[39m[0m
+[  57% ] [90m[1mreimport[22m | rank_up.svg[39m[0m
+[  58% ] [90m[1mreimport[22m | refresh.svg[39m[0m
+[  58% ] [90m[1mreimport[22m | save.svg[39m[0m
+[  58% ] [90m[1mreimport[22m | settings.svg[39m[0m
+[  59% ] [90m[1mreimport[22m | cars.png[39m[0m
+[  59% ] [90m[1mreimport[22m | drivers_extra.png[39m[0m
+[  60% ] [90m[1mreimport[22m | rewards.png[39m[0m
+[  60% ] [90m[1mreimport[22m | ui_icons.png[39m[0m
+[  61% ] [90m[1mreimport[22m | workshop_props.png[39m[0m
+[  61% ] [90m[1mreimport[22m | medal_1.svg[39m[0m
+[  62% ] [90m[1mreimport[22m | medal_2.svg[39m[0m
+[  62% ] [90m[1mreimport[22m | medal_3.svg[39m[0m
+[  62% ] [90m[1mreimport[22m | pro.svg[39m[0m
+[  63% ] [90m[1mreimport[22m | rookie.svg[39m[0m
+[  63% ] [90m[1mreimport[22m | semi_pro.svg[39m[0m
+[  64% ] [90m[1mreimport[22m | app_icon.svg[39m[0m
+[  64% ] [90m[1mreimport[22m | splash_background.svg[39m[0m
+[  65% ] [90m[1mreimport[22m | back.svg[39m[0m
+[  65% ] [90m[1mreimport[22m | chassis.svg[39m[0m
+[  66% ] [90m[1mreimport[22m | check.svg[39m[0m
+[  66% ] [90m[1mreimport[22m | clock.svg[39m[0m
+[  66% ] [90m[1mreimport[22m | close.svg[39m[0m
+[  67% ] [90m[1mreimport[22m | coin_small.svg[39m[0m
+[  67% ] [90m[1mreimport[22m | engine.svg[39m[0m
+[  68% ] [90m[1mreimport[22m | fan.svg[39m[0m
+[  68% ] [90m[1mreimport[22m | flag.svg[39m[0m
+[  69% ] [90m[1mreimport[22m | gearbox.svg[39m[0m
+[  69% ] [90m[1mreimport[22m | lap.svg[39m[0m
+[  70% ] [90m[1mreimport[22m | lock.svg[39m[0m
+[  70% ] [90m[1mreimport[22m | mail.svg[39m[0m
+[  70% ] [90m[1mreimport[22m | minus.svg[39m[0m
+[  71% ] [90m[1mreimport[22m | mission.svg[39m[0m
+[  71% ] [90m[1mreimport[22m | motion.svg[39m[0m
+[  72% ] [90m[1mreimport[22m | music.svg[39m[0m
+[  72% ] [90m[1mreimport[22m | mute.svg[39m[0m
+[  73% ] [90m[1mreimport[22m | next.svg[39m[0m
+[  73% ] [90m[1mreimport[22m | offline.svg[39m[0m
+[  74% ] [90m[1mreimport[22m | pause.svg[39m[0m
+[  74% ] [90m[1mreimport[22m | play.svg[39m[0m
+[  75% ] [90m[1mreimport[22m | plus.svg[39m[0m
+[  75% ] [90m[1mreimport[22m | rank_up.svg[39m[0m
+[  75% ] [90m[1mreimport[22m | refresh.svg[39m[0m
+[  76% ] [90m[1mreimport[22m | save.svg[39m[0m
+[  76% ] [90m[1mreimport[22m | settings.svg[39m[0m
+[  77% ] [90m[1mreimport[22m | sound.svg[39m[0m
+[  77% ] [90m[1mreimport[22m | star.svg[39m[0m
+[  78% ] [90m[1mreimport[22m | training.svg[39m[0m
+[  78% ] [90m[1mreimport[22m | tyre.svg[39m[0m
+[  79% ] [90m[1mreimport[22m | unlock.svg[39m[0m
+[  79% ] [90m[1mreimport[22m | venue.svg[39m[0m
+[  79% ] [90m[1mreimport[22m | sound.svg[39m[0m
+[  80% ] [90m[1mreimport[22m | star.svg[39m[0m
+[  80% ] [90m[1mreimport[22m | training.svg[39m[0m
+[  81% ] [90m[1mreimport[22m | tyre.svg[39m[0m
+[  81% ] [90m[1mreimport[22m | unlock.svg[39m[0m
+[  82% ] [90m[1mreimport[22m | venue.svg[39m[0m
+[  82% ] [90m[1mreimport[22m | vibration.svg[39m[0m
+[  83% ] [90m[1mreimport[22m | warning.svg[39m[0m
+[  83% ] [90m[1mreimport[22m | back.svg[39m[0m
+[  83% ] [90m[1mreimport[22m | chassis.svg[39m[0m
+[  84% ] [90m[1mreimport[22m | check.svg[39m[0m
+[  84% ] [90m[1mreimport[22m | info.svg[39m[0m
+[  85% ] [90m[1mreimport[22m | home.svg[39m[0m
+[  85% ] [90m[1mreimport[22m | help.svg[39m[0m
+[  86% ] [90m[1mreimport[22m | gift.svg[39m[0m
+[  86% ] [90m[1mreimport[22m | gem_small.svg[39m[0m
+[  87% ] [90m[1mreimport[22m | gearbox.svg[39m[0m
+[  87% ] [90m[1mreimport[22m | clock.svg[39m[0m
+[  87% ] [90m[1mreimport[22m | close.svg[39m[0m
+[  87% ] [90m[1mreimport[22m | close.svg[39m[0m
+[  88% ] [90m[1mreimport[22m | coin_small.svg[39m[0m
+[  88% ] [90m[1mreimport[22m | engine.svg[39m[0m
+[  89% ] [90m[1mreimport[22m | fan.svg[39m[0m
+[  89% ] [90m[1mreimport[22m | flag.svg[39m[0m
+[  90% ] [90m[1mreimport[22m | progress_track.svg[39m[0m
+[  90% ] [90m[1mreimport[22m | slider_grabber.svg[39m[0m
+[  91% ] [90m[1mreimport[22m | slider_track.svg[39m[0m
+[  91% ] [90m[1mreimport[22m | stat_chip.svg[39m[0m
+[  91% ] [90m[1mreimport[22m | toast.svg[39m[0m
+[  92% ] [90m[1mreimport[22m | toggle_off.svg[39m[0m
+[  92% ] [90m[1mreimport[22m | toggle_on.svg[39m[0m
+[  93% ] [90m[1mreimport[22m | tooltip_arrow.svg[39m[0m
+[  93% ] [90m[1mreimport[22m | tutorial_hand.svg[39m[0m
+[  94% ] [90m[1mreimport[22m | frame_00.svg[39m[0m
+[  94% ] [90m[1mreimport[22m | frame_01.svg[39m[0m
+[  95% ] [90m[1mreimport[22m | frame_02.svg[39m[0m
+[  95% ] [90m[1mreimport[22m | frame_03.svg[39m[0m
+[  95% ] [90m[1mreimport[22m | frame_04.svg[39m[0m
+[  96% ] [90m[1mreimport[22m | frame_05.svg[39m[0m
+[  96% ] [90m[1mreimport[22m | frame_06.svg[39m[0m
+[  97% ] [90m[1mreimport[22m | frame_07.svg[39m[0m
+[  97% ] [90m[1mreimport[22m | frame_08.svg[39m[0m
+[  98% ] [90m[1mreimport[22m | frame_09.svg[39m[0m
+[  98% ] [90m[1mreimport[22m | frame_10.svg[39m[0m
+[  99% ] [90m[1mreimport[22m | frame_11.svg[39m[0m
+[  99% ] [90m[1mreimport[22m | Finalizing Asset Import...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started (Re)Importing Assets (223 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Executing post-reimport operations...[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Loading editor (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Loading editor layout...[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Loading docks...[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m

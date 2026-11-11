@@ -1,0 +1,9 @@
+{
+  "name": "Workshop GP",
+  "version": "1.0",
+  "catalog": "asset_catalog.json",
+  "inventory": "manifest_complete.json",
+  "coverage": "ASSET_COVERAGE.md",
+  "asset_type": "2D",
+  "source_rasters_edited": false
+}

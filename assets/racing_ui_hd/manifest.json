@@ -1,0 +1,337 @@
+{
+  "name": "Racing UI HD",
+  "version": 1,
+  "source": "Reference-based generated artwork",
+  "figma": "https://www.figma.com/design/8VBWw193bPHoBgNNrFkagO?node-id=12-108",
+  "count": 41,
+  "assets": [
+    {
+      "id": "alert",
+      "category": "controls",
+      "path": "res://assets/racing_ui_hd/controls/alert.png",
+      "width": 315,
+      "height": 312,
+      "sha256": "da47226dc265c5887f15785da0a7f43f8931ad1ca7a4871b456af0b3f0c302d4"
+    },
+    {
+      "id": "arrow_up",
+      "category": "controls",
+      "path": "res://assets/racing_ui_hd/controls/arrow_up.png",
+      "width": 316,
+      "height": 312,
+      "sha256": "b70d99bf8eae92f5d5f86e4b007f13732d6a54b3eaa9f79d7d2fa9334c48c28b"
+    },
+    {
+      "id": "avatar",
+      "category": "icons",
+      "path": "res://assets/racing_ui_hd/icons/avatar.png",
+      "width": 315,
+      "height": 312,
+      "sha256": "574970836d4c5148a6657dc30932fbe30d0a2e5b8019549af0d2dc409c9943e2"
+    },
+    {
+      "id": "button_cancel",
+      "category": "surfaces",
+      "path": "res://assets/racing_ui_hd/surfaces/button_cancel.png",
+      "width": 640,
+      "height": 187,
+      "sha256": "f98c46586c156d195b732f9c0611644e2b9c772b010b39c996a3345861637d9b"
+    },
+    {
+      "id": "button_claim",
+      "category": "surfaces",
+      "path": "res://assets/racing_ui_hd/surfaces/button_claim.png",
+      "width": 640,
+      "height": 195,
+      "sha256": "db07d5ed2d1da63def686c3e294c9c8ad5370004b96087fa89028e379f756ed7"
+    },
+    {
+      "id": "button_menu",
+      "category": "surfaces",
+      "path": "res://assets/racing_ui_hd/surfaces/button_menu.png",
+      "width": 285,
+      "height": 242,
+      "sha256": "9ee0b1f8b79cc9d92911f634fac9c5bbcf63664f97369c3eadf5f2f77ea27728"
+    },
+    {
+      "id": "button_nav",
+      "category": "surfaces",
+      "path": "res://assets/racing_ui_hd/surfaces/button_nav.png",
+      "width": 645,
+      "height": 220,
+      "sha256": "3555c68b5d5aacfbf18301ed6bb71b346b995c73575ca62f204ac1e3846bec8c"
+    },
+    {
+      "id": "button_race",
+      "category": "surfaces",
+      "path": "res://assets/racing_ui_hd/surfaces/button_race.png",
+      "width": 665,
+      "height": 220,
+      "sha256": "55fb56893116cc606ad161edb6ff414ed611768242fd902f214c5387c1993440"
+    },
+    {
+      "id": "button_upgrade",
+      "category": "surfaces",
+      "path": "res://assets/racing_ui_hd/surfaces/button_upgrade.png",
+      "width": 640,
+      "height": 195,
+      "sha256": "2e1be09b87a358a6db3517ca64ebccc737d38386463db061ff5a30e9f77cb6d9"
+    },
+    {
+      "id": "car_blue",
+      "category": "icons",
+      "path": "res://assets/racing_ui_hd/icons/car_blue.png",
+      "width": 330,
+      "height": 300,
+      "sha256": "3957f8aa8c7aea3116d330cf89f2602a9721340b2bd9b4e27e70bf138578eb6f"
+    },
+    {
+      "id": "car_red",
+      "category": "icons",
+      "path": "res://assets/racing_ui_hd/icons/car_red.png",
+      "width": 315,
+      "height": 312,
+      "sha256": "23a77d97b06e3c8b1ba26ff87f03c245e0591ce00bf5e3b43726af3a76382f71"
+    },
+    {
+      "id": "cash",
+      "category": "icons",
+      "path": "res://assets/racing_ui_hd/icons/cash.png",
+      "width": 313,
+      "height": 313,
+      "sha256": "7ccc1389052f447a7c175e977602a3e30623f44b34bd7bfb6b59cdae394e2884"
+    },
+    {
+      "id": "checkbox_off",
+      "category": "controls",
+      "path": "res://assets/racing_ui_hd/controls/checkbox_off.png",
+      "width": 316,
+      "height": 312,
+      "sha256": "e65494e50117c99140aa03ccd65b193f5962c8128233ef02384e1ec47e8a0332"
+    },
+    {
+      "id": "checkbox_on",
+      "category": "controls",
+      "path": "res://assets/racing_ui_hd/controls/checkbox_on.png",
+      "width": 315,
+      "height": 312,
+      "sha256": "93edf1c594d66c6cf1a6bd42de76e54796d4bc2d5db1af5ffc968eb65070e599"
+    },
+    {
+      "id": "chevrons",
+      "category": "controls",
+      "path": "res://assets/racing_ui_hd/controls/chevrons.png",
+      "width": 315,
+      "height": 312,
+      "sha256": "63505130ef32e9f4723fd5140ec1578ea9082274b92d36dfb781e9a6aa0ba7a3"
+    },
+    {
+      "id": "crane",
+      "category": "icons",
+      "path": "res://assets/racing_ui_hd/icons/crane.png",
+      "width": 313,
+      "height": 314,
+      "sha256": "3c4c7c77373fb8c0edc33a1312653da2211b759f17d292d33f78f3e31dc76248"
+    },
+    {
+      "id": "crown",
+      "category": "icons",
+      "path": "res://assets/racing_ui_hd/icons/crown.png",
+      "width": 314,
+      "height": 313,
+      "sha256": "c66ea08ff33f0d86c7b9869b50594158cbfd7deb9eb641db2c01fef5bd7c6e9e"
+    },
+    {
+      "id": "energy",
+      "category": "icons",
+      "path": "res://assets/racing_ui_hd/icons/energy.png",
+      "width": 313,
+      "height": 313,
+      "sha256": "1cf6e57ded0c42c95fd37f35b0060e0a692cbd8a4d15617add2a508db1df02fb"
+    },
+    {
+      "id": "event",
+      "category": "icons",
+      "path": "res://assets/racing_ui_hd/icons/event.png",
+      "width": 314,
+      "height": 313,
+      "sha256": "ad4e065d864895329720c97c067e91e2475f9c57b97084e5d9f99a3cb829e9fe"
+    },
+    {
+      "id": "first_place",
+      "category": "icons",
+      "path": "res://assets/racing_ui_hd/icons/first_place.png",
+      "width": 315,
+      "height": 312,
+      "sha256": "956fa02dea9dccdb368a4236ca102e45ff8e725a611410e716c6ceecf4b2d5da"
+    },
+    {
+      "id": "flag",
+      "category": "icons",
+      "path": "res://assets/racing_ui_hd/icons/flag.png",
+      "width": 313,
+      "height": 314,
+      "sha256": "d6f52d02ac6f37f6350d6a4f576fb7cdf6548209c7148118c13c245cbc001929"
+    },
+    {
+      "id": "garage",
+      "category": "icons",
+      "path": "res://assets/racing_ui_hd/icons/garage.png",
+      "width": 334,
+      "height": 300,
+      "sha256": "4fef642f7b1590586b3cff2201da13a843aa2f32ffbeea3923ffa50cbce998d9"
+    },
+    {
+      "id": "gear",
+      "category": "icons",
+      "path": "res://assets/racing_ui_hd/icons/gear.png",
+      "width": 314,
+      "height": 313,
+      "sha256": "6076583d9c07773c63fc1fb25aa1c2307e9106a34bca1a80ebef2ae56711a6e6"
+    },
+    {
+      "id": "gem",
+      "category": "icons",
+      "path": "res://assets/racing_ui_hd/icons/gem.png",
+      "width": 314,
+      "height": 313,
+      "sha256": "3a8890022ff46cbf66be06ef13f5a96c0d63ad46c613491101f99e55e20da0dc"
+    },
+    {
+      "id": "gift",
+      "category": "icons",
+      "path": "res://assets/racing_ui_hd/icons/gift.png",
+      "width": 313,
+      "height": 314,
+      "sha256": "866182d672685f061e320617fef73d077ad326fb44a528767573ae70b5242f1c"
+    },
+    {
+      "id": "hud_bar",
+      "category": "surfaces",
+      "path": "res://assets/racing_ui_hd/surfaces/hud_bar.png",
+      "width": 705,
+      "height": 170,
+      "sha256": "9ced6ebf1e5b00a93d599b16b1c46492244888127729fd13af6b6fc637944585"
+    },
+    {
+      "id": "mission",
+      "category": "icons",
+      "path": "res://assets/racing_ui_hd/icons/mission.png",
+      "width": 313,
+      "height": 313,
+      "sha256": "ce8464df936cc3e891bd56282d21288b9f25fab353d378dbd8b62b4669eb508f"
+    },
+    {
+      "id": "panel_body",
+      "category": "surfaces",
+      "path": "res://assets/racing_ui_hd/surfaces/panel_body.png",
+      "width": 705,
+      "height": 235,
+      "sha256": "d3ae6723a6744c37b0afdb32e0363c200867138eabdf0345a7422a8bede95779"
+    },
+    {
+      "id": "plus",
+      "category": "controls",
+      "path": "res://assets/racing_ui_hd/controls/plus.png",
+      "width": 315,
+      "height": 312,
+      "sha256": "b819b575123d7449398aca3e7822837cf0fb1e9cfc77089951f92b70bda7f714"
+    },
+    {
+      "id": "racetrack_background",
+      "category": "backgrounds",
+      "path": "res://assets/racing_ui_hd/backgrounds/racetrack_background.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "0c3e06dc0870643e7fc2a5a2f7a81391f0eac94b0ccb858b32f0cf28c516013d"
+    },
+    {
+      "id": "rarity_a",
+      "category": "controls",
+      "path": "res://assets/racing_ui_hd/controls/rarity_a.png",
+      "width": 316,
+      "height": 312,
+      "sha256": "0e782107c7e28222ef80ed35620e969ef88edb61f4f749cc7022566fbba1e594"
+    },
+    {
+      "id": "research",
+      "category": "icons",
+      "path": "res://assets/racing_ui_hd/icons/research.png",
+      "width": 314,
+      "height": 314,
+      "sha256": "043663b66b53ed12fe0ba7b32885cdc672e0da940d73258f14e27bcb22f91bec"
+    },
+    {
+      "id": "seats",
+      "category": "icons",
+      "path": "res://assets/racing_ui_hd/icons/seats.png",
+      "width": 315,
+      "height": 311,
+      "sha256": "71a96767e5f0bb25b56e3d6053d597b0fda9f22566c922ffdfff5f9237744e77"
+    },
+    {
+      "id": "shop",
+      "category": "icons",
+      "path": "res://assets/racing_ui_hd/icons/shop.png",
+      "width": 313,
+      "height": 313,
+      "sha256": "e0cb0acc5f2c942a4309d2e9417c33f26f9541fe776d645206581481b4ea5a59"
+    },
+    {
+      "id": "staff",
+      "category": "icons",
+      "path": "res://assets/racing_ui_hd/icons/staff.png",
+      "width": 315,
+      "height": 311,
+      "sha256": "58431c796b51383597f84c8c2e318f4787c5ac4d1c079e37c0749372212f2610"
+    },
+    {
+      "id": "star_empty",
+      "category": "controls",
+      "path": "res://assets/racing_ui_hd/controls/star_empty.png",
+      "width": 316,
+      "height": 311,
+      "sha256": "03b5e046a2a333ea564cfb9c280796ae1f3ed0996a5db2876e8674ca010473a2"
+    },
+    {
+      "id": "star_gold",
+      "category": "controls",
+      "path": "res://assets/racing_ui_hd/controls/star_gold.png",
+      "width": 315,
+      "height": 311,
+      "sha256": "0e3c7f5cacc58b2afccd0dac4c2ee10ee6d9abca88b8967ba9cd2a84bb708bd8"
+    },
+    {
+      "id": "toggle_off",
+      "category": "controls",
+      "path": "res://assets/racing_ui_hd/controls/toggle_off.png",
+      "width": 315,
+      "height": 312,
+      "sha256": "a483e712fe57fccd07d18644ccceb3f97f0e68b761b051220719669fde8d329f"
+    },
+    {
+      "id": "toggle_on",
+      "category": "controls",
+      "path": "res://assets/racing_ui_hd/controls/toggle_on.png",
+      "width": 315,
+      "height": 312,
+      "sha256": "da655f3788810399c8249e3c588176af11e1d852ea472074b33cbbf8a3f4c9ba"
+    },
+    {
+      "id": "tools",
+      "category": "icons",
+      "path": "res://assets/racing_ui_hd/icons/tools.png",
+      "width": 286,
+      "height": 278,
+      "sha256": "f2bea8d62865f229ad62fe688c10050cddf8b04abe985dd86a1b03ac93d702bd"
+    },
+    {
+      "id": "trophy",
+      "category": "icons",
+      "path": "res://assets/racing_ui_hd/icons/trophy.png",
+      "width": 314,
+      "height": 314,
+      "sha256": "dfc5c68bd34469621554ef24c0095591d679a4dae552f56fa368f42176c7729e"
+    }
+  ]
+}

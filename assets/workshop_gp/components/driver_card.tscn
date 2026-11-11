@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://assets/workshop_gp/components/asset_widget.gd" id="1"]
+
+[node name="DriverCard" type="PanelContainer"]
+script = ExtResource("1")
+kind = "driver"
+title = "An"
+subtitle = "Pace 44 · Kỹ thuật 40 · Bình tĩnh 40"
+image_path = "res://assets/workshop_gp/portraits/driver_an.tres"
+action_text = "Chọn tay đua"

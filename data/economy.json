@@ -1,0 +1,128 @@
+{
+  "schema_version": 2,
+  "start_coins": "1000",
+  "start_gems": 100,
+  "max_level": 200,
+  "level_subdivision": 10,
+  "duration_factor": "3",
+  "part_stat_per_level": "0.2",
+  "base_rate": "8",
+  "stages": 5,
+  "promote_points": 36,
+  "max_season_points": 50,
+  "race_rewards": [
+    [
+      10,
+      120
+    ],
+    [
+      8,
+      100
+    ],
+    [
+      6,
+      85
+    ],
+    [
+      5,
+      70
+    ],
+    [
+      4,
+      60
+    ],
+    [
+      3,
+      50
+    ],
+    [
+      2,
+      40
+    ],
+    [
+      1,
+      35
+    ]
+  ],
+  "offline": {
+    "ratio": "0.5",
+    "cap_sec": 7200,
+    "panel_min_sec": 60
+  },
+  "scout": {
+    "sp_base": 40,
+    "sp_step": 20,
+    "sp_race_bonus": 4,
+    "coin_mult": 6
+  },
+  "revenue_upgrades": {
+    "ticket": {
+      "name": "Ticket Marketing",
+      "base": "8.0",
+      "per_level": "0.25",
+      "cost": "150"
+    },
+    "celebration": {
+      "name": "Victory Celebrations",
+      "base": "0.0",
+      "per_level": "0.75",
+      "cost": "300"
+    },
+    "parking": {
+      "name": "Parking",
+      "base": "0.0",
+      "per_level": "1.25",
+      "cost": "500"
+    },
+    "grandstands": {
+      "name": "Grandstands",
+      "base": "10.0",
+      "per_level": "0.5",
+      "cost": "800"
+    }
+  },
+  "economy_version": 2,
+  "upgrade_growth": "1.45",
+  "part_cost_base": "120",
+  "business": {
+    "scale_exponents": [
+      0,
+      3,
+      6,
+      9,
+      12,
+      15
+    ],
+    "pacing": [
+      1,
+      2,
+      4,
+      8,
+      16,
+      32
+    ],
+    "opening_reserve_base": "1000",
+    "expansion_rate_seconds": 300,
+    "required_car_rate_seconds": 600,
+    "reference_revenue_level": 120,
+    "expansion_min_revenue_level": 120
+  },
+  "rewards": {
+    "race_ratio": "0.25",
+    "position_factors": [
+      "1",
+      "0.9",
+      "0.8",
+      "0.7",
+      "0.6",
+      "0.5",
+      "0.45",
+      "0.4"
+    ],
+    "season_ratio": "0.1",
+    "daily_rate_seconds": 600,
+    "daily_gems": 5,
+    "first_season_gems": 20,
+    "first_league_gems": 50
+  }
+}

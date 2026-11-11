@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="SpriteFrames" path="res://assets/workshop_gp/vfx/coin_spin.tres" id="1"]
+[ext_resource type="Script" path="res://assets/workshop_gp/components/fx_player.gd" id="2"]
+
+[node name="CoinSpin" type="AnimatedSprite2D"]
+script = ExtResource("2")
+sprite_frames = ExtResource("1")
+autoplay = "default"

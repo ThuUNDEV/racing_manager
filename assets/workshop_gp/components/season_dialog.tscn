@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://assets/workshop_gp/components/asset_dialog.gd" id="1"]
+
+[node name="SeasonDialog" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+title = "Thăng hạng!"
+description = "38/50 điểm · Mở giải Bán chuyên"
+image_path = "res://assets/workshop_gp/rewards/pro_cup.tres"
+confirm_text = "Bắt đầu mùa mới"
+show_cancel = false

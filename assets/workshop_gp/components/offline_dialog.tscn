@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://assets/workshop_gp/components/asset_dialog.gd" id="1"]
+
+[node name="OfflineDialog" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+title = "Chào mừng trở lại!"
+description = "30 phút · 8 tiền/s × 50% · +7.200 tiền"
+image_path = "res://assets/workshop_gp/rewards/money_bag.tres"
+confirm_text = "Tiếp tục"
+show_cancel = false

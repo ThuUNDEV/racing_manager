@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://assets/workshop_gp/components/asset_widget.gd" id="1"]
+
+[node name="StatCard" type="PanelContainer"]
+script = ExtResource("1")
+kind = "stat"
+title = "Tốc độ"
+subtitle = "44 / 100"
+image_path = "res://assets/workshop_gp/icons/vector_dark/engine.svg"
+action_text = ""
