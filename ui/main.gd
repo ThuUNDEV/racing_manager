@@ -34,7 +34,6 @@ const ROW_ICONS := {
 	"parking": "icons/garage.png",
 	"grandstands": "icons/seats.png",
 }
-const MEDALS := ["badges/medal_1.svg", "badges/medal_2.svg", "badges/medal_3.svg"]
 
 var _pages: Array = []
 var _nav: Array = []
@@ -48,11 +47,8 @@ var _gem_label: Label
 var _header_avatar: Control
 var _progress_label: Label
 var _status_label: Label
-var _banner: PanelContainer      # kết quả lượt vừa xong (gọn); giữ tới khi lượt kế tiếp xuất phát
-var _banner_label: Label
 var _save_err_box: PanelContainer
 var _snapshot_label: Label       # nhắc đội đang đua dùng snapshot lúc xuất phát
-var _banner_on: bool = false
 var _view_sim: TrafficSim = null # sim mà RaceView đang hiển thị
 var _race_view: RaceView
 var _race_block: VBoxContainer   # khung đua + tiến độ + banner, ghim ở Đua/Túi/Đội
@@ -125,6 +121,7 @@ func _ready() -> void:
 	_audio = (load(ROOT + "components/workshop_audio.gd") as GDScript).new()
 	add_child(_audio)
 	_build_ui()
+	resized.connect(_fit_overlay)
 	GameState.changed.connect(_refresh)
 	_select_tab(_tab)
 	_refresh()
@@ -472,7 +469,7 @@ func _make_fixed_page() -> VBoxContainer:
 
 
 func _make_page() -> VBoxContainer:
-	var sc := ScrollContainer.new()
+	var sc := preload("res://ui/touch_scroll.gd").new()
 	sc.set_anchors_preset(Control.PRESET_FULL_RECT)
 	sc.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	_pages_root.add_child(sc)
@@ -552,24 +549,6 @@ func _build_race_block(v: VBoxContainer) -> void:
 
 	_snapshot_label = _label("", 12, C_MUTED, true)
 	_snapshot_label.hide()
-
-	# Banner kết quả lượt vừa xong: một dòng, không chặn vòng lặp; "Chi tiết" mở snapshot của lượt đó.
-	_banner = PanelContainer.new()
-	_banner.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var bh := HBoxContainer.new()
-	bh.add_theme_constant_override("separation", 8)
-	_banner.add_child(bh)
-	_banner_label = _label("", 13, C_GREEN)
-	_banner_label.clip_text = true
-	_banner_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_banner_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	bh.add_child(_banner_label)
-	var detail := _button("Chi tiết", false, 44.0)
-	detail.custom_minimum_size = Vector2(88, 40)
-	detail.pressed.connect(func() -> void: _show_result(GameState.last_result.duplicate(true)))
-	bh.add_child(detail)
-	_banner.hide()
-	v.add_child(_banner)
 
 	# Lỗi lưu khi chốt kết quả: giữ giao dịch đang chờ, cho thử lại (Design/10 §5).
 	_save_err_box = PanelContainer.new()
@@ -712,7 +691,12 @@ func _show_gear_result(out: Dictionary) -> void:
 		var item := GameData.gear_item(String(e["id"]))
 		var line := "%s · %s" % [item["name"], String(item["rarity"]).capitalize()]
 		line += "  — Mới" if e["is_new"] else "  — Trùng → +%d mảnh" % int(e["shards"])
-		_overlay_box.add_child(_label(line, 13, C_GREEN if e["is_new"] else C_TEXT, true))
+		var reward := HBoxContainer.new()
+		reward.add_child(ExpansionArt.icon(String(e["id"]), Vector2(48, 48)))
+		var reward_text := _label(line, 13, C_GREEN if e["is_new"] else C_TEXT, true)
+		reward_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		reward.add_child(reward_text)
+		_overlay_box.add_child(reward)
 	var ok := _button("Xong", true)
 	ok.pressed.connect(func() -> void: _overlay.hide())
 	_overlay_box.add_child(ok)
@@ -755,7 +739,12 @@ func _on_driver_open(pack_id: String, count: int) -> void:
 		var tier_name := String(GameData.driver_tier_ids()[int(d["tier"])]).capitalize()
 		var line := "%s · %s" % [d["name"], tier_name]
 		line += "  — Mới" if e["is_new"] else "  — Trùng → +%d mảnh" % int(e["shards"])
-		_overlay_box.add_child(_label(line, 13, C_GREEN if e["is_new"] else C_TEXT, true))
+		var reward := HBoxContainer.new()
+		reward.add_child(ExpansionArt.icon(String(e["id"]), Vector2(48, 48)))
+		var reward_text := _label(line, 13, C_GREEN if e["is_new"] else C_TEXT, true)
+		reward_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		reward.add_child(reward_text)
+		_overlay_box.add_child(reward)
 	var ok := _button("Xong", true)
 	ok.pressed.connect(func() -> void: _overlay.hide())
 	_overlay_box.add_child(ok)
@@ -816,7 +805,7 @@ func _add_tile(parent: Control, kind: String) -> void:
 	row.add_theme_constant_override("separation", 10)
 	pc.add_child(row)
 	if ROW_ICONS.has(kind):
-		var ic := HdUi.icon(ROW_ICONS[kind], Vector2(44, 44))
+		var ic := ExpansionArt.icon(kind, Vector2(44, 44))
 		ic.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		row.add_child(ic)
 	var info := VBoxContainer.new()
@@ -831,8 +820,6 @@ func _add_tile(parent: Control, kind: String) -> void:
 	name_l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	name_l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	top.add_child(name_l)
-	var lv_l := _label("", 12, C_MUTED)
-	top.add_child(lv_l)
 	var eff_l := _label("", 13, C_GREEN)
 	eff_l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	info.add_child(eff_l)
@@ -852,7 +839,7 @@ func _add_tile(parent: Control, kind: String) -> void:
 	bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	info.add_child(bar)
 	var btn := Button.new()
-	HdUi.style_button(btn, "race")
+	HdUi.style_button(btn, "amber")
 	btn.custom_minimum_size = Vector2(98, 46)
 	btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	btn.add_theme_font_size_override("font_size", 16)
@@ -867,7 +854,7 @@ func _add_tile(parent: Control, kind: String) -> void:
 	var short_l := _label("", 11, C_RED)
 	short_l.hide()
 	info.add_child(short_l)
-	_rows.append({"kind": kind, "name": name_l, "eff": eff_l, "short": short_l, "btn": btn, "tile": pc, "lv": lv_l, "bar": bar})
+	_rows.append({"kind": kind, "name": name_l, "eff": eff_l, "short": short_l, "btn": btn, "tile": pc, "bar": bar})
 
 
 func _on_buy(kind: String) -> void:
@@ -918,7 +905,6 @@ func _refresh_rows() -> void:
 		var full_name: String = t[0]
 		var parts := full_name.split(" · cấp ")
 		(r["name"] as Label).text = parts[0]
-		(r["lv"] as Label).text = "Cv %d/%d" % [lv, Balance.max_level()]
 		(r["bar"] as ProgressBar).value = lv
 		# Dòng ngắn trên ô: xe "Speed 46 → 48"; doanh thu "+x/giây" (hết cấp thì giá trị hiện tại).
 		var short_eff: String = String(t[1]).split("
@@ -958,7 +944,6 @@ Thiếu %s" % Balance.fmt_money(cost.subtract_checked(GameState.coins))
 		if GameState.applies_next_race(kind):
 			tip += "
 Áp dụng từ lượt sau"
-			(r["eff"] as Label).text += " ·sau"
 		tip += "
 " + cost.format_scientific() + " tiền"
 
@@ -1098,6 +1083,7 @@ func _rebuild_league() -> void:
 	var expansion := GameState.expansion_state()
 	if expansion != "complete":
 		var box := _card(_league_box)
+		box.add_child(ExpansionArt.icon("facility_tier_%d" % clampi(GameState.business_tier + 1, 1, 5), Vector2(0, 100)))
 		box.add_child(_label("Mở cơ sở " + Balance.league_name(GameState.business_tier + 1), 16))
 		_expansion_status = _label(_expansion_text(expansion) + "\nPhí: " + Pricing.expansion_cost(GameState.business_tier).format_compact(), 12, C_MUTED, true)
 		box.add_child(_expansion_status)
@@ -1192,7 +1178,6 @@ func _sync_sim() -> void:
 
 
 func _on_race_started() -> void:
-	_banner_on = false
 	_sfx("countdown_go")
 	_set_music("music_race_loop")
 
@@ -1200,14 +1185,6 @@ func _on_race_started() -> void:
 func _on_race_finished(res: Dictionary) -> void:
 	_sfx("finish")
 	_set_music("music_workshop_loop")
-	var txt := "Chặng %d · P%d · +%d điểm · +%s tiền" % [int(res["stage"]), int(res["position"]), int(res["points"]), Balance.fmt_money(res["money"])]
-	if bool(res.get("season_done", false)):
-		txt += "\nHoàn tất mùa %d: +%s tiền" % [int(res["season_number"]), Balance.fmt_money(res.get("completion_reward", 0))]
-	if bool(res.get("new_record", false)):
-		txt += "\nKỷ lục mới: %s m" % Balance.fmt_int(int(round(float(res["distance"]))))
-	_banner_label.text = txt.split("
-")[0]
-	_banner_on = true
 	# Hiện bảng tổng kết + thưởng theo hạng; lượt kế tiếp chỉ đếm ngược sau khi người chơi đóng bảng.
 	if _shot_prefix == "" and not _auto_race:
 		GameState.result_hold = true
@@ -1216,7 +1193,7 @@ func _on_race_finished(res: Dictionary) -> void:
 		_spawn_fx("finish_flash", _race_view.global_position + _race_view.size * 0.5 - global_position, 2.0)
 
 
-## Trạng thái vòng lặp: countdown / thời gian còn lại / vị trí; banner kết quả; lỗi lưu.
+## Trạng thái vòng lặp: countdown / thời gian còn lại / vị trí; lỗi lưu.
 func _update_race_ui() -> void:
 	var gs := GameState
 	var look := gs.race_cosmetics()
@@ -1243,7 +1220,6 @@ func _update_race_ui() -> void:
 			_status_label.text = "Hết giờ · P%d/%d" % [int(gs.last_result.get("position", 1)), Balance.CAR_COUNT]
 	_race_view.overlay_text = overlay
 	_race_view.power_value = gs.team_power()
-	_banner.visible = _banner_on and gs.phase != "racing"
 	_save_err_box.visible = gs.phase == "save_error"
 	var differs := false
 	if gs.phase == "racing" and not gs.race_snapshot.is_empty():
@@ -1292,11 +1268,9 @@ func _build_overlay() -> void:
 	margin.add_child(center)
 	var pc := PanelContainer.new()
 	pc.add_theme_stylebox_override("panel", HdUi.panel(6.0))
-	pc.custom_minimum_size = Vector2(340, 0)
 	center.add_child(pc)
-	var sc := ScrollContainer.new()
+	var sc := preload("res://ui/touch_scroll.gd").new()
 	sc.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	sc.custom_minimum_size = Vector2(316, 0)
 	sc.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	pc.add_child(sc)
 	_overlay_box = VBoxContainer.new()
@@ -1422,6 +1396,10 @@ func _begin_overlay() -> void:
 func _fit_overlay() -> void:
 	await get_tree().process_frame
 	var sc := _overlay_box.get_parent() as ScrollContainer
+	var panel := sc.get_parent() as PanelContainer
+	var frame := panel.get_theme_stylebox("panel")
+	# Account for the screen gutters and the panel's own padding on narrow phones.
+	sc.custom_minimum_size.x = minf(316.0, maxf(0.0, size.x - 32.0 - frame.get_minimum_size().x))
 	var wanted := _overlay_box.get_combined_minimum_size().y
 	sc.custom_minimum_size.y = minf(wanted, maxf(200.0, size.y - 120.0))
 
@@ -1457,64 +1435,6 @@ func _show_offline() -> void:
 	b.pressed.connect(func() -> void:
 		GameState.offline_report = {}
 		_open_next_overlay())
-	_overlay_box.add_child(b)
-
-
-## Chi tiết kết quả: xem snapshot của lượt đã chọn; lượt mới kết thúc không đổi nội dung đang đọc, đóng bảng không ảnh hưởng đua.
-func _show_result(res: Dictionary) -> void:
-	if res.is_empty():
-		return
-	_begin_overlay()
-	var pos := int(res["position"])
-	_overlay_box.add_child(_label("Kết quả · Chặng %d/%d" % [int(res["stage"]), Balance.stages()], 16, C_MUTED))
-	_overlay_box.add_child(_art(MEDALS[pos - 1] if pos <= 3 else "rewards/finish_flags.tres", 96.0))
-	var big := _label("P%d/%d" % [pos, Balance.CAR_COUNT], 40, C_GOLD if pos <= 3 else C_TEXT)
-	big.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_overlay_box.add_child(big)
-	var sub := _label("Quãng đường %s m · %d vòng đường" % [Balance.fmt_int(int(round(float(res["distance"])))), int(res["laps"])], 14, C_MUTED)
-	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_overlay_box.add_child(sub)
-	var rw := _label("+%s tiền · +%d điểm mùa" % [Balance.fmt_money(res["money"]), int(res["points"])], 16, C_GREEN)
-	rw.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_overlay_box.add_child(rw)
-	if bool(res.get("season_done", false)):
-		var sd := _label("Hoàn tất mùa %d: +%s tiền" % [int(res["season_number"]), Balance.fmt_money(res.get("completion_reward", 0))], 14, C_GOLD)
-		sd.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		_overlay_box.add_child(sd)
-
-	var parts: Array = []
-	var errs := int(res["errors"])
-	if errs == 0:
-		parts.append("Không mắc lỗi")
-	else:
-		parts.append("Mắc %d lỗi (mất ≈%.1f giây)" % [errs, float(res["error_loss"])])
-	parts.append("vượt thành công %d lần" % int(res["overtakes"]))
-	_overlay_box.add_child(_label(", ".join(parts) + ".", 12, C_MUTED, true))
-	var rec_txt := "Kỷ lục quãng đường (%d giây): %s m" % [int(round(float(res["duration"]))), Balance.fmt_int(int(round(float(res["record"]))))]
-	if bool(res.get("new_record", false)):
-		rec_txt = "Kỷ lục mới! " + rec_txt
-	_overlay_box.add_child(_label(rec_txt, 12, C_MUTED, true))
-
-	var table := _card(_overlay_box)
-	var rows: Array = res["rows"]
-	var first := float(rows[0]["distance"])
-	for r: Dictionary in rows:
-		var h := HBoxContainer.new()
-		var mine := bool(r["is_player"])
-		var col := C_CYAN if mine else C_TEXT
-		var p := _label("%d" % int(r["position"]), 13, col)
-		p.custom_minimum_size = Vector2(22, 0)
-		h.add_child(p)
-		var n := _label("%s · %02d" % [r["name"], int(r["number"])], 13, col)
-		n.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		h.add_child(n)
-		var d := float(r["distance"])
-		var tt := "%s m" % Balance.fmt_int(int(round(d))) if int(r["position"]) == 1 else "−%s m" % Balance.fmt_int(int(round(first - d)))
-		h.add_child(_label(tt, 13, col))
-		table.add_child(h)
-
-	var b := _button("Đóng", true)
-	b.pressed.connect(func() -> void: _overlay.hide())
 	_overlay_box.add_child(b)
 
 
@@ -1558,14 +1478,10 @@ func _dev_tick(delta: float) -> void:
 		if gs.phase == "racing" and gs.sim != null and gs.sim.time > 20.0 and not _shots_done.has("mid"):
 			_shots_done["mid"] = true
 			_save_shot("2_racing")
-		if _banner_on and not _shots_done.has("result"):
+		if not gs.last_result.is_empty() and not _shots_done.has("result"):
 			_shots_done["result"] = true
 			await get_tree().create_timer(0.3).timeout
 			_save_shot("3_result")
-			_show_result(gs.last_result.duplicate(true))
-			await get_tree().create_timer(0.3).timeout
-			_save_shot("3b_detail")
-			_overlay.hide()
 			_select_tab(Tab.TEAM)
 			await get_tree().create_timer(0.2).timeout
 			_save_shot("4_team")

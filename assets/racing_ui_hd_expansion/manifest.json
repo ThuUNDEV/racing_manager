@@ -1,0 +1,1863 @@
+{
+  "name": "Racing UI HD Expansion",
+  "date": "2026-11-11",
+  "status": "Integrated into game UI; race simulation markers unchanged",
+  "source": "OpenAI image generation with local Racing UI HD style references",
+  "reference_assets": [
+    "assets/racing_ui_hd/icons/car_red.png",
+    "assets/racing_ui_hd/icons/avatar.png",
+    "assets/racing_ui_hd/surfaces/panel_body.png"
+  ],
+  "sheets": [
+    {
+      "id": "layout_icons",
+      "path": "assets/racing_ui_hd_expansion/sheets/layout_icons.png",
+      "size": [
+        1261,
+        1247
+      ],
+      "grid": [
+        4,
+        4
+      ],
+      "sha256": "7be37bfb0c40834bdd5de940505aab8ff45e7b393d3b7c7142d0f9211f8e0e33",
+      "original_filename": "exec-d5090edf-b2ad-4d25-a08e-393aa4d43a0d.png",
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "gear_items_01_15",
+      "path": "assets/racing_ui_hd_expansion/sheets/gear_items_01_15.png",
+      "size": [
+        1620,
+        971
+      ],
+      "grid": [
+        5,
+        3
+      ],
+      "sha256": "9253696d4da0bcb91b51b4f72d7db8f933d20ad2b54fc9f3f2f6223c49174237",
+      "original_filename": "exec-fdf0f9c6-551e-4f8b-b54f-05e7b0689bac.png",
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "gear_items_16_30",
+      "path": "assets/racing_ui_hd_expansion/sheets/gear_items_16_30.png",
+      "size": [
+        1619,
+        971
+      ],
+      "grid": [
+        5,
+        3
+      ],
+      "sha256": "e2d43cf3fe10df4349aac5e506ddb575cb7d430391bf28c1c6cfeaed3ec73a60",
+      "original_filename": "exec-ffed509a-e5f2-4abb-b17c-dd9c090168b9.png",
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "driver_portraits",
+      "path": "assets/racing_ui_hd_expansion/sheets/driver_portraits.png",
+      "size": [
+        1448,
+        1086
+      ],
+      "grid": [
+        4,
+        3
+      ],
+      "sha256": "ab68b2c73fe813b03a5eb744d47df7a5c0153608ce6a4411e55aea9cde0a5eb1",
+      "original_filename": "exec-2b4eccc4-6dbd-4468-9ad1-311f23eda1f6.png",
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "garage",
+      "path": "assets/racing_ui_hd_expansion/sheets/garage.png",
+      "size": [
+        1619,
+        972
+      ],
+      "grid": [
+        5,
+        3
+      ],
+      "sha256": "7bf229da4f1a6717982dba698834d57aa19588814c0b197130db43a41eadafde",
+      "original_filename": "exec-c5f694f6-a80b-43d2-854e-2ff474e96920.png",
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    },
+    {
+      "id": "packs_facilities",
+      "path": "assets/racing_ui_hd_expansion/sheets/packs_facilities.png",
+      "size": [
+        2172,
+        724
+      ],
+      "grid": [
+        3,
+        3
+      ],
+      "sha256": "21c1025185045c5e2997ecede2e516aad9b9077deaeeaaff303414084ebd6ae8",
+      "original_filename": "exec-e1a21ebb-6b7c-4d59-95da-5411ae4312dd.png",
+      "alpha_extrema": [
+        0,
+        255
+      ]
+    }
+  ],
+  "sprites": [
+    {
+      "id": "engine",
+      "name": "Động cơ",
+      "backlog_id": "A01",
+      "sheet": "layout_icons",
+      "row": 1,
+      "column": 1,
+      "cell_region": [
+        0,
+        0,
+        315,
+        312
+      ],
+      "region": [
+        16,
+        32,
+        286,
+        263
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/engine.tres"
+    },
+    {
+      "id": "tyre",
+      "name": "Lốp",
+      "backlog_id": "A02",
+      "sheet": "layout_icons",
+      "row": 1,
+      "column": 2,
+      "cell_region": [
+        315,
+        0,
+        315,
+        312
+      ],
+      "region": [
+        331,
+        30,
+        282,
+        275
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/tyre.tres"
+    },
+    {
+      "id": "chassis",
+      "name": "Khung gầm",
+      "backlog_id": "A03",
+      "sheet": "layout_icons",
+      "row": 1,
+      "column": 3,
+      "cell_region": [
+        630,
+        0,
+        316,
+        312
+      ],
+      "region": [
+        636,
+        44,
+        302,
+        231
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/chassis.tres"
+    },
+    {
+      "id": "gearbox",
+      "name": "Hộp số",
+      "backlog_id": "A04",
+      "sheet": "layout_icons",
+      "row": 1,
+      "column": 4,
+      "cell_region": [
+        946,
+        0,
+        315,
+        312
+      ],
+      "region": [
+        956,
+        60,
+        292,
+        214
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gearbox.tres"
+    },
+    {
+      "id": "ticket",
+      "name": "Tiếp thị vé",
+      "backlog_id": "A05",
+      "sheet": "layout_icons",
+      "row": 2,
+      "column": 1,
+      "cell_region": [
+        0,
+        312,
+        315,
+        312
+      ],
+      "region": [
+        6,
+        339,
+        309,
+        285
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/ticket.tres"
+    },
+    {
+      "id": "celebration",
+      "name": "Ăn mừng chiến thắng",
+      "backlog_id": "A06",
+      "sheet": "layout_icons",
+      "row": 2,
+      "column": 2,
+      "cell_region": [
+        315,
+        312,
+        315,
+        312
+      ],
+      "region": [
+        315,
+        338,
+        315,
+        276
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/celebration.tres"
+    },
+    {
+      "id": "parking",
+      "name": "Bãi đỗ",
+      "backlog_id": "A07",
+      "sheet": "layout_icons",
+      "row": 2,
+      "column": 3,
+      "cell_region": [
+        630,
+        312,
+        316,
+        312
+      ],
+      "region": [
+        630,
+        361,
+        309,
+        258
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/parking.tres"
+    },
+    {
+      "id": "grandstands",
+      "name": "Khán đài",
+      "backlog_id": "A08",
+      "sheet": "layout_icons",
+      "row": 2,
+      "column": 4,
+      "cell_region": [
+        946,
+        312,
+        315,
+        312
+      ],
+      "region": [
+        951,
+        340,
+        301,
+        276
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/grandstands.tres"
+    },
+    {
+      "id": "attack",
+      "name": "Kiếm",
+      "backlog_id": "A43",
+      "sheet": "layout_icons",
+      "row": 3,
+      "column": 1,
+      "cell_region": [
+        0,
+        624,
+        315,
+        311
+      ],
+      "region": [
+        37,
+        624,
+        242,
+        293
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/attack.tres"
+    },
+    {
+      "id": "defense",
+      "name": "Khiên",
+      "backlog_id": "A44",
+      "sheet": "layout_icons",
+      "row": 3,
+      "column": 2,
+      "cell_region": [
+        315,
+        624,
+        315,
+        311
+      ],
+      "region": [
+        354,
+        663,
+        236,
+        254
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/defense.tres"
+    },
+    {
+      "id": "standard_coupon",
+      "name": "Coupon Standard",
+      "backlog_id": "A41",
+      "sheet": "layout_icons",
+      "row": 3,
+      "column": 3,
+      "cell_region": [
+        630,
+        624,
+        316,
+        311
+      ],
+      "region": [
+        638,
+        684,
+        288,
+        207
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/standard_coupon.tres"
+    },
+    {
+      "id": "elite_coupon",
+      "name": "Coupon Elite",
+      "backlog_id": "A42",
+      "sheet": "layout_icons",
+      "row": 3,
+      "column": 4,
+      "cell_region": [
+        946,
+        624,
+        315,
+        311
+      ],
+      "region": [
+        955,
+        684,
+        292,
+        208
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/elite_coupon.tres"
+    },
+    {
+      "id": "inside",
+      "name": "Phong cách inside",
+      "backlog_id": "A57",
+      "sheet": "layout_icons",
+      "row": 4,
+      "column": 1,
+      "cell_region": [
+        0,
+        935,
+        315,
+        312
+      ],
+      "region": [
+        13,
+        949,
+        289,
+        281
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/inside.tres"
+    },
+    {
+      "id": "sweeper",
+      "name": "Phong cách sweeper",
+      "backlog_id": "A58",
+      "sheet": "layout_icons",
+      "row": 4,
+      "column": 2,
+      "cell_region": [
+        315,
+        935,
+        315,
+        312
+      ],
+      "region": [
+        329,
+        948,
+        288,
+        282
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/sweeper.tres"
+    },
+    {
+      "id": "counter",
+      "name": "Phong cách counter",
+      "backlog_id": "A59",
+      "sheet": "layout_icons",
+      "row": 4,
+      "column": 3,
+      "cell_region": [
+        630,
+        935,
+        316,
+        312
+      ],
+      "region": [
+        642,
+        948,
+        290,
+        282
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/counter.tres"
+    },
+    {
+      "id": "defender",
+      "name": "Phong cách defender",
+      "backlog_id": "A60",
+      "sheet": "layout_icons",
+      "row": 4,
+      "column": 4,
+      "cell_region": [
+        946,
+        935,
+        315,
+        312
+      ],
+      "region": [
+        957,
+        948,
+        290,
+        280
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/defender.tres"
+    },
+    {
+      "id": "gear_balaclava",
+      "name": "Balaclava",
+      "backlog_id": "A09",
+      "sheet": "gear_items_01_15",
+      "row": 1,
+      "column": 1,
+      "cell_region": [
+        0,
+        0,
+        324,
+        324
+      ],
+      "region": [
+        62,
+        20,
+        210,
+        294
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_balaclava.tres"
+    },
+    {
+      "id": "gear_racing_gloves",
+      "name": "Racing Gloves",
+      "backlog_id": "A10",
+      "sheet": "gear_items_01_15",
+      "row": 1,
+      "column": 2,
+      "cell_region": [
+        324,
+        0,
+        324,
+        324
+      ],
+      "region": [
+        331,
+        26,
+        305,
+        293
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_racing_gloves.tres"
+    },
+    {
+      "id": "gear_pit_cap",
+      "name": "Pit Cap",
+      "backlog_id": "A11",
+      "sheet": "gear_items_01_15",
+      "row": 1,
+      "column": 3,
+      "cell_region": [
+        648,
+        0,
+        324,
+        324
+      ],
+      "region": [
+        648,
+        51,
+        316,
+        213
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_pit_cap.tres"
+    },
+    {
+      "id": "gear_neck_brace",
+      "name": "Neck Brace",
+      "backlog_id": "A12",
+      "sheet": "gear_items_01_15",
+      "row": 1,
+      "column": 4,
+      "cell_region": [
+        972,
+        0,
+        324,
+        324
+      ],
+      "region": [
+        998,
+        25,
+        279,
+        273
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_neck_brace.tres"
+    },
+    {
+      "id": "gear_knee_pads",
+      "name": "Knee Pads",
+      "backlog_id": "A13",
+      "sheet": "gear_items_01_15",
+      "row": 1,
+      "column": 5,
+      "cell_region": [
+        1296,
+        0,
+        324,
+        324
+      ],
+      "region": [
+        1319,
+        43,
+        279,
+        257
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_knee_pads.tres"
+    },
+    {
+      "id": "gear_driver_boots",
+      "name": "Driver Boots",
+      "backlog_id": "A14",
+      "sheet": "gear_items_01_15",
+      "row": 2,
+      "column": 1,
+      "cell_region": [
+        0,
+        324,
+        324,
+        323
+      ],
+      "region": [
+        9,
+        358,
+        298,
+        249
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_driver_boots.tres"
+    },
+    {
+      "id": "gear_visor_strip",
+      "name": "Visor Strip",
+      "backlog_id": "A15",
+      "sheet": "gear_items_01_15",
+      "row": 2,
+      "column": 2,
+      "cell_region": [
+        324,
+        324,
+        324,
+        323
+      ],
+      "region": [
+        341,
+        402,
+        293,
+        160
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_visor_strip.tres"
+    },
+    {
+      "id": "gear_team_scarf",
+      "name": "Team Scarf",
+      "backlog_id": "A16",
+      "sheet": "gear_items_01_15",
+      "row": 2,
+      "column": 3,
+      "cell_region": [
+        648,
+        324,
+        324,
+        323
+      ],
+      "region": [
+        654,
+        336,
+        301,
+        286
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_team_scarf.tres"
+    },
+    {
+      "id": "gear_lucky_charm",
+      "name": "Lucky Charm",
+      "backlog_id": "A17",
+      "sheet": "gear_items_01_15",
+      "row": 2,
+      "column": 4,
+      "cell_region": [
+        972,
+        324,
+        324,
+        323
+      ],
+      "region": [
+        1036,
+        339,
+        178,
+        308
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_lucky_charm.tres"
+    },
+    {
+      "id": "gear_stopwatch",
+      "name": "Stopwatch",
+      "backlog_id": "A18",
+      "sheet": "gear_items_01_15",
+      "row": 2,
+      "column": 5,
+      "cell_region": [
+        1296,
+        324,
+        324,
+        323
+      ],
+      "region": [
+        1337,
+        333,
+        233,
+        294
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_stopwatch.tres"
+    },
+    {
+      "id": "gear_cooling_vest",
+      "name": "Cooling Vest",
+      "backlog_id": "A19",
+      "sheet": "gear_items_01_15",
+      "row": 3,
+      "column": 1,
+      "cell_region": [
+        0,
+        647,
+        324,
+        324
+      ],
+      "region": [
+        27,
+        655,
+        272,
+        292
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_cooling_vest.tres"
+    },
+    {
+      "id": "gear_grip_tape",
+      "name": "Grip Tape",
+      "backlog_id": "A20",
+      "sheet": "gear_items_01_15",
+      "row": 3,
+      "column": 2,
+      "cell_region": [
+        324,
+        647,
+        324,
+        324
+      ],
+      "region": [
+        326,
+        670,
+        298,
+        260
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_grip_tape.tres"
+    },
+    {
+      "id": "gear_carbon_helmet",
+      "name": "Carbon Helmet",
+      "backlog_id": "A21",
+      "sheet": "gear_items_01_15",
+      "row": 3,
+      "column": 3,
+      "cell_region": [
+        648,
+        647,
+        324,
+        324
+      ],
+      "region": [
+        655,
+        661,
+        297,
+        281
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_carbon_helmet.tres"
+    },
+    {
+      "id": "gear_fireproof_suit",
+      "name": "Fireproof Suit",
+      "backlog_id": "A22",
+      "sheet": "gear_items_01_15",
+      "row": 3,
+      "column": 4,
+      "cell_region": [
+        972,
+        647,
+        324,
+        324
+      ],
+      "region": [
+        1015,
+        647,
+        216,
+        308
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_fireproof_suit.tres"
+    },
+    {
+      "id": "gear_aero_gloves",
+      "name": "Aero Gloves",
+      "backlog_id": "A23",
+      "sheet": "gear_items_01_15",
+      "row": 3,
+      "column": 5,
+      "cell_region": [
+        1296,
+        647,
+        324,
+        324
+      ],
+      "region": [
+        1296,
+        656,
+        315,
+        297
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_aero_gloves.tres"
+    },
+    {
+      "id": "gear_reflex_goggles",
+      "name": "Reflex Goggles",
+      "backlog_id": "A24",
+      "sheet": "gear_items_16_30",
+      "row": 1,
+      "column": 1,
+      "cell_region": [
+        0,
+        0,
+        324,
+        324
+      ],
+      "region": [
+        12,
+        65,
+        298,
+        201
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_reflex_goggles.tres"
+    },
+    {
+      "id": "gear_hydration_pack",
+      "name": "Hydration Pack",
+      "backlog_id": "A25",
+      "sheet": "gear_items_16_30",
+      "row": 1,
+      "column": 2,
+      "cell_region": [
+        324,
+        0,
+        324,
+        324
+      ],
+      "region": [
+        339,
+        16,
+        278,
+        284
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_hydration_pack.tres"
+    },
+    {
+      "id": "gear_radio_headset",
+      "name": "Radio Headset",
+      "backlog_id": "A26",
+      "sheet": "gear_items_16_30",
+      "row": 1,
+      "column": 3,
+      "cell_region": [
+        648,
+        0,
+        323,
+        324
+      ],
+      "region": [
+        652,
+        17,
+        298,
+        284
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_radio_headset.tres"
+    },
+    {
+      "id": "gear_pro_boots",
+      "name": "Pro Boots",
+      "backlog_id": "A27",
+      "sheet": "gear_items_16_30",
+      "row": 1,
+      "column": 4,
+      "cell_region": [
+        971,
+        0,
+        324,
+        324
+      ],
+      "region": [
+        979,
+        32,
+        300,
+        261
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_pro_boots.tres"
+    },
+    {
+      "id": "gear_gel_seat",
+      "name": "Gel Seat",
+      "backlog_id": "A28",
+      "sheet": "gear_items_16_30",
+      "row": 1,
+      "column": 5,
+      "cell_region": [
+        1295,
+        0,
+        324,
+        324
+      ],
+      "region": [
+        1313,
+        15,
+        285,
+        287
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_gel_seat.tres"
+    },
+    {
+      "id": "gear_titanium_visor",
+      "name": "Titanium Visor",
+      "backlog_id": "A29",
+      "sheet": "gear_items_16_30",
+      "row": 2,
+      "column": 1,
+      "cell_region": [
+        0,
+        324,
+        324,
+        323
+      ],
+      "region": [
+        12,
+        376,
+        303,
+        271
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_titanium_visor.tres"
+    },
+    {
+      "id": "gear_telemetry_watch",
+      "name": "Telemetry Watch",
+      "backlog_id": "A30",
+      "sheet": "gear_items_16_30",
+      "row": 2,
+      "column": 2,
+      "cell_region": [
+        324,
+        324,
+        324,
+        323
+      ],
+      "region": [
+        356,
+        333,
+        252,
+        293
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_telemetry_watch.tres"
+    },
+    {
+      "id": "gear_focus_band",
+      "name": "Focus Band",
+      "backlog_id": "A31",
+      "sheet": "gear_items_16_30",
+      "row": 2,
+      "column": 3,
+      "cell_region": [
+        648,
+        324,
+        323,
+        323
+      ],
+      "region": [
+        648,
+        387,
+        323,
+        188
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_focus_band.tres"
+    },
+    {
+      "id": "gear_pit_wall_tablet",
+      "name": "Pit Wall Tablet",
+      "backlog_id": "A32",
+      "sheet": "gear_items_16_30",
+      "row": 2,
+      "column": 4,
+      "cell_region": [
+        971,
+        324,
+        324,
+        323
+      ],
+      "region": [
+        971,
+        359,
+        307,
+        241
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_pit_wall_tablet.tres"
+    },
+    {
+      "id": "gear_golden_helmet",
+      "name": "Golden Helmet",
+      "backlog_id": "A33",
+      "sheet": "gear_items_16_30",
+      "row": 2,
+      "column": 5,
+      "cell_region": [
+        1295,
+        324,
+        324,
+        323
+      ],
+      "region": [
+        1311,
+        334,
+        297,
+        292
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_golden_helmet.tres"
+    },
+    {
+      "id": "gear_phoenix_suit",
+      "name": "Phoenix Suit",
+      "backlog_id": "A34",
+      "sheet": "gear_items_16_30",
+      "row": 3,
+      "column": 1,
+      "cell_region": [
+        0,
+        647,
+        324,
+        324
+      ],
+      "region": [
+        41,
+        647,
+        283,
+        310
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_phoenix_suit.tres"
+    },
+    {
+      "id": "gear_champion_gloves",
+      "name": "Champion Gloves",
+      "backlog_id": "A35",
+      "sheet": "gear_items_16_30",
+      "row": 3,
+      "column": 2,
+      "cell_region": [
+        324,
+        647,
+        324,
+        324
+      ],
+      "region": [
+        324,
+        663,
+        324,
+        293
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_champion_gloves.tres"
+    },
+    {
+      "id": "gear_comet_boots",
+      "name": "Comet Boots",
+      "backlog_id": "A36",
+      "sheet": "gear_items_16_30",
+      "row": 3,
+      "column": 3,
+      "cell_region": [
+        648,
+        647,
+        323,
+        324
+      ],
+      "region": [
+        648,
+        661,
+        301,
+        283
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_comet_boots.tres"
+    },
+    {
+      "id": "gear_victory_laurel",
+      "name": "Victory Laurel",
+      "backlog_id": "A37",
+      "sheet": "gear_items_16_30",
+      "row": 3,
+      "column": 4,
+      "cell_region": [
+        971,
+        647,
+        324,
+        324
+      ],
+      "region": [
+        971,
+        662,
+        300,
+        280
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_victory_laurel.tres"
+    },
+    {
+      "id": "gear_master_visor",
+      "name": "Master Visor",
+      "backlog_id": "A38",
+      "sheet": "gear_items_16_30",
+      "row": 3,
+      "column": 5,
+      "cell_region": [
+        1295,
+        647,
+        324,
+        324
+      ],
+      "region": [
+        1295,
+        697,
+        318,
+        224
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/gear_master_visor.tres"
+    },
+    {
+      "id": "driver_an",
+      "name": "An",
+      "backlog_id": "A54",
+      "sheet": "driver_portraits",
+      "row": 1,
+      "column": 1,
+      "cell_region": [
+        0,
+        0,
+        362,
+        362
+      ],
+      "region": [
+        21,
+        5,
+        314,
+        348
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/driver_an.tres"
+    },
+    {
+      "id": "driver_binh",
+      "name": "Bình",
+      "backlog_id": "A55",
+      "sheet": "driver_portraits",
+      "row": 1,
+      "column": 2,
+      "cell_region": [
+        362,
+        0,
+        362,
+        362
+      ],
+      "region": [
+        380,
+        6,
+        299,
+        347
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/driver_binh.tres"
+    },
+    {
+      "id": "driver_chi",
+      "name": "Chi",
+      "backlog_id": "A56",
+      "sheet": "driver_portraits",
+      "row": 1,
+      "column": 3,
+      "cell_region": [
+        724,
+        0,
+        362,
+        362
+      ],
+      "region": [
+        734,
+        17,
+        326,
+        336
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/driver_chi.tres"
+    },
+    {
+      "id": "driver_dung",
+      "name": "Dũng",
+      "backlog_id": "A45",
+      "sheet": "driver_portraits",
+      "row": 1,
+      "column": 4,
+      "cell_region": [
+        1086,
+        0,
+        362,
+        362
+      ],
+      "region": [
+        1095,
+        14,
+        330,
+        339
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/driver_dung.tres"
+    },
+    {
+      "id": "driver_ha",
+      "name": "Hà",
+      "backlog_id": "A46",
+      "sheet": "driver_portraits",
+      "row": 2,
+      "column": 1,
+      "cell_region": [
+        0,
+        362,
+        362,
+        362
+      ],
+      "region": [
+        15,
+        366,
+        325,
+        349
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/driver_ha.tres"
+    },
+    {
+      "id": "driver_khoi",
+      "name": "Khôi",
+      "backlog_id": "A47",
+      "sheet": "driver_portraits",
+      "row": 2,
+      "column": 2,
+      "cell_region": [
+        362,
+        362,
+        362,
+        362
+      ],
+      "region": [
+        379,
+        362,
+        300,
+        353
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/driver_khoi.tres"
+    },
+    {
+      "id": "driver_lam",
+      "name": "Lâm",
+      "backlog_id": "A48",
+      "sheet": "driver_portraits",
+      "row": 2,
+      "column": 3,
+      "cell_region": [
+        724,
+        362,
+        362,
+        362
+      ],
+      "region": [
+        735,
+        362,
+        299,
+        353
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/driver_lam.tres"
+    },
+    {
+      "id": "driver_my",
+      "name": "My",
+      "backlog_id": "A49",
+      "sheet": "driver_portraits",
+      "row": 2,
+      "column": 4,
+      "cell_region": [
+        1086,
+        362,
+        362,
+        362
+      ],
+      "region": [
+        1106,
+        364,
+        299,
+        351
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/driver_my.tres"
+    },
+    {
+      "id": "driver_nhan",
+      "name": "Nhân",
+      "backlog_id": "A50",
+      "sheet": "driver_portraits",
+      "row": 3,
+      "column": 1,
+      "cell_region": [
+        0,
+        724,
+        362,
+        362
+      ],
+      "region": [
+        13,
+        724,
+        309,
+        352
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/driver_nhan.tres"
+    },
+    {
+      "id": "driver_phuong",
+      "name": "Phương",
+      "backlog_id": "A51",
+      "sheet": "driver_portraits",
+      "row": 3,
+      "column": 2,
+      "cell_region": [
+        362,
+        724,
+        362,
+        362
+      ],
+      "region": [
+        393,
+        724,
+        294,
+        352
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/driver_phuong.tres"
+    },
+    {
+      "id": "driver_quang",
+      "name": "Quang",
+      "backlog_id": "A52",
+      "sheet": "driver_portraits",
+      "row": 3,
+      "column": 3,
+      "cell_region": [
+        724,
+        724,
+        362,
+        362
+      ],
+      "region": [
+        739,
+        724,
+        291,
+        352
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/driver_quang.tres"
+    },
+    {
+      "id": "driver_son",
+      "name": "Sơn",
+      "backlog_id": "A53",
+      "sheet": "driver_portraits",
+      "row": 3,
+      "column": 4,
+      "cell_region": [
+        1086,
+        724,
+        362,
+        362
+      ],
+      "region": [
+        1100,
+        724,
+        309,
+        352
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/driver_son.tres"
+    },
+    {
+      "id": "car_pico_showroom",
+      "name": "Pico · showroom",
+      "backlog_id": "A61",
+      "sheet": "garage",
+      "row": 1,
+      "column": 1,
+      "cell_region": [
+        0,
+        0,
+        324,
+        324
+      ],
+      "region": [
+        21,
+        53,
+        288,
+        223
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/car_pico_showroom.tres"
+    },
+    {
+      "id": "car_nova_showroom",
+      "name": "Nova · showroom",
+      "backlog_id": "A62",
+      "sheet": "garage",
+      "row": 1,
+      "column": 2,
+      "cell_region": [
+        324,
+        0,
+        324,
+        324
+      ],
+      "region": [
+        345,
+        73,
+        291,
+        194
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/car_nova_showroom.tres"
+    },
+    {
+      "id": "car_apex_showroom",
+      "name": "Apex · showroom",
+      "backlog_id": "A63",
+      "sheet": "garage",
+      "row": 1,
+      "column": 3,
+      "cell_region": [
+        648,
+        0,
+        323,
+        324
+      ],
+      "region": [
+        666,
+        86,
+        299,
+        178
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/car_apex_showroom.tres"
+    },
+    {
+      "id": "car_titan_showroom",
+      "name": "Titan · showroom",
+      "backlog_id": "A64",
+      "sheet": "garage",
+      "row": 1,
+      "column": 4,
+      "cell_region": [
+        971,
+        0,
+        324,
+        324
+      ],
+      "region": [
+        989,
+        54,
+        296,
+        215
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/car_titan_showroom.tres"
+    },
+    {
+      "id": "car_zenith_showroom",
+      "name": "Zenith · showroom",
+      "backlog_id": "A65",
+      "sheet": "garage",
+      "row": 1,
+      "column": 5,
+      "cell_region": [
+        1295,
+        0,
+        324,
+        324
+      ],
+      "region": [
+        1310,
+        71,
+        297,
+        197
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/car_zenith_showroom.tres"
+    },
+    {
+      "id": "car_pico_topdown",
+      "name": "Pico · topdown",
+      "backlog_id": "A61",
+      "sheet": "garage",
+      "row": 2,
+      "column": 1,
+      "cell_region": [
+        0,
+        324,
+        324,
+        324
+      ],
+      "region": [
+        62,
+        334,
+        205,
+        312
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/car_pico_topdown.tres"
+    },
+    {
+      "id": "car_nova_topdown",
+      "name": "Nova · topdown",
+      "backlog_id": "A62",
+      "sheet": "garage",
+      "row": 2,
+      "column": 2,
+      "cell_region": [
+        324,
+        324,
+        324,
+        324
+      ],
+      "region": [
+        383,
+        336,
+        205,
+        310
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/car_nova_topdown.tres"
+    },
+    {
+      "id": "car_apex_topdown",
+      "name": "Apex · topdown",
+      "backlog_id": "A63",
+      "sheet": "garage",
+      "row": 2,
+      "column": 3,
+      "cell_region": [
+        648,
+        324,
+        323,
+        324
+      ],
+      "region": [
+        703,
+        336,
+        213,
+        312
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/car_apex_topdown.tres"
+    },
+    {
+      "id": "car_titan_topdown",
+      "name": "Titan · topdown",
+      "backlog_id": "A64",
+      "sheet": "garage",
+      "row": 2,
+      "column": 4,
+      "cell_region": [
+        971,
+        324,
+        324,
+        324
+      ],
+      "region": [
+        1028,
+        329,
+        205,
+        319
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/car_titan_topdown.tres"
+    },
+    {
+      "id": "car_zenith_topdown",
+      "name": "Zenith · topdown",
+      "backlog_id": "A65",
+      "sheet": "garage",
+      "row": 2,
+      "column": 5,
+      "cell_region": [
+        1295,
+        324,
+        324,
+        324
+      ],
+      "region": [
+        1355,
+        330,
+        193,
+        317
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/car_zenith_topdown.tres"
+    },
+    {
+      "id": "showroom_floor",
+      "name": "Sàn showroom",
+      "backlog_id": "A66",
+      "sheet": "garage",
+      "row": 3,
+      "column": 1,
+      "cell_region": [
+        0,
+        648,
+        324,
+        324
+      ],
+      "region": [
+        17,
+        776,
+        292,
+        124
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/showroom_floor.tres"
+    },
+    {
+      "id": "double_stripe",
+      "name": "Sọc đôi",
+      "backlog_id": "A67",
+      "sheet": "garage",
+      "row": 3,
+      "column": 2,
+      "cell_region": [
+        324,
+        648,
+        324,
+        324
+      ],
+      "region": [
+        370,
+        747,
+        236,
+        162
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/double_stripe.tres"
+    },
+    {
+      "id": "lightning",
+      "name": "Tia chớp",
+      "backlog_id": "A68",
+      "sheet": "garage",
+      "row": 3,
+      "column": 3,
+      "cell_region": [
+        648,
+        648,
+        323,
+        324
+      ],
+      "region": [
+        708,
+        739,
+        194,
+        192
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/lightning.tres"
+    },
+    {
+      "id": "checker",
+      "name": "Ô bàn cờ",
+      "backlog_id": "A69",
+      "sheet": "garage",
+      "row": 3,
+      "column": 4,
+      "cell_region": [
+        971,
+        648,
+        324,
+        324
+      ],
+      "region": [
+        979,
+        648,
+        308,
+        231
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/checker.tres"
+    },
+    {
+      "id": "car_shadow",
+      "name": "Bóng xe",
+      "backlog_id": "A70",
+      "sheet": "garage",
+      "row": 3,
+      "column": 5,
+      "cell_region": [
+        1295,
+        648,
+        324,
+        324
+      ],
+      "region": [
+        1324,
+        806,
+        258,
+        66
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/car_shadow.tres"
+    },
+    {
+      "id": "standard_gear_pack",
+      "name": "Gói gear Standard",
+      "backlog_id": "A39",
+      "sheet": "packs_facilities",
+      "row": 1,
+      "column": 1,
+      "cell_region": [
+        0,
+        0,
+        724,
+        234
+      ],
+      "region": [
+        207,
+        8,
+        306,
+        226
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/standard_gear_pack.tres"
+    },
+    {
+      "id": "elite_gear_pack",
+      "name": "Gói gear Elite",
+      "backlog_id": "A40",
+      "sheet": "packs_facilities",
+      "row": 1,
+      "column": 2,
+      "cell_region": [
+        724,
+        0,
+        724,
+        234
+      ],
+      "region": [
+        931,
+        8,
+        309,
+        226
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/elite_gear_pack.tres"
+    },
+    {
+      "id": "standard_driver_pack",
+      "name": "Gói tay đua Standard",
+      "backlog_id": "A76",
+      "sheet": "packs_facilities",
+      "row": 1,
+      "column": 3,
+      "cell_region": [
+        1448,
+        0,
+        724,
+        234
+      ],
+      "region": [
+        1679,
+        10,
+        251,
+        224
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/standard_driver_pack.tres"
+    },
+    {
+      "id": "elite_driver_pack",
+      "name": "Gói tay đua Elite",
+      "backlog_id": "A77",
+      "sheet": "packs_facilities",
+      "row": 2,
+      "column": 1,
+      "cell_region": [
+        0,
+        234,
+        724,
+        241
+      ],
+      "region": [
+        240,
+        251,
+        254,
+        224
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/elite_driver_pack.tres"
+    },
+    {
+      "id": "facility_tier_1",
+      "name": "Cơ sở bậc 1",
+      "backlog_id": "A71",
+      "sheet": "packs_facilities",
+      "row": 2,
+      "column": 2,
+      "cell_region": [
+        724,
+        234,
+        724,
+        241
+      ],
+      "region": [
+        909,
+        257,
+        350,
+        213
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/facility_tier_1.tres"
+    },
+    {
+      "id": "facility_tier_2",
+      "name": "Cơ sở bậc 2",
+      "backlog_id": "A72",
+      "sheet": "packs_facilities",
+      "row": 2,
+      "column": 3,
+      "cell_region": [
+        1448,
+        234,
+        724,
+        241
+      ],
+      "region": [
+        1569,
+        258,
+        477,
+        207
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/facility_tier_2.tres"
+    },
+    {
+      "id": "facility_tier_3",
+      "name": "Cơ sở bậc 3",
+      "backlog_id": "A73",
+      "sheet": "packs_facilities",
+      "row": 3,
+      "column": 1,
+      "cell_region": [
+        0,
+        475,
+        724,
+        249
+      ],
+      "region": [
+        110,
+        495,
+        504,
+        221
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/facility_tier_3.tres"
+    },
+    {
+      "id": "facility_tier_4",
+      "name": "Cơ sở bậc 4",
+      "backlog_id": "A74",
+      "sheet": "packs_facilities",
+      "row": 3,
+      "column": 2,
+      "cell_region": [
+        724,
+        475,
+        724,
+        249
+      ],
+      "region": [
+        787,
+        484,
+        581,
+        229
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/facility_tier_4.tres"
+    },
+    {
+      "id": "facility_tier_5",
+      "name": "Cơ sở bậc 5",
+      "backlog_id": "A75",
+      "sheet": "packs_facilities",
+      "row": 3,
+      "column": 3,
+      "cell_region": [
+        1448,
+        475,
+        724,
+        249
+      ],
+      "region": [
+        1487,
+        482,
+        645,
+        231
+      ],
+      "resource": "assets/racing_ui_hd_expansion/sprites/facility_tier_5.tres"
+    }
+  ],
+  "validation": {
+    "pngs": 6,
+    "atlas_resources": 82,
+    "backlog_items_covered": 77,
+    "checks": [
+      "All PNGs RGBA with transparent pixels",
+      "All atlas regions in bounds and nonempty",
+      "Unique sprite IDs",
+      "All A01–A77 mapped"
+    ],
+    "godot_runtime_tested": true,
+    "native_report": "Design/Previews/asset_integration_native.log",
+    "limitations": [
+      "Car paint uses a neutral-body shader, not hand-authored per-model masks",
+      "Buildings are UI vignettes, not playable tracks",
+      "AI raster art may need edge cleanup at final display scale"
+    ]
+  }
+}

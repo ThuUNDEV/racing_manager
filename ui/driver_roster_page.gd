@@ -184,7 +184,13 @@ func _label(text: String, size: int = 14, color: Color = C_TEXT, wrap: bool = fa
 
 func _panel(style: StyleBox) -> PanelContainer:
 	var p := PanelContainer.new()
-	p.add_theme_stylebox_override("panel", style)
+	if style is StyleBoxFlat:
+		var skin := HdUi.card_style("pass" if style.border_color == C_ORANGE else "card").duplicate() as StyleBoxTexture
+		for side in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]:
+			skin.set_content_margin(side, style.get_content_margin(side))
+		p.add_theme_stylebox_override("panel", skin)
+	else:
+		p.add_theme_stylebox_override("panel", style)
 	p.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	return p
 
@@ -198,11 +204,14 @@ func _flat_button(text: String, bg: Color, fg: Color, border: Color = Color(0, 0
 		b.add_theme_stylebox_override(st, _sb(bg, border, bw, 12, 8))
 	for c: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_disabled_color"]:
 		b.add_theme_color_override(c, fg)
+	HdUi.style_button(b, "cancel" if bg.a == 0.0 or bg == Color("e1e8f4") else "race" if bg == C_ORANGE else "upgrade")
 	b.pressed.connect(func() -> void: sfx.emit("ui_click"))
 	return b
 
 
 func _portrait(id: String, ext: Vector2) -> Control:
+	if ExpansionArt.texture(id) != null:
+		return ExpansionArt.icon(id, ext)
 	var path := ROOT + "portraits/" + id + ".tres"
 	if ResourceLoader.exists(path):
 		var t := TextureRect.new()
@@ -283,34 +292,87 @@ func _build_packs() -> void:
 		var tint: Color = PACK_TINT.get(id, C_ORANGE)
 		var p := _panel(_sb(C_CARD, tint, 2, 14, 8))
 		var v := VBoxContainer.new()
-		v.add_theme_constant_override("separation", 3)
+		v.add_theme_constant_override("separation", 4)
 		p.add_child(v)
+		var header_row := HBoxContainer.new()
+		header_row.add_theme_constant_override("separation", 4)
+		v.add_child(header_row)
+		# Mặt nút bo tròn hai đầu; giữ trọn hai nắp khi kéo giãn theo tiêu đề.
+		var header := PanelContainer.new()
+		var header_skin := HdUi.pack_header(0.76 if id == "allstar" else 0.60)
+		header.add_theme_stylebox_override("panel", header_skin)
+		header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		header_row.add_child(header)
 		var top := HBoxContainer.new()
-		var nm := _label(String(pack["name"]), 14, tint)
-		nm.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		top.add_child(nm)
-		var info := _flat_button("i", Color(0, 0, 0, 0), tint, tint, 1, 32.0)
-		info.custom_minimum_size = Vector2(32, 32)
-		info.accessibility_name = "Thông tin tỉ lệ %s" % String(pack["name"])
+		top.add_theme_constant_override("separation", 2)
+		header.add_child(top)
+		var name := _label(String(pack["name"]), 11, Color.WHITE, true)
+		name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		name.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		name.custom_minimum_size.y = 30
+		name.add_theme_color_override("font_outline_color", HdUi.C_OUTLINE)
+		name.add_theme_constant_override("outline_size", 2)
+		top.add_child(name)
+		var info := Button.new()
+		info.text = "i"
+		info.name = "DriverInfo_" + id
+		HdUi.style_button(info, "info")
+		info.custom_minimum_size = Vector2(28, 28)
+		info.add_theme_font_size_override("font_size", 12)
+		info.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		info.size_flags_horizontal = Control.SIZE_SHRINK_END
+		info.tooltip_text = "Thông tin tỉ lệ"
 		info.pressed.connect(func() -> void: info_requested.emit(id))
-		top.add_child(info)
-		v.add_child(top)
-		v.add_child(_label(String(pack["subtitle"]), 11, C_MUTED, true))
+		header_row.add_child(info)
+		v.add_child(ExpansionArt.icon("standard_driver_pack" if id == "pro" else "elite_driver_pack", Vector2(0, 64)))
+		var left := maxi(1, int(pack["pity_draws"]) - GameState.driver_pity_count(id))
+		var tier := String(pack["pity_tier"]).capitalize()
+		var pity_text := "Lượt kế bảo đảm %s" % tier if left <= 1 else "Bảo đảm %s sau %d lượt" % [tier, left]
+		var subtitle := _label(pity_text, 11, C_MUTED, true)
+		subtitle.custom_minimum_size.y = 42
+		subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		subtitle.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		v.add_child(subtitle)
 		var kind := String(pack["coupon"])
-		var left := int(pack["pity_draws"]) - GameState.driver_pity_count(id)
-		var pity_txt := "Lượt kế chắc chắn có %s" % String(pack["pity_tier"]).capitalize() if left <= 1 else "Còn %d lượt tới bảo đảm" % left
-		v.add_child(_label("%s · Coupon %d" % [pity_txt, int(GameState.driver_coupons.get(kind, 0))], 11, C_TEXT, true))
+		var coupon_panel := PanelContainer.new()
+		coupon_panel.custom_minimum_size.y = 30
+		var coupon_skin := HdUi.coupon()
+		coupon_panel.add_theme_stylebox_override("panel", coupon_skin)
+		v.add_child(coupon_panel)
+		var coupon := HBoxContainer.new()
+		coupon.add_theme_constant_override("separation", 2)
+		coupon_panel.add_child(coupon)
+		var coupon_count := _label("Coupon: %d" % int(GameState.driver_coupons.get(kind, 0)), 12, C_TEXT, true)
+		coupon_count.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		coupon_count.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		coupon.add_child(coupon_count)
+		var actions := HBoxContainer.new()
+		actions.add_theme_constant_override("separation", 4)
+		v.add_child(actions)
 		for n in [1, 10]:
 			var pay := GameState.driver_payment(id, n)
 			var cost := "%d coupon" % int(pay["amount"]) if pay["method"] == "coupon" else "%d gem" % int(pay["amount"])
-			var b := _flat_button("Mở x%d · %s" % [n, cost], tint, Color.WHITE, tint.darkened(0.2), 1, 44.0)
-			b.add_theme_stylebox_override("disabled", _sb(Color("c9d4e6"), Color("b5c3da"), 1, 12, 8))
-			b.add_theme_color_override("font_disabled_color", C_MUTED)
-			b.add_theme_font_size_override("font_size", 12)
+			var payment := "Mở x%d · %s" % [n, cost]
+			var b := Button.new()
+			b.text = payment.replace("Mở ", "").replace(" · ", "\n")
+			b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			b.clip_text = true
 			b.disabled = not GameState.driver_can_afford(id, n)
+			HdUi.style_button(b, "upgrade")
+			b.tooltip_text = payment
+			b.custom_minimum_size.y = 48
+			b.add_theme_font_size_override("font_size", 11)
+			# Hai nút chia đều chiều rộng; nhãn giá xuống dòng để vừa thẻ trên màn hình hẹp.
+			for state: String in ["normal", "hover", "pressed", "disabled"]:
+				var skin := b.get_theme_stylebox(state).duplicate() as StyleBoxTexture
+				if n == 1 and state != "disabled":
+					skin.modulate_color = Color(0.8, 0.9, 1.0)
+				skin.content_margin_left = 3
+				skin.content_margin_right = 3
+				b.add_theme_stylebox_override(state, skin)
+			b.name = "DriverOpen_%s_x%d" % [id, n]
 			b.pressed.connect(func() -> void: open_requested.emit(id, n))
-			v.add_child(b)
+			actions.add_child(b)
 		h.add_child(p)
 	add_child(h)
 
@@ -394,15 +456,9 @@ func _driver_row(d: Dictionary, s: String) -> Control:
 	h.add_theme_constant_override("separation", 10)
 	m.add_child(h)
 
-	var circle := PanelContainer.new()
-	circle.custom_minimum_size = Vector2(52, 52)
-	circle.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	circle.add_theme_stylebox_override("panel", _sb(tcol if s != "lock" else Color("a8b6cf"), Color(0, 0, 0, 0), 0, 26, 0))
-	var power := _label(str(_total(d)), 15, Color.WHITE)  # cùng thang tổng với ĐỘI CỦA BẠN
-	power.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	power.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	circle.add_child(power)
-	h.add_child(circle)
+	var portrait := _portrait(id, Vector2(52, 52))
+	portrait.modulate.a = 0.5 if s == "lock" else 1.0
+	h.add_child(portrait)
 
 	var v := VBoxContainer.new()
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -497,7 +553,7 @@ func _build_sheet_shell() -> void:
 	st.corner_radius_bottom_right = 0
 	pc.add_theme_stylebox_override("panel", st)
 	margin.add_child(pc)
-	var sc := ScrollContainer.new()
+	var sc := preload("res://ui/touch_scroll.gd").new()
 	sc.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	pc.add_child(sc)
 	_sheet_box = VBoxContainer.new()
@@ -528,6 +584,7 @@ func _rebuild_sheet() -> void:
 	var head := HBoxContainer.new()
 	head.add_theme_constant_override("separation", 10)
 	head.add_child(_portrait(_viewed, Vector2(60, 60)))
+	head.add_child(ExpansionArt.icon(String(d.get("style", "counter")), Vector2(32, 32)))
 	var hv := VBoxContainer.new()
 	hv.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	hv.add_theme_constant_override("separation", 0)

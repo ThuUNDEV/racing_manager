@@ -82,7 +82,9 @@ func _panel(parent: Node, style: StyleBoxFlat) -> VBoxContainer:
 	var p := PanelContainer.new()
 	p.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	p.mouse_filter = Control.MOUSE_FILTER_PASS  # để kéo cuộn xuyên qua thẻ
-	p.add_theme_stylebox_override("panel", style)
+	var skin := HdUi.card_style("locked" if style.bg_color == Color("e3e9f4") else "card").duplicate() as StyleBoxTexture
+	skin.set_content_margin_all(8)
+	p.add_theme_stylebox_override("panel", skin)
 	parent.add_child(p)
 	var v := VBoxContainer.new()
 	v.add_theme_constant_override("separation", 4)
@@ -107,6 +109,7 @@ func _button(value: String, tint: Color, enabled: bool) -> Button:
 	for c in ["font_color", "font_hover_color", "font_pressed_color"]:
 		b.add_theme_color_override(c, Color.WHITE)
 	b.add_theme_color_override("font_disabled_color", Color("5a7294"))
+	HdUi.style_button(b, "upgrade")
 	return b
 
 
@@ -142,19 +145,6 @@ func refresh() -> void:
 func _build(keep_scroll: int = 0) -> void:
 	var title := _text("TÚI TRANG BỊ", 17)
 	add_child(title)
-	var bonus := GameState.gear_bonus()
-	var team := _panel(self, _style(CARD))
-	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 12)
-	team.add_child(row)
-	row.add_child(_text("Sức mạnh toàn đội từ phụ kiện", 12, MUTED))
-	var atk := _text("Kiếm +%d" % int(bonus["attack"]), 13, SWORD, false)
-	atk.size_flags_horizontal = Control.SIZE_SHRINK_END
-	row.add_child(atk)
-	var def := _text("Khiên +%d" % int(bonus["defense"]), 13, SHIELD, false)
-	def.size_flags_horizontal = Control.SIZE_SHRINK_END
-	row.add_child(def)
-
 	var packs := HBoxContainer.new()
 	packs.add_theme_constant_override("separation", 8)
 	add_child(packs)
@@ -205,25 +195,75 @@ func _build_pack(parent: Node, pack: Dictionary) -> void:
 	var id := String(pack["id"])
 	var tint: Color = PACK_TINT.get(id, Color("3a78d6"))
 	var v := _panel(parent, _style(CARD, tint, 2, 12))
+	var header_row := HBoxContainer.new()
+	header_row.add_theme_constant_override("separation", 4)
+	v.add_child(header_row)
+	# Mặt nút bo tròn hai đầu; giữ trọn hai nắp khi kéo giãn theo tiêu đề.
+	var header := PanelContainer.new()
+	var header_skin := HdUi.pack_header(0.76 if id == "elite" else 0.60)
+	header.add_theme_stylebox_override("panel", header_skin)
+	header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header_row.add_child(header)
 	var top := HBoxContainer.new()
-	v.add_child(top)
-	var name := _text(String(pack["name"]), 14, tint)
+	top.add_theme_constant_override("separation", 2)
+	header.add_child(top)
+	var name := _text(String(pack["name"]), 11, Color.WHITE)
+	name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	name.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	name.custom_minimum_size.y = 30
+	name.add_theme_color_override("font_outline_color", HdUi.C_OUTLINE)
+	name.add_theme_constant_override("outline_size", 2)
 	top.add_child(name)
 	var info := Button.new()
 	info.text = "i"
 	info.name = "Info_" + id
-	info.custom_minimum_size = Vector2(32, 32)
+	HdUi.style_button(info, "info")
+	info.custom_minimum_size = Vector2(28, 28)
+	info.add_theme_font_size_override("font_size", 12)
+	info.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	info.size_flags_horizontal = Control.SIZE_SHRINK_END
 	info.tooltip_text = "Thông tin tỉ lệ"
 	info.pressed.connect(func() -> void: info_requested.emit(id))
-	top.add_child(info)
-	v.add_child(_text(String(pack["subtitle"]), 11, MUTED))
+	header_row.add_child(info)
+	v.add_child(ExpansionArt.icon(id + "_gear_pack", Vector2(0, 64)))
+	var subtitle := _text("Có thể nhận Epic" if id == "standard" else "Có thể nhận Legendary", 11, MUTED)
+	subtitle.custom_minimum_size.y = 34
+	subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	subtitle.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	v.add_child(subtitle)
 	var kind := String(pack["coupon"])
-	v.add_child(_text("Coupon %s: %d" % [kind.capitalize(), int(GameState.gear_coupons.get(kind, 0))], 12, INK))
+	var coupon_panel := PanelContainer.new()
+	coupon_panel.custom_minimum_size.y = 30
+	var coupon_skin := HdUi.coupon()
+	coupon_panel.add_theme_stylebox_override("panel", coupon_skin)
+	v.add_child(coupon_panel)
+	var coupon := HBoxContainer.new()
+	coupon.add_theme_constant_override("separation", 2)
+	coupon_panel.add_child(coupon)
+	coupon.add_child(ExpansionArt.icon(kind + "_coupon", Vector2(20, 22)))
+	var coupon_count := _text("Coupon: %d" % int(GameState.gear_coupons.get(kind, 0)), 12, INK)
+	coupon_count.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	coupon.add_child(coupon_count)
+	var actions := HBoxContainer.new()
+	actions.add_theme_constant_override("separation", 4)
+	v.add_child(actions)
 	for n in [1, 10]:
-		var b := _button(_pay_label(id, n), tint, GameState.gear_can_afford(id, n))
+		var payment := _pay_label(id, n)
+		var b := _button(payment.replace("Mở ", "").replace(" · ", "\n"), tint, GameState.gear_can_afford(id, n))
+		b.tooltip_text = payment
+		b.custom_minimum_size.y = 48
+		b.add_theme_font_size_override("font_size", 11)
+		# Hai nút chia đều chiều rộng; nhãn giá xuống dòng để vừa thẻ trên màn hình hẹp.
+		for state: String in ["normal", "hover", "pressed", "disabled"]:
+			var skin := b.get_theme_stylebox(state).duplicate() as StyleBoxTexture
+			if n == 1 and state != "disabled":
+				skin.modulate_color = Color(0.8, 0.9, 1.0)
+			skin.content_margin_left = 3
+			skin.content_margin_right = 3
+			b.add_theme_stylebox_override(state, skin)
 		b.name = "Open_%s_x%d" % [id, n]
 		b.pressed.connect(func() -> void: open_requested.emit(id, n))
-		v.add_child(b)
+		actions.add_child(b)
 
 
 func _build_item(parent: Node, item: Dictionary) -> void:
@@ -233,13 +273,15 @@ func _build_item(parent: Node, item: Dictionary) -> void:
 	if not GameState.gear_has(id):
 		var locked := _panel(parent, _style(Color("e3e9f4"), LINE, 1, 10))
 		locked.custom_minimum_size = Vector2(0, 118)
-		var q := _text("?", 34, Color("93a3c4"), false)
+		var silhouette := ExpansionArt.icon(id, Vector2(64, 64))
+		silhouette.modulate = Color(0.1, 0.14, 0.22, 0.35)
+		locked.add_child(silhouette)
+		var q := _text("Chưa sở hữu", 12, MUTED)
 		q.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		q.size_flags_vertical = Control.SIZE_EXPAND_FILL
-		q.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		locked.add_child(q)
 		return
 	var v := _panel(parent, _style(CARD, col, 2, 10))
+	v.add_child(ExpansionArt.icon(id, Vector2(64, 64)))
 	var level := GameState.gear_level(id)
 	var max_level := GameState.gear_max_level(id)
 	if max_level <= MAX_STAR_ROW:

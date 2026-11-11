@@ -70,6 +70,27 @@ static func panel(pad: float = 0.0) -> StyleBoxTexture:
 	return box("surfaces/panel_body.png", 0.34, Vector4(15, 14, 15, 17), Vector4(11 + pad, 8 + pad, 11 + pad, 12 + pad))
 
 
+## Compact rows need a smaller source, not cuts through the full-size panel's corners.
+static func coupon() -> StyleBoxTexture:
+	return box("surfaces/panel_body.png", 0.20, Vector4(9, 9, 9, 10), Vector4(6, 3, 6, 5))
+
+
+static func pack_header(hue: float) -> StyleBoxTexture:
+	var key := "pack_header/%.2f" % hue
+	if _box_cache.has(key):
+		return _box_cache[key]
+	# Leave a real center strip between the top and bottom slices (source height = 40).
+	var skin := box("surfaces/button_amber.png", 0.055, Vector4(21, 18, 21, 20), Vector4(5, 3, 4, 5)).duplicate() as StyleBoxTexture
+	var img := skin.texture.get_image()
+	for y in img.get_height():
+		for x in img.get_width():
+			var pixel := img.get_pixel(x, y)
+			img.set_pixel(x, y, Color.from_hsv(hue, pixel.s, pixel.v, pixel.a))
+	skin.texture = ImageTexture.create_from_image(img)
+	_box_cache[key] = skin
+	return skin
+
+
 ## Biến thể panel bằng cách hoán kênh màu của chính asset (không cần ảnh mới):
 ## selected/pass = cam (đổi R<->B), reward = xanh lá (xoay G,B,R), locked = xám. Còn lại = xanh mặc định.
 static func card_style(style_name: String) -> StyleBoxTexture:
@@ -122,11 +143,11 @@ static func hud_bar() -> StyleBoxTexture:
 	return box("surfaces/hud_bar.png", 0.26, Vector4(20, 20, 20, 20), Vector4(30, 4, 14, 6))
 
 
-## Nút hành động. kind: upgrade (xanh), race (cam/vàng), claim (xanh lá), cancel (xám), nav (xanh nghiêng), menu (vuông xanh).
+## Nút hành động. kind: upgrade (xanh), amber (nâng cấp hổ phách), race (cam/vàng), claim (xanh lá), cancel (xám), nav (xanh nghiêng), menu (vuông xanh).
 ## state: normal | hover | pressed | disabled.
 static func button(kind: String, state: String = "normal") -> StyleBoxTexture:
 	# Nút bị khóa (hết tiền, chờ lưu...) luôn dùng nền xám thay vì làm mờ nền màu.
-	var art := "cancel" if state == "disabled" and kind in ["upgrade", "race", "claim"] else kind
+	var art := "cancel" if state == "disabled" and kind in ["upgrade", "amber", "race", "claim"] else kind
 	var swap := kind == "menu_on"  # nút vuông cam = nút vuông xanh hoán kênh R<->B
 	if swap:
 		art = "menu"
@@ -134,11 +155,23 @@ static func button(kind: String, state: String = "normal") -> StyleBoxTexture:
 		art = "nav"
 	elif kind == "tab_on":
 		art = "race"
+	elif kind == "info":
+		art = "menu"
 	var rel := "surfaces/button_%s.png" % art
 	var f := 0.23
 	var m := Vector4(22, 20, 22, 20)
 	var c := Vector4(12, 4, 12, 7)
 	match kind:
+		"info":
+			# The 28px info button must not squeeze the large menu skin's center into a sliver.
+			f = 0.10
+			m = Vector4(13, 11, 13, 12)
+			c = Vector4(3, 2, 3, 3)
+		"amber":
+			# Asset hổ phách 2172x724: thu nhỏ về chiều cao nút, giữ trọn bo góc ở hai nắp.
+			if art == "amber":
+				f = 0.08
+				m = Vector4(20, 20, 20, 20)
 		"race", "nav":
 			f = 0.2
 			m = Vector4(24, 20, 24, 20)

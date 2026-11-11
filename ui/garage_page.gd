@@ -157,9 +157,7 @@ func _box(bg: Color, border: Color, radius: int = 12, bw: int = 1) -> StyleBoxFl
 
 
 func _style_button(b: Button, bg: Color, fg: Color, border: Color, bw: int = 1) -> void:
-	for st: String in ["normal", "hover", "pressed", "focus"]:
-		b.add_theme_stylebox_override(st, _box(bg, border, 12, bw))
-	b.add_theme_stylebox_override("disabled", _box(bg.lerp(C_BG, 0.45), border.lerp(C_BG, 0.45), 12, bw))
+	HdUi.style_button(b, "race" if bg == C_ORANGE or border == C_ORANGE else "upgrade" if bg == C_INK else "cancel")
 	for c: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color"]:
 		b.add_theme_color_override(c, fg)
 	b.add_theme_color_override("font_disabled_color", fg.lerp(C_MUTED, 0.5))
@@ -209,7 +207,7 @@ func _plain(text: String, cb: Callable) -> Button:
 
 func _panel(parent: Control, bg: Color = C_CARD) -> VBoxContainer:
 	var pc := PanelContainer.new()
-	pc.add_theme_stylebox_override("panel", _box(bg, C_LINE, 12))
+	pc.add_theme_stylebox_override("panel", HdUi.panel())
 	pc.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	parent.add_child(pc)
 	var v := VBoxContainer.new()
@@ -279,10 +277,12 @@ func _build_header() -> void:
 
 func _build_showroom() -> void:
 	_preview = CarPreview.new()
+	_preview.car_id = _viewed
+	_preview.top_down = _section == 2
 	_preview.custom_minimum_size = Vector2(0, 176)
 	_preview.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var pc := PanelContainer.new()
-	pc.add_theme_stylebox_override("panel", _box(Color("cfe0fb"), C_LINE, 14))
+	pc.add_theme_stylebox_override("panel", HdUi.panel())
 	pc.add_child(_preview)
 	add_child(pc)
 	var cos := _saved_cos(_viewed)
@@ -515,7 +515,11 @@ func _build_parts_section() -> void:
 		var lv := GameState.car_level(_viewed, kind)
 		var stat := GameState.car_part_stat(_viewed, kind, lv)
 		var b := Button.new()
-		b.custom_minimum_size = Vector2(0, 62)
+		b.custom_minimum_size = Vector2(0, 88)
+		b.icon = ExpansionArt.texture(kind)
+		b.expand_icon = true
+		b.add_theme_constant_override("icon_max_width", 32)
+		b.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		var on := kind == _part
 		_style_button(b, C_INK if on else C_CARD, Color.WHITE if on else C_TEXT, C_INK if on else C_LINE)
@@ -531,6 +535,7 @@ func _build_parts_section() -> void:
 		var n1 := _label(Balance.PART_NAMES[kind], 15, Color.WHITE if on else C_TEXT)
 		var n2 := _label("Cấp %d/%d · %s" % [lv, Balance.max_level(), Balance.fmt_rate(snappedf(stat, 0.1))], 12, Color("cfe0fb") if on else C_MUTED)
 		for l: Label in [n1, n2]:
+			l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 			l.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			l.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 		inner.add_child(n1)
@@ -538,7 +543,7 @@ func _build_parts_section() -> void:
 		var margin := MarginContainer.new()
 		margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		margin.set_anchors_preset(Control.PRESET_FULL_RECT)
-		margin.add_theme_constant_override("margin_left", 12)
+		margin.add_theme_constant_override("margin_left", 48)
 		margin.add_theme_constant_override("margin_right", 8)
 		margin.add_child(inner)
 		b.add_child(margin)
@@ -659,9 +664,14 @@ func _build_look_section() -> void:
 	var dg := _grid(_body, 2)
 	for d: Dictionary in GameData.decals():
 		var id := String(d["id"])
-		dg.add_child(_choice(String(d["name"]), id == _draft_decal, func() -> void:
+		var choice := _choice(String(d["name"]), id == _draft_decal, func() -> void:
 			_draft_decal = id
-			refresh()))
+			refresh())
+		if id != "none":
+			choice.icon = ExpansionArt.texture(id)
+			choice.expand_icon = true
+			choice.add_theme_constant_override("icon_max_width", 32)
+		dg.add_child(choice)
 	var note := "Miễn phí · Không tăng chỉ số"
 	if GameState.phase == "racing" and _viewed == GameState.active_car_id:
 		note += " · lượt đang đua giữ ngoại hình cũ, áp dụng từ lượt sau"
@@ -750,6 +760,7 @@ func _collection_card(c: Dictionary) -> Control:
 	col.set_anchors_preset(Control.PRESET_FULL_RECT)
 	col.add_theme_constant_override("separation", 0)
 	var pv := CarPreview.new()
+	pv.car_id = id
 	pv.custom_minimum_size = Vector2(0, 74)
 	pv.show_floor = false
 	pv.angle = 0.0

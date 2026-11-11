@@ -1,13 +1,23 @@
 class_name CarPreview
 extends Control
-## Xe nhìn từ trên xuống (atlas Workshop GP) + decal vẽ bằng code. Dùng cho khu trưng bày Garage và thẻ bộ sưu tập.
-## Toạ độ decal tính theo điểm ảnh của ảnh xe gốc (238×421), gốc ở tâm xe, mũi xe hướng xuống (+y), cánh gió ở trên.
-## Xe là TextureRect (vẽ atlas bằng _draw cho ra ô trắng khi texture chưa được node nào dùng), decal là lớp Control con.
+## HD expansion body by car class, neutral-body paint shader and separate showroom.
+## Three-quarter view by default; overhead for cosmetic editing or saved decals.
+## Legacy decal coordinates use a 238x421 canvas; flip their Y axis for nose-up art.
 
 const ROOT := "res://assets/workshop_gp/"
 const TEX_SIZE := Vector2(238.0, 421.0)
 const C_DARK := Color("1d1f24")
 const C_LIGHT := Color("fff8e7")
+const PAINT_SHADER := preload("res://ui/car_paint.gdshader")
+
+var car_id: String = "car_pico_tia_chop":
+	set(v):
+		car_id = v
+		_update()
+var top_down: bool = false:
+	set(v):
+		top_down = v
+		_update()
 
 var paint_id: String = "orange":
 	set(v):
@@ -34,6 +44,7 @@ var _rig: Control
 var _shadow: TextureRect
 var _car: TextureRect
 var _layer: DecalLayer
+var _paint_material: ShaderMaterial
 
 
 func _init() -> void:
@@ -46,6 +57,9 @@ func _init() -> void:
 	_shadow.modulate = Color(0, 0, 0, 0.18)
 	_rig.add_child(_shadow)
 	_car = _make_tex()
+	_paint_material = ShaderMaterial.new()
+	_paint_material.shader = PAINT_SHADER
+	_car.material = _paint_material
 	_car.position = -TEX_SIZE * 0.5
 	_rig.add_child(_car)
 	_layer = DecalLayer.new()
@@ -77,14 +91,23 @@ func _update() -> void:
 	var p := GameData.paint(paint_id)
 	if p.is_empty():
 		p = GameData.paint(GameData.default_paint_id())
-	var tex := load(ROOT + String(p["texture"])) as Texture2D
+	# Preserve the saved decal view using the new overhead body, whose nose points up.
+	var overhead := top_down or decal_id != "none"
+	var tex := ExpansionArt.texture(ExpansionArt.car_id(car_id, overhead))
+	if tex == null:
+		tex = load(ROOT + String(p["texture"])) as Texture2D
+	var dimensions := TEX_SIZE if overhead else Vector2(360, 230)
 	_car.texture = tex
-	_shadow.texture = tex
-	var k := minf(size.y * 0.9 / TEX_SIZE.y, size.x * 0.9 / TEX_SIZE.y)
-	if angle != 0.0:
-		k *= 0.86  # chừa chỗ cho góc xoay
+	_car.size = dimensions
+	_car.position = -dimensions * 0.5
+	_car.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_paint_material.set_shader_parameter("paint_color", Color(String(p["color"])))
+	_shadow.texture = ExpansionArt.texture("car_shadow")
+	_shadow.size = Vector2(dimensions.x, dimensions.y * 0.18)
+	_shadow.position = Vector2(-dimensions.x * 0.5, dimensions.y * 0.32)
+	var k := minf(size.y * 0.85 / dimensions.y, size.x * 0.85 / dimensions.x)
 	_rig.position = size * 0.5
-	_rig.rotation = angle
+	_rig.rotation = angle if overhead else 0.0
 	_rig.scale = Vector2(k, k)
 	var a := 0.55 if dimmed else 1.0
 	_car.modulate = Color(1, 1, 1, a)
@@ -92,6 +115,8 @@ func _update() -> void:
 	_layer.paint_id = paint_id
 	_layer.decal_id = decal_id
 	_layer.alpha = a
+	_layer.visible = overhead
+	_layer.scale = Vector2(1, -1)
 	_layer.queue_redraw()
 	queue_redraw()
 
@@ -102,9 +127,9 @@ func _ready() -> void:
 
 func _draw() -> void:
 	if show_floor:
-		draw_set_transform(size * 0.5, 0.0, Vector2(1.0, 0.42))
-		draw_arc(Vector2.ZERO, size.x * 0.36, 0.0, TAU, 72, Color("b7a995", 0.7), 1.5, true)
-		draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+		var floor_tex := ExpansionArt.texture("showroom_floor")
+		if floor_tex != null:
+			draw_texture_rect(floor_tex, Rect2(size.x * 0.08, size.y * 0.62, size.x * 0.84, size.y * 0.3), false)
 
 
 ## Lớp decal phủ lên thân xe (toạ độ điểm ảnh ảnh gốc, gốc ở tâm xe).

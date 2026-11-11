@@ -50,6 +50,9 @@ func _heading(value: String) -> void:
 
 
 func _icon(id: String, extent: float = 64.0) -> TextureRect:
+	var expansion_id := {"gear_card": "elite_gear_pack", "gear_crate": "standard_gear_pack", "driver_card": "elite_driver_pack", "driver_helmet": "standard_driver_pack"}
+	if expansion_id.has(id):
+		return ExpansionArt.icon(expansion_id[id], Vector2(extent, extent))
 	if HD_ICONS.has(id):
 		return HdUi.icon(HD_ICONS[id], Vector2(extent, extent))
 	var icon := TextureRect.new()
@@ -158,7 +161,9 @@ func _pass(icon: String, title: String, description: String) -> void:
 	copy.add_child(_text(title, 15))
 	copy.add_child(_text("Sắp có", 12, MUTED))
 	var open := _coming_button("»", title, description)
+	HdUi.style_button(open, "menu")
 	open.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	open.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	open.custom_minimum_size.x = 44
 	open.accessibility_name = "Xem " + title
 	row.add_child(open)
