@@ -886,7 +886,7 @@ func _row_text(kind: String) -> Array:
 			var payback: BigNumber = GameState.cost_of(kind).divide(delta).ceil_number()
 			eff += "\nHoàn vốn khoảng %s giây" % payback.format_compact()
 		if kind == "grandstands":
-			eff += " · %d chỗ" % int(Pricing.revenue_value(kind, lv))
+			eff += " · %s chỗ" % Pricing.revenue_value(kind, lv).floor_number().format_compact()
 		return ["%s · cấp %d" % [String(cfg["name"]), lv], eff]
 	var now: float = GameState.part_stat(kind, lv)
 	var stat: String = Balance.PART_STATS[kind]

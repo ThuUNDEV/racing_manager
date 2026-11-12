@@ -36,17 +36,33 @@ func _initialize() -> void:
 	_check(GameData.drivers().size() == 12, "12 tay đua")
 	var starter := GameData.car(GameData.starter_car_id())
 	_check(starter["name"] == "Pico Tia chớp" and int(starter["base"]["S"]) == 46 and int(starter["base"]["H"]) == 38, "xe khởi đầu Pico Tia chớp 46/38/38/38")
-	_check(Pricing.car_price("car_nova_tia_chop").equals("2335200000"), "giá Nova theo bậc nguồn, 2,3352B")
-	_check(Pricing.car_price("car_zenith_ben_bi").equals("37363200000000000000"), "giá Zenith Bền bỉ BigNumber vượt int64")
+	_check(Pricing.car_price("car_nova_tia_chop").equals("4392000000000"), "giá Nova = 600 x Q x rate tham chiếu (4,392T)")
+	_check(Pricing.car_price("car_zenith_ben_bi").equals("70270000000000000000000000000000"), "giá Zenith Bền bỉ BigNumber vượt int64")
 	_check(int(GameData.league(3)["car_base"]) == 86 and int(GameData.league(3)["driver_base"]) == 56, "nền giải Quốc gia 86/56")
 	_check(GameData.driver("driver_binh")["trait"] == "fast_start", "Bình có đặc tính xuất phát nhanh")
 
 	print("== Economy v2 ==")
-	_check(Pricing.part_cost(0, 0).equals(120) and Pricing.part_cost(1, 0).equals("480000000") and Pricing.part_cost(4, 0).equals("3840000000000000000"), "giá bộ phận dùng bậc vào cố định")
-	_check(Pricing.part_cost(0, 1).equals(174), "cấp 1: 120 x 1,45 = 174")
+	var part0 := Pricing.part_cost(0, 0)
+	_check(part0.compare(BigNumber.from_int(1)) > 0 and Pricing.part_cost(1, 0).compare(part0.shifted(12).multiply_ratio(4, 1)) <= 0 and Pricing.part_cost(1, 0).compare(part0.shifted(12).multiply_ratio(3, 1)) > 0, "giá bộ phận hạng 2 = S(1e12) x Q(4) x giá hạng 1 (sai số ceil)")
+	_check(Pricing.part_cost(4, 0).compare(part0.shifted(30).multiply_ratio(32, 1)) <= 0 and Pricing.part_cost(4, 0).compare(part0.shifted(30).multiply_ratio(24, 1)) > 0, "giá bộ phận hạng 5 dùng bậc vào cố định")
+	_check(Pricing.part_cost(0, 0, "engine").compare(Pricing.part_cost(0, 0, "tyre")) > 0 and Pricing.part_cost(0, 0, "chassis").compare(Pricing.part_cost(0, 0, "gearbox")) > 0, "mỗi bộ phận có giá gốc riêng: Động cơ > Lốp, Khung gầm > Hộp số")
+	_check(Pricing.part_cost(0, 1).compare(part0) > 0 and Pricing.part_cost(0, 1).compare(part0.multiply_ratio(104, 100)) <= 0, "mỗi cấp tăng ~1,45^(1/10) ≈ 3,8%")
 	_check(Pricing.revenue_rate({}).equals(8), "rate nền 8")
-	_check(Pricing.revenue_rate({"ticket": 20, "celebration": 20, "parking": 20, "grandstands": 20}, 5).equals("5038000000000000000"), "rate max b5 = 5,038AB")
-	_check(Pricing.expansion_cost(0).equals(583800), "phí mở b1 = 583.800")
+	_check(Pricing.revenue_gain("ticket", 0).is_zero() and Pricing.revenue_gain("ticket", 1).equals("0.25075"), "revenue_gain cấp 1 = 0,25 x 1,003")
+	_check(Pricing.star_count(24) == 0 and Pricing.star_count(25) == 1 and Pricing.star_count(150) == 4, "mốc sao 25/50/100/150")
+	var star_ok := Pricing.revenue_gain("ticket", 25).compare(Pricing.revenue_gain("ticket", 24).multiply(BigNumber.parse_decimal("1.1"))) > 0
+	_check(star_ok, "đạt mốc sao làm tăng vọt lợi nhuận")
+	var prev_rate := BigNumber.zero()
+	var monotonic := true
+	for lv in range(0, 201):
+		var r := Pricing.revenue_rate({"ticket": lv, "celebration": lv, "parking": lv, "grandstands": lv})
+		if r.compare(prev_rate) <= 0:
+			monotonic = false
+		prev_rate = r
+	_check(monotonic, "rate tăng nghiêm ngặt theo cấp 0..200")
+	var max_levels := {"ticket": Balance.max_level(), "celebration": Balance.max_level(), "parking": Balance.max_level(), "grandstands": Balance.max_level()}
+	_check(Pricing.revenue_rate(max_levels, 5).equals(Pricing.revenue_rate(max_levels, 0).shifted(30)), "rate max b5 = rate max b0 x 1e30")
+	_check(Pricing.expansion_cost(0).equals(Pricing.reference_rate(0).multiply_ratio(Pricing.pacing(0) * 300, 1)), "phí mở b1 = rate tham chiếu x Q x 300 giây")
 	_check(Pricing.race_money(1, BigNumber.from_int(8), 60).equals(126), "P1 chu kỳ 63 giây = 126")
 	_check(Pricing.race_money(8, BigNumber.from_int(8), 60).equals(50), "P8 vẫn nhận tiền")
 	_check(Pricing.race_points(1) == 10 and Pricing.race_points(8) == 1, "điểm mùa giữ nguyên")

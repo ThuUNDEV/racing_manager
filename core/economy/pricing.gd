@@ -37,29 +37,58 @@ static func _cost(base: String, tier: int, level: int) -> BigNumber:
 		_cost_cache[key] = BigNumber.from_int(int(ceil(raw - 1e-9))).multiply(scale_of(tier))
 	return _cost_cache[key]
 
-## Chỉ số cộng thêm cho mỗi cấp bộ phận xe.
-static func part_stat_per_level() -> float:
-	return float(_e()["part_stat_per_level"])
+## Chỉ số cộng thêm cho mỗi cấp bộ phận xe. Có `kind` thì ưu tiên hệ số riêng trong
+## `part_stat_per_level_by_part`; thiếu thì dùng mặc định `part_stat_per_level`.
+static func part_stat_per_level(kind: String = "") -> float:
+	var e := _e()
+	var by_part: Dictionary = e.get("part_stat_per_level_by_part", {})
+	if kind != "" and by_part.has(kind):
+		return float(by_part[kind])
+	return float(e["part_stat_per_level"])
 
-static func part_cost(class_index: int, level: int) -> BigNumber:
+## Giá gốc của từng bộ phận: part_cost_bases[kind] nếu có, không thì part_cost_base chung.
+static func part_base(kind: String) -> String:
+	var per_kind: Dictionary = _e().get("part_cost_bases", {})
+	return String(per_kind.get(kind, _e()["part_cost_base"]))
+
+static func part_cost(class_index: int, level: int, kind: String = "") -> BigNumber:
 	var tier := 0 if class_index == 0 else class_index + 1
-	return _cost(String(_e()["part_cost_base"]), tier, level)
+	return _cost(part_base(kind) if kind != "" else String(_e()["part_cost_base"]), tier, level)
 
 static func revenue_cost(kind: String, level: int, tier: int = 0) -> BigNumber:
 	return _cost(String(_e()["revenue_upgrades"][kind]["cost"]), tier, level)
 
-## Small stat/capacity values only; not used for wallet math.
-static func revenue_value(kind: String, level: int) -> float:
+## Số mốc sao đã đạt ở cấp `level` (Design/19: airport_empire star multiply).
+static func star_count(level: int) -> int:
+	var n := 0
+	for m in _e().get("revenue_stars", {}).get("levels", []):
+		if level >= int(m):
+			n += 1
+	return n
+
+## Phần tăng thêm của một nguồn doanh thu ở cấp `level`:
+## per_level × L × Kp^L × StarMult^sao. Không khai báo growth/revenue_stars thì quay về tuyến tính.
+static func revenue_gain(kind: String, level: int) -> BigNumber:
+	if level <= 0:
+		return BigNumber.zero()
+	var e := _e()
+	var c: Dictionary = e["revenue_upgrades"][kind]
+	var kp := BigNumber.parse_decimal(str(c.get("growth", "1")))
+	var star_mult := BigNumber.parse_decimal(str(e.get("revenue_stars", {}).get("multiplier", "1")))
+	return BigNumber.parse_decimal(c["per_level"]).multiply_ratio(level, 1).multiply(kp.pow_nonnegative_int(level)).multiply(star_mult.pow_nonnegative_int(star_count(level)))
+
+## Giá trị hiển thị (ví dụ số chỗ Grandstands); BigNumber vì có thể tăng hình học.
+static func revenue_value(kind: String, level: int) -> BigNumber:
 	var c: Dictionary = _e()["revenue_upgrades"][kind]
-	return float(c["base"]) + float(c["per_level"]) * level
+	return BigNumber.parse_decimal(c["base"]).add(revenue_gain(kind, level))
 
 static func revenue_rate(levels: Dictionary, tier: int = 0) -> BigNumber:
 	var rate := BigNumber.zero()
 	for kind in ["ticket", "celebration", "parking"]:
 		var c: Dictionary = _e()["revenue_upgrades"][kind]
-		rate = rate.add(BigNumber.parse_decimal(c["base"]).add(BigNumber.parse_decimal(c["per_level"]).multiply_ratio(int(levels.get(kind, 0)), 1)))
+		rate = rate.add(BigNumber.parse_decimal(c["base"]).add(revenue_gain(kind, int(levels.get(kind, 0)))))
 	var g: Dictionary = _e()["revenue_upgrades"]["grandstands"]
-	var capacity := BigNumber.parse_decimal(g["base"]).add(BigNumber.parse_decimal(g["per_level"]).multiply_ratio(int(levels.get("grandstands", 0)), 1))
+	var capacity := BigNumber.parse_decimal(g["base"]).add(revenue_gain("grandstands", int(levels.get("grandstands", 0))))
 	return rate.multiply(capacity).divide(BigNumber.parse_decimal(g["base"])).multiply(scale_of(tier))
 
 static func reference_rate(tier: int) -> BigNumber:

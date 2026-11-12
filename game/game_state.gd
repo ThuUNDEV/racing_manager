@@ -292,7 +292,7 @@ func cost_of(kind: String) -> BigNumber:
 	if kind in Balance.REVENUE:
 		return Pricing.revenue_cost(kind, level_of(kind), business_tier)
 	if kind in Balance.PARTS:
-		return Pricing.part_cost(int(GameData.car(active_car_id)["class"]) - 1, level_of(kind))
+		return Pricing.part_cost(int(GameData.car(active_car_id)["class"]) - 1, level_of(kind), kind)
 	return BigNumber.zero()
 
 
@@ -326,7 +326,7 @@ func _cost_at(kind: String, level: int, car_id: String = "") -> BigNumber:
 	if kind in Balance.REVENUE:
 		return Pricing.revenue_cost(kind, level, business_tier)
 	var cid := active_car_id if car_id == "" else car_id
-	return Pricing.part_cost(int(GameData.car(cid)["class"]) - 1, level)
+	return Pricing.part_cost(int(GameData.car(cid)["class"]) - 1, level, kind)
 
 
 ## Kế hoạch mua tối đa `amount` cấp liên tiếp (amount <= 0: ×Max theo số tiền hiện có).
@@ -383,7 +383,7 @@ func car_level(car_id: String, kind: String) -> int:
 ## Chỉ số bộ phận của một xe bất kỳ ở cấp `level`.
 func car_part_stat(car_id: String, kind: String, level: int) -> float:
 	var base: int = int(GameData.car(car_id)["base"][Balance.PART_KEY[kind]])
-	return base + Pricing.part_stat_per_level() * level
+	return base + Pricing.part_stat_per_level(kind) * level
 
 
 ## Trạng thái nâng bộ phận của xe `car_id` (không cần chọn xe đó): "ok" | "short" | "maxed" | "save_error" | "invalid".
@@ -624,10 +624,10 @@ func _commit_expansion() -> bool:
 	return true
 
 
-## Chỉ số bộ phận = nền của xe đang dùng + part_stat_per_level × cấp (Design/13, 0,2 × m).
+## Chỉ số bộ phận = nền của xe đang dùng + hệ số riêng của bộ phận × cấp (economy.json: part_stat_per_level_by_part).
 func part_stat(kind: String, level: int) -> float:
 	var base: int = int(GameData.car(active_car_id)["base"][Balance.PART_KEY[kind]])
-	return base + Pricing.part_stat_per_level() * level
+	return base + Pricing.part_stat_per_level(kind) * level
 
 
 func _driver() -> Dictionary:
@@ -646,11 +646,10 @@ func power() -> int:
 	return int(round(sum / maxf(float(st.size()), 1.0)))
 
 
-## ĐỘI CỦA BẠN: tổng 11 chỉ số xe + tay đua. Đang đua thì lấy chỉ số đã chốt lúc xuất phát.
+## ĐỘI CỦA BẠN: tổng 11 chỉ số xe + tay đua, luôn theo cấp hiện tại để nâng động cơ (hay bộ phận khác)
+## thấy sức mạnh tăng ngay. Mô phỏng lượt đang chạy vẫn dùng chỉ số chốt lúc xuất phát (giữ tính xác định).
 func team_power() -> float:
 	var st: Dictionary = player_stats()
-	if phase == "racing" and not race_snapshot.is_empty():
-		st = race_snapshot["stats"]
 	var sum := 0.0
 	for k: String in st:
 		sum += float(st[k])

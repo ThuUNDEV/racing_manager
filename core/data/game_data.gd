@@ -427,6 +427,15 @@ static func _validate_economy(ec: Dictionary) -> Array:
 		var n := BigNumber.parse_decimal(v) if typeof(v) == TYPE_STRING else null
 		if n == null or n.is_zero() or absi(n.exponent) > 1000:
 			errs.append("economy.json: %s phải là chuỗi decimal dương" % key)
+	var by_part: Variant = ec.get("part_stat_per_level_by_part", {})
+	if typeof(by_part) != TYPE_DICTIONARY:
+		errs.append("economy.json: part_stat_per_level_by_part phải là object")
+	else:
+		for kind in by_part:
+			var pv: Variant = (by_part as Dictionary)[kind]
+			var pn := BigNumber.parse_decimal(pv) if typeof(pv) == TYPE_STRING else null
+			if not kind in ["engine", "tyre", "chassis", "gearbox"] or pn == null or pn.is_zero() or absi(pn.exponent) > 1000:
+				errs.append("economy.json: part_stat_per_level_by_part.%s không hợp lệ" % kind)
 	for key in ["start_coins", "base_rate", "upgrade_growth", "part_cost_base"]:
 		if typeof(ec.get(key)) != TYPE_STRING or BigNumber.parse_decimal(ec.get(key, "")) == null:
 			errs.append("economy.json: " + key + " phải là chuỗi decimal hợp lệ")
@@ -441,6 +450,15 @@ static func _validate_economy(ec: Dictionary) -> Array:
 			errs.append("economy.json: " + key + " vượt miền cấu hình")
 	if BigNumber.parse_decimal(ec["base_rate"]).is_zero() or BigNumber.parse_decimal(ec["part_cost_base"]).is_zero():
 		errs.append("economy.json: rate và giá cơ bản phải >0")
+	var part_bases: Variant = ec.get("part_cost_bases", {})
+	if typeof(part_bases) != TYPE_DICTIONARY:
+		errs.append("economy.json: part_cost_bases phải là object")
+	else:
+		for kind in part_bases.keys():
+			var pb: Variant = part_bases[kind]
+			var pn := BigNumber.parse_decimal(pb) if typeof(pb) == TYPE_STRING else null
+			if not Balance.PARTS.has(kind) or pn == null or pn.is_zero() or absi(pn.exponent) > 1000:
+				errs.append("economy.json: part_cost_bases.%s không hợp lệ" % kind)
 	var business: Dictionary = ec["business"]
 	for key in ["scale_exponents", "pacing"]:
 		if typeof(business.get(key)) != TYPE_ARRAY or business[key].size() != 6:
@@ -463,6 +481,17 @@ static func _validate_economy(ec: Dictionary) -> Array:
 			errs.append("economy.json: business." + key + " không hợp lệ")
 	if typeof(business.get("opening_reserve_base")) != TYPE_STRING or BigNumber.parse_decimal(business.get("opening_reserve_base", "")) == null:
 		errs.append("economy.json: opening_reserve_base không hợp lệ")
+	var stars: Variant = ec.get("revenue_stars", {})
+	if typeof(stars) != TYPE_DICTIONARY:
+		errs.append("economy.json: revenue_stars phải là object")
+	else:
+		var star_mult: Variant = stars.get("multiplier", "1")
+		var sm := BigNumber.parse_decimal(star_mult) if typeof(star_mult) == TYPE_STRING else null
+		if sm == null or sm.compare(BigNumber.from_int(1)) < 0 or sm.compare(BigNumber.from_int(10)) > 0:
+			errs.append("economy.json: revenue_stars.multiplier phải trong 1..10")
+		for m in stars.get("levels", []):
+			if int(m) < 1 or int(m) > ml:
+				errs.append("economy.json: revenue_stars.levels ngoài 1..max_level")
 	var revenue: Dictionary = ec["revenue_upgrades"]
 	if revenue.size() != 4:
 		errs.append("economy.json: cần đúng 4 nguồn doanh thu")
@@ -470,6 +499,11 @@ static func _validate_economy(ec: Dictionary) -> Array:
 		if typeof(revenue.get(kind)) != TYPE_DICTIONARY:
 			errs.append("economy.json: thiếu nguồn " + kind)
 			continue
+		if typeof(revenue[kind]) == TYPE_DICTIONARY and revenue[kind].has("growth"):
+			var growth: Variant = revenue[kind]["growth"]
+			var gn := BigNumber.parse_decimal(growth) if typeof(growth) == TYPE_STRING else null
+			if gn == null or gn.compare(BigNumber.from_int(1)) < 0 or gn.compare(BigNumber.from_int(2)) > 0:
+				errs.append("economy.json: revenue_upgrades.%s.growth phải trong 1..2" % kind)
 		for key in ["base", "per_level", "cost"]:
 			var value: Variant = revenue[kind].get(key)
 			var number := BigNumber.parse_decimal(value) if typeof(value) == TYPE_STRING else null

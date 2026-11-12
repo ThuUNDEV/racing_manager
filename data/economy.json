@@ -6,6 +6,12 @@
   "level_subdivision": 10,
   "duration_factor": "3",
   "part_stat_per_level": "0.2",
+  "part_stat_per_level_by_part": {
+    "engine": "0.25",
+    "chassis": "0.2",
+    "gearbox": "0.18",
+    "tyre": "0.15"
+  },
   "base_rate": "8",
   "stages": 5,
   "promote_points": 36,
@@ -55,23 +61,30 @@
     "sp_race_bonus": 4,
     "coin_mult": 6
   },
+  "revenue_stars": {
+    "levels": [25, 50, 100, 150],
+    "multiplier": "1.1"
+  },
   "revenue_upgrades": {
     "ticket": {
       "name": "Ticket Marketing",
       "base": "8.0",
       "per_level": "0.25",
+      "growth": "1.003",
       "cost": "150"
     },
     "celebration": {
       "name": "Victory Celebrations",
       "base": "0.0",
       "per_level": "0.75",
+      "growth": "1.003",
       "cost": "300"
     },
     "parking": {
       "name": "Parking",
       "base": "0.0",
       "per_level": "1.25",
+      "growth": "1.003",
       "cost": "500"
     },
     "grandstands": {
@@ -82,16 +95,22 @@
     }
   },
   "economy_version": 2,
-  "upgrade_growth": "1.45",
+  "upgrade_growth": "1.572",
   "part_cost_base": "120",
+  "part_cost_bases": {
+    "engine": "160",
+    "chassis": "130",
+    "gearbox": "110",
+    "tyre": "80"
+  },
   "business": {
     "scale_exponents": [
       0,
-      3,
       6,
-      9,
       12,
-      15
+      18,
+      24,
+      30
     ],
     "pacing": [
       1,

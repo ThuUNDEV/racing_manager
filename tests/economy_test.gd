@@ -64,7 +64,8 @@ func _initialize() -> void:
 	var raw := '{"schema_version":3,"coins":9007199254740993,"levels":{"engine":4},"saved_online_rate":8,"gems":101}'
 	var parsed: Dictionary = MoneyCodec.parse(raw)
 	gs._apply(parsed)
-	check(gs.coins.equals("9007199254740993") and gs.level_of("engine") == 4 and gs.gems == 101, "legacy integer >2^53 migrates exactly")
+	# Save v3 là thang 20 cấp: migration nhân với level_subdivision (200 cấp).
+	check(gs.coins.equals("9007199254740993") and gs.level_of("engine") == 4 * Pricing.level_subdivision() and gs.gems == 101, "legacy integer >2^53 migrates exactly")
 	check(gs.save_game(), "commit migration v4")
 	gs.init_new_game()
 	gs.load_game()
@@ -74,8 +75,9 @@ func _initialize() -> void:
 	check(not gs._valid_save(corrupted), "reject malformed BigNumber save")
 	reset()
 	gs.coins = n("1e12")
+	var lvl := int(GameData.economy()["business"]["expansion_min_revenue_level"])
 	for kind in Balance.REVENUE:
-		gs.levels[kind] = 12
+		gs.levels[kind] = lvl
 	check(gs.expansion_state() == "points", "wealth alone cannot unlock a league")
 	gs.unlocked_tier = 1
 	gs.begin_countdown()
@@ -86,14 +88,15 @@ func _initialize() -> void:
 	check(gs.request_expansion() and gs.business_tier == 0, "expansion queues until the current race completes")
 	finish_race()
 	check(gs.business_tier == 1 and gs.phase == "countdown", "queued expansion commits at race boundary")
-	check(gs.online_rate().equals(8000) and gs.level_of("ticket") == 0, "new business starts its own four levels")
-	check(gs.revenue_history["0"]["ticket"] == 13 and gs.processed_rewards.has("business_open/1"), "old levels and unique opening ID saved")
+	check(gs.online_rate().equals(8000000) and gs.level_of("ticket") == 0, "new business starts its own four levels")
+	check(gs.revenue_history["0"]["ticket"] == lvl + 1 and gs.processed_rewards.has("business_open/1"), "old levels and unique opening ID saved")
 	var gems1: int = gs.gems
 	check(not gs.request_expansion() and gs.gems == gems1, "cannot reopen same business or duplicate grant")
 	gs.unlocked_tier = 2
 	for kind in Balance.REVENUE:
-		gs.levels[kind] = 12
+		gs.levels[kind] = lvl
 	check(gs.expansion_state() == "car", "next class is required before business tier 2")
+	gs.coins = n("1e40")  # giá xe hạng 2 theo thang bậc mới (2,3AA)
 	check(gs.buy_car("car_nova_tia_chop") and gs.select_car("car_nova_tia_chop"), "purchase and select new car")
 	check(gs.level_of("engine") == 0, "car upgrades are stored per owned car")
 	gs.coins = n("1e30")
@@ -103,7 +106,7 @@ func _initialize() -> void:
 	check(gs.request_expansion() and gs.business_tier == 2, "countdown expansion switches tier safely")
 	check(not gs.select_car(GameData.starter_car_id()), "cannot select ineligible old car in higher league")
 	var before_buy: BigNumber = gs.coins
-	check(gs.buy("engine") and gs.coins.equals(before_buy.subtract_checked(Pricing.part_cost(1, 0))), "higher-tier upgrade charges fixed entry-tier price")
+	check(gs.buy("engine") and gs.coins.equals(before_buy.subtract_checked(Pricing.part_cost(1, 0, "engine"))), "higher-tier upgrade charges fixed entry-tier price")
 	check(gs.save_game(), "save ownership and tier")
 	gs.init_new_game()
 	check(gs.load_game() == "ok" and gs.business_tier == 2 and gs.level_of("engine") == 1, "ownership, tier and car levels survive reload")
@@ -113,7 +116,7 @@ func _initialize() -> void:
 	for next_tier in range(1, 6):
 		gs.unlocked_tier = next_tier
 		for kind in Balance.REVENUE:
-			gs.levels[kind] = 20
+			gs.levels[kind] = Balance.max_level()
 		var old_rate: BigNumber = gs.online_rate()
 		var required_class := int(GameData.league(next_tier)["min_car_class"])
 		for car: Dictionary in GameData.cars():

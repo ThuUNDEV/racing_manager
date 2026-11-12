@@ -24,10 +24,10 @@ func _initialize() -> void:
 		var cost: BigNumber = gs.cost_of(kind)
 		_check(gs.buy(kind) and gs.coins.equals(coins_before.subtract_checked(cost)) and gs.level_of(kind) == 1, "mua và trừ đúng giá: " + kind)
 		_check(gs.online_rate().compare(before) > 0, "tăng thu nhập: " + kind)
-	_check(gs.online_rate().equals("10.7625"), "ba nguồn tiền cộng, sức chứa 10,5/10 nhân doanh thu (thang 200 cấp)")
+	_check(gs.online_rate().equals("10.7695875"), "ba nguồn cộng (cấp 1 = per_level x 1,003), sức chứa 10,5/10 tuyến tính")
 	var before_tick: BigNumber = gs.coins
 	gs.tick_income(2.0)
-	_check(gs.coins.subtract_checked(before_tick).equals(21) and gs.income_remainder.equals("0.525"), "thu nhập thực có giữ phần lẻ")
+	_check(gs.coins.subtract_checked(before_tick).equals(21) and gs.income_remainder.equals("0.539175"), "thu nhập thực có giữ phần lẻ")
 	gs.begin_countdown()
 	gs.advance(3.0)
 	var snapshot: Dictionary = gs.race_snapshot.duplicate(true)
@@ -60,8 +60,10 @@ func _initialize() -> void:
 	# Thang 200 cấp (Design/13): giá, mua nhiều cấp, migration v4 → v5.
 	gs.init_new_game()
 	gs.save_blocked = true
-	_check(Balance.max_level() == 200 and absf(Pricing.part_stat_per_level() - 0.2) < 1e-9, "max_level 200, +0,2 chỉ số mỗi cấp")
-	_check(gs.part_stat("engine", 10) - gs.part_stat("engine", 0) > 1.999 and gs.part_stat("engine", 10) - gs.part_stat("engine", 0) < 2.001, "10 cấp nhỏ = +2 chỉ số")
+	_check(Balance.max_level() == 200 and absf(Pricing.part_stat_per_level() - 0.2) < 1e-9, "max_level 200, mặc định +0,2 chỉ số mỗi cấp")
+	_check(absf(Pricing.part_stat_per_level("engine") - 0.25) < 1e-9 and absf(Pricing.part_stat_per_level("tyre") - 0.15) < 1e-9, "mỗi bộ phận có hệ số riêng")
+	_check(absf((gs.part_stat("engine", 10) - gs.part_stat("engine", 0)) - 2.5) < 1e-6, "động cơ 10 cấp = +2,5 chỉ số")
+	_check(absf((gs.part_stat("tyre", 10) - gs.part_stat("tyre", 0)) - 1.5) < 1e-6, "lốp 10 cấp = +1,5 chỉ số")
 	var ten_sum := BigNumber.zero()
 	for m in 10:
 		ten_sum = ten_sum.add(Pricing.part_cost(0, m))
@@ -76,12 +78,15 @@ func _initialize() -> void:
 	var plan10: Dictionary = gs.plan_buy("engine", 10)
 	var manual := BigNumber.zero()
 	for m in 10:
-		manual = manual.add(Pricing.part_cost(0, m))
+		manual = manual.add(Pricing.part_cost(0, m, "engine"))
 	_check(int(plan10["count"]) == 10 and plan10["cost"].equals(manual), "plan ×10 bằng cộng từng cấp")
 	var coins0: BigNumber = gs.coins
+	var tyre_sum := BigNumber.zero()
+	for m in 10:
+		tyre_sum = tyre_sum.add(Pricing.part_cost(0, m, "tyre"))
 	gs.save_blocked = false
 	gs.levels = {"engine": 0, "tyre": 0, "chassis": 0, "gearbox": 0, "ticket": 0, "celebration": 0, "parking": 0, "grandstands": 0}
-	_check(gs.buy_many("tyre", 10) and gs.level_of("tyre") == 10 and gs.coins.equals(coins0.subtract_checked(manual)), "mua ×10 trừ đúng tổng")
+	_check(gs.buy_many("tyre", 10) and gs.level_of("tyre") == 10 and gs.coins.equals(coins0.subtract_checked(tyre_sum)), "mua ×10 trừ đúng tổng")
 	gs.coins = BigNumber.from_int(1000000000)
 	_check(gs.buy_many("chassis", 0) and gs.level_of("chassis") == 200 and not gs.buy_many("chassis", 10), "×Max lên cấp 200 rồi dừng")
 	gs.coins = BigNumber.from_int(1)
@@ -102,20 +107,29 @@ func _initialize() -> void:
 	for row in ui._rows:
 		found[row["kind"]] = true
 	_check(found.size() == 8 and not found.has("driver") and not found.has("venue"), "UI có đủ tám loại nâng cấp")
-	ui._select_tab(3)  # Tab.LEAGUE
-	_check(ui._pages[3].visible, "mở Garage")
+	ui._select_tab(2)  # Tab.TEAM
+	ui._select_team_sub(1)  # Garage
+	_check(ui._garage.visible, "mở Garage")
 	gs.coins = BigNumber.zero()
-	ui._refresh_light()
-	var car_button: Button
-	for item in ui._catalog_buttons:
-		if item["type"] == "car" and item["id"] == "car_pico_bam_duong":
-			car_button = item["button"]
-	_check(car_button != null and car_button.disabled, "nút mua xe bị khóa khi thiếu tiền")
+	ui._garage._view_car("car_pico_bam_duong")
+	var buy_button := _find_button(ui._garage, "Thiếu")
+	_check(buy_button != null and buy_button.disabled, "nút mua xe bị khóa khi thiếu tiền")
 	gs.coins = BigNumber.from_int(2500)
-	ui._refresh_light()
-	_check(not car_button.disabled, "đủ tiền thì nút mua xe sáng ngay, không đợi chặng kế")
+	ui._garage.refresh()
+	buy_button = _find_button(ui._garage, "Mua ·")
+	_check(buy_button != null and not buy_button.disabled, "đủ tiền thì nút mua xe sáng ngay, không đợi chặng kế")
 	ui.queue_free()
 	await process_frame
 	gs.reset_progress()
 	print("upgrade_test: %d lỗi" % _fails)
 	quit(1 if _fails > 0 else 0)
+
+
+func _find_button(node: Node, prefix: String) -> Button:
+	if node is Button and (node as Button).text.begins_with(prefix):
+		return node
+	for child in node.get_children():
+		var found := _find_button(child, prefix)
+		if found != null:
+			return found
+	return null

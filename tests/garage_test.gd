@@ -75,7 +75,7 @@ func _initialize() -> void:
 	gs.coins = BigNumber.from_int(1000000)
 	_check(not gs.buy_many_for("car_nova_tia_chop", "engine", 1), "không nâng xe chưa sở hữu")
 	_check(gs.buy_many_for(a, "tyre", 1) and gs.level_of("tyre") == 1 and int(gs.car_levels[a]["tyre"]) == 1, "xe đang dùng đi qua giao dịch cũ")
-	_check(is_equal_approx(gs.car_part_stat(b, "engine", 10), 38.0 + 2.0), "chỉ số xe dự bị = nền + 0,2 × cấp")
+	_check(is_equal_approx(gs.car_part_stat(b, "engine", 10), 38.0 + 2.5), "chỉ số xe dự bị = nền + 0,25 (động cơ) × cấp")
 	var ids: Array = GameData.cars().map(func(c: Dictionary) -> String: return String(c["id"]))
 	gs.car_levels[b]["engine"] = Balance.max_level() - 3
 	_check(gs.plan_buy("engine", 10, b)["count"] == 3, "×10 gần trần chỉ mua phần còn lại")
