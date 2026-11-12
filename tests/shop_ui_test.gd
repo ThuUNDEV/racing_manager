@@ -69,6 +69,19 @@ func run() -> void:
 	check(main._overlay.visible, "Upcoming offer opens details")
 	check(state.gems == gems_after and state.coins.to_save() == coins_before, "Upcoming offer does not change wallets")
 	main._overlay.hide()
+	var packs: Array = state.mock_gem_packs()
+	check(packs.size() == 6 and shop._gem_grid.get_child_count() == 6, "Six mock gem packs shown")
+	var gem_button := shop.find_child("GemPack1", true, false) as Button
+	var gems_mock: int = state.gems
+	gem_button.pressed.emit()
+	await settle()
+	check(state.gems == gems_mock + int(packs[1]["gems"]), "Mock gem pack awards its gems")
+	check(state.coins.to_save() == coins_before, "Mock gem pack does not change coins")
+	state.save_blocked = true
+	var gems_blocked: int = state.gems
+	check(not state.mock_buy_gems(0) and state.gems == gems_blocked, "Mock gem purchase refused while saving is blocked")
+	state.save_blocked = false
+	check(not state.mock_buy_gems(99) and state.gems == gems_blocked, "Invalid mock gem pack rejected")
 	for width in [320, 390, 412]:
 		root.size = Vector2i(width, 844)
 		await settle()

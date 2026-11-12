@@ -2,6 +2,14 @@
   "schema_version": 2,
   "start_coins": "1000",
   "start_gems": 100,
+  "mock_gem_packs": [
+    {"gems": 10, "price": "Xem video"},
+    {"gems": 100, "price": "52.000đ"},
+    {"gems": 255, "price": "131.000đ"},
+    {"gems": 520, "price": "263.000đ"},
+    {"gems": 1100, "price": "526.000đ"},
+    {"gems": 2750, "price": "1.300.000đ"}
+  ],
   "max_level": 200,
   "level_subdivision": 10,
   "duration_factor": "3",

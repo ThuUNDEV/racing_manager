@@ -769,6 +769,19 @@ func _build_shop_page() -> void:
 	_shop_box.add_child(_shop_content)
 	_shop_content.daily_requested.connect(_claim_shop_daily)
 	_shop_content.offer_requested.connect(_show_shop_offer)
+	_shop_content.gem_pack_requested.connect(_buy_mock_gems)
+
+
+func _buy_mock_gems(index: int) -> void:
+	_sfx("ui_click")
+	var packs: Array = GameState.mock_gem_packs()
+	if index < 0 or index >= packs.size():
+		return
+	if GameState.mock_buy_gems(index):
+		_show_toast("+%d gem (mua giả lập)" % int(packs[index]["gems"]))
+	else:
+		_show_toast("Không mua được: chưa lưu được dữ liệu.")
+	_refresh()
 
 
 func _show_settings() -> void:

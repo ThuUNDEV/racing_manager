@@ -933,6 +933,28 @@ func daily_available() -> bool:
 	return last_daily_day != _today()
 
 
+## Gói gem giả lập (chưa có IAP thật): danh sách lấy từ economy.json "mock_gem_packs".
+func mock_gem_packs() -> Array:
+	return GameData.economy().get("mock_gem_packs", [])
+
+
+## Mua giả lập gói gem thứ `index`: cộng gem ngay, không qua store. Lưu lỗi thì không đổi gì.
+func mock_buy_gems(index: int) -> bool:
+	var packs := mock_gem_packs()
+	if index < 0 or index >= packs.size() or save_blocked or phase == "save_error":
+		return false
+	var amount := int(packs[index]["gems"])
+	if amount <= 0:
+		return false
+	var payload := _save_data()
+	payload["gems"] = gems + amount
+	if not save_game(payload):
+		return false
+	gems += amount
+	changed.emit()
+	return true
+
+
 func claim_daily() -> bool:
 	if not daily_available() or phase == "save_error" or save_blocked:
 		return false

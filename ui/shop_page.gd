@@ -2,6 +2,7 @@ extends VBoxContainer
 ## Shop presentation; only the daily gift is currently available in gameplay.
 signal daily_requested
 signal offer_requested(title: String, description: String)
+signal gem_pack_requested(index: int)
 
 const ART := "res://assets/workshop_gp/shop/"
 const INK := Color("16355c")
@@ -142,10 +143,9 @@ func _build() -> void:
 	_free_card(free, "driver_helmet", "TAY ĐUA MIỄN PHÍ")
 	_heading("GEM")
 	_gem_grid = _grid(3)
-	var quantities := [10, 100, 255, 520, 1100, 2750]
-	var prices := ["Xem video", "52.000đ", "131.000đ", "263.000đ", "526.000đ", "1.300.000đ"]
-	for i in quantities.size():
-		_currency_card(_gem_grid, "gem", str(quantities[i]), prices[i], "GEM")
+	var packs: Array = GameData.economy().get("mock_gem_packs", [])
+	for i in packs.size():
+		_gem_card(_gem_grid, i, int(packs[i]["gems"]), str(packs[i]["price"]))
 	_heading("TIỀN")
 	_cash_grid = _grid(3)
 	for entry in [["cash_small", "4.08B", "10"], ["cash_medium", "16.3B", "30"], ["cash_large", "32.6B", "50"]]:
@@ -247,6 +247,25 @@ func _currency_card(parent: Node, icon: String, amount: String, price: String, c
 		button.add_theme_constant_override("icon_max_width", 18)
 	column.add_child(button)
 	var status := _text("Sắp có", 11, MUTED)
+	status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	column.add_child(status)
+
+
+## Thẻ gói gem: bấm là mua giả lập (cộng gem ngay), chưa qua IAP thật.
+func _gem_card(parent: Node, index: int, amount: int, price: String) -> void:
+	var column := _column(_panel(parent))
+	column.add_child(_icon("gem", 64))
+	var count := _text(str(amount), 20)
+	count.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	column.add_child(count)
+	var button := _button(price)
+	button.name = "GemPack%d" % index
+	button.add_theme_font_size_override("font_size", 12)
+	HdUi.style_button(button, "claim")
+	button.tooltip_text = "Mua giả lập · %d gem" % amount
+	button.pressed.connect(func() -> void: gem_pack_requested.emit(index))
+	column.add_child(button)
+	var status := _text("Giả lập", 11, MUTED)
 	status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	column.add_child(status)
 
