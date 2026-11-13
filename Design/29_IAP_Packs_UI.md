@@ -1,6 +1,31 @@
 # UI các gói ưu đãi
 
-Ngày: 13/11/2026. Trạng thái: bản thiết kế để duyệt, chưa tích hợp Godot.
+## Asset đã tạo — 13/11/2026
+
+Bộ asset đợt 1 ở `assets/iap_offers/`: ba hình minh họa không chữ cho `starter_1`, `char_my`, `income_x2` (1536 × 1024); một sheet RGBA ba tư thế Linh/My; sáu AtlasTexture `.tres`; manifest nguồn và hash. Atlas nhân vật dùng ranh giới cột 0/512/990/1536 đã kiểm tra alpha, không chia đều theo 512 vì tư thế bên phải lấn trái mốc 1024.
+
+Preview dùng ảnh mới cùng icon/nút gốc: `assets/iap_offers/preview.html`. Ảnh ghép: `Design/Previews/iap_assets_v1_overview.png`. Gói ZIP gồm asset và phụ thuộc dùng chung: `Design/AssetPacks/Racing_IAP_Illustrated_v1.zip`. Hướng dẫn: `assets/iap_offers/README.md`. Script đóng gói: `tools/package_iap_assets.py`, không sửa pixel ảnh sinh gốc.
+
+Đã kiểm tra tính toàn vẹn PNG, kênh alpha thật, vùng cắt và đường dẫn resource, CRC của ZIP; preview trình duyệt dùng đủ ảnh và không tràn ngang ở 320/390/412 px. Chưa import/render Godot, chưa gắn vào Shop hoặc thanh toán. Các SKU còn lại chưa có hình minh họa riêng trong đợt này.
+
+## Cập nhật hướng hình ảnh theo asset — 13/11/2026
+
+Theo yêu cầu đối chiếu asset hiện có, concept mới nhất là `Design/Previews/iap_packs_v4_asset_reference_concept.png`. Bản HTML bên dưới vẫn là mockup V2, chưa chuyển thành bố cục minh họa V4. Ảnh V3 chỉ là hướng thử, không dùng làm chuẩn nhận diện.
+
+Đã xem trực tiếp các sheet, icon, surface và tham chiếu của `HdUi`/`ExpansionArt`:
+
+| Thành phần | Nguồn chuẩn | Áp dụng |
+|---|---|---|
+| Người dẫn | `assets/tutorial/linh_expressions.png` | Linh, tóc đuôi ngựa, headset xanh, đồng phục xanh–trắng–cam; không dùng ông quản lý mới. Linh minh họa lợi ích, không phải thưởng Starter. |
+| Tay đua My | `assets/racing_ui_hd_expansion/sprites/driver_my.tres` → `sheets/driver_portraits.png` | Tóc ngắn, khuyên tai, áo cam; giữ khuôn mặt và bậc Elite. |
+| Xe | `assets/racing_ui_hd_expansion/sheets/garage.png` | Dòng Pico–Zenith, thân trắng/bạc, chi tiết cam, kính xanh; không đổi sang xe F1. Xe chỉ làm bối cảnh, không nằm trong phần thưởng. |
+| Garage, pack | `assets/racing_ui_hd_expansion/sheets/packs_facilities.png` | Garage mái xanh viền cam, Pro dùng pack mũ xanh, All-Star dùng pack tím; gear Standard dùng hộp xanh, Elite dùng hộp tím. |
+| Tiền tệ | `assets/racing_ui_hd/icons/gem.png`, `icons/cash.png` | Gem vàng, tiền xanh. Biểu tượng diamond xanh trên hộp Elite là chi tiết của asset hộp, không thay màu tiền tệ. |
+| Panel, nút | `assets/racing_ui_hd/surfaces/panel_body.png`, `button_claim.png`, `icons/close_red.svg` | Panel sáng, viền xanh, nút xanh lá bóng bo tròn, đóng đỏ; theo cách dùng trong `ui/hd_ui.gd`. |
+
+Ảnh V4 là concept sinh từ các asset tham chiếu, có vẽ lại nhân vật/bối cảnh; chưa phải ảnh ghép giữ nguyên pixel asset, chưa phải texture phát hành. Khi dựng UI: dùng icon, nút và chữ động thật; hình minh họa riêng được duyệt và xuất tách lớp. Trạng thái đã có My cần hiển thị tổng 70 mảnh thay cho thưởng tay đua + 30 mảnh, không hiển thị cả hai như hai khoản thưởng cộng thêm. Không thay code gameplay hoặc danh mục trong bước này.
+
+Ngày: 13/11/2026. Phiên bản 2 — thiết kế lại theo yêu cầu. Trạng thái: bản thiết kế để duyệt, chưa tích hợp Godot.
 
 ## Nguồn và bản xem
 
@@ -14,9 +39,9 @@ Mockup chỉ mô phỏng UI, không gọi IAP và không ghi save. Giá đang d�
 
 ## Hướng hình ảnh
 
-Giữ ngôn ngữ Workshop GP: tiêu đề xanh dương, chữ xanh đậm, thẻ kem viền cam, nút mua xanh lá nổi khối, nút đóng đỏ tròn. Tay đua dùng thẻ tím; quyền lợi và pass dùng nền xanh nhạt. Giữ chân dung và icon đã có để đồng bộ với Đội, Túi và Shop.
+Banner xanh đậm với hình phần thưởng lớn, tiêu đề nêu lợi ích, vùng nội dung trắng và nút mua xanh lá nổi khối. Gói tay đua Elite dùng tím, Legend dùng vàng nâu, tuần dùng xanh ngọc. Chân dung và icon lấy từ asset hiện tại. Vé Pro/All-Star, gear Standard/Elite phải dùng đúng hình tương ứng phần thưởng. Nút đóng nền trong suốt ở góc phải. Thanh Shop có lối tắt Nổi bật / Pass / Tay đua / Gem.
 
-Mỗi thẻ có tên gói, nhãn giá trị/giới hạn, toàn bộ phần thưởng, giá, liên kết chi tiết và “Xem tỉ lệ” nếu có coupon. Không hiển thị giá cũ gạch ngang hoặc phần trăm giảm khi cấu hình chưa có cơ sở so sánh.
+Mỗi thẻ có lời dẫn nêu lợi ích, tên gói, hình minh họa lớn, nhãn giá trị/giới hạn, toàn bộ phần thưởng, giá, liên kết chi tiết và “Xem tỉ lệ” nếu có coupon. Nhãn ×N bấm được để xem cách tính; không gọi nó là mức giảm giá. Không hiển thị giá cũ gạch ngang hoặc phần trăm giảm khi cấu hình chưa có cơ sở so sánh.
 
 Mốc thiết kế: màn hình 390 px, khoảng lề 12 px, khoảng cách 8–12 px, bo thẻ 17 px. Nút mua ít nhất 44 px; popup có nút mua 50 px. Ở 320 px, nội dung cuộn dọc và không tràn ngang. Popup cao tối đa vùng màn hình, cuộn nội dung khi nhiều phần thưởng; không thu nhỏ chữ để ép tất cả vào một màn hình.
 
@@ -25,8 +50,8 @@ Mốc thiết kế: màn hình 390 px, khoảng lề 12 px, khoảng cách 8–1
 | Nhóm | Cách trình bày |
 |---|---|
 | Starter 1–3 | Một thẻ đang mở, dải bước 1 · 2 · 3. Gói 2/3 có chân dung Hà/My; gem, vé và thu nhập ở hàng dưới. Nhãn giá trị theo Design/28. |
-| Combo và Đội tự do + quà | Thẻ cam đầy chiều ngang, thưởng cụ thể; gói bỏ quảng cáo ghi cả quyền lợi vĩnh viễn và quà một lần. |
-| Tuần S/M/L/XL | Cùng khung thẻ combo, tên kích cỡ rõ ràng, giới hạn 1 lần/tuần. XL chỉ có trong danh mục duyệt, không có trên Shop mẫu vì cờ đang tắt. |
+| Combo và Đội tự do + quà | Banner xanh đầy chiều ngang, thưởng cụ thể; gói bỏ quảng cáo ghi cả quyền lợi vĩnh viễn và quà một lần. |
+| Tuần S/M/L/XL | Banner xanh ngọc cùng khung thẻ combo, tên kích cỡ rõ ràng, giới hạn 1 lần/tuần. XL chỉ có trong danh mục duyệt, không có trên Shop mẫu vì cờ đang tắt. |
 | Tay đua | Chân dung lớn, bậc, tên, lối đua, tốc độ/kỹ thuật/thể lực từ dữ liệu. Hiển thị mảnh, gem và vé gear kèm theo. |
 | Vĩnh viễn | Tên quyền lợi rõ, phạm vi áp dụng và quà đi kèm. Biến thể nâng ×2 → ×3 dùng SKU riêng. |
 | Ngày | Hai thẻ song song, phân biệt vé gear Elite và vé tay đua All-Star. Mỗi gói 50 gem + 2 vé, giới hạn riêng. |
@@ -37,7 +62,7 @@ Thứ tự Shop khi tích hợp theo Design/28 §5: quà ngày → ưu đãi →
 
 ## Popup và tương tác
 
-Popup dùng chung: đầu xanh có tên + nhãn gói; vùng hình minh họa; danh sách thưởng từng dòng; giới hạn + tỉ lệ; ghi chú về thu nhập hoặc pass; nút giá; “Để sau”. Đóng bằng dấu ×, Để sau hoặc Escape.
+Popup dùng chung: đầu màu theo nhóm với tiêu đề lợi ích + tên gói + nhãn; vùng hình minh họa lớn; danh sách thưởng từng dòng; giới hạn + tỉ lệ; ghi chú về thu nhập hoặc pass; nút giá; “Để sau”. Đóng bằng dấu ×, Để sau hoặc Escape.
 
 Từ thẻ, bấm giá gọi thanh toán trực tiếp khi tích hợp; “Xem chi tiết” mở popup theo nhu cầu. Popup tự hiện chỉ dành cho Starter/offer theo hàng đợi sẵn có. Không thêm hộp xác nhận IAP sau nút giá.
 
@@ -68,3 +93,16 @@ Lối đua trong `drivers.json` hiện khác tên lối đua trong bảng Design
 ## Kiểm tra bản thiết kế
 
 Đã render toàn bộ 30 popup bằng Edge/Playwright; kiểm tra ảnh không thiếu, không lỗi JavaScript, trạng thái pending và đổi mảnh, bảng tỉ lệ, bố cục 320 px. Các ảnh xem trước nằm tại `Design/Previews/iap_packs_*.png`. Đây là kiểm tra mockup trình duyệt; chưa kiểm tra UI Godot hay giao dịch store.
+
+
+## Mục tiêu thu hút của bản 2
+
+- Tạo chú ý bằng tương phản, chân dung và phần thưởng lớn; tách 4 giây đọc đầu thành lợi ích → hình → phần thưởng → giá.
+- Starter đầu giá thấp, tổng 150 gem + 6 vé hiện ngay trong banner; không dùng các lời hứa thắng chắc hoặc số sức mạnh tự tính.
+- Nhân vật nhấn “Nhận tay đua chắc chắn”, đồng thời nêu rõ trường hợp đổi mảnh.
+- Một nút mua chứa cả hành động và giá, luôn có lối đóng/để sau.
+- Tiếp cận theo nhu cầu: gói khởi đầu ở đầu Shop, tay đua cạnh đội hình khi đủ điều kiện; không tăng tần suất popup ngoài luật hiện tại.
+
+Đây là giả thuyết thiết kế, chưa có dữ liệu chứng minh tăng mua. Khi tích hợp, đo số người nhìn thấy thẻ → mở chi tiết → bấm mua → giao dịch thành công, cùng tỷ lệ đóng popup và lỗi thanh toán. So sánh A/B theo nhóm tiến trình với cùng nội dung pack và giá. Không kết luận chỉ từ lượt bấm mua.
+
+CSS bản 2: `Design/Mockups/iap_packs_redesign.css`. Ảnh bản 2 dùng tiền tố `Design/Previews/iap_packs_v2_`; các ảnh không có `v2` là bản 1 để đối chiếu.
