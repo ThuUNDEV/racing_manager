@@ -21,3 +21,9 @@ tests/lab/out_*.txt
 # Horus (Design/25 §7)
 build-online/
 horus-sdk/.old/
+
+# Log tạm khi chạy test/import Godot
+Design/Previews/**/*.log
+
+# Gói asset sinh ra từ tools/package_iap_assets.py
+Design/AssetPacks/*.zip
