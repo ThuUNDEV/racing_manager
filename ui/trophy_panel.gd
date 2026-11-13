@@ -142,13 +142,17 @@ static func _banner() -> PanelContainer:
 	for p in 3:
 		rewards.add_child(_label("P%d +%d" % [p + 1, GameData.trophy_reward(p + 1, gs.business_tier)], 11, RANK_COLORS[p]))
 	v.add_child(rewards)
-	var details := _label("Cúp chỉ nhận khi về đích top 3. Giới hạn tính cả cúp đã tiêu; dùng cúp không làm giảm tổng đã kiếm.", 11, C_MUTED, true)
+	var details := _label("Cúp chỉ nhận khi về đích top 3. Giới hạn tính cả cúp đã tiêu; dùng cúp không làm giảm tổng đã kiếm. Trần tăng khi lên giải.", 11, C_MUTED, true)
 	details.name = "TrophyCapInfo"
 	details.visible = false
 	v.add_child(details)
 	info.toggled.connect(func(pressed: bool) -> void: details.visible = pressed)
 	if gs.trophies_earned >= gs.trophy_cap():
-		v.add_child(_label("Đã chạm trần cúp, không nhận thêm.", 11, HdUi.C_RED, true))
+		var hint := "Đã chạm trần cúp, không nhận thêm."
+		var next_cap := GameData.trophy_cap_for_league(gs.business_tier + 1) + maxi(0, gs.trophy_cap_bonus)
+		if next_cap > gs.trophy_cap():
+			hint += " Lên giải tiếp theo để mở trần %d." % next_cap
+		v.add_child(_label(hint, 11, HdUi.C_RED, true))
 	return pc
 
 

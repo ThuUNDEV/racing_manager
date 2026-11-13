@@ -29,7 +29,15 @@
  },
  "cap": {
   "base": 100,
-  "note": "Trần tổng cúp được kiếm (tính tích lũy cả đã tiêu). Đạt trần thì không nhận thêm cúp. Cơ chế nâng trần sẽ bổ sung sau; chỗ khác chỉ đọc giá trị cap hiệu lực = base + phần nâng thêm."
+  "by_league": [
+   100,
+   160,
+   230,
+   300,
+   365,
+   420
+  ],
+  "note": "Trần tổng cúp được kiếm (tính tích lũy cả đã tiêu). Đạt trần thì không nhận thêm cúp. Trần theo giải: by_league[giải] (thiếu thì dùng base) + trophy_cap_bonus. Không reset tổng đã kiếm khi lên giải."
  },
  "groups": [
   {

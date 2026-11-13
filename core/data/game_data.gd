@@ -707,6 +707,14 @@ static func trophy_cap_base() -> int:
 	return int(((_load("trophy_upgrades") as Dictionary).get("cap", {}) as Dictionary).get("base", 0))
 
 
+## Trần cúp theo giải (cap.by_league); thiếu bảng thì dùng trần gốc. Giải ngoài bảng lấy mục cuối.
+static func trophy_cap_for_league(league: int) -> int:
+	var by_league: Array = ((_load("trophy_upgrades") as Dictionary).get("cap", {}) as Dictionary).get("by_league", [])
+	if by_league.is_empty():
+		return trophy_cap_base()
+	return int(by_league[clampi(league, 0, by_league.size() - 1)])
+
+
 ## Cúp nhận được ở một vị trí (1..8) tại một giải; từ P4 trở xuống là 0.
 static func trophy_reward(position: int, league: int) -> int:
 	var earn: Dictionary = (_load("trophy_upgrades") as Dictionary).get("earn", {})
@@ -936,6 +944,16 @@ static func _validate_trophy_upgrades() -> Array:
 			errs.append("trophy_upgrades.json: league_multiplier phải >= 1")
 	if not _is_num((t.get("cap", {}) as Dictionary).get("base")) or trophy_cap_base() < 0:
 		errs.append("trophy_upgrades.json: cap.base không hợp lệ")
+	var cap_by_league: Array = (t.get("cap", {}) as Dictionary).get("by_league", [])
+	if not cap_by_league.is_empty():
+		if cap_by_league.size() != leagues().size():
+			errs.append("trophy_upgrades.json: cap.by_league cần đủ %d giải" % leagues().size())
+		var prev := 0
+		for v in cap_by_league:
+			if not _is_num(v) or int(v) < prev:
+				errs.append("trophy_upgrades.json: cap.by_league phải là số không giảm, >= 0")
+				break
+			prev = int(v)
 	var group_ids: Array = []
 	for g: Dictionary in trophy_groups():
 		group_ids.append(String(g.get("id", "")))

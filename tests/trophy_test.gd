@@ -23,6 +23,11 @@ func _initialize() -> void:
 	_check(GameData.validate().is_empty(), "validate() không lỗi: %s" % str(GameData.validate()))
 	_check(GameData.trophy_upgrades().size() == 8, "8 nâng cấp cúp")
 	_check(GameData.trophy_cap_base() == 100, "trần gốc 100 cúp")
+	var caps := []
+	for l in 6:
+		caps.append(GameData.trophy_cap_for_league(l))
+	_check(caps == [100, 160, 230, 300, 365, 420], "trần theo giải: %s" % str(caps))
+	_check(GameData.trophy_cap_for_league(99) == 420 and GameData.trophy_cap_for_league(-1) == 100, "giải ngoài bảng được chặn")
 	_check(GameData.trophy_reward(1, 0) == 3 and GameData.trophy_reward(2, 0) == 2 and GameData.trophy_reward(3, 0) == 1, "P1/P2/P3 = 3/2/1 ở giải 0")
 	_check(GameData.trophy_reward(4, 0) == 0 and GameData.trophy_reward(8, 5) == 0, "từ P4 trở xuống không có cúp")
 	_check(GameData.trophy_reward(1, 3) == 12, "hệ số giải: P1 giải 3 = 3 × 4")
@@ -48,6 +53,23 @@ func _initialize() -> void:
 	_check(gs._award_trophies(1) == 0 and gs.trophies_earned == 100, "đã chạm trần thì không nhận thêm")
 	gs.trophy_cap_bonus = 10
 	_check(gs.trophy_cap() == 110 and gs._award_trophies(1) == 3, "nâng trần cho phép nhận tiếp")
+
+	gs.init_new_game()
+	gs.business_tier = 2
+	_check(gs.trophy_cap() == 230, "giải 2: trần 230")
+	gs.trophies_earned = 100
+	_check(gs._award_trophies(1) == 9, "lên giải: nhận tiếp, không reset tổng đã kiếm")
+	gs.business_tier = 5
+	gs.trophy_cap_bonus = 10
+	_check(gs.trophy_cap() == 430, "trần giải + trophy_cap_bonus")
+	var nb: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/trophy_upgrades.json"))
+	nb["cap"].erase("by_league")
+	GameData.set_override("trophy_upgrades", nb)
+	_check(GameData.trophy_cap_for_league(4) == 100, "thiếu by_league thì dùng trần gốc")
+	nb["cap"]["by_league"] = [100, 90, 230, 300, 365, 420]
+	GameData.set_override("trophy_upgrades", nb)
+	_check(not GameData.validate().is_empty(), "by_league giảm bị từ chối")
+	GameData.reload()
 
 	print("== Mua nâng cấp ==")
 	gs.init_new_game()

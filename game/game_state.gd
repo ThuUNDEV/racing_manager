@@ -1446,9 +1446,9 @@ func daily_gift_amount() -> BigNumber:
 # ---------- Nâng cấp bằng cúp (data/trophy_upgrades.json) ----------
 # Cúp chỉ nhận khi về đích top 3 (P1/P2/P3 theo bảng cấu hình, nhân hệ số giải); tổng đã kiếm bị chặn bởi trần.
 
-## Trần tổng cúp được kiếm = trần gốc trong cấu hình + phần nâng thêm.
+## Trần tổng cúp được kiếm = trần theo giải hiện tại trong cấu hình + phần nâng thêm.
 func trophy_cap() -> int:
-	return GameData.trophy_cap_base() + maxi(0, trophy_cap_bonus)
+	return GameData.trophy_cap_for_league(business_tier) + maxi(0, trophy_cap_bonus)
 
 
 func trophy_level(id: String) -> int:
