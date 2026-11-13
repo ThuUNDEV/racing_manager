@@ -6,6 +6,7 @@
   - **[Quan sát]**: đọc trực tiếp từ file trong gói.
   - **[Suy luận]**: rút ra từ tên lớp, tên khóa hoặc cấu trúc dữ liệu.
   - **[Chưa biết]**: không có bằng chứng trong phạm vi đã phân tích.
+- Dữ liệu thô đã giải mã và script tái lập: `C:\Users\thupv\Downloads\Team_Manager\` (xem `README.md` ở đó; `data/` chứa JSON, `tools/` chứa script, `tools/verify_docs.py` đối chiếu các con số trong tài liệu này).
 - Giới hạn chung: số liệu là cấu hình tĩnh của APK. Server (Nakama, Firebase Remote Config) có thể ghi đè giá, tỉ lệ và offer đang chạy. Bản này là bản APKPure đã đóng lại, chữ ký không phải chữ ký gốc của nhà phát hành.
 
 ---
