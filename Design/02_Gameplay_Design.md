@@ -230,7 +230,7 @@ AI mỗi giải có base stats sau:
 | Bán chuyên 1 | 48 | 43 | Đạt ít nhất 36 điểm ở Tập sự |
 | Chuyên nghiệp 2 | 58 | 47 | Đạt ít nhất 36 điểm ở Bán chuyên |
 
-7 AI có offset lần lượt `-4, -3, -2, 0, +2, +3, +4` cộng vào cả stats xe và tay đua. AI dùng cùng quy tắc mô phỏng tự động như xe người chơi. AI đã được tạo giữ nguyên trong race, không scale theo build người chơi.
+7 AI có offset lần lượt `-4, -3, -2, 0, +2, +3, +4` cộng vào cả stats xe và tay đua (`sim.json["ai_offsets"]`, dùng cho `RaceSim` v1.0 chuẩn tham chiếu). **Từ 13/11/2026 `TrafficSim` (game chạy thật) dùng dải lồi `ai_cars[].offset = -6, -5, -3, 0, +4, +8, +14`** (xem 08 §10.12); các giải sau lấy cùng dải này cộng vào nền giải. Luật "≥ 36 điểm để thăng giải" ở §7.2–7.3 là thiết kế cũ: mã hiện tại cho mở giải kế bằng tiền, cấp thu nhập và hạng xe, không còn điều kiện điểm. AI dùng cùng quy tắc mô phỏng tự động như xe người chơi. AI đã được tạo giữ nguyên trong race, không scale theo build người chơi.
 
 Đây là mốc khởi đầu; phải đo phân phối vị trí để chỉnh. Không quảng bá tỷ lệ thắng khi chưa mô phỏng/playtest.
 

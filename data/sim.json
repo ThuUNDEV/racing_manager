@@ -61,17 +61,17 @@
  "ai_cars": [
   {
    "name": "Kiên",
-   "offset": -4,
+   "offset": -6,
    "style": "inside"
   },
   {
    "name": "Lan",
-   "offset": -3,
+   "offset": -5,
    "style": "sweeper"
   },
   {
    "name": "Minh",
-   "offset": -2,
+   "offset": -3,
    "style": "counter"
   },
   {
@@ -81,17 +81,17 @@
   },
   {
    "name": "Oanh",
-   "offset": 2,
+   "offset": 4,
    "style": "inside"
   },
   {
    "name": "Phúc",
-   "offset": 3,
+   "offset": 8,
    "style": "sweeper"
   },
   {
    "name": "Quân",
-   "offset": 4,
+   "offset": 14,
    "style": "counter"
   }
  ],

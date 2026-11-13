@@ -56,11 +56,12 @@ func _initialize() -> void:
 
 	print("== Bot kịch bản (ai_cars) ==")
 	var plain_ai := _new(31, _stats(), "track_circuit_a")
-	var legacy_offsets: Array = GameData.sim()["ai_offsets"]
+	# ai_cars (dải lồi, TrafficSim) tách khỏi ai_offsets (RaceSim v1.0 giữ làm chuẩn): so với offset trong ai_cars.
+	var scn_default: Array = GameData.sim()["ai_cars"]
 	var legacy_ok := true
-	for i in legacy_offsets.size():
+	for i in scn_default.size():
 		var bc: TrafficSim.Car = plain_ai.cars[i + 1]
-		var off := float(legacy_offsets[i])
+		var off := float(scn_default[i]["offset"])
 		legacy_ok = legacy_ok and is_equal_approx(bc.dS, off) and is_equal_approx(bc.dH, off) and is_equal_approx(bc.dB, off) 			and is_equal_approx(bc.dA, off) and is_equal_approx(bc.dP, off) and is_equal_approx(bc.dT, off) and is_equal_approx(bc.dC, off) 			and bc.trait_id == "" and String(bc.driver_name) == String(GameData.sim()["ai_names"][i])
 	_check(legacy_ok, "ai_cars mặc định (offset) giống hệt cách cũ: chỉ số, tên, không đặc tính")
 	var scn_cfg: Array = GameData.sim()["ai_cars"].duplicate(true)
@@ -160,8 +161,11 @@ func _initialize() -> void:
 	probe.seed = 77
 	var T: Dictionary = GameData.sim()
 	var scale := float(T["traffic"].get("speed_scale", 1.0))  # TrafficSim nhân đều tốc độ, gia tốc, phanh, tốc độ ngang
-	# Phanh tối đa gồm cả chỉ số braking của tay đua (bot lệch tối đa +4 điểm so với chuẩn giải).
-	var brake: float = (float(T["brake"]) + float(T["driver_stats"]["braking_brake_per_point"]) * 4.0) * scale
+	# Phanh tối đa gồm cả chỉ số braking của tay đua (bot lệch tối đa theo ai_cars so với chuẩn giải, tối thiểu +4).
+	var max_bot_off := 4.0
+	for bot: Dictionary in T["ai_cars"]:
+		max_bot_off = maxf(max_bot_off, float(bot.get("offset", 0.0)))
+	var brake: float = (float(T["brake"]) + float(T["driver_stats"]["braking_brake_per_point"]) * max_bot_off) * scale
 	for r in 36:
 		var lvl := probe.randi_range(0, 30)
 		var st := _stats([probe.randi_range(-10, lvl), probe.randi_range(-10, lvl), probe.randi_range(-10, lvl),

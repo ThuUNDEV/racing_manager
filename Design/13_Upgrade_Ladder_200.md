@@ -78,6 +78,7 @@ Bốn bộ phận lên cấp 200 tốn khoảng 1,8M, rẻ hơn tổng doanh thu
 - Mỗi cấp bộ phận chỉ +0,2 chỉ số: +0,2 Speed ≈ +0,01 đơn vị/giây (khoảng 0,05%) trên đoạn thẳng. Một cấp lẻ **không đủ để đổi hạng**; người chơi thấy khác biệt sau khoảng 10–30 cấp. UI phải gom hiệu ứng (§5) để tránh cảm giác "mua mà không thấy gì".
 - Cấp 200 của một bộ phận = +40 chỉ số ≈ +2 đơn vị/giây (+10%) cho Speed, +1,8 (+10%) cho Handling, vẫn trong khoảng cách giữa các hạng xe (nền xe chênh 16–22 giữa hạng). Mô phỏng đua không đổi: chỉ `part_stat` trả số thực thay vì số nguyên; sim vốn dùng float.
 - **Kịch bản "xe chậm nhất rồi mạnh dần"** cần đo lại bằng `tests/lab/scenario_lab.gd`, đổi bước nâng cấp từ +2 sang +0,2 mỗi cấp. Với thang này đủ chỗ để bot cao nhất tương đương khoảng +7% (offset +14), và xe người chơi vượt họ khi bốn bộ phận ở khoảng cấp 120–150.
+  - **Đã đo (13/11/2026, `TrafficSim`, hệ số thật 0,25/0,2/0,18/0,15 mỗi cấp, dải bot `-6…+14`):** với xe Pico nâng đều bốn bộ phận, top 3 ổn định (≥ 80%) cần khoảng **300 cấp** tổng (≈ 75 cấp mỗi bộ phận) và top 1 (≈ 50%) cần khoảng **600 cấp** (≈ 150 mỗi bộ phận); trần là 800 cấp. Chi tiết 08 §10.12. Ước lượng "cấp 120–150" ở trên khớp với mốc vượt bot mạnh nhất (top 1, ≈ 150 mỗi bộ phận); top 3 đến sớm hơn (≈ 75 mỗi bộ phận).
 
 ## 5. UI bắt buộc
 

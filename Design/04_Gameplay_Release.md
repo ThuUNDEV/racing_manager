@@ -105,6 +105,8 @@ Lưu ý khi đọc: chỉ số tay đua thực tế chỉ tăng tối đa +20 (h
 
 ### 3.3. Ngưỡng thăng hạng (giải 0, Δtay đua = Δxe/2)
 
+> Số liệu lịch sử của `RaceSim` v1.0 với dải AI ±4; luật 36 điểm đã bỏ và dải AI hiện tại khác, xem 08 §10.12.
+
 | Δxe so với nền giải | Điểm mùa trung bình | Tỉ lệ đạt ≥ 36 điểm |
 |---:|---:|---:|
 | −14 | 5,7 | 0% |
@@ -127,6 +129,8 @@ Lưu ý khi đọc: chỉ số tay đua thực tế chỉ tăng tối đa +20 (h
 ### 4.1. Sáu giải
 
 Mùa gồm đúng 5 chặng, đạt ≥ 36 điểm (trong 5–50) thì mở giải kế tiếp; dưới mốc ở lại, không tụt hạng. Nền AI áp dụng offset `-4, -3, -2, 0, +2, +3, +4` cho 7 AI, như v0.2.
+
+> **Cập nhật 13/11/2026:** (1) Điều kiện 36 điểm không còn trong mã: mở giải kế chỉ cần tiền, cấp thu nhập tối thiểu và hạng xe (`GameState.expansion_state`). (2) `TrafficSim` dùng dải lồi `ai_cars[].offset = -6, -5, -3, 0, +4, +8, +14`; `ai_offsets` cũ chỉ còn cho `RaceSim` v1.0 và golden. Số liệu mới ở 08 §10.12. Bảng §3.3 là số của v1.0 với dải ±4, giữ để tham chiếu.
 
 | L | Giải | Nền xe AI | Nền tay đua AI | Xe tối thiểu để vào | Màu chủ đạo |
 |---:|---|---:|---:|---|---|

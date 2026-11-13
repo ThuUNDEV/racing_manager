@@ -393,3 +393,27 @@ Chạy một bản thử riêng (không sửa mã sim): dùng lại `setup()` c�
 **Thăng hạng (`traffic_lab` mục 3, 30 mùa, lịch giải 0):** xác suất đạt 36 điểm/mùa theo Δ xe gần như bằng v1.0: Δ = +4: 46% (v1.0) so với 53%; Δ = +8: 93% so với 93%; Δ ≤ 0: 0% cả hai. Điểm TB mỗi mùa lệch dưới 1,5 điểm. Ngưỡng thăng hạng ở 04 §3.3 chưa cần đổi. Phân phối vị trí ở Δ = 0 (`traffic_lab` mục 1) cũng gần v1.0, đồng đều P3–P6.
 
 **Chưa làm:** lab đóng góp từng chỉ số (mục 2 của `traffic_lab`, 04 §3), đo thiết bị thật, nén grid (giữ nguyên như hiện nay: xe cuối chạy thêm 52 đơn vị).
+
+
+### 10.12. Dải bot lồi (13/11/2026)
+
+**Vấn đề.** Dải AI `-4…+4` quá sát: đội mạnh nhất chỉ gấp 1,09–1,22 lần đội yếu nhất (theo tổng sức mạnh hiển thị), top 3 và top 1 chỉ cách nhau khoảng 25 điểm sức mạnh. Hạng nhảy từ cuối bảng lên top 3 trong chưa đầy 90 điểm rồi kẹt ở cụm bot sát nhau. Tham khảo cấu trúc dải của Race Star (đội mạnh gấp khoảng 3 lần đội yếu, top 1 gấp ~1,4 lần top 3, đội yếu nhất giải kế bằng 0,70 lần đội mạnh nhất giải trước).
+
+**Thay đổi.** `sim.json["ai_cars"][].offset` đổi từ `-4, -3, -2, 0, +2, +3, +4` thành **`-6, -5, -3, 0, +4, +8, +14`** (Kiên, Lan, Minh, Nam, Oanh, Phúc, Quân; tên và phong cách giữ nguyên). `ai_offsets` giữ `-4…+4` cho `RaceSim` v1.0 nên golden v1.0 không đổi; golden `TrafficSim` được cập nhật. `tests/traffic_test.gd`: kiểm bot mặc định theo `ai_cars`, giới hạn phanh lấy theo độ lệch lớn nhất trong dữ liệu.
+
+**Cách đo.** Giải 0, Circuit B, 80 seed mỗi mức; người chơi = nền giải + Δ đều cho 4 chỉ số xe và 7 chỉ số tay đua. Sức mạnh hiển thị là tổng 11 chỉ số (`team_power()`, nền giải 0 = 440). `TrafficSim` chỉ phụ thuộc chênh lệch so với nền giải, nên kết quả như nhau ở cả 6 giải (nền 440 / 516 / 622 / 736 / 858 / 988).
+
+| Dải bot | Sức mạnh cộng thêm để top 3 (~80%) | để top 1 (~50%) |
+|---|---:|---:|
+| Cũ `-4…+4` | ~+50 | ~+75 |
+| **A `-6…+14` (đang dùng)** | **~+72** | **~+150** |
+| B `-8,-6,-3,+1,+6,+12,+20` | ~+98 | ~+220 |
+| C `-10,-8,-4,+2,+10,+20,+32` | ~+145 | không đạt trong +220 |
+
+Ở nền giải, hạng trung bình gần như không đổi giữa các dải (4,4–4,9) nên cảm giác vào game giữ nguyên. Về bét lúc −44 sức mạnh giảm từ 35% (cũ) xuống 9% (A) và 0% (B, C).
+
+**Quy đổi ra cấp xe** (Pico, nâng đều 4 bộ phận, chỉ xe; xe cộng ít hơn tăng đều xe và tay đua khoảng 20%): dải cũ top 3 ≈ 200 cấp, top 1 ≈ 300 cấp; dải A top 3 ≈ **300 cấp**, top 1 ≈ **600 cấp** (trần 800 cấp). Dồn hết vào Động cơ không hiệu quả: 200 cấp Động cơ cho top 3 chỉ 48%.
+
+**Nguồn bổ trợ hiện có.** Cúp (tổng 100, tiêu hết ≈ +26 sức mạnh ≈ 130 cấp xe), level tay đua (+7 sức mạnh mỗi level, tối đa +35), tay đua giải 1 có tổng chỉ số 315–329 so với 280 của An (+35…+49). Trang bị (`gear_bonus`) **chưa nối vào đua**, nên chưa cộng chỉ số.
+
+**Lưu ý.** Ngưỡng 36 điểm/mùa ở 04 §3.3 không còn dùng trong mã (mở giải kế chỉ cần tiền, cấp thu nhập và hạng xe), nên dải mới không chặn tiến trình. Nó chỉ làm top 3/top 1 khó hơn, tức tiền thưởng theo hạng và cúp đến chậm hơn; chưa chạy lại nhịp tiền (Design/05, 12) với dải mới. Các số trên là ước lượng từ 80 seed, dao động khoảng ±10% ở mức top 1.
