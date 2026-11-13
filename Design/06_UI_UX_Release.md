@@ -89,7 +89,7 @@ Mỗi màn có đủ trạng thái: mặc định, đang tải, rỗng, lỗi, k
 
 ### UI-09 — Kết quả đua
 
-Như v0.2, thêm: SP nhận được, tiến độ tuyển, kỷ lục cá nhân trên track (nếu phá). Giải thích kết quả chỉ dùng số liệu đo được (lỗi, giây mất do bám xe, vượt xe). Nút quảng cáo phụ xuất hiện chỉ khi SDK sẵn sàng và có quảng cáo; ghi đúng phần tiền cộng thêm.
+Như v0.2, thêm: SP nhận được, tiến độ tuyển, kỷ lục cá nhân trên track (nếu phá). Giải thích kết quả chỉ dùng số liệu đo được (lỗi, giây mất do bám xe, vượt xe). Nút quảng cáo phụ xuất hiện chỉ khi SDK sẵn sàng và có quảng cáo; ghi đúng phần tiền cộng thêm. *(Cập nhật 12/11/2026: bảng kết quả không còn nút quảng cáo; vị trí quảng cáo xem [26](26_Ads_Placements.md).)*
 
 ### UI-12 — Thu nhập vắng mặt
 
@@ -130,6 +130,8 @@ Như v0.2; thêm nút phụ "Nhận gấp đôi" (xem quảng cáo) hoặc tự 
 - Ngôn ngữ chọn theo thiết bị lần đầu, đổi được trong Cài đặt.
 
 ## 9. Hướng dẫn đầu game (UI-19)
+
+> **12/11/2026:** mục này được thay bằng [23 — Kịch bản Tutorial](23_Tutorial_Script.md) (khớp đua liên tục, 8 nâng cấp, gói phụ kiện/tay đua, Class). Nội dung dưới giữ làm tham chiếu.
 
 Mục tiêu: ≥ 85% hoàn tất trong ≤ 3 phút; có nút bỏ qua; bước đã làm không lặp.
 

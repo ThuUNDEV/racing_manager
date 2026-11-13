@@ -2,7 +2,11 @@ extends VBoxContainer
 ## Shop presentation; only the daily gift is currently available in gameplay.
 signal daily_requested
 signal offer_requested(title: String, description: String)
-signal gem_pack_requested(index: int)
+## IAP: người chơi bấm mua một SKU (data/iap.json). Logic mua nằm ở autoload Iap; trang này chỉ vẽ và phát tín hiệu.
+signal iap_requested(sku: String)
+signal restore_requested
+## Quảng cáo rewarded: người chơi bấm thẻ miễn phí (placement trong data/ads.json). Main gọi Ads rồi báo kết quả.
+signal ad_requested(placement: String)
 
 const ART := "res://assets/workshop_gp/shop/"
 const INK := Color("16355c")
@@ -21,6 +25,9 @@ var _daily_description: Label
 var _daily_status: Label
 var _gem_grid: GridContainer
 var _cash_grid: GridContainer
+var _iap_buttons: Dictionary = {}   # sku -> {button: Button, status: Label}
+var _restore_button: Button
+var _ad_buttons: Dictionary = {}   # placement -> {button: Button, status: Label}
 
 
 func _ready() -> void:
@@ -123,7 +130,7 @@ func _build() -> void:
 	daily.add_child(_daily_status)
 	_heading("PASS")
 	add_child(_text("Pass và các gói bên dưới sắp có. Nội dung, giá là dự kiến.", 12, MUTED))
-	_pass("season_pass", "PASS MÙA GIẢI", "Tích lũy tiến độ qua các chặng đua.")
+	_pass("season_pass", "PASS MÙA GIẢI", "Tích lũy tiến độ qua các lượt đua.")
 	_pass("monthly_pass", "PASS THÁNG", "Nhận quà mỗi ngày trong thời hạn pass.")
 	_pass("gem", "QUỸ GEM", "Mở thưởng gem theo các mốc phát triển.")
 	_heading("ƯU ĐÃI GIỚI HẠN")
@@ -139,17 +146,23 @@ func _build() -> void:
 	_bundle(bundles, "gear_card", "GÓI TRANG BỊ")
 	_bundle(bundles, "driver_card", "GÓI TAY ĐUA")
 	var free := _grid(2)
-	_free_card(free, "gear_crate", "TRANG BỊ MIỄN PHÍ")
-	_free_card(free, "driver_helmet", "TAY ĐUA MIỄN PHÍ")
+	_free_card(free, "gear_crate", "TRANG BỊ MIỄN PHÍ", "free_gear_coupon")
+	_free_card(free, "driver_helmet", "TAY ĐUA MIỄN PHÍ", "free_driver_coupon")
 	_heading("GEM")
 	_gem_grid = _grid(3)
-	var packs: Array = GameData.economy().get("mock_gem_packs", [])
-	for i in packs.size():
-		_gem_card(_gem_grid, i, int(packs[i]["gems"]), str(packs[i]["price"]))
+	_free_gem_card(_gem_grid)
+	for p: Dictionary in GameData.iap_products():
+		if String(p.get("kind", "")) == "gems":
+			_gem_card(_gem_grid, String(p["sku"]), int(p["grant"]["gems"]), String(p.get("price_fallback", "")))
 	_heading("TIỀN")
 	_cash_grid = _grid(3)
 	for entry in [["cash_small", "4.08B", "10"], ["cash_medium", "16.3B", "30"], ["cash_large", "32.6B", "50"]]:
 		_currency_card(_cash_grid, entry[0], entry[1], entry[2], "TIỀN")
+	_restore_button = _button("Khôi phục giao dịch")
+	_restore_button.name = "RestorePurchases"
+	_restore_button.visible = false
+	_restore_button.pressed.connect(func() -> void: restore_requested.emit())
+	add_child(_restore_button)
 
 
 func _pass(icon: String, title: String, description: String) -> void:
@@ -224,12 +237,74 @@ func _bundle(parent: Node, icon: String, title: String) -> void:
 	column.add_child(_text("Sắp có", 11, MUTED))
 
 
-func _free_card(parent: Node, icon: String, title: String) -> void:
+func _free_card(parent: Node, icon: String, title: String, placement: String) -> void:
 	var column := _column(_panel(parent))
 	column.add_child(_text(title, 13))
 	column.add_child(_icon(icon, 70))
-	column.add_child(_coming_button("Xem video", title, "Xem video để nhận phần thưởng."))
-	column.add_child(_text("Sắp có", 11, MUTED))
+	_ad_button(column, placement)
+
+
+## Thẻ đầu tiên của mục GEM: gem miễn phí mỗi ngày (xem video).
+func _free_gem_card(parent: Node) -> void:
+	var column := _column(_panel(parent))
+	column.add_child(_icon("gem", 64))
+	var count := _text("MIỄN PHÍ", 16)
+	count.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	column.add_child(count)
+	_ad_button(column, "free_gems")
+
+
+## Nút + dòng trạng thái của một thẻ quảng cáo; chữ do update_ads() đặt.
+func _ad_button(column: VBoxContainer, placement: String) -> void:
+	var button := _button("")
+	button.name = "Ad_" + placement
+	button.add_theme_font_size_override("font_size", 13)
+	HdUi.style_button(button, "claim")
+	button.pressed.connect(func() -> void: ad_requested.emit(placement))
+	column.add_child(button)
+	var status := _text("", 11, MUTED)
+	status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	column.add_child(status)
+	_ad_buttons[placement] = {"button": button, "status": status}
+
+
+## Vẽ trạng thái các thẻ quảng cáo. view = {placement: {state, left, reward}} (xem Main._ads_view).
+func update_ads(view: Dictionary) -> void:
+	for pl: String in _ad_buttons:
+		var entry: Dictionary = view.get(pl, {})
+		var button: Button = _ad_buttons[pl]["button"]
+		var status: Label = _ad_buttons[pl]["status"]
+		var reward := String(entry.get("reward", ""))
+		var free := bool(entry.get("entitled", false))
+		var left := int(entry.get("left", 0))
+		button.disabled = true
+		status.text = ""
+		match String(entry.get("state", "none")):
+			"ready":
+				button.disabled = false
+				button.text = ("Nhận " if free else "▶ ") + reward
+			"pending":
+				button.disabled = false
+				button.text = "Thử nhận lại"
+				status.text = "Đã xem, chưa lưu được thưởng"
+			"loading":
+				button.text = "Đang tải…"
+			"offline":
+				button.text = "Cần Internet"
+			"busy":
+				button.text = "Đang xem…"
+			"cooldown":
+				button.text = "Còn %02d:%02d:%02d" % [left / 3600, (left / 60) % 60, left % 60]
+				status.text = reward
+			"capped":
+				button.text = "Mai nhận tiếp"
+				status.text = reward
+			"locked":
+				button.text = "Chưa mở"
+			"save":
+				button.text = "Chờ lưu lại"
+			_:
+				button.text = "Chưa có"
 
 
 func _currency_card(parent: Node, icon: String, amount: String, price: String, category: String) -> void:
@@ -251,23 +326,56 @@ func _currency_card(parent: Node, icon: String, amount: String, price: String, c
 	column.add_child(status)
 
 
-## Thẻ gói gem: bấm là mua giả lập (cộng gem ngay), chưa qua IAP thật.
-func _gem_card(parent: Node, index: int, amount: int, price: String) -> void:
+## Thẻ gói gem (IAP thật): giá và trạng thái cập nhật ở update_iap().
+func _gem_card(parent: Node, sku: String, amount: int, price: String) -> void:
 	var column := _column(_panel(parent))
 	column.add_child(_icon("gem", 64))
 	var count := _text(str(amount), 20)
 	count.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	column.add_child(count)
 	var button := _button(price)
-	button.name = "GemPack%d" % index
+	button.name = "Iap_" + sku
 	button.add_theme_font_size_override("font_size", 12)
 	HdUi.style_button(button, "claim")
-	button.tooltip_text = "Mua giả lập · %d gem" % amount
-	button.pressed.connect(func() -> void: gem_pack_requested.emit(index))
+	button.pressed.connect(func() -> void: iap_requested.emit(sku))
 	column.add_child(button)
-	var status := _text("Giả lập", 11, MUTED)
+	var status := _text("", 11, MUTED)
 	status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	column.add_child(status)
+	_iap_buttons[sku] = {"button": button, "status": status}
+
+
+## Vẽ lại trạng thái các nút IAP. view = {items: {sku: {price, reason, first_bonus}}, busy, restorable} (xem Main._iap_view).
+## reason: "" = bán được; còn lại là lý do khóa ("owned", "once", "daily", "weekly", "locked"...).
+func update_iap(view: Dictionary) -> void:
+	var items: Dictionary = view.get("items", {})
+	var busy := bool(view.get("busy", false))
+	for sku: String in _iap_buttons:
+		var entry: Dictionary = items.get(sku, {})
+		var button: Button = _iap_buttons[sku]["button"]
+		var status: Label = _iap_buttons[sku]["status"]
+		var reason := String(entry.get("reason", "none"))
+		button.text = "Đang xử lý…" if busy else String(entry.get("price", ""))
+		button.disabled = busy or reason != ""
+		status.text = "LẦN ĐẦU ×2" if bool(entry.get("first_bonus", false)) and reason == "" else _reason_text(reason)
+	if is_instance_valid(_restore_button):
+		_restore_button.visible = bool(view.get("restorable", false))
+		_restore_button.disabled = busy
+
+
+static func _reason_text(reason: String) -> String:
+	match reason:
+		"owned":
+			return "Đã sở hữu"
+		"once", "hidden":
+			return "Đã mua"
+		"daily":
+			return "Mai mở lại"
+		"weekly":
+			return "Tuần sau mở lại"
+		"save":
+			return "Chờ lưu lại"
+	return ""
 
 
 func _adapt_grids() -> void:

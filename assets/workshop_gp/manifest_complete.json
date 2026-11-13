@@ -1430,37 +1430,37 @@
     {
       "path": "ui/button_danger.svg",
       "bytes": 573,
-      "sha256": "45b7a141fcd9468c1e54d62ff93c0c34488b03c5adcb24f378e1000c4e579812"
+      "sha256": "79aa8d24cb9214857af68e598e1feba28398716819f28df1da6c3ea913f7cc2d"
     },
     {
       "path": "ui/button_disabled.svg",
       "bytes": 571,
-      "sha256": "a43b8a850670b9d2a6cc31659ae3ad453f9cf96b85dc3337cc214ab7aef97d41"
+      "sha256": "27fa1c775a1c9cd7a938c90936492af37b997c05d69d3d378cc53427f721a9b2"
     },
     {
       "path": "ui/button_orange.svg",
       "bytes": 571,
-      "sha256": "69d2a4fb88c5b1a24b1d0c1669286ebecdbb34fa90c49b29f7637031b8762c1c"
+      "sha256": "331ca7f9b004875e744eb2b64c970d9b5c7c662f5f2fea67b68d506abb196a04"
     },
     {
       "path": "ui/button_orange_hover.svg",
       "bytes": 571,
-      "sha256": "fdcb5d6720bcc5186768765c4f08840b19cb26393300a4815e3ae06010b3dc64"
+      "sha256": "45e3769f3de316b526b4fe86b4628b0b35bd20bb3822438bfe86492511c727d2"
     },
     {
       "path": "ui/button_orange_pressed.svg",
       "bytes": 571,
-      "sha256": "467d4d01191d00f93d0c5aecad6fa67bddf4b2265c54690856a0e5feaae5ed89"
+      "sha256": "8fd0e9cde0529ba7026eed61b85d9a50818d69f36e27eaf9dfa652f41e62dca1"
     },
     {
       "path": "ui/button_secondary.svg",
       "bytes": 573,
-      "sha256": "3fc6772b6b346819005d282ec9aea5945ec302881d22f2818f58812f0a7ef149"
+      "sha256": "c51776cde4d5afceef997bcd699bfff6db01284b6aa42cb3685bd3b856f94d92"
     },
     {
       "path": "ui/button_success.svg",
       "bytes": 573,
-      "sha256": "a89a7f28e830d11558c9f7fe9e5bc5be974903543b06b8111d5bb8ccd4f97216"
+      "sha256": "d54603ab40e170f5010486659bae2aedfd844f5de4623f8896f589ccf014e86f"
     },
     {
       "path": "ui/capsule_ivory.svg",

@@ -36,8 +36,8 @@
       "style": "inside",
       "trait": "fast_start",
       "unlock": {
-        "type": "season_complete",
-        "count": 1
+        "type": "races",
+        "count": 5
       },
       "entry_tier": 0,
       "coin_cost_base": "600"

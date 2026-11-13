@@ -1,0 +1,22 @@
+{
+  "name": "Horus SDK Demo",
+  "version": "1.0.0",
+  "versionCode": 1,
+  "appId": "",
+  "web": ".",
+  "icon": "icon.png",
+  "orientation": "portrait",
+  "languages": ["vi", "en"],
+  "colors": { "background": "#101418" },
+  "ads": {
+    "rewarded": ["demo_coins"],
+    "inter": []
+  },
+  "products": [
+    { "sku": "coins_100", "usd": 0.99, "consumable": true, "title": "100 coins" }
+  ],
+  "remoteConfig": {},
+  "events": ["reset"],
+  "support": "support@horusvn.com",
+  "notes": "Game mẫu của gói Horus SDK"
+}

@@ -1,0 +1,501 @@
+{
+ "schema_version": 1,
+ "_note": "Nâng cấp bằng cúp (Design/24). Cúp chỉ nhận khi về đích top 3. Giá trị là số cụ thể, chưa phải phần trăm; cần chỉnh theo mô phỏng.",
+ "currency": {
+  "id": "trophy",
+  "name": "Cúp",
+  "icon": "trophy"
+ },
+ "earn": {
+  "by_position": [
+   3,
+   2,
+   1,
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  "league_multiplier": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6
+  ],
+  "note": "cúp nhận = by_position[vị trí-1] × league_multiplier[giải]; từ P4 trở xuống không có cúp. Nhận tối đa tới khi chạm cap: nhận = min(cúp tính được, cap - tổng đã kiếm)"
+ },
+ "cap": {
+  "base": 100,
+  "note": "Trần tổng cúp được kiếm (tính tích lũy cả đã tiêu). Đạt trần thì không nhận thêm cúp. Cơ chế nâng trần sẽ bổ sung sau; chỗ khác chỉ đọc giá trị cap hiệu lực = base + phần nâng thêm."
+ },
+ "groups": [
+  {
+   "id": "offense",
+   "name": "Tấn công",
+   "stats": [
+    "S",
+    "A"
+   ]
+  },
+  {
+   "id": "defense",
+   "name": "Phòng thủ",
+   "stats": [
+    "H",
+    "B"
+   ]
+  },
+  {
+   "id": "income",
+   "name": "Thu nhập",
+   "stats": []
+  }
+ ],
+ "effect_labels": {
+  "S": "Tốc độ",
+  "A": "Tăng tốc",
+  "H": "Bám cua",
+  "B": "Ổn định",
+  "race_bonus_seconds": "Thu nhập mỗi lượt",
+  "daily_bonus_seconds": "Quà hằng ngày"
+ },
+ "effect_units": {
+  "race_bonus_seconds": " giây",
+  "daily_bonus_seconds": " giây"
+ },
+ "upgrades": [
+  {
+   "id": "speed_tune",
+   "name": "Động cơ đua",
+   "group": "offense",
+   "description": "Tăng tốc độ tối đa trên đoạn thẳng",
+   "unlock_league": 0,
+   "max_level": 10,
+   "cost_by_level": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+   ],
+   "effect_by_level": [
+    {
+     "S": 0
+    },
+    {
+     "S": 1
+    },
+    {
+     "S": 2
+    },
+    {
+     "S": 3
+    },
+    {
+     "S": 4
+    },
+    {
+     "S": 5
+    },
+    {
+     "S": 6
+    },
+    {
+     "S": 7
+    },
+    {
+     "S": 8
+    },
+    {
+     "S": 10
+    },
+    {
+     "S": 12
+    }
+   ],
+   "display": "Tốc độ +{S}"
+  },
+  {
+   "id": "launch_boost",
+   "name": "Xuất phát nhanh",
+   "group": "offense",
+   "description": "Tăng tốc nhanh hơn khi xuất phát và ra cua",
+   "unlock_league": 0,
+   "max_level": 10,
+   "cost_by_level": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+   ],
+   "effect_by_level": [
+    {
+     "A": 0
+    },
+    {
+     "A": 1
+    },
+    {
+     "A": 2
+    },
+    {
+     "A": 3
+    },
+    {
+     "A": 4
+    },
+    {
+     "A": 5
+    },
+    {
+     "A": 6
+    },
+    {
+     "A": 7
+    },
+    {
+     "A": 8
+    },
+    {
+     "A": 10
+    },
+    {
+     "A": 12
+    }
+   ],
+   "display": "Tăng tốc +{A}"
+  },
+  {
+   "id": "overtake_kit",
+   "name": "Đà vượt xe",
+   "group": "offense",
+   "description": "Bộ vượt xe: thêm tốc độ và tăng tốc",
+   "unlock_league": 2,
+   "max_level": 6,
+   "cost_by_level": [
+    2,
+    4,
+    6,
+    8,
+    10,
+    12
+   ],
+   "effect_by_level": [
+    {
+     "S": 0,
+     "A": 0
+    },
+    {
+     "S": 1,
+     "A": 1
+    },
+    {
+     "S": 2,
+     "A": 2
+    },
+    {
+     "S": 3,
+     "A": 3
+    },
+    {
+     "S": 4,
+     "A": 4
+    },
+    {
+     "S": 5,
+     "A": 5
+    },
+    {
+     "S": 6,
+     "A": 6
+    }
+   ],
+   "display": "Tốc độ +{S} · Tăng tốc +{A}"
+  },
+  {
+   "id": "corner_grip",
+   "name": "Bám cua",
+   "group": "defense",
+   "description": "Giữ đường tốt hơn ở đoạn cua",
+   "unlock_league": 0,
+   "max_level": 10,
+   "cost_by_level": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+   ],
+   "effect_by_level": [
+    {
+     "H": 0
+    },
+    {
+     "H": 1
+    },
+    {
+     "H": 2
+    },
+    {
+     "H": 3
+    },
+    {
+     "H": 4
+    },
+    {
+     "H": 5
+    },
+    {
+     "H": 6
+    },
+    {
+     "H": 7
+    },
+    {
+     "H": 8
+    },
+    {
+     "H": 10
+    },
+    {
+     "H": 12
+    }
+   ],
+   "display": "Bám cua +{H}"
+  },
+  {
+   "id": "stability_tune",
+   "name": "Ổn định thân xe",
+   "group": "defense",
+   "description": "Ít mất tốc khi bị áp sát hoặc sai đường",
+   "unlock_league": 0,
+   "max_level": 10,
+   "cost_by_level": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+   ],
+   "effect_by_level": [
+    {
+     "B": 0
+    },
+    {
+     "B": 1
+    },
+    {
+     "B": 2
+    },
+    {
+     "B": 3
+    },
+    {
+     "B": 4
+    },
+    {
+     "B": 5
+    },
+    {
+     "B": 6
+    },
+    {
+     "B": 7
+    },
+    {
+     "B": 8
+    },
+    {
+     "B": 10
+    },
+    {
+     "B": 12
+    }
+   ],
+   "display": "Ổn định +{B}"
+  },
+  {
+   "id": "race_chassis",
+   "name": "Khung gầm đua",
+   "group": "defense",
+   "description": "Khung gầm chuyên dụng: thêm bám cua và ổn định",
+   "unlock_league": 2,
+   "max_level": 6,
+   "cost_by_level": [
+    2,
+    4,
+    6,
+    8,
+    10,
+    12
+   ],
+   "effect_by_level": [
+    {
+     "H": 0,
+     "B": 0
+    },
+    {
+     "H": 1,
+     "B": 1
+    },
+    {
+     "H": 2,
+     "B": 2
+    },
+    {
+     "H": 3,
+     "B": 3
+    },
+    {
+     "H": 4,
+     "B": 4
+    },
+    {
+     "H": 5,
+     "B": 5
+    },
+    {
+     "H": 6,
+     "B": 6
+    }
+   ],
+   "display": "Bám cua +{H} · Ổn định +{B}"
+  },
+  {
+   "id": "sponsor",
+   "name": "Nhà tài trợ",
+   "group": "income",
+   "description": "Mỗi chặng nhận thêm số giây thu nhập thụ động",
+   "unlock_league": 0,
+   "max_level": 10,
+   "cost_by_level": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+   ],
+   "effect_by_level": [
+    {
+     "race_bonus_seconds": 0
+    },
+    {
+     "race_bonus_seconds": 1
+    },
+    {
+     "race_bonus_seconds": 2
+    },
+    {
+     "race_bonus_seconds": 3
+    },
+    {
+     "race_bonus_seconds": 4
+    },
+    {
+     "race_bonus_seconds": 5
+    },
+    {
+     "race_bonus_seconds": 6
+    },
+    {
+     "race_bonus_seconds": 8
+    },
+    {
+     "race_bonus_seconds": 10
+    },
+    {
+     "race_bonus_seconds": 12
+    },
+    {
+     "race_bonus_seconds": 15
+    }
+   ],
+   "display": "+{race_bonus_seconds} giây thu nhập/chặng"
+  },
+  {
+   "id": "grandstand",
+   "name": "Khán đài đông",
+   "group": "income",
+   "description": "Quà hằng ngày được cộng thêm số giây thu nhập",
+   "unlock_league": 1,
+   "max_level": 10,
+   "cost_by_level": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+   ],
+   "effect_by_level": [
+    {
+     "daily_bonus_seconds": 0
+    },
+    {
+     "daily_bonus_seconds": 30
+    },
+    {
+     "daily_bonus_seconds": 60
+    },
+    {
+     "daily_bonus_seconds": 90
+    },
+    {
+     "daily_bonus_seconds": 120
+    },
+    {
+     "daily_bonus_seconds": 150
+    },
+    {
+     "daily_bonus_seconds": 180
+    },
+    {
+     "daily_bonus_seconds": 210
+    },
+    {
+     "daily_bonus_seconds": 240
+    },
+    {
+     "daily_bonus_seconds": 270
+    },
+    {
+     "daily_bonus_seconds": 300
+    }
+   ],
+   "display": "+{daily_bonus_seconds} giây thu nhập/quà ngày"
+  }
+ ]
+}

@@ -46,7 +46,15 @@ func _initialize() -> void:
 	_check(part0.compare(BigNumber.from_int(1)) > 0 and Pricing.part_cost(1, 0).compare(part0.shifted(12).multiply_ratio(4, 1)) <= 0 and Pricing.part_cost(1, 0).compare(part0.shifted(12).multiply_ratio(3, 1)) > 0, "giá bộ phận hạng 2 = S(1e12) x Q(4) x giá hạng 1 (sai số ceil)")
 	_check(Pricing.part_cost(4, 0).compare(part0.shifted(30).multiply_ratio(32, 1)) <= 0 and Pricing.part_cost(4, 0).compare(part0.shifted(30).multiply_ratio(24, 1)) > 0, "giá bộ phận hạng 5 dùng bậc vào cố định")
 	_check(Pricing.part_cost(0, 0, "engine").compare(Pricing.part_cost(0, 0, "tyre")) > 0 and Pricing.part_cost(0, 0, "chassis").compare(Pricing.part_cost(0, 0, "gearbox")) > 0, "mỗi bộ phận có giá gốc riêng: Động cơ > Lốp, Khung gầm > Hộp số")
-	_check(Pricing.part_cost(0, 1).compare(part0) > 0 and Pricing.part_cost(0, 1).compare(part0.multiply_ratio(104, 100)) <= 0, "mỗi cấp tăng ~1,45^(1/10) ≈ 3,8%")
+	_check(Pricing.part_cost(0, 1).compare(part0) > 0 and Pricing.part_cost(0, 1).compare(part0.multiply_ratio(140, 100)) <= 0, "cấp đầu tăng tối đa r0 = ×1,30 (đường cong Race Star)")
+	var curve_ok := absf(Pricing._curve(199) - 8117.0) / 8117.0 < 0.02 and absf(Pricing._curve(10) - 5.84) < 0.1 and absf(Pricing._curve(50) - 53.2) < 1.0
+	var ratio_prev := 99.0
+	for n in range(1, 200):
+		var ratio := Pricing._curve(n) / Pricing._curve(n - 1)
+		if ratio > ratio_prev + 1e-12:
+			curve_ok = false
+		ratio_prev = ratio
+	_check(curve_ok, "upgrade_curve: P(199)≈8117, P(10)≈5,84, P(50)≈53,2 và hệ số giá mỗi cấp giảm dần")
 	_check(Pricing.revenue_rate({}).equals(8), "rate nền 8")
 	_check(Pricing.revenue_gain("ticket", 0).is_zero() and Pricing.revenue_gain("ticket", 1).equals("0.25075"), "revenue_gain cấp 1 = 0,25 x 1,003")
 	_check(Pricing.star_count(24) == 0 and Pricing.star_count(25) == 1 and Pricing.star_count(150) == 4, "mốc sao 25/50/100/150")

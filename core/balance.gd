@@ -52,18 +52,6 @@ static func max_level() -> int:
 	return Pricing.max_level()
 
 
-static func stages() -> int:
-	return int(GameData.economy()["stages"])
-
-
-static func promote_points() -> int:
-	return int(GameData.economy()["promote_points"])
-
-
-static func max_season_points() -> int:
-	return int(GameData.economy()["max_season_points"])
-
-
 static func daily_gift(rate: BigNumber) -> BigNumber:
 	return Pricing.daily_gift(rate)
 

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="vi">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+		<title>$GODOT_PROJECT_NAME</title>
+		<style>
+html, body, #canvas {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+body {
+	color: white;
+	background-color: black;
+	overflow: hidden;
+	touch-action: none;
+}
+
+#canvas {
+	display: block;
+}
+
+#canvas:focus {
+	outline: none;
+}
+
+#status, #status-splash, #status-progress {
+	position: absolute;
+	left: 0;
+	right: 0;
+}
+
+#status, #status-splash {
+	top: 0;
+	bottom: 0;
+}
+
+#status {
+	background-color: $GODOT_SPLASH_COLOR;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	visibility: hidden;
+}
+
+#status-splash {
+	max-height: 100%;
+	max-width: 100%;
+	margin: auto;
+}
+
+#status-splash.show-image--false {
+	display: none;
+}
+
+#status-splash.fullsize--true {
+	height: 100%;
+	width: 100%;
+	object-fit: contain;
+}
+
+#status-splash.use-filter--false {
+	image-rendering: pixelated;
+}
+
+#status-progress, #status-notice {
+	display: none;
+}
+
+#status-progress {
+	bottom: 10%;
+	width: 50%;
+	margin: 0 auto;
+}
+
+#status-notice {
+	background-color: #5b3943;
+	border-radius: 0.5rem;
+	border: 1px solid #9b3943;
+	color: #e0e0e0;
+	font-family: 'Noto Sans', 'Droid Sans', Arial, sans-serif;
+	line-height: 1.3;
+	margin: 0 2rem;
+	overflow: hidden;
+	padding: 1rem;
+	text-align: center;
+	z-index: 1;
+}
+		</style>
+		$GODOT_HEAD_INCLUDE
+	</head>
+	<body>
+		<canvas id="canvas">
+			Your browser does not support the canvas tag.
+		</canvas>
+
+		<noscript>
+			Your browser does not support JavaScript.
+		</noscript>
+
+		<div id="status">
+			<img id="status-splash" class="$GODOT_SPLASH_CLASSES" src="$GODOT_SPLASH" alt="">
+			<progress id="status-progress"></progress>
+			<div id="status-notice"></div>
+		</div>
+
+		<script src="horus-sdk.js"></script>
+		<script>
+/* Cầu nối Horus SDK <-> Godot (Design/25 §7). GDScript gọi window.rmHorus qua JavaScriptBridge.
+   boot() không bao giờ ném lỗi: SDK hỏng thì game vẫn chạy, chỉ là không có quảng cáo (rmHorus.ok = false). */
+window.rmHorus = (function () {
+	/* SKU bán trong game (khớp data/iap.json và horus-game.json -> products; tests/iap_test.gd kiểm). */
+	const IAP_SKUS = ["gems_pack_1", "gems_pack_2", "gems_pack_3", "gems_pack_4", "gems_pack_5", "no_ads", "income_x2", "income_x3", "income_x3_up", "offline_plus", "starter_1", "starter_2", "starter_3", "offer_combo_1", "offer_combo_2", "offer_noads_bundle", "char_lam", "char_my", "char_nhan", "char_phuong", "char_quang", "char_son", "daily_gear", "daily_driver", "pass_month", "pass_growth", "weekly_s", "weekly_m", "weekly_l", "weekly_xl"];
+	const rm = { ok: false, rv: false, backup: '', sdk: '', kind: '', error: '', onLifecycle: null };
+	let platform = null;
+	const queued = [];
+
+	function emit(kind, reason) {
+		if (rm.onLifecycle) { rm.onLifecycle(kind, reason); } else { queued.push([kind, reason]); }
+	}
+
+	/* Trên trình duyệt quảng cáo là giả lập: một lớp phủ để thử luồng xem/đóng sớm. Trong app Horus dòng này không làm gì. */
+	function fakeAd(kind, placement) {
+		return new Promise(function (done) {
+			const box = document.createElement('div');
+			box.style.cssText = 'position:fixed;inset:0;z-index:99;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:#000d;color:#fff;font:16px system-ui,sans-serif';
+			box.innerHTML = '<p>Quảng cáo giả lập (' + kind + ', ' + placement + ')</p>';
+			function btn(text, result) {
+				const b = document.createElement('button');
+				b.textContent = text;
+				b.style.cssText = 'font:inherit;padding:12px 20px;border:0;border-radius:10px;background:#2f6fed;color:#fff';
+				b.onclick = function () { box.remove(); done(result); };
+				box.appendChild(b);
+			}
+			btn('Xem hết', true);
+			btn('Đóng sớm', false);
+			document.body.appendChild(box);
+		});
+	}
+
+	rm.boot = async function () {
+		try {
+			if (!window.HorusSDK) { throw new Error('thiếu horus-sdk.js'); }
+			platform = HorusSDK.platform;
+			platform.ads.simulate(fakeAd);
+			/* cloud: false cho tới khi có luật xử lý xung đột save (README mục 8). skus: danh mục IAP để store trả giá (IAP_SKUS). */
+			await HorusSDK.start({ cloud: false, skus: IAP_SKUS });
+			rm.backup = platform.save.backup || '';
+			rm.rv = !!platform.ads.ready().rv;
+			platform.on('ads', function (s) { rm.rv = !!(s && s.rv); });
+			platform.on('pause', function (e) { emit('pause', (e && e.reason) || 'bg'); });
+			platform.on('resume', function () { emit('resume', ''); });
+			rm.sdk = HorusSDK.VERSION;
+			rm.kind = platform.kind;
+			rm.ok = true;
+		} catch (e) {
+			rm.error = String(e);
+			console.error('[rmHorus]', e);
+		}
+	};
+
+	/* Godot đã gán onLifecycle: giao các sự kiện đến sớm. */
+	rm.drain = function () {
+		while (queued.length && rm.onLifecycle) { const q = queued.shift(); rm.onLifecycle(q[0], q[1]); }
+	};
+	rm.online = function () { return navigator.onLine !== false; };
+	rm.loadRewarded = function () { try { platform.ads.load('rv'); } catch (e) { /* bỏ qua */ } };
+	/* cb nhận một chuỗi: 'rewarded' | 'cancelled' | 'error'. Luôn gọi đúng một lần. */
+	rm.showRewarded = function (placement, cb) {
+		if (!rm.ok) { cb('error'); return; }
+		platform.ads.rewarded(placement).then(
+			function (r) { cb(r && r.ok ? 'rewarded' : (r && r.reason === 'closed' ? 'cancelled' : 'error')); },
+			function () { cb('error'); });
+	};
+	/* IAP (Design/28 §7). Mọi kết quả về Godot dưới dạng chuỗi JSON để GDScript tự kiểm. */
+	rm.iapPrice = function (sku) { try { return platform.iap.price(sku); } catch (e) { return null; } };
+	rm.iapRestorable = function () { try { return !!platform.iap.restorable; } catch (e) { return false; } };
+	rm.iapBuy = function (sku, cb) {
+		const fail = function () { cb(JSON.stringify({ status: 'error', sku: sku })); };
+		if (!rm.ok) { fail(); return; }
+		platform.iap.buy(sku).then(function (r) { cb(JSON.stringify(r)); }, fail);
+	};
+	rm.iapPending = function (cb) {
+		if (!rm.ok) { cb('[]'); return; }
+		platform.iap.pending().then(function (list) { cb(JSON.stringify(list || [])); }, function () { cb('[]'); });
+	};
+	/* json = {sku, token, orderId, consumable, usd?}: gọi sau khi hàng đã lưu xong. */
+	rm.iapFinish = function (json) { try { platform.iap.finish(JSON.parse(json)); } catch (e) { console.error('[rmHorus] finish', e); } };
+	rm.iapRestore = function (cb) {
+		if (!rm.ok) { cb(false); return; }
+		platform.iap.restore().then(function (ok) { cb(!!ok); }, function () { cb(false); });
+	};
+	rm.log = function (name, json) { try { platform.an.log(name, JSON.parse(json)); } catch (e) { /* bỏ qua */ } };
+	rm.mirror = function (json) { try { platform.save.mirror(json); } catch (e) { /* bỏ qua */ } };
+	rm.flush = function () { try { platform.save.flush(); } catch (e) { /* bỏ qua */ } };
+	rm.ready = function () { try { platform.ready(); } catch (e) { /* bỏ qua */ } };
+	return rm;
+}());
+		</script>
+		<script src="$GODOT_URL"></script>
+		<script>
+const GODOT_CONFIG = $GODOT_CONFIG;
+const GODOT_THREADS_ENABLED = $GODOT_THREADS_ENABLED;
+const engine = new Engine(GODOT_CONFIG);
+
+(function () {
+	const statusOverlay = document.getElementById('status');
+	const statusProgress = document.getElementById('status-progress');
+	const statusNotice = document.getElementById('status-notice');
+
+	let initializing = true;
+	let statusMode = '';
+
+	function setStatusMode(mode) {
+		if (statusMode === mode || !initializing) {
+			return;
+		}
+		if (mode === 'hidden') {
+			statusOverlay.remove();
+			initializing = false;
+			return;
+		}
+		statusOverlay.style.visibility = 'visible';
+		statusProgress.style.display = mode === 'progress' ? 'block' : 'none';
+		statusNotice.style.display = mode === 'notice' ? 'block' : 'none';
+		statusMode = mode;
+	}
+
+	function setStatusNotice(text) {
+		while (statusNotice.lastChild) {
+			statusNotice.removeChild(statusNotice.lastChild);
+		}
+		const lines = text.split('\n');
+		lines.forEach((line) => {
+			statusNotice.appendChild(document.createTextNode(line));
+			statusNotice.appendChild(document.createElement('br'));
+		});
+	}
+
+	function displayFailureNotice(err) {
+		console.error(err);
+		if (err instanceof Error) {
+			setStatusNotice(err.message);
+		} else if (typeof err === 'string') {
+			setStatusNotice(err);
+		} else {
+			setStatusNotice('An unknown error occurred.');
+		}
+		setStatusMode('notice');
+		initializing = false;
+	}
+
+	const missing = Engine.getMissingFeatures({
+		threads: GODOT_THREADS_ENABLED,
+	});
+
+	if (missing.length !== 0) {
+		if (GODOT_CONFIG['serviceWorker'] && GODOT_CONFIG['ensureCrossOriginIsolationHeaders'] && 'serviceWorker' in navigator) {
+			let serviceWorkerRegistrationPromise;
+			try {
+				serviceWorkerRegistrationPromise = navigator.serviceWorker.getRegistration();
+			} catch (err) {
+				serviceWorkerRegistrationPromise = Promise.reject(new Error('Service worker registration failed.'));
+			}
+			// There's a chance that installing the service worker would fix the issue
+			Promise.race([
+				serviceWorkerRegistrationPromise.then((registration) => {
+					if (registration != null) {
+						return Promise.reject(new Error('Service worker already exists.'));
+					}
+					return registration;
+				}).then(() => engine.installServiceWorker()),
+				// For some reason, `getRegistration()` can stall
+				new Promise((resolve) => {
+					setTimeout(() => resolve(), 2000);
+				}),
+			]).then(() => {
+				// Reload if there was no error.
+				window.location.reload();
+			}).catch((err) => {
+				console.error('Error while registering service worker:', err);
+			});
+		} else {
+			// Display the message as usual
+			const missingMsg = 'Error\nThe following features required to run Godot projects on the Web are missing:\n';
+			displayFailureNotice(missingMsg + missing.join('\n'));
+		}
+	} else {
+		setStatusMode('progress');
+		window.rmHorus.boot().then(() => engine.startGame({
+			'onProgress': function (current, total) {
+				if (current > 0 && total > 0) {
+					statusProgress.value = current;
+					statusProgress.max = total;
+				} else {
+					statusProgress.removeAttribute('value');
+					statusProgress.removeAttribute('max');
+				}
+			},
+		})).then(() => {
+			setStatusMode('hidden');
+		}, displayFailureNotice);
+	}
+}());
+		</script>
+	</body>
+</html>

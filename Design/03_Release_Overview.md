@@ -119,7 +119,7 @@ Mọi mục đã có mặc định để tiến hành thiết kế; đổi quy�
 | D1 | Sưu tầm tay đua | Tuyển từ danh mục công khai bằng điểm tuyển (SP) và tiền, không ngẫu nhiên | Gacha, bán thẳng bằng tiền | 04, 05 |
 | D2 | Xe | 15 xe, mua dần, giữ nhiều xe, thưởng bộ sưu tầm | 1 xe nâng liên tục | 04, 05 |
 | D3 | Prestige/reset | Chưa có trong v1.0; xem lại ở 1.2 | Có ngay | 04, 05 |
-| D4 | Quảng cáo | Chỉ rewarded, tự nguyện, không banner/interstitial bắt buộc | Thêm interstitial | 05, 06 |
+| D4 | Quảng cáo | **Đổi 12/11/2026:** rewarded tự nguyện + Ads Break (interstitial) chỉ xen giữa hai lượt đua, không banner; người mua "Bỏ quảng cáo" không thấy Ads Break. Chi tiết: [26](26_Ads_Placements.md). *(Ban đầu: chỉ rewarded, không interstitial.)* | Chỉ rewarded | 05, 06, 26 |
 | D5 | Lưu đám mây | Có, qua tài khoản nền tảng (Google Play Games / iCloud), tùy chọn | Chỉ local | 07 |
 | D6 | Engine | Godot 4.x (đã có project) | Unity | 07 |
 | D7 | Mô hình tiền tệ | Tiền mềm + gem (gem có thể kiếm được, chỉ dùng cho tiện ích và mỹ phẩm); điểm tuyển là thước đo tiến độ, không bán | Thêm tiền sự kiện | 05 |

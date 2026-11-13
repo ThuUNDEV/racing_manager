@@ -1,0 +1,39 @@
+{
+  "character": "Linh",
+  "date": "2026-11-12",
+  "source": "C:/Users/thupv/.codex/generated_images/01a1ceb1-943a-7052-a4e0-5393253ea8e7/exec-1da16dcf-78e9-4b50-b6b7-655aa3da25be.png",
+  "sheet": "linh_expressions.png",
+  "sha256": "a39011ef4b44048240388647550e154ee369dd7db0af4a4fc852c96ce6d067b5",
+  "portraits": [
+    {
+      "id": "smile",
+      "resource": "portraits/linh_smile.tres",
+      "region": [
+        0,
+        240,
+        512,
+        560
+      ]
+    },
+    {
+      "id": "point",
+      "resource": "portraits/linh_point.tres",
+      "region": [
+        512,
+        240,
+        512,
+        560
+      ]
+    },
+    {
+      "id": "excited",
+      "resource": "portraits/linh_excited.tres",
+      "region": [
+        1024,
+        240,
+        512,
+        560
+      ]
+    }
+  ]
+}

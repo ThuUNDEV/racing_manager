@@ -4,12 +4,13 @@ extends Node
 ## 100% và đã vẽ ít nhất một khung hình, loading bàn giao, mờ dần rồi tự giải phóng.
 
 const ART := "res://assets/startup_loading/"
-const BG_FILE := "loading_garage_background.png"  # art đã gồm logo, không chứa UI tiến độ
+const BG_FILE := "loading_pitlane_cyan.png"  # art đã gồm logo, không chứa UI tiến độ
 const GAME_TITLE := "RACING TYCOON"
 const C_BG := Color("061b51")
 const C_TEXT := Color.WHITE
 const C_MUTED := Color("b8c9e8")
-const C_ACCENT := Color("ff8a00")
+const C_ACCENT := Color("79f6ff")
+const LoadingProgress = preload("res://ui/loading_progress.gd")
 const C_TRACK := Color("0f2a52")
 const C_RED := HdUi.C_RED
 
@@ -166,7 +167,7 @@ func _build_progress() -> void:
 	# UI thật đặt trên vùng navy của art, không dùng panel hoặc mẹo.
 	_progress_box = VBoxContainer.new()
 	_progress_box.add_theme_constant_override("separation", 10)
-	_band(_progress_box, 0.845, 0.95)
+	_band(_progress_box, 0.835, 0.95)
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 8)
 	_progress_box.add_child(row)
@@ -180,18 +181,13 @@ func _build_progress() -> void:
 	_percent.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	row.add_child(_percent)
 
-	_bar = ProgressBar.new()
-	_bar.custom_minimum_size = Vector2(0, 16)
+	_bar = LoadingProgress.new()
+	_bar.custom_minimum_size = Vector2(0, 26)
 	_bar.min_value = 0.0
 	_bar.max_value = 1.0
 	_bar.step = 0.0001
 	_bar.show_percentage = false
 	_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var track := _pill(C_TRACK, Color("8099c4"), 1)
-	track.shadow_color = Color("020d32")
-	track.shadow_size = 3
-	_bar.add_theme_stylebox_override("background", track)
-	_bar.add_theme_stylebox_override("fill", _pill(C_ACCENT, Color("ffe08a"), 1))
 	_progress_box.add_child(_bar)
 
 	_slow_note = _label(SLOW_NOTE, 12, C_MUTED)
@@ -235,6 +231,8 @@ func _build_footer() -> void:
 	var ver := String(ProjectSettings.get_setting("application/config/version", ""))
 	var v := _label_outlined("v" + ver if ver != "" else "", 13, 5)
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	v.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	v.add_theme_color_override("font_color", Color("819dcf"))
 	row.add_child(v)
 
 
@@ -340,7 +338,7 @@ func _process(delta: float) -> void:
 			var speed := maxf(0.6, (_target - _shown) / SMOOTH_TIME)
 			_shown = minf(_target, _shown + speed * delta)
 	# Chừa đủ chỗ cho thông báo tải chậm và nút thử lại trên màn nhỏ.
-	_progress_box.anchor_top = 0.70 if _stall_retry.visible else (0.78 if _slow_note.visible else 0.845)
+	_progress_box.anchor_top = 0.70 if _stall_retry.visible else (0.78 if _slow_note.visible else 0.835)
 	_update_bar()
 	_check_shots()
 

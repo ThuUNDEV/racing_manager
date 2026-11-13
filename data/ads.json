@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "_doc": "Quảng cáo thưởng v1 (Design/26). daily_cap: trần chung rewarded mỗi ngày UTC (Ads Break không tính). Mỗi placement: reward = loại thưởng (boost | income_seconds | gems | driver_coupon | gear_coupon; còn offline_double | race_bonus | daily_double chỉ để test, v1 không khai báo); daily_limit 0 = chỉ theo trần chung; cooldown_sec giữa hai lần nhận; unlock = id tính năng ở tutorial.json (rỗng = luôn mở). Số liệu là khởi điểm, cần cân lại sau soft launch (Design/26 §5).",
+  "daily_cap": 12,
+  "placements": {
+    "income_boost": {
+      "reward": "boost", "multiplier": 2, "duration_sec": 1800,
+      "daily_limit": 3, "cooldown_sec": 0, "unlock": "U4_shop"
+    },
+    "flag_cash": {
+      "reward": "income_seconds", "seconds": 600,
+      "daily_limit": 5, "cooldown_sec": 0, "unlock": "U4_shop",
+      "first_after_sec": 60, "gap_sec": 120, "cross_sec": 14, "miss_limit": 3, "miss_gap_max_sec": 480
+    },
+    "free_gems": {
+      "reward": "gems", "amount": 5,
+      "daily_limit": 2, "cooldown_sec": 43200, "unlock": "U4_shop"
+    },
+    "free_driver_coupon": {
+      "reward": "driver_coupon", "kind": "pro", "count": 1,
+      "daily_limit": 1, "cooldown_sec": 0, "unlock": "U5_drivers"
+    },
+    "free_gear_coupon": {
+      "reward": "gear_coupon", "kind": "standard", "count": 1,
+      "daily_limit": 1, "cooldown_sec": 0, "unlock": "U3_bag"
+    }
+  },
+  "break": {
+    "_doc": "Ads Break (interstitial giữa hai lượt). Tên khoá theo monetize.interDue của Horus SDK. Chưa dùng tới P2e.",
+    "interFromRun": 8, "sessionWarmup": 120, "interEvery": 8, "interCooldown": 420, "rewardedGrace": 60,
+    "maxPerHour": 6, "firstPlayMin": 15, "bonusIncomeSec": 90
+  }
+}

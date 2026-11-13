@@ -2,7 +2,7 @@ extends SceneTree
 
 const BigNumber = preload("res://core/math/big_number.gd")
 ## Chạy: godot --headless --path . -s res://tests/state_test.gd
-## Kiểm tra giao dịch, khóa nâng cấp khi đua, thưởng không phát trùng và chốt mùa.
+## Kiểm tra giao dịch, khóa nâng cấp khi đua, thưởng không phát trùng (không còn mùa, không còn thăng giải bằng điểm).
 
 var _fails := 0
 
@@ -62,11 +62,13 @@ func _initialize() -> void:
 		gs.advance(0.1)
 		guard += 1
 	_check(finished[0] == 1 and gs.phase == "countdown", "hết giờ => 1 kết quả, tự countdown lượt kế")
-	_check(gs.stage_index == 1 and gs.season_results.size() == 1, "sang chặng 2")
-	_check(gs.coins.equals(coins0.add(gs.last_result["money"])), "cộng đúng tiền thưởng chặng, một lần")
+	_check(gs.completed_races == 1 and gs.recent_results.size() == 1, "ghi 1 lượt hoàn tất")
+	_check(gs.coins.equals(coins0.add(gs.last_result["money"])), "cộng đúng tiền thưởng lượt, một lần")
+	_check(gs.last_result["participation"].compare(BigNumber.zero()) > 0 and gs.last_result["money"].compare(gs.last_result["participation"]) > 0, "tiền lượt gồm thưởng theo hạng + thưởng tham gia")
+	_check(not gs.last_result.has("promo_points") and gs.last_result.has("points"), "không còn thanh thăng giải; điểm lượt chỉ dùng cho SP")
 	_check(gs.last_result.has("distance") and gs.last_result["rows"].size() == 8, "kết quả có quãng đường, 8 hàng")
 	_check(is_equal_approx(gs.countdown_left, 3.0), "countdown mới 3 giây")
-	_check(gs.processed_rewards.has("race/s1/st1"), "đã ghi reward id chặng 1")
+	_check(gs.processed_rewards.has("race/n%d" % int(gs.last_result["race"])), "đã ghi reward id theo số lượt")
 	var pre_preview: TrafficSim = gs.sim
 	gs.coins = BigNumber.from_int(100000)
 	gs.buy("tyre")
@@ -85,37 +87,29 @@ func _initialize() -> void:
 		guard += 1
 	_check(gs.phase == "save_error", "lưu thất bại => dừng ở save_error")
 	var coins_after_fail: BigNumber = gs.coins
-	var stage_after_fail: int = gs.stage_index
+	var races_after_fail: int = gs.completed_races
 	for i in 100:
 		gs.advance(0.1)  # tự thử lại nhưng vẫn lỗi
-	_check(gs.phase == "save_error" and gs.coins.equals(coins_after_fail) and gs.stage_index == stage_after_fail, "thử lại khi còn lỗi: không đổi thưởng/chặng")
+	_check(gs.phase == "save_error" and gs.coins.equals(coins_after_fail) and gs.completed_races == races_after_fail, "thử lại khi còn lỗi: không đổi thưởng/số lượt")
 	_check(finished[0] == fin_before, "chưa publish kết quả khi save lỗi")
 	gs.simulate_write_failure = false
 	_check(gs.retry_save() and gs.phase == "countdown", "thử lại thành công => countdown")
-	_check(gs.coins.compare(coins_after_fail) > 0 and gs.stage_index == stage_after_fail + 1, "commit đúng một lần sau khi thử lại")
-	_check(gs.coins.compare(coins1) > 0, "thưởng chặng chỉ commit sau khi lưu được")
+	_check(gs.coins.compare(coins_after_fail) > 0 and gs.completed_races == races_after_fail + 1, "commit đúng một lần sau khi thử lại")
+	_check(gs.coins.compare(coins1) > 0, "thưởng lượt chỉ commit sau khi lưu được")
 
-	print("== Chạy liên tục hai mùa không cần chạm UI ==")
+	print("== Chạy liên tục 10 lượt ==")
 	var res_count := [0]
-	var comp := [0]
-	var season0: int = gs.season_number
 	gs.race_finished.connect(func(r: Dictionary) -> void:
 		res_count[0] += 1
-		if bool(r.get("season_done", false)):
-			comp[0] += 1)
-	var races_target := 10
+		_check(not r.has("season_done") and not r.has("stage"), "kết quả không còn trường mùa/chặng")
+		_check(not r.has("promo_points") and not r.has("promoted"), "kết quả không còn trường thăng giải"))
 	guard = 0
-	while res_count[0] < races_target and guard < 100000:
+	while res_count[0] < 10 and guard < 100000:
 		gs.advance(0.5)
 		guard += 1
-	_check(res_count[0] == 10 and comp[0] == 2, "10 kết quả, 2 thưởng hoàn tất mùa (%d, %d)" % [res_count[0], comp[0]])
-	_check(gs.season_number >= season0 + 2 and gs.phase == "countdown", "tự chuyển mùa, không cần nút")
-	_check(not gs.last_season.is_empty() and gs.last_season["completion_reward"].compare(BigNumber.zero()) > 0, "tổng kết mùa lưu để xem lại, thưởng hoàn tất theo exposure")
-	var cnt := 0
-	for k in gs.processed_rewards.keys():
-		if String(k).begins_with("season/") and String(k).ends_with("/completion"):
-			cnt += 1
-	_check(cnt >= 2, "mỗi mùa đúng một thưởng hoàn tất")
+	_check(res_count[0] == 10 and gs.phase == "countdown", "10 kết quả liên tục, không cần chạm UI")
+	_check(gs.unlocked_tier == mini(gs.business_tier + 1, GameData.leagues().size() - 1), "quyền mua xe luôn tới giải kế, không phụ thuộc điểm")
+	_check(gs.recent_results.size() == GameState.RECENT_RESULTS, "chỉ giữ %d lượt gần nhất" % GameState.RECENT_RESULTS)
 
 	print("== Ra nền / checkpoint ==")
 	gs.reset_progress()
@@ -140,8 +134,28 @@ func _initialize() -> void:
 	gs.active = false
 	gs.activate()
 	_check(gs.phase == "racing" and gs.sim.tick_count == tick_saved and is_equal_approx(gs.sim.cars[3].s, pos_saved), "khôi phục đua: cùng tick (%d) và cùng vị trí xe" % tick_saved)
-	_check(gs.stage_index == 0, "không sinh kết quả/thưởng cho phần đua dở")
+	_check(gs.completed_races == 0, "không sinh kết quả/thưởng cho phần đua dở")
 	gs.advance(0.1)
+
+	print("== Migration save v9 (còn mùa/chặng) ==")
+	gs.reset_progress()
+	var legacy: Dictionary = gs._save_data()
+	legacy["schema_version"] = 9
+	legacy.erase("recent_results")
+	legacy["season_number"] = 3
+	legacy["stage_index"] = 2
+	legacy["completed_seasons"] = 2
+	legacy["season_results"] = [
+		{"position": 1, "points": 10, "money": BigNumber.from_int(50), "exposure": BigNumber.from_int(1)},
+		{"position": 2, "points": 8, "money": BigNumber.from_int(40), "exposure": BigNumber.from_int(1)}]
+	_check(gs.save_game(legacy), "ghi save giả v9")
+	gs.init_new_game()
+	_check(gs.load_game() == "ok" and gs.recent_results.size() == 2, "v9: giữ các lượt gần nhất")
+	legacy["unlocked_tier"] = 0
+	_check(gs.save_game(legacy), "ghi save giả v9 chưa mở quyền giải kế")
+	gs.init_new_game()
+	_check(gs.load_game() == "ok" and gs.unlocked_tier == 1, "v9: quyền giải kế luôn được mở sau khi tải")
+	_check(gs.save_game() and not gs._save_data().has("season_number") and int(gs._save_data()["schema_version"]) == gs.SAVE_VERSION, "ghi lại ở phiên bản hiện tại, không còn trường mùa")
 
 	print("== FPS khác nhau cho cùng kết quả ==")
 	var runs: Array = []

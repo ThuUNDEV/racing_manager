@@ -93,8 +93,8 @@ func _all_owned() -> bool:
 func _unlock_text(d: Dictionary) -> String:
 	var u: Dictionary = d["unlock"]
 	var parts := PackedStringArray()
-	if int(u.get("count", 0)) > GameState.completed_seasons:
-		parts.append("Hoàn tất %d mùa" % int(u["count"]))
+	if String(u.get("type", "")) == "races" and int(u.get("count", 0)) > GameState.completed_races:
+		parts.append("Hoàn tất %d lượt đua" % int(u["count"]))
 	if int(u.get("league", 0)) > GameState.business_tier:
 		parts.append("Mở giải %s" % Balance.league_name(int(u["league"])))
 	return " · ".join(parts)
@@ -139,7 +139,7 @@ func refresh() -> void:
 
 func _signature(with_view: bool) -> String:
 	var parts: Array = [GameState.active_driver_id, GameState.scout_points, GameState.phase, GameState.save_blocked,
-		GameState.business_tier, GameState.completed_seasons, GameState.owned_drivers.size(), GameState.gems,
+		GameState.business_tier, GameState.completed_races, GameState.owned_drivers.size(), GameState.gems,
 		GameState.driver_coupons.duplicate(), GameState.driver_pity.duplicate()]
 	if with_view:
 		parts.append(_viewed)
@@ -403,7 +403,7 @@ func _build_sp_card() -> void:
 	else:
 		var need := _next_sp()
 		bar.value = minf(1.0, float(GameState.scout_points) / float(maxi(need, 1)))
-		var tail := "Mỗi chặng đua cộng khoảng 5–14 SP. Tuyển không ngẫu nhiên."
+		var tail := "Mỗi lượt đua cộng khoảng 5–14 SP. Tuyển không ngẫu nhiên."
 		if GameState.scout_points >= need:
 			note = "Lần tuyển kế cần %d SP · đủ cho %d lần tuyển. %s" % [need, GameState.scout_points / need, tail]
 		else:
@@ -592,11 +592,7 @@ func _rebuild_sheet() -> void:
 	hv.add_child(_label(_style_name(d), 12, C_MUTED))
 	hv.add_child(_label(_state_text(s), 12, _state_color(s)))
 	head.add_child(hv)
-	var x := _flat_button("×", Color(0, 0, 0, 0), C_MUTED, Color(0, 0, 0, 0), 0, 44.0)
-	x.custom_minimum_size = Vector2(44, 44)
-	x.add_theme_font_size_override("font_size", 24)
-	x.accessibility_name = "Đóng"
-	x.pressed.connect(close_sheet)
+	var x := HdUi.close_button(close_sheet, "DriverDetailClose")
 	head.add_child(x)
 	_sheet_box.add_child(head)
 

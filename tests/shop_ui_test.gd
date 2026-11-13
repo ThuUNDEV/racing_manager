@@ -34,7 +34,7 @@ func run() -> void:
 	settings_button.pressed.emit()
 	await settle()
 	var toggles: Array = main._overlay_box.find_children("*", "CheckButton", true, false)
-	check(main._overlay.visible and toggles.size() == 2, "Settings button opens both audio controls")
+	check(main._overlay.visible and toggles.size() == 3, "Settings button opens audio and tips controls")
 	toggles[0].button_pressed = false
 	toggles[1].button_pressed = false
 	check(not main._music_on and not main._sfx_on, "Settings controls disable music and sound effects")
@@ -69,19 +69,31 @@ func run() -> void:
 	check(main._overlay.visible, "Upcoming offer opens details")
 	check(state.gems == gems_after and state.coins.to_save() == coins_before, "Upcoming offer does not change wallets")
 	main._overlay.hide()
-	var packs: Array = state.mock_gem_packs()
-	check(packs.size() == 6 and shop._gem_grid.get_child_count() == 6, "Six mock gem packs shown")
-	var gem_button := shop.find_child("GemPack1", true, false) as Button
+	check(shop._gem_grid.get_child_count() == 6, "Free gem card + five real IAP gem packs shown")
+	var iap: Node = root.get_node("Iap")
+	var mock := MockIapProvider.new()
+	mock.tree = self
+	iap.provider = mock
+	var gem_button := shop.find_child("Iap_gems_pack_2", true, false) as Button
+	check(gem_button != null and gem_button.text != "", "Gem pack button shows a price")
 	var gems_mock: int = state.gems
 	gem_button.pressed.emit()
+	await create_timer(0.5).timeout
 	await settle()
-	check(state.gems == gems_mock + int(packs[1]["gems"]), "Mock gem pack awards its gems")
-	check(state.coins.to_save() == coins_before, "Mock gem pack does not change coins")
+	check(state.gems == gems_mock + 550, "Real gem pack (first purchase x2) awards its gems")
+	check(state.coins.to_save() == coins_before, "Gem pack does not change coins")
+	check(mock.finished.size() == 1, "Purchase was finished after saving")
+	var again: int = state.gems
+	gem_button.pressed.emit()
+	await create_timer(0.5).timeout
+	await settle()
+	check(state.gems == again + 275, "Second purchase has no first-purchase bonus")
 	state.save_blocked = true
 	var gems_blocked: int = state.gems
-	check(not state.mock_buy_gems(0) and state.gems == gems_blocked, "Mock gem purchase refused while saving is blocked")
+	check(not state.grant_iap("gems_pack_1", "blocked-token") and state.gems == gems_blocked, "IAP grant refused while saving is blocked")
 	state.save_blocked = false
-	check(not state.mock_buy_gems(99) and state.gems == gems_blocked, "Invalid mock gem pack rejected")
+	check(not state.grant_iap("no_such_sku", "x") and state.gems == gems_blocked, "Unknown SKU rejected")
+	check((shop.find_child("RestorePurchases", true, false) as Button).visible, "Restore button visible when the store supports it")
 	for width in [320, 390, 412]:
 		root.size = Vector2i(width, 844)
 		await settle()

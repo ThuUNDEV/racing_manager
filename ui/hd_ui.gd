@@ -25,6 +25,51 @@ static var _box_cache: Dictionary = {}
 static var _font: Font = null
 
 
+## Shared close control: 40 px artwork inside a 48 px touch target.
+static func close_button(action: Callable, node_name: String = "PopupClose") -> Button:
+	var button := Button.new()
+	button.name = node_name
+	button.accessibility_name = "Đóng"
+	button.tooltip_text = "Đóng"
+	button.custom_minimum_size = Vector2(48, 48)
+	button.size_flags_horizontal = Control.SIZE_SHRINK_END
+	button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	for state in ["normal", "hover", "pressed", "disabled"]:
+		var skin := StyleBoxTexture.new()
+		skin.texture = tex("icons/close_red.svg")
+		if state == "hover":
+			skin.modulate_color = Color(1.0, 0.92, 0.88)
+		elif state == "pressed":
+			skin.modulate_color = Color(0.8, 0.8, 0.8)
+		elif state == "disabled":
+			skin.modulate_color = Color(0.65, 0.65, 0.65, 0.65)
+		button.add_theme_stylebox_override(state, skin)
+	var focus := StyleBoxFlat.new()
+	focus.bg_color = Color.TRANSPARENT
+	focus.border_color = C_BLUE
+	focus.set_border_width_all(2)
+	focus.set_corner_radius_all(24)
+	button.add_theme_stylebox_override("focus", focus)
+	button.pressed.connect(action)
+	return button
+
+
+static func close_header(title: String, action: Callable, font_size: int = 18) -> HBoxContainer:
+	var header := HBoxContainer.new()
+	header.name = "PopupHeader"
+	header.add_theme_constant_override("separation", 12)
+	var label := Label.new()
+	label.text = title
+	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label.add_theme_font_size_override("font_size", font_size)
+	label.add_theme_color_override("font_color", C_TEXT)
+	header.add_child(label)
+	header.add_child(close_button(action))
+	return header
+
+
 ## Texture gốc (đầy đủ độ phân giải).
 static func tex(rel: String) -> Texture2D:
 	return load(ROOT + rel) as Texture2D

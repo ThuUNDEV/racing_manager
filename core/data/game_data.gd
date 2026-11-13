@@ -48,6 +48,33 @@ static func sim() -> Dictionary:
 	return _load("sim")
 
 
+## Quảng cáo thưởng: trần ngày và cấu hình từng placement (data/ads.json, Design/25).
+static func ads() -> Dictionary:
+	return _load("ads")
+
+
+## Hệ số của boost thu nhập xem quảng cáo (số nguyên >= 2; thiếu cấu hình thì 2).
+static func ads_boost_multiplier() -> int:
+	var p: Dictionary = (ads().get("placements", {}) as Dictionary).get("income_boost", {})
+	return maxi(2, int(p.get("multiplier", 2)))
+
+
+## Danh mục IAP (data/iap.json, Design/28).
+static func iap() -> Dictionary:
+	return _load("iap")
+
+
+static func iap_products() -> Array:
+	return iap().get("products", [])
+
+
+static func iap_product(sku: String) -> Dictionary:
+	for p: Dictionary in iap_products():
+		if String(p.get("sku", "")) == sku:
+			return p
+	return {}
+
+
 static func economy() -> Dictionary:
 	return _load("economy")
 
@@ -58,6 +85,45 @@ static func tracks() -> Array:
 
 static func leagues() -> Array:
 	return (_load("leagues") as Dictionary).get("leagues", [])
+
+
+## Class đua (bộ môn, Design/22): danh sách theo thứ tự hiển thị.
+static func race_classes() -> Array:
+	return (_load("classes") as Dictionary).get("classes", [])
+
+
+static func race_class(id: String) -> Dictionary:
+	for c: Dictionary in race_classes():
+		if c["id"] == id:
+			return c
+	return {}
+
+
+static func default_class_id() -> String:
+	return String((_load("classes") as Dictionary).get("default_class", "racing"))
+
+
+## Hệ số giá mở cơ sở thứ 2, 3, … so với phí mở rộng giải hiện tại (cơ sở đầu miễn phí).
+static func facility_price_mults() -> Array:
+	return (_load("classes") as Dictionary).get("facility_price_mult", [])
+
+
+## Bộ ghi đè cho TrafficSim.setup(opts): {"tuning", "traffic_tuning"}. Racing (hệ số rỗng) trả về rỗng nên kết quả không đổi.
+static func class_opts(id: String) -> Dictionary:
+	var c := race_class(id)
+	var out := {"tuning": {}, "traffic_tuning": {}}
+	if c.is_empty():
+		return out
+	var sm := sim()
+	for k: String in c.get("tuning_mult", {}):
+		out["tuning"][k] = float(sm[k]) * float(c["tuning_mult"][k])
+	for k: String in c.get("traffic_mult", {}):
+		out["traffic_tuning"][k] = float(sm["traffic"][k]) * float(c["traffic_mult"][k])
+	var form: Array = c.get("form", [])
+	if form.size() == 2:
+		out["tuning"]["form_min"] = float(form[0])
+		out["tuning"]["form_max"] = float(form[1])
+	return out
 
 
 static func cars() -> Array:
@@ -230,7 +296,7 @@ static func validate() -> Array:
 	var errs: Array = []
 	var sm := sim()
 	var ec := economy()
-	for f in ["sim", "economy", "tracks", "leagues", "cars", "drivers", "garage_cosmetics", "gear", "driver_gacha"]:
+	for f in ["sim", "economy", "tracks", "leagues", "cars", "drivers", "garage_cosmetics", "gear", "driver_gacha", "classes", "trophy_upgrades", "ads", "iap"]:
 		var d: Variant = _load(f)
 		if typeof(d) != TYPE_DICTIONARY or (d as Dictionary).is_empty():
 			errs.append("%s.json rỗng hoặc không đọc được" % f)
@@ -242,6 +308,10 @@ static func validate() -> Array:
 	errs.append_array(_validate_economy(ec))
 	errs.append_array(_validate_gear())
 	errs.append_array(_validate_driver_gacha())
+	errs.append_array(_validate_classes())
+	errs.append_array(_validate_trophy_upgrades())
+	errs.append_array(_validate_ads())
+	errs.append_array(_validate_iap())
 	if not errs.is_empty():
 		return errs
 
@@ -315,13 +385,12 @@ static func validate() -> Array:
 	var ls := leagues()
 	if ls.size() != 6:
 		errs.append("cần 6 giải, có %d" % ls.size())
-	var stages: int = int(ec["stages"])
 	for i in ls.size():
 		var l: Dictionary = ls[i]
 		if int(l["index"]) != i:
 			errs.append("league %s: index sai" % l["id"])
-		if (l["schedule"] as Array).size() != stages:
-			errs.append("league %s: lịch cần %d chặng" % [l["id"], stages])
+		if (l["schedule"] as Array).is_empty():
+			errs.append("league %s: lịch track trống" % l["id"])
 		for tid in l["schedule"]:
 			if not track_ids.has(tid):
 				errs.append("league %s: track không tồn tại %s" % [l["id"], tid])
@@ -510,7 +579,7 @@ static func _validate_economy(ec: Dictionary) -> Array:
 			if number == null or absi(number.exponent) > 1000 or (key != "base" and number.is_zero()) or (kind == "grandstands" and key == "base" and number.is_zero()):
 				errs.append("economy.json: revenue_upgrades.%s.%s không hợp lệ" % [kind, key])
 	var rewards: Dictionary = ec["rewards"]
-	for key in ["race_ratio", "season_ratio"]:
+	for key in ["race_ratio", "participation_ratio"]:
 		var value: Variant = rewards.get(key)
 		var number := BigNumber.parse_decimal(value) if typeof(value) == TYPE_STRING else null
 		if number == null or number.compare(BigNumber.from_int(1)) > 0:
@@ -522,7 +591,7 @@ static func _validate_economy(ec: Dictionary) -> Array:
 			var number := BigNumber.parse_decimal(value) if typeof(value) == TYPE_STRING else null
 			if number == null or number.is_zero() or number.compare(BigNumber.from_int(1)) > 0:
 				errs.append("economy.json: position_factor ngoài (0..1]")
-	for key in ["daily_rate_seconds", "daily_gems", "first_season_gems", "first_league_gems"]:
+	for key in ["daily_rate_seconds", "daily_gems", "first_league_gems"]:
 		if not rewards.has(key) or not _is_num(rewards[key]) or float(rewards[key]) != floor(float(rewards[key])) or int(rewards[key]) < 0 or int(rewards[key]) > 604800:
 			errs.append("economy.json: rewards." + key + " không hợp lệ")
 	var offline: Dictionary = ec["offline"]
@@ -602,6 +671,331 @@ static func driver_gacha_config(driver_id: String) -> Dictionary:
 		return {}
 	var defaults: Dictionary = (_load("driver_gacha") as Dictionary).get("tier_defaults", {})
 	return (defaults.get(String(ids[int(d["tier"])]), {}) as Dictionary).duplicate(true)
+
+
+# ---------- Nâng cấp bằng cúp (data/trophy_upgrades.json) ----------
+
+const TROPHY_EFFECT_KEYS := ["S", "H", "B", "A", "race_bonus_seconds", "daily_bonus_seconds"]
+
+
+static func trophy_upgrades() -> Array:
+	return (_load("trophy_upgrades") as Dictionary).get("upgrades", [])
+
+
+static func trophy_upgrade(id: String) -> Dictionary:
+	for u: Dictionary in trophy_upgrades():
+		if u["id"] == id:
+			return u
+	return {}
+
+
+static func trophy_groups() -> Array:
+	return (_load("trophy_upgrades") as Dictionary).get("groups", [])
+
+
+## Nhãn và đơn vị hiển thị của từng khóa hiệu ứng (S/A/H/B, giây thu nhập).
+static func trophy_effect_labels() -> Dictionary:
+	return (_load("trophy_upgrades") as Dictionary).get("effect_labels", {})
+
+
+static func trophy_effect_units() -> Dictionary:
+	return (_load("trophy_upgrades") as Dictionary).get("effect_units", {})
+
+
+## Trần tổng cúp được kiếm khi chưa có phần nâng thêm (cơ chế nâng trần sẽ cộng vào GameState).
+static func trophy_cap_base() -> int:
+	return int(((_load("trophy_upgrades") as Dictionary).get("cap", {}) as Dictionary).get("base", 0))
+
+
+## Cúp nhận được ở một vị trí (1..8) tại một giải; từ P4 trở xuống là 0.
+static func trophy_reward(position: int, league: int) -> int:
+	var earn: Dictionary = (_load("trophy_upgrades") as Dictionary).get("earn", {})
+	var by_pos: Array = earn.get("by_position", [])
+	var mult: Array = earn.get("league_multiplier", [])
+	if position < 1 or position > by_pos.size() or league < 0 or league >= mult.size():
+		return 0
+	return int(by_pos[position - 1]) * int(mult[league])
+
+
+const AD_REWARD_KINDS := ["", "boost", "income_seconds", "gems", "driver_coupon", "gear_coupon", "offline_double", "race_bonus", "daily_double"]
+
+
+## data/ads.json: loại thưởng hợp lệ, số dương, coupon/tính năng mở khóa phải tồn tại (Design/26).
+const IAP_KINDS := ["gems", "perk", "starter", "offer", "character", "daily", "weekly", "pass_month", "pass_growth"]
+const IAP_PERKS := ["no_ads", "income_x2", "income_x3", "offline_plus"]
+
+
+## Kiểm tra data/iap.json (Design/28 §6). SKU/usd/consumable phải khớp horus-game.json (kiểm ở tests/iap_test.gd).
+static func _validate_iap() -> Array:
+	var errs: Array = []
+	var d := iap()
+	var feature_ids: Array = []
+	for f: Dictionary in (_load("tutorial") as Dictionary).get("features", []):
+		feature_ids.append(String(f.get("id", "")))
+	var pop: Variant = d.get("popup")
+	if typeof(pop) != TYPE_DICTIONARY or not _is_num((pop as Dictionary).get("gap_sec")) or float((pop as Dictionary)["gap_sec"]) <= 0.0 \
+			or not _is_num((pop as Dictionary).get("per_day")) or int((pop as Dictionary)["per_day"]) < 1:
+		errs.append("iap.json: popup.gap_sec phải > 0 và popup.per_day >= 1")
+	var flags: Variant = d.get("flags", {})
+	if typeof(flags) != TYPE_DICTIONARY:
+		errs.append("iap.json: flags phải là object")
+		flags = {}
+	if not _is_num(d.get("owned_driver_shards")) or int(d["owned_driver_shards"]) < 0:
+		errs.append("iap.json: owned_driver_shards phải là số >= 0")
+	var products := iap_products()
+	if products.is_empty():
+		errs.append("iap.json: thiếu products")
+		return errs
+	var skus := {}
+	for p: Dictionary in products:
+		skus[String(p.get("sku", ""))] = p
+	var perks := {}
+	for p: Dictionary in products:
+		var g: Variant = p.get("grant", {})
+		if typeof(g) == TYPE_DICTIONARY and (g as Dictionary).has("perk"):
+			perks[String((g as Dictionary)["perk"])] = true
+	var seen := {}
+	for p: Dictionary in products:
+		var sku := String(p.get("sku", ""))
+		var where := "iap.json %s: " % sku
+		if sku == "" or seen.has(sku):
+			errs.append(where + "SKU rỗng hoặc trùng")
+		seen[sku] = true
+		var kind := String(p.get("kind", ""))
+		if not IAP_KINDS.has(kind):
+			errs.append(where + "kind lạ '%s'" % kind)
+		if not _is_num(p.get("usd")) or float(p["usd"]) <= 0.0:
+			errs.append(where + "usd phải > 0")
+		if typeof(p.get("consumable")) != TYPE_BOOL:
+			errs.append(where + "consumable phải là bool")
+		var g: Variant = p.get("grant")
+		if typeof(g) != TYPE_DICTIONARY or (g as Dictionary).is_empty():
+			errs.append(where + "thiếu grant")
+			continue
+		var grant: Dictionary = g
+		if grant.has("gems") and (not _is_num(grant["gems"]) or int(grant["gems"]) < 1):
+			errs.append(where + "grant.gems phải >= 1")
+		if grant.has("income_min") and (not _is_num(grant["income_min"]) or int(grant["income_min"]) < 1):
+			errs.append(where + "grant.income_min phải >= 1")
+		if grant.has("perk") and not IAP_PERKS.has(String(grant["perk"])):
+			errs.append(where + "perk lạ '%s'" % String(grant["perk"]))
+		if grant.has("driver") and driver(String(grant["driver"])).is_empty():
+			errs.append(where + "driver '%s' không có trong drivers.json" % String(grant["driver"]))
+		if grant.has("driver_shards") and (not _is_num(grant["driver_shards"]) or int(grant["driver_shards"]) < 1):
+			errs.append(where + "grant.driver_shards phải >= 1")
+		for key in ["driver_coupon", "gear_coupon"]:
+			if not grant.has(key):
+				continue
+			var types: Array = driver_coupon_types() if key == "driver_coupon" else gear_coupon_types()
+			if typeof(grant[key]) != TYPE_DICTIONARY:
+				errs.append(where + "%s phải là object" % key)
+				continue
+			for ct in (grant[key] as Dictionary):
+				if not types.has(String(ct)):
+					errs.append(where + "%s: loại coupon lạ '%s'" % [key, String(ct)])
+				elif not _is_num(grant[key][ct]) or int(grant[key][ct]) < 1:
+					errs.append(where + "%s.%s phải >= 1" % [key, String(ct)])
+		for ref_key in ["requires", "hide_if_owned"]:
+			for ref in (p.get(ref_key, []) as Array):
+				if not skus.has(String(ref)) and not perks.has(String(ref)):
+					errs.append(where + "%s trỏ tới '%s' không tồn tại" % [ref_key, String(ref)])
+		errs.append_array(_validate_iap_unlock(where, p.get("unlock", {}), feature_ids, skus))
+		if p.has("flag") and not (flags as Dictionary).has(String(p["flag"])):
+			errs.append(where + "flag '%s' không có trong flags" % String(p["flag"]))
+		match kind:
+			"weekly":
+				if not _is_num(p.get("weekly_limit")) or int(p["weekly_limit"]) < 1:
+					errs.append(where + "weekly cần weekly_limit >= 1")
+				if typeof(p.get("unlock")) != TYPE_DICTIONARY or not (p["unlock"] as Dictionary).has("tier"):
+					errs.append(where + "weekly cần unlock.tier")
+			"daily":
+				if not _is_num(p.get("daily_limit")) or int(p["daily_limit"]) < 1:
+					errs.append(where + "daily cần daily_limit >= 1")
+			"character":
+				if not grant.has("driver"):
+					errs.append(where + "character cần grant.driver")
+			"perk":
+				if not grant.has("perk"):
+					errs.append(where + "perk cần grant.perk")
+				if bool(p.get("consumable", true)):
+					errs.append(where + "perk phải consumable=false (khôi phục được)")
+			"pass_month":
+				for key in ["days", "daily_gems", "max_days", "rebuy_when_left_days"]:
+					if not _is_num(p.get(key)) or int(p[key]) < 1:
+						errs.append(where + "pass_month cần %s >= 1" % key)
+			"pass_growth":
+				var last := 0
+				var ms: Array = p.get("milestones", [])
+				if ms.is_empty() or bool(p.get("consumable", true)):
+					errs.append(where + "pass_growth cần milestones và consumable=false")
+				for m in ms:
+					if typeof(m) != TYPE_ARRAY or (m as Array).size() != 2 or int(m[0]) <= last or int(m[0]) > 5 or int(m[1]) < 1:
+						errs.append(where + "milestones phải tăng dần theo business_tier (<= 5), mỗi mốc [tier, gem]")
+						break
+					last = int(m[0])
+	for sku2 in (d.get("feature_rotation", []) as Array):
+		if not skus.has(String(sku2)) or String((skus[String(sku2)] as Dictionary).get("kind", "")) != "character":
+			errs.append("iap.json: feature_rotation '%s' không phải SKU character" % String(sku2))
+	return errs
+
+
+static func _validate_iap_unlock(where: String, u: Variant, feature_ids: Array, skus: Dictionary) -> Array:
+	var errs: Array = []
+	if typeof(u) != TYPE_DICTIONARY:
+		return [where + "unlock phải là object"]
+	var ud: Dictionary = u
+	if ud.has("tutorial") and not feature_ids.has(String(ud["tutorial"])):
+		errs.append(where + "unlock.tutorial '%s' không có trong tutorial.json" % String(ud["tutorial"]))
+	if ud.has("bought") and not skus.has(String(ud["bought"])):
+		errs.append(where + "unlock.bought '%s' không tồn tại" % String(ud["bought"]))
+	for key in ["tier", "tier_before_driver", "ad_breaks_today"]:
+		if ud.has(key) and (not _is_num(ud[key]) or int(ud[key]) < 0):
+			errs.append(where + "unlock.%s phải >= 0" % key)
+	if ud.has("any"):
+		if typeof(ud["any"]) != TYPE_ARRAY or (ud["any"] as Array).is_empty():
+			errs.append(where + "unlock.any phải là mảng không rỗng")
+		else:
+			for sub in (ud["any"] as Array):
+				errs.append_array(_validate_iap_unlock(where, sub, feature_ids, skus))
+	return errs
+
+
+static func _validate_ads() -> Array:
+	var errs: Array = []
+	var a := ads()
+	if not _is_num(a.get("daily_cap")) or int(a["daily_cap"]) < 1:
+		errs.append("ads.json: daily_cap phải là số >= 1")
+	var places: Variant = a.get("placements")
+	if typeof(places) != TYPE_DICTIONARY or (places as Dictionary).is_empty():
+		errs.append("ads.json: thiếu placements")
+		return errs
+	var feature_ids: Array = []
+	for f: Dictionary in (_load("tutorial") as Dictionary).get("features", []):
+		feature_ids.append(String(f.get("id", "")))
+	for id: String in places:
+		var p: Dictionary = places[id]
+		var where := "ads.json %s: " % id
+		var kind := String(p.get("reward", ""))
+		if not AD_REWARD_KINDS.has(kind):
+			errs.append(where + "reward lạ '%s'" % kind)
+		for key in ["daily_limit", "cooldown_sec"]:
+			if not _is_num(p.get(key, 0)) or float(p.get(key, 0)) < 0.0:
+				errs.append(where + "%s phải là số >= 0" % key)
+		var unlock := String(p.get("unlock", ""))
+		if unlock != "" and not feature_ids.has(unlock):
+			errs.append(where + "unlock '%s' không có trong tutorial.json" % unlock)
+		match kind:
+			"boost":
+				if not _is_num(p.get("multiplier")) or int(p["multiplier"]) < 2 or float(p["multiplier"]) != float(int(p["multiplier"])):
+					errs.append(where + "multiplier phải là số nguyên >= 2")
+				if not _is_num(p.get("duration_sec")) or float(p["duration_sec"]) <= 0.0:
+					errs.append(where + "duration_sec phải > 0")
+			"income_seconds":
+				if not _is_num(p.get("seconds")) or float(p["seconds"]) <= 0.0:
+					errs.append(where + "seconds phải > 0")
+			"gems":
+				if not _is_num(p.get("amount")) or int(p["amount"]) < 1:
+					errs.append(where + "amount phải >= 1")
+			"driver_coupon", "gear_coupon":
+				var types: Array = driver_coupon_types() if kind == "driver_coupon" else gear_coupon_types()
+				if not types.has(String(p.get("kind", ""))):
+					errs.append(where + "kind '%s' không phải loại coupon" % String(p.get("kind", "")))
+				if not _is_num(p.get("count")) or int(p["count"]) < 1:
+					errs.append(where + "count phải >= 1")
+		if p.has("first_after_sec"):  # lịch lá cờ (Design/26 §4)
+			for key in ["first_after_sec", "gap_sec", "cross_sec", "miss_limit", "miss_gap_max_sec"]:
+				if not _is_num(p.get(key)) or float(p[key]) <= 0.0 and key != "first_after_sec":
+					errs.append(where + "%s phải là số > 0" % key)
+			if _is_num(p.get("gap_sec")) and _is_num(p.get("miss_gap_max_sec")) and float(p["miss_gap_max_sec"]) < float(p["gap_sec"]):
+				errs.append(where + "miss_gap_max_sec phải >= gap_sec")
+	var br: Variant = a.get("break")
+	if typeof(br) == TYPE_DICTIONARY:
+		for key in ["interFromRun", "sessionWarmup", "interEvery", "interCooldown", "rewardedGrace", "maxPerHour", "firstPlayMin", "bonusIncomeSec"]:
+			if not _is_num((br as Dictionary).get(key)) or float((br as Dictionary)[key]) < 0.0:
+				errs.append("ads.json break.%s phải là số >= 0" % key)
+	return errs
+
+
+static func _validate_trophy_upgrades() -> Array:
+	var errs: Array = []
+	var t: Variant = _load("trophy_upgrades")
+	if typeof(t) != TYPE_DICTIONARY or (t as Dictionary).is_empty():
+		return errs  # đã báo ở bước đọc tệp
+	var earn: Dictionary = t.get("earn", {})
+	var by_pos: Array = earn.get("by_position", [])
+	if by_pos.size() != 8:
+		errs.append("trophy_upgrades.json: earn.by_position cần 8 mục")
+	for v in by_pos:
+		if not _is_num(v) or float(v) < 0 or float(v) != floor(float(v)):
+			errs.append("trophy_upgrades.json: earn.by_position phải là số nguyên >= 0")
+	var mult: Array = earn.get("league_multiplier", [])
+	if mult.size() != leagues().size():
+		errs.append("trophy_upgrades.json: earn.league_multiplier cần đủ %d giải" % leagues().size())
+	for v in mult:
+		if not _is_num(v) or int(v) < 1:
+			errs.append("trophy_upgrades.json: league_multiplier phải >= 1")
+	if not _is_num((t.get("cap", {}) as Dictionary).get("base")) or trophy_cap_base() < 0:
+		errs.append("trophy_upgrades.json: cap.base không hợp lệ")
+	var group_ids: Array = []
+	for g: Dictionary in trophy_groups():
+		group_ids.append(String(g.get("id", "")))
+	var ids: Array = []
+	for u: Dictionary in trophy_upgrades():
+		var id := String(u.get("id", ""))
+		if id == "" or ids.has(id):
+			errs.append("trophy_upgrades.json: id rỗng hoặc trùng: " + id)
+		ids.append(id)
+		if not group_ids.has(String(u.get("group", ""))):
+			errs.append("trophy_upgrades.json: %s nhóm lạ" % id)
+		var n := int(u.get("max_level", 0))
+		var costs: Array = u.get("cost_by_level", [])
+		var effects: Array = u.get("effect_by_level", [])
+		if n < 1 or costs.size() != n or effects.size() != n + 1:
+			errs.append("trophy_upgrades.json: %s cost_by_level/effect_by_level không khớp max_level" % id)
+			continue
+		var unlock := int(u.get("unlock_league", -1))
+		if unlock < 0 or unlock >= leagues().size():
+			errs.append("trophy_upgrades.json: %s unlock_league ngoài phạm vi" % id)
+		for c in costs:
+			if not _is_num(c) or int(c) < 1:
+				errs.append("trophy_upgrades.json: %s giá phải là số nguyên dương" % id)
+		for lv in effects.size():
+			if typeof(effects[lv]) != TYPE_DICTIONARY or (effects[lv] as Dictionary).is_empty():
+				errs.append("trophy_upgrades.json: %s effect_by_level[%d] không hợp lệ" % [id, lv])
+				continue
+			for k: String in effects[lv]:
+				if not TROPHY_EFFECT_KEYS.has(k) or not _is_num(effects[lv][k]) or float(effects[lv][k]) < 0:
+					errs.append("trophy_upgrades.json: %s effect[%d].%s không hợp lệ" % [id, lv, k])
+	return errs
+
+
+static func _validate_classes() -> Array:
+	var errs: Array = []
+	var ids: Array = []
+	var sm := sim()
+	for c: Dictionary in race_classes():
+		var id := String(c.get("id", ""))
+		if id == "" or ids.has(id):
+			errs.append("classes.json: id trống hoặc trùng: " + id)
+		ids.append(id)
+		for k: String in c.get("tuning_mult", {}):
+			if not sm.has(k) or float(c["tuning_mult"][k]) <= 0.0:
+				errs.append("classes.json: %s tuning_mult.%s không hợp lệ" % [id, k])
+		for k: String in c.get("traffic_mult", {}):
+			if not (sm.get("traffic", {}) as Dictionary).has(k) or float(c["traffic_mult"][k]) < 0.0:
+				errs.append("classes.json: %s traffic_mult.%s không hợp lệ" % [id, k])
+		var form: Array = c.get("form", [])
+		if not form.is_empty() and (form.size() != 2 or float(form[0]) > float(form[1]) or float(form[0]) <= 0.0):
+			errs.append("classes.json: %s form không hợp lệ" % id)
+	if race_class(default_class_id()).is_empty():
+		errs.append("classes.json: default_class không tồn tại")
+	var fm := facility_price_mults()
+	if fm.size() != race_classes().size() - 1:
+		errs.append("classes.json: facility_price_mult cần %d phần tử (cơ sở thứ 2 trở đi)" % (race_classes().size() - 1))
+	for v in fm:
+		if float(v) <= 0.0:
+			errs.append("classes.json: facility_price_mult phải > 0")
+	return errs
 
 
 static func _validate_driver_gacha() -> Array:

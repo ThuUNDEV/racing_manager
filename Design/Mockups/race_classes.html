@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="vi">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Racing Manager · Class đua</title>
+<style>
+:root{font-family:'Segoe UI',sans-serif;color:#16355c;background:#cbdcf3;font-size:14px}
+*{box-sizing:border-box}body{margin:0}button,select{font:inherit;cursor:pointer}
+.review{display:flex;gap:10px;align-items:center;justify-content:center;padding:12px;font-weight:600;flex-wrap:wrap}
+.review select{min-height:36px;border-radius:8px;border:1px solid #9db6d9;padding:0 8px;background:#fff;color:#16355c}
+.phone{position:relative;width:390px;height:780px;margin:0 auto 20px;background:#e4ebf5;border-radius:28px;box-shadow:0 12px 40px #16355c44;overflow:hidden;display:flex;flex-direction:column}
+.top{display:flex;align-items:center;justify-content:center;height:60px;background:#f1f5fb;border-bottom:1px solid #d6e0ee;position:relative}
+.top h1{margin:0;font-size:18px}
+.x{position:absolute;right:12px;top:8px;width:44px;height:44px;border:0;border-radius:50%;background:#dfe7f3;color:#5b6f8c;font-size:22px;font-weight:700}
+.scroll{flex:1;overflow-y:auto;padding:12px}
+.card{background:#fff;border-radius:18px;padding:12px;margin-bottom:12px;border:2px solid transparent;box-shadow:0 1px 3px #16355c1a}
+.card.active{background:#dcf8e4;border-color:#2fcf6c}
+.card.locked{background:#eef1f6;color:#8896ab}
+.card.locked .ico{filter:grayscale(1);opacity:.6}
+.head{display:flex;align-items:center;gap:10px}
+.ico{width:56px;height:56px;border-radius:12px;background:#bfd9ff;display:grid;place-items:center;font-size:28px;flex:none}
+.title{flex:1;min-width:0}.title h2{margin:0;font-size:19px}
+.meta{display:flex;gap:12px;font-weight:700;font-size:14px;margin-top:2px}
+.meta .p{color:#2f6fdc}.meta .w{color:#1fa65a}
+.btn{min-width:108px;height:44px;border:0;border-radius:12px;font-weight:700;color:#fff;font-size:15px}
+.watch{background:#22c55e;box-shadow:inset 0 -3px 0 #15934a}
+.det{background:#2f6fdc;box-shadow:inset 0 -3px 0 #1e4fa8;min-width:108px}
+.activelbl{min-width:108px;text-align:center;color:#1fa65a;font-weight:700;letter-spacing:.5px}
+.pending{background:#f5a623;box-shadow:inset 0 -3px 0 #c27d0c}
+.buy{background:#f59e0b;box-shadow:inset 0 -3px 0 #c27d0c}
+.btn:disabled{background:#b8c3d4;box-shadow:none;cursor:not-allowed}
+.lbl{font-size:12px;color:#6a7d99;margin:8px 0 3px}
+.field{display:flex;justify-content:space-between;align-items:center;background:#eef3f9;border:1px solid #dde6f1;border-radius:10px;padding:0 12px;height:38px;font-weight:700}
+.active .field,.active .score{background:#cdf0d8;border-color:#b3e3c4}
+.field a{color:#2f6fdc;font-weight:700;font-size:14px;cursor:pointer;text-decoration:none}
+.field a.off{color:#9aa8bd;cursor:not-allowed}
+.score{display:flex;align-items:center;justify-content:space-between;background:#eef3f9;border:1px solid #dde6f1;border-radius:10px;padding:6px 8px 6px 14px;gap:8px}
+.col{text-align:center;font-family:Consolas,monospace}.col small{display:block;font-family:'Segoe UI',sans-serif;font-size:11px;font-weight:700;color:#6a7d99}.col b{font-size:15px}
+.hint{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.chip{font-size:11.5px;font-weight:600;background:#e6efff;color:#2753a8;border-radius:999px;padding:3px 9px}
+.active .chip{background:#bdeccd;color:#176b3a}
+.lockmsg{display:flex;align-items:center;gap:8px;margin-top:8px;font-weight:600;color:#6a7d99}
+.soon{text-align:center;padding:20px;border-radius:18px;background:#ffffff80;color:#9aa8bd;font-weight:800;font-size:18px;margin-bottom:12px}
+.toast{position:absolute;left:16px;right:16px;bottom:16px;background:#16355c;color:#fff;border-radius:12px;padding:12px 14px;font-weight:600;box-shadow:0 6px 20px #0004}
+.toast[hidden]{display:none}
+.dim{position:absolute;inset:0;background:#16355c99;display:flex;align-items:center;justify-content:center;padding:16px;z-index:6}.dim[hidden]{display:none}
+.popup{background:#fff;border-radius:22px;padding:18px 16px 16px;width:100%;max-height:100%;overflow:auto;text-align:center}.popup h3{margin:0 0 4px;font-size:20px}.popup p{margin:0 0 12px;color:#526a8a;font-size:13.5px}.popup .btn{width:100%;margin-top:12px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}.opt{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;background:#eef3f9;border:2px solid #dde6f1;border-radius:16px;padding:12px 8px 10px;color:#16355c;min-height:128px}.opt.on{background:#dcf8e4;border-color:#2fcf6c}
+.ico.sm{width:56px;height:56px;font-size:28px}.otxt{text-align:center}.otxt b{display:block;font-size:15px}.otxt small{display:block;color:#6a7d99;font-size:11.5px;line-height:1.25;margin-top:2px}.radio{position:absolute;top:8px;right:8px;width:20px;height:20px;border-radius:50%;border:2px solid #9db6d9}.opt.on .radio{border-color:#1fa65a;background:radial-gradient(#1fa65a 45%,#fff 50%)}
+.note{text-align:center;color:#5b6f8c;font-size:12px;padding-bottom:20px}
+@media(max-width:420px){.phone{width:100%;height:calc(100dvh - 90px);border-radius:0;margin:0}}
+</style>
+<div class="review">THIẾT KẾ · Dữ liệu minh họa
+ <select id="scn" aria-label="Kịch bản"><option value="n">Người chơi mới (chỉ có Racing)</option><option value="a">Đã mua Rally và Stock Car</option><option value="w">Cơ sở đang chờ chọn class</option><option value="w">Cơ sở đang chờ chọn loại</option><option value="p">Đã chọn Rally, chờ đổi sau lượt này</option></select> <span>Tiền: 🪙 <b id="coins">0</b></span>
+</div>
+<main class="phone">
+ <header class="top"><h1>Classes</h1><button class="x" aria-label="Đóng">×</button></header>
+ <div class="scroll" id="list"></div>
+ <div class="dim" id="dim" hidden><div class="popup" id="popup"></div></div>
+ <div class="toast" id="toast" hidden role="status"></div>
+</main>
+<p class="note">Mockup bố cục · Số liệu minh họa, không phải kết quả lab · Thiết kế: Design/22_Race_Classes.md</p>
+<script>
+const $=s=>document.querySelector(s);
+const C=[
+ {id:'racing',n:'Racing',e:'🏎️',pw:844,w:36,s:'Cân bằng, bản gốc',car:'Tia chớp',st:'S · H · B · A đều',lg:'Tập sự',season:57,score:36,rank:2},
+ {id:'rally',n:'Rally',e:'🚙',pw:'1,2K',w:31,s:'Đường đất, nhiều lỗi',car:'Bám đường',st:'Handling · Stability',lg:'Tập sự',season:49,score:10,rank:2},
+ {id:'stock',n:'Stock Car',e:'🚓',pw:'2,7K',w:26,s:'Oval, đoàn xe sát nhau',car:'Bền bỉ',st:'Stability · Hút gió',lg:'Tập sự',season:34,score:53,rank:4},
+ {id:'bike',n:'Superbike',e:'🏍️',pw:'4,1K',w:25,s:'Hai bánh, bốc và nghiêng',car:'Bám đường',st:'Accel · Handling',lg:'Tập sự',season:1,score:0,rank:8},
+ {id:'speed',n:'Speedster',e:'🚀',pw:'6,5K',w:21,s:'Đường thẳng dài',car:'Tia chớp',st:'Speed',lg:'Tập sự',season:1,score:0,rank:8},
+ {id:'monster',n:'Monster Truck',e:'🛻',pw:'9,8K',w:33,s:'Vật cản, hỗn loạn',car:'Bền bỉ',st:'Stability · Accel',lg:'Tập sự',season:1,score:0,rank:8},
+];
+const BASE=1000,FM=[.5,1,2,4,8];
+const fmt=n=>n>=1000?(n/1000).toFixed(n%1000?1:0).replace('.',',')+'K':String(n);
+let owned,active,pending,coins,slot,sel;
+const fprice=()=>FM[owned.length-1]*BASE;
+function reset(){const s=$('#scn').value;
+ owned=s==='n'?['racing']:['racing','rally','stock'];slot=s==='w';active='racing';pending=s==='p'?'rally':null;
+ coins=s==='n'?600:12000}
+function toast(t){const e=$('#toast');e.textContent=t;e.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>e.hidden=true,2600)}
+function render(){
+ $('#coins').textContent=fmt(coins);
+ const full=owned.length>=C.length,np=fprice();
+ const facility=`<section class="card" style="background:#fff4de;border-color:#f5c26b"><div class="head"><div class="title"><h2>Cơ sở: ${owned.length+(slot?1:0)}/${C.length}</h2><div class="meta" style="font-weight:600;color:#6a7d99;font-size:12px">${full?'Đã mở đủ cơ sở.':slot?'Cơ sở mới đang chờ chọn loại.':coins<np?'Còn thiếu 🪙 '+fmt(np-coins)+'.':'Mở cơ sở mới để chơi thêm class.'}</div></div>${full?'':slot?'<button class="btn buy" id="fpick">Chọn loại</button>':`<button class="btn buy" id="fbuy" ${coins<np?'disabled':''}>🪙 ${fmt(np)}</button>`}</div></section>`;
+ $('#list').innerHTML=facility+C.filter(c=>owned.includes(c.id)).map(c=>{
+  const isA=c.id===active,isP=c.id===pending;
+  const act=isA?'<div class="activelbl">Active</div>':isP?`<button class="btn pending" data-c="${c.id}">Sau lượt này</button>`:`<button class="btn watch" data-c="${c.id}">Watch</button>`;
+  return `<section class="card ${isA?'active':''}"><div class="head"><div class="ico">${c.e}</div><div class="title"><h2>${c.n}</h2><div class="meta"><span class="p" title="Sức mạnh đề xuất">⚙ ${c.pw}</span><span class="w" title="Cơ hội thắng ước tính">🍀 ${c.w}%</span></div></div>${act}</div>
+   <div class="lbl">Tên đội</div><div class="field"><span>Đội Tia Chớp</span></div>
+   <div class="lbl">Giải hiện tại</div><div class="field"><span>${c.lg.toUpperCase()}</span><a class="${c.rank<=3?'':'off'}" data-adv="${c.id}">Advance</a></div>
+   <div class="lbl">Điểm mùa hiện tại</div><div class="score"><div class="col"><small>MÙA</small><b>${String(c.season).padStart(3,'0')}</b></div><div class="col"><small>ĐIỂM</small><b>${c.score}</b></div><div class="col"><small>HẠNG</small><b>${c.rank}</b></div><button class="btn det" data-d="${c.id}">Details</button></div>
+   <div class="hint"><span class="chip">Xe gợi ý: ${c.car}</span><span class="chip">${c.st}</span></div></section>`}).join('');
+ const fb=$('#fbuy');if(fb)fb.onclick=()=>{coins-=np;slot=true;render();openPopup()};
+ const fp=$('#fpick');if(fp)fp.onclick=openPopup;
+ document.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{const c=C.find(x=>x.id===b.dataset.c);pending=c.id;render();toast(`Đổi sang ${c.n} sau khi lượt hiện tại kết thúc`)});
+ document.querySelectorAll('[data-adv]').forEach(a=>a.onclick=()=>toast(a.classList.contains('off')?'Chưa đủ điều kiện: hoàn tất mùa với hạng ≤ 3':'Khi tích hợp: trả phí và lên giải trong class'));
+ document.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>toast('Khi tích hợp: mở bảng điểm mùa của class'));
+}
+function openPopup(){sel=null;drawPopup();$('#dim').hidden=false}
+function drawPopup(){
+ $('#popup').innerHTML=`<h3>Chọn loại cơ sở</h3><p>Chọn class cho cơ sở mới. Không đổi lại được.</p><div class="opts">`+C.filter(c=>!owned.includes(c.id)).map(c=>`<button class="opt ${sel===c.id?'on':''}" data-o="${c.id}"><span class="radio"></span><span class="ico sm">${c.e}</span><span class="otxt"><b>${c.n}</b><small>${c.s}</small></span></button>`).join('')+`</div><button class="btn watch" id="ok" ${sel?'':'disabled'}>OK</button>`;
+ document.querySelectorAll('[data-o]').forEach(b=>b.onclick=()=>{sel=b.dataset.o;drawPopup()});
+ $('#ok').onclick=()=>{const c=C.find(x=>x.id===sel);owned.push(sel);slot=false;$('#dim').hidden=true;render();toast(`Đã mở cơ sở ${c.n}`)};
+}
+$('#dim').onclick=e=>{if(e.target.id==='dim'){$('#dim').hidden=true;toast('Cơ sở vẫn đang chờ. Bấm "Chọn loại" khi sẵn sàng')}};
+$('#scn').onchange=()=>{$('#dim').hidden=true;reset();render()};document.querySelector('.x').onclick=()=>toast('Khi tích hợp: đóng modal');
+$('#coins').parentNode.onclick=()=>{coins+=5000;render()};$('#coins').parentNode.title='Bấm để cộng 5K xu thử';
+reset();render();
+</script>
+</html>

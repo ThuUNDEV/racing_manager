@@ -1,0 +1,190 @@
+{
+  "name": "Racing Tycoon",
+  "version": "0.1.0",
+  "versionCode": 1,
+  "appId": "",
+  "repo": "",
+  "web": "export/web",
+  "build": "powershell -NoProfile -ExecutionPolicy Bypass -File tools/build_web.ps1",
+  "icon": "icon.png",
+  "orientation": "portrait",
+  "languages": [
+    "vi"
+  ],
+  "colors": {
+    "background": "#0f2a52"
+  },
+  "ads": {
+    "rewarded": [
+      "income_boost",
+      "flag_cash",
+      "free_gems",
+      "free_driver_coupon",
+      "free_gear_coupon"
+    ],
+    "inter": []
+  },
+  "products": [
+    {
+      "sku": "gems_pack_1",
+      "usd": 0.99,
+      "consumable": true
+    },
+    {
+      "sku": "gems_pack_2",
+      "usd": 4.99,
+      "consumable": true
+    },
+    {
+      "sku": "gems_pack_3",
+      "usd": 9.99,
+      "consumable": true
+    },
+    {
+      "sku": "gems_pack_4",
+      "usd": 19.99,
+      "consumable": true
+    },
+    {
+      "sku": "gems_pack_5",
+      "usd": 49.99,
+      "consumable": true
+    },
+    {
+      "sku": "no_ads",
+      "usd": 9.99,
+      "consumable": false
+    },
+    {
+      "sku": "income_x2",
+      "usd": 4.99,
+      "consumable": false
+    },
+    {
+      "sku": "income_x3",
+      "usd": 9.99,
+      "consumable": false
+    },
+    {
+      "sku": "income_x3_up",
+      "usd": 4.99,
+      "consumable": false
+    },
+    {
+      "sku": "offline_plus",
+      "usd": 4.99,
+      "consumable": false
+    },
+    {
+      "sku": "starter_1",
+      "usd": 0.99,
+      "consumable": true
+    },
+    {
+      "sku": "starter_2",
+      "usd": 4.99,
+      "consumable": true
+    },
+    {
+      "sku": "starter_3",
+      "usd": 9.99,
+      "consumable": true
+    },
+    {
+      "sku": "offer_combo_1",
+      "usd": 4.99,
+      "consumable": true
+    },
+    {
+      "sku": "offer_combo_2",
+      "usd": 9.99,
+      "consumable": true
+    },
+    {
+      "sku": "offer_noads_bundle",
+      "usd": 9.99,
+      "consumable": true
+    },
+    {
+      "sku": "char_lam",
+      "usd": 4.99,
+      "consumable": true
+    },
+    {
+      "sku": "char_my",
+      "usd": 4.99,
+      "consumable": true
+    },
+    {
+      "sku": "char_nhan",
+      "usd": 4.99,
+      "consumable": true
+    },
+    {
+      "sku": "char_phuong",
+      "usd": 9.99,
+      "consumable": true
+    },
+    {
+      "sku": "char_quang",
+      "usd": 9.99,
+      "consumable": true
+    },
+    {
+      "sku": "char_son",
+      "usd": 9.99,
+      "consumable": true
+    },
+    {
+      "sku": "daily_gear",
+      "usd": 0.99,
+      "consumable": true
+    },
+    {
+      "sku": "daily_driver",
+      "usd": 0.99,
+      "consumable": true
+    },
+    {
+      "sku": "pass_month",
+      "usd": 4.99,
+      "consumable": true
+    },
+    {
+      "sku": "pass_growth",
+      "usd": 4.99,
+      "consumable": false
+    },
+    {
+      "sku": "weekly_s",
+      "usd": 4.99,
+      "consumable": true
+    },
+    {
+      "sku": "weekly_m",
+      "usd": 9.99,
+      "consumable": true
+    },
+    {
+      "sku": "weekly_l",
+      "usd": 19.99,
+      "consumable": true
+    },
+    {
+      "sku": "weekly_xl",
+      "usd": 49.99,
+      "consumable": true
+    }
+  ],
+  "remoteConfig": {},
+  "events": [
+    "rv_offer",
+    "rv_start",
+    "rv_done",
+    "rv_fail",
+    "boost_start",
+    "boost_end"
+  ],
+  "support": "support@horusvn.com",
+  "notes": "Quảng cáo thưởng tự nguyện + Ads Break (interstitial giữa hai lượt, thêm ở P2e; placement 'ad_break' sẽ khai báo khi làm). Placement khớp data/ads.json (Design/26)."
+}

@@ -68,7 +68,7 @@ func _initialize() -> void:
 	for m in 10:
 		ten_sum = ten_sum.add(Pricing.part_cost(0, m))
 	var one_old := 120 * 3  # base × D (D = 3), cấp cũ 0
-	_check(ten_sum.compare(BigNumber.from_int(one_old)) >= 0 and ten_sum.compare(BigNumber.from_int(one_old + 10)) <= 0, "tổng giá 10 cấp nhỏ ≈ giá một cấp cũ × D")
+	_check(ten_sum.compare(BigNumber.from_int(one_old)) >= 0 and ten_sum.compare(BigNumber.from_int(one_old * 3)) <= 0, "tổng giá 10 cấp nhỏ đầu nằm trong 1–3× giá một cấp cũ × D (đường cong dốc ở đầu)")
 	var monotonic := true
 	for m in 199:
 		if Pricing.part_cost(0, m + 1).compare(Pricing.part_cost(0, m)) < 0:

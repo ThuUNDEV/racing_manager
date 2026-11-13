@@ -131,6 +131,8 @@ Tổng dự kiến đến cuối nội dung chính khoảng 600–900 gem, đủ
 
 ### 7.1. Quảng cáo thưởng (D4: chỉ rewarded, tự nguyện)
 
+> **Cập nhật 12/11/2026:** D4 đã đổi (có thêm Ads Break xen giữa các lượt). Danh sách vị trí, trần ngày (nâng từ 8 lên 12 rewarded/ngày) và phần thưởng mới nằm ở [26 — Vị trí đặt quảng cáo](26_Ads_Placements.md) và **thay** bảng dưới đây. Câu "Không interstitial, không banner" dưới bảng chỉ còn đúng cho banner.
+
 | Vị trí | Phần thưởng | Giới hạn |
 |---|---|---|
 | Sau chặng đua | + tiền bằng đúng phần tiền cơ bản của chặng (không nhân điểm mùa) | 1 lần/chặng |
@@ -141,6 +143,8 @@ Tổng dự kiến đến cuối nội dung chính khoảng 600–900 gem, đủ
 Mọi nút nêu rõ số tiền cộng thêm. Phát thưởng chỉ sau callback thành công và ID quảng cáo duy nhất. Hủy/lỗi: giữ thưởng cơ bản, nút chuyển sang "Chưa có quảng cáo". Không interstitial, không banner. Trần mềm 8 quảng cáo thưởng/ngày/người để tránh kiệt sức.
 
 ### 7.2. Danh mục mua hàng (giá thật do store trả về, D8)
+
+> **Cập nhật 12/11/2026:** danh mục, giá, offer, pass và luồng kỹ thuật IAP nằm ở [28 — Hệ thống gói IAP](28_IAP_Packs.md) và **thay** bảng dưới đây. Câu "Không có gacha" không còn đúng (gói Pro/All-Star đã có, xem 28 §8).
 
 | Sản phẩm | Loại | Nội dung | Ghi chú |
 |---|---|---|---|

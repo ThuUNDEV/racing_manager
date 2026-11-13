@@ -78,7 +78,8 @@ func _initialize() -> void:
 	var lvl := int(GameData.economy()["business"]["expansion_min_revenue_level"])
 	for kind in Balance.REVENUE:
 		gs.levels[kind] = lvl
-	check(gs.expansion_state() == "points", "wealth alone cannot unlock a league")
+	check(gs.expansion_state() == "ok", "no points gate: revenue levels, class and money are the only conditions")
+	check(gs.unlocked_tier == 1, "next league is always accessible for car purchases")
 	gs.unlocked_tier = 1
 	gs.begin_countdown()
 	gs.advance(3.0)
@@ -128,7 +129,7 @@ func _initialize() -> void:
 		check(gs.request_expansion() and gs.business_tier == next_tier and gs.online_rate().compare(old_rate) >= 0, "business tier %d opens without lowering max old income" % next_tier)
 	check(gs.expansion_state() == "complete", "sixth tier completes the finite content ladder")
 	reset()
-	gs.completed_seasons = 1
+	gs.completed_races = 5  # driver_binh mở sau 5 lượt đua (thay "hoàn tất 1 mùa")
 	gs.scout_points = 100
 	gs.coins = n("1e6")
 	check(gs.recruit_driver("driver_binh") and gs.select_driver("driver_binh"), "SP + BigNumber recruitment and selection")
@@ -139,14 +140,14 @@ func _initialize() -> void:
 	gs.advance(3.0)
 	gs.simulate_write_failure = true
 	finish_race()
-	check(gs.phase == "save_error" and gs.stage_index == 0 and gs.coins.equals(1000), "reward remains unpublished during write failure")
+	check(gs.phase == "save_error" and gs.completed_races == 0 and gs.coins.equals(1000), "reward remains unpublished during write failure")
 	gs.simulate_write_failure = false
 	check(gs.save_game(), "persist recovery checkpoint while reward is pending")
 	gs.init_new_game()
 	gs.load_game()
 	gs.active = false
 	gs.activate()
-	check(gs.stage_index == 1 and gs.phase == "countdown" and gs.processed_rewards.has("race/s1/st1"), "finished checkpoint recovers reward exactly once after restart")
+	check(gs.completed_races == 1 and gs.phase == "countdown" and gs.processed_rewards.has("race/n1"), "finished checkpoint recovers reward exactly once after restart")
 	reset()
 	print("economy_test: %d failures" % fails)
 	quit(1 if fails else 0)

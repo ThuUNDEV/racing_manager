@@ -1,0 +1,30 @@
+{
+ "schema_version": 1,
+ "default_class": "racing",
+ "facility_price_mult": [0.5, 1, 2, 4, 8],
+ "classes": [
+  {"id": "racing", "name": "Racing", "icon": "🏎", "color": "blue", "blurb": "Cân bằng, bản gốc",
+   "recommended_variant": "tia_chop", "key_stats": "S · H · B · A đều",
+   "tuning_mult": {}, "traffic_mult": {}, "form": []},
+  {"id": "rally", "name": "Rally", "icon": "🚙", "color": "orange", "blurb": "Đường đất, nhiều cua, nhiều lỗi",
+   "recommended_variant": "bam_duong", "key_stats": "Handling · Stability",
+   "tuning_mult": {"straight_per_speed": 0.7, "corner_per_handling": 1.2, "error_per_stability": 1.4, "accel_per_accel": 1.0, "error_base": 1.2},
+   "traffic_mult": {"draft_bonus": 0.3}, "form": [0.975, 1.025]},
+  {"id": "stock", "name": "Stock Car", "icon": "🚓", "color": "red", "blurb": "Oval dài, đoàn xe sát nhau",
+   "recommended_variant": "ben_bi", "key_stats": "Stability · Hút gió",
+   "tuning_mult": {"straight_per_speed": 1.0, "corner_per_handling": 0.7, "error_per_stability": 0.8, "accel_per_accel": 0.9, "error_base": 0.714},
+   "traffic_mult": {"draft_bonus": 2.0}, "form": [0.99, 1.01]},
+  {"id": "bike", "name": "Superbike", "icon": "🏍", "color": "purple", "blurb": "Hai bánh, bốc và nghiêng",
+   "recommended_variant": "bam_duong", "key_stats": "Accel · Handling",
+   "tuning_mult": {"straight_per_speed": 0.9, "corner_per_handling": 1.3, "error_per_stability": 1.2, "accel_per_accel": 1.4, "error_base": 1.086},
+   "traffic_mult": {"draft_bonus": 0.667}, "form": [0.985, 1.015]},
+  {"id": "speed", "name": "Speedster", "icon": "🚀", "color": "gold", "blurb": "Đường thẳng dài, tốc độ tối đa",
+   "recommended_variant": "tia_chop", "key_stats": "Speed",
+   "tuning_mult": {"straight_per_speed": 1.5, "corner_per_handling": 0.6, "error_per_stability": 0.8, "accel_per_accel": 1.0, "error_base": 0.629},
+   "traffic_mult": {"draft_bonus": 1.5}, "form": [0.99, 1.01]},
+  {"id": "monster", "name": "Monster Truck", "icon": "🛻", "color": "green", "blurb": "Vật cản, nhảy, hỗn loạn",
+   "recommended_variant": "ben_bi", "key_stats": "Stability · Accel",
+   "tuning_mult": {"straight_per_speed": 0.6, "corner_per_handling": 0.8, "error_per_stability": 1.5, "accel_per_accel": 1.3, "error_base": 1.429},
+   "traffic_mult": {"draft_bonus": 0.0}, "form": [0.97, 1.03]}
+ ]
+}

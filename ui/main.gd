@@ -1,6 +1,7 @@
 extends Control
 
 const BigNumber = preload("res://core/math/big_number.gd")
+const PowerIncreaseBanner = preload("res://ui/power_increase_banner.gd")
 ## UI prototype: UI-01 Đua, UI-02 Tay đua (tối giản), UI-03 Garage, UI-04 Giải đấu,
 ## UI-05 Kết quả, UI-06 Thu nhập vắng mặt, UI-07 quà ngày. Dựng hoàn toàn bằng code.
 
@@ -42,8 +43,10 @@ var _tab: int = Tab.RACE
 
 var _pages_root: Control
 var _coin_label: Label
-var _income_label: Label
 var _gem_label: Label
+var _profile: Control
+var _class_page: Control
+var _class_btn: Button
 var _header_avatar: Control
 var _progress_label: Label
 var _status_label: Label
@@ -51,8 +54,9 @@ var _save_err_box: PanelContainer
 var _snapshot_label: Label       # nhắc đội đang đua dùng snapshot lúc xuất phát
 var _view_sim: TrafficSim = null # sim mà RaceView đang hiển thị
 var _race_view: RaceView
+var _power_banner: Control
 var _race_block: VBoxContainer   # khung đua + tiến độ + banner, ghim ở Đua/Túi/Đội
-const RACE_HEIGHT := 250.0
+const RACE_HEIGHT := 294.0  # 250 + dải khán đài 44 (RaceView.STAND_H) để đường đua giữ nguyên chỗ
 const SCENERY_H := 190.0   # chiều cao dải ảnh sân đua phía sau thanh tài nguyên
 var _drivers_box: VBoxContainer
 var _roster: DriverRosterPage
@@ -61,6 +65,7 @@ var _shop_box: VBoxContainer
 var _shop_content: VBoxContainer
 var _toast: Label
 var _overlay: Control
+var _ads_controls: AdsRaceControls  # chip ×2 + lá cờ thưởng + popup xem video (ui/ads_race_controls.gd)
 var _result_panel: Control          # bảng tổng kết lượt, chỉ phủ lên vùng đua (không phải popup toàn màn hình)
 var _result_box: VBoxContainer
 var _result_bar: ProgressBar
@@ -78,8 +83,6 @@ var _team_drivers_wrap: VBoxContainer
 var _garage: GaragePage
 var _gear: GearPage
 var _catalog_buttons: Array = []
-var _expansion_button: Button
-var _expansion_status: Label
 
 var _row_timer: float = 0.0
 var _last_count: int = -1        # số countdown vừa phát tiếng
@@ -93,6 +96,18 @@ var _auto_race: bool = false
 var _fast_forced: bool = false
 var _dev_time: float = 0.0
 var _shots_done: Dictionary = {}
+var _tutorial: TutorialOverlay       # hướng dẫn đầu game Phần A (Design/23 §4)
+var _coin_bar: Control
+var _cli_tutorial: bool = false      # --tutorial: vẫn chạy hướng dẫn khi chụp ảnh/auto-race
+var _cli_tutorial_step: String = ""  # --tutorial-step=A4_engine: nhảy tới bước (chụp ảnh kiểm tra)
+var _cli_gated: bool = false         # --gated: bật lịch mở khóa dần (Design/23 §5) khi chụp ảnh
+var _cli_races: int = -1             # --races=N: đặt số lượt đã hoàn tất (chụp ảnh các mốc mở khóa)
+var _cli_tut_done: bool = false      # --tutorial-done: coi như xong Phần A (chụp ảnh mẹo Phần C)
+var _cli_levels: String = ""         # --levels=ticket:23,parking:48: đặt cấp nâng cấp (chụp ảnh mẹo C4)
+var _nav_items: Array = []           # ô điều hướng (chứa NavLock/NavDot)
+var _sched_btn: Button
+var _next_label: Label               # "Sắp mở: ..."
+var _lock_sig := ""
 
 
 ## Gameplay được dựng phía sau màn loading (Design/09 §4): `_ready` chỉ chuẩn bị UI, `is_prepared`
@@ -109,6 +124,19 @@ func _ready() -> void:
 			_auto_race = true
 		elif a == "--fast":
 			_fast_forced = true
+		elif a == "--gated":
+			_cli_gated = true
+		elif a.begins_with("--races="):
+			_cli_races = int(a.substr(8))
+		elif a == "--tutorial-done":
+			_cli_tut_done = true
+		elif a.begins_with("--levels="):
+			_cli_levels = a.substr(9)
+		elif a == "--tutorial":
+			_cli_tutorial = true
+		elif a.begins_with("--tutorial-step="):
+			_cli_tutorial = true
+			_cli_tutorial_step = a.substr(16)
 		elif a.begins_with("--tab="):
 			_tab = int(a.substr(6))
 		elif a.begins_with("--garage="):
@@ -148,6 +176,7 @@ func activate() -> void:
 	if GameState.load_error != "":
 		_show_toast(GameState.load_error)
 	_open_next_overlay()
+	_start_tutorial()
 	_set_music("music_workshop_loop")
 
 
@@ -334,19 +363,29 @@ func _build_ui() -> void:
 	var top := HBoxContainer.new()
 	top.add_theme_constant_override("separation", 8)
 	root.add_child(top)
-	_header_avatar = HdUi.icon("icons/avatar.png", Vector2(52, 52))
+	_header_avatar = Button.new()
+	_header_avatar.name = "PlayerProfileButton"
+	_header_avatar.custom_minimum_size = Vector2(52, 52)
+	_header_avatar.add_theme_stylebox_override("normal", StyleBoxEmpty.new())
+	_header_avatar.add_theme_stylebox_override("hover", StyleBoxEmpty.new())
+	_header_avatar.add_theme_stylebox_override("pressed", StyleBoxEmpty.new())
+	_header_avatar.tooltip_text = "Hồ sơ người chơi"
+	_header_avatar.accessibility_name = "Hồ sơ người chơi"
+	_header_avatar.pressed.connect(_show_profile)
+	var avatar_icon := HdUi.icon("icons/avatar.png", Vector2(52, 52))
+	avatar_icon.name = "PlayerAvatarIcon"
+	avatar_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_header_avatar.add_child(avatar_icon)
+	avatar_icon.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_header_avatar.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	top.add_child(_header_avatar)
 	var money := VBoxContainer.new()
 	money.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	money.add_theme_constant_override("separation", 1)
 	_coin_label = _hud_label(20)
-	money.add_child(_hud_bar("icons/cash.png", _coin_label, 46.0))
-	_income_label = _label("", 11, Color.WHITE)
-	_income_label.add_theme_color_override("font_outline_color", HdUi.C_OUTLINE)
-	_income_label.add_theme_constant_override("outline_size", 4)
-	_income_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	money.add_child(_income_label)
+	_coin_bar = _hud_bar("icons/cash.png", _coin_label, 46.0)
+	_coin_bar.name = "HudCoins"
+	money.add_child(_coin_bar)
 	top.add_child(money)
 	var gems := VBoxContainer.new()
 	gems.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -357,11 +396,19 @@ func _build_ui() -> void:
 	settings.name = "SettingsButton"
 	settings.custom_minimum_size = Vector2(48, 48)
 	settings.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
-	settings.icon = HdUi.scaled("icons/gear.png", 0.16)
-	settings.expand_icon = true
-	settings.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	settings.vertical_icon_alignment = VERTICAL_ALIGNMENT_CENTER
-	settings.add_theme_constant_override("icon_max_width", 30)
+	# Center the gear in the whole button, independently of skin padding.
+	var settings_center := CenterContainer.new()
+	settings_center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	settings_center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	settings.add_child(settings_center)
+	var settings_icon := HdUi.icon("icons/gear.png", Vector2(28, 28))
+	# Center the visible gear, excluding the PNG's uneven transparent margins.
+	var settings_texture := AtlasTexture.new()
+	settings_texture.atlas = HdUi.tex("icons/gear.png")
+	settings_texture.region = Rect2(11, 57, 262, 256)
+	settings_icon.texture = settings_texture
+	settings_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	settings_center.add_child(settings_icon)
 	settings.tooltip_text = "Cài đặt"
 	settings.accessibility_name = "Cài đặt"
 	settings.pressed.connect(_show_settings)
@@ -415,9 +462,59 @@ func _build_ui() -> void:
 		lab.offset_bottom = -10.0
 		lab.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		item.add_child(lab)
+		var lock := TextureRect.new()
+		lock.name = "NavLock"
+		lock.texture = _tex("icons/vector/lock.svg")
+		lock.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		lock.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		lock.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		lock.set_anchors_preset(Control.PRESET_CENTER_TOP)
+		lock.offset_left = 4.0
+		lock.offset_right = 28.0
+		lock.offset_top = 14.0
+		lock.offset_bottom = 38.0
+		lock.hide()
+		item.add_child(lock)
+		var dot := Panel.new()
+		dot.name = "NavDot"
+		dot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var dsb := StyleBoxFlat.new()
+		dsb.bg_color = Color("ef4444")
+		dsb.border_color = Color.WHITE
+		dsb.set_border_width_all(2)
+		dsb.set_corner_radius_all(9)
+		dot.add_theme_stylebox_override("panel", dsb)
+		dot.set_anchors_preset(Control.PRESET_CENTER_TOP)
+		dot.offset_left = 10.0
+		dot.offset_right = 28.0
+		dot.offset_top = 0.0
+		dot.offset_bottom = 18.0
+		dot.hide()
+		item.add_child(dot)
+		_nav_items.append(item)
 		_nav.append(b)
 
+	_profile = preload("res://ui/player_profile.gd").new()
+	_profile.name = "PlayerProfile"
+	_profile.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	add_child(_profile)
+	_profile.hide()
+	_profile.closed.connect(func() -> void: _header_avatar.grab_focus())
+	_profile.settings_requested.connect(_show_settings)
+	_class_page = preload("res://ui/class_page.gd").new()
+	_class_page.name = "ClassPage"
+	_class_page.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	add_child(_class_page)
+	_class_page.hide()
+	_class_page.closed.connect(func() -> void: _class_btn.grab_focus())
 	_build_overlay()
+	_tutorial = TutorialOverlay.new()
+	_tutorial.name = "TutorialOverlay"
+	_tutorial.target_provider = _tutorial_target
+	_tutorial.context_provider = _tutorial_context
+	_tutorial.result_released.connect(func() -> void: _result_panel.hide())
+	_tutorial.reveal_requested.connect(_tutorial_reveal)
+	add_child(_tutorial)
 
 
 ## Viền sáng quanh chữ đậm để đọc được khi nằm trên ảnh nền sân đua.
@@ -518,7 +615,13 @@ func _build_race_block(v: VBoxContainer) -> void:
 	sched.add_theme_constant_override("icon_max_width", 24)
 	sched.add_theme_constant_override("h_separation", 4)
 	sched.pressed.connect(_select_tab.bind(Tab.LEAGUE))
+	_sched_btn = sched
 	head.add_child(sched)
+	_class_btn = _button("Class", true, 44.0)
+	_class_btn.name = "ClassButton"
+	_class_btn.custom_minimum_size = Vector2(72, 44)
+	_class_btn.pressed.connect(_show_classes)
+	head.add_child(_class_btn)
 	v.add_child(head)
 
 	# Khung đua đặt trong panel xanh-trắng có viền, giống bức tranh có khung.
@@ -531,13 +634,28 @@ func _build_race_block(v: VBoxContainer) -> void:
 	frame.add_theme_stylebox_override("panel", frame_sb)
 	frame.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	v.add_child(frame)
+	# Clip both the HUD and the grass to the same rounded silhouette.
+	# clip_contents alone only clips to a rectangle.
+	var race_clip := PanelContainer.new()
+	race_clip.name = "RaceRoundedClip"
+	race_clip.clip_children = CanvasItem.CLIP_CHILDREN_AND_DRAW
+	var rounded := StyleBoxFlat.new()
+	rounded.bg_color = RaceView.C_GROUND
+	rounded.set_corner_radius_all(12)
+	rounded.corner_detail = 12
+	race_clip.add_theme_stylebox_override("panel", rounded)
+	frame.add_child(race_clip)
 	_race_view = RaceView.new()
 	_race_view.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_race_view.size_flags_vertical = Control.SIZE_FILL
 	_race_view.custom_minimum_size = Vector2(0, RACE_HEIGHT)
 	_race_view.clip_contents = true
-	frame.add_child(_race_view)
+	race_clip.add_child(_race_view)
 	_race_view.set_track(GameState.PROTOTYPE_TRACK)
+	_ads_controls = AdsRaceControls.new()
+	_race_view.add_child(_ads_controls)
+	_power_banner = PowerIncreaseBanner.new()
+	_race_view.add_child(_power_banner)
 	_build_race_result_panel()
 	# Gợi ý đường đua nằm trong tooltip của dòng tiến độ (không còn chỗ cho dòng chữ riêng).
 	var track: Dictionary = GameData.track(GameState.PROTOTYPE_TRACK)
@@ -546,6 +664,12 @@ func _build_race_block(v: VBoxContainer) -> void:
 	_status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_status_label.clip_text = true
 	v.add_child(_status_label)
+	_next_label = _label("", 12, C_MUTED)
+	_next_label.name = "NextUnlock"
+	_next_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_next_label.clip_text = true
+	_next_label.hide()
+	v.add_child(_next_label)
 
 	_snapshot_label = _label("", 12, C_MUTED, true)
 	_snapshot_label.hide()
@@ -555,7 +679,7 @@ func _build_race_block(v: VBoxContainer) -> void:
 	var eh := HBoxContainer.new()
 	eh.add_theme_constant_override("separation", 8)
 	_save_err_box.add_child(eh)
-	var el := _label("Không lưu được kết quả chặng. Chưa có lượt mới cho tới khi lưu xong.", 12, C_RED, true)
+	var el := _label("Không lưu được kết quả lượt đua. Chưa có lượt mới cho tới khi lưu xong.", 12, C_RED, true)
 	eh.add_child(el)
 	var retry := _button("Thử lại", true, 44.0)
 	retry.custom_minimum_size = Vector2(88, 44)
@@ -566,14 +690,18 @@ func _build_race_block(v: VBoxContainer) -> void:
 
 
 func _build_upgrade_grid(v: VBoxContainer) -> void:
-	# Hai nhóm một cột: XE ĐUA (chỉ số xe) và DOANH THU. Mỗi hàng: icon lớn, tên + chỉ số + thanh cấp, nút giá cam.
 	v.add_theme_constant_override("separation", 8)
-	_section_head(v, "XE ĐUA", "icons/car_red.png")
-	for kind: String in Balance.PARTS:
-		_add_tile(v, kind)
-	_section_head(v, "DOANH THU", "icons/cash.png")
-	for kind: String in Balance.REVENUE:
-		_add_tile(v, kind)
+	for group in [["XE ĐUA", "icons/car_red.png", Balance.PARTS, "CarUpgradeGrid"], ["DOANH THU", "icons/cash.png", Balance.REVENUE, "RevenueUpgradeGrid"]]:
+		_section_head(v, group[0], group[1])
+		var grid := GridContainer.new()
+		grid.name = group[3]
+		grid.columns = 2
+		grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		grid.add_theme_constant_override("h_separation", 8)
+		grid.add_theme_constant_override("v_separation", 8)
+		v.add_child(grid)
+		for kind: String in group[2]:
+			_add_tile(grid, kind)
 
 
 ## Tiêu đề nhóm: viên thuốc xanh đậm với icon và chữ trắng đậm.
@@ -628,6 +756,9 @@ func _build_team_page() -> void:
 
 
 func _select_team_sub(i: int) -> void:
+	if i == 1 and not GameState.feature_unlocked("U6_garage"):
+		_toast_lock("U6_garage")
+		i = 0
 	_team_sub = i
 	if _roster != null:
 		_roster.close_sheet()
@@ -657,7 +788,7 @@ func _show_gear_info(pack_id: String) -> void:
 		return
 	_sfx("ui_click")
 	_begin_overlay()
-	_overlay_box.add_child(_label("Drop Information · %s" % pack["name"], 18, C_TEXT, true))
+	_overlay_box.add_child(HdUi.close_header("Drop Information · %s" % pack["name"], _overlay.hide))
 	var tiers: Dictionary = pack["tiers"]
 	var keys: Array = tiers.keys()
 	keys.sort_custom(func(a: String, b: String) -> bool: return float(tiers[a]) > float(tiers[b]))
@@ -665,9 +796,6 @@ func _show_gear_info(pack_id: String) -> void:
 		var row := _label("%s: %s%%" % [String(k).capitalize(), str(snappedf(float(tiers[k]), 0.01))], 15)
 		_overlay_box.add_child(row)
 	_overlay_box.add_child(_label("Một coupon = một lượt mở. Có đủ coupon đúng loại thì dùng coupon trước gem.", 12, C_MUTED, true))
-	var close := _button("Đóng", false)
-	close.pressed.connect(func() -> void: _overlay.hide())
-	_overlay_box.add_child(close)
 
 
 func _on_gear_open(pack_id: String, count: int) -> void:
@@ -709,7 +837,7 @@ func _show_driver_info(pack_id: String) -> void:
 		return
 	_sfx("ui_click")
 	_begin_overlay()
-	_overlay_box.add_child(_label("Tỉ lệ · %s" % pack["name"], 18, C_TEXT, true))
+	_overlay_box.add_child(HdUi.close_header("Tỉ lệ · %s" % pack["name"], _overlay.hide))
 	var tiers: Dictionary = pack["tiers"]
 	var keys: Array = tiers.keys()
 	keys.sort_custom(func(a: String, b: String) -> bool: return float(tiers[a]) > float(tiers[b]))
@@ -717,9 +845,6 @@ func _show_driver_info(pack_id: String) -> void:
 		_overlay_box.add_child(_label("%s: %s%%" % [String(k).capitalize(), str(snappedf(float(tiers[k]), 0.01))], 15))
 	_overlay_box.add_child(_label("Bảo đảm: sau %d lượt liên tiếp chưa ra %s thì lượt thứ %d chắc chắn ra bậc này (đếm riêng từng gói)." % [int(pack["pity_draws"]) - 1, String(pack["pity_tier"]).capitalize(), int(pack["pity_draws"])], 12, C_MUTED, true))
 	_overlay_box.add_child(_label("Tay đua trùng đổi thành mảnh để nâng cấp. Một coupon = một lượt mở; có đủ coupon đúng loại thì dùng coupon trước gem.", 12, C_MUTED, true))
-	var close := _button("Đóng", false)
-	close.pressed.connect(func() -> void: _overlay.hide())
-	_overlay_box.add_child(close)
 
 
 func _on_driver_open(pack_id: String, count: int) -> void:
@@ -761,6 +886,11 @@ func _on_gear_upgrade(gear_id: String) -> void:
 
 func _build_league_page() -> void:
 	_league_box = _make_page()
+	var background := StyleBoxFlat.new()
+	background.bg_color = Color("eaf3ff")
+	background.content_margin_top = 12
+	background.content_margin_bottom = 12
+	(_league_box.get_parent() as ScrollContainer).add_theme_stylebox_override("panel", background)
 
 
 func _build_shop_page() -> void:
@@ -769,105 +899,243 @@ func _build_shop_page() -> void:
 	_shop_box.add_child(_shop_content)
 	_shop_content.daily_requested.connect(_claim_shop_daily)
 	_shop_content.offer_requested.connect(_show_shop_offer)
-	_shop_content.gem_pack_requested.connect(_buy_mock_gems)
+	_shop_content.iap_requested.connect(_buy_iap)
+	_shop_content.restore_requested.connect(_restore_iap)
+	_shop_content.ad_requested.connect(_watch_shop_ad)
+	Ads.changed.connect(_rebuild_shop)
+	Iap.changed.connect(_rebuild_shop)
 
 
-func _buy_mock_gems(index: int) -> void:
+## Mua một SKU IAP. Kết quả qua Iap.buy; thông báo ngắn theo trạng thái. Lỗi lưu: đơn còn ở store, mở game lại sẽ giao.
+func _buy_iap(sku: String) -> void:
 	_sfx("ui_click")
-	var packs: Array = GameState.mock_gem_packs()
-	if index < 0 or index >= packs.size():
-		return
-	if GameState.mock_buy_gems(index):
-		_show_toast("+%d gem (mua giả lập)" % int(packs[index]["gems"]))
-	else:
-		_show_toast("Không mua được: chưa lưu được dữ liệu.")
+	Iap.buy(sku, _on_iap_result)
+
+
+func _on_iap_result(r: Dictionary) -> void:
+	match String(r.get("status", "")):
+		"ok":
+			var g: Dictionary = GameState.last_iap_grant
+			_sfx("daily_gift")
+			_show_toast("Mua thành công" + (" · +%d gem" % int(g["gems"]) if int(g.get("gems", 0)) > 0 else ""))
+		"pending":
+			_show_toast("Đang chờ thanh toán hoàn tất.")
+		"invalid":
+			_show_toast("Giao dịch không hợp lệ.")
+		"failed":
+			_show_toast("Đã thanh toán nhưng chưa lưu được. Mở lại game để nhận hàng.")
+		"cancelled", "busy":
+			pass
+		"blocked":
+			_show_toast("Hiện chưa mua được gói này.")
+		_:
+			_show_toast("Chưa mua được, thử lại sau.")
 	_refresh()
+
+
+func _restore_iap() -> void:
+	_sfx("ui_click")
+	Iap.restore(_on_iap_restored)
+
+
+func _on_iap_restored(r: Dictionary) -> void:
+	_show_toast("Đã khôi phục giao dịch." if String(r.get("status", "")) == "ok" else "Chưa khôi phục được, thử lại sau.")
+	_refresh()
+
+
+func _show_profile() -> void:
+	if not GameState.feature_unlocked("U2_league"):
+		_toast_lock("U2_league")
+		return
+	_profile.open()
+
+
+func _show_classes() -> void:
+	if not GameState.feature_unlocked("U7_class"):
+		_toast_lock("U7_class")
+		return
+	_class_page.open()
 
 
 func _show_settings() -> void:
 	_begin_overlay()
-	_overlay_box.add_child(_label("Cài đặt", 20))
-	var snd := _card(_overlay_box)
-	snd.add_child(_label("Âm thanh", 15))
-	snd.add_child(_toggle("Nhạc nền", _music_on, func(on: bool) -> void:
+	var content := VBoxContainer.new()
+	content.name = "SettingsContent"
+	content.add_theme_constant_override("separation", 12)
+	_overlay_box.add_child(content)
+	var header := HBoxContainer.new()
+	header.alignment = BoxContainer.ALIGNMENT_CENTER
+	header.add_theme_constant_override("separation", 10)
+	content.add_child(header)
+	var gear := TextureRect.new()
+	gear.texture = HdUi.tex("icons/gear.png")
+	gear.custom_minimum_size = Vector2(36, 36)
+	gear.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	gear.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	gear.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	header.add_child(gear)
+	var title := _label("Cài đặt", 26)
+	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(title)
+	header.add_child(HdUi.close_button(_overlay.hide, "SettingsClose"))
+	var divider := HSeparator.new()
+	var line := StyleBoxLine.new()
+	line.color = Color("639ce8")
+	line.thickness = 2
+	divider.add_theme_stylebox_override("separator", line)
+	content.add_child(divider)
+	content.add_child(_label("ÂM THANH", 14))
+	_settings_audio_row(content, "MusicToggle", "Nhạc nền", "music", _music_on, func(on: bool) -> void:
 		_music_on = on
-		_set_music("music_race_loop" if GameState.phase == "racing" else "music_workshop_loop")))
-	snd.add_child(_toggle("Hiệu ứng âm thanh", _sfx_on, func(on: bool) -> void:
-		_sfx_on = on))
-	var close := _button("Đóng", true)
-	close.pressed.connect(func() -> void: _overlay.hide())
-	_overlay_box.add_child(close)
+		_set_music("music_race_loop" if GameState.phase == "racing" else "music_workshop_loop"))
+	_settings_audio_row(content, "SfxToggle", "Hiệu ứng âm thanh", "sound", _sfx_on, func(on: bool) -> void:
+		_sfx_on = on)
+	content.add_child(_label("HƯỚNG DẪN", 14))
+	_settings_audio_row(content, "TipsToggle", "Mẹo từ Linh", "help", GameState.tips_enabled(), func(on: bool) -> void:
+		GameState.set_tips_enabled(on))
+
+
+func _settings_audio_row(parent: VBoxContainer, node_name: String, text: String, icon_name: String, on: bool, cb: Callable) -> void:
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size.y = 68
+	panel.add_theme_stylebox_override("panel", HdUi.panel())
+	parent.add_child(panel)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 10)
+	panel.add_child(row)
+	var icon := _icon("icons/vector_dark/%s.svg" % icon_name, Vector2(34, 34))
+	icon.modulate = Color("2876d6") / Color("202b38")
+	row.add_child(icon)
+	var title := _label(text, 16, C_TEXT, true)
+	title.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	title.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_child(title)
+	var toggle := _toggle("", on, cb)
+	toggle.name = node_name
+	toggle.accessibility_name = text
+	toggle.tooltip_text = text
+	toggle.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	row.add_child(toggle)
 
 
 # ---------------------------------------------------------------- ô nâng cấp
 
 ## Một ô nâng cấp gọn: icon + tên/cấp, dòng hiệu ứng ngắn, nút giá. Chi tiết (gợi ý, hoàn vốn) ở tooltip.
 func _add_tile(parent: Control, kind: String) -> void:
-	var is_rev := kind in Balance.REVENUE
 	var pc := PanelContainer.new()
-	var st := HdUi.panel().duplicate() as StyleBoxTexture
+	var st := _upgrade_skin(false)
 	st.content_margin_left = 10.0
 	st.content_margin_right = 10.0
-	st.content_margin_top = 7.0
-	st.content_margin_bottom = 10.0
+	st.content_margin_top = 12.0
+	st.content_margin_bottom = 8.0
 	pc.add_theme_stylebox_override("panel", st)
 	pc.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	pc.mouse_filter = Control.MOUSE_FILTER_PASS
 	parent.add_child(pc)
+	var content := VBoxContainer.new()
+	content.add_theme_constant_override("separation", 8)
+	pc.add_child(content)
 	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 10)
-	pc.add_child(row)
+	row.add_theme_constant_override("separation", 6)
+	row.custom_minimum_size.y = 48
+	content.add_child(row)
+	var art: TextureRect
 	if ROW_ICONS.has(kind):
 		var ic := ExpansionArt.icon(kind, Vector2(44, 44))
+		art = ic
 		ic.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		row.add_child(ic)
 	var info := VBoxContainer.new()
 	info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	info.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	info.add_theme_constant_override("separation", 1)
+	info.add_theme_constant_override("separation", 2)
 	row.add_child(info)
-	var top := HBoxContainer.new()
-	top.add_theme_constant_override("separation", 6)
-	info.add_child(top)
-	var name_l := _label("", 15)
+	var name_l := _label("", 15, C_TEXT, true)
+	name_l.max_lines_visible = 2
 	name_l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	name_l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	top.add_child(name_l)
-	var eff_l := _label("", 13, C_GREEN)
-	eff_l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	info.add_child(eff_l)
-	# Thanh cấp: xanh dương cho xe, vàng cho doanh thu.
-	var bar := ProgressBar.new()
-	bar.custom_minimum_size = Vector2(0, 10)
-	bar.show_percentage = false
-	bar.max_value = Balance.max_level()
-	var bg := StyleBoxFlat.new()
-	bg.bg_color = Color("8fb0e0")
-	bg.set_corner_radius_all(5)
-	var fill := StyleBoxFlat.new()
-	fill.bg_color = Color("ffb703") if is_rev else Color("3b82f6")
-	fill.set_corner_radius_all(5)
-	bar.add_theme_stylebox_override("background", bg)
-	bar.add_theme_stylebox_override("fill", fill)
-	bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	info.add_child(bar)
+	name_l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	if kind in Balance.REVENUE:
+		row.custom_minimum_size.y = 60
+		name_l.custom_minimum_size.y = 38
+		name_l.autowrap_mode = TextServer.AUTOWRAP_WORD
+		name_l.clip_text = true
+	info.add_child(name_l)
+	var level_l := _label("", 12, C_MUTED)
+	info.add_child(level_l)
+	pc.resized.connect(func() -> void:
+		var narrow := pc.size.x < 150.0
+		name_l.add_theme_font_size_override("font_size", 13 if narrow else 15)
+		row.add_theme_constant_override("separation", 4 if narrow else 6)
+		if art != null:
+			art.custom_minimum_size = Vector2.ONE * (40 if narrow else 44))
+	var stats := HBoxContainer.new()
+	stats.alignment = BoxContainer.ALIGNMENT_CENTER
+	stats.custom_minimum_size.y = 26
+	stats.add_theme_constant_override("separation", 0)
+	content.add_child(stats)
+	var eff_l := _label("", 17, C_TEXT)
+	stats.add_child(eff_l)
+	var next_l := _label("", 17, C_GREEN)
+	stats.add_child(next_l)
 	var btn := Button.new()
-	HdUi.style_button(btn, "amber")
-	btn.custom_minimum_size = Vector2(98, 46)
+	HdUi.style_button(btn, "upgrade")
+	for state in ["normal", "hover", "pressed", "disabled"]:
+		var skin := _upgrade_skin(true)
+		if state == "hover":
+			skin.modulate_color = Color(1.06, 1.06, 1.06)
+		elif state == "pressed":
+			skin.modulate_color = Color(0.85, 0.88, 0.95)
+		elif state == "disabled":
+			skin.modulate_color = Color(0.85, 0.85, 0.85)
+		btn.add_theme_stylebox_override(state, skin)
+	btn.custom_minimum_size = Vector2(0, 44)
 	btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	btn.add_theme_font_size_override("font_size", 16)
-	btn.icon = HdUi.scaled("icons/cash.png", 0.07)
-	btn.expand_icon = true
-	btn.add_theme_constant_override("icon_max_width", 20)
-	btn.add_theme_constant_override("h_separation", 3)
+	var price_center := CenterContainer.new()
+	price_center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	price_center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	btn.add_child(price_center)
+	var price_group := HBoxContainer.new()
+	price_group.add_theme_constant_override("separation", 5)
+	price_group.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	price_center.add_child(price_group)
+	var cash_icon := HdUi.icon("icons/cash.png", Vector2(24, 24))
+	cash_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	price_group.add_child(cash_icon)
+	var price_label := _label("", 22, Color.WHITE)
+	price_label.add_theme_constant_override("outline_size", 0)
+	price_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	price_group.add_child(price_label)
 	btn.pressed.connect(_on_buy.bind(kind))
 	btn.pressed.connect(func() -> void: _sfx("ui_click"))
-	row.add_child(btn)
+	content.add_child(btn)
 	# `short` giữ cho _refresh_rows; ô không có chỗ cho dòng "Thiếu ..." nên để ẩn, nội dung đi vào tooltip.
 	var short_l := _label("", 11, C_RED)
 	short_l.hide()
 	info.add_child(short_l)
-	_rows.append({"kind": kind, "name": name_l, "eff": eff_l, "short": short_l, "btn": btn, "tile": pc, "bar": bar})
+	_rows.append({"kind": kind, "name": name_l, "level": level_l, "eff": eff_l, "next": next_l, "short": short_l, "btn": btn, "price": price_label, "cash_icon": cash_icon, "tile": pc})
+
+
+## Rounded gradient surfaces sized for the compact upgrade cards.
+func _upgrade_skin(button: bool) -> StyleBoxTexture:
+	var svg: String
+	if button:
+		svg = '<svg xmlns="http://www.w3.org/2000/svg" width="180" height="48"><defs><linearGradient id="g" x2="0" y2="1"><stop stop-color="#3477e6"/><stop offset="0.55" stop-color="#2864cf"/><stop offset="1" stop-color="#2458be"/></linearGradient></defs><rect x="1" y="4" width="178" height="43" rx="15" fill="#184999"/><rect x="1" y="1" width="178" height="43" rx="15" fill="url(#g)" stroke="#2056b3" stroke-width="2"/></svg>'
+	else:
+		svg = '<svg xmlns="http://www.w3.org/2000/svg" width="180" height="156"><defs><linearGradient id="g" x2="0.5" y2="1"><stop stop-color="#eff7ff"/><stop offset="1" stop-color="#c8dff5"/></linearGradient></defs><rect x="1" y="4" width="178" height="151" rx="18" fill="#426998"/><rect x="1" y="1" width="178" height="151" rx="18" fill="url(#g)" stroke="#477dc6" stroke-width="2"/><rect x="3" y="3" width="174" height="147" rx="16" fill="none" stroke="#ffffff" stroke-opacity="0.9" stroke-width="1.5"/></svg>'
+	var img := Image.new()
+	img.load_svg_from_string(svg)
+	var skin := StyleBoxTexture.new()
+	skin.texture = ImageTexture.create_from_image(img)
+	skin.texture_margin_left = 19
+	skin.texture_margin_right = 19
+	skin.texture_margin_top = 20
+	skin.texture_margin_bottom = 20
+	skin.content_margin_left = 0
+	skin.content_margin_right = 0
+	skin.content_margin_top = 0
+	skin.content_margin_bottom = 0
+	return skin
 
 
 func _on_buy(kind: String) -> void:
@@ -883,87 +1151,70 @@ func _on_buy(kind: String) -> void:
 		_sfx("ui_error")
 
 
-func _row_text(kind: String) -> Array:
-	var lv: int = GameState.level_of(kind)
-	var maxed: bool = lv >= Balance.max_level()
-	if kind in Balance.REVENUE:
-		var cfg: Dictionary = GameData.economy()["revenue_upgrades"][kind]
-		var current: BigNumber = GameState.online_rate()
-		var eff := "Tổng thu nhập %s/giây" % Balance.fmt_rate(current)
-		if not maxed:
-			var next_levels: Dictionary = GameState.levels.duplicate()
-			next_levels[kind] = lv + 1
-			var next_rate := Pricing.revenue_rate(next_levels, GameState.business_tier)
-			var delta := next_rate.subtract_checked(current)
-			eff = "%s → %s/giây · +%s/giây" % [Balance.fmt_rate(current), Balance.fmt_rate(next_rate), Balance.fmt_rate(delta)]
-			var payback: BigNumber = GameState.cost_of(kind).divide(delta).ceil_number()
-			eff += "\nHoàn vốn khoảng %s giây" % payback.format_compact()
-		if kind == "grandstands":
-			eff += " · %s chỗ" % Pricing.revenue_value(kind, lv).floor_number().format_compact()
-		return ["%s · cấp %d" % [String(cfg["name"]), lv], eff]
-	var now: float = GameState.part_stat(kind, lv)
-	var stat: String = Balance.PART_STATS[kind]
-	var eff := "%s %.1f" % [stat, now]
-	if not maxed:
-		eff = "%s %.1f → %.1f" % [stat, now, GameState.part_stat(kind, lv + 1)]
-	return ["%s · cấp %d" % [Balance.PART_NAMES[kind], lv], eff]
-
-
 func _refresh_rows() -> void:
+	# Gọi 5 lần/giây: chỉ tính phần thật sự hiện trên ô, và chỉ đặt lại màu khi đổi (đổi theme override rất tốn).
+	var rate: BigNumber = GameState.online_rate()
 	for r in _rows:
 		var kind: String = r["kind"]
-		var t := _row_text(kind)
 		var lv: int = GameState.level_of(kind)
 		var maxed: bool = lv >= Balance.max_level()
-		var full_name: String = t[0]
-		var parts := full_name.split(" · cấp ")
-		(r["name"] as Label).text = parts[0]
-		(r["bar"] as ProgressBar).value = lv
+		if kind in Balance.REVENUE:
+			(r["name"] as Label).text = String(GameData.economy()["revenue_upgrades"][kind]["name"])
+		else:
+			(r["name"] as Label).text = String(Balance.PART_NAMES[kind])
+		(r["level"] as Label).text = "Cấp %d" % lv
 		# Dòng ngắn trên ô: xe "Speed 46 → 48"; doanh thu "+x/giây" (hết cấp thì giá trị hiện tại).
-		var short_eff: String = String(t[1]).split("
-")[0]
+		var short_eff := ""
 		if kind in Balance.PARTS:
 			short_eff = "%.1f" % GameState.part_stat(kind, lv) if maxed else "%.1f → %.1f" % [GameState.part_stat(kind, lv), GameState.part_stat(kind, lv + 1)]
-		if kind in Balance.REVENUE:
+		elif kind in Balance.REVENUE:
 			if maxed:
-				short_eff = Balance.fmt_rate(GameState.online_rate()) + "/giây"
+				short_eff = Balance.fmt_rate(rate) + "/giây"
 			else:
 				var nl: Dictionary = GameState.levels.duplicate()
 				nl[kind] = lv + 1
-				var delta := Pricing.revenue_rate(nl, GameState.business_tier).subtract_checked(GameState.online_rate())
+				var delta := Pricing.revenue_rate(nl, GameState.business_tier).subtract_checked(rate)
 				short_eff = "+%s/giây" % Balance.fmt_rate(delta)
-		var tip: String = String(t[1])
-		if Balance.PART_HINTS.has(kind):
-			tip += "
-" + String(Balance.PART_HINTS[kind])
-		(r["eff"] as Label).text = short_eff
+		var values := short_eff.split(" → ")
+		(r["eff"] as Label).text = values[0] + (" → " if values.size() > 1 else "")
+		(r["next"] as Label).text = values[1] if values.size() > 1 else ""
+		_set_font_color(r, "eff", C_GREEN if kind in Balance.REVENUE else C_TEXT)
 		var btn: Button = r["btn"]
 		var cost: BigNumber = GameState.cost_of(kind)
-		match GameState.upgrade_state(kind):
+		var st := GameState.upgrade_state(kind)
+		match st:
 			"ok":
-				btn.text = Balance.fmt_money(cost)
+				(r["price"] as Label).text = Balance.fmt_money(cost)
 				btn.disabled = false
 			"short":
-				btn.text = Balance.fmt_money(cost)
+				(r["price"] as Label).text = Balance.fmt_money(cost)
 				btn.disabled = true
-				tip += "
-Thiếu %s" % Balance.fmt_money(cost.subtract_checked(GameState.coins))
 			"save_error", "invalid":
-				btn.text = "Chờ lưu"
+				(r["price"] as Label).text = "Chờ lưu"
 				btn.disabled = true
 			"maxed":
-				btn.text = "Tối đa"
+				(r["price"] as Label).text = "Tối đa"
 				btn.disabled = true
-		if GameState.applies_next_race(kind):
-			tip += "
-Áp dụng từ lượt sau"
-		tip += "
-" + cost.format_scientific() + " tiền"
+		_set_font_color(r, "price", Color("7a8aa6") if btn.disabled else Color.WHITE)
+		(r["cash_icon"] as TextureRect).modulate.a = 0.5 if btn.disabled else 1.0
+
+
+## Đặt màu chữ của nhãn r[key] chỉ khi khác lần trước (nhớ trong chính dict của ô).
+func _set_font_color(r: Dictionary, key: String, c: Color) -> void:
+	var mem := "_color_" + key
+	if r.has(mem) and r[mem] == c:
+		return
+	r[mem] = c
+	(r[key] as Label).add_theme_color_override("font_color", c)
 
 
 # ---------------------------------------------------------------- làm mới
 
 func _select_tab(i: int) -> void:
+	var fid := _tab_feature(i)
+	if fid != "" and not GameState.feature_unlocked(fid):
+		_toast_lock(fid)
+		return
 	_tab = i
 	_header_avatar.visible = i != Tab.SHOP
 	# Khung đua cùng kích thước ở Đua/Túi/Đội; Giải/Shop dành toàn bộ chỗ cho nội dung.
@@ -986,8 +1237,8 @@ func _select_tab(i: int) -> void:
 
 
 func _refresh_light() -> void:
+	_refresh_locks()
 	_coin_label.text = Balance.fmt_compact(GameState.coins)
-	_income_label.text = "Thu nhập %s/giây" % Balance.fmt_rate(GameState.online_rate())
 	_gem_label.text = Balance.fmt_int(GameState.gems)
 	_refresh_rows()
 	_refresh_catalog()
@@ -1002,8 +1253,11 @@ func _refresh_light() -> void:
 
 func _refresh() -> void:
 	_refresh_light()
-	var stage_no := mini(GameState.stage_index + 1, Balance.stages())
-	_progress_label.text = "%s · Mùa %d · Chặng %d/%d" % [Balance.league_name(GameState.business_tier), GameState.season_number, stage_no, Balance.stages()]
+	if _active:
+		_power_banner.observe_power(GameState.team_power())
+	else:
+		_power_banner.reset_power(GameState.team_power())
+	_progress_label.text = Balance.league_name(GameState.business_tier)
 	_update_race_ui()
 	if _roster != null and _tab == Tab.TEAM:
 		_roster.refresh()
@@ -1032,106 +1286,91 @@ func _refresh_catalog() -> void:
 			var owned := id in GameState.owned_drivers
 			var disabled := blocked or id == GameState.active_driver_id or (not owned and (not GameState.driver_unlocked(id) or GameState.scout_points < Pricing.scout_sp_cost(GameState.recruit_index()) or GameState.coins.compare(Pricing.scout_coin_cost(id)) < 0))
 			item["button"].call("set_action_disabled", disabled)
-	if is_instance_valid(_expansion_button):
-		var state := GameState.expansion_state()
-		_expansion_button.disabled = state != "ok" or GameState.expansion_requested
-		if is_instance_valid(_expansion_status):
-			_expansion_status.text = _expansion_text(state) + "\nPhí: " + Pricing.expansion_cost(GameState.business_tier).format_compact()
-
-
-func _expansion_text(state: String) -> String:
-	return {"points": "Cần hoàn tất một mùa từ 36 điểm.", "revenue": "Cần cả bốn nguồn doanh thu từ cấp 12.", "car": "Cần chọn xe đủ hạng cho giải kế tiếp.", "short": "Chưa đủ tiền mở cơ sở.", "save_error": "Đang chờ lưu tiến trình.", "ok": "Đã đủ điều kiện mở rộng."}.get(state, "")
+var _trophy_group := "offense"  # nhóm đang xem ở bảng cúp
 
 
 func _rebuild_league() -> void:
-	_expansion_button = null
-	_expansion_status = null
 	_clear(_league_box)
-	var league_title := _label("Giải %s · Mùa %d" % [Balance.league_name(GameState.business_tier), GameState.season_number], 18)
-	_halo(league_title)
-	_league_box.add_child(league_title)
-	var total := 0
-	for r in GameState.season_results:
-		total += int(r["points"])
-	var promote := maxi(1, Balance.promote_points())
-	_make_card("league_card", {
-		"item_id": "season", "title": "%s · Mùa %d" % [Balance.league_name(GameState.business_tier), GameState.season_number],
-		"subtitle": "Điểm %d · Mục tiêu thăng hạng %d/%d" % [total, Balance.promote_points(), Balance.max_season_points()],
-		"image_path": ROOT + "badges/rookie.svg", "action_text": "",
-		"progress": 100.0 * float(mini(total, promote)) / float(promote),
-	}, _league_box)
-	var track_name: String = GameData.track(GameState.PROTOTYPE_TRACK)["name"]
-	for i in Balance.stages():
-		var title := "Chặng %d · %s" % [i + 1, track_name]
-		var card := {"item_id": "stage%d" % i, "title": title, "action_text": "", "progress": 0.0}
-		if i < GameState.season_results.size():
-			var r: Dictionary = GameState.season_results[i]
-			card["subtitle"] = "P%d · +%d điểm · +%s tiền" % [int(r["position"]), int(r["points"]), Balance.fmt_money(r["money"])]
-			card["image_path"] = ROOT + "icons/vector_dark/check.svg"
-			card["progress"] = 100.0
-		elif i == GameState.stage_index:
-			card["subtitle"] = "Đang đua" if GameState.phase == "racing" else "Sắp xuất phát"
-			card["image_path"] = ROOT + "icons/vector_dark/flag.svg"
-			card["selected"] = true
-		else:
-			card["subtitle"] = "Chưa mở"
-			card["image_path"] = ROOT + "icons/vector_dark/lock.svg"
-			card["disabled"] = true
-		_make_card("mission_card", card, _league_box)
-	if not GameState.last_season.is_empty():
-		var ls := _card(_league_box)
-		var lsr: Dictionary = GameState.last_season
-		ls.add_child(_label("Tổng kết mùa %d: %d/%d điểm" % [int(lsr["season_number"]), int(lsr["season_points"]), Balance.max_season_points()], 14))
-		var lsb := _button("Xem chi tiết", false, 44.0)
-		lsb.pressed.connect(func() -> void: _show_summary(GameState.last_season.duplicate(true)))
-		ls.add_child(lsb)
-	var t := _card(_league_box)
-	t.add_child(_label("Bảng quy đổi vị trí", 14))
-	var lines := ""
-	for p in 8:
-		lines += "P%d: %d điểm · khoảng %s tiền\n" % [p + 1, Pricing.race_points(p + 1), Balance.fmt_money(Pricing.race_money(p + 1, GameState.online_rate(), Balance.race_duration(GameState.PROTOTYPE_TRACK) / RACE_SPEED))]
-	t.add_child(_label(lines.strip_edges(), 12, C_MUTED, true))
-	t.add_child(_label("Chỉ có kết quả của đội bạn; chưa giả lập BXH mùa của cả tám đội.", 12, C_MUTED, true))
-
-	var expansion := GameState.expansion_state()
-	if expansion != "complete":
-		var box := _card(_league_box)
-		box.add_child(ExpansionArt.icon("facility_tier_%d" % clampi(GameState.business_tier + 1, 1, 5), Vector2(0, 100)))
-		box.add_child(_label("Mở cơ sở " + Balance.league_name(GameState.business_tier + 1), 16))
-		_expansion_status = _label(_expansion_text(expansion) + "\nPhí: " + Pricing.expansion_cost(GameState.business_tier).format_compact(), 12, C_MUTED, true)
-		box.add_child(_expansion_status)
-		var btn := _button("Đang chờ hết lượt" if GameState.expansion_requested else "Xem mở cơ sở", true, 44.0)
-		btn.disabled = expansion != "ok" or GameState.expansion_requested
-		btn.pressed.connect(_confirm_expansion)
-		box.add_child(btn)
-		_expansion_button = btn
+	_build_trophy_panel()
 
 
-func _confirm_expansion() -> void:
-	_begin_overlay()
-	var next_tier := GameState.business_tier + 1
-	_overlay_box.add_child(_label("Mở cơ sở " + Balance.league_name(next_tier), 18))
-	_overlay_box.add_child(_label("Phí %s tiền. Giữ ví, xe, cấp xe và tay đua. Bốn nguồn doanh thu bắt đầu cấp 0 tại cơ sở mới; cơ sở cũ ngừng thu nhập. Mùa dở được ghi lịch sử, không nhận thưởng hoàn tất." % Pricing.expansion_cost(GameState.business_tier).format_compact(), 13, C_TEXT, true))
-	_overlay_box.add_child(_label("Thu nhập mới %s/giây · Vốn khai trương %s tiền. Chuyển sau khi chốt lượt đang đua." % [Balance.fmt_rate(Pricing.revenue_rate({}, next_tier)), Pricing.opening_reserve(next_tier).format_compact()], 13, C_GREEN, true))
-	var confirm := _button("Mở cơ sở", true)
-	confirm.pressed.connect(func() -> void:
-		if GameState.request_expansion():
-			_overlay.hide()
-		else:
-			_show_toast("Chưa mở được cơ sở. Kiểm tra điều kiện hoặc thử lưu lại."))
-	_overlay_box.add_child(confirm)
-	var cancel := _button("Để sau", false)
-	cancel.pressed.connect(func() -> void: _overlay.hide())
-	_overlay_box.add_child(cancel)
+## Bảng nâng cấp bằng cúp ở tab Giải (dựng trong ui/trophy_panel.gd).
+func _build_trophy_panel() -> void:
+	TrophyPanel.build(_league_box, _trophy_group, _set_trophy_group, _buy_trophy)
+
+
+func _set_trophy_group(group: String) -> void:
+	_sfx("ui_click")
+	_trophy_group = group
+	_rebuild_league()
+
+
+func _buy_trophy(id: String) -> void:
+	_sfx("ui_click")
+	if not GameState.buy_trophy_upgrade(id):
+		_show_toast("Chưa nâng được. Kiểm tra số cúp hoặc thử lưu lại.")
 
 
 func _rebuild_shop() -> void:
 	if not is_instance_valid(_shop_content):
 		return
 	_shop_content.update_daily(
-		Balance.fmt_money(Pricing.daily_gift(GameState.online_rate())),
+		Balance.fmt_money(GameState.daily_gift_amount()),
 		int(GameData.economy()["rewards"]["daily_gems"]),
 		GameState.daily_available(), GameState.save_blocked or GameState.phase == "save_error")
+	_shop_content.update_iap(_iap_view())
+	_shop_content.update_ads(_ads_view())
+
+
+## Dữ liệu IAP cho trang Shop (view không gọi autoload): {sku: {price, reason, first_bonus}} + trạng thái chung.
+func _iap_view() -> Dictionary:
+	var items := {}
+	for p: Dictionary in Iap.products():
+		var sku := String(p["sku"])
+		items[sku] = {"price": Iap.price(sku), "reason": Iap.block_reason(sku),
+			"first_bonus": p.has("first_bonus") and not sku in GameState.iap["first_bonus_used"]}
+	return {"items": items, "busy": Iap.is_busy(), "restorable": Iap.restorable()}
+
+
+## Dữ liệu thẻ quảng cáo cho trang Shop: {placement: {state, left, reward, entitled}}.
+func _ads_view() -> Dictionary:
+	var out := {}
+	for pl in ["free_gems", "free_driver_coupon", "free_gear_coupon"]:
+		var st: Dictionary = Ads.card_state(pl)
+		st["reward"] = _ad_reward_text(pl)
+		st["entitled"] = Ads.entitled()
+		out[pl] = st
+	return out
+
+
+## Chữ phần thưởng của một placement quảng cáo miễn phí, đọc thẳng từ data/ads.json: "+5 gem", "+1 Coupon Pro".
+func _ad_reward_text(pl: String) -> String:
+	var cfg: Dictionary = (GameData.ads().get("placements", {}) as Dictionary).get(pl, {})
+	match String(cfg.get("reward", "")):
+		"gems":
+			return "+%d gem" % int(cfg.get("amount", 0))
+		"driver_coupon":
+			return "+%d Coupon %s" % [int(cfg.get("count", 1)), String(cfg.get("kind", "")).capitalize()]
+		"gear_coupon":
+			return "+%d Coupon Gear" % int(cfg.get("count", 1))
+	return ""
+
+
+func _watch_shop_ad(pl: String) -> void:
+	_sfx("ui_click")
+	var done := func(r: Dictionary) -> void:
+		var status := String(r.get("status", ""))
+		if status in ["rewarded", "skipped_entitled"]:
+			_sfx("daily_gift")
+			_show_toast(_ad_reward_text(pl))
+		else:
+			_show_toast(Ads.status_text(status))
+		_rebuild_shop()
+	if Ads.has_pending(pl):
+		Ads.retry_pending(pl, done)
+	else:
+		Ads.try_show_rewarded(pl, done)
+	_rebuild_shop()
 
 
 func _claim_shop_daily() -> void:
@@ -1147,7 +1386,7 @@ func _claim_shop_daily() -> void:
 func _show_shop_offer(title: String, description: String) -> void:
 	_sfx("ui_click")
 	_begin_overlay()
-	_overlay_box.add_child(_label(title, 20))
+	_overlay_box.add_child(HdUi.close_header(title, _overlay.hide, 20))
 	_overlay_box.add_child(_label(description, 14, C_TEXT, true))
 	_overlay_box.add_child(_label("Sắp có · Gói này chưa mở bán. Nội dung và giá có thể thay đổi khi ra mắt.", 13, C_MUTED, true))
 	var close := _button("Đã hiểu", true)
@@ -1160,8 +1399,21 @@ func _show_shop_offer(title: String, description: String) -> void:
 func _process(delta: float) -> void:
 	if not _active:
 		return
+	_power_banner.set_suspended(not _race_block.visible or _overlay.visible or _result_panel.visible or (is_instance_valid(_profile) and _profile.visible))
 	# Bảng tổng kết tự tắt sau RESULT_SHOW_SEC giây (thời gian thật) rồi thả đua tiếp.
-	if _result_panel.visible:
+	var modal_open: bool = _overlay.visible or (is_instance_valid(_profile) and _profile.visible) \
+		or (is_instance_valid(_class_page) and _class_page.visible)
+	_ads_controls.blocked = modal_open or _result_panel.visible or _tab != Tab.RACE or _tutorial.running \
+		or _tutorial.intro != "" or GameState.phase != "racing"
+	if _tutorial.intro != "":
+		var tab_ok: bool = _tip_tab_ok(Tutorial.tip(_tutorial.intro)) if _tutorial.tip_mode else _intro_tab_ok(Tutorial.feature(_tutorial.intro))
+		_tutorial.blocked = modal_open or _result_panel.visible or not tab_ok
+	else:
+		_tutorial.blocked = _tab != Tab.RACE or modal_open
+		if not modal_open and not _result_panel.visible:
+			_pump_intro()
+	# A6 của hướng dẫn giữ bảng kết quả tới khi đọc xong (Design/23 §4).
+	if _result_panel.visible and not _tutorial.holds_result():
 		_result_timer -= delta
 		if is_instance_valid(_result_bar):
 			_result_bar.value = maxf(_result_timer, 0.0)
@@ -1203,7 +1455,12 @@ func _on_race_finished(res: Dictionary) -> void:
 		GameState.result_hold = true
 		_show_race_result(res.duplicate(true))
 	if _shot_prefix == "" and _race_view != null:
-		_spawn_fx("finish_flash", _race_view.global_position + _race_view.size * 0.5 - global_position, 2.0)
+		# Keep the flash inside the clipped race viewport and below result/profile/modal UI.
+		var flash := (load(ROOT + "vfx/finish_flash.tscn") as PackedScene).instantiate() as Node2D
+		flash.position = _race_view.size * 0.5
+		flash.scale = Vector2.ONE * 2.0
+		_race_view.add_child(flash)
+		_race_view.move_child(flash, 0)
 
 
 ## Trạng thái vòng lặp: countdown / thời gian còn lại / vị trí; lỗi lưu.
@@ -1233,6 +1490,8 @@ func _update_race_ui() -> void:
 			_status_label.text = "Hết giờ · P%d/%d" % [int(gs.last_result.get("position", 1)), Balance.CAR_COUNT]
 	_race_view.overlay_text = overlay
 	_race_view.power_value = gs.team_power()
+	_race_view.set_seats(Pricing.revenue_value("parking", int(gs.levels.get("parking", 0))))
+	_race_view.queue_redraw()
 	_save_err_box.visible = gs.phase == "save_error"
 	var differs := false
 	if gs.phase == "racing" and not gs.race_snapshot.is_empty():
@@ -1375,10 +1634,15 @@ func _show_race_result(res: Dictionary) -> void:
 	# Các dòng thưởng.
 	_result_box.add_child(_result_row("Tiền", "+%s" % Balance.fmt_money(res["money"]), green.darkened(0.1)))
 	_result_box.add_child(HSeparator.new())
-	_result_box.add_child(_result_row("Điểm mùa", "+%d" % int(res["points"]), Color("5d6b80")))
-	if bool(res.get("season_done", false)):
+	if int(res.get("trophies", 0)) > 0:
+		_result_box.add_child(_result_row("Cúp", "+%d · có %d/%d" % [int(res["trophies"]), GameState.trophies_earned, GameState.trophy_cap()], C_GOLD.darkened(0.35)))
 		_result_box.add_child(HSeparator.new())
-		_result_box.add_child(_result_row("Hoàn tất mùa %d" % int(res["season_number"]), "+%s" % Balance.fmt_money(res.get("completion_reward", 0)), green.darkened(0.1)))
+	_result_box.add_child(_result_row("Điểm tuyển (SP)", "+%d" % Pricing.scout_points(int(res["points"])), Color("5d6b80")))
+	for u: Dictionary in res.get("unlocked", []):
+		_result_box.add_child(HSeparator.new())
+		_result_box.add_child(_result_row("Mở khóa", String(u["name"]), C_GOLD.darkened(0.35)))
+		if String(u.get("gift", "")) != "":
+			_result_box.add_child(_result_row("Quà", String(u["gift"]), green.darkened(0.1)))
 	# Thanh thời gian còn lại của bảng.
 	_result_bar = ProgressBar.new()
 	_result_bar.show_percentage = false
@@ -1389,6 +1653,8 @@ func _show_race_result(res: Dictionary) -> void:
 	_result_box.add_child(_result_bar)
 	_result_timer = RESULT_SHOW_SEC
 	_result_panel.show()
+	if _tutorial.on_result(res) and is_instance_valid(_result_bar):
+		_result_bar.hide()  # không đếm ngược khi Linh đang giải thích
 
 
 ## Overlay chỉ còn dùng cho báo cáo vắng mặt lúc vào game; kết quả/tổng kết là thông tin xem lại, không điều khiển đua.
@@ -1401,6 +1667,8 @@ func _open_next_overlay() -> void:
 
 func _begin_overlay() -> void:
 	_clear(_overlay_box)
+	_overlay_box.add_theme_constant_override("separation", 8)
+	(_overlay_box.get_parent().get_parent() as PanelContainer).add_theme_stylebox_override("panel", HdUi.panel(6.0))
 	_overlay.show()
 	_fit_overlay.call_deferred()
 
@@ -1413,6 +1681,12 @@ func _fit_overlay() -> void:
 	var frame := panel.get_theme_stylebox("panel")
 	# Account for the screen gutters and the panel's own padding on narrow phones.
 	sc.custom_minimum_size.x = minf(316.0, maxf(0.0, size.x - 32.0 - frame.get_minimum_size().x))
+	# Wrapped labels need the final width before their height can be measured.
+	# A first-open measurement at the old/zero width makes the panel screen-high.
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if not is_instance_valid(sc):
+		return
 	var wanted := _overlay_box.get_combined_minimum_size().y
 	sc.custom_minimum_size.y = minf(wanted, maxf(200.0, size.y - 120.0))
 
@@ -1431,50 +1705,405 @@ func _celebrate(fx: String) -> void:
 	_spawn_fx(fx, Vector2(size.x * 0.5, size.y * 0.3), 3.0)
 
 
+## Compact duration shared by the offline report and its configurable cap.
+func _offline_duration(seconds: float) -> String:
+	var minutes := int(maxf(seconds, 0.0) / 60.0)
+	if minutes < 1:
+		return "%d giây" % int(maxf(seconds, 0.0))
+	if minutes < 60:
+		return "%d phút" % minutes
+	if minutes % 60 == 0:
+		return "%d giờ" % (minutes / 60)
+	return "%d giờ %d phút" % [minutes / 60, minutes % 60]
+
+
+func _offline_center(text: String, font_size: int, color: Color = C_TEXT) -> Label:
+	var label := _label(text, font_size, color, true)
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	return label
+
+
+func _offline_row(parent: VBoxContainer, caption: String, value: String) -> void:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
+	parent.add_child(row)
+	var key := _label(caption, 12, C_MUTED, true)
+	key.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(key)
+	var number := _label(value, 13)
+	number.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	row.add_child(number)
+
+
 func _show_offline() -> void:
+	GameState.note_offline_shown()  # mẹo C1 hiện sau khi người chơi đóng panel
 	_begin_overlay()
 	var rep: Dictionary = GameState.offline_report
-	_overlay_box.add_child(_label("Chào mừng quay lại", 18))
-	_overlay_box.add_child(_art("rewards/money_bag.tres", 110.0))
+	var elapsed := maxf(float(rep["elapsed"]), 0.0)
+	var cap := GameState.offline_cap_sec_now()
+	var eligible := float(rep.get("eligible", minf(elapsed, cap)))
+	_overlay_box.add_theme_constant_override("separation", 12)
+	var frame := _style(Color("dfedff"), 18, Color("81b3ed"), 2)
+	frame.content_margin_left = 12
+	frame.content_margin_right = 12
+	frame.content_margin_top = 10
+	frame.content_margin_bottom = 12
+	frame.shadow_color = Color(0.03, 0.12, 0.25, 0.3)
+	frame.shadow_size = 4
+	(_overlay_box.get_parent().get_parent() as PanelContainer).add_theme_stylebox_override("panel", frame)
+	var header := HBoxContainer.new()
+	header.add_theme_constant_override("separation", 4)
+	_overlay_box.add_child(header)
+	var title := _offline_center("THU NHẬP NGOẠI TUYẾN", 18)
+	title.name = "OfflineTitle"
+	title.autowrap_mode = TextServer.AUTOWRAP_OFF
+	title.clip_text = true
+	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(title)
+	# Keep a single-line title at the largest size that fits each phone width.
+	title.resized.connect(func() -> void:
+		var font := title.get_theme_font("font")
+		var font_size := 18
+		while font_size > 10 and font.get_string_size(title.text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x > title.size.x:
+			font_size -= 1
+		title.add_theme_font_size_override("font_size", font_size))
+	var info := Button.new()
+	info.name = "OfflineInfo"
+	info.custom_minimum_size = Vector2(36, 44)
+	info.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	for state in ["normal", "hover", "pressed", "disabled", "focus"]:
+		info.add_theme_stylebox_override(state, StyleBoxEmpty.new())
+	info.icon = load(ROOT + "icons/vector/offline_info.svg")
+	info.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	info.tooltip_text = "Chi tiết thu nhập ngoại tuyến"
+	info.pressed.connect(func() -> void: _sfx("ui_click"))
+	header.add_child(info)
+	_overlay_box.add_child(_art("rewards/offline_garage.png", 145.0))
 	_sfx("coin_pickup")
-	var mins := int(float(rep["elapsed"]) / 60.0)
-	_overlay_box.add_child(_label("Bạn vắng %d phút. Tính tối đa %d phút." % [mins, int(Balance.offline_cap_sec() / 60.0)], 13, C_MUTED, true))
-	_overlay_box.add_child(_label("Thu nhập cơ sở %s/giây × hệ số %d%%" % [Balance.fmt_rate(rep["rate"]), int(float(rep["ratio"]) * 100.0)], 13, C_TEXT, true))
-	var big := _label("+%s tiền" % Balance.fmt_money(rep["reward"]), 28, C_GOLD)
-	big.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_overlay_box.add_child(big)
-	_overlay_box.add_child(_label("Đội không đua khi bạn vắng mặt; tiến trình giải không đổi.", 12, C_MUTED, true))
-	var b := _button("Tiếp tục", true)
-	b.pressed.connect(func() -> void:
+	var reward_panel := PanelContainer.new()
+	reward_panel.add_theme_stylebox_override("panel", _style(Color("fff3cf"), 16, Color("efc465"), 1))
+	_overlay_box.add_child(reward_panel)
+	var reward_center := CenterContainer.new()
+	reward_panel.add_child(reward_center)
+	var reward_group := HBoxContainer.new()
+	reward_group.add_theme_constant_override("separation", 8)
+	reward_center.add_child(reward_group)
+	reward_group.add_child(HdUi.icon("icons/cash.png", Vector2(42, 42)))
+	var amount := _label("+%s" % Balance.fmt_money(rep["reward"]), 36, C_GOLD)
+	amount.name = "OfflineAmount"
+	reward_group.add_child(amount)
+	var progress := ProgressBar.new()
+	progress.name = "OfflineProgress"
+	progress.custom_minimum_size.y = 14
+	progress.show_percentage = false
+	progress.max_value = maxf(cap, 1.0)
+	progress.value = clampf(eligible, 0.0, cap)
+	var track_style := _style(Color("9ebfe8"), 7)
+	track_style.set_content_margin_all(0)
+	progress.add_theme_stylebox_override("background", track_style)
+	var progress_fill := _style(Color("ffbd35"), 7)
+	progress_fill.content_margin_left = 0
+	progress_fill.content_margin_right = 0
+	progress_fill.content_margin_top = 0
+	progress_fill.content_margin_bottom = 0
+	progress.add_theme_stylebox_override("fill", progress_fill)
+	_overlay_box.add_child(progress)
+	var time_text := "%d/%d phút" % [int(eligible / 60.0), int(cap / 60.0)]
+	if eligible >= cap:
+		time_text = "Đã đầy · " + time_text
+	_overlay_box.add_child(_offline_center(time_text, 16))
+	var details_panel := PanelContainer.new()
+	details_panel.name = "OfflineDetails"
+	details_panel.add_theme_stylebox_override("panel", _style(Color("d1e7ff"), 14))
+	_overlay_box.add_child(details_panel)
+	var details := VBoxContainer.new()
+	details.add_theme_constant_override("separation", 6)
+	details_panel.add_child(details)
+	_offline_row(details, "Vắng mặt", _offline_duration(elapsed))
+	_offline_row(details, "Tính thu nhập", _offline_duration(eligible))
+	details.add_child(_offline_center("%s tiền/giây × %d%% hiệu suất" % [Balance.fmt_rate(rep["rate"]), int(float(rep["ratio"]) * 100.0)], 12))
+	details.add_child(_offline_center("Chỉ tích lũy thu nhập cơ sở.\nĐội không đua; tiến trình giải được giữ nguyên.", 12, C_MUTED))
+	details_panel.hide()
+	info.pressed.connect(func() -> void:
+		details_panel.visible = not details_panel.visible
+		_fit_overlay.call_deferred())
+	var button := _button("Tiếp tục", true)
+	button.name = "OfflineContinue"
+	button.custom_minimum_size.y = 52
+	button.add_theme_font_size_override("font_size", 20)
+	for state in ["normal", "hover", "pressed", "disabled"]:
+		var skin := StyleBoxTexture.new()
+		skin.texture = load(ROOT + "icons/vector/offline_continue.svg")
+		skin.texture_margin_left = 24
+		skin.texture_margin_right = 24
+		skin.texture_margin_top = 24
+		skin.texture_margin_bottom = 24
+		skin.content_margin_left = 12
+		skin.content_margin_right = 12
+		skin.content_margin_top = 8
+		skin.content_margin_bottom = 8
+		if state == "hover":
+			skin.modulate_color = Color(1.0, 1.0, 0.9)
+		elif state == "pressed":
+			skin.modulate_color = Color(0.9, 0.85, 0.7)
+		button.add_theme_stylebox_override(state, skin)
+
+	button.pressed.connect(func() -> void:
 		GameState.offline_report = {}
 		_open_next_overlay())
-	_overlay_box.add_child(b)
+	_overlay_box.add_child(button)
 
 
-## Tổng kết mùa (xem lại ở tab Giải): mùa đã tự chuyển, đóng bảng không đổi trạng thái.
-func _show_summary(res: Dictionary) -> void:
-	if res.is_empty():
+# ---------------------------------------------------------------- hướng dẫn đầu game
+
+func _start_tutorial() -> void:
+	if _cli_tut_done:
+		GameState.tutorial["state"] = "done"
+	if _cli_gated:
+		GameState.tutorial["gated"] = true
+	if _cli_races >= 0:
+		GameState.completed_races = _cli_races
+	for pair in _cli_levels.split(",", false):
+		var kv := pair.split(":")
+		if kv.size() == 2 and GameState.levels.has(kv[0]):
+			GameState.levels[kv[0]] = int(kv[1])
+	if (_shot_prefix != "" or _auto_race) and not _cli_tutorial:
+		return  # giữ nguyên ảnh chụp/auto-race cũ
+	if _cli_tutorial_step != "" and Tutorial.is_step(_cli_tutorial_step):
+		GameState.set_tutorial("active", _cli_tutorial_step, {"power_before": GameState.team_power()})
+	if _tutorial.start() and _cli_tutorial_step != "":
+		_tutorial._resumed = false  # nhảy bước để chụp ảnh: không phải người chơi quay lại
+
+
+func _row_of(kind: String) -> Dictionary:
+	for r: Dictionary in _rows:
+		if r["kind"] == kind:
+			return r
+	return {}
+
+
+## Tính năng điều khiển từng tab ("" = tab luôn mở).
+func _tab_feature(tab: int) -> String:
+	match tab:
+		Tab.BAG:
+			return "U3_bag"
+		Tab.TEAM:
+			return "U5_drivers"
+		Tab.LEAGUE:
+			return "U2_league"
+		Tab.SHOP:
+			return "U4_shop"
+	return ""
+
+
+func _toast_lock(fid: String) -> void:
+	var f := Tutorial.feature(fid)
+	if f.is_empty():
 		return
-	_begin_overlay()
-	_overlay_box.add_child(_label("Tổng kết mùa %d" % int(res.get("season_number", 1)), 18))
-	_overlay_box.add_child(_art("rewards/rookie_cup.tres", 110.0))
-	var pts := int(res.get("season_points", 0))
-	var big := _label("%d/%d điểm" % [pts, Balance.max_season_points()], 30, C_GOLD)
-	big.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_overlay_box.add_child(big)
-	var rows: Array = res.get("season_rows", [])
-	var lines := ""
-	for i in rows.size():
-		lines += "Chặng %d: P%d · +%d điểm\n" % [i + 1, int(rows[i]["position"]), int(rows[i]["points"])]
-	_overlay_box.add_child(_label(lines.strip_edges(), 13, C_TEXT, true))
-	_overlay_box.add_child(_label("Thưởng hoàn tất mùa: +%s tiền" % Balance.fmt_money(res.get("completion_reward", 0)), 14, C_GREEN, true))
-	var qualified := bool(res.get("qualified", false))
-	var msg := "Đạt %d điểm trở lên: mở quyền vào giải kế tiếp. Xem điều kiện xe và mở cơ sở trong tab Giải." % Balance.promote_points() if qualified \
-		else "Chưa đạt %d điểm nên ở lại giải này. Không bị tụt hạng." % Balance.promote_points()
-	_overlay_box.add_child(_label(msg + " Mùa mới đã tự bắt đầu.", 12, C_MUTED, true))
-	var b := _button("Đóng", true)
-	b.pressed.connect(func() -> void: _overlay.hide())
-	_overlay_box.add_child(b)
+	_sfx("ui_click")
+	_show_toast("%s · %s" % [f["name"], Tutorial.lock_text(f, GameState.completed_races)])
+
+
+## Cập nhật ổ khóa/chấm trên thanh điều hướng, nút Lịch/Class, avatar, nút Garage và dòng "Sắp mở".
+func _refresh_locks() -> void:
+	var shop_ad: bool = Ads.shop_ready()
+	var sig := "%s|%d|%s|%s" % [GameState.gating_on(), GameState.completed_races, str(GameState.tutorial.get("intro_seen", [])), shop_ad]
+	if sig == _lock_sig:
+		return
+	_lock_sig = sig
+	var gated := GameState.gating_on()
+	for i in _nav_items.size():
+		var fid := _tab_feature(i)
+		var open := fid == "" or GameState.feature_unlocked(fid)
+		var item := _nav_items[i] as Control
+		item.modulate = Color.WHITE if open else Color(0.62, 0.68, 0.8)
+		(item.get_node("NavLock") as Control).visible = not open
+		var new_feature := open and gated and fid != "" and not Tutorial.intro_seen(GameState, fid)
+		(item.get_node("NavDot") as Control).visible = new_feature or (open and i == Tab.SHOP and shop_ad)
+		_nav[i].accessibility_name = TAB_NAMES[i] + ("" if open else ", đã khóa")
+	var u2 := GameState.feature_unlocked("U2_league")
+	HdUi.style_button(_sched_btn, "race" if u2 else "cancel")
+	_header_avatar.modulate = Color.WHITE if u2 else Color(0.62, 0.66, 0.76)
+	HdUi.style_button(_class_btn, "race" if GameState.feature_unlocked("U7_class") else "cancel")
+	_class_btn.clip_text = true
+	_class_btn.text = "Class" if GameState.managed_class == GameState.active_class else String(GameData.race_class(GameState.managed_class).get("name", "Class"))
+	var garage_btn: Button = _team_sub_buttons[1]
+	garage_btn.icon = null if GameState.feature_unlocked("U6_garage") else _tex("icons/vector_dark/lock.svg")
+	garage_btn.expand_icon = true
+	garage_btn.add_theme_constant_override("icon_max_width", 18)
+	var next := Tutorial.next_feature(GameState.completed_races)
+	_next_label.visible = gated and not next.is_empty()
+	if _next_label.visible:
+		_next_label.text = "Sắp mở: %s · %d lượt nữa" % [next["name"], int(next["races"]) - GameState.completed_races]
+
+
+## Tab (và tab con) mà hướng dẫn ngắn của một tính năng cần người chơi đang đứng ở đó.
+func _intro_tab_ok(f: Dictionary) -> bool:
+	match String(f.get("tab", "")):
+		"race":
+			return _tab == Tab.RACE
+		"bag":
+			return _tab == Tab.BAG
+		"shop":
+			return _tab == Tab.SHOP
+		"league":
+			return _tab == Tab.LEAGUE
+		"team":
+			return _tab == Tab.TEAM and _team_sub == 0
+		"garage":
+			return _tab == Tab.TEAM and _team_sub == 1
+	return false
+
+
+## Tính năng đã mở mà chưa xem hướng dẫn: hiện khi người chơi đứng đúng tab (một cái một lúc).
+func _pump_intro() -> void:
+	if _tutorial.running or _tutorial.intro != "":
+		return
+	if GameState.gating_on():
+		for f: Dictionary in Tutorial.features():
+			var id: String = f["id"]
+			if GameState.feature_unlocked(id) and not Tutorial.intro_seen(GameState, id) and _intro_tab_ok(f):
+				_tutorial.show_intro(id)
+				return
+	_pump_tip()
+
+
+## Tab hiện tại dưới dạng khóa của mẹo ("" = tab không có mẹo riêng, chỉ nhận mẹo "any").
+func _tip_tab() -> String:
+	match _tab:
+		Tab.RACE:
+			return "race"
+		Tab.BAG:
+			return "bag"
+		Tab.TEAM:
+			return "team" if _team_sub == 0 else ""
+	return ""
+
+
+func _tip_tab_ok(t: Dictionary) -> bool:
+	return t.is_empty() or t["tab"] == "any" or t["tab"] == _tip_tab()
+
+
+## Mẹo theo tình huống (Phần C): sau mọi hướng dẫn, tối đa một mẹo mới mỗi lượt.
+func _pump_tip() -> void:
+	var info := Tutorial.next_tip(GameState, _tip_tab())
+	if not info.is_empty():
+		_tutorial.show_tip(String(info["id"]), info)
+
+
+## "tile:<kind>" (ô nâng cấp) hoặc "node:<tên node>" -> Control, null nếu không có.
+func _ctrl_for_spec(spec: String) -> Control:
+	if spec.begins_with("tile:"):
+		var row := _row_of(spec.substr(5))
+		return row["tile"] if not row.is_empty() else null
+	if spec.begins_with("node:"):
+		return find_child(spec.substr(5), true, false) as Control
+	return null
+
+
+## Cuộn trang chứa `n` để mục tiêu hiện trong vùng nhìn.
+func _reveal_node(n: Control) -> void:
+	var p := n.get_parent()
+	while p != null:
+		if p is ScrollContainer:
+			(p as ScrollContainer).ensure_control_visible(n)
+			return
+		p = p.get_parent()
+
+
+## Mục tiêu spotlight của từng bước, theo tọa độ toàn cục.
+func _tutorial_target(step: String, sub: int) -> Dictionary:
+	if step.begins_with("tip:"):
+		var tctrl := _ctrl_for_spec(String(_tutorial.tip_data.get("target", "")))
+		if tctrl == null or not tctrl.is_visible_in_tree():
+			return {}
+		return {"rect": tctrl.get_global_rect()}
+	if step.begins_with("intro:"):
+		var f := Tutorial.feature(step.substr(6))
+		var spec := String(f.get("target", ""))
+		var ctrl: Control = null
+		if spec.begins_with("tile:"):
+			var row := _row_of(spec.substr(5))
+			ctrl = row["tile"] if not row.is_empty() else null
+		elif spec.begins_with("node:"):
+			ctrl = find_child(spec.substr(5), true, false) as Control
+		if ctrl == null or not ctrl.is_visible_in_tree():
+			return {}
+		var t := {"rect": ctrl.get_global_rect()}
+		if sub == 0 and f.has("action"):
+			t["hand"] = ctrl.get_global_rect().get_center()
+		return t
+	match step:
+		"A2_car":
+			var m: Dictionary = _race_view.player_marker()
+			if float(m["r"]) <= 0.0:
+				return {}
+			var c: Vector2 = _race_view.get_global_transform() * (m["pos"] as Vector2)
+			var r := float(m["r"]) * 2.2 + 10.0
+			return {"rect": Rect2(c - Vector2(r, r), Vector2(r, r) * 2.0), "round": true}
+		"A3_income":
+			return {"rect": _coin_bar.get_global_rect()}
+		"A4_engine", "A5_ticket":
+			var row := _row_of("engine" if step == "A4_engine" else "ticket")
+			if row.is_empty():
+				return {}
+			var t := {"rect": (row["tile"] as Control).get_global_rect()}
+			if sub == 0:
+				t["hand"] = (row["btn"] as Control).get_global_rect().get_center()
+			return t
+		"A6_result":
+			if _result_panel.visible:
+				return {"rect": (_result_box.get_parent() as Control).get_global_rect()}
+		"A7_race2":
+			if sub == 0:
+				var hud := _race_view.hud_rank_rect()
+				var left := Rect2(Vector2.ZERO, Vector2(hud.position.x, RaceView.HUD_H))
+				return {"rect": Rect2(_race_view.get_global_transform() * left.position, left.size)}
+	return {}
+
+
+func _tutorial_context(step: String, res: Dictionary) -> Dictionary:
+	match step:
+		"A1_welcome":
+			return {"coins": Balance.fmt_money(GameState.coins)}
+		"A3_income":
+			return {"rate": Balance.fmt_rate(GameState.online_rate())}
+		"A4_engine":
+			return {"price": Balance.fmt_money(GameState.cost_of("engine"))}
+		"A5_ticket":
+			return {"price": Balance.fmt_money(GameState.cost_of("ticket"))}
+		"A6_result":
+			return {"position": int(res.get("position", 8)), "money": Balance.fmt_money(res.get("money", 0))}
+		"A7_race2":
+			return {"before": RaceView.format_team_power(float(GameState.tutorial.get("power_before", 0.0))),
+				"after": RaceView.format_team_power(GameState.team_power())}
+	return {}
+
+
+## Ô nâng cấp ở nhóm Doanh thu có thể nằm dưới mép màn: cuộn trang Đua tới ô đó.
+func _tutorial_reveal(step: String) -> void:
+	if step.begins_with("tip:"):
+		var tc := _ctrl_for_spec(String(_tutorial.tip_data.get("target", "")))
+		if tc != null:
+			_reveal_node(tc)
+		return
+	if step.begins_with("intro:"):
+		var spec := String(Tutorial.feature(step.substr(6)).get("target", ""))
+		var ctrl: Control = null
+		if spec.begins_with("tile:"):
+			var row := _row_of(spec.substr(5))
+			ctrl = row["tile"] if not row.is_empty() else null
+		elif spec.begins_with("node:"):
+			ctrl = find_child(spec.substr(5), true, false) as Control
+		if ctrl != null:
+			_reveal_node(ctrl)
+		return
+	if step != "A4_engine" and step != "A5_ticket":
+		return
+	var row := _row_of("engine" if step == "A4_engine" else "ticket")
+	var sc := _pages[Tab.RACE] as ScrollContainer
+	if not row.is_empty() and sc != null:
+		sc.ensure_control_visible(row["tile"])
 
 
 # ---------------------------------------------------------------- kiểm thử qua CLI

@@ -2,6 +2,7 @@
   "schema_version": 2,
   "start_coins": "1000",
   "start_gems": 100,
+  "team_rename_gems": 50,
   "mock_gem_packs": [
     {"gems": 10, "price": "Xem video"},
     {"gems": 100, "price": "52.000đ"},
@@ -21,9 +22,6 @@
     "tyre": "0.15"
   },
   "base_rate": "8",
-  "stages": 5,
-  "promote_points": 36,
-  "max_season_points": 50,
   "race_rewards": [
     [
       10,
@@ -104,6 +102,7 @@
   },
   "economy_version": 2,
   "upgrade_growth": "1.572",
+  "upgrade_curve": {"r0": "1.30", "tau": 10, "r_inf": "1.0342"},
   "part_cost_base": "120",
   "part_cost_bases": {
     "engine": "160",
@@ -146,10 +145,9 @@
       "0.45",
       "0.4"
     ],
-    "season_ratio": "0.1",
+    "participation_ratio": "0.1",
     "daily_rate_seconds": 600,
     "daily_gems": 5,
-    "first_season_gems": 20,
     "first_league_gems": 50
   }
 }

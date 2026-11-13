@@ -9,7 +9,7 @@ echo "== Import project (cập nhật class cache) =="
 "$GODOT" --headless --path . --import >/dev/null 2>&1 || true
 
 fail=0
-for t in big_number_test economy_test data_test golden_test sim_test traffic_test garage_test gear_test gear_ui_test state_test upgrade_test boot_test; do
+for t in big_number_test economy_test data_test golden_test sim_test traffic_test garage_test gear_test gear_ui_test state_test class_test facility_test class_ui_test upgrade_test boot_test power_banner_test trophy_test trophy_ui_test tutorial_test tutorial_unlock_test tutorial_tips_test ads_test ads_v1_test ads_ui_test ads_shop_test horus_test iap_test; do
   echo ""
   echo "##### $t #####"
   out="$("$GODOT" --headless --path . -s "res://tests/$t.gd" 2>&1)"

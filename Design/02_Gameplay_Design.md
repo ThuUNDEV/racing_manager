@@ -300,7 +300,7 @@ MVP cần vui khi chưa có quảng cáo/mua hàng. Khi triển khai thương m�
 - Chỉ phát phần cộng thêm sau callback thành công; dùng transaction/ad reward ID để chống nhận trùng. Hủy/lỗi quảng cáo giữ nguyên thưởng cơ bản.
 - Gói No Ads phải xác định rõ: nếu bỏ nhu cầu xem rewarded ad thì nút đổi thành nhận thưởng tương đương. Không dùng từ “No Ads” khi vẫn yêu cầu xem cùng loại quảng cáo.
 - Cosmetic có thể bán mà không làm thay đổi kết quả. Gói tài nguyên và pass cần vòng cân bằng riêng; chưa có giá hoặc rate đề xuất chính thức.
-- Không ép quảng cáo giữa các chặng và không tự bật offer khi người chơi thua.
+- ~~Không ép quảng cáo giữa các chặng~~ **(đổi 12/11/2026, xem [26](26_Ads_Placements.md) §7):** có Ads Break xen giữa hai lượt, thưa và có đền bù, không bao giờ trong lúc đua. Vẫn không tự bật offer khi người chơi thua.
 
 ## 11. Nội dung phát triển và thứ tự triển khai
 

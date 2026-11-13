@@ -17,3 +17,7 @@ tests/lab/out_*.txt
 *.tmp
 
 .save_backup_tmp/
+
+# Horus (Design/25 §7)
+build-online/
+horus-sdk/.old/

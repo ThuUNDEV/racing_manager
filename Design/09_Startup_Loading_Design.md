@@ -10,6 +10,12 @@ Yêu cầu: khi mở game, xuất hiện một scene loading; thanh tiến độ
 
 Đã tích hợp bản thiết kế Racing Tycoon được duyệt: logo trên nền xanh, xe cam trước garage và đường đua; dùng `assets/startup_loading/loading_garage_background.png`. Ảnh chỉ chứa minh họa và logo; trạng thái, thanh cam, phần trăm và phiên bản do `ui/loading.gd` hiển thị lúc chạy. Bỏ hoàn toàn mẹo, dòng “Chơi offline” và khẩu hiệu “Xây đội đua của bạn”. Không dùng panel sáng hoặc xe nhỏ trên thanh tải. Vẫn giữ luồng BootFlow, thông báo tải lâu, lỗi và thử lại. Phần mô tả mỹ thuật/bố cục cũ bên dưới được thay thế bởi cập nhật này; quy tắc tiến độ và bàn giao tiếp tục áp dụng.
 
+## Cập nhật giao diện 12/11/2026
+
+Đã áp dụng mẫu người dùng chốt: garage xanh, xe cam, không có hai NPC. Nền mới `assets/startup_loading/loading_pitlane_cyan.png` chỉ chứa minh họa và logo, không chứa trạng thái, phần trăm, thanh tải hoặc phiên bản. `ui/loading_progress.gd` vẽ thanh cyan gồm 21 đoạn nghiêng trong khung vát; đoạn cuối được tô một phần theo tiến độ thật. Phần trăm cyan, phiên bản xanh xám căn giữa. Giữ BootFlow và các trạng thái tải chậm, lỗi, thử lại; không thêm thời gian chờ giả.
+
+Kiểm tra: import Godot 4.7.2 và boot_test đạt; chạy desktop và xem ảnh thực tế 390 × 844. Có thông báo từ dummy renderer trong kiểm thử headless và cảnh báo tài nguyên lúc thoát. Chưa xác minh trên thiết bị di động.
+
 ## 1. Trải nghiệm mục tiêu
 
 Người chơi thấy nhận diện game ngay khi mở, biết game đang chuẩn bị gì và vào gameplay tự động khi đã sẵn sàng. Không cần chạm “Bắt đầu”, không yêu cầu mạng. Loading dùng cho khởi động nguội và mở lại sau khi ứng dụng bị hệ điều hành đóng; quay lại từ nền khi phiên còn sống không chạy lại toàn bộ loading.

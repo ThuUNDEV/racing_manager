@@ -68,6 +68,8 @@ Nhóm dự kiến thêm vào `data/sim.json` khi triển khai:
 
 ## 5. Thưởng, chặng và mùa
 
+> **12/11/2026:** đã bỏ mùa/chặng; thăng giải bằng điểm tích lũy và thưởng tham gia mỗi lượt — xem [23 §13](23_Tutorial_Script.md#13-bỏ-tính-năng-mùa-đã-triển-khai-12112026). Phần dưới giữ làm tham chiếu.
+
 - Mỗi lượt hoàn tất là một chặng; bảng tiền/điểm theo hạng vẫn lấy từ cấu hình kinh tế.
 - Chốt kết quả, phát tiền/điểm và ghi tiến trình trong cùng giao dịch, đúng một lần theo ID mùa/chặng. Chỉ tạo countdown kế tiếp sau khi lưu thành công.
 - Vẫn **5 chặng/mùa**. Hết chặng 5, tự tổng kết, phát thưởng hoàn tất/thăng giải đủ điều kiện rồi tự chuyển mùa mới; không chờ nút “Bắt đầu mùa mới”.

@@ -3,7 +3,7 @@
   "version": 1,
   "source": "Reference-based generated artwork",
   "figma": "https://www.figma.com/design/8VBWw193bPHoBgNNrFkagO?node-id=12-108",
-  "count": 41,
+  "count": 45,
   "assets": [
     {
       "id": "alert",
@@ -35,7 +35,7 @@
       "path": "res://assets/racing_ui_hd/surfaces/button_cancel.png",
       "width": 640,
       "height": 187,
-      "sha256": "f98c46586c156d195b732f9c0611644e2b9c772b010b39c996a3345861637d9b"
+      "sha256": "3dd87a67705d1f77486d9e9bc737932afc1ea65b95a96a8e07c2e0cf5d0e0e18"
     },
     {
       "id": "button_claim",
@@ -43,7 +43,7 @@
       "path": "res://assets/racing_ui_hd/surfaces/button_claim.png",
       "width": 640,
       "height": 195,
-      "sha256": "db07d5ed2d1da63def686c3e294c9c8ad5370004b96087fa89028e379f756ed7"
+      "sha256": "25149109f0028c8a17f8f3989377ccb4030de82284f8dd08c982dc9fb95ede44"
     },
     {
       "id": "button_menu",
@@ -51,7 +51,7 @@
       "path": "res://assets/racing_ui_hd/surfaces/button_menu.png",
       "width": 285,
       "height": 242,
-      "sha256": "9ee0b1f8b79cc9d92911f634fac9c5bbcf63664f97369c3eadf5f2f77ea27728"
+      "sha256": "19e634d1dcfd7e46b038db4643b4bdaa9913ed696424103899d747d58ab434fc"
     },
     {
       "id": "button_nav",
@@ -59,7 +59,7 @@
       "path": "res://assets/racing_ui_hd/surfaces/button_nav.png",
       "width": 645,
       "height": 220,
-      "sha256": "3555c68b5d5aacfbf18301ed6bb71b346b995c73575ca62f204ac1e3846bec8c"
+      "sha256": "44077be9af78b2f2c699242e9cc78536e6f9e8aebc1ebf2de3c1abc0e97a496c"
     },
     {
       "id": "button_race",
@@ -67,7 +67,7 @@
       "path": "res://assets/racing_ui_hd/surfaces/button_race.png",
       "width": 665,
       "height": 220,
-      "sha256": "55fb56893116cc606ad161edb6ff414ed611768242fd902f214c5387c1993440"
+      "sha256": "363ec2a83bcce9efcdc6cd2df5a42d3fae1257bb0640485721258e3570e6ad70"
     },
     {
       "id": "button_upgrade",
@@ -75,7 +75,7 @@
       "path": "res://assets/racing_ui_hd/surfaces/button_upgrade.png",
       "width": 640,
       "height": 195,
-      "sha256": "2e1be09b87a358a6db3517ca64ebccc737d38386463db061ff5a30e9f77cb6d9"
+      "sha256": "456acb9ba35db8637225196e7df924244b9ff98e6a41b497f00cb0aaba282914"
     },
     {
       "id": "car_blue",
@@ -332,6 +332,42 @@
       "width": 314,
       "height": 314,
       "sha256": "dfc5c68bd34469621554ef24c0095591d679a4dae552f56fa368f42176c7729e"
+    },
+    {
+      "id": "face_happy",
+      "category": "icons",
+      "path": "res://assets/racing_ui_hd/icons/reactions/face_happy.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "2cbf1e8f5507e51405d34a83186c32cb20cbd4979eed4daf1bd953b5c9dc575d",
+      "description": "Bong bóng vui vàng, mắt chấm và nét cười tối giản."
+    },
+    {
+      "id": "face_sad",
+      "category": "icons",
+      "path": "res://assets/racing_ui_hd/icons/reactions/face_sad.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "f8016acfc131824d50c96c34c26c2b8e14323ab6e683a17c1c187369f392f057",
+      "description": "Bong bóng buồn xanh nhạt, mắt chấm và nét buồn tối giản."
+    },
+    {
+      "id": "face_angry",
+      "category": "icons",
+      "path": "res://assets/racing_ui_hd/icons/reactions/face_angry.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "bd8ee078062d6d393fa5204460c40ba7c388324afbe41c22bf1baf51eb45f50a",
+      "description": "Bong bóng giận cam đỏ, lông mày chéo; dự phòng."
+    },
+    {
+      "id": "face_wow",
+      "category": "icons",
+      "path": "res://assets/racing_ui_hd/icons/reactions/face_wow.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "5ec189f2cd1a08cc71d721a2f816b44646a126b298cb2c4ab706264061cddc4e",
+      "description": "Bong bóng ngạc nhiên vàng, miệng tròn; dự phòng."
     }
   ]
 }

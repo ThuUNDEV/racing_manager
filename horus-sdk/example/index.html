@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Horus SDK: game mẫu</title>
+<style>
+  body { font: 16px system-ui, sans-serif; margin: 0; padding: 24px; background: #101418; color: #eef; }
+  button { font: inherit; padding: 12px 16px; margin: 6px 6px 6px 0; border-radius: 10px; border: 0; background: #2f6fed; color: #fff; }
+  button:disabled { opacity: .45; }
+  #ad { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; flex-direction: column; background: #000d; }
+  #log { margin-top: 16px; font: 13px ui-monospace, monospace; white-space: pre-wrap; color: #9ab; }
+</style>
+</head>
+<body>
+<h1>Xu: <span id="coins">0</span></h1>
+<button id="rv">Xem quảng cáo: +10 xu</button>
+<button id="buy">Mua 100 xu</button>
+<button id="reset">Chơi lại từ đầu</button>
+<div id="ad"><p id="adText">Quảng cáo giả lập</p><button id="adDone">Xem hết</button><button id="adClose">Đóng sớm</button></div>
+<div id="log"></div>
+
+<!-- The whole SDK: one file. -->
+<script src="horus-sdk.js"></script>
+<script>
+  const { platform, save } = HorusSDK;
+  const $ = (id) => document.getElementById(id);
+  const log = (s) => { $('log').textContent += s + '\n'; };
+
+  // 1. A versioned local save; every write is also handed to the app as its backup copy.
+  const store = save.createSaveStore({
+    key: 'demo',
+    defaults: () => ({ coins: 0, buys: [] }),
+    mirror: (json) => platform.save.mirror(json),
+  });
+
+  // 2. In a browser the ads are the game's own placeholders. In the Horus app this line does nothing: MAX shows real ads.
+  platform.ads.simulate((kind, placement) => new Promise((done) => {
+    $('adText').textContent = `Quảng cáo giả lập (${kind}, ${placement})`;
+    $('ad').style.display = 'flex';
+    $('adDone').onclick = () => { $('ad').style.display = 'none'; done(true); };
+    $('adClose').onclick = () => { $('ad').style.display = 'none'; done(false); };
+  }));
+
+  (async () => {
+    // 3. Start once, before the first frame: cloud save, app info, Remote Config, store prices.
+    await HorusSDK.start({ skus: ['coins_100'] });
+    store.restoreBackup(platform.save.backup);   // an empty storage gets the app's copy back
+    // a save on the cloud that differs from this phone's: keep the one that went further, add the other's purchases
+    await HorusSDK.cloud.settleAtBoot(platform, save.conflictRules(store, {
+      further: save.further('coins'),
+      merge: (into, from) => save.mergePurchases(into, from, { credit: (s, b) => (b.sku === 'coins_100' ? (s.coins += 100, 100) : false) }),
+      mirror: (json) => platform.save.mirror(json),
+      flush: () => platform.save.flush(),
+    }));
+    const game = store.load();
+    const show = () => { $('coins').textContent = game.coins; };
+    show();
+    log(`Horus SDK ${HorusSDK.VERSION} trên ${platform.kind}`);
+
+    // 4. Purchases that were paid but not granted yet (the app closed mid-purchase): grant them now.
+    for (const p of await platform.iap.pending()) grant(p);
+
+    function grant(p) {
+      if (!game.buys.some((b) => b.token === p.token)) {   // not granted yet
+        game.coins += 100;
+        game.buys.push({ sku: p.sku, token: p.token, t: Date.now() });
+        store.save(game);                                  // goods in the save first...
+        platform.an.earn('coin', 100, 'iap');
+        show();
+      }
+      platform.iap.finish({ sku: p.sku, token: p.token, orderId: p.orderId, consumable: true, usd: 0.99 });   // ...then finish
+    }
+
+    $('rv').onclick = async () => {
+      const r = await platform.ads.rewarded('demo_coins');
+      log(`rewarded: ${JSON.stringify(r)}`);
+      if (!r.ok) return;
+      game.coins += 10; store.queue(game);
+      platform.an.earn('coin', 10, 'ad');
+      show();
+    };
+    $('buy').textContent = `Mua 100 xu (${platform.iap.price('coins_100') || '$0.99'})`;
+    $('buy').onclick = async () => {
+      const r = await platform.iap.buy('coins_100');
+      log(`buy: ${r.status}`);
+      if (r.status === 'ok') grant(r);
+    };
+    $('reset').onclick = () => { Object.assign(game, store.wipe()); show(); platform.an.log('reset'); };
+
+    // 5. The app pauses the game in the background and during an ad.
+    platform.on('pause', () => store.flush());
+    platform.ready();   // the game is on screen: the app drops its splash
+  })();
+</script>
+</body>
+</html>

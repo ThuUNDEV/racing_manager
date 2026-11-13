@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dgmx1rwn1tjfs"
+
+[deps]
+
+files=["res://Design/18_Asset_Backlog.name.translation", "res://Design/18_Asset_Backlog.data.translation", "res://Design/18_Asset_Backlog.priority.translation", "res://Design/18_Asset_Backlog.screens.translation", "res://Design/18_Asset_Backlog.export.translation", "res://Design/18_Asset_Backlog.fallback.translation", "res://Design/18_Asset_Backlog.brief.translation", "res://Design/18_Asset_Backlog.status.translation"]
+
+source_file="res://Design/18_Asset_Backlog.csv"
+dest_files=["res://Design/18_Asset_Backlog.name.translation", "res://Design/18_Asset_Backlog.data.translation", "res://Design/18_Asset_Backlog.priority.translation", "res://Design/18_Asset_Backlog.screens.translation", "res://Design/18_Asset_Backlog.export.translation", "res://Design/18_Asset_Backlog.fallback.translation", "res://Design/18_Asset_Backlog.brief.translation", "res://Design/18_Asset_Backlog.status.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true
