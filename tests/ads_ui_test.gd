@@ -52,7 +52,7 @@ func _initialize() -> void:
 	await _frames(2)
 	var chip: Button = ctl.get_node("BoostChip")
 	var flag: Button = ctl.get_node("CashFlag")
-	var popup: Control = ctl.get_node("AdsPopup")
+	var popup: Control = ctl._popup
 
 	print("== Chip ×2 ==")
 	_check(chip.visible and not chip.disabled and "×2" in chip.text, "chip hiện, bấm được: '%s'" % chip.text.replace("\n", " "))
@@ -143,7 +143,7 @@ func _initialize() -> void:
 	ctl._on_watch()
 	await _frames(40)
 	_check(popup.visible and flag.visible, "xem dở: popup vẫn mở để thử lại hoặc đóng")
-	_check(ctl.get_node("AdsPopup").visible and not (ctl._watch.disabled), "nút Xem video bấm lại được")
+	_check(ctl._popup.visible and not (ctl._watch.disabled), "nút Xem video bấm lại được")
 	ctl._on_later()
 
 	print("== Kết thúc: %d lỗi ==" % _fails)

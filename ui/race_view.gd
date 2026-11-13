@@ -413,7 +413,15 @@ func player_marker() -> Dictionary:
 ## Ô hạng + đồng hồ giữa HUD (tọa độ cục bộ), cùng công thức với _draw_hud.
 func hud_rank_rect() -> Rect2:
 	var pw := minf(170.0, size.x * 0.42)
-	return Rect2((size.x - pw) * 0.5, 6.0, pw, HUD_H - 12.0)
+	var x := (size.x - pw) * 0.5
+	var right := minf(x + pw, hud_boost_rect_for_width(size.x).position.x - 8.0)
+	return Rect2(x, 6.0, maxf(1.0, right - x), HUD_H - 12.0)
+
+
+## Shared bounds keep the boost and rank aligned, including on narrow phones.
+static func hud_boost_rect_for_width(width: float) -> Rect2:
+	var button_width := clampf(width * 0.27, 80.0, 100.0)
+	return Rect2(width - button_width - 8.0, 6.0, button_width, HUD_H - 12.0)
 
 
 ## Nhận sự kiện mới từ sim (gọi mỗi frame). Trả về các sự kiện mới để lớp trên phát âm thanh / bảng tin.
@@ -524,8 +532,8 @@ func _draw_hud() -> void:
 	var me := sim.player_car()
 	var idx := rk.find(me)
 	# Giữa: hạng và đồng hồ.
-	var pw := minf(170.0, w * 0.42)
-	var panel := Rect2((w - pw) * 0.5, 6.0, pw, HUD_H - 12.0)
+	var panel := hud_rank_rect()
+	var pw := panel.size.x
 	if _hud_box == null:
 		_hud_box = StyleBoxFlat.new()
 		_hud_box.bg_color = C_HUD_PANEL
@@ -539,7 +547,7 @@ func _draw_hud() -> void:
 	var clock := Balance.fmt_clock(ceil(sim.time_left())) if sim.is_timed() else "Vòng %d" % sim.lap_of(me)
 	draw_string(font, Vector2(panel.position.x, panel.position.y + 44.0), clock, HORIZONTAL_ALIGNMENT_CENTER, pw, 14, C_HUD_MUTED)
 	# Trái: ĐỘI CỦA BẠN = tổng 11 chỉ số xe + tay đua (chỉ số đã chốt lúc xuất phát khi đang đua).
-	var side := (w - pw) * 0.5 - 8.0
+	var side := panel.position.x - 8.0
 	draw_string(font, Vector2(10.0, 22.0), "ĐỘI CỦA BẠN", HORIZONTAL_ALIGNMENT_LEFT, side, 11, C_HUD_MUTED)
 	if power_value > 0.0:
 		_draw_team_icon(Vector2(18.0, 38.0))
