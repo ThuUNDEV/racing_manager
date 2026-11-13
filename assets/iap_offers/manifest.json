@@ -1,0 +1,193 @@
+{
+  "name": "Racing IAP Illustrated Assets",
+  "version": 1,
+  "date": "2026-11-13",
+  "scope": [
+    "starter_1",
+    "char_my",
+    "income_x2"
+  ],
+  "status": "Packaged artwork and Godot resources; gameplay UI not integrated",
+  "concept": "Design/Previews/iap_packs_v4_asset_reference_concept.png",
+  "images": [
+    {
+      "id": "hero_starter",
+      "path": "assets/iap_offers/illustrations/hero_starter.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "source": "C:\\Users\\thupv\\.codex\\generated_images\\01a1d2b3-6866-7051-bc0c-e64a9230e50b\\exec-c00df1da-e4df-4651-9a53-ba7286e00a15.png",
+      "sha256": "24b81bbe306b098332d66b140db6f336d1e939d68b79ee2babcdf7fb376c8409",
+      "resource": "assets/iap_offers/resources/hero_starter.tres"
+    },
+    {
+      "id": "hero_driver_my",
+      "path": "assets/iap_offers/illustrations/hero_driver_my.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "source": "C:\\Users\\thupv\\.codex\\generated_images\\01a1d2b3-6866-7051-bc0c-e64a9230e50b\\exec-2b828ad9-5275-4550-a346-76868ab91f62.png",
+      "sha256": "248f206d5e81651eea942ed5dd7e39fde847845c852fd8b328ec1ce3014d4468",
+      "resource": "assets/iap_offers/resources/hero_driver_my.tres"
+    },
+    {
+      "id": "hero_income_x2",
+      "path": "assets/iap_offers/illustrations/hero_income_x2.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "source": "C:\\Users\\thupv\\.codex\\generated_images\\01a1d2b3-6866-7051-bc0c-e64a9230e50b\\exec-36df495b-0ff1-4736-af67-39c164dffac2.png",
+      "sha256": "f7628e579c5e7e8f67c59c65e7e733a7ac6ee24a5df6cf9ed4ea3717184d2b1b",
+      "resource": "assets/iap_offers/resources/hero_income_x2.tres"
+    },
+    {
+      "id": "characters",
+      "path": "assets/iap_offers/sheets/characters.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "source": "C:\\Users\\thupv\\.codex\\generated_images\\01a1d2b3-6866-7051-bc0c-e64a9230e50b\\exec-08e6be84-cc3d-4836-82e3-7f82f7a475d2.png",
+      "sha256": "ff25171e9267a2fbb9650ef45c456d078be75bea94fc94066a6c1bed3f53878c",
+      "alpha_extrema": [
+        0,
+        254
+      ]
+    }
+  ],
+  "poses": [
+    {
+      "id": "linh_present",
+      "resource": "assets/iap_offers/resources/linh_present.tres",
+      "rect": [
+        0,
+        0,
+        512,
+        1024
+      ]
+    },
+    {
+      "id": "my_welcome",
+      "resource": "assets/iap_offers/resources/my_welcome.tres",
+      "rect": [
+        512,
+        0,
+        478,
+        1024
+      ]
+    },
+    {
+      "id": "linh_victory",
+      "resource": "assets/iap_offers/resources/linh_victory.tres",
+      "rect": [
+        990,
+        0,
+        546,
+        1024
+      ]
+    }
+  ],
+  "shared_existing_assets": {
+    "gem": "assets/racing_ui_hd/icons/gem.png",
+    "cash": "assets/racing_ui_hd/icons/cash.png",
+    "crown": "assets/racing_ui_hd/icons/crown.png",
+    "panel": "assets/racing_ui_hd/surfaces/panel_body.png",
+    "buy_button": "assets/racing_ui_hd/surfaces/button_claim.png",
+    "close_button": "assets/racing_ui_hd/icons/close_red.svg"
+  },
+  "packs": {
+    "standard_driver_pack": {
+      "resource": "assets/racing_ui_hd_expansion/sprites/standard_driver_pack.tres",
+      "path": "assets/racing_ui_hd_expansion/sheets/packs_facilities.png",
+      "rect": [
+        1679.0,
+        10.0,
+        251.0,
+        224.0
+      ],
+      "size": [
+        2172,
+        724
+      ]
+    },
+    "elite_driver_pack": {
+      "resource": "assets/racing_ui_hd_expansion/sprites/elite_driver_pack.tres",
+      "path": "assets/racing_ui_hd_expansion/sheets/packs_facilities.png",
+      "rect": [
+        240.0,
+        251.0,
+        254.0,
+        224.0
+      ],
+      "size": [
+        2172,
+        724
+      ]
+    },
+    "standard_gear_pack": {
+      "resource": "assets/racing_ui_hd_expansion/sprites/standard_gear_pack.tres",
+      "path": "assets/racing_ui_hd_expansion/sheets/packs_facilities.png",
+      "rect": [
+        207.0,
+        8.0,
+        306.0,
+        226.0
+      ],
+      "size": [
+        2172,
+        724
+      ]
+    },
+    "elite_gear_pack": {
+      "resource": "assets/racing_ui_hd_expansion/sprites/elite_gear_pack.tres",
+      "path": "assets/racing_ui_hd_expansion/sheets/packs_facilities.png",
+      "rect": [
+        931.0,
+        8.0,
+        309.0,
+        226.0
+      ],
+      "size": [
+        2172,
+        724
+      ]
+    },
+    "driver_my": {
+      "resource": "assets/racing_ui_hd_expansion/sprites/driver_my.tres",
+      "path": "assets/racing_ui_hd_expansion/sheets/driver_portraits.png",
+      "rect": [
+        1106.0,
+        364.0,
+        299.0,
+        351.0
+      ],
+      "size": [
+        1448,
+        1086
+      ]
+    }
+  },
+  "sku_art": {
+    "starter_1": "hero_starter",
+    "char_my": "hero_driver_my",
+    "income_x2": "hero_income_x2"
+  },
+  "usage": {
+    "hero_aspect": "3:2",
+    "recommended_hero_size": [
+      366,
+      244
+    ],
+    "illustrations_have_baked_text": false,
+    "keep_source_pixels": true,
+    "character_sheet_has_real_alpha": true,
+    "character_sheet_note": "Retains generated semi-transparent edge shading; use documented atlas regions."
+  }
+}
