@@ -27,3 +27,7 @@ Design/Previews/**/*.log
 
 # Gói asset sinh ra từ tools/package_iap_assets.py
 Design/AssetPacks/*.zip
+
+# Công cụ cục bộ / cache Python
+.serena/
+__pycache__/
