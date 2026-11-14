@@ -22,6 +22,16 @@ func capture(id: String) -> void:
 		DirAccess.make_dir_recursive_absolute(directory)
 		root.get_texture().get_image().save_png(directory + "/" + id + ".png")
 
+func check_button_caps() -> void:
+	for node: Button in main.find_children("*", "Button", true, false):
+		if not node.is_visible_in_tree():
+			continue
+		var skin := node.get_theme_stylebox("normal") as StyleBoxTexture
+		if skin != null:
+			check(skin.texture_margin_left + skin.texture_margin_right <= node.size.x + 1, "button end caps fit: " + str(node.get_path()))
+			check(skin.texture_margin_top + skin.texture_margin_bottom <= node.size.y + 1, "button vertical caps fit: " + str(node.get_path()))
+
+
 func check_pack(page: Control, info_pattern: String) -> void:
 	for info: Button in page.find_children(info_pattern, "Button", true, false):
 		var skin := info.get_theme_stylebox("normal") as StyleBoxTexture
@@ -65,10 +75,10 @@ func run() -> void:
 			await settle()
 			var page := main._pages[tab] as ScrollContainer
 			check(page.get_child(0).size.x <= page.size.x + 1, "page %d fits %d" % [tab, viewport.x])
-			if tab == 1:
-				check_pack(main._gear, "Info_*")
-			elif tab == 2:
-				check_pack(main._roster, "DriverInfo_*")
+			if tab == 4:
+				for b: Button in main._shop_content.find_children("ShopOpen_*", "Button", true, false):
+					check(b.get_global_rect().end.x <= page.get_global_rect().end.x + 1 and b.get_global_rect().position.x >= -1, "nút mở gói Shop vừa khung %d" % viewport.x)
+			check_button_caps()
 			await capture("%d_tab%d" % [viewport.x, tab])
 		main._select_tab(2)
 		main._select_team_sub(1)

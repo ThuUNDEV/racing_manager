@@ -45,29 +45,32 @@ func run() -> void:
 	for width in [320, 390]:
 		root.size = Vector2i(width, 844)
 		await settle()
-		for tab in [1, 2]:
+		for tab in [4]:
 			main._select_tab(tab)
-			if tab == 2:
-				main._select_team_sub(0)
 			await settle()
 			var sc: ScrollContainer = main._pages[tab]
 			sc.scroll_vertical = 0
 			await settle()
-			var button: Button = main.find_child("Open_standard_x1" if tab == 1 else "DriverOpen_pro_x1", true, false)
+			var button: Button = main.find_child("ShopOpen_gear_standard_x1", true, false)
 			var gems: int = state.gems
-			await swipe(button.get_global_rect().get_center())
-			check(sc.scroll_vertical > 24, "finger swipe starting on pack button scrolls tab %d (%d)" % [tab, sc.scroll_vertical])
+			var direction := 1.0
+			sc.ensure_control_visible(button)
+			await settle()
+			var start_scroll := sc.scroll_vertical
+			await swipe(button.get_global_rect().get_center(), direction)
+			check(abs(sc.scroll_vertical - start_scroll) > 24, "finger swipe starting on pack button scrolls tab %d (%d)" % [tab, sc.scroll_vertical])
 			check(state.gems == gems and not main._overlay.visible, "swipe does not open a pack")
 			var before := sc.scroll_vertical
-			await swipe(sc.get_global_rect().position + Vector2(60, 50), 1.0)
-			check(sc.scroll_vertical < before, "finger swipe down reverses scroll")
-	main._select_tab(2)
-	main._select_team_sub(0)
-	var sc: ScrollContainer = main._pages[2]
+			await swipe(sc.get_global_rect().position + sc.size * 0.5, -direction)
+			check((sc.scroll_vertical - before) * direction > 0, "finger swipe down reverses scroll")
+	main._select_tab(4)
+	var sc: ScrollContainer = main._pages[4]
 	sc._stop_scroll()
 	sc.scroll_vertical = 0
 	await settle()
-	var info: Button = main.find_child("DriverInfo_pro", true, false)
+	var info: Button = main.find_child("ShopPackInfo_driver_pro", true, false)
+	sc.ensure_control_visible(info)
+	await settle()
 	var position := info.get_global_rect().get_center()
 	touch(position, true)
 	await process_frame
@@ -82,12 +85,14 @@ func run() -> void:
 	check(sc.scroll_vertical == page_before, "dialog gesture does not scroll page behind it")
 	main._overlay.hide()
 	# A real tap on a purchase button still opens exactly one pack.
-	main._select_tab(1)
-	var bag: ScrollContainer = main._pages[1]
+	main._select_tab(4)
+	var bag: ScrollContainer = main._pages[4]
 	bag._stop_scroll()
 	bag.scroll_vertical = 0
 	await settle()
-	var purchase: Button = main.find_child("Open_standard_x1", true, false)
+	var purchase: Button = main.find_child("ShopOpen_gear_standard_x1", true, false)
+	bag.ensure_control_visible(purchase)
+	await settle()
 	var gems_before: int = state.gems
 	var count_before: int = state.gear_open_count
 	var at := purchase.get_global_rect().get_center()

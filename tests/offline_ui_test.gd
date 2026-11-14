@@ -37,21 +37,15 @@ func run() -> void:
 			var box: VBoxContainer = main._overlay_box
 			check(box.get_global_rect().end.x <= width, "Popup fits width %d capped=%s" % [width, capped])
 			var button = box.find_child("OfflineContinue", true, false)
+			var button_skin := button.get_theme_stylebox("normal") as StyleBoxTexture
+			check(button_skin.texture.get_width() > 3 * button_skin.texture.get_height(), "Continue uses a wide button skin")
 			check(button.get_global_rect().end.y < root.size.y, "Continue visible at %d" % width)
 			var panel: PanelContainer = box.get_parent().get_parent()
 			check(panel.get_global_rect().end.y - button.get_global_rect().end.y < 35.0, "No empty panel below Continue at %d" % width)
 			if "--offline-shots" in OS.get_cmdline_user_args():
 				await RenderingServer.frame_post_draw
 				root.get_texture().get_image().save_png("res://Design/Previews/offline_%d_%s.png" % [width, "capped" if capped else "short"])
-		var details = main._overlay_box.find_child("OfflineDetails", true, false)
-		var info = main._overlay_box.find_child("OfflineInfo", true, false)
-		check(not details.visible, "Calculation details initially collapsed")
-		info.pressed.emit()
-		await settle()
-		check(details.visible, "Info opens calculation details")
-		info.pressed.emit()
-		await settle()
-		check(not details.visible, "Info closes calculation details")
+		check(main._overlay_box.find_child("OfflineInfo", true, false) == null, "No info icon")
 		var progress = main._overlay_box.find_child("OfflineProgress", true, false)
 		check(is_equal_approx(progress.value, minf(elapsed, Balance.offline_cap_sec())), "Progress uses eligible duration")
 		check(state.coins.to_save() == coins_before, "Opening report does not award money again")

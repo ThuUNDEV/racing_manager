@@ -84,11 +84,11 @@ func run() -> void:
 		if n == 2:
 			check(state.feature_unlocked("U2_league") and state.set_player_team_name("Đội thử"), "lượt 2: Giải/Hồ sơ mở")
 		if n == 3:
-			check(int(state.gear_coupons["standard"]) == 1 and u[0]["gift"] != "", "lượt 3: tặng 1 coupon Standard Gear")
+			check(state.feature_unlocked("U4_shop"), "lượt 3: Shop mở")
+		if n == 4:
+			check(int(state.gear_coupons["standard"]) == 1 and u[0]["gift"] != "", "lượt 4: tặng 1 coupon Standard Gear")
 			var out: Dictionary = state.open_gear_pack("standard", 1)
 			check(not out.is_empty() and int(state.gear_coupons["standard"]) == 0, "mở gói bằng coupon vừa tặng")
-		if n == 4:
-			check(state.feature_unlocked("U4_shop"), "lượt 4: Shop mở")
 		if n == 5:
 			check(int(state.driver_coupons["pro"]) == 1, "lượt 5: tặng 1 coupon Pro Pack")
 		if n == 6:
@@ -97,7 +97,7 @@ func run() -> void:
 			check(state.feature_unlocked("U6_garage"), "lượt 7: Garage mở")
 		if n == 9:
 			check(not state.feature_unlocked("U7_class"), "lượt 9: Class còn khóa")
-	check(seen == ["U2_league", "U3_bag", "U4_shop", "U5_drivers", "U6_garage", "U7_class"], "đủ sáu lần mở khóa theo thứ tự")
+	check(seen == ["U2_league", "U4_shop", "U3_bag", "U5_drivers", "U6_garage", "U7_class"], "đủ sáu lần mở khóa theo thứ tự")
 	check(state.feature_unlocked("U7_class") and state.processed_rewards.has("unlock/U3_bag"), "lượt 10: Class mở, đã ghi reward id")
 	check(Tutorial.next_feature(state.completed_races).is_empty(), "hết tính năng sắp mở")
 
@@ -110,21 +110,21 @@ func run() -> void:
 	check(int(state.driver_coupons["pro"]) == coupons_pro and state.feature_unlocked("U7_class"), "tải lại: quà không phát lại")
 	fresh(state, true)
 	state.active = true
-	for i in 2:
+	for i in 3:
 		race(state)
 	state.simulate_write_failure = true
 	var guard := 0
 	while state.phase != "save_error" and guard < 20000:
 		state.advance(0.5)
 		guard += 1
-	check(state.phase == "save_error", "lượt 3 chốt nhưng lưu lỗi")
+	check(state.phase == "save_error", "lượt 4 chốt nhưng lưu lỗi")
 	check(int(state.gear_coupons["standard"]) == 0, "lưu lỗi: quà chưa phát")
 	for i in 20:
 		state.advance(0.5)
 	state.simulate_write_failure = false
 	check(state.retry_save() and int(state.gear_coupons["standard"]) == 1, "thử lại thành công: đúng 1 coupon")
 	state.retry_save()
-	check(int(state.gear_coupons["standard"]) == 1 and state.completed_races == 3, "không phát lần hai")
+	check(int(state.gear_coupons["standard"]) == 1 and state.completed_races == 4, "không phát lần hai")
 
 	print("== Hướng dẫn đã xem, save cũ ==")
 	state.mark_intro_seen("U3_bag")
@@ -167,9 +167,15 @@ func run() -> void:
 	var bag_item: Control = main._nav_items[main.Tab.BAG]
 	check((bag_item.get_node("NavLock") as Control).visible and (main._nav_items[main.Tab.SHOP].get_node("NavLock") as Control).visible, "tab Túi/Shop có ổ khóa")
 	check(not (main._nav_items[main.Tab.RACE].get_node("NavLock") as Control).visible, "tab Đua không khóa")
-	check(main._next_label.visible and main._next_label.text.begins_with("Sắp mở: Tab Giải"), "dòng 'Sắp mở': %s" % main._next_label.text)
+	check(main._toast.text.begins_with("Sắp mở: Tab Giải"), "popup 'Sắp mở': %s" % main._toast.text)
 	main._select_tab(main.Tab.BAG)
-	check(main._tab == main.Tab.RACE and main._toast.text.contains("Mở sau lượt 3"), "bấm tab khóa: ở lại tab Đua, toast nói rõ điều kiện")
+	var lock_texts := ""
+	for ch in main._overlay_box.get_children():
+		if ch is Label:
+			lock_texts += (ch as Label).text + "|"
+	check(main._tab == main.Tab.RACE and main._overlay.visible and lock_texts.contains("Mở sau lượt 4"), "bấm tab khóa: ở lại tab Đua, popup nói rõ điều kiện: %s" % lock_texts)
+	main._close_overlay()
+	main._overlay.hide()
 	var engine: Dictionary = main._row_of("engine")
 	check((engine["tile"] as Control).modulate == Color.WHITE and not (engine["eff"] as Label).text.begins_with("Mở sau"), "ô nâng cấp không bị khóa")
 	main._show_profile()
@@ -177,11 +183,11 @@ func run() -> void:
 	main._show_classes()
 	check(not main._class_page.visible, "trang Class khóa")
 
-	state.completed_races = 3
+	state.completed_races = 4
 	main._lock_sig = ""
 	main._refresh_light()
-	check(not (bag_item.get_node("NavLock") as Control).visible and (bag_item.get_node("NavDot") as Control).visible, "lượt 3: Túi mở, có chấm 'mới'")
-	check((main._nav_items[main.Tab.SHOP].get_node("NavLock") as Control).visible, "Shop vẫn khóa")
+	check(not (bag_item.get_node("NavLock") as Control).visible and (bag_item.get_node("NavDot") as Control).visible, "lượt 4: Túi mở, có chấm 'mới'")
+	check(not (main._nav_items[main.Tab.SHOP].get_node("NavLock") as Control).visible, "Shop đã mở từ lượt 3")
 
 	print("== Hướng dẫn ngắn ==")
 	main._select_tab(main.Tab.RACE)
@@ -192,17 +198,24 @@ func run() -> void:
 	main._pump_intro()
 	check(tut.intro == "U2_league", "sang tab Giải: hướng dẫn U2")
 	tut._on_primary()
-	main._select_tab(main.Tab.BAG)
+	state.mark_intro_seen("U4_shop")
+	main._select_tab(main.Tab.SHOP)
 	main._pump_intro()
 	tut.blocked = false
 	tut._process(0.1)
-	check(tut.intro == "U3_bag" and tut._hand.visible and tut._target.has("rect"), "tab Túi: U3 có bàn tay chỉ nút mở gói")
+	check(tut.intro == "U3_bag" and tut._hand.visible and tut._target.has("rect"), "tab Shop: U3 có bàn tay chỉ nút mở gói")
+	check(tut.wants_pause(), "U3 câu đầu đang chờ thao tác: dừng game")
 	main._select_tab(main.Tab.RACE)
 	check(main._tutorial.intro == "U3_bag", "rời tab: hướng dẫn chờ, chưa bị hủy")
-	main._select_tab(main.Tab.BAG)
+	tut.blocked = true  # main không chạy _process trong test
+	tut._process(0.1)
+	check(not tut.wants_pause(), "rời tab: callout ẩn, game chạy lại")
+	main._select_tab(main.Tab.SHOP)
+	tut.blocked = false
 	state.gear_open_count = 1
 	tut._process(0.1)
-	check(tut.intro_sub == 1 and tut._text.text.contains("trùng"), "mở gói xong: câu thứ hai")
+	check(not tut.wants_pause(), "câu phụ sau thao tác không dừng game")
+	check(tut.intro_sub == 1 and tut._text.text.contains("Power"), "mở gói xong: câu thứ hai nói Power đội tăng")
 	tut._process(3.1)
 	check(tut.intro == "" and Tutorial.intro_seen(state, "U3_bag"), "tự đóng sau 3 giây")
 	main._select_tab(main.Tab.RACE)

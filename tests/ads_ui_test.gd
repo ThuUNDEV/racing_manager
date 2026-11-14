@@ -73,16 +73,16 @@ func _initialize() -> void:
 	_check(not popup.visible, "popup tự đóng sau khi nhận")
 	_check(chip.visible and chip.disabled and "×2" in chip.text and ":" in chip.text, "đang boost: chip là đồng hồ '%s'" % chip.text.replace("\n", " "))
 
-	print("== Chip ẩn khi hết lượt / bị khóa ==")
+	print("== Chip giữ vị trí và giải thích khi hết lượt / bị khóa ==")
 	_fresh()
 	_gs.ad_state = {"day": int(floor(Time.get_unix_time_from_system() / 86400.0)), "count": 12, "by": {}, "last": {}}
 	await _frames(2)
-	_check(not chip.visible, "hết trần ngày: chip ẩn")
+	_check(chip.visible and chip.disabled and ctl._chip_time.text == "Hết lượt ngày", "hết trần ngày: giữ chip và báo lý do")
 	_fresh()
 	_gs.tutorial["gated"] = true
 	_gs.completed_races = 0
 	await _frames(2)
-	_check(not chip.visible, "chưa mở Shop: chip ẩn")
+	_check(chip.visible and chip.disabled and ctl._chip_time.text == "Mở Shop", "chưa mở Shop: giữ chip và chỉ dẫn mở khóa")
 
 	print("== Lá cờ ==")
 	_fresh()
@@ -98,7 +98,7 @@ func _initialize() -> void:
 	var x0 := flag.position.x
 	await _frames(10)
 	_check(flag.position.x > x0, "cờ chạy từ trái sang phải")
-	_check(flag.position.y >= RaceView.HUD_H and flag.position.y < RaceView.HUD_H + RaceView.STAND_H, "cờ chạy trong dải khán đài")
+	_check(flag.position.y >= RaceView.HUD_H and flag.position.y + flag.size.y <= RaceView.HUD_H + RaceView.STAND_H, "cờ chạy trong dải khán giả phía trên đường đua")
 	ctl.blocked = true
 	var xb := flag.position.x
 	await _frames(5)

@@ -132,6 +132,21 @@ func _initialize() -> void:
 	var st: Dictionary = gs.gear_stats_at("only", gs.gear_level("only"))
 	_check(st == {"attack": 70, "defense": 70}, "chỉ số theo bảng cấu hình ở max")
 	_check(gs.gear_bonus()["attack"] == 70 + 40, "bonus toàn đội = tổng các mẫu theo level")
+	# Power đội: (kiếm+khiên) × hệ số, cộng đều 11 chỉ số.
+	var ppp: float = GameData.gear_power_per_point()
+	_check(is_equal_approx(gs.gear_power_bonus(), float(70 + 70 + 40 + 40) * ppp), "gear_power_bonus = (kiếm+khiên) × power_per_point")
+	var with_gear: Dictionary = gs.player_stats()
+	var saved_owned: Dictionary = gs.gear_owned.duplicate(true)
+	gs.gear_owned.clear()
+	var without_gear: Dictionary = gs.player_stats()
+	_check(gs.gear_power_bonus() == 0.0, "không có phụ kiện: bonus 0")
+	var all_plus := true
+	for k: String in without_gear:
+		if not is_equal_approx(float(with_gear[k]) - float(without_gear[k]), float(70 + 70 + 40 + 40) * ppp):
+			all_plus = false
+	_check(all_plus and with_gear.size() == 11, "phụ kiện cộng đúng bonus vào cả 11 chỉ số")
+	gs.gear_owned = saved_owned
+	_check(is_equal_approx(gs.gear_item_power("only", 0), 40.0 * ppp) and is_equal_approx(40.0 * ppp, 1.0), "món Rare level 0 = +1,0 Power")
 	GameData.reload()
 
 	print("== Save / load / hoàn tác ==")

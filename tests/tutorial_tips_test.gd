@@ -165,7 +165,7 @@ func run() -> void:
 	tut.blocked = false
 	tut._process(0.1)
 	check(tut._panel.visible and tut._text.text.contains("Ticket Marketing") and tut._target.has("rect"), "callout + spotlight ô Ticket")
-	check(tut._skip.visible and tut._skip.text == "Tắt mẹo" and tut._primary.text == "Đã hiểu", "nút Đã hiểu và Tắt mẹo")
+	check(not tut._skip.visible and tut._primary.text == "Đã hiểu", "chỉ có nút Đã hiểu, không có nút Tắt mẹo")
 	check(tut._panel.get_rect().end.x <= tut.size.x and tut._panel.position.x >= 0.0, "callout vừa màn 390")
 	state.levels["ticket"] = 30
 	tut._process(0.1)
@@ -185,8 +185,9 @@ func run() -> void:
 	main._select_tab(main.Tab.RACE)
 	main._pump_intro()
 	check(tut.intro == "C1_offline", "lượt mới: mẹo C1 (offline) hiện ở bất kỳ tab nào")
-	tut._on_skip()
-	check(tut.intro == "" and not state.tips_enabled(), "Tắt mẹo: đóng và tắt hẳn")
+	tut._on_primary()
+	state.set_tips_enabled(false)
+	check(tut.intro == "" and not state.tips_enabled(), "Đã hiểu, rồi tắt mẹo trong Cài đặt")
 	state.set_tips_enabled(true)
 
 	print("== Ưu tiên và cài đặt ==")
@@ -206,12 +207,11 @@ func run() -> void:
 	state.tutorial["gated"] = false
 	state.tutorial["tips_seen"] = []
 	main._show_settings()
-	var toggle := main._overlay_box.find_child("TipsToggle", true, false) as CheckButton
-	check(toggle != null and toggle.button_pressed, "Cài đặt có công tắc 'Mẹo từ Linh' đang bật")
-	toggle.button_pressed = false
-	check(not state.tips_enabled(), "gạt tắt: lưu vào trạng thái")
-	toggle.button_pressed = true
-	check(state.tips_enabled(), "gạt bật lại")
+	check(main._overlay_box.find_child("TipsToggle", true, false) == null, "Cài đặt không còn công tắc mẹo")
+	var lang_btn := main._overlay_box.find_child("LanguageButton", true, false) as Button
+	check(lang_btn != null, "Cài đặt có nút ngôn ngữ")
+	lang_btn.pressed.emit()
+	check(main._overlay_box.find_child("Lang_en", true, false) != null and main._overlay_box.find_child("Lang_vi", true, false) != null, "popup liệt kê các ngôn ngữ")
 	main._overlay.hide()
 	main.queue_free()
 	await settle()

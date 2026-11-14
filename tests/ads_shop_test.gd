@@ -116,18 +116,23 @@ func _initialize() -> void:
 		view[pl] = {"state": "ready", "left": 0, "reward": "+1 X", "entitled": false}
 	page.update_ads(view)
 	var b: Button = page.find_child("Ad_free_gems", true, false)
-	_check(b != null and not b.disabled and b.text == "▶ +1 X", "thẻ gem: nút '%s' bấm được" % (b.text if b else "?"))
+	_check(b != null and not b.disabled and b.text == "▶ Xem video", "thẻ gem: nút '%s' bấm được" % (b.text if b else "?"))
+	var banner: Button = page.find_child("Ad_free_gems_banner", true, false)
+	_check(banner != null and not banner.disabled and banner.text == b.text, "banner miễn phí đồng bộ với ô gem")
 	var got := []
 	page.ad_requested.connect(func(pl: String) -> void: got.append(pl))
 	b.pressed.emit()
 	(page.find_child("Ad_free_gear_coupon", true, false) as Button).pressed.emit()
 	(page.find_child("Ad_free_driver_coupon", true, false) as Button).pressed.emit()
 	_check(got == ["free_gems", "free_gear_coupon", "free_driver_coupon"], "bấm 3 thẻ phát đúng placement")
+	banner.pressed.emit()
+	_check(got.back() == "free_gems", "banner miễn phí phát placement free_gems hiện có")
 	view["free_gems"] = {"state": "cooldown", "left": 3723, "reward": "+5 gem", "entitled": false}
 	view["free_gear_coupon"] = {"state": "capped", "left": 0, "reward": "+1 Coupon Gear", "entitled": false}
 	view["free_driver_coupon"] = {"state": "pending", "left": 0, "reward": "+1 Coupon Pro", "entitled": false}
 	page.update_ads(view)
 	_check(b.disabled and b.text == "Còn 01:02:03", "đang chờ: '%s'" % b.text)
+	_check(banner.disabled and banner.text == b.text, "hai nút gem cùng áp dụng cooldown")
 	_check((page.find_child("Ad_free_gear_coupon", true, false) as Button).text == "Mai nhận tiếp", "hết lượt: Mai nhận tiếp")
 	var pend: Button = page.find_child("Ad_free_driver_coupon", true, false)
 	_check(not pend.disabled and pend.text == "Thử nhận lại", "pending: Thử nhận lại, bấm được")

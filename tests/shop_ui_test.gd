@@ -101,7 +101,7 @@ func run() -> void:
 		for grid in [shop._gem_grid, shop._cash_grid]:
 			for card in grid.get_children():
 				check(card.get_global_rect().end.x <= scroll.get_global_rect().end.x + 1, "Currency card fits at %d" % width)
-		check(shop._gem_grid.columns == (2 if width == 320 else 3), "Currency grid adapts at %d" % width)
+		check(shop._gem_grid.columns == 3, "Demo currency grid keeps three columns at %d" % width)
 		if "--shop-shots" in OS.get_cmdline_user_args():
 			for section in ["top", "offers", "rewards", "currency"]:
 				var position := 0
