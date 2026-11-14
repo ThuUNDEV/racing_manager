@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://b8oxuutw40wrc"
+
+[deps]
+
+files=["res://assets/iap_offers/coverage.title.translation", "res://assets/iap_offers/coverage.hero.translation", "res://assets/iap_offers/coverage.foreground.translation", "res://assets/iap_offers/coverage.panel.translation", "res://assets/iap_offers/coverage.scene.translation", "res://assets/iap_offers/coverage.enabled.translation"]
+
+source_file="res://assets/iap_offers/coverage.csv"
+dest_files=["res://assets/iap_offers/coverage.title.translation", "res://assets/iap_offers/coverage.hero.translation", "res://assets/iap_offers/coverage.foreground.translation", "res://assets/iap_offers/coverage.panel.translation", "res://assets/iap_offers/coverage.scene.translation", "res://assets/iap_offers/coverage.enabled.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

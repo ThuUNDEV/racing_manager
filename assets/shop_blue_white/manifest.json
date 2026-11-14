@@ -1,0 +1,83 @@
+{
+  "source": "C:\\Users\\thupv\\.codex\\generated_images\\01a1d4b2-fecc-7ee0-8d39-0fece11c36b3\\exec-5af9cea9-775f-47ad-a238-15a38989db76.png",
+  "sha256": "412a17bdc8cdb63ea79497da1f2d8a52eb2d118a101a7b8bec74c23a700eefbb",
+  "size": [
+    1536,
+    1024
+  ],
+  "regions": {
+    "gem_single": [
+      65,
+      70,
+      262,
+      227
+    ],
+    "gem_cluster": [
+      420,
+      71,
+      318,
+      221
+    ],
+    "gem_bag": [
+      811,
+      47,
+      299,
+      261
+    ],
+    "gem_chest": [
+      1204,
+      41,
+      289,
+      267
+    ],
+    "gem_vault": [
+      21,
+      362,
+      338,
+      278
+    ],
+    "cash_small": [
+      465,
+      410,
+      224,
+      182
+    ],
+    "cash_medium": [
+      807,
+      404,
+      298,
+      213
+    ],
+    "cash_large": [
+      1170,
+      381,
+      348,
+      254
+    ],
+    "income": [
+      27,
+      694,
+      336,
+      305
+    ],
+    "no_ads": [
+      426,
+      700,
+      310,
+      290
+    ],
+    "gift": [
+      806,
+      694,
+      306,
+      302
+    ],
+    "offline": [
+      1166,
+      692,
+      347,
+      307
+    ]
+  },
+  "note": "Original PNG copied byte-for-byte; integer atlas bounds only. Text/prices/rewards remain dynamic."
+}

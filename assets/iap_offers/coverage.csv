@@ -1,0 +1,31 @@
+﻿sku,title,hero,foreground,panel,scene,enabled_by_default
+gems_pack_1,50 gem,hero_gems,,panel_gold,assets/iap_offers/art/gems_pack_1.tscn,True
+gems_pack_2,275 gem,hero_gems,,panel_gold,assets/iap_offers/art/gems_pack_2.tscn,True
+gems_pack_3,600 gem,hero_gems,,panel_gold,assets/iap_offers/art/gems_pack_3.tscn,True
+gems_pack_4,1.300 gem,hero_gems,,panel_gold,assets/iap_offers/art/gems_pack_4.tscn,True
+gems_pack_5,3.500 gem,hero_gems,,panel_gold,assets/iap_offers/art/gems_pack_5.tscn,True
+no_ads,Đội tự do,hero_noads,,panel_blue,assets/iap_offers/art/no_ads.tscn,True
+income_x2,Thu nhập ×2,hero_income_x2,,panel_gold,assets/iap_offers/art/income_x2.tscn,True
+income_x3,Thu nhập ×3,hero_income_x2,,panel_gold,assets/iap_offers/art/income_x3.tscn,True
+income_x3_up,Nâng cấp ×2 → ×3,hero_income_x2,,panel_gold,assets/iap_offers/art/income_x3_up.tscn,True
+offline_plus,Offline+,hero_offline,,panel_blue,assets/iap_offers/art/offline_plus.tscn,True
+starter_1,Gói Tân binh,hero_starter,,panel_blue,assets/iap_offers/art/starter_1.tscn,True
+starter_2,Gói Khởi động,background_pro,ha_welcome,panel_blue,assets/iap_offers/art/starter_2.tscn,True
+starter_3,Gói Chuyên nghiệp,hero_driver_my,,panel_purple,assets/iap_offers/art/starter_3.tscn,True
+offer_combo_1,Combo bứt phá I,hero_combo,,panel_purple,assets/iap_offers/art/offer_combo_1.tscn,True
+offer_combo_2,Combo bứt phá II,hero_combo,,panel_purple,assets/iap_offers/art/offer_combo_2.tscn,True
+offer_noads_bundle,Đội tự do + quà,hero_noads,,panel_blue,assets/iap_offers/art/offer_noads_bundle.tscn,True
+char_lam,Chiêu mộ Lâm,background_elite,lam_welcome,panel_purple,assets/iap_offers/art/char_lam.tscn,True
+char_my,Chiêu mộ My,hero_driver_my,,panel_purple,assets/iap_offers/art/char_my.tscn,True
+char_nhan,Chiêu mộ Nhân,background_elite,nhan_welcome,panel_purple,assets/iap_offers/art/char_nhan.tscn,True
+char_phuong,Chiêu mộ Phương,background_legend,phuong_welcome,panel_gold,assets/iap_offers/art/char_phuong.tscn,True
+char_quang,Chiêu mộ Quang,background_legend,quang_welcome,panel_gold,assets/iap_offers/art/char_quang.tscn,True
+char_son,Chiêu mộ Sơn,background_legend,son_welcome,panel_gold,assets/iap_offers/art/char_son.tscn,True
+daily_gear,Gói trang bị ngày,hero_daily_gear,,panel_purple,assets/iap_offers/art/daily_gear.tscn,True
+daily_driver,Gói tay đua ngày,hero_daily_driver,,panel_purple,assets/iap_offers/art/daily_driver.tscn,True
+pass_month,Pass tháng,hero_month,,panel_blue,assets/iap_offers/art/pass_month.tscn,True
+pass_growth,Quỹ gem,hero_growth,,panel_gold,assets/iap_offers/art/pass_growth.tscn,True
+weekly_s,Gói tuần S,hero_weekly,,panel_teal,assets/iap_offers/art/weekly_s.tscn,True
+weekly_m,Gói tuần M,hero_weekly,,panel_teal,assets/iap_offers/art/weekly_m.tscn,True
+weekly_l,Gói tuần L,hero_weekly,,panel_teal,assets/iap_offers/art/weekly_l.tscn,True
+weekly_xl,Gói tuần XL,hero_weekly,,panel_teal,assets/iap_offers/art/weekly_xl.tscn,False

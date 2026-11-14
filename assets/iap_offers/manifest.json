@@ -1,106 +1,1280 @@
 {
-  "name": "Racing IAP Illustrated Assets",
-  "version": 1,
+  "name": "Racing IAP Complete Art Kit",
+  "version": 2,
   "date": "2026-11-13",
   "scope": [
+    "gems_pack_1",
+    "gems_pack_2",
+    "gems_pack_3",
+    "gems_pack_4",
+    "gems_pack_5",
+    "no_ads",
+    "income_x2",
+    "income_x3",
+    "income_x3_up",
+    "offline_plus",
     "starter_1",
+    "starter_2",
+    "starter_3",
+    "offer_combo_1",
+    "offer_combo_2",
+    "offer_noads_bundle",
+    "char_lam",
     "char_my",
-    "income_x2"
+    "char_nhan",
+    "char_phuong",
+    "char_quang",
+    "char_son",
+    "daily_gear",
+    "daily_driver",
+    "pass_month",
+    "pass_growth",
+    "weekly_s",
+    "weekly_m",
+    "weekly_l",
+    "weekly_xl"
   ],
-  "status": "Packaged artwork and Godot resources; gameplay UI not integrated",
-  "concept": "Design/Previews/iap_packs_v4_asset_reference_concept.png",
+  "catalog_sha256": "62cc905c6d67e3e99fd32b02d51f170604f7f42b3d589f6836bf3bcb24fff33e",
+  "status": "Art for all catalog SKUs; Shop integration separate",
   "images": [
     {
-      "id": "hero_starter",
-      "path": "assets/iap_offers/illustrations/hero_starter.png",
-      "size": [
-        1536,
-        1024
-      ],
-      "mode": "RGB",
-      "source": "C:\\Users\\thupv\\.codex\\generated_images\\01a1d2b3-6866-7051-bc0c-e64a9230e50b\\exec-c00df1da-e4df-4651-9a53-ba7286e00a15.png",
-      "sha256": "24b81bbe306b098332d66b140db6f336d1e939d68b79ee2babcdf7fb376c8409",
-      "resource": "assets/iap_offers/resources/hero_starter.tres"
-    },
-    {
-      "id": "hero_driver_my",
       "path": "assets/iap_offers/illustrations/hero_driver_my.png",
       "size": [
         1536,
         1024
       ],
       "mode": "RGB",
-      "source": "C:\\Users\\thupv\\.codex\\generated_images\\01a1d2b3-6866-7051-bc0c-e64a9230e50b\\exec-2b828ad9-5275-4550-a346-76868ab91f62.png",
-      "sha256": "248f206d5e81651eea942ed5dd7e39fde847845c852fd8b328ec1ce3014d4468",
-      "resource": "assets/iap_offers/resources/hero_driver_my.tres"
+      "alpha_extrema": null,
+      "sha256": "248f206d5e81651eea942ed5dd7e39fde847845c852fd8b328ec1ce3014d4468"
     },
     {
-      "id": "hero_income_x2",
       "path": "assets/iap_offers/illustrations/hero_income_x2.png",
       "size": [
         1536,
         1024
       ],
       "mode": "RGB",
-      "source": "C:\\Users\\thupv\\.codex\\generated_images\\01a1d2b3-6866-7051-bc0c-e64a9230e50b\\exec-36df495b-0ff1-4736-af67-39c164dffac2.png",
-      "sha256": "f7628e579c5e7e8f67c59c65e7e733a7ac6ee24a5df6cf9ed4ea3717184d2b1b",
-      "resource": "assets/iap_offers/resources/hero_income_x2.tres"
+      "alpha_extrema": null,
+      "sha256": "f7628e579c5e7e8f67c59c65e7e733a7ac6ee24a5df6cf9ed4ea3717184d2b1b"
     },
     {
-      "id": "characters",
+      "path": "assets/iap_offers/illustrations/hero_starter.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "alpha_extrema": null,
+      "sha256": "24b81bbe306b098332d66b140db6f336d1e939d68b79ee2babcdf7fb376c8409"
+    },
+    {
       "path": "assets/iap_offers/sheets/characters.png",
       "size": [
         1536,
         1024
       ],
       "mode": "RGBA",
-      "source": "C:\\Users\\thupv\\.codex\\generated_images\\01a1d2b3-6866-7051-bc0c-e64a9230e50b\\exec-08e6be84-cc3d-4836-82e3-7f82f7a475d2.png",
-      "sha256": "ff25171e9267a2fbb9650ef45c456d078be75bea94fc94066a6c1bed3f53878c",
       "alpha_extrema": [
         0,
         254
-      ]
+      ],
+      "sha256": "ff25171e9267a2fbb9650ef45c456d078be75bea94fc94066a6c1bed3f53878c"
+    },
+    {
+      "path": "assets/iap_offers/sheets/drivers_legend.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "sha256": "737e13042387fd41618cd8ab2c9de186793bb2a64a3e870a505c41b53f6a5f48"
+    },
+    {
+      "path": "assets/iap_offers/sheets/drivers_pro_elite.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "sha256": "f107a9a5aaa6ef0cac39c8cd1ef9ef284f07b5e2c96a118ac838a1f581ad6175"
+    },
+    {
+      "path": "assets/iap_offers/sheets/feature_scenes.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "alpha_extrema": null,
+      "sha256": "e0e96cd0e4d02885a235e3f363a723f72495c51d790cf5a197783ed21c28a3dd"
+    },
+    {
+      "path": "assets/iap_offers/sheets/recruit_scenes.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "alpha_extrema": null,
+      "sha256": "7211f87b6546a995cc45ea8a4194f7eedf1428d9bf46d477b9c22fd62c58f91c"
+    },
+    {
+      "path": "assets/iap_offers/sheets/resource_scenes.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "alpha_extrema": null,
+      "sha256": "d6739e74bf2f3aafd685753939e1ca6c50dbfa618bb48c7a2ccc20acd0d2dbb8"
+    },
+    {
+      "path": "assets/iap_offers/sheets/ui_buttons.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "sha256": "9921955b7452b29197d674330b7bd5aa83258500578cd84282c9ec58a1587f91"
+    },
+    {
+      "path": "assets/iap_offers/sheets/ui_panels.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "sha256": "811e58adaec818aa346b62a0698a52b32f1dd3da7a010b2c4b1bc6e5552b28ff"
     }
   ],
-  "poses": [
-    {
+  "textures": {
+    "hero_starter": {
+      "id": "hero_starter",
+      "path": "assets/iap_offers/illustrations/hero_starter.png",
+      "rect": [
+        0,
+        0,
+        1536,
+        1024
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/hero_starter.tres",
+      "purpose": "hero"
+    },
+    "hero_driver_my": {
+      "id": "hero_driver_my",
+      "path": "assets/iap_offers/illustrations/hero_driver_my.png",
+      "rect": [
+        0,
+        0,
+        1536,
+        1024
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/hero_driver_my.tres",
+      "purpose": "hero"
+    },
+    "hero_income_x2": {
+      "id": "hero_income_x2",
+      "path": "assets/iap_offers/illustrations/hero_income_x2.png",
+      "rect": [
+        0,
+        0,
+        1536,
+        1024
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/hero_income_x2.tres",
+      "purpose": "hero"
+    },
+    "hero_noads": {
+      "id": "hero_noads",
+      "path": "assets/iap_offers/sheets/feature_scenes.png",
+      "rect": [
+        0,
+        0,
+        768,
+        512
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/hero_noads.tres",
+      "purpose": "hero"
+    },
+    "hero_offline": {
+      "id": "hero_offline",
+      "path": "assets/iap_offers/sheets/feature_scenes.png",
+      "rect": [
+        768,
+        0,
+        768,
+        512
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/hero_offline.tres",
+      "purpose": "hero"
+    },
+    "hero_month": {
+      "id": "hero_month",
+      "path": "assets/iap_offers/sheets/feature_scenes.png",
+      "rect": [
+        0,
+        512,
+        768,
+        512
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/hero_month.tres",
+      "purpose": "hero"
+    },
+    "hero_growth": {
+      "id": "hero_growth",
+      "path": "assets/iap_offers/sheets/feature_scenes.png",
+      "rect": [
+        768,
+        512,
+        768,
+        512
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/hero_growth.tres",
+      "purpose": "hero"
+    },
+    "hero_combo": {
+      "id": "hero_combo",
+      "path": "assets/iap_offers/sheets/resource_scenes.png",
+      "rect": [
+        0,
+        0,
+        768,
+        512
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/hero_combo.tres",
+      "purpose": "hero"
+    },
+    "hero_weekly": {
+      "id": "hero_weekly",
+      "path": "assets/iap_offers/sheets/resource_scenes.png",
+      "rect": [
+        768,
+        0,
+        768,
+        512
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/hero_weekly.tres",
+      "purpose": "hero"
+    },
+    "hero_gems": {
+      "id": "hero_gems",
+      "path": "assets/iap_offers/sheets/resource_scenes.png",
+      "rect": [
+        0,
+        512,
+        768,
+        512
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/hero_gems.tres",
+      "purpose": "hero"
+    },
+    "hero_daily_gear": {
+      "id": "hero_daily_gear",
+      "path": "assets/iap_offers/sheets/resource_scenes.png",
+      "rect": [
+        768,
+        512,
+        768,
+        512
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/hero_daily_gear.tres",
+      "purpose": "hero"
+    },
+    "background_pro": {
+      "id": "background_pro",
+      "path": "assets/iap_offers/sheets/recruit_scenes.png",
+      "rect": [
+        0,
+        0,
+        768,
+        512
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/background_pro.tres",
+      "purpose": "hero"
+    },
+    "background_elite": {
+      "id": "background_elite",
+      "path": "assets/iap_offers/sheets/recruit_scenes.png",
+      "rect": [
+        768,
+        0,
+        768,
+        512
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/background_elite.tres",
+      "purpose": "hero"
+    },
+    "background_legend": {
+      "id": "background_legend",
+      "path": "assets/iap_offers/sheets/recruit_scenes.png",
+      "rect": [
+        0,
+        512,
+        768,
+        512
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/background_legend.tres",
+      "purpose": "hero"
+    },
+    "hero_daily_driver": {
+      "id": "hero_daily_driver",
+      "path": "assets/iap_offers/sheets/recruit_scenes.png",
+      "rect": [
+        768,
+        512,
+        768,
+        512
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/hero_daily_driver.tres",
+      "purpose": "hero"
+    },
+    "linh_present": {
       "id": "linh_present",
+      "path": "assets/iap_offers/sheets/characters.png",
+      "rect": [
+        29,
+        119,
+        483,
+        781
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
       "resource": "assets/iap_offers/resources/linh_present.tres",
-      "rect": [
-        0,
-        0,
-        512,
-        1024
-      ]
+      "purpose": "character"
     },
-    {
+    "my_welcome": {
       "id": "my_welcome",
-      "resource": "assets/iap_offers/resources/my_welcome.tres",
+      "path": "assets/iap_offers/sheets/characters.png",
       "rect": [
-        512,
-        0,
-        478,
+        529,
+        134,
+        454,
+        766
+      ],
+      "sheet_size": [
+        1536,
         1024
+      ],
+      "resource": "assets/iap_offers/resources/my_welcome.tres",
+      "purpose": "character"
+    },
+    "linh_victory": {
+      "id": "linh_victory",
+      "path": "assets/iap_offers/sheets/characters.png",
+      "rect": [
+        1003,
+        118,
+        506,
+        782
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/linh_victory.tres",
+      "purpose": "character"
+    },
+    "ha_welcome": {
+      "id": "ha_welcome",
+      "path": "assets/iap_offers/sheets/drivers_pro_elite.png",
+      "rect": [
+        116,
+        266,
+        349,
+        540
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/ha_welcome.tres",
+      "purpose": "character"
+    },
+    "lam_welcome": {
+      "id": "lam_welcome",
+      "path": "assets/iap_offers/sheets/drivers_pro_elite.png",
+      "rect": [
+        568,
+        264,
+        373,
+        544
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/lam_welcome.tres",
+      "purpose": "character"
+    },
+    "nhan_welcome": {
+      "id": "nhan_welcome",
+      "path": "assets/iap_offers/sheets/drivers_pro_elite.png",
+      "rect": [
+        1099,
+        263,
+        319,
+        545
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/nhan_welcome.tres",
+      "purpose": "character"
+    },
+    "phuong_welcome": {
+      "id": "phuong_welcome",
+      "path": "assets/iap_offers/sheets/drivers_legend.png",
+      "rect": [
+        18,
+        163,
+        472,
+        741
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/phuong_welcome.tres",
+      "purpose": "character"
+    },
+    "quang_welcome": {
+      "id": "quang_welcome",
+      "path": "assets/iap_offers/sheets/drivers_legend.png",
+      "rect": [
+        491,
+        140,
+        536,
+        763
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/quang_welcome.tres",
+      "purpose": "character"
+    },
+    "son_welcome": {
+      "id": "son_welcome",
+      "path": "assets/iap_offers/sheets/drivers_legend.png",
+      "rect": [
+        1057,
+        133,
+        446,
+        771
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/son_welcome.tres",
+      "purpose": "character"
+    },
+    "panel_blue": {
+      "id": "panel_blue",
+      "path": "assets/iap_offers/sheets/ui_panels.png",
+      "rect": [
+        17,
+        60,
+        735,
+        407
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/panel_blue.tres",
+      "purpose": "panel"
+    },
+    "panel_purple": {
+      "id": "panel_purple",
+      "path": "assets/iap_offers/sheets/ui_panels.png",
+      "rect": [
+        785,
+        60,
+        735,
+        407
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/panel_purple.tres",
+      "purpose": "panel"
+    },
+    "panel_gold": {
+      "id": "panel_gold",
+      "path": "assets/iap_offers/sheets/ui_panels.png",
+      "rect": [
+        17,
+        558,
+        735,
+        407
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/panel_gold.tres",
+      "purpose": "panel"
+    },
+    "panel_teal": {
+      "id": "panel_teal",
+      "path": "assets/iap_offers/sheets/ui_panels.png",
+      "rect": [
+        785,
+        558,
+        735,
+        407
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/panel_teal.tres",
+      "purpose": "panel"
+    },
+    "buy_normal": {
+      "id": "buy_normal",
+      "path": "assets/iap_offers/sheets/ui_buttons.png",
+      "rect": [
+        29,
+        192,
+        467,
+        168
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/buy_normal.tres",
+      "purpose": "button"
+    },
+    "buy_hover": {
+      "id": "buy_hover",
+      "path": "assets/iap_offers/sheets/ui_buttons.png",
+      "rect": [
+        534,
+        192,
+        466,
+        168
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/buy_hover.tres",
+      "purpose": "button"
+    },
+    "buy_pressed": {
+      "id": "buy_pressed",
+      "path": "assets/iap_offers/sheets/ui_buttons.png",
+      "rect": [
+        1039,
+        192,
+        466,
+        168
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/buy_pressed.tres",
+      "purpose": "button"
+    },
+    "buy_disabled": {
+      "id": "buy_disabled",
+      "path": "assets/iap_offers/sheets/ui_buttons.png",
+      "rect": [
+        29,
+        692,
+        467,
+        168
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/buy_disabled.tres",
+      "purpose": "button"
+    },
+    "button_blue": {
+      "id": "button_blue",
+      "path": "assets/iap_offers/sheets/ui_buttons.png",
+      "rect": [
+        534,
+        692,
+        466,
+        169
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/button_blue.tres",
+      "purpose": "button"
+    },
+    "button_amber": {
+      "id": "button_amber",
+      "path": "assets/iap_offers/sheets/ui_buttons.png",
+      "rect": [
+        1039,
+        692,
+        466,
+        168
+      ],
+      "sheet_size": [
+        1536,
+        1024
+      ],
+      "resource": "assets/iap_offers/resources/button_amber.tres",
+      "purpose": "button"
+    }
+  },
+  "styles": {
+    "panel_blue": {
+      "texture": "panel_blue",
+      "resource": "assets/iap_offers/styles/panel_blue.tres",
+      "slice": [
+        65,
+        65,
+        65,
+        65
       ]
     },
-    {
-      "id": "linh_victory",
-      "resource": "assets/iap_offers/resources/linh_victory.tres",
-      "rect": [
-        990,
-        0,
-        546,
-        1024
+    "panel_purple": {
+      "texture": "panel_purple",
+      "resource": "assets/iap_offers/styles/panel_purple.tres",
+      "slice": [
+        65,
+        65,
+        65,
+        65
+      ]
+    },
+    "panel_gold": {
+      "texture": "panel_gold",
+      "resource": "assets/iap_offers/styles/panel_gold.tres",
+      "slice": [
+        65,
+        65,
+        65,
+        65
+      ]
+    },
+    "panel_teal": {
+      "texture": "panel_teal",
+      "resource": "assets/iap_offers/styles/panel_teal.tres",
+      "slice": [
+        65,
+        65,
+        65,
+        65
+      ]
+    },
+    "buy_normal": {
+      "texture": "buy_normal",
+      "resource": "assets/iap_offers/styles/buy_normal.tres",
+      "slice": [
+        70,
+        28,
+        70,
+        28
+      ]
+    },
+    "buy_hover": {
+      "texture": "buy_hover",
+      "resource": "assets/iap_offers/styles/buy_hover.tres",
+      "slice": [
+        70,
+        28,
+        70,
+        28
+      ]
+    },
+    "buy_pressed": {
+      "texture": "buy_pressed",
+      "resource": "assets/iap_offers/styles/buy_pressed.tres",
+      "slice": [
+        70,
+        28,
+        70,
+        28
+      ]
+    },
+    "buy_disabled": {
+      "texture": "buy_disabled",
+      "resource": "assets/iap_offers/styles/buy_disabled.tres",
+      "slice": [
+        70,
+        28,
+        70,
+        28
+      ]
+    },
+    "button_blue": {
+      "texture": "button_blue",
+      "resource": "assets/iap_offers/styles/button_blue.tres",
+      "slice": [
+        70,
+        28,
+        70,
+        28
+      ]
+    },
+    "button_amber": {
+      "texture": "button_amber",
+      "resource": "assets/iap_offers/styles/button_amber.tres",
+      "slice": [
+        70,
+        28,
+        70,
+        28
       ]
     }
-  ],
+  },
+  "recipes": {
+    "gems_pack_1": {
+      "sku": "gems_pack_1",
+      "title": "50 gem",
+      "kind": "gems",
+      "hero": "hero_gems",
+      "foreground": null,
+      "panel": "panel_gold",
+      "scene": "assets/iap_offers/art/gems_pack_1.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true
+    },
+    "gems_pack_2": {
+      "sku": "gems_pack_2",
+      "title": "275 gem",
+      "kind": "gems",
+      "hero": "hero_gems",
+      "foreground": null,
+      "panel": "panel_gold",
+      "scene": "assets/iap_offers/art/gems_pack_2.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true
+    },
+    "gems_pack_3": {
+      "sku": "gems_pack_3",
+      "title": "600 gem",
+      "kind": "gems",
+      "hero": "hero_gems",
+      "foreground": null,
+      "panel": "panel_gold",
+      "scene": "assets/iap_offers/art/gems_pack_3.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true
+    },
+    "gems_pack_4": {
+      "sku": "gems_pack_4",
+      "title": "1.300 gem",
+      "kind": "gems",
+      "hero": "hero_gems",
+      "foreground": null,
+      "panel": "panel_gold",
+      "scene": "assets/iap_offers/art/gems_pack_4.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true
+    },
+    "gems_pack_5": {
+      "sku": "gems_pack_5",
+      "title": "3.500 gem",
+      "kind": "gems",
+      "hero": "hero_gems",
+      "foreground": null,
+      "panel": "panel_gold",
+      "scene": "assets/iap_offers/art/gems_pack_5.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true
+    },
+    "no_ads": {
+      "sku": "no_ads",
+      "title": "@data.offers.ad_free",
+      "kind": "perk",
+      "hero": "hero_noads",
+      "foreground": null,
+      "panel": "panel_blue",
+      "scene": "assets/iap_offers/art/no_ads.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true
+    },
+    "income_x2": {
+      "sku": "income_x2",
+      "title": "@common.income_x_2",
+      "kind": "perk",
+      "hero": "hero_income_x2",
+      "foreground": null,
+      "panel": "panel_gold",
+      "scene": "assets/iap_offers/art/income_x2.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true,
+      "multiplier_label": "×2"
+    },
+    "income_x3": {
+      "sku": "income_x3",
+      "title": "@common.income_x_3",
+      "kind": "perk",
+      "hero": "hero_income_x2",
+      "foreground": null,
+      "panel": "panel_gold",
+      "scene": "assets/iap_offers/art/income_x3.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true,
+      "multiplier_label": "×3"
+    },
+    "income_x3_up": {
+      "sku": "income_x3_up",
+      "title": "@data.offers.upgrade_x_2_x_3",
+      "kind": "perk",
+      "hero": "hero_income_x2",
+      "foreground": null,
+      "panel": "panel_gold",
+      "scene": "assets/iap_offers/art/income_x3_up.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true,
+      "multiplier_label": "×3"
+    },
+    "offline_plus": {
+      "sku": "offline_plus",
+      "title": "Offline+",
+      "kind": "perk",
+      "hero": "hero_offline",
+      "foreground": null,
+      "panel": "panel_blue",
+      "scene": "assets/iap_offers/art/offline_plus.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true
+    },
+    "starter_1": {
+      "sku": "starter_1",
+      "title": "@data.offers.rookie_pack",
+      "kind": "starter",
+      "hero": "hero_starter",
+      "foreground": null,
+      "panel": "panel_blue",
+      "scene": "assets/iap_offers/art/starter_1.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true
+    },
+    "starter_2": {
+      "sku": "starter_2",
+      "title": "@data.offers.starter_pack",
+      "kind": "starter",
+      "hero": "background_pro",
+      "foreground": "ha_welcome",
+      "panel": "panel_blue",
+      "scene": "assets/iap_offers/art/starter_2.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true
+    },
+    "starter_3": {
+      "sku": "starter_3",
+      "title": "@data.offers.pro_pack",
+      "kind": "starter",
+      "hero": "hero_driver_my",
+      "foreground": null,
+      "panel": "panel_purple",
+      "scene": "assets/iap_offers/art/starter_3.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true
+    },
+    "offer_combo_1": {
+      "sku": "offer_combo_1",
+      "title": "@data.offers.breakthrough_combo_i",
+      "kind": "offer",
+      "hero": "hero_combo",
+      "foreground": null,
+      "panel": "panel_purple",
+      "scene": "assets/iap_offers/art/offer_combo_1.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true
+    },
+    "offer_combo_2": {
+      "sku": "offer_combo_2",
+      "title": "@data.offers.breakthrough_combo_ii",
+      "kind": "offer",
+      "hero": "hero_combo",
+      "foreground": null,
+      "panel": "panel_purple",
+      "scene": "assets/iap_offers/art/offer_combo_2.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true
+    },
+    "offer_noads_bundle": {
+      "sku": "offer_noads_bundle",
+      "title": "@data.offers.ad_free_plus_gifts",
+      "kind": "offer",
+      "hero": "hero_noads",
+      "foreground": null,
+      "panel": "panel_blue",
+      "scene": "assets/iap_offers/art/offer_noads_bundle.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true
+    },
+    "char_lam": {
+      "sku": "char_lam",
+      "title": "@data.offers.recruit_lam",
+      "kind": "character",
+      "hero": "background_elite",
+      "foreground": "lam_welcome",
+      "panel": "panel_purple",
+      "scene": "assets/iap_offers/art/char_lam.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true
+    },
+    "char_my": {
+      "sku": "char_my",
+      "title": "@data.offers.recruit_my",
+      "kind": "character",
+      "hero": "hero_driver_my",
+      "foreground": null,
+      "panel": "panel_purple",
+      "scene": "assets/iap_offers/art/char_my.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true
+    },
+    "char_nhan": {
+      "sku": "char_nhan",
+      "title": "@data.offers.recruit_nhan",
+      "kind": "character",
+      "hero": "background_elite",
+      "foreground": "nhan_welcome",
+      "panel": "panel_purple",
+      "scene": "assets/iap_offers/art/char_nhan.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true
+    },
+    "char_phuong": {
+      "sku": "char_phuong",
+      "title": "@data.offers.recruit_phuong",
+      "kind": "character",
+      "hero": "background_legend",
+      "foreground": "phuong_welcome",
+      "panel": "panel_gold",
+      "scene": "assets/iap_offers/art/char_phuong.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true
+    },
+    "char_quang": {
+      "sku": "char_quang",
+      "title": "@data.offers.recruit_quang",
+      "kind": "character",
+      "hero": "background_legend",
+      "foreground": "quang_welcome",
+      "panel": "panel_gold",
+      "scene": "assets/iap_offers/art/char_quang.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true
+    },
+    "char_son": {
+      "sku": "char_son",
+      "title": "@data.offers.recruit_son",
+      "kind": "character",
+      "hero": "background_legend",
+      "foreground": "son_welcome",
+      "panel": "panel_gold",
+      "scene": "assets/iap_offers/art/char_son.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true
+    },
+    "daily_gear": {
+      "sku": "daily_gear",
+      "title": "@data.offers.daily_gear_pack",
+      "kind": "daily",
+      "hero": "hero_daily_gear",
+      "foreground": null,
+      "panel": "panel_purple",
+      "scene": "assets/iap_offers/art/daily_gear.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true
+    },
+    "daily_driver": {
+      "sku": "daily_driver",
+      "title": "@data.offers.daily_driver_pack",
+      "kind": "daily",
+      "hero": "hero_daily_driver",
+      "foreground": null,
+      "panel": "panel_purple",
+      "scene": "assets/iap_offers/art/daily_driver.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true
+    },
+    "pass_month": {
+      "sku": "pass_month",
+      "title": "@data.offers.monthly_pass",
+      "kind": "pass_month",
+      "hero": "hero_month",
+      "foreground": null,
+      "panel": "panel_blue",
+      "scene": "assets/iap_offers/art/pass_month.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true
+    },
+    "pass_growth": {
+      "sku": "pass_growth",
+      "title": "@data.offers.gem_fund",
+      "kind": "pass_growth",
+      "hero": "hero_growth",
+      "foreground": null,
+      "panel": "panel_gold",
+      "scene": "assets/iap_offers/art/pass_growth.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true
+    },
+    "weekly_s": {
+      "sku": "weekly_s",
+      "title": "@data.offers.weekly_pack",
+      "kind": "weekly",
+      "hero": "hero_weekly",
+      "foreground": null,
+      "panel": "panel_teal",
+      "scene": "assets/iap_offers/art/weekly_s.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true
+    },
+    "weekly_m": {
+      "sku": "weekly_m",
+      "title": "@data.offers.weekly_pack_m",
+      "kind": "weekly",
+      "hero": "hero_weekly",
+      "foreground": null,
+      "panel": "panel_teal",
+      "scene": "assets/iap_offers/art/weekly_m.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true
+    },
+    "weekly_l": {
+      "sku": "weekly_l",
+      "title": "@data.offers.weekly_pack_l",
+      "kind": "weekly",
+      "hero": "hero_weekly",
+      "foreground": null,
+      "panel": "panel_teal",
+      "scene": "assets/iap_offers/art/weekly_l.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": true,
+      "ui_labels_not_baked": true
+    },
+    "weekly_xl": {
+      "sku": "weekly_xl",
+      "title": "@data.offers.weekly_pack_xl",
+      "kind": "weekly",
+      "hero": "hero_weekly",
+      "foreground": null,
+      "panel": "panel_teal",
+      "scene": "assets/iap_offers/art/weekly_xl.tscn",
+      "size": [
+        366,
+        244
+      ],
+      "enabled_by_default": false,
+      "ui_labels_not_baked": true
+    }
+  },
   "shared_existing_assets": {
     "gem": "assets/racing_ui_hd/icons/gem.png",
     "cash": "assets/racing_ui_hd/icons/cash.png",
     "crown": "assets/racing_ui_hd/icons/crown.png",
-    "panel": "assets/racing_ui_hd/surfaces/panel_body.png",
-    "buy_button": "assets/racing_ui_hd/surfaces/button_claim.png",
-    "close_button": "assets/racing_ui_hd/icons/close_red.svg"
+    "research": "assets/racing_ui_hd/icons/research.png",
+    "energy": "assets/racing_ui_hd/icons/energy.png",
+    "trophy": "assets/racing_ui_hd/icons/trophy.png",
+    "close_button": "assets/racing_ui_hd/icons/close_red.svg",
+    "racetrack_background": "assets/racing_ui_hd/backgrounds/racetrack_background.png"
   },
   "packs": {
     "standard_driver_pack": {
@@ -159,6 +1333,34 @@
         724
       ]
     },
+    "driver_ha": {
+      "resource": "assets/racing_ui_hd_expansion/sprites/driver_ha.tres",
+      "path": "assets/racing_ui_hd_expansion/sheets/driver_portraits.png",
+      "rect": [
+        15.0,
+        366.0,
+        325.0,
+        349.0
+      ],
+      "size": [
+        1448,
+        1086
+      ]
+    },
+    "driver_lam": {
+      "resource": "assets/racing_ui_hd_expansion/sprites/driver_lam.tres",
+      "path": "assets/racing_ui_hd_expansion/sheets/driver_portraits.png",
+      "rect": [
+        735.0,
+        362.0,
+        299.0,
+        353.0
+      ],
+      "size": [
+        1448,
+        1086
+      ]
+    },
     "driver_my": {
       "resource": "assets/racing_ui_hd_expansion/sprites/driver_my.tres",
       "path": "assets/racing_ui_hd_expansion/sheets/driver_portraits.png",
@@ -172,22 +1374,88 @@
         1448,
         1086
       ]
+    },
+    "driver_nhan": {
+      "resource": "assets/racing_ui_hd_expansion/sprites/driver_nhan.tres",
+      "path": "assets/racing_ui_hd_expansion/sheets/driver_portraits.png",
+      "rect": [
+        13.0,
+        724.0,
+        309.0,
+        352.0
+      ],
+      "size": [
+        1448,
+        1086
+      ]
+    },
+    "driver_phuong": {
+      "resource": "assets/racing_ui_hd_expansion/sprites/driver_phuong.tres",
+      "path": "assets/racing_ui_hd_expansion/sheets/driver_portraits.png",
+      "rect": [
+        393.0,
+        724.0,
+        294.0,
+        352.0
+      ],
+      "size": [
+        1448,
+        1086
+      ]
+    },
+    "driver_quang": {
+      "resource": "assets/racing_ui_hd_expansion/sprites/driver_quang.tres",
+      "path": "assets/racing_ui_hd_expansion/sheets/driver_portraits.png",
+      "rect": [
+        739.0,
+        724.0,
+        291.0,
+        352.0
+      ],
+      "size": [
+        1448,
+        1086
+      ]
+    },
+    "driver_son": {
+      "resource": "assets/racing_ui_hd_expansion/sprites/driver_son.tres",
+      "path": "assets/racing_ui_hd_expansion/sheets/driver_portraits.png",
+      "rect": [
+        1100.0,
+        724.0,
+        309.0,
+        352.0
+      ],
+      "size": [
+        1448,
+        1086
+      ]
     }
   },
-  "sku_art": {
-    "starter_1": "hero_starter",
-    "char_my": "hero_driver_my",
-    "income_x2": "hero_income_x2"
+  "sources": {
+    "feature_scenes": "C:\\Users\\thupv\\.codex\\generated_images\\01a1d2b3-6866-7051-bc0c-e64a9230e50b\\exec-7651d311-5269-4883-be8c-94f3d015e6b8.png",
+    "resource_scenes": "C:\\Users\\thupv\\.codex\\generated_images\\01a1d2b3-6866-7051-bc0c-e64a9230e50b\\exec-e17d47b0-1066-46d3-823c-2bc6731eff9e.png",
+    "recruit_scenes": "C:\\Users\\thupv\\.codex\\generated_images\\01a1d2b3-6866-7051-bc0c-e64a9230e50b\\exec-d4af0530-193e-4269-8524-048bc3534d53.png",
+    "drivers_pro_elite": "C:\\Users\\thupv\\.codex\\generated_images\\01a1d2b3-6866-7051-bc0c-e64a9230e50b\\exec-f6e6fb2b-83d9-4cbf-8878-1576c6ad0709.png",
+    "drivers_legend": "C:\\Users\\thupv\\.codex\\generated_images\\01a1d2b3-6866-7051-bc0c-e64a9230e50b\\exec-fdc4fc22-3553-47a5-8a8b-e33c2245e231.png",
+    "ui_panels": "C:\\Users\\thupv\\.codex\\generated_images\\01a1d2b3-6866-7051-bc0c-e64a9230e50b\\exec-24dee5c3-04b0-4000-91ec-bc199a17f3ab.png",
+    "ui_buttons": "C:\\Users\\thupv\\.codex\\generated_images\\01a1d2b3-6866-7051-bc0c-e64a9230e50b\\exec-a1e9d09d-cc1a-4df8-a6de-bb0acf73680b.png"
+  },
+  "backdrop_color": "#081b34b3",
+  "button_states": {
+    "normal": "buy_normal",
+    "hover": "buy_hover",
+    "pressed": "buy_pressed",
+    "disabled": "buy_disabled",
+    "busy": "buy_normal + dynamic spinner/label"
   },
   "usage": {
-    "hero_aspect": "3:2",
-    "recommended_hero_size": [
+    "draw_size": [
       366,
       244
     ],
-    "illustrations_have_baked_text": false,
-    "keep_source_pixels": true,
-    "character_sheet_has_real_alpha": true,
-    "character_sheet_note": "Retains generated semi-transparent edge shading; use documented atlas regions."
+    "hero_text_baked": false,
+    "atlas_cells_trimmed_without_editing_pixels": true,
+    "weekly_xl_kept_disabled": true
   }
 }
