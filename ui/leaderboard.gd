@@ -10,8 +10,8 @@ const SLIDE := 14.0          # tốc độ trượt hàng (hàng/giây, hàm mũ
 const FLASH_TIME := 2.2      # thời gian giữ mũi tên + nháy sau khi đổi hạng (giây)
 const C_BG := Color("eef5ff")
 const C_ROW_ME := Color("f47510", 0.18)
-const C_TEXT := Color("16355c")
-const C_MUTED := Color("5a7294")
+const C_TEXT := Color("23394a")
+const C_MUTED := Color("768ca0")
 const C_UP := Color("2e9b5a")
 const C_DOWN := Color("d1423b")
 const C_LINE := Color("c6d8f2")
@@ -98,9 +98,9 @@ func _draw() -> void:
 		if c.finished:
 			gap_txt = Balance.fmt_time(c.finish_time)
 		elif c == leader:
-			gap_txt = "Dẫn đầu"
+			gap_txt = I18n.t("race.leader")
 		else:
-			gap_txt = "−%s thân xe" % Balance.fmt_rate(snappedf((leader.s - c.s) / sim.L, 0.1))
+			gap_txt = I18n.t("race.car_lengths") % Balance.fmt_rate(snappedf((leader.s - c.s) / sim.L, 0.1))
 		var gw := w * 0.42
 		draw_string(font, Vector2(w - 34.0 - gw, ty), gap_txt, HORIZONTAL_ALIGNMENT_RIGHT, gw, fs, C_MUTED if not c.is_player else C_TEXT)
 		# Mũi tên đổi hạng

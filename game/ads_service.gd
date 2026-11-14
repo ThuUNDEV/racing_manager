@@ -263,11 +263,11 @@ func shop_ready() -> bool:
 ## Câu báo khi xem không ra thưởng (status của try_show_rewarded).
 func status_text(status: String) -> String:
 	match status:
-		"cancelled": return "Video chưa xem xong nên chưa có thưởng."
-		"no_network": return "Không có mạng."
-		"capped": return "Hôm nay đã hết lượt."
-		"busy": return "Đang bận, thử lại sau."
-		_: return "Chưa có video. Thử lại sau."
+		"cancelled": return I18n.t("ads.video_was_not_finished_so")
+		"no_network": return I18n.t("ads.no_network_connection")
+		"capped": return I18n.t("ads.no_more_attempts_today")
+		"busy": return I18n.t("ads.busy_try_again_later")
+		_: return I18n.t("ads.no_video_available_try_again")
 
 
 # ---------------------------------------------------------------- lá cờ thưởng income (Design/26 §4)
@@ -404,11 +404,11 @@ func clear_pending() -> void:
 func _claim(placement: String, occasion: String) -> bool:
 	var o := _offer(placement)
 	if not o["ok"] or String(o["occasion"]) != occasion:
-		_trace("claim %s: dịp không còn hiệu lực (ok=%s, dịp nay=%s, dịp lúc xem=%s, phase=%s)" % [placement, o["ok"], o["occasion"], occasion, GameState.phase])
+		_trace("claim %s: the occasion is no longer valid (ok=%s, occasion now=%s, occasion at view=%s, phase=%s)" % [placement, o["ok"], o["occasion"], occasion, GameState.phase])
 		return false
 	var rid := _reward_id(placement, occasion)
 	if GameState.processed_rewards.has(rid) or GameState.save_blocked or GameState.phase == "save_error":
-		_trace("claim %s: bị chặn (đã nhận=%s, save_blocked=%s, phase=%s)" % [placement, GameState.processed_rewards.has(rid), GameState.save_blocked, GameState.phase])
+		_trace("claim %s: blocked (claimed=%s, save_blocked=%s, phase=%s)" % [placement, GameState.processed_rewards.has(rid), GameState.save_blocked, GameState.phase])
 		return false
 	var before: Dictionary = GameState._save_data()
 	match String(_cfg(placement).get("reward", "")):
@@ -435,7 +435,7 @@ func _claim(placement: String, occasion: String) -> bool:
 	(st["last"] as Dictionary)[placement] = _now()
 	st["seq"] = int(st.get("seq", 0)) + 1
 	if not GameState.save_game():
-		_trace("claim %s: save_game thất bại, khôi phục (revision=%d)" % [placement, GameState.save_revision])
+		_trace("claim %s: save_game failed, rolled back (revision=%d)" % [placement, GameState.save_revision])
 		GameState._restore_transaction(before)
 		return false
 	GameState.changed.emit()

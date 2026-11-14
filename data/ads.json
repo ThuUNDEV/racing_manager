@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "_doc": "Quảng cáo thưởng v1 (Design/26). daily_cap: trần chung rewarded mỗi ngày UTC (Ads Break không tính). Mỗi placement: reward = loại thưởng (boost | income_seconds | gems | driver_coupon | gear_coupon; còn offline_double | race_bonus | daily_double chỉ để test, v1 không khai báo); daily_limit 0 = chỉ theo trần chung; cooldown_sec giữa hai lần nhận; unlock = id tính năng ở tutorial.json (rỗng = luôn mở). Số liệu là khởi điểm, cần cân lại sau soft launch (Design/26 §5).",
+  "_doc": "Rewarded ads v1 (Design/26). daily_cap: shared daily cap on rewarded ads, UTC day (Ads Break not counted). Each placement: reward = reward type (boost | income_seconds | gems | driver_coupon | gear_coupon; offline_double | race_bonus | daily_double are for tests only and v1 does not declare them); daily_limit 0 = only the shared cap applies; cooldown_sec between two claims; unlock = feature id in tutorial.json (empty = always open). Numbers are starting values and must be rebalanced after soft launch (Design/26 §5).",
   "daily_cap": 12,
   "placements": {
     "income_boost": {
@@ -26,7 +26,7 @@
     }
   },
   "break": {
-    "_doc": "Ads Break (interstitial giữa hai lượt). Tên khoá theo monetize.interDue của Horus SDK. Chưa dùng tới P2e.",
+    "_doc": "Ads Break (interstitial between two races). Key names follow Horus SDK's monetize.interDue. Not used until P2e.",
     "interFromRun": 8, "sessionWarmup": 120, "interEvery": 8, "interCooldown": 420, "rewardedGrace": 60,
     "maxPerHour": 6, "firstPlayMin": 15, "bonusIncomeSec": 90
   }

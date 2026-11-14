@@ -3,7 +3,7 @@
   "drivers": [
     {
       "id": "driver_an",
-      "name": "An",
+      "name": "Button",
       "tier": 0,
       "role": "all_round",
       "pace": 40,
@@ -23,7 +23,7 @@
     },
     {
       "id": "driver_binh",
-      "name": "Bình",
+      "name": "Ricciardo",
       "tier": 0,
       "role": "speed",
       "pace": 50,
@@ -44,7 +44,7 @@
     },
     {
       "id": "driver_chi",
-      "name": "Chi",
+      "name": "Barrichello",
       "tier": 0,
       "role": "technical",
       "pace": 34,
@@ -65,7 +65,7 @@
     },
     {
       "id": "driver_dung",
-      "name": "Dũng",
+      "name": "Räikkönen",
       "tier": 1,
       "role": "calm",
       "pace": 41,
@@ -86,7 +86,7 @@
     },
     {
       "id": "driver_ha",
-      "name": "Hà",
+      "name": "Leclerc",
       "tier": 1,
       "role": "speed",
       "pace": 55,
@@ -107,7 +107,7 @@
     },
     {
       "id": "driver_khoi",
-      "name": "Khôi",
+      "name": "Norris",
       "tier": 1,
       "role": "technical",
       "pace": 39,
@@ -128,7 +128,7 @@
     },
     {
       "id": "driver_lam",
-      "name": "Lâm",
+      "name": "Vettel",
       "tier": 2,
       "role": "all_round",
       "pace": 50,
@@ -149,7 +149,7 @@
     },
     {
       "id": "driver_my",
-      "name": "My",
+      "name": "Verstappen",
       "tier": 2,
       "role": "speed",
       "pace": 60,
@@ -170,7 +170,7 @@
     },
     {
       "id": "driver_nhan",
-      "name": "Nhân",
+      "name": "Alonso",
       "tier": 2,
       "role": "technical",
       "pace": 44,
@@ -191,7 +191,7 @@
     },
     {
       "id": "driver_phuong",
-      "name": "Phương",
+      "name": "Prost",
       "tier": 3,
       "role": "calm",
       "pace": 51,
@@ -212,7 +212,7 @@
     },
     {
       "id": "driver_quang",
-      "name": "Quang",
+      "name": "Schumacher",
       "tier": 3,
       "role": "speed",
       "pace": 65,
@@ -233,7 +233,7 @@
     },
     {
       "id": "driver_son",
-      "name": "Sơn",
+      "name": "Hamilton",
       "tier": 3,
       "role": "technical",
       "pace": 49,

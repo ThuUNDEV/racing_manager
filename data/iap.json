@@ -1,6 +1,6 @@
 {
  "schema_version": 1,
- "_doc": "Danh mục IAP (Design/28). price_fallback chỉ dùng khi store không trả giá. income_min = phút thu nhập chốt lúc mua. SKU và consumable không đổi sau khi lên store.",
+ "_doc": "IAP catalog (Design/28). price_fallback is only used when the store returns no price. income_min = minutes of income locked in at purchase. SKU and consumable do not change after going live on the store.",
  "owned_driver_shards": 40,
  "feature_rotation": [
   "char_lam",
@@ -24,7 +24,7 @@
    "sku": "gems_pack_1",
    "kind": "gems",
    "usd": 0.99,
-   "price_fallback": "26.000đ",
+   "price_fallback": "$0.99",
    "consumable": true,
    "grant": {
     "gems": 50
@@ -35,7 +35,7 @@
    "sku": "gems_pack_2",
    "kind": "gems",
    "usd": 4.99,
-   "price_fallback": "131.000đ",
+   "price_fallback": "$4.99",
    "consumable": true,
    "grant": {
     "gems": 275
@@ -46,7 +46,7 @@
    "sku": "gems_pack_3",
    "kind": "gems",
    "usd": 9.99,
-   "price_fallback": "263.000đ",
+   "price_fallback": "$9.99",
    "consumable": true,
    "grant": {
     "gems": 600
@@ -57,7 +57,7 @@
    "sku": "gems_pack_4",
    "kind": "gems",
    "usd": 19.99,
-   "price_fallback": "526.000đ",
+   "price_fallback": "$19.99",
    "consumable": true,
    "grant": {
     "gems": 1300
@@ -68,7 +68,7 @@
    "sku": "gems_pack_5",
    "kind": "gems",
    "usd": 49.99,
-   "price_fallback": "1.300.000đ",
+   "price_fallback": "$49.99",
    "consumable": true,
    "grant": {
     "gems": 3500
@@ -79,7 +79,7 @@
    "sku": "no_ads",
    "kind": "perk",
    "usd": 9.99,
-   "price_fallback": "263.000đ",
+   "price_fallback": "$9.99",
    "consumable": false,
    "grant": {
     "perk": "no_ads",
@@ -90,7 +90,7 @@
    "sku": "income_x2",
    "kind": "perk",
    "usd": 4.99,
-   "price_fallback": "131.000đ",
+   "price_fallback": "$4.99",
    "consumable": false,
    "grant": {
     "perk": "income_x2"
@@ -103,7 +103,7 @@
    "sku": "income_x3",
    "kind": "perk",
    "usd": 9.99,
-   "price_fallback": "263.000đ",
+   "price_fallback": "$9.99",
    "consumable": false,
    "grant": {
     "perk": "income_x3"
@@ -117,7 +117,7 @@
    "sku": "income_x3_up",
    "kind": "perk",
    "usd": 4.99,
-   "price_fallback": "131.000đ",
+   "price_fallback": "$4.99",
    "consumable": false,
    "grant": {
     "perk": "income_x3"
@@ -133,7 +133,7 @@
    "sku": "offline_plus",
    "kind": "perk",
    "usd": 4.99,
-   "price_fallback": "131.000đ",
+   "price_fallback": "$4.99",
    "consumable": false,
    "grant": {
     "perk": "offline_plus"
@@ -143,7 +143,7 @@
    "sku": "starter_1",
    "kind": "starter",
    "usd": 0.99,
-   "price_fallback": "26.000đ",
+   "price_fallback": "$0.99",
    "consumable": true,
    "once": true,
    "chain": 1,
@@ -166,7 +166,7 @@
    "sku": "starter_2",
    "kind": "starter",
    "usd": 4.99,
-   "price_fallback": "131.000đ",
+   "price_fallback": "$4.99",
    "consumable": true,
    "once": true,
    "chain": 2,
@@ -197,7 +197,7 @@
    "sku": "starter_3",
    "kind": "starter",
    "usd": 9.99,
-   "price_fallback": "263.000đ",
+   "price_fallback": "$9.99",
    "consumable": true,
    "once": true,
    "chain": 3,
@@ -228,7 +228,7 @@
    "sku": "offer_combo_1",
    "kind": "offer",
    "usd": 4.99,
-   "price_fallback": "131.000đ",
+   "price_fallback": "$4.99",
    "consumable": true,
    "once": true,
    "unlock": {
@@ -250,7 +250,7 @@
    "sku": "offer_combo_2",
    "kind": "offer",
    "usd": 9.99,
-   "price_fallback": "263.000đ",
+   "price_fallback": "$9.99",
    "consumable": true,
    "once": true,
    "unlock": {
@@ -272,7 +272,7 @@
    "sku": "offer_noads_bundle",
    "kind": "offer",
    "usd": 9.99,
-   "price_fallback": "263.000đ",
+   "price_fallback": "$9.99",
    "consumable": true,
    "once": true,
    "unlock": {
@@ -294,7 +294,7 @@
    "sku": "char_lam",
    "kind": "character",
    "usd": 4.99,
-   "price_fallback": "131.000đ",
+   "price_fallback": "$4.99",
    "consumable": true,
    "once": true,
    "unlock": {
@@ -313,7 +313,7 @@
    "sku": "char_my",
    "kind": "character",
    "usd": 4.99,
-   "price_fallback": "131.000đ",
+   "price_fallback": "$4.99",
    "consumable": true,
    "once": true,
    "unlock": {
@@ -332,7 +332,7 @@
    "sku": "char_nhan",
    "kind": "character",
    "usd": 4.99,
-   "price_fallback": "131.000đ",
+   "price_fallback": "$4.99",
    "consumable": true,
    "once": true,
    "unlock": {
@@ -351,7 +351,7 @@
    "sku": "char_phuong",
    "kind": "character",
    "usd": 9.99,
-   "price_fallback": "263.000đ",
+   "price_fallback": "$9.99",
    "consumable": true,
    "once": true,
    "unlock": {
@@ -370,7 +370,7 @@
    "sku": "char_quang",
    "kind": "character",
    "usd": 9.99,
-   "price_fallback": "263.000đ",
+   "price_fallback": "$9.99",
    "consumable": true,
    "once": true,
    "unlock": {
@@ -389,7 +389,7 @@
    "sku": "char_son",
    "kind": "character",
    "usd": 9.99,
-   "price_fallback": "263.000đ",
+   "price_fallback": "$9.99",
    "consumable": true,
    "once": true,
    "unlock": {
@@ -408,7 +408,7 @@
    "sku": "daily_gear",
    "kind": "daily",
    "usd": 0.99,
-   "price_fallback": "26.000đ",
+   "price_fallback": "$0.99",
    "consumable": true,
    "daily_limit": 1,
    "unlock": {
@@ -425,7 +425,7 @@
    "sku": "daily_driver",
    "kind": "daily",
    "usd": 0.99,
-   "price_fallback": "26.000đ",
+   "price_fallback": "$0.99",
    "consumable": true,
    "daily_limit": 1,
    "unlock": {
@@ -442,7 +442,7 @@
    "sku": "pass_month",
    "kind": "pass_month",
    "usd": 4.99,
-   "price_fallback": "131.000đ",
+   "price_fallback": "$4.99",
    "consumable": true,
    "grant": {
     "gems": 150
@@ -457,7 +457,7 @@
    "sku": "pass_growth",
    "kind": "pass_growth",
    "usd": 4.99,
-   "price_fallback": "131.000đ",
+   "price_fallback": "$4.99",
    "consumable": false,
    "grant": {
     "gems": 100
@@ -489,7 +489,7 @@
    "sku": "weekly_s",
    "kind": "weekly",
    "usd": 4.99,
-   "price_fallback": "131.000đ",
+   "price_fallback": "$4.99",
    "consumable": true,
    "weekly_limit": 1,
    "unlock": {
@@ -510,7 +510,7 @@
    "sku": "weekly_m",
    "kind": "weekly",
    "usd": 9.99,
-   "price_fallback": "263.000đ",
+   "price_fallback": "$9.99",
    "consumable": true,
    "weekly_limit": 1,
    "unlock": {
@@ -531,7 +531,7 @@
    "sku": "weekly_l",
    "kind": "weekly",
    "usd": 19.99,
-   "price_fallback": "526.000đ",
+   "price_fallback": "$19.99",
    "consumable": true,
    "weekly_limit": 1,
    "unlock": {
@@ -552,7 +552,7 @@
    "sku": "weekly_xl",
    "kind": "weekly",
    "usd": 49.99,
-   "price_fallback": "1.300.000đ",
+   "price_fallback": "$49.99",
    "consumable": true,
    "weekly_limit": 1,
    "unlock": {

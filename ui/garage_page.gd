@@ -7,18 +7,18 @@ signal sfx(cue: String)
 signal notice(msg: String)
 
 const ROOT := "res://assets/workshop_gp/"
-const C_BG := Color("dcebff")
+const C_BG := Color("f1f7fc")
 const C_CARD := Color("eaf2ff")
-const C_LINE := Color("9db9e3")
+const C_LINE := Color("adc9de")
 const C_INK := Color("12294d")
-const C_TEXT := Color("16355c")
-const C_MUTED := Color("5a7294")
+const C_TEXT := Color("23394a")
+const C_MUTED := Color("768ca0")
 const C_ORANGE := Color("f2790a")
 const C_GOOD := Color("15803d")
 const C_BAD := Color("c62828")
 
-const SECTIONS := ["Xe", "Phụ tùng", "Ngoại hình"]
-const STAT_NAMES := {"S": "Tốc độ", "H": "Bám đường", "B": "Ổn định", "A": "Tăng tốc"}
+const SECTIONS := ["garage.cars", "garage.parts", "garage.appearance"]
+const STAT_NAMES := {"S": "common.pace", "H": "common.grip", "B": "common.stability", "A": "common.acceleration"}
 const PART_ORDER := ["engine", "tyre", "chassis", "gearbox"]
 const MULTS := [1, 10, 0]  # 0 = ×Max
 
@@ -246,7 +246,7 @@ func _rebuild() -> void:
 	tabs.add_theme_constant_override("separation", 8)
 	_body.add_child(tabs)
 	for i in SECTIONS.size():
-		tabs.add_child(_choice(SECTIONS[i], _section == i, _set_section.bind(i)))
+		tabs.add_child(_choice(I18n.t(SECTIONS[i]), _section == i, _set_section.bind(i)))
 	match _section:
 		0:
 			_build_car_section()
@@ -265,9 +265,9 @@ func _build_header() -> void:
 	titles.add_theme_constant_override("separation", 0)
 	head.add_child(titles)
 	titles.add_child(_label("Garage", 22))
-	var sub := _label("%s · Hạng %d" % [car["name"], int(car["class"])], 14, C_MUTED, true)
+	var sub := _label(I18n.t("garage.tier") % [car["name"], int(car["class"])], 14, C_MUTED, true)
 	titles.add_child(sub)
-	var change := _plain("Đổi xe", func() -> void: _guard(func() -> void:
+	var change := _plain(I18n.t("garage.change_car"), func() -> void: _guard(func() -> void:
 		_collection = true
 		_confirm_buy = false
 		refresh()))
@@ -301,37 +301,37 @@ func _status_text() -> String:
 	var racing := GameState.phase == "racing"
 	var snap_car := String(GameState.race_snapshot.get("car_id", ""))
 	if racing and snap_car != "" and snap_car != GameState.active_car_id:
-		return "Đang đua: %s · Lượt kế: %s" % [String(GameData.car(snap_car).get("name", snap_car)), String(GameData.car(GameState.active_car_id)["name"])]
+		return I18n.t("garage.racing_next_race") % [String(GameData.car(snap_car).get("name", snap_car)), String(GameData.car(GameState.active_car_id)["name"])]
 	if not _owned(id):
 		if not GameState.car_unlocked(id):
-			return "Khóa · cần mở giải %s" % Balance.league_name(int(GameData.car(id)["entry_tier"]))
-		return "Chưa mua · xem chỉ số và ngoại hình mặc định"
+			return I18n.t("garage.locked_unlock_league") % Balance.league_name(int(GameData.car(id)["entry_tier"]))
+		return I18n.t("garage.not_owned_view_default_stats")
 	if id == GameState.active_car_id:
-		return "✓ Đang dùng" + (" · thay đổi áp dụng từ lượt sau" if racing else "")
+		return I18n.t("garage.use") + (I18n.t("garage.changes_apply_from_next_race") if racing else "")
 	if not _eligible(id):
-		return "Đã có · hạng thấp hơn mức giải hiện tại (cần hạng %d)" % _min_class()
-	return "Đã có · chưa chọn cho lượt kế"
+		return I18n.t("garage.owned_tier_below_current_league") % _min_class()
+	return I18n.t("garage.owned_not_selected_next_race")
 
 
 func _build_unsaved_bar() -> void:
 	if not _pending.is_valid():
 		return
 	var v := _panel(self, Color("ffe8cf"))
-	v.add_child(_label("Ngoại hình xe này có thay đổi chưa lưu.", 14, C_TEXT, true))
+	v.add_child(_label(I18n.t("garage.this_car_appearance_has_unsaved"), 14, C_TEXT, true))
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 8)
 	v.add_child(row)
-	var save := _cta("Lưu", not _blocked(), func() -> void:
+	var save := _cta(I18n.t("garage.save"), not _blocked(), func() -> void:
 		if _save_look():
 			_run_pending())
 	save.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(save)
-	var drop := _plain("Bỏ thay đổi", func() -> void:
+	var drop := _plain(I18n.t("garage.discard_changes"), func() -> void:
 		_reset_draft()
 		_run_pending())
 	drop.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(drop)
-	var stay := _plain("Ở lại", func() -> void:
+	var stay := _plain(I18n.t("garage.stay"), func() -> void:
 		_pending = Callable()
 		refresh())
 	stay.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -413,7 +413,7 @@ func _build_car_section() -> void:
 		var key: String = Balance.PART_KEY[kind]
 		var value := GameState.car_part_stat(_viewed, kind, _owned_level(kind))
 		var card := _panel(grid)
-		card.add_child(_label(STAT_NAMES[key], 14, C_MUTED))
+		card.add_child(_label(I18n.t(STAT_NAMES[key]), 14, C_MUTED))
 		var row := HBoxContainer.new()
 		row.add_theme_constant_override("separation", 8)
 		card.add_child(row)
@@ -425,7 +425,7 @@ func _build_car_section() -> void:
 			var l := _label(txt, 13, C_GOOD if delta > 0.0 else (C_BAD if delta < 0.0 else C_MUTED))
 			l.size_flags_vertical = Control.SIZE_SHRINK_END
 			row.add_child(l)
-	var note := "So với xe đang dùng cho lượt kế." if compare else "Cấp phụ tùng được giữ riêng theo từng xe."
+	var note := I18n.t("garage.compared_with_car_used_next") if compare else I18n.t("garage.part_levels_are_kept_separately")
 	_body.add_child(_label(note, 12, C_MUTED, true))
 	_body.add_child(_car_cta())
 
@@ -437,43 +437,43 @@ func _car_cta() -> Control:
 		var price := Pricing.car_price(id)
 		if _confirm_buy:
 			var v := _panel(_body)
-			v.add_child(_label("Mua %s với giá %s tiền?" % [car["name"], price.format_compact()], 14, C_TEXT, true))
-			v.add_child(_label("Ví còn lại: %s tiền. Mua xong xe chưa tự được chọn." % Balance.fmt_compact(GameState.coins.subtract_checked(price) if GameState.coins.compare(price) >= 0 else BigNumber.zero()), 12, C_MUTED, true))
+			v.add_child(_label(I18n.t("garage.buy_cash") % [car["name"], price.format_compact()], 14, C_TEXT, true))
+			v.add_child(_label(I18n.t("garage.wallet_left_cash_car_not") % Balance.fmt_compact(GameState.coins.subtract_checked(price) if GameState.coins.compare(price) >= 0 else BigNumber.zero()), 12, C_MUTED, true))
 			var row := HBoxContainer.new()
 			row.add_theme_constant_override("separation", 8)
 			v.add_child(row)
-			var ok := _cta("Xác nhận mua", GameState.coins.compare(price) >= 0 and not _blocked(), func() -> void:
+			var ok := _cta(I18n.t("garage.confirm_purchase"), GameState.coins.compare(price) >= 0 and not _blocked(), func() -> void:
 				_confirm_buy = false
 				if GameState.buy_car(id):
 					sfx.emit("upgrade")
-					notice.emit("Đã mua %s" % car["name"])
+					notice.emit(I18n.t("garage.bought") % car["name"])
 				refresh())
 			ok.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			row.add_child(ok)
-			var no := _plain("Hủy", func() -> void:
+			var no := _plain(I18n.t("common.cancel"), func() -> void:
 				_confirm_buy = false
 				refresh())
 			no.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			row.add_child(no)
 			return v
 		if _blocked():
-			return _cta("Chờ lưu", false, func() -> void: pass)
+			return _cta(I18n.t("common.saving"), false, func() -> void: pass)
 		if not GameState.car_unlocked(id):
-			return _cta("Cần mở giải %s" % Balance.league_name(int(car["entry_tier"])), false, func() -> void: pass)
+			return _cta(I18n.t("garage.unlock_league_first") % Balance.league_name(int(car["entry_tier"])), false, func() -> void: pass)
 		if GameState.coins.compare(price) < 0:
-			return _cta("Thiếu %s tiền" % Balance.fmt_compact(price.subtract_checked(GameState.coins)), false, func() -> void: pass)
-		return _cta("Mua · %s tiền" % price.format_compact(), true, func() -> void:
+			return _cta(I18n.t("garage.cash_short") % Balance.fmt_compact(price.subtract_checked(GameState.coins)), false, func() -> void: pass)
+		return _cta(I18n.t("garage.buy_cash_2") % price.format_compact(), true, func() -> void:
 			_confirm_buy = true
 			refresh())
 	if id == GameState.active_car_id:
-		return _cta("Đang dùng", false, func() -> void: pass)
+		return _cta(I18n.t("common.use"), false, func() -> void: pass)
 	if _blocked():
-		return _cta("Chờ lưu", false, func() -> void: pass)
+		return _cta(I18n.t("common.saving"), false, func() -> void: pass)
 	if not _eligible(id):
-		return _cta("Cần xe hạng %d trở lên" % _min_class(), false, func() -> void: pass)
-	return _cta("Dùng xe này", true, func() -> void:
+		return _cta(I18n.t("garage.needs_tier_car_or_higher") % _min_class(), false, func() -> void: pass)
+	return _cta(I18n.t("garage.use_this_car"), true, func() -> void:
 		if GameState.select_car(id):
-			notice.emit("Đã chọn %s%s" % [car["name"], " · áp dụng từ lượt sau" if GameState.phase == "racing" else ""])
+			notice.emit(I18n.t("garage.selected") % [car["name"], I18n.t("garage.applies_from_next_race") if GameState.phase == "racing" else ""])
 		refresh())
 
 
@@ -507,7 +507,7 @@ func _next_cost(kind: String) -> BigNumber:
 
 func _build_parts_section() -> void:
 	if not _owned(_viewed):
-		_body.add_child(_label("Mua xe này để nâng cấp phụ tùng. Cấp phụ tùng được giữ riêng theo từng xe.", 13, C_MUTED, true))
+		_body.add_child(_label(I18n.t("garage.buy_this_car_upgrade_its"), 13, C_MUTED, true))
 		_body.add_child(_car_cta())
 		return
 	var grid := _grid(_body, 2)
@@ -532,8 +532,8 @@ func _build_parts_section() -> void:
 		inner.set_anchors_preset(Control.PRESET_FULL_RECT)
 		inner.alignment = BoxContainer.ALIGNMENT_CENTER
 		inner.add_theme_constant_override("separation", 0)
-		var n1 := _label(Balance.PART_NAMES[kind], 15, Color.WHITE if on else C_TEXT)
-		var n2 := _label("Cấp %d/%d · %s" % [lv, Balance.max_level(), Balance.fmt_rate(snappedf(stat, 0.1))], 12, Color("cfe0fb") if on else C_MUTED)
+		var n1 := _label(I18n.t(Balance.PART_NAMES[kind]), 15, Color.WHITE if on else C_TEXT)
+		var n2 := _label(I18n.t("garage.level") % [lv, Balance.max_level(), Balance.fmt_rate(snappedf(stat, 0.1))], 12, Color("e6f2fc") if on else C_MUTED)
 		for l: Label in [n1, n2]:
 			l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 			l.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -559,10 +559,10 @@ func _build_part_detail() -> void:
 	var v := _panel(_body)
 	var head := HBoxContainer.new()
 	v.add_child(head)
-	var title := _label(Balance.PART_NAMES[kind], 18)
+	var title := _label(I18n.t(Balance.PART_NAMES[kind]), 18)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	head.add_child(title)
-	var mlabel := _label("Mua", 14, C_MUTED)
+	var mlabel := _label(I18n.t("garage.buy"), 14, C_MUTED)
 	mlabel.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	head.add_child(mlabel)
 	var opt := OptionButton.new()
@@ -580,15 +580,15 @@ func _build_part_detail() -> void:
 	var cur := GameState.car_part_stat(_viewed, kind, lv)
 	var nxt := GameState.car_part_stat(_viewed, kind, lv + n)
 	if rem > 0:
-		v.add_child(_label("%s %s → %s" % [STAT_NAMES[key], Balance.fmt_rate(snappedf(cur, 0.1)), Balance.fmt_rate(snappedf(nxt, 0.1))], 15, C_TEXT, true))
-		v.add_child(_label("Cấp %d → %d · Tối đa %d" % [lv, lv + n, Balance.max_level()], 12, C_MUTED, true))
+		v.add_child(_label("%s %s → %s" % [I18n.t(STAT_NAMES[key]), Balance.fmt_rate(snappedf(cur, 0.1)), Balance.fmt_rate(snappedf(nxt, 0.1))], 15, C_TEXT, true))
+		v.add_child(_label(I18n.t("garage.level_max") % [lv, lv + n, Balance.max_level()], 12, C_MUTED, true))
 	else:
-		v.add_child(_label("%s %s · đã đạt cấp tối đa %d" % [STAT_NAMES[key], Balance.fmt_rate(snappedf(cur, 0.1)), Balance.max_level()], 14, C_TEXT, true))
+		v.add_child(_label(I18n.t("garage.reached_max_level") % [I18n.t(STAT_NAMES[key]), Balance.fmt_rate(snappedf(cur, 0.1)), Balance.max_level()], 14, C_TEXT, true))
 	var hint := ""
 	if _viewed != GameState.active_car_id:
-		hint = "Nâng xe này không đổi xe đang dùng."
+		hint = I18n.t("garage.upgrading_this_car_does_not")
 	elif GameState.phase == "racing":
-		hint = "Áp dụng từ lượt sau."
+		hint = I18n.t("garage.applies_from_next_race_2")
 	if hint != "":
 		v.add_child(_label(hint, 12, C_MUTED, true))
 	v.add_child(_part_cta(kind, n))
@@ -598,22 +598,22 @@ func _part_cta(kind: String, n: int) -> Control:
 	var state := GameState.car_upgrade_state(_viewed, kind)
 	var noop := func() -> void: pass
 	if state == "maxed":
-		return _cta("Cấp tối đa", false, noop)
+		return _cta(I18n.t("common.max_level"), false, noop)
 	if state == "save_error":
-		return _cta("Chờ lưu", false, noop)
+		return _cta(I18n.t("common.saving"), false, noop)
 	if not _eligible(_viewed):
-		return _cta("Xe thấp hơn hạng giải hiện tại", false, noop)
+		return _cta(I18n.t("garage.car_below_current_league_tier"), false, noop)
 	var cost := _cost_of(kind, n)
 	if _mult == 0:
 		var plan := GameState.plan_buy(kind, 0, _viewed)
 		if int(plan["count"]) <= 0:
-			return _cta("Thiếu tiền · cần %s" % cost.format_compact(), false, noop)
+			return _cta(I18n.t("garage.not_enough_cash_need") % cost.format_compact(), false, noop)
 		n = int(plan["count"])
 		cost = plan["cost"]
 	elif GameState.coins.compare(cost) < 0:
-		return _cta("Thiếu tiền · cần %s" % cost.format_compact(), false, noop)
+		return _cta(I18n.t("garage.not_enough_cash_need") % cost.format_compact(), false, noop)
 	var car := _viewed
-	return _cta("Nâng %d cấp · %s tiền" % [n, cost.format_compact()], true, func() -> void:
+	return _cta(I18n.t("garage.upgrade_levels_cash") % [n, cost.format_compact()], true, func() -> void:
 		if GameState.buy_many_for(car, kind, _mult):
 			sfx.emit("upgrade")
 		else:
@@ -625,10 +625,10 @@ func _part_cta(kind: String, n: int) -> Control:
 
 func _build_look_section() -> void:
 	if not _owned(_viewed):
-		_body.add_child(_label("Mua xe này để tùy chỉnh ngoại hình. Đang xem ngoại hình mặc định.", 13, C_MUTED, true))
+		_body.add_child(_label(I18n.t("garage.buy_this_car_customize_its"), 13, C_MUTED, true))
 		_body.add_child(_car_cta())
 		return
-	_body.add_child(_label("Màu sơn", 17))
+	_body.add_child(_label(I18n.t("garage.paint_color"), 17))
 	var pg := _grid(_body, 4)
 	for p: Dictionary in GameData.paints():
 		var id := String(p["id"])
@@ -672,33 +672,33 @@ func _build_look_section() -> void:
 			choice.expand_icon = true
 			choice.add_theme_constant_override("icon_max_width", 32)
 		dg.add_child(choice)
-	var note := "Miễn phí · Không tăng chỉ số"
+	var note := I18n.t("garage.free_no_stat_boost")
 	if GameState.phase == "racing" and _viewed == GameState.active_car_id:
-		note += " · lượt đang đua giữ ngoại hình cũ, áp dụng từ lượt sau"
+		note += I18n.t("garage.current_race_keeps_old_look")
 	_body.add_child(_label(note, 12, C_MUTED, true))
 	var row := HBoxContainer.new()
 	_body.add_child(row)
-	var st := _label("Bản nháp chưa lưu" if _dirty() else "Ngoại hình đã lưu", 13, C_ORANGE if _dirty() else C_MUTED)
+	var st := _label(I18n.t("garage.unsaved_draft") if _dirty() else I18n.t("garage.saved_appearance"), 13, C_ORANGE if _dirty() else C_MUTED)
 	st.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	st.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	row.add_child(st)
-	var cancel := _plain("Hủy", _reset_draft)
+	var cancel := _plain(I18n.t("common.cancel"), _reset_draft)
 	cancel.disabled = not _dirty()
 	cancel.custom_minimum_size = Vector2(72, 44)
 	row.add_child(cancel)
-	_body.add_child(_cta("Lưu ngoại hình", _dirty() and not _blocked(), func() -> void: _save_look()))
+	_body.add_child(_cta(I18n.t("garage.save_appearance"), _dirty() and not _blocked(), func() -> void: _save_look()))
 
 
 func _save_look() -> bool:
 	if GameState.set_cosmetics(_viewed, _draft_paint, _draft_decal):
 		sfx.emit("upgrade")
-		notice.emit("Đã lưu ngoại hình")
+		notice.emit(I18n.t("garage.appearance_saved"))
 		_draft_car = ""
 		_sync_draft()
 		refresh()
 		return true
 	sfx.emit("ui_error")
-	notice.emit("Không lưu được ngoại hình. Bản nháp vẫn được giữ.")
+	notice.emit(I18n.t("garage.could_not_save_appearance_draft"))
 	return false
 
 
@@ -707,10 +707,10 @@ func _save_look() -> bool:
 func _build_collection() -> void:
 	var head := HBoxContainer.new()
 	add_child(head)
-	var t := _label("Bộ sưu tập xe", 22)
+	var t := _label(I18n.t("garage.car_collection"), 22)
 	t.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	head.add_child(t)
-	var back := _plain("Quay lại", func() -> void:
+	var back := _plain(I18n.t("garage.back"), func() -> void:
 		_collection = false
 		refresh())
 	back.custom_minimum_size = Vector2(96, 48)
@@ -718,13 +718,13 @@ func _build_collection() -> void:
 	var filt := HBoxContainer.new()
 	filt.add_theme_constant_override("separation", 8)
 	add_child(filt)
-	filt.add_child(_choice("Tất cả", not _owned_only, func() -> void:
+	filt.add_child(_choice(I18n.t("garage.all"), not _owned_only, func() -> void:
 		_owned_only = false
 		refresh()))
-	filt.add_child(_choice("Đã có", _owned_only, func() -> void:
+	filt.add_child(_choice(I18n.t("common.owned"), _owned_only, func() -> void:
 		_owned_only = true
 		refresh()))
-	add_child(_label("Chạm một xe để xem. Việc mua hoặc chọn xe làm ở trang chi tiết.", 12, C_MUTED, true))
+	add_child(_label(I18n.t("garage.tap_car_view_buying_or"), 12, C_MUTED, true))
 	var by_class := {}
 	for c: Dictionary in GameData.cars():
 		if _owned_only and not _owned(String(c["id"])):
@@ -736,12 +736,12 @@ func _build_collection() -> void:
 	var classes := by_class.keys()
 	classes.sort()
 	for k in classes:
-		add_child(_label("Hạng %d · %s" % [k, String(by_class[k][0]["class_name"])], 16, C_MUTED))
+		add_child(_label(I18n.t("garage.tier_2") % [k, String(by_class[k][0]["class_name"])], 16, C_MUTED))
 		var grid := _grid(self, 2)
 		for c: Dictionary in by_class[k]:
 			grid.add_child(_collection_card(c))
 	if classes.is_empty():
-		add_child(_label("Chưa có xe nào trong bộ lọc này.", 13, C_MUTED))
+		add_child(_label(I18n.t("garage.no_cars_this_filter_yet"), 13, C_MUTED))
 
 
 func _collection_card(c: Dictionary) -> Control:
@@ -774,7 +774,7 @@ func _collection_card(c: Dictionary) -> Control:
 	nm.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	col.add_child(nm)
 	var state := _card_state(id)
-	var sl := _label(state, 12, C_GOOD if state == "Đang dùng" else C_MUTED)
+	var sl := _label(state, 12, C_GOOD if state == I18n.t("common.use") else C_MUTED)
 	sl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	sl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	col.add_child(sl)
@@ -784,7 +784,7 @@ func _collection_card(c: Dictionary) -> Control:
 
 func _card_state(id: String) -> String:
 	if _owned(id):
-		return "Đang dùng" if id == GameState.active_car_id else "Đã có"
+		return I18n.t("common.use") if id == GameState.active_car_id else I18n.t("common.owned")
 	if not GameState.car_unlocked(id):
-		return "Khóa"
-	return "Chưa mua"
+		return I18n.t("common.locked")
+	return I18n.t("garage.not_owned")

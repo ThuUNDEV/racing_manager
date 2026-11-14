@@ -180,7 +180,7 @@ func format_scientific() -> String:
 	if is_zero():
 		return "0"
 	var tail := _coefficient.substr(1).rstrip("0")
-	return _coefficient[0] + ("," + tail if tail != "" else "") + "e" + str(exponent)
+	return _coefficient[0] + (I18n.dec() + tail if tail != "" else "") + "e" + str(exponent)
 
 
 func format_compact() -> String:
@@ -208,13 +208,13 @@ func format_decimal(max_fraction: int = 3) -> String:
 	var head := _coefficient.left(exponent + 1) if exponent >= 0 else "0"
 	var fraction := _coefficient.substr(exponent + 1) if exponent >= 0 else "0".repeat(-exponent - 1) + _coefficient
 	fraction = fraction.left(max_fraction).rstrip("0")
-	return head + ("," + fraction if fraction != "" else "")
+	return head + (I18n.dec() + fraction if fraction != "" else "")
 
 
 func _short_mantissa(integer_digits: int) -> String:
 	var head := _coefficient.left(integer_digits)
 	var fraction := _coefficient.substr(integer_digits, maxi(0, 3 - integer_digits)).rstrip("0")
-	return head + ("," + fraction if fraction != "" else "")
+	return head + (I18n.dec() + fraction if fraction != "" else "")
 
 
 static func _from_raw(raw: String, power: int) -> BigNumber:

@@ -18,11 +18,11 @@ const PREPARE_TIMEOUT_MS := 30000
 
 ## Trọng số bước: [id, từ, tới, chữ hiển thị]. Cần hiệu chỉnh bằng đo thực tế trên thiết bị.
 const STEPS := {
-	"start": [0.00, 0.10, "Đang khởi động…"],
-	"data": [0.10, 0.25, "Đang tải dữ liệu game…"],
-	"save": [0.25, 0.45, "Đang khôi phục đội đua…"],
-	"resources": [0.45, 0.85, "Đang tải đường đua…"],
-	"prepare": [0.85, 0.99, "Đang hoàn tất…"],
+	"start": [0.00, 0.10, "boot.starting_up"],
+	"data": [0.10, 0.25, "boot.loading_game_data"],
+	"save": [0.25, 0.45, "boot.restoring_racing_team"],
+	"resources": [0.45, 0.85, "boot.loading_race_track"],
+	"prepare": [0.85, 0.99, "boot.finishing_up"],
 }
 
 ## Tài nguyên bắt buộc của màn đầu tiên. Thiếu một tệp => BOOT_RESOURCE.
@@ -81,7 +81,7 @@ func _alive(tok: int) -> bool:
 # ---------------------------------------------------------------- tiến độ
 
 func _enter(step: String) -> void:
-	status_changed.emit(String(STEPS[step][2]))
+	status_changed.emit(I18n.t(String(STEPS[step][2])))
 	_advance(step, 0.0)
 
 
@@ -125,7 +125,7 @@ func _run(tok: int) -> void:
 	# A. Khởi động
 	_enter("start")
 	if attempt > 1:
-		status_changed.emit("Đang thử lại…")
+		status_changed.emit(I18n.t("boot.retrying"))
 	if not await _pause(tok):
 		return
 	_advance("start", 1.0)
@@ -140,10 +140,10 @@ func _run(tok: int) -> void:
 			return
 	var errs := GameData.validate()
 	if _consume_debug_fail("BOOT_DATA"):
-		errs = ["giả lập lỗi dữ liệu"]
+		errs = ["simulated data error"]
 	if not errs.is_empty():
 		push_error("BOOT_DATA: " + "; ".join(errs))
-		_fail(tok, "BOOT_DATA", "Dữ liệu game bị thiếu hoặc không hợp lệ. Hãy thử lại; nếu vẫn lỗi, hãy cài lại game.")
+		_fail(tok, "BOOT_DATA", I18n.t("boot.game_data_missing_or_invalid"))
 		return
 	_advance("data", 1.0)
 
@@ -159,10 +159,10 @@ func _run(tok: int) -> void:
 		result = "corrupt"
 	match result:
 		"corrupt":
-			_fail(tok, "BOOT_SAVE", "Không thể đọc tiến trình đã lưu. Dữ liệu vẫn được giữ nguyên. Hãy thử lại; nếu vẫn lỗi, hãy liên hệ hỗ trợ.")
+			_fail(tok, "BOOT_SAVE", I18n.t("boot.could_not_read_saved_progress"))
 			return
 		"newer":
-			_fail(tok, "BOOT_SAVE", "Tiến trình này được lưu bởi phiên bản game mới hơn. Hãy cập nhật game để tiếp tục.")
+			_fail(tok, "BOOT_SAVE", I18n.t("boot.this_progress_was_saved_by"))
 			return
 	_advance("save", 1.0)
 	if not await _pause(tok):
@@ -174,10 +174,10 @@ func _run(tok: int) -> void:
 	if not _alive(tok):
 		return
 	if _consume_debug_fail("BOOT_RESOURCE"):
-		failed_path = "giả lập"
+		failed_path = "simulated"
 	if failed_path != "":
 		push_error("BOOT_RESOURCE: " + failed_path)
-		_fail(tok, "BOOT_RESOURCE", "Không tải được tài nguyên cần thiết của game. Hãy thử lại; nếu vẫn lỗi, hãy cài lại game.")
+		_fail(tok, "BOOT_RESOURCE", I18n.t("boot.could_not_load_game_required"))
 		return
 
 	# E. Dựng gameplay phía sau lớp loading
@@ -186,7 +186,7 @@ func _run(tok: int) -> void:
 	gameplay = packed.instantiate() as Control
 	if gameplay == null or not gameplay.has_method("activate") or gameplay.get("is_prepared") == null:
 		_discard_gameplay()
-		_fail(tok, "BOOT_RESOURCE", "Không dựng được màn chơi. Hãy thử lại.")
+		_fail(tok, "BOOT_RESOURCE", I18n.t("common.could_not_build_game_screen"))
 		return
 	_advance("prepare", 0.2)
 	if not await _pause(tok):
@@ -198,7 +198,7 @@ func _run(tok: int) -> void:
 	while is_instance_valid(gameplay) and not gameplay.get("is_prepared"):
 		if Time.get_ticks_msec() >= prepare_deadline:
 			_discard_gameplay()
-			_fail(tok, "BOOT_RESOURCE", "Không dựng được màn chơi. Hãy thử lại.")
+			_fail(tok, "BOOT_RESOURCE", I18n.t("common.could_not_build_game_screen"))
 			return
 		if debug_slow > 0.0:
 			await get_tree().create_timer(0.05).timeout
@@ -207,14 +207,14 @@ func _run(tok: int) -> void:
 		if not _alive(tok):
 			return
 	if not is_instance_valid(gameplay):
-		_fail(tok, "BOOT_RESOURCE", "Không dựng được màn chơi. Hãy thử lại.")
+		_fail(tok, "BOOT_RESOURCE", I18n.t("common.could_not_build_game_screen"))
 		return
 	_advance("prepare", 0.8)
 	if not await _pause(tok):
 		return
 	# Chốt offline sau cùng: lỗi ghi ở đây không để lại phần thưởng chưa kèm báo cáo cho lần thử sau.
 	if not _gs().settle_offline():
-		_fail(tok, "BOOT_WRITE", "Chưa lưu được tiến trình. Hãy kiểm tra dung lượng trống rồi thử lại.")
+		_fail(tok, "BOOT_WRITE", I18n.t("boot.could_not_save_progress_check"))
 		return
 	_held.clear()
 	_advance("prepare", 1.0)

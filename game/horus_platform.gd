@@ -64,13 +64,13 @@ func _ready() -> void:
 	bridge = web_bridge()
 	if bridge == null:
 		# Không có SDK (shell mặc định, hoặc SDK lỗi lúc khởi động): tuyệt đối không dùng mock, vì mock phát thưởng miễn phí.
-		push_warning("[Horus] Không có Horus SDK: tắt quảng cáo.")
+		push_warning("[Horus] Horus SDK not found: ads disabled.")
 		_ads.provider = AdsProvider.new()
 		_iap.provider = IapProvider.new()  # provider rỗng: is_online() = true nhưng buy() luôn lỗi; mock sẽ giao hàng miễn phí
 		return
-	print("[Horus] SDK %s trên %s" % [String(bridge.sdk), String(bridge.kind)])
+	print("[Horus] SDK %s on %s" % [String(bridge.sdk), String(bridge.kind)])
 	if restore_backup(_gs.SAVE_PATH, _gs.BAK_PATH, String(bridge.backup)):
-		print("[Horus] Đã khôi phục save từ bản sao của app.")
+		print("[Horus] Restored the save from the app's backup copy.")
 	_ads.provider = HorusAdsProvider.new(bridge)
 	_iap.provider = HorusIapProvider.new(bridge)
 	_iap.iap_event.connect(_on_iap_event)
@@ -141,7 +141,7 @@ func _debug_adtest() -> void:
 				break
 			await get_tree().create_timer(0.5).timeout
 		if res.is_empty():
-			print("[Horus][adtest] #%d hết giờ chờ kết quả" % [attempt + 1])
+			print("[Horus][adtest] #%d timed out waiting for a result" % [attempt + 1])
 			return
 		print("[Horus][adtest] #%d status=%s reward_id=%s coins %s -> %s ad_pause=%s busy=%s" % [attempt + 1, res["status"], res["reward_id"], before, _gs.coins.format_compact(), _gs.ad_pause, _ads.is_busy()])
 		await get_tree().create_timer(2.0).timeout

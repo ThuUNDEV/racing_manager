@@ -1,5 +1,6 @@
 class_name CarPreview
 extends Control
+const CleanArt = preload("res://ui/clean_modern_art.gd")
 ## HD expansion body by car class, neutral-body paint shader and separate showroom.
 ## Three-quarter view by default; overhead for cosmetic editing or saved decals.
 ## Legacy decal coordinates use a 238x421 canvas; flip their Y axis for nose-up art.
@@ -95,7 +96,7 @@ func _update() -> void:
 	var overhead := top_down or decal_id != "none"
 	var tex := ExpansionArt.texture(ExpansionArt.car_id(car_id, overhead))
 	if tex == null:
-		tex = load(ROOT + String(p["texture"])) as Texture2D
+		tex = CleanArt.asset(ROOT + String(p["texture"])) as Texture2D
 	var dimensions := TEX_SIZE if overhead else Vector2(360, 230)
 	_car.texture = tex
 	_car.size = dimensions

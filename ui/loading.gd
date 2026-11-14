@@ -1,4 +1,5 @@
 extends Node
+const CleanArt = preload("res://ui/clean_modern_art.gd")
 ## Màn loading khởi động UI-25 (Design/09). Chỉ hiển thị %, trạng thái và lỗi; không xử lý kinh tế.
 ## Điều phối nằm ở BootFlow. Gameplay được dựng phía sau lớp che này (CanvasLayer cao), sau khi thanh đạt
 ## 100% và đã vẽ ít nhất một khung hình, loading bàn giao, mờ dần rồi tự giải phóng.
@@ -6,20 +7,21 @@ extends Node
 const ART := "res://assets/startup_loading/"
 const BG_FILE := "loading_pitlane_cyan.png"  # art đã gồm logo, không chứa UI tiến độ
 const GAME_TITLE := "RACING TYCOON"
-const C_BG := Color("061b51")
-const C_TEXT := Color.WHITE
-const C_MUTED := Color("b8c9e8")
-const C_ACCENT := Color("79f6ff")
+const C_BG := Color("f1f7fc")
+const C_TEXT := Color("23394a")
+const C_MUTED := Color("768ca0")
+const C_ACCENT := Color("087ee6")
 const LoadingProgress = preload("res://ui/loading_progress.gd")
-const C_TRACK := Color("0f2a52")
+const C_TRACK := Color("d5e6f3")
 const C_RED := HdUi.C_RED
 
-const SLOW_NOTE := "Lần khởi động này đang mất nhiều thời gian hơn…"
+const SLOW_NOTE := "loading.this_startup_taking_longer_than"
 const HOLD_100 := 0.15  # giữ khung 100% trước khi chuyển cảnh
 const FADE_TIME := 0.2
 const SLOW_AFTER := 10.0
 const RETRY_AFTER := 30.0
 const SMOOTH_TIME := 0.18  # nội suy hiển thị, không vượt target
+const MIN_VISIBLE_TIME := 1.2  # loading vẫn đọc được khi tài nguyên đã có trong cache
 
 var _boot: BootFlow
 var _layer: CanvasLayer
@@ -31,6 +33,7 @@ var _percent: Label
 var _bar: ProgressBar
 var _slow_note: Label
 var _progress_box: VBoxContainer
+var _progress_card: PanelContainer
 var _error_box: VBoxContainer
 var _error_panel: Control
 var _err_title: Label
@@ -48,6 +51,7 @@ var _reduce_motion: bool = false  # chưa có hệ thống cài đặt: mặc đ
 var _shot_prefix: String = ""
 var _shot_marks: Array = [0.3, 0.6, 0.99]
 var _shot_count: int = 0
+var _visible_time: float = 0.0
 
 
 func _ready() -> void:
@@ -123,7 +127,7 @@ func _build_ui() -> void:
 func _art(file: String) -> Texture2D:
 	var path := ART + file
 	if ResourceLoader.exists(path):
-		return load(path) as Texture2D
+		return CleanArt.asset(path) as Texture2D
 	return null
 
 
@@ -164,33 +168,42 @@ func _build_header() -> void:
 
 
 func _build_progress() -> void:
-	# UI thật đặt trên vùng navy của art, không dùng panel hoặc mẹo.
+	# Keep progress directly on the artwork without an enclosing card.
+	_progress_card = PanelContainer.new()
+	var progress_skin := StyleBoxEmpty.new()
+	progress_skin.content_margin_left = 8
+	progress_skin.content_margin_right = 8
+	progress_skin.content_margin_top = 28  # room for the car above the track
+	progress_skin.content_margin_bottom = 6
+	_progress_card.add_theme_stylebox_override("panel", progress_skin)
+	_band(_progress_card, 0.83, 0.95)
 	_progress_box = VBoxContainer.new()
-	_progress_box.add_theme_constant_override("separation", 10)
-	_band(_progress_box, 0.835, 0.95)
+	_progress_box.add_theme_constant_override("separation", 8)
+	_progress_card.add_child(_progress_box)
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 8)
 	_progress_box.add_child(row)
-	_status = _label("", 16, C_TEXT)
+	_status = _label("", 14, Color("e6f2fc"))
 	_status.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_status.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	_status.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	row.add_child(_status)
-	_percent = _label("0%", 20, C_TEXT)
+	_percent = _label("0%", 18, Color("d3e8f4"))
 	_percent.custom_minimum_size = Vector2(48, 0)
 	_percent.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	row.add_child(_percent)
 
 	_bar = LoadingProgress.new()
-	_bar.custom_minimum_size = Vector2(0, 26)
+	_bar.custom_minimum_size = Vector2(0, 32)
 	_bar.min_value = 0.0
 	_bar.max_value = 1.0
 	_bar.step = 0.0001
 	_bar.show_percentage = false
 	_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_progress_box.add_child(_bar)
+	_progress_box.move_child(_bar, 0)
 
-	_slow_note = _label(SLOW_NOTE, 12, C_MUTED)
+	_slow_note = _label(I18n.t(SLOW_NOTE), 12, Color("bed2e7"))
 	_slow_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_slow_note.hide()
 	_progress_box.add_child(_slow_note)
@@ -203,7 +216,7 @@ func _build_error() -> void:
 	var pc := PanelContainer.new()
 	pc.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_band(pc, 0.68, 0.95)
-	var panel := _pill(Color("091f50"), Color("5475a3"), 1)
+	var panel := _pill(Color("ffffff"), Color("adc9de"), 1)
 	panel.content_margin_left = 16
 	panel.content_margin_right = 16
 	panel.content_margin_top = 12
@@ -214,7 +227,7 @@ func _build_error() -> void:
 	pc.add_child(_error_box)
 	pc.hide()
 	_error_panel = pc
-	_err_title = _label("Chưa thể vào game", 20, C_RED)
+	_err_title = _label(I18n.t("loading.cannot_enter_game"), 20, C_RED)
 	_error_box.add_child(_err_title)
 	_err_msg = _label("", 14, C_TEXT)
 	_err_msg.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -247,7 +260,7 @@ func _pill(color: Color, border: Color = Color(0, 0, 0, 0), bw: int = 0) -> Styl
 
 func _retry_button() -> Button:
 	var b := Button.new()
-	b.text = "Thử lại"
+	b.text = I18n.t("common.retry")
 	b.custom_minimum_size = Vector2(0, 48)
 	b.add_theme_font_size_override("font_size", 16)
 	HdUi.style_button(b, "race")
@@ -285,12 +298,13 @@ func _on_viewport_resized() -> void:
 # ---------------------------------------------------------------- tiến độ
 
 func _on_attempt_started() -> void:
+	_visible_time = 0.0
 	_shown = 0.0
 	_target = 0.0
 	_stall = 0.0
 	_failed = false
 	_finishing = false
-	_progress_box.show()
+	_progress_card.show()
 	_error_panel.hide()
 	_stall_retry.hide()
 	_slow_note.hide()
@@ -312,9 +326,9 @@ func _on_progress(target: float) -> void:
 
 func _on_failed(code: String, message: String) -> void:
 	_failed = true
-	_progress_box.hide()
+	_progress_card.hide()
 	_err_msg.text = message
-	_err_code.text = "Mã hỗ trợ: " + code
+	_err_code.text = I18n.t("loading.support_code") + code
 	_error_panel.show()
 	_shoot("error")
 
@@ -324,6 +338,8 @@ func _on_retry() -> void:
 
 
 func _process(delta: float) -> void:
+	if _foreground and not _failed:
+		_visible_time += delta
 	if _foreground:
 		if not _failed and not _finishing:
 			_stall += delta
@@ -331,14 +347,18 @@ func _process(delta: float) -> void:
 				_stall_retry.show()
 			if _stall >= SLOW_AFTER:
 				_slow_note.show()
-	if _shown < _target:
+	# Chỉ làm chậm phần trình bày; không tạo tiến độ vượt tác vụ thực tế.
+	var display_target := _target
+	if _visible_time < MIN_VISIBLE_TIME:
+		display_target = minf(_target, 0.99 * _visible_time / MIN_VISIBLE_TIME)
+	if _shown < display_target:
 		if _reduce_motion:
-			_shown = _target
+			_shown = display_target
 		else:
-			var speed := maxf(0.6, (_target - _shown) / SMOOTH_TIME)
-			_shown = minf(_target, _shown + speed * delta)
+			var speed := maxf(0.6, (display_target - _shown) / SMOOTH_TIME)
+			_shown = minf(display_target, _shown + speed * delta)
 	# Chừa đủ chỗ cho thông báo tải chậm và nút thử lại trên màn nhỏ.
-	_progress_box.anchor_top = 0.70 if _stall_retry.visible else (0.78 if _slow_note.visible else 0.835)
+	_progress_card.anchor_top = 0.67 if _stall_retry.visible else (0.75 if _slow_note.visible else 0.83)
 	_update_bar()
 	_check_shots()
 
@@ -356,7 +376,7 @@ func _on_ready() -> void:
 		return
 	_finishing = true
 	_stall_retry.hide()
-	_status.text = "Sẵn sàng!"
+	_status.text = I18n.t("loading.ready")
 	_slow_note.hide()
 	_target = 1.0
 	while _shown < 1.0:
@@ -370,7 +390,7 @@ func _on_ready() -> void:
 		await get_tree().process_frame
 	if not _boot.handoff():
 		_finishing = false
-		_on_failed("BOOT_RESOURCE", "Không dựng được màn chơi. Hãy thử lại.")
+		_on_failed("BOOT_RESOURCE", I18n.t("common.could_not_build_game_screen"))
 		return
 	if not _reduce_motion:
 		var tw := create_tween()

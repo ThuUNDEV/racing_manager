@@ -6,7 +6,7 @@
       "class": 1,
       "class_name": "Pico",
       "variant": "tia_chop",
-      "name": "Pico Tia chớp",
+      "name": "@data.cars.pico_lightning",
       "base": {
         "S": 46,
         "H": 38,
@@ -22,7 +22,7 @@
       "class": 1,
       "class_name": "Pico",
       "variant": "bam_duong",
-      "name": "Pico Bám đường",
+      "name": "@data.cars.pico_grip",
       "base": {
         "S": 38,
         "H": 46,
@@ -38,7 +38,7 @@
       "class": 1,
       "class_name": "Pico",
       "variant": "ben_bi",
-      "name": "Pico Bền bỉ",
+      "name": "@data.cars.pico_endurance",
       "base": {
         "S": 37,
         "H": 37,
@@ -54,7 +54,7 @@
       "class": 2,
       "class_name": "Nova",
       "variant": "tia_chop",
-      "name": "Nova Tia chớp",
+      "name": "@data.cars.nova_lightning",
       "base": {
         "S": 62,
         "H": 54,
@@ -70,7 +70,7 @@
       "class": 2,
       "class_name": "Nova",
       "variant": "bam_duong",
-      "name": "Nova Bám đường",
+      "name": "@data.cars.nova_grip",
       "base": {
         "S": 54,
         "H": 62,
@@ -86,7 +86,7 @@
       "class": 2,
       "class_name": "Nova",
       "variant": "ben_bi",
-      "name": "Nova Bền bỉ",
+      "name": "@data.cars.nova_endurance",
       "base": {
         "S": 53,
         "H": 53,
@@ -102,7 +102,7 @@
       "class": 3,
       "class_name": "Apex",
       "variant": "tia_chop",
-      "name": "Apex Tia chớp",
+      "name": "@data.cars.apex_lightning",
       "base": {
         "S": 80,
         "H": 72,
@@ -118,7 +118,7 @@
       "class": 3,
       "class_name": "Apex",
       "variant": "bam_duong",
-      "name": "Apex Bám đường",
+      "name": "@data.cars.apex_grip",
       "base": {
         "S": 72,
         "H": 80,
@@ -134,7 +134,7 @@
       "class": 3,
       "class_name": "Apex",
       "variant": "ben_bi",
-      "name": "Apex Bền bỉ",
+      "name": "@data.cars.apex_endurance",
       "base": {
         "S": 71,
         "H": 71,
@@ -150,7 +150,7 @@
       "class": 4,
       "class_name": "Titan",
       "variant": "tia_chop",
-      "name": "Titan Tia chớp",
+      "name": "@data.cars.titan_lightning",
       "base": {
         "S": 100,
         "H": 92,
@@ -166,7 +166,7 @@
       "class": 4,
       "class_name": "Titan",
       "variant": "bam_duong",
-      "name": "Titan Bám đường",
+      "name": "@data.cars.titan_grip",
       "base": {
         "S": 92,
         "H": 100,
@@ -182,7 +182,7 @@
       "class": 4,
       "class_name": "Titan",
       "variant": "ben_bi",
-      "name": "Titan Bền bỉ",
+      "name": "@data.cars.titan_endurance",
       "base": {
         "S": 91,
         "H": 91,
@@ -198,7 +198,7 @@
       "class": 5,
       "class_name": "Zenith",
       "variant": "tia_chop",
-      "name": "Zenith Tia chớp",
+      "name": "@data.cars.zenith_lightning",
       "base": {
         "S": 122,
         "H": 114,
@@ -214,7 +214,7 @@
       "class": 5,
       "class_name": "Zenith",
       "variant": "bam_duong",
-      "name": "Zenith Bám đường",
+      "name": "@data.cars.zenith_grip",
       "base": {
         "S": 114,
         "H": 122,
@@ -230,7 +230,7 @@
       "class": 5,
       "class_name": "Zenith",
       "variant": "ben_bi",
-      "name": "Zenith Bền bỉ",
+      "name": "@data.cars.zenith_endurance",
       "base": {
         "S": 113,
         "H": 113,

@@ -1,8 +1,9 @@
 extends Control
+const PopupAnim = preload("res://ui/popup_anim.gd")
 ## Popup Classes: cơ sở đua, quản lý và mở rộng. Đua vẫn chạy sau lớp nền tối.
 signal closed
 
-const INK := Color("16355c")
+const INK := Color("23394a")
 const MUTED := Color("6a7d99")
 const TouchScroll = preload("res://ui/touch_scroll.gd")
 const TILE := {"blue": Color("bfd9ff"), "orange": Color("ffd9b0"), "red": Color("ffc4c4"),
@@ -54,7 +55,7 @@ func _ready() -> void:
 	titles.add_theme_constant_override("separation", 0)
 	row.add_child(titles)
 	titles.add_child(_label("Classes", 25, INK))
-	titles.add_child(_label("Quản lý cơ sở đua", 11, MUTED, true))
+	titles.add_child(_label(I18n.t("class.manage_race_facilities"), 11, MUTED, true))
 	var wallet := _surface(Color("e0efff"), Color("8eb4e9"), 18, 8)
 	wallet.size_flags_vertical = SIZE_SHRINK_CENTER
 	row.add_child(wallet)
@@ -102,7 +103,7 @@ func _ready() -> void:
 
 
 func open() -> void:
-	show()
+	PopupAnim.open(self, _popup)
 	refresh()
 	_scroll.scroll_vertical = 0
 	_fit_popup.call_deferred()
@@ -110,8 +111,7 @@ func open() -> void:
 
 func _close() -> void:
 	_close_picker()
-	hide()
-	closed.emit()
+	PopupAnim.close(self, _popup, closed.emit)
 
 
 func _fit_popup() -> void:
@@ -140,7 +140,7 @@ func refresh() -> void:
 		_list.remove_child(c)
 		c.queue_free()
 	var section := HBoxContainer.new()
-	section.add_child(_label("CƠ SỞ CỦA BẠN", 13, INK, true))
+	section.add_child(_label(I18n.t("class.facilities"), 13, INK, true))
 	section.add_child(_label("%d / %d" % [GameState.facilities.size(), GameState.facility_limit()], 16, INK))
 	_list.add_child(section)
 	for cls: Dictionary in GameData.race_classes():
@@ -177,14 +177,14 @@ func _card(cls: Dictionary) -> Control:
 	if is_active:
 		var badge := _surface(Color("e0f8df"), Color("a7dfaa"), 14, 5)
 		badge.size_flags_vertical = SIZE_SHRINK_CENTER
-		var active := _label("● Đang đua", 11, Color("238331"))
+		var active := _label(I18n.t("class.racing"), 11, Color("238331"))
 		active.name = "ClassActive_" + id
 		badge.add_child(active)
 		name_row.add_child(badge)
 	names.add_child(_label(String(cls.get("blurb", "")), 12, MUTED, true))
 	var mg := Button.new()
 	mg.name = "ClassManage_" + id
-	mg.text = "✓ Đang quản lý" if managed else "Quản lý"
+	mg.text = I18n.t("class.managing") if managed else I18n.t("class.manage")
 	mg.disabled = managed
 	mg.custom_minimum_size.y = 28 if managed else 44
 	mg.size_flags_horizontal = SIZE_SHRINK_BEGIN
@@ -192,7 +192,7 @@ func _card(cls: Dictionary) -> Control:
 	if managed:
 		mg.add_theme_stylebox_override("disabled", StyleBoxEmpty.new())
 		mg.add_theme_color_override("font_disabled_color", Color("1664cb"))
-		mg.add_theme_constant_override("outline_size", 0)
+		HdUi.text_depth(mg)
 	else:
 		HdUi.style_button(mg, "upgrade")
 	mg.pressed.connect(_on_manage.bind(id))
@@ -204,7 +204,7 @@ func _card(cls: Dictionary) -> Control:
 	box.add_child(line)
 	var team := VBoxContainer.new()
 	team.add_theme_constant_override("separation", 2)
-	team.add_child(_label("TÊN ĐỘI", 11, MUTED))
+	team.add_child(_label(I18n.t("class.team_name"), 11, MUTED))
 	team.add_child(_label(GameState.player_team_name, 20, INK, true))
 	box.add_child(team)
 	var metrics := _surface(Color("e6f3ff"), Color("e6f3ff"), 16, 10)
@@ -212,13 +212,13 @@ func _card(cls: Dictionary) -> Control:
 	var metric_row := HBoxContainer.new()
 	metric_row.add_theme_constant_override("separation", 8)
 	metrics.add_child(metric_row)
-	metric_row.add_child(_metric("icons/trophy.png", "GIẢI HIỆN TẠI", String(GameData.league(GameState.facility_tier(id))["name"]), INK))
+	metric_row.add_child(_metric("icons/trophy.png", I18n.t("class.current_league"), String(GameData.league(GameState.facility_tier(id))["name"]), INK))
 	var divider := ColorRect.new()
 	divider.color = Color("bedaf4")
 	divider.custom_minimum_size.x = 1
 	divider.mouse_filter = MOUSE_FILTER_IGNORE
 	metric_row.add_child(divider)
-	metric_row.add_child(_metric("icons/cash.png", "THU NHẬP", "+%s/giây" % Balance.fmt_rate(GameState.facility_rate(id)), Color("22852f")))
+	metric_row.add_child(_metric("icons/cash.png", I18n.t("class.income"), I18n.t("common.plus_sec") % Balance.fmt_rate(GameState.facility_rate(id)), Color("22852f")))
 	var hint := _surface(Color("eaf4ff"), Color("eaf4ff"), 14, 8)
 	box.add_child(hint)
 	var hint_row := HBoxContainer.new()
@@ -230,12 +230,12 @@ func _card(cls: Dictionary) -> Control:
 	hint_row.add_child(hints)
 	var variant := _variant_name(String(cls.get("recommended_variant", "")))
 	if variant != "":
-		hints.add_child(_label("Xe gợi ý: " + variant, 13, INK, true))
+		hints.add_child(_label(I18n.t("class.suggested_car") + variant, 13, INK, true))
 	hints.add_child(_label(String(cls.get("key_stats", "")), 12, MUTED, true))
 	if not is_active:
 		var watch := Button.new()
 		watch.name = "ClassWatch_" + id
-		watch.text = "Sau lượt này" if is_pending else "Xem đua"
+		watch.text = I18n.t("class.after_this_race") if is_pending else I18n.t("class.watch_race")
 		watch.custom_minimum_size.y = 44
 		HdUi.style_button(watch, "amber" if is_pending else "claim")
 		watch.pressed.connect(_on_watch.bind(id))
@@ -269,7 +269,7 @@ func _surface(fill: Color, border: Color, radius: int, padding: int) -> PanelCon
 
 
 func _variant_name(variant: String) -> String:
-	return {"tia_chop": "Tia chớp", "bam_duong": "Bám đường", "ben_bi": "Bền bỉ"}.get(variant, "")
+	return {"tia_chop": I18n.t("common.lightning"), "bam_duong": I18n.t("common.grip"), "ben_bi": I18n.t("class.endurance")}.get(variant, "")
 
 
 func _facility_panel() -> Control:
@@ -286,19 +286,19 @@ func _facility_panel() -> Control:
 	col.size_flags_horizontal = SIZE_EXPAND_FILL
 	row.add_child(col)
 	var state: String = GameState.facility_state()
-	col.add_child(_label("Đã mở đủ cơ sở" if state == "full" else "Mở cơ sở mới", 21, INK, true))
-	col.add_child(_label("Thêm loại đua, tăng thu nhập", 12, MUTED, true))
-	var note: String = {"ok": "Sẵn sàng mở cơ sở mới",
-		"unassigned": "Cơ sở mới đang chờ chọn loại.",
-		"short": "Còn thiếu %s" % Balance.fmt_money(GameState.facility_price().subtract_checked(GameState.coins)) if GameState.coins.compare(GameState.facility_price()) < 0 else "",
-		"full": "Đã mở đủ cơ sở cho mọi class.", "save_error": "Đang chờ lưu tiến trình."}.get(state, "")
+	col.add_child(_label(I18n.t("class.all_facilities_unlocked") if state == "full" else I18n.t("class.open_new_facility"), 21, INK, true))
+	col.add_child(_label(I18n.t("class.add_race_types_earn_more"), 12, MUTED, true))
+	var note: String = {"ok": I18n.t("class.ready_open_new_facility"),
+		"unassigned": I18n.t("class.new_facility_waiting_you_pick"),
+		"short": I18n.t("class.short") % Balance.fmt_money(GameState.facility_price().subtract_checked(GameState.coins)) if GameState.coins.compare(GameState.facility_price()) < 0 else "",
+		"full": I18n.t("class.all_facilities_every_class_are"), "save_error": I18n.t("class.waiting_progress_save")}.get(state, "")
 	var nl := _label(note, 13, Color("99600a"), true)
 	nl.name = "FacilityNote"
 	col.add_child(nl)
 	if state == "ok" or state == "short":
 		var buy := Button.new()
 		buy.name = "FacilityBuy"
-		buy.text = "Mở cơ sở · " + Balance.fmt_money(GameState.facility_price())
+		buy.text = I18n.t("class.open_facility") + Balance.fmt_money(GameState.facility_price())
 		buy.icon = HdUi.scaled("icons/cash.png", 0.08)
 		buy.expand_icon = true
 		buy.add_theme_constant_override("icon_max_width", 26)
@@ -306,14 +306,14 @@ func _facility_panel() -> Control:
 		buy.custom_minimum_size.y = 48
 		HdUi.style_button(buy, "amber")
 		buy.add_theme_color_override("font_disabled_color", Color("4c6589"))
-		buy.add_theme_constant_override("outline_size", 0)
+		buy.add_theme_constant_override("outline_size", 1)
 		buy.disabled = state != "ok"
 		buy.pressed.connect(_on_open_facility)
 		box.add_child(buy)
 	elif state == "unassigned":
 		var pick := Button.new()
 		pick.name = "FacilityPick"
-		pick.text = "Chọn loại"
+		pick.text = I18n.t("class.pick_type")
 		pick.custom_minimum_size.y = 48
 		HdUi.style_button(pick, "amber")
 		pick.pressed.connect(_open_picker)
@@ -325,7 +325,7 @@ func _on_open_facility() -> void:
 	if GameState.buy_facility():
 		_open_picker()
 	else:
-		_say("Chưa mở được cơ sở.")
+		_say(I18n.t("class.could_not_open_facility"))
 
 
 ## Popup chọn loại cơ sở: lưới 2 cột, chọn một ô rồi bấm OK. Bấm ra ngoài thì cơ sở vẫn chờ (nút đổi thành "Chọn loại").
@@ -360,10 +360,10 @@ func _open_picker() -> void:
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 10)
 	panel.add_child(box)
-	var t := _label("Chọn loại cơ sở", 20, INK)
+	var t := _label(I18n.t("class.pick_facility_type"), 20, INK)
 	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(t)
-	var sub := _label("Chọn class cho cơ sở mới. Không đổi lại được.", 13, MUTED, true)
+	var sub := _label(I18n.t("class.pick_class_new_facility_this"), 13, MUTED, true)
 	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(sub)
 	var grid := GridContainer.new()
@@ -413,6 +413,7 @@ func _option(cls: Dictionary) -> Button:
 		s.set_corner_radius_all(16)
 		s.set_content_margin_all(8)
 		b.add_theme_stylebox_override(st, s)
+	HdUi.ButtonSkin.apply(b)
 	b.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
 	b.pressed.connect(_on_option.bind(id))
 	return b
@@ -430,9 +431,9 @@ func _on_picker_ok() -> void:
 	var cname := String(GameData.race_class(_picker_choice)["name"])
 	if GameState.assign_facility(_picker_choice):
 		_close_picker()
-		_say("Đã mở cơ sở %s. Bấm Xem đua để dùng." % cname)
+		_say(I18n.t("class.opened_facility_tap_watch_race") % cname)
 	else:
-		_say("Chưa chọn được %s." % cname)
+		_say(I18n.t("class.could_not_pick") % cname)
 
 
 func _close_picker() -> void:
@@ -440,25 +441,25 @@ func _close_picker() -> void:
 		_picker.queue_free()
 		_picker = null
 	if GameState.facility_unassigned() >= 0:
-		_say("Cơ sở vẫn đang chờ. Bấm Chọn loại khi sẵn sàng.")
+		_say(I18n.t("class.facility_still_waiting_tap_pick"))
 
 
 func _on_manage(id: String) -> void:
 	var cname := String(GameData.race_class(id)["name"])
 	if GameState.manage_class(id):
-		_say("Đang quản lý %s." % cname)
+		_say(I18n.t("class.now_managing") % cname)
 	else:
-		_say("Chưa chuyển được cơ sở.")
+		_say(I18n.t("class.could_not_switch_facility"))
 
 
 func _on_watch(id: String) -> void:
 	var cname := String(GameData.race_class(id)["name"])
 	if not GameState.select_class(id):
-		_say("Chưa đổi được class.")
+		_say(I18n.t("class.could_not_change_class"))
 	elif GameState.pending_class == id:
-		_say("Đổi sang %s sau khi lượt hiện tại kết thúc." % cname)
+		_say(I18n.t("class.switching_after_current_race_ends") % cname)
 	else:
-		_say("Đã chuyển sang %s." % cname)
+		_say(I18n.t("class.switched") % cname)
 
 
 func _say(text: String) -> void:

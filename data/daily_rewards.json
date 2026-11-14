@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "_doc": "Daily login rewards (Design/30). unlock = feature id in tutorial.json. milestone_interval: a milestone every N claimed days, rewards rotate through milestones. cycle = 6 regular slots (days 1-6), grand = the day-7 slot rotating by grand_ordinal. Each reward: gems | driver_coupon{pro,allstar} | gear_coupon{standard,elite}. gem_scale multiplies the gem part (flag daily_gem_scale). Numbers are starting values and must be rebalanced in the lab (Design/30 §9).",
+  "unlock": "U5_drivers",
+  "milestone_interval": 10,
+  "gem_scale": 1.0,
+  "flags": { "enabled": true, "x2_enabled": true },
+  "cycle": [
+    { "driver_coupon": { "pro": 2 } },
+    { "gear_coupon": { "standard": 2 } },
+    { "gems": 15 },
+    { "driver_coupon": { "allstar": 1 } },
+    { "gear_coupon": { "elite": 1 } },
+    { "gems": 20 }
+  ],
+  "grand": [
+    { "driver_coupon": { "allstar": 2 }, "gems": 30 },
+    { "gear_coupon": { "elite": 2 }, "gems": 30 },
+    { "gems": 80 },
+    { "driver_coupon": { "allstar": 3 } },
+    { "gear_coupon": { "elite": 3 } },
+    { "driver_coupon": { "allstar": 2 }, "gear_coupon": { "elite": 2 } },
+    { "driver_coupon": { "allstar": 4 }, "gear_coupon": { "elite": 2 }, "gems": 50 }
+  ],
+  "milestones": [
+    { "gems": 40 },
+    { "driver_coupon": { "allstar": 2 } },
+    { "gems": 80, "driver_coupon": { "allstar": 2 } }
+  ]
+}

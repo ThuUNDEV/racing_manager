@@ -7,7 +7,7 @@
   {
    "id": "pro",
    "name": "PRO PACK",
-   "subtitle": "Chắc chắn có Elite sau 13 lượt",
+   "subtitle": "@data.driver_gacha.guaranteed_elite_after_13_pulls",
    "coupon": "pro",
    "price_x1": 10,
    "price_x10": 100,
@@ -18,7 +18,7 @@
   {
    "id": "allstar",
    "name": "ALL-STAR PACK",
-   "subtitle": "Chắc chắn có Legend sau 10 lượt",
+   "subtitle": "@data.driver_gacha.guaranteed_legend_after_10_pulls",
    "coupon": "allstar",
    "price_x1": 30,
    "price_x10": 300,

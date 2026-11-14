@@ -27,7 +27,7 @@
     "engine",
     "tyre"
    ],
-   "hint": "Động cơ tăng tốc độ trên đoạn thẳng."
+   "hint": "@common.engine_boosts_top_speed_straights"
   },
   {
    "id": "track_pine",
@@ -63,7 +63,7 @@
     "tyre",
     "engine"
    ],
-   "hint": "Lốp giúp xe giữ tốc độ qua cua."
+   "hint": "@common.tyres_help_car_hold_speed"
   },
   {
    "id": "track_city",
@@ -103,7 +103,7 @@
     "tyre",
     "gearbox"
    ],
-   "hint": "Lốp giúp xe giữ tốc độ qua cua."
+   "hint": "@common.tyres_help_car_hold_speed"
   },
   {
    "id": "track_desert",
@@ -131,7 +131,7 @@
     "engine",
     "gearbox"
    ],
-   "hint": "Động cơ tăng tốc độ trên đoạn thẳng."
+   "hint": "@common.engine_boosts_top_speed_straights"
   },
   {
    "id": "track_lakeside",
@@ -163,7 +163,7 @@
     "engine",
     "tyre"
    ],
-   "hint": "Động cơ tăng tốc độ trên đoạn thẳng."
+   "hint": "@common.engine_boosts_top_speed_straights"
   },
   {
    "id": "track_quarry",
@@ -199,7 +199,7 @@
     "engine",
     "tyre"
    ],
-   "hint": "Động cơ tăng tốc độ trên đoạn thẳng."
+   "hint": "@common.engine_boosts_top_speed_straights"
   },
   {
    "id": "track_mountain",
@@ -235,7 +235,7 @@
     "tyre",
     "gearbox"
    ],
-   "hint": "Lốp giúp xe giữ tốc độ qua cua."
+   "hint": "@common.tyres_help_car_hold_speed"
   },
   {
    "id": "track_oldtown",
@@ -279,7 +279,7 @@
     "tyre",
     "gearbox"
    ],
-   "hint": "Lốp giúp xe giữ tốc độ qua cua."
+   "hint": "@common.tyres_help_car_hold_speed"
   },
   {
    "id": "track_neon",
@@ -315,7 +315,7 @@
     "tyre",
     "gearbox"
    ],
-   "hint": "Lốp giúp xe giữ tốc độ qua cua."
+   "hint": "@common.tyres_help_car_hold_speed"
   },
   {
    "id": "track_speedway",
@@ -347,7 +347,7 @@
     "engine",
     "gearbox"
    ],
-   "hint": "Động cơ tăng tốc độ trên đoạn thẳng."
+   "hint": "@common.engine_boosts_top_speed_straights"
   },
   {
    "id": "track_circuit_a",
@@ -415,7 +415,7 @@
     "tyre",
     "engine"
    ],
-   "hint": "Lốp giữ tốc độ qua chuỗi chữ S; Động cơ giúp vượt ở đoạn thẳng."
+   "hint": "@data.tracks.tyres_hold_speed_through_curves"
   },
   {
    "id": "track_circuit_b",
@@ -548,7 +548,7 @@
     "tyre",
     "engine"
    ],
-   "hint": "Chuỗi cua liên tiếp: Lốp giữ tốc độ qua cua; Động cơ giúp vượt ở đoạn thẳng xuất phát."
+   "hint": "@data.tracks.run_consecutive_corners_tyres_hold"
   }
  ]
 }

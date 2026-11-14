@@ -3,57 +3,57 @@
   "features": [
     {
       "id": "U2_league",
-      "name": "Tab Giải + Hồ sơ",
+      "name": "@data.tutorial.leagues_tab_plus_profile",
       "races": 2,
       "tab": "league",
       "intro": [
-        "Về top 3 sẽ nhận cúp. Dùng cúp nâng cấp ở tab Giải.\nChạm avatar góc trên để đặt tên đội."
-      ]
-    },
-    {
-      "id": "U3_bag",
-      "name": "Túi phụ kiện",
-      "races": 3,
-      "tab": "bag",
-      "gift": {
-        "gear_coupon": {
-          "standard": 1
-        }
-      },
-      "target": "node:Open_standard_x1",
-      "action": "gear_pack",
-      "intro": [
-        "Phụ kiện tăng chỉ số tay đua. Mở gói bằng coupon vừa tặng nhé!",
-        "Đồ trùng thành mảnh, đủ mảnh thì nâng cấp món đó."
+        "@data.tutorial.finish_top_3_earn_trophies"
       ]
     },
     {
       "id": "U4_shop",
       "name": "Shop",
-      "races": 4,
+      "races": 3,
       "tab": "shop",
       "target": "node:ClaimDaily",
       "action": "daily",
       "intro": [
-        "Mỗi ngày có quà miễn phí ở Shop. Nhận ngay hôm nay!",
-        "Mai nhớ ghé lại nhé Sếp."
+        "@data.tutorial.there_free_gift_shop_every",
+        "@data.tutorial.come_back_tomorrow_boss"
+      ]
+    },
+    {
+      "id": "U3_bag",
+      "name": "@data.tutorial.gear_bag",
+      "races": 4,
+      "tab": "shop",
+      "gift": {
+        "gear_coupon": {
+          "standard": 1
+        }
+      },
+      "target": "node:ShopOpen_gear_standard_x1",
+      "action": "gear_pack",
+      "intro": [
+        "@data.tutorial.gear_boosts_driver_stats_open",
+        "@data.tutorial.duplicates_turn_into_shards_with"
       ]
     },
     {
       "id": "U5_drivers",
-      "name": "Tuyển tay đua",
+      "name": "@data.tutorial.recruit_drivers",
       "races": 5,
-      "tab": "team",
+      "tab": "shop",
       "gift": {
         "driver_coupon": {
           "pro": 1
         }
       },
-      "target": "node:DriverOpen_pro_x1",
+      "target": "node:ShopOpen_driver_pro_x1",
       "action": "driver_pack",
       "intro": [
-        "Mỗi tay đua có kỹ năng riêng. Mở Pro Pack bằng coupon này để chiêu mộ!",
-        "Chọn tay đua mới cho lượt sau nếu Power cao hơn."
+        "@data.tutorial.every_driver_has_their_own",
+        "@data.tutorial.pick_new_driver_next_race"
       ]
     },
     {
@@ -62,17 +62,17 @@
       "races": 7,
       "tab": "garage",
       "intro": [
-        "Xe mới có chỉ số nền cao hơn, mỗi xe nâng cấp riêng.\nSếp cũng có thể đổi sơn và decal ở đây."
+        "@data.tutorial.new_cars_have_higher_base"
       ]
     },
     {
       "id": "U7_class",
-      "name": "Class (bộ môn)",
+      "name": "@data.tutorial.class_discipline",
       "races": 10,
       "tab": "race",
       "target": "node:ClassButton",
       "intro": [
-        "Mỗi bộ môn ưu tiên chỉ số khác nhau. Rally cần Lốp và Khung gầm tốt."
+        "@data.tutorial.each_discipline_favors_different_stats"
       ]
     }
   ],

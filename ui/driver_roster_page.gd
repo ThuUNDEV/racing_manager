@@ -1,5 +1,6 @@
 class_name DriverRosterPage
 extends VBoxContainer
+const CleanArt = preload("res://ui/clean_modern_art.gd")
 ## Đội → Tay đua (Design/Mockups/driver_roster_v2.html): thanh SP, tay đua đang dùng, lọc, lưới hai cột
 ## và bảng chi tiết kiểu bottom sheet có radar so sánh. Trang chỉ đọc GameState và gọi recruit/select.
 ## `sheet` do main gắn vào vùng nội dung (dưới khung đua) để bảng không che cuộc đua.
@@ -8,38 +9,40 @@ signal sfx(cue: String)
 signal notice(msg: String)
 signal open_requested(pack_id: String, count: int)
 signal info_requested(pack_id: String)
+## Lối tắt sang Shop (mục Mở gói tay đua).
+signal shop_requested
 
 const ROOT := "res://assets/workshop_gp/"
-const C_BG := Color("dcebff")
+const C_BG := Color("f1f7fc")
 const C_CARD := Color("eaf2ff")
-const C_LINE := Color("9db9e3")
+const C_LINE := Color("adc9de")
 const C_INK := Color("12294d")
-const C_TEXT := Color("16355c")
-const C_MUTED := Color("5a7294")
+const C_TEXT := Color("23394a")
+const C_MUTED := Color("768ca0")
 const C_ORANGE := Color("f2790a")
-const C_ORANGE_D := Color("d96a00")
+const C_ORANGE_D := Color("087ee6")
 const C_GOLD := Color("b27300")
 const C_GOOD := Color("15803d")
 const C_BAD := Color("c62828")
 const STAT_MAX := 70.0
 
 const STATS := [
-	["launch", "Xuất phát"], ["pace", "Tốc độ"], ["braking", "Phanh"], ["technique", "Vào cua"],
-	["racecraft", "Đua sát"], ["composure", "Bình tĩnh"], ["endurance", "Bền sức"],
+	["launch", "drivers.launch"], ["pace", "common.pace"], ["braking", "drivers.braking"], ["technique", "drivers.cornering"],
+	["racecraft", "drivers.racecraft"], ["composure", "drivers.composure"], ["endurance", "drivers.endurance"],
 ]
 const TRAITS := {
-	"": "Không có đặc tính",
-	"fast_start": "Xuất phát nhanh: tăng tốc +25% trong 10 giây đầu",
-	"smooth_corners": "Cua mượt: +1,5% tốc độ vào cua",
-	"calm": "Điềm tĩnh: lỗi kéo dài ngắn hơn 30%",
-	"sprint": "Nước rút: +1% tốc độ ở vòng cuối",
-	"hunter": "Thợ săn: dễ vượt hơn khi bám đuôi",
-	"defender": "Phòng thủ: khó bị vượt hơn",
-	"straight_line": "Đường thẳng: +1,5% tốc độ ở đoạn thẳng",
-	"steady": "Ổn định: giảm 15% xác suất mắc lỗi",
-	"recovery": "Hồi phục: tăng tốc +30% trong 3 giây",
-	"golden": "Phong độ vàng: phong độ không tụt dưới 99,5%",
-	"discipline": "Kỷ luật: không mắc lỗi ở vòng đầu",
+	"": "drivers.no_trait",
+	"fast_start": "drivers.fast_start_plus_25_acceleration",
+	"smooth_corners": "drivers.smooth_corners_plus_1_5",
+	"calm": "drivers.calm_mistakes_last_30_shorter",
+	"sprint": "drivers.sprint_plus_1_speed_final",
+	"hunter": "drivers.hunter_easier_overtake_when_tailgating",
+	"defender": "drivers.defender_harder_overtake",
+	"straight_line": "drivers.straight_line_plus_1_5",
+	"steady": "drivers.steady_15_lower_chance_mistakes",
+	"recovery": "drivers.recovery_plus_30_acceleration_3",
+	"golden": "drivers.golden_form_form_never_drops",
+	"discipline": "drivers.discipline_no_mistakes_first_lap",
 }
 const COLORS := {
 	"driver_an": "ed742b", "driver_binh": "2c8c84", "driver_chi": "c8432f", "driver_dung": "5b6c8f",
@@ -94,9 +97,9 @@ func _unlock_text(d: Dictionary) -> String:
 	var u: Dictionary = d["unlock"]
 	var parts := PackedStringArray()
 	if String(u.get("type", "")) == "races" and int(u.get("count", 0)) > GameState.completed_races:
-		parts.append("Hoàn tất %d lượt đua" % int(u["count"]))
+		parts.append(I18n.tn("drivers.finish_races", int(u["count"])) % int(u["count"]))
 	if int(u.get("league", 0)) > GameState.business_tier:
-		parts.append("Mở giải %s" % Balance.league_name(int(u["league"])))
+		parts.append(I18n.t("drivers.unlock_league") % Balance.league_name(int(u["league"])))
 	return " · ".join(parts)
 
 
@@ -121,7 +124,7 @@ func _best_stat(d: Dictionary) -> String:
 	for s: Array in STATS:
 		if _stat(d, s[0]) > _stat(d, best[0]):
 			best = s
-	return String(best[1])
+	return I18n.t(String(best[1]))
 
 
 ## Gọi từ main khi dữ liệu đổi và theo nhịp ngắn: chỉ dựng lại khi thứ đang hiển thị thật sự đổi.
@@ -182,6 +185,19 @@ func _label(text: String, size: int = 14, color: Color = C_TEXT, wrap: bool = fa
 	return l
 
 
+func _fit_name(text: String, size: int, max_w: float, min_size: int = 10) -> Label:
+	# Tên luôn 1 dòng, co cỡ chữ cho vừa bề rộng → chiều cao thẻ không đổi, 2 thẻ so sánh vẫn cân.
+	var l := _label(text, size, C_TEXT)
+	var font := ThemeDB.fallback_font
+	var fs := size
+	while fs > min_size and font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x > max_w:
+		fs -= 1
+	l.add_theme_font_size_override("font_size", fs)
+	l.clip_text = true
+	l.custom_minimum_size = Vector2(0, ceil(font.get_height(size)))
+	return l
+
+
 func _panel(style: StyleBox) -> PanelContainer:
 	var p := PanelContainer.new()
 	if style is StyleBoxFlat:
@@ -215,7 +231,7 @@ func _portrait(id: String, ext: Vector2) -> Control:
 	var path := ROOT + "portraits/" + id + ".tres"
 	if ResourceLoader.exists(path):
 		var t := TextureRect.new()
-		t.texture = load(path) as Texture2D
+		t.texture = CleanArt.asset(path) as Texture2D
 		t.custom_minimum_size = ext
 		t.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		t.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
@@ -235,7 +251,7 @@ func _portrait(id: String, ext: Vector2) -> Control:
 
 
 func _state_text(s: String) -> String:
-	return {"active": "Đang dùng", "owned": "Đã có", "avail": "Có thể tuyển", "lock": "Khóa"}[s]
+	return {"active": I18n.t("common.use"), "owned": I18n.t("common.owned"), "avail": I18n.t("drivers.can_recruit_2"), "lock": I18n.t("common.locked")}[s]
 
 
 func _state_color(s: String) -> Color:
@@ -251,7 +267,7 @@ func _ignore_mouse(n: Node) -> void:
 
 # ---------------------------------------------------------------- trang chính
 
-const TIER_NAMES := ["Tân binh", "Pro", "Elite", "Legend"]
+const TIER_NAMES := ["common.rookie", "drivers.tier_pro", "drivers.tier_elite", "drivers.tier_legend"]
 const TIER_COLORS := ["776d61", "2e6fd8", "8a3fd1", "b8862b"]
 
 
@@ -259,8 +275,6 @@ func _rebuild() -> void:
 	for c in get_children():
 		remove_child(c)
 		c.queue_free()
-	_build_packs()
-	_build_sp_card()
 	var team: Array = []
 	var avail: Array = []
 	var locked: Array = []
@@ -275,106 +289,36 @@ func _rebuild() -> void:
 			_:
 				locked.append(d)
 	var active := GameData.driver(GameState.active_driver_id)
-	_build_section("ĐỘI HÌNH", team, "ĐANG ĐUA: %s" % String(active.get("name", "")), C_GOOD)
-	_build_section("CÓ THỂ TUYỂN", avail, "", C_MUTED)
-	_build_section("CHƯA MỞ", locked, "", C_MUTED)
+	_build_shop_shortcut()
+	for d: Dictionary in team:
+		add_child(_driver_row(d, _status(d)))
+	_build_section(I18n.t("drivers.can_recruit"), avail, "", C_MUTED)
+	_build_section(I18n.t("drivers.locked"), locked, "", C_MUTED)
+	_build_sp_card()
 
 
-const PACK_TINT := {"pro": Color("2e6fd8"), "allstar": Color("8a3fd1")}
-
-
-## Hai gói rút tay đua (giống gói phụ kiện ở tab Túi): mở x1/x10 bằng coupon hoặc gem, có bảo đảm.
-func _build_packs() -> void:
-	var h := HBoxContainer.new()
-	h.add_theme_constant_override("separation", 8)
-	for pack: Dictionary in GameData.driver_packs():
-		var id := String(pack["id"])
-		var tint: Color = PACK_TINT.get(id, C_ORANGE)
-		var p := _panel(_sb(C_CARD, tint, 2, 14, 8))
-		var v := VBoxContainer.new()
-		v.add_theme_constant_override("separation", 4)
-		p.add_child(v)
-		var header_row := HBoxContainer.new()
-		header_row.add_theme_constant_override("separation", 4)
-		v.add_child(header_row)
-		# Mặt nút bo tròn hai đầu; giữ trọn hai nắp khi kéo giãn theo tiêu đề.
-		var header := PanelContainer.new()
-		var header_skin := HdUi.pack_header(0.76 if id == "allstar" else 0.60)
-		header.add_theme_stylebox_override("panel", header_skin)
-		header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		header_row.add_child(header)
-		var top := HBoxContainer.new()
-		top.add_theme_constant_override("separation", 2)
-		header.add_child(top)
-		var name := _label(String(pack["name"]), 11, Color.WHITE, true)
-		name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		name.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		name.custom_minimum_size.y = 30
-		name.add_theme_color_override("font_outline_color", HdUi.C_OUTLINE)
-		name.add_theme_constant_override("outline_size", 2)
-		top.add_child(name)
-		var info := Button.new()
-		info.text = "i"
-		info.name = "DriverInfo_" + id
-		HdUi.style_button(info, "info")
-		info.custom_minimum_size = Vector2(28, 28)
-		info.add_theme_font_size_override("font_size", 12)
-		info.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-		info.size_flags_horizontal = Control.SIZE_SHRINK_END
-		info.tooltip_text = "Thông tin tỉ lệ"
-		info.pressed.connect(func() -> void: info_requested.emit(id))
-		header_row.add_child(info)
-		v.add_child(ExpansionArt.icon("standard_driver_pack" if id == "pro" else "elite_driver_pack", Vector2(0, 64)))
-		var left := maxi(1, int(pack["pity_draws"]) - GameState.driver_pity_count(id))
-		var tier := String(pack["pity_tier"]).capitalize()
-		var pity_text := "Lượt kế bảo đảm %s" % tier if left <= 1 else "Bảo đảm %s sau %d lượt" % [tier, left]
-		var subtitle := _label(pity_text, 11, C_MUTED, true)
-		subtitle.custom_minimum_size.y = 42
-		subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		subtitle.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		v.add_child(subtitle)
-		var kind := String(pack["coupon"])
-		var coupon_panel := PanelContainer.new()
-		coupon_panel.custom_minimum_size.y = 30
-		var coupon_skin := HdUi.coupon()
-		coupon_panel.add_theme_stylebox_override("panel", coupon_skin)
-		v.add_child(coupon_panel)
-		var coupon := HBoxContainer.new()
-		coupon.add_theme_constant_override("separation", 2)
-		coupon_panel.add_child(coupon)
-		var coupon_count := _label("Coupon: %d" % int(GameState.driver_coupons.get(kind, 0)), 12, C_TEXT, true)
-		coupon_count.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		coupon_count.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		coupon.add_child(coupon_count)
-		var actions := HBoxContainer.new()
-		actions.add_theme_constant_override("separation", 4)
-		v.add_child(actions)
-		for n in [1, 10]:
-			var pay := GameState.driver_payment(id, n)
-			var cost := "%d coupon" % int(pay["amount"]) if pay["method"] == "coupon" else "%d gem" % int(pay["amount"])
-			var payment := "Mở x%d · %s" % [n, cost]
-			var b := Button.new()
-			b.text = payment.replace("Mở ", "").replace(" · ", "\n")
-			b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			b.clip_text = true
-			b.disabled = not GameState.driver_can_afford(id, n)
-			HdUi.style_button(b, "upgrade")
-			b.tooltip_text = payment
-			b.custom_minimum_size.y = 48
-			b.add_theme_font_size_override("font_size", 11)
-			# Hai nút chia đều chiều rộng; nhãn giá xuống dòng để vừa thẻ trên màn hình hẹp.
-			for state: String in ["normal", "hover", "pressed", "disabled"]:
-				var skin := b.get_theme_stylebox(state).duplicate() as StyleBoxTexture
-				if n == 1 and state != "disabled":
-					skin.modulate_color = Color(0.8, 0.9, 1.0)
-				skin.content_margin_left = 3
-				skin.content_margin_right = 3
-				b.add_theme_stylebox_override(state, skin)
-			b.name = "DriverOpen_%s_x%d" % [id, n]
-			b.pressed.connect(func() -> void: open_requested.emit(id, n))
-			actions.add_child(b)
-		h.add_child(p)
-	add_child(h)
+func _build_shop_shortcut() -> void:
+	var coupons := 0
+	for k: String in GameState.driver_coupons:
+		coupons += int(GameState.driver_coupons[k])
+	var card := _panel(_sb(C_CARD, C_ORANGE if coupons > 0 else C_LINE, 2 if coupons > 0 else 1, 14, 8))
+	card.name = "ShopShortcut"
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
+	card.add_child(row)
+	row.add_child(ExpansionArt.icon("standard_driver_pack", Vector2(40, 40)))
+	var info := _label(I18n.t("shop.shortcut_driver") % coupons, 13, C_TEXT, true)
+	info.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	row.add_child(info)
+	var go := Button.new()
+	go.name = "OpenPacksInShop"
+	go.text = I18n.t("shop.shortcut_button")
+	go.custom_minimum_size = Vector2(96, 40)
+	go.add_theme_font_size_override("font_size", 13)
+	HdUi.style_button(go, "upgrade")
+	go.pressed.connect(func() -> void: shop_requested.emit())
+	row.add_child(go)
+	add_child(card)
 
 
 func _build_sp_card() -> void:
@@ -387,7 +331,7 @@ func _build_sp_card() -> void:
 	var sp := _label("%d SP" % GameState.scout_points, 22, C_ORANGE_D)
 	sp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	top.add_child(sp)
-	var count := _label("%d/%d đã tuyển" % [GameState.owned_drivers.size(), GameData.drivers().size()], 12, C_MUTED)
+	var count := _label(I18n.t("drivers.recruited") % [GameState.owned_drivers.size(), GameData.drivers().size()], 12, C_MUTED)
 	count.size_flags_vertical = Control.SIZE_SHRINK_END
 	top.add_child(count)
 	var note: String
@@ -399,15 +343,15 @@ func _build_sp_card() -> void:
 	bar.max_value = 1.0
 	if _all_owned():
 		bar.value = 1.0
-		note = "Bạn đã tuyển toàn bộ tay đua."
+		note = I18n.t("drivers.you_have_recruited_every_driver")
 	else:
 		var need := _next_sp()
 		bar.value = minf(1.0, float(GameState.scout_points) / float(maxi(need, 1)))
-		var tail := "Mỗi lượt đua cộng khoảng 5–14 SP. Tuyển không ngẫu nhiên."
+		var tail := I18n.t("drivers.each_race_earns_about_5")
 		if GameState.scout_points >= need:
-			note = "Lần tuyển kế cần %d SP · đủ cho %d lần tuyển. %s" % [need, GameState.scout_points / need, tail]
+			note = I18n.t("drivers.next_recruit_costs_sp_enough") % [need, GameState.scout_points / need, tail]
 		else:
-			note = "Lần tuyển kế cần %d SP · còn thiếu %d SP. %s" % [need, need - GameState.scout_points, tail]
+			note = I18n.t("drivers.next_recruit_costs_sp_sp") % [need, need - GameState.scout_points, tail]
 	v.add_child(bar)
 	v.add_child(_label(note, 12, C_MUTED, true))
 	add_child(p)
@@ -434,6 +378,7 @@ func _driver_row(d: Dictionary, s: String) -> Control:
 	var tcol := Color(String(TIER_COLORS[tier]))
 	var border := C_ORANGE if s == "active" else C_LINE
 	var card := _panel(_sb(C_CARD if s != "lock" else Color("e3e9f4"), border, 2 if s == "active" else 1, 16, 6))
+	card.add_theme_stylebox_override("panel", _sb(Color("fff4e8") if s == "active" else Color("edf5fc"), Color("e3a96e") if s == "active" else C_LINE, 1, 14, 8))
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 6)
 	card.add_child(row)
@@ -441,7 +386,7 @@ func _driver_row(d: Dictionary, s: String) -> Control:
 	var open := Button.new()
 	open.custom_minimum_size = Vector2(0, 72)
 	open.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	open.accessibility_name = "Xem chi tiết %s" % String(d["name"])
+	open.accessibility_name = I18n.t("drivers.view_details") % String(d["name"])
 	for st: String in ["normal", "hover", "pressed", "focus", "disabled"]:
 		open.add_theme_stylebox_override(st, StyleBoxEmpty.new())
 	open.pressed.connect(func() -> void:
@@ -456,7 +401,7 @@ func _driver_row(d: Dictionary, s: String) -> Control:
 	h.add_theme_constant_override("separation", 10)
 	m.add_child(h)
 
-	var portrait := _portrait(id, Vector2(52, 52))
+	var portrait := _portrait(id, Vector2(44, 52))
 	portrait.modulate.a = 0.5 if s == "lock" else 1.0
 	h.add_child(portrait)
 
@@ -467,15 +412,15 @@ func _driver_row(d: Dictionary, s: String) -> Control:
 	h.add_child(v)
 	var l1 := HBoxContainer.new()
 	l1.add_theme_constant_override("separation", 6)
-	l1.add_child(_label(String(d["name"]), 16))
+	l1.add_child(_fit_name(String(d["name"]), 16, 104.0))
 	var chip := PanelContainer.new()
 	chip.add_theme_stylebox_override("panel", _sb(tcol.lightened(0.8), tcol.lightened(0.45), 1, 8, 2))
-	var cl := _label(String(TIER_NAMES[tier]), 11, tcol)
+	var cl := _label(I18n.t(String(TIER_NAMES[tier])), 11, tcol)
 	cl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	chip.add_child(cl)
 	chip.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	l1.add_child(chip)
-	if s == "active" or s == "owned":
+	if s == "owned":
 		var lv := _label("Lv.%d" % GameState.driver_level(id), 11, C_MUTED)
 		lv.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		l1.add_child(lv)
@@ -487,21 +432,34 @@ func _driver_row(d: Dictionary, s: String) -> Control:
 	var act: Button
 	match s:
 		"active":
-			act = _flat_button("Đang dùng", Color("ffe8cf"), C_ORANGE_D, C_ORANGE, 1, 44.0)
+			act = _flat_button(I18n.t("common.use"), Color("ffe8cf"), C_ORANGE_D, C_ORANGE, 1, 44.0)
 			act.disabled = true
 		"owned":
-			act = _flat_button("Chọn", C_INK, Color.WHITE, C_INK, 1, 44.0)
+			act = _flat_button(I18n.t("drivers.select"), C_INK, Color.WHITE, C_INK, 1, 44.0)
 			act.disabled = _blocked()
 			act.pressed.connect(_select.bind(id))
 		"avail":
-			act = _flat_button("Tuyển", C_ORANGE, Color.WHITE, C_ORANGE_D, 1, 44.0)
+			act = _flat_button(I18n.t("drivers.recruit"), C_ORANGE, Color.WHITE, C_ORANGE_D, 1, 44.0)
+			act.icon = preload("res://assets/clean_modern/icons/recruit_person.svg")
+			act.add_theme_constant_override("icon_max_width", 16)
+			act.add_theme_constant_override("h_separation", 4)
 			act.pressed.connect(_open_sheet.bind(id))
 		_:
-			act = _flat_button("Khóa", Color("e1e8f4"), C_MUTED, C_LINE, 1, 44.0)
+			act = _flat_button(I18n.t("common.locked"), Color("e1e8f4"), C_MUTED, C_LINE, 1, 44.0)
 			act.pressed.connect(_open_sheet.bind(id))
 	act.custom_minimum_size = Vector2(82, 44)
+	# Keep recruit and locked actions on the same nine-patch geometry.
+	if s in ["avail", "lock"]:
+		for state: String in ["normal", "hover", "pressed", "disabled"]:
+			if s == "avail" and state != "disabled":
+				continue
+			var skin := HdUi.button("race", "normal" if state == "disabled" else state).duplicate() as StyleBoxTexture
+			skin.texture = preload("res://assets/clean_modern/icons/button_raised_locked.svg")
+			skin.remove_meta("rounded_button")
+			act.add_theme_stylebox_override(state, HdUi.ButtonSkin.rounded(skin))
 	act.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	act.add_theme_font_size_override("font_size", 13)
+	HdUi.text_depth(act, s in ["owned", "avail"] and not act.disabled)
 	row.add_child(act)
 	return card
 
@@ -514,7 +472,7 @@ func _row_line(d: Dictionary, s: String) -> Control:
 		"avail":
 			var price := Pricing.scout_coin_cost(String(d["id"]))
 			var ok := GameState.coins.compare(price) >= 0 and GameState.scout_points >= _next_sp()
-			h.add_child(_label("%s tiền · %d SP" % [price.format_compact(), _next_sp()], 12, C_GOOD if ok else C_BAD))
+			h.add_child(_label(I18n.t("drivers.cash_sp") % [price.format_compact(), _next_sp()], 12, C_GOOD if ok else C_BAD))
 		"lock":
 			var l := _label(_unlock_text(d), 12, C_MUTED)
 			l.clip_text = true
@@ -523,8 +481,8 @@ func _row_line(d: Dictionary, s: String) -> Control:
 		_:
 			var ranked: Array = STATS.duplicate()
 			ranked.sort_custom(func(a: Array, b: Array) -> bool: return _stat(d, a[0]) > _stat(d, b[0]))
-			h.add_child(_label("%s %d" % [ranked[0][1], _stat(d, ranked[0][0])], 12, C_ORANGE_D))
-			h.add_child(_label("%s %d" % [ranked[1][1], _stat(d, ranked[1][0])], 12, Color("1e6b64")))
+			var stats := _label("%s %d · %s %d" % [I18n.t(ranked[0][1]), _stat(d, ranked[0][0]), I18n.t(ranked[1][1]), _stat(d, ranked[1][0])], 11, C_ORANGE_D, true)
+			return stats
 	return h
 
 
@@ -588,7 +546,7 @@ func _rebuild_sheet() -> void:
 	var hv := VBoxContainer.new()
 	hv.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	hv.add_theme_constant_override("separation", 0)
-	hv.add_child(_label(String(d["name"]), 20))
+	hv.add_child(_fit_name(String(d["name"]), 20, 150.0, 13))
 	hv.add_child(_label(_style_name(d), 12, C_MUTED))
 	hv.add_child(_label(_state_text(s), 12, _state_color(s)))
 	head.add_child(hv)
@@ -596,7 +554,7 @@ func _rebuild_sheet() -> void:
 	head.add_child(x)
 	_sheet_box.add_child(head)
 
-	var note := "So với tay đua đang dùng (%s)" % String(act["name"]) if cmp else "Chỉ số của tay đua đang dùng"
+	var note := I18n.t("drivers.compared_with_current_driver") % String(act["name"]) if cmp else I18n.t("drivers.current_driver_stats")
 	_sheet_box.add_child(_label(note, 12, C_MUTED, true))
 	var radar := RadarChart.new()
 	radar.a = _values(d)
@@ -608,18 +566,18 @@ func _rebuild_sheet() -> void:
 		lg.alignment = BoxContainer.ALIGNMENT_CENTER
 		lg.add_theme_constant_override("separation", 16)
 		lg.add_child(_label("■ %s" % String(d["name"]), 12, C_ORANGE))
-		lg.add_child(_label("■ %s (đường nét đứt)" % String(act["name"]), 12, C_INK))
+		lg.add_child(_label(I18n.t("drivers.dashed_line") % String(act["name"]), 12, C_INK))
 		_sheet_box.add_child(lg)
 
 	for st: Array in STATS:
-		_sheet_box.add_child(_stat_row(String(st[1]), _stat(d, st[0]), _stat(act, st[0]), cmp))
+		_sheet_box.add_child(_stat_row(I18n.t(String(st[1])), _stat(d, st[0]), _stat(act, st[0]), cmp))
 	var tot := _total(d)
-	var tot_txt := "Tổng chỉ số %d" % tot
+	var tot_txt := I18n.t("drivers.total_stats") % tot
 	if cmp:
 		var dt := tot - _total(act)
 		tot_txt += " (%s%d)" % ["+" if dt >= 0 else "−", absi(dt)]
 	var tp := _panel(_sb(Color("e2f2ef"), Color("b7ddd8"), 1, 12, 10))
-	tp.add_child(_label("Đặc tính: %s\n%s" % [String(TRAITS.get(String(d["trait"]), "")), tot_txt], 12, Color("1e5f59"), true))
+	tp.add_child(_label(I18n.t("drivers.trait") % [I18n.t(String(TRAITS.get(String(d["trait"]), TRAITS[""]))), tot_txt], 12, Color("1e5f59"), true))
 	_sheet_box.add_child(tp)
 
 	if s == "active" or s == "owned":
@@ -639,33 +597,36 @@ func _rebuild_sheet() -> void:
 			var rv := VBoxContainer.new()
 			rv.add_theme_constant_override("separation", 4)
 			req.add_child(rv)
-			var coin_txt := "%s · bạn có %s" % [price.format_compact(), GameState.coins.format_compact()]
+			var coin_txt := I18n.t("drivers.you_have") % [price.format_compact(), GameState.coins.format_compact()]
 			if not ok_c:
-				coin_txt += " · thiếu %s" % price.subtract_checked(GameState.coins).format_compact()
-			rv.add_child(_req_row("Tiền", coin_txt, ok_c))
-			var sp_txt := "%d SP · bạn có %d" % [need_sp, GameState.scout_points]
+				coin_txt += I18n.t("drivers.short_2") % price.subtract_checked(GameState.coins).format_compact()
+			rv.add_child(_req_row(I18n.t("common.cash"), coin_txt, ok_c))
+			var sp_txt := I18n.t("drivers.sp_you_have") % [need_sp, GameState.scout_points]
 			if not ok_s:
-				sp_txt += " · thiếu %d" % (need_sp - GameState.scout_points)
-			rv.add_child(_req_row("Điểm tuyển", sp_txt, ok_s))
+				sp_txt += I18n.t("drivers.short") % (need_sp - GameState.scout_points)
+			rv.add_child(_req_row(I18n.t("drivers.recruit_points"), sp_txt, ok_s))
 			_sheet_box.add_child(req)
-			cta.text = "Tuyển %s" % String(d["name"])
+			cta.text = I18n.t("drivers.recruit_2") % String(d["name"])
+			HdUi.style_button(cta, "race")
+			cta.icon = preload("res://assets/clean_modern/icons/recruit_person.svg")
+			cta.add_theme_constant_override("icon_max_width", 18)
 			cta.disabled = not (ok_c and ok_s) or _blocked()
 			cta.pressed.connect(_recruit.bind(_viewed))
-			hint = "Tuyển không tự chọn. Không ngẫu nhiên, không trùng lặp."
+			hint = I18n.t("drivers.recruiting_not_pick_not_random")
 		"lock":
 			var req2 := _panel(_sb(C_CARD, C_LINE, 1, 14, 10))
-			req2.add_child(_req_row("Điều kiện mở", _unlock_text(d), false))
+			req2.add_child(_req_row(I18n.t("drivers.unlock_requirement"), _unlock_text(d), false))
 			_sheet_box.add_child(req2)
-			cta.text = "Chưa thể tuyển"
+			cta.text = I18n.t("drivers.cannot_recruit_yet")
 			cta.disabled = true
-			hint = "Bạn vẫn xem được chỉ số để lập kế hoạch."
+			hint = I18n.t("drivers.you_can_still_view_stats")
 		"owned":
-			cta.text = "Chọn %s cho lượt kế" % String(d["name"])
+			cta.text = I18n.t("drivers.select_next_race") % String(d["name"])
 			cta.disabled = _blocked()
 			cta.pressed.connect(_select.bind(_viewed))
-			hint = "Áp dụng từ lượt đua kế tiếp; lượt đang chạy giữ nguyên."
+			hint = I18n.t("drivers.applies_from_next_race_current")
 		_:
-			cta.text = "Đang dùng"
+			cta.text = I18n.t("common.use")
 			cta.disabled = true
 	_sheet_box.add_child(cta)
 	if hint != "":
@@ -683,10 +644,10 @@ func _level_panel(id: String) -> Control:
 	var lv := GameState.driver_level(id)
 	var mx := GameState.driver_max_level(id)
 	var bonus := roundi(GameState.driver_level_bonus(id))
-	v.add_child(_label("Cấp %d / %d · +%d mọi chỉ số" % [lv, mx, bonus], 13))
+	v.add_child(_label(I18n.t("drivers.level_plus_all_stats") % [lv, mx, bonus], 13))
 	var need := GameState.driver_upgrade_cost(id)
 	if need < 0:
-		v.add_child(_label("Cấp tối đa", 12, C_MUTED))
+		v.add_child(_label(I18n.t("common.max_level"), 12, C_MUTED))
 		return p
 	var shards := GameState.driver_shards(id)
 	var bar := ProgressBar.new()
@@ -697,9 +658,9 @@ func _level_panel(id: String) -> Control:
 	bar.add_theme_stylebox_override("background", _sb(Color("c3d6f2"), Color(0, 0, 0, 0), 0, 5, 0))
 	bar.add_theme_stylebox_override("fill", _sb(C_ORANGE, Color(0, 0, 0, 0), 0, 5, 0))
 	v.add_child(bar)
-	v.add_child(_label("%d/%d mảnh · tay đua trùng khi mở gói đổi thành mảnh" % [shards, need], 12, C_MUTED, true))
+	v.add_child(_label(I18n.t("drivers.shards_duplicate_drivers_from_packs") % [shards, need], 12, C_MUTED, true))
 	if shards >= need:
-		var up := _flat_button("Nâng cấp", C_ORANGE, Color.WHITE, C_ORANGE_D, 1, 44.0)
+		var up := _flat_button(I18n.t("common.upgrade"), C_ORANGE, Color.WHITE, C_ORANGE_D, 1, 44.0)
 		up.disabled = _blocked()
 		up.pressed.connect(_upgrade.bind(id))
 		v.add_child(up)
@@ -709,9 +670,9 @@ func _level_panel(id: String) -> Control:
 func _upgrade(id: String) -> void:
 	if GameState.upgrade_driver(id):
 		sfx.emit("ui_click")
-		notice.emit("Đã nâng cấp %s." % String(GameData.driver(id)["name"]))
+		notice.emit(I18n.t("drivers.upgraded") % String(GameData.driver(id)["name"]))
 	else:
-		notice.emit("Chưa đủ mảnh hoặc không lưu được.")
+		notice.emit(I18n.t("common.not_enough_shards_or_save"))
 	_sig = ""
 	refresh()
 	if sheet.visible:
@@ -768,9 +729,9 @@ func _stat_row(label: String, value: int, ref: int, cmp: bool) -> Control:
 func _recruit(id: String) -> void:
 	var dname := String(GameData.driver(id)["name"])
 	if GameState.recruit_driver(id):
-		notice.emit("Đã tuyển %s. Bấm Chọn để dùng ở lượt kế." % dname)
+		notice.emit(I18n.t("drivers.recruited_tap_select_use_them") % dname)
 	else:
-		notice.emit("Không tuyển được %s." % dname)
+		notice.emit(I18n.t("drivers.could_not_recruit") % dname)
 	_sig = ""
 	refresh()
 	if sheet.visible:
@@ -780,10 +741,10 @@ func _recruit(id: String) -> void:
 func _select(id: String) -> void:
 	var dname := String(GameData.driver(id)["name"])
 	if GameState.select_driver(id):
-		notice.emit("%s sẽ đua từ lượt kế." % dname)
+		notice.emit(I18n.t("drivers.will_race_from_next_race") % dname)
 		close_sheet()
 	else:
-		notice.emit("Không chọn được %s." % dname)
+		notice.emit(I18n.t("drivers.could_not_select") % dname)
 	_sig = ""
 	refresh()
 
@@ -792,7 +753,7 @@ func _select(id: String) -> void:
 
 ## Biểu đồ mạng nhện 7 chỉ số: `a` tô cam, `b` (nếu có) vẽ nét đứt đen để so sánh.
 class RadarChart extends Control:
-	const LABELS := ["Xuất phát", "Tốc độ", "Phanh", "Vào cua", "Đua sát", "Bình tĩnh", "Bền sức"]
+	const LABELS := ["drivers.launch", "common.pace", "drivers.braking", "drivers.cornering", "drivers.racecraft", "drivers.composure", "drivers.endurance"]
 	var a: Array = []
 	var b: Array = []
 
@@ -807,13 +768,13 @@ class RadarChart extends Control:
 			for i in n:
 				ring.append(_pt(c, r * f, i, n))
 			ring.append(ring[0])
-			draw_polyline(ring, Color("9db9e3"), 1.0)
+			draw_polyline(ring, Color("adc9de"), 1.0)
 		var font := get_theme_default_font()
 		for i in n:
 			draw_line(c, _pt(c, r, i, n), Color("c3d6f2"), 1.0)
 			var lp := _pt(c, r + 18.0, i, n)
-			var w := font.get_string_size(LABELS[i], HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
-			draw_string(font, lp + Vector2(-w * 0.5, 4), LABELS[i], HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color("5a7294"))
+			var w := font.get_string_size(I18n.t(LABELS[i]), HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
+			draw_string(font, lp + Vector2(-w * 0.5, 4), I18n.t(LABELS[i]), HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color("768ca0"))
 		if a.size() == n:
 			var pts := _poly(c, r, a, n)
 			draw_colored_polygon(pts, Color(0.93, 0.45, 0.17, 0.28))

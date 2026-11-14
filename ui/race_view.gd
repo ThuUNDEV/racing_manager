@@ -1,5 +1,6 @@
 class_name RaceView
 extends Control
+const CleanArt = preload("res://ui/clean_modern_art.gd")
 ## Khung đua 2D nhìn từ trên xuống. Chỉ vẽ trạng thái của TrafficSim, không chứa logic.
 ## Đường vẽ dựng từ hình học track (TrackLayout) ở cùng tỉ lệ với quãng đường sim,
 ## nên vị trí, bề rộng mặt đường và độ lệch ngang của xe khớp với mô phỏng (Design/08 §3, §6).
@@ -9,14 +10,16 @@ extends Control
 
 ## Màu chấm theo id xe (khớp ui/leaderboard.gd): người chơi cam, rồi graphite, trắng, xanh, đỏ, vàng, ngọc, tím.
 const DOT_COLORS := [Color("f47510"), Color("3b3e44"), Color("ffffff"), Color("3a78d6"), Color("d1423b"), Color("f2c230"), Color("2aa5a0"), Color("8a5bd0")]
-const C_HUD := Color("0f2a52")
-const C_HUD_PANEL := Color("1b4380")
-const C_HUD_TEXT := Color("ffffff")
-const C_HUD_MUTED := Color("a9c4ef")
+const C_HUD := Color("f1f7fc")
+const C_HUD_PANEL := Color("ffffff")
+const C_HUD_TEXT := Color("23394a")
+const C_HUD_MUTED := Color("768ca0")
 const C_DOT_EDGE := Color("1d1f24")
-const HUD_H := 60.0        # chiều cao dải HUD (px)
+var income_text: String = ""   # "11,5K/s", do Main cập nhật
+const HUD_H := 78.0       # chiều cao dải HUD (px)
 const DOT_TRAIL := 4.0     # khoảng cách các chấm mờ phía sau xe (đơn vị sim)
-const C_GROUND := Color("8fd16a")
+const C_INCOME := Color("2e9e2e")
+const C_GROUND :=Color("8fd16a")
 const C_RUNOFF := Color("72bb52")
 const C_ASPHALT := Color("3a4254")
 const C_ASPHALT2 := Color("3f4659")
@@ -37,7 +40,7 @@ var overlay_text: String = ""
 var power_value: float = 0.0  # ĐỘI CỦA BẠN: tổng 11 chỉ số xe + tay đua (HUD bên trái); 0 = chưa có
 var overlay_sub: String = ""
 
-# Dải khán đài giữa HUD và đường đua (Design/27): 3 hàng chấm, mật độ theo Parking, mặt vui/buồn khi vượt/bị vượt/lỗi.
+# Dải khán giả ba hàng phía dưới HUD; mật độ theo Parking và phản ứng vui/buồn.
 const STAND_H := 44.0
 const STAND_ROWS := 3
 const C_STAND := Color("a9b8d0")
@@ -67,7 +70,7 @@ var _layout: TrackLayout = null
 var _L: float = 10.0       # chiều dài xe (đơn vị sim)
 var _W: float = 5.5        # bề ngang xe
 var _k: float = 1.0        # px / đơn vị sim
-var _top: float = HUD_H + STAND_H  # đỉnh vùng đường đua (dưới HUD và dải khán đài)
+var _top: float = HUD_H + STAND_H  # Đường đua nằm dưới HUD và dải khán giả.
 var _origin := Vector2.ZERO
 var _left := PackedVector2Array()
 var _right := PackedVector2Array()
@@ -126,7 +129,7 @@ func set_track(track_id: String) -> void:
 	_crowd_salt = absi(track_id.hash()) & 0xffff
 	_layout = TrackLayout.build(track_id)
 	if not _layout.valid:
-		push_error("Track không có hình học để vẽ: " + track_id)
+		push_error("Track has no geometry to draw: " + track_id)
 	_on_resized()
 
 
@@ -266,7 +269,7 @@ static func _cache_face_textures() -> void:
 	for mood: String in ["happy", "sad"]:
 		var path := "res://assets/racing_ui_hd/icons/reactions/face_%s.png" % mood
 		if ResourceLoader.exists(path, "Texture2D"):
-			_face_textures[mood] = load(path) as Texture2D
+			_face_textures[mood] = CleanArt.asset(path) as Texture2D
 
 
 func _draw_faces() -> void:
@@ -312,7 +315,14 @@ func _to_px(p: Vector2) -> Vector2:
 
 ## Phần tĩnh (gọi từ TrackLayer): nền cỏ, vùng thoát, mặt đường, lề, vạch xuất phát.
 func _draw_static(ci: CanvasItem) -> void:
-	ci.draw_rect(Rect2(Vector2.ZERO, size), C_GROUND)
+	for row in 32:
+		var t := float(row) / 31.0
+		ci.draw_rect(Rect2(0, size.y * row / 32.0, size.x, size.y / 32.0 + 1), Color("86da19").lerp(Color("54b800"), t))
+	for corner in [Vector2(18, 18), Vector2(size.x - 18, 18), Vector2(18, size.y - 22), Vector2(size.x - 18, size.y - 22)]:
+		ci.draw_circle(corner + Vector2(0, 4), 11, Color("398c0c"))
+		ci.draw_circle(corner + Vector2(-6, 0), 6, Color("70ce08"))
+		ci.draw_circle(corner + Vector2(4, -4), 8, Color("b2eb20"))
+		ci.draw_circle(corner + Vector2(9, 3), 5, Color("84d70e"))
 	_draw_stand(ci)
 	if _layout == null or not _layout.valid or _left.size() < 3 or _static_idx.is_empty():
 		return
@@ -414,14 +424,14 @@ func player_marker() -> Dictionary:
 func hud_rank_rect() -> Rect2:
 	var pw := minf(170.0, size.x * 0.42)
 	var x := (size.x - pw) * 0.5
-	var right := minf(x + pw, hud_boost_rect_for_width(size.x).position.x - 8.0)
+	var right := hud_boost_rect_for_width(size.x).position.x - 8.0
 	return Rect2(x, 6.0, maxf(1.0, right - x), HUD_H - 12.0)
 
 
 ## Shared bounds keep the boost and rank aligned, including on narrow phones.
 static func hud_boost_rect_for_width(width: float) -> Rect2:
 	var button_width := clampf(width * 0.27, 80.0, 100.0)
-	return Rect2(width - button_width - 8.0, 6.0, button_width, HUD_H - 12.0)
+	return Rect2(width - button_width - 8.0, (HUD_H - 48.0) * 0.5, button_width, 48.0)
 
 
 ## Nhận sự kiện mới từ sim (gọi mỗi frame). Trả về các sự kiện mới để lớp trên phát âm thanh / bảng tin.
@@ -544,11 +554,25 @@ func _draw_hud() -> void:
 	draw_style_box(sb, panel)
 	var rank_txt := "P%d/%d" % [idx + 1, rk.size()]
 	draw_string(font, Vector2(panel.position.x, panel.position.y + 27.0), rank_txt, HORIZONTAL_ALIGNMENT_CENTER, pw, 28, C_HUD_TEXT)
-	var clock := Balance.fmt_clock(ceil(sim.time_left())) if sim.is_timed() else "Vòng %d" % sim.lap_of(me)
+	var clock := Balance.fmt_clock(ceil(sim.time_left())) if sim.is_timed() else I18n.t("race.lap") % sim.lap_of(me)
 	draw_string(font, Vector2(panel.position.x, panel.position.y + 44.0), clock, HORIZONTAL_ALIGNMENT_CENTER, pw, 14, C_HUD_MUTED)
+	if income_text != "":
+		# Icon tiền + "12,6K/s": cả cụm căn giữa trong ô hạng.
+		var icon := HdUi.tex("icons/cash.png")
+		var icon_s := 16.0
+		var gap := 3.0
+		var inc_font := 13
+		while inc_font > 9 and font.get_string_size(income_text, HORIZONTAL_ALIGNMENT_LEFT, -1, inc_font).x + icon_s + gap > pw - 8.0:
+			inc_font -= 1
+		var tw := font.get_string_size(income_text, HORIZONTAL_ALIGNMENT_LEFT, -1, inc_font).x
+		var x0 := panel.position.x + (pw - (tw + icon_s + gap)) * 0.5
+		var base_y := panel.position.y + 61.0
+		if icon != null:
+			draw_texture_rect(icon, Rect2(x0, base_y - icon_s + 3.0, icon_s, icon_s), false)
+		draw_string(font, Vector2(x0 + icon_s + gap, base_y), income_text, HORIZONTAL_ALIGNMENT_LEFT, -1, inc_font, C_INCOME)
 	# Trái: ĐỘI CỦA BẠN = tổng 11 chỉ số xe + tay đua (chỉ số đã chốt lúc xuất phát khi đang đua).
 	var side := panel.position.x - 8.0
-	draw_string(font, Vector2(10.0, 22.0), "ĐỘI CỦA BẠN", HORIZONTAL_ALIGNMENT_LEFT, side, 11, C_HUD_MUTED)
+	draw_string(font, Vector2(10.0, 22.0), I18n.t("race.team"), HORIZONTAL_ALIGNMENT_LEFT, side, 11, C_HUD_MUTED)
 	if power_value > 0.0:
 		_draw_team_icon(Vector2(18.0, 38.0))
 		var power_text := format_team_power(power_value)
@@ -573,8 +597,8 @@ static func format_team_power(v: float) -> String:
 		if snappedf(scaled, 0.01) >= 1000.0 and tier < suffixes.size() - 1:
 			scaled /= 1000.0
 			tier += 1
-		return ("%.2f%s" % [scaled, suffixes[tier]]).replace(".", ",")
-	return ("%.1f" % v).replace(".", ",")
+		return ("%.2f%s" % [scaled, suffixes[tier]]).replace(".", I18n.dec())
+	return ("%.1f" % v).replace(".", I18n.dec())
 
 
 ## Biểu tượng đội: hai người (đầu tròn + vai cong).

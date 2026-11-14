@@ -15,7 +15,7 @@ signal race_finished(result: Dictionary)
 var SAVE_PATH := _storage_path("save.json")
 var BAK_PATH := _storage_path("save.bak")
 var TMP_PATH := _storage_path("save.tmp")
-const SAVE_VERSION := 12  # v12: khối `iap` (mua hàng, quyền lợi vĩnh viễn, gói giới hạn; Design/28 §7.2). v11: persist the free team-name change and paid renames.
+const SAVE_VERSION := 13  # v13: khối `daily_rewards` (thưởng đăng nhập hằng ngày; Design/30 §7). v12: khối `iap` (mua hàng, quyền lợi vĩnh viễn, gói giới hạn; Design/28 §7.2). v11: persist the free team-name change and paid renames.
 const MAX_FRAME_GAP := 10.0  # giây; frame cách nhau hơn mức này thì coi là vắng mặt, không tính vào đua
 const SAVE_RETRY_SEC := 3.0  # tự thử lưu lại khi chốt kết quả bị lỗi ghi
 var business_tier: int = 0
@@ -37,18 +37,24 @@ var processed_rewards: Dictionary = {}
 var ad_state: Dictionary = {}
 ## IAP (Design/28 §7.2): buys, owned, first_bonus_used, daily, weekly, offers, popup, pass_month, growth_claimed, pending_ctx.
 var iap: Dictionary = {}
+## Thưởng đăng nhập hằng ngày (game/daily_rewards.gd, Design/30). Khóa xem DailyRewards.default_state().
+var daily_rewards: Dictionary = {}
+## Thưởng của lần nhận gần nhất (không lưu): reward của DailyRewards.next_reward thêm {x2: bool}. UI/analytics đọc để báo.
+var last_daily_reward: Dictionary = {}
 ## Tóm tắt lần grant_iap gần nhất (không lưu): {sku, gems, first, income, driver_shards}. UI/analytics đọc để báo.
 var last_iap_grant: Dictionary = {}
 ## Giây còn lại của boost thu nhập xem quảng cáo (Design/26 §3). Chỉ giảm khi đang chơi (tick_income), lưu trong save.
 var income_boost_left: float = 0.0
 ## Đang hiện quảng cáo: dừng đồng hồ đua/thu nhập, ra/vào nền không tính thu nhập offline (Design/25 §2).
 var ad_pause: bool = false
+## Hướng dẫn đang chờ người chơi thao tác: dừng đồng hồ đua/thu nhập (không lưu). main.gd đặt mỗi frame từ TutorialOverlay.wants_pause().
+var tutorial_pause: bool = false
 var last_daily_day: int = -1
 var last_accrual_utc: float = 0.0
 var saved_online_rate: BigNumber = BigNumber.zero()
 var save_revision: int = 0
 var race_counter: int = 0
-var player_team_name: String = "Đội của bạn"
+var player_team_name: String = I18n.t("save.team")
 var team_name_changes: int = 0
 var completed_races: int = 0
 ## Hướng dẫn đầu game Phần A (Design/23 §4). state: new | active | done | skipped; step: id bước A1..A7 đang làm.
@@ -154,7 +160,7 @@ func _process(delta: float) -> void:
 				suspended = false
 				changed.emit()
 			_retry_timer = SAVE_RETRY_SEC
-	if not active or suspended or ad_pause:
+	if not active or suspended or ad_pause or tutorial_pause:
 		_clock_usec = 0  # quay lại sẽ không tính khoảng vắng mặt
 		return
 	if phase == "save_error":
@@ -242,6 +248,8 @@ func init_new_game() -> void:
 	ad_state = {}
 	iap = iap_default()
 	last_iap_grant = {}
+	daily_rewards = DailyRewards.default_state()
+	last_daily_reward = {}
 	income_boost_left = 0.0
 	ad_pause = false
 	last_daily_day = -1
@@ -249,7 +257,7 @@ func init_new_game() -> void:
 	saved_online_rate = Balance.base_rate()
 	save_revision = 0
 	race_counter = 0
-	player_team_name = "Đội của bạn"
+	player_team_name = I18n.t("save.team")
 	team_name_changes = 0
 	completed_races = 0
 	race_history_complete = true
@@ -1108,18 +1116,19 @@ func team_power() -> float:
 func player_stats() -> Dictionary:
 	var b := driver_level_bonus(active_driver_id)  # 0 khi chưa nâng level: không đổi chỉ số gốc
 	var tb := trophy_bonus()  # 0 khi chưa nâng cấp cúp: không đổi chỉ số gốc
+	var g := gear_power_bonus()  # 0 khi chưa có phụ kiện: cộng đều cho cả 11 chỉ số
 	return {
-		"S": float(part_stat("engine", level_of("engine"))) + float(tb.get("S", 0.0)),
-		"H": float(part_stat("tyre", level_of("tyre"))) + float(tb.get("H", 0.0)),
-		"B": float(part_stat("chassis", level_of("chassis"))) + float(tb.get("B", 0.0)),
-		"A": float(part_stat("gearbox", level_of("gearbox"))) + float(tb.get("A", 0.0)),
-		"P": float(int(_driver()["pace"])) + b,
-		"T": float(int(_driver()["technique"])) + b,
-		"C": float(int(_driver()["composure"])) + b,
-		"L": float(int(_driver()["launch"])) + b,
-		"R": float(int(_driver()["braking"])) + b,
-		"K": float(int(_driver()["racecraft"])) + b,
-		"E": float(int(_driver()["endurance"])) + b,
+		"S": float(part_stat("engine", level_of("engine"))) + float(tb.get("S", 0.0)) + g,
+		"H": float(part_stat("tyre", level_of("tyre"))) + float(tb.get("H", 0.0)) + g,
+		"B": float(part_stat("chassis", level_of("chassis"))) + float(tb.get("B", 0.0)) + g,
+		"A": float(part_stat("gearbox", level_of("gearbox"))) + float(tb.get("A", 0.0)) + g,
+		"P": float(int(_driver()["pace"])) + b + g,
+		"T": float(int(_driver()["technique"])) + b + g,
+		"C": float(int(_driver()["composure"])) + b + g,
+		"L": float(int(_driver()["launch"])) + b + g,
+		"R": float(int(_driver()["braking"])) + b + g,
+		"K": float(int(_driver()["racecraft"])) + b + g,
+		"E": float(int(_driver()["endurance"])) + b + g,
 	}
 
 
@@ -1434,6 +1443,87 @@ func claim_daily() -> bool:
 	return true
 
 
+# ---------- Thưởng đăng nhập hằng ngày (Design/30) ----------
+
+## Giờ máy; test ghi đè bằng `daily_device_unix` (>= 0).
+var daily_device_unix: float = -1.0
+## Giờ server nếu có (<= 0 là không có). Horus cập nhật khi có mạng.
+var daily_server_unix: float = -1.0
+
+
+func _daily_device() -> float:
+	return daily_device_unix if daily_device_unix >= 0.0 else Time.get_unix_time_from_system()
+
+
+## Ngày UTC dùng cho thưởng đăng nhập (không lùi nhờ max_seen_day).
+func daily_reward_today() -> int:
+	return DailyRewards.today(daily_rewards, _daily_device(), daily_server_unix)
+
+
+## Mở khóa khi tính năng `unlock` mở, rồi ghi max_seen_day. Gọi khi vào game, qua ngày, xong trận. Trả true nếu state đổi.
+func daily_reward_refresh() -> bool:
+	if phase == "save_error" or save_blocked:
+		return false
+	var today := daily_reward_today()
+	var s := daily_rewards
+	if not DailyRewards.is_unlocked(s) and feature_unlocked(String(GameData.daily_rewards().get("unlock", ""))):
+		s = DailyRewards.unlock(s, today)
+	s = DailyRewards.observe(s, today)
+	if s == daily_rewards:
+		return false
+	var before := _save_data()
+	daily_rewards = s
+	if not save_game():
+		_restore_transaction(before)
+		return false
+	changed.emit()
+	return true
+
+
+func daily_reward_available() -> bool:
+	return DailyRewards.can_claim(daily_rewards, daily_reward_today())
+
+
+## Giây còn lại tới 00:00 UTC kế tiếp (đếm ngược trên nút khi đã nhận).
+func daily_reward_seconds_left() -> float:
+	return DailyRewards.seconds_until_reset(float(daily_reward_today()) * 86400.0 + fposmod(_daily_device(), 86400.0))
+
+
+## Nhận thưởng đăng nhập hôm nay. `x2` nhân đôi phần gem (đã xem video, Design/30 §6). Một giao dịch save: lỗi lưu thì hoàn tác.
+func claim_daily_reward(x2: bool = false) -> bool:
+	if phase == "save_error" or save_blocked:
+		return false
+	var today := daily_reward_today()
+	if not DailyRewards.can_claim(daily_rewards, today):
+		return false
+	var reward := DailyRewards.next_reward(daily_rewards)
+	var multiplied := x2 and DailyRewards.x2_enabled() and DailyRewards.has_gems(reward)
+	if multiplied:
+		reward = DailyRewards.with_gem_multiplier(reward, 2)
+	var before := _save_data()
+	gems += int(reward["gems"])
+	for kind in (reward["driver_coupon"] as Dictionary):
+		driver_coupons[kind] = int(driver_coupons.get(kind, 0)) + int(reward["driver_coupon"][kind])
+	for kind in (reward["gear_coupon"] as Dictionary):
+		gear_coupons[kind] = int(gear_coupons.get(kind, 0)) + int(reward["gear_coupon"][kind])
+	daily_rewards = DailyRewards.apply_claim(daily_rewards, today)
+	if not save_game():
+		_restore_transaction(before)
+		return false
+	last_daily_reward = reward.duplicate(true)
+	last_daily_reward["x2"] = multiplied
+	changed.emit()
+	return true
+
+
+## Ghi nhận popup tự bật hôm nay (không đổi thưởng).
+func daily_reward_popup_shown() -> void:
+	var s := DailyRewards.mark_popup_shown(daily_rewards, daily_reward_today())
+	if s != daily_rewards:
+		daily_rewards = s
+		save_game()
+
+
 ## Quà ngày = 600 giây thu nhập + phần "Khán đài đông" của nâng cấp cúp (cũng tính bằng giây thu nhập).
 func daily_gift_amount() -> BigNumber:
 	var base := Pricing.daily_gift(total_online_rate())
@@ -1579,7 +1669,7 @@ func gear_upgrade_cost(id: String) -> int:
 
 
 ## Bonus kiếm/khiên toàn đội: tổng các mẫu sở hữu theo level hiện tại.
-## Chưa nối vào mô phỏng đua: game gốc chưa có tooltip kiếm/khiên (Design/14 §3.1).
+## Quy đổi thành Power đội qua `gear_power_bonus()` (cộng đều 11 chỉ số trong `player_stats`).
 func gear_bonus() -> Dictionary:
 	var a := 0
 	var d := 0
@@ -1588,6 +1678,18 @@ func gear_bonus() -> Dictionary:
 		a += int(st["attack"])
 		d += int(st["defense"])
 	return {"attack": a, "defense": d}
+
+
+## Power cộng cho MỖI chỉ số đội (11 chỉ số) từ phụ kiện; = (kiếm + khiên) × hệ số `power_per_point`.
+func gear_power_bonus() -> float:
+	var b := gear_bonus()
+	return float(int(b["attack"]) + int(b["defense"])) * GameData.gear_power_per_point()
+
+
+## Power một món cộng cho mỗi chỉ số ở level cho trước (dùng để hiển thị "+X Power").
+func gear_item_power(id: String, level: int) -> float:
+	var st := gear_stats_at(id, level)
+	return float(int(st["attack"]) + int(st["defense"])) * GameData.gear_power_per_point()
 
 
 func _gear_blocked() -> bool:
@@ -2191,7 +2293,7 @@ func _save_data() -> Dictionary:
 		"expansion_requested": expansion_requested,
 		"recent_results": recent_results,
 		"last_result": last_result, "records": records,
-		"checkpoint": _checkpoint(), "processed_rewards": processed_rewards, "ad_state": ad_state, "iap": iap, "income_boost_left": income_boost_left,
+		"checkpoint": _checkpoint(), "processed_rewards": processed_rewards, "ad_state": ad_state, "iap": iap, "daily_rewards": daily_rewards, "income_boost_left": income_boost_left,
 		"last_daily_day": last_daily_day, "last_accrual_utc": last_accrual_utc,
 		"saved_online_rate": saved_online_rate, "race_counter": race_counter,
 		"active_car_id": active_car_id, "active_driver_id": active_driver_id,
@@ -2299,6 +2401,8 @@ func _valid_save(raw: Variant) -> bool:
 	for key in ["gear_owned", "gear_coupons", "driver_progress", "driver_coupons", "driver_pity"]:
 		if d.has(key) and typeof(d[key]) != TYPE_DICTIONARY:
 			return false
+	if d.has("daily_rewards") and typeof(d["daily_rewards"]) != TYPE_DICTIONARY:
+		return false
 	if d.has("iap"):
 		if typeof(d["iap"]) != TYPE_DICTIONARY:
 			return false
@@ -2381,18 +2485,18 @@ func load_game() -> String:
 			continue
 		if int(parsed.get("schema_version", 1)) > SAVE_VERSION:
 			save_blocked = true
-			load_error = "Save thuộc phiên bản game mới hơn."
+			load_error = I18n.t("save.save_belongs_newer_version_game")
 			return "newer"
 		if not _valid_save(parsed):
 			continue
 		_apply(parsed)
 		if path == BAK_PATH:
-			load_error = "Save chính bị lỗi, đã khôi phục từ bản sao."
+			load_error = I18n.t("save.main_save_corrupted_was_restored")
 			return "backup"
 		return "ok"
 	if had_file:
 		save_blocked = true
-		load_error = "Không đọc được save. Tiến trình sẽ không bị ghi đè."
+		load_error = I18n.t("save.could_not_read_save_progress")
 		return "corrupt"
 	return "new"
 
@@ -2421,6 +2525,7 @@ func _apply(raw: Dictionary) -> void:
 	processed_rewards = d.get("processed_rewards", {})
 	ad_state = d["ad_state"] if typeof(d.get("ad_state")) == TYPE_DICTIONARY else {}
 	_apply_iap(d)
+	daily_rewards = DailyRewards.sanitize(d.get("daily_rewards"))
 	var boost_left := float(d.get("income_boost_left", 0.0))
 	income_boost_left = clampf(boost_left, 0.0, 86400.0) if is_finite(boost_left) else 0.0
 	last_daily_day = int(d.get("last_daily_day", -1))
@@ -2428,9 +2533,14 @@ func _apply(raw: Dictionary) -> void:
 	saved_online_rate = MoneyCodec.legacy_number(d.get("saved_online_rate", Balance.base_rate()))
 	save_revision = int(d.get("save_revision", 0))
 	race_counter = int(d.get("race_counter", 0))
-	player_team_name = String(d.get("player_team_name", "Đội của bạn"))
+	player_team_name = String(d.get("player_team_name", I18n.t("save.team")))
+	# Tên mặc định đã lưu ở ngôn ngữ nào cũng hiện theo ngôn ngữ đang chọn.
+	var default_team := I18n.t("save.team")
+	var is_default_team := I18n.is_any_translation("save.team", player_team_name)
+	if is_default_team:
+		player_team_name = default_team
 	# Existing custom names already used the first change; untouched profiles keep it.
-	team_name_changes = int(d.get("team_name_changes", 0 if player_team_name == "Đội của bạn" else 1))
+	team_name_changes = int(d.get("team_name_changes", 0 if is_default_team else 1))
 	completed_races = int(d.get("completed_races", 0))
 	_apply_tutorial(d)
 	race_history_complete = bool(d.get("race_history_complete", false))

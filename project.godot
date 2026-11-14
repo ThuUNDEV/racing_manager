@@ -12,8 +12,11 @@ config_version=5
 
 config/name="racing_manager"
 config/version="0.1.0"
-run/main_scene="res://scenes/loading.tscn"
+run/main_scene="res://scenes/splash.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
+boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/show_image=false
+boot_splash/image="res://assets/branding/racing_tycoon_splash_black.png"
 
 [autoload]
 

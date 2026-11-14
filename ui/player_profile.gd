@@ -1,10 +1,11 @@
 extends Control
+const CleanArt = preload("res://ui/clean_modern_art.gd")
+const PopupAnim = preload("res://ui/popup_anim.gd")
 ## Centered player-profile popup. Racing continues behind the dimmed backdrop.
 signal closed
-signal settings_requested
 
-const INK := Color("16355c")
-const MUTED := Color("526a8a")
+const INK := Color("23394a")
+const MUTED := Color("768ca0")
 const TouchScroll = preload("res://ui/touch_scroll.gd")
 var _name: Label
 var _league: Label
@@ -51,23 +52,12 @@ func _ready() -> void:
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 10)
 	header.add_child(row)
-	var title := _label("Hồ sơ người chơi", 20, Color.WHITE, true)
+	var title := _label(I18n.t("common.player_profile"), 20, Color.WHITE, true)
 	title.name = "ProfileTitle"
 	title.size_flags_horizontal = SIZE_EXPAND_FILL
 	row.add_child(title)
-	var settings := _button("", func() -> void: settings_requested.emit(), false)
-	settings.name = "ProfileSettings"
-	settings.accessibility_name = "Cài đặt"
-	settings.tooltip_text = "Cài đặt"
-	settings.size_flags_vertical = SIZE_SHRINK_CENTER
-	var settings_center := CenterContainer.new()
-	settings_center.mouse_filter = MOUSE_FILTER_IGNORE
-	settings.add_child(settings_center)
-	settings_center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	settings_center.add_child(HdUi.icon("icons/gear.png", Vector2(30, 30)))
-	row.add_child(settings)
 	var close := HdUi.close_button(_close, "ProfileBack")
-	close.accessibility_name = "Đóng hồ sơ"
+	close.accessibility_name = I18n.t("profile.close_profile")
 	row.add_child(close)
 	_scroll = TouchScroll.new()
 	_scroll.name = "ProfileScroll"
@@ -104,13 +94,13 @@ func _ready() -> void:
 	info.add_child(_league)
 	var edit_row := HBoxContainer.new()
 	id_box.add_child(edit_row)
-	var caption := _label("Hồ sơ của bạn", 12, Color("e1efff"))
+	var caption := _label(I18n.t("profile.profile"), 12, Color("e1efff"))
 	caption.size_flags_horizontal = SIZE_EXPAND_FILL
 	edit_row.add_child(caption)
-	_edit = _button("Sửa tên đội", _show_edit)
+	_edit = _button(I18n.t("profile.edit_team_name"), _show_edit)
 	_edit.name = "ProfileEditName"
 	edit_row.add_child(_edit)
-	_heading(content, "Hành trình đua", "Tích lũy")
+	_heading(content, I18n.t("profile.racing_journey"), I18n.t("profile.accumulated"))
 	var stats := HBoxContainer.new()
 	stats.add_theme_constant_override("separation", 10)
 	content.add_child(stats)
@@ -120,13 +110,13 @@ func _ready() -> void:
 	_race_caption = race_data[1]
 	var season_data := _stat(stats, "trophy")
 	_seasons = season_data[0]
-	season_data[1].text = "Lần mở cơ sở"
-	_heading(content, "Bộ sưu tập", "Đã sở hữu")
+	season_data[1].text = I18n.t("profile.facilities_opened")
+	_heading(content, I18n.t("profile.collection"), I18n.t("common.owned_2"))
 	var collection_panel := _panel(content)
 	_collection = VBoxContainer.new()
 	_collection.add_theme_constant_override("separation", 14)
 	collection_panel.add_child(_collection)
-	_heading(content, "Đội hình đang dùng")
+	_heading(content, I18n.t("profile.current_lineup"))
 	_lineup = HBoxContainer.new()
 	_lineup.add_theme_constant_override("separation", 10)
 	content.add_child(_lineup)
@@ -138,11 +128,12 @@ func _ready() -> void:
 	var footer_skin := footer.get_theme_stylebox("panel") as StyleBoxFlat
 	footer_skin.corner_radius_bottom_left = 20
 	footer_skin.corner_radius_bottom_right = 20
-	var done := _button("Đóng", _close, true, true)
+	var done := _button(I18n.t("common.close"), _close, true, true)
 	done.name = "ProfileClose"
 	done.custom_minimum_size.y = 48
 	footer.add_child(done)
 	_build_edit_dialog()
+	PopupAnim.close_on_outside_click(self, _popup, _close)
 	GameState.changed.connect(_refresh_if_visible)
 	visibility_changed.connect(_refresh_if_visible)
 	resized.connect(_fit_popup)
@@ -189,7 +180,7 @@ func _button(text: String, action: Callable, light: bool = true, primary: bool =
 	button.add_theme_color_override("font_focus_color", INK if light and not primary else Color.WHITE)
 	button.add_theme_color_override("font_hover_pressed_color", INK if light and not primary else Color.WHITE)
 	button.add_theme_color_override("font_outline_color", Color.TRANSPARENT)
-	button.add_theme_constant_override("outline_size", 0)
+	HdUi.text_depth(button, not light or primary)
 	for state in ["normal", "hover", "pressed"]:
 		var skin := StyleBoxFlat.new()
 		skin.bg_color = Color("d66a00") if primary else Color.WHITE if light else Color("2362ad")
@@ -201,6 +192,7 @@ func _button(text: String, action: Callable, light: bool = true, primary: bool =
 		skin.content_margin_left = 12
 		skin.content_margin_right = 12
 		button.add_theme_stylebox_override(state, skin)
+	HdUi.ButtonSkin.apply(button)
 	button.pressed.connect(action)
 	return button
 
@@ -277,13 +269,13 @@ func _member(title: String, data: Dictionary, texture: Texture2D) -> void:
 	caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(caption)
 	var image := TextureRect.new()
-	image.texture = texture if texture != null else HdUi.tex("icons/staff.png" if title == "Tay đua" else "icons/car_red.png")
+	image.texture = texture if texture != null else HdUi.tex("icons/staff.png" if title == I18n.t("common.drivers") else "icons/car_red.png")
 	image.custom_minimum_size = Vector2(0, 64)
 	image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	image.mouse_filter = MOUSE_FILTER_IGNORE
 	box.add_child(image)
-	var label := _label(String(data.get("name", "Chưa chọn")), 14, INK, true)
+	var label := _label(String(data.get("name", I18n.t("profile.not_selected"))), 14, INK, true)
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(label)
 
@@ -292,22 +284,22 @@ func refresh() -> void:
 	_name.text = GameState.player_team_name
 	_league.text = "◆ " + String(GameData.league(GameState.business_tier).get("name", ""))
 	_races.text = str(GameState.completed_races)
-	_race_caption.text = "Lượt hoàn tất" if GameState.race_history_complete else "Lượt từ cập nhật"
+	_race_caption.text = I18n.t("profile.races_completed") if GameState.race_history_complete else I18n.t("profile.races_since_update")
 	_seasons.text = str(GameState.business_tier)
 	_clear(_collection)
-	_collect("car_red", "Xe đua", GameData.cars(), GameState.owned_cars)
-	_collect("staff", "Tay đua", GameData.drivers(), GameState.owned_drivers)
-	_collect("tools", "Trang bị", GameData.gear_items(), GameState.gear_owned)
+	_collect("car_red", I18n.t("profile.race_car"), GameData.cars(), GameState.owned_cars)
+	_collect("staff", I18n.t("common.drivers"), GameData.drivers(), GameState.owned_drivers)
+	_collect("tools", I18n.t("common.gear"), GameData.gear_items(), GameState.gear_owned)
 	_clear(_lineup)
 	var driver_id: String = GameState.active_driver_id
 	var portrait := ExpansionArt.texture(driver_id)
 	var path := "res://assets/workshop_gp/portraits/%s.tres" % driver_id
 	if portrait == null and ResourceLoader.exists(path):
-		portrait = load(path) as Texture2D
-	_member("Tay đua", GameData.driver(driver_id), portrait)
-	_member("Xe đua", GameData.car(GameState.active_car_id), ExpansionArt.texture(ExpansionArt.car_id(GameState.active_car_id)))
+		portrait = CleanArt.asset(path) as Texture2D
+	_member(I18n.t("common.drivers"), GameData.driver(driver_id), portrait)
+	_member(I18n.t("profile.race_car"), GameData.car(GameState.active_car_id), ExpansionArt.texture(ExpansionArt.car_id(GameState.active_car_id)))
 	var error := GameState.save_blocked or GameState.phase == "save_error" or GameState.simulate_write_failure
-	_storage.text = "Không thể lưu dữ liệu. Trở lại game để kiểm tra và thử lưu lại." if error else "Dữ liệu trên thiết bị\nChưa hỗ trợ đồng bộ tài khoản"
+	_storage.text = I18n.t("profile.could_not_save_data_return") if error else I18n.t("profile.data_this_device_account_sync")
 	_storage.add_theme_color_override("font_color", HdUi.C_RED if error else MUTED)
 
 
@@ -317,7 +309,7 @@ func _refresh_if_visible() -> void:
 
 
 func open() -> void:
-	show()
+	PopupAnim.open(self, _popup)
 	_fit_popup()
 	refresh()
 	_scroll.scroll_vertical = 0
@@ -333,8 +325,7 @@ func _fit_popup() -> void:
 
 func _close() -> void:
 	_dialog.hide()
-	hide()
-	closed.emit()
+	PopupAnim.close(self, _popup, closed.emit)
 
 
 func _build_edit_dialog() -> void:
@@ -350,16 +341,17 @@ func _build_edit_dialog() -> void:
 	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_dialog.add_child(center)
 	_dialog_panel = _panel(center, Color("f3f7ff"), 20, 20)
+	PopupAnim.close_on_outside_click(_dialog, _dialog_panel, _hide_dialog)
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 12)
 	_dialog_panel.add_child(box)
-	box.add_child(HdUi.close_header("Tên đội của bạn", _dialog.hide, 20))
-	box.add_child(_label("Chọn một cái tên để nhận diện đội đua.", 14, MUTED, true))
-	box.add_child(_label("Tên đội · tối đa 24 ký tự", 13, INK, true))
+	box.add_child(HdUi.close_header(I18n.t("profile.team_name_2"), _hide_dialog, 20))
+	box.add_child(_label(I18n.t("profile.pick_name_identify_racing_team"), 14, MUTED, true))
+	box.add_child(_label(I18n.t("profile.team_name_up_24_characters"), 13, INK, true))
 	_name_input = LineEdit.new()
 	_name_input.name = "ProfileNameInput"
 	_name_input.custom_minimum_size.y = 48
-	_name_input.accessibility_name = "Tên đội"
+	_name_input.accessibility_name = I18n.t("profile.team_name")
 	_name_input.add_theme_color_override("font_color", INK)
 	_name_input.add_theme_color_override("font_selected_color", Color.WHITE)
 	_name_input.add_theme_color_override("selection_color", Color("2462ca"))
@@ -382,10 +374,10 @@ func _build_edit_dialog() -> void:
 	var actions := HBoxContainer.new()
 	actions.add_theme_constant_override("separation", 10)
 	box.add_child(actions)
-	var cancel := _button("Hủy", func() -> void: _dialog.hide())
+	var cancel := _button(I18n.t("common.cancel"), _hide_dialog)
 	cancel.size_flags_horizontal = SIZE_EXPAND_FILL
 	actions.add_child(cancel)
-	var save := _button("Lưu tên", _save_name, true, true)
+	var save := _button(I18n.t("profile.save_name"), _save_name, true, true)
 	_rename_save = save
 	save.size_flags_horizontal = SIZE_EXPAND_FILL
 	actions.add_child(save)
@@ -404,6 +396,10 @@ func _build_edit_dialog() -> void:
 	_dialog.hide()
 
 
+func _hide_dialog() -> void:
+	PopupAnim.close(_dialog, _dialog_panel)
+
+
 func _fit_dialog() -> void:
 	_dialog_panel.custom_minimum_size.x = minf(340, maxf(260, size.x - 32))
 
@@ -413,38 +409,38 @@ func _show_edit() -> void:
 	_error.text = ""
 	_update_rename_cost()
 	_fit_dialog()
-	_dialog.show()
+	PopupAnim.open(_dialog, _dialog_panel)
 	_name_input.grab_focus()
 	_name_input.select_all()
 
 
 func _update_rename_cost() -> void:
 	var cost := GameState.team_name_change_cost()
-	_rename_cost.text = ("Đổi tên miễn phí lần đầu. Các lần sau: 50 gem/lần." if cost == 0 else "Phí đổi tên: %d gem · Bạn có: %d gem." % [cost, GameState.gems])
+	_rename_cost.text = (I18n.t("profile.first_rename_free_after_that") if cost == 0 else I18n.t("profile.rename_fee_gems_you_have") % [cost, GameState.gems])
 	var unchanged := _name_input.text.strip_edges() == GameState.player_team_name
-	_rename_save.text = "Lưu tên" if unchanged else "Miễn phí" if cost == 0 else "Đổi · %d gem" % cost
+	_rename_save.text = I18n.t("profile.save_name") if unchanged else I18n.t("profile.free") if cost == 0 else I18n.t("profile.rename_gems") % cost
 
 
 func _save_name() -> void:
 	var clean := _name_input.text.strip_edges()
 	if not GameState.valid_team_name(clean):
-		_error.text = "Nhập tên từ 1 đến 24 ký tự, không có ký tự điều khiển."
+		_error.text = I18n.t("profile.enter_name_1_24_characters")
 		return
 	if clean != GameState.player_team_name and GameState.gems < GameState.team_name_change_cost():
 		_update_rename_cost()
-		_error.text = "Không đủ gem. Cần %d gem để đổi tên." % GameState.team_name_change_cost()
+		_error.text = I18n.t("profile.not_enough_gems_you_need") % GameState.team_name_change_cost()
 		return
 	if not GameState.set_player_team_name(clean):
-		_error.text = "Chưa lưu được tên. Vui lòng thử lại sau."
+		_error.text = I18n.t("profile.could_not_save_name_please")
 		return
-	_dialog.hide()
+	_hide_dialog()
 	refresh()
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if visible and event.is_action_pressed("ui_cancel"):
 		if _dialog.visible:
-			_dialog.hide()
+			_hide_dialog()
 		else:
 			_close()
 		get_viewport().set_input_as_handled()

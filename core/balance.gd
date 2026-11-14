@@ -22,16 +22,16 @@ const REVENUE := ["ticket", "celebration", "parking", "grandstands"]
 const PARTS := ["engine", "tyre", "chassis", "gearbox"]
 const PART_KEY := {"engine": "S", "tyre": "H", "chassis": "B", "gearbox": "A"}
 const PART_NAMES := {
-	"engine": "Động cơ", "tyre": "Lốp", "chassis": "Khung gầm", "gearbox": "Hộp số",
+	"engine": "part.engine", "tyre": "part.tyres", "chassis": "part.chassis", "gearbox": "part.gearbox",
 }
 const PART_STATS := {
 	"engine": "Speed", "tyre": "Handling", "chassis": "Stability", "gearbox": "Acceleration",
 }
 const PART_HINTS := {
-	"engine": "Động cơ tăng tốc độ trên đoạn thẳng.",
-	"tyre": "Lốp giúp xe giữ tốc độ qua cua.",
-	"chassis": "Khung gầm giảm xác suất mắc lỗi.",
-	"gearbox": "Hộp số giúp tăng tốc khi ra cua và sau lỗi.",
+	"engine": "common.engine_boosts_top_speed_straights",
+	"tyre": "common.tyres_help_car_hold_speed",
+	"chassis": "part.chassis_lowers_chance_mistakes",
+	"gearbox": "part.gearbox_improves_acceleration_out_corners",
 }
 
 
@@ -148,7 +148,7 @@ static func fmt_rate(r: Variant) -> String:
 	if r is BigNumber:
 		return r.format_compact() if r.exponent >= 3 else r.format_decimal()
 	var s := "%.2f" % float(r)
-	return s.rstrip("0").rstrip(".").replace(".", ",")
+	return s.rstrip("0").rstrip(".").replace(".", I18n.dec())
 
 static func fmt_clock(sec: float) -> String:
 	var m := int(sec / 60.0)

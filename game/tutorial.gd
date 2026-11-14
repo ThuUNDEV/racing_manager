@@ -46,6 +46,22 @@ static func action_done(step: String, gs: Node) -> bool:
 	return false
 
 
+## Lời dẫn này dừng game (đua + thu nhập) cho tới khi người chơi thao tác.
+## A4/A5 chỉ dừng khi đủ tiền mua nâng cấp được chỉ — nếu thiếu, thu nhập phải chạy tiếp để người chơi kiếm đủ.
+## A6 (bảng kết quả đã giữ vòng lặp) và câu phụ sau thao tác không dừng.
+static func pauses_game(step: String, sub: int, gs: Node) -> bool:
+	match step:
+		"A1_welcome", "A2_car", "A3_income":
+			return true
+		"A4_engine":
+			return sub == 0 and gs.upgrade_state("engine") == "ok"
+		"A5_ticket":
+			return sub == 0 and gs.upgrade_state("ticket") == "ok"
+		"A7_race2":
+			return sub == 1  # câu giải thích Power: chờ bấm Tiếp
+	return false
+
+
 ## Bước chờ sự kiện của vòng đua, không hiện callout cho tới khi sự kiện tới.
 static func waits_for_race(step: String) -> bool:
 	return step == "A6_result" or step == "A7_race2"
@@ -55,42 +71,44 @@ static func waits_for_race(step: String) -> bool:
 static func line(step: String, sub: int, ctx: Dictionary = {}) -> String:
 	match step:
 		"A1_welcome":
-			return "Chào Sếp! Đội mình có một chiếc xe, một tay đua và %s tiền.\nXe tự đua — việc của Sếp là nâng cấp và kiếm tiền." % ctx.get("coins", "1.000")
+			return I18n.t("tutorial.hi_boss_our_team_has") % ctx.get("coins", "1.000")
 		"A2_car":
-			return "Chấm sáng có viền này là xe mình.\nTrên cùng là hạng hiện tại và thời gian còn lại."
+			return I18n.t("tutorial.this_race_window_glowing_dot")
 		"A3_income":
-			return "Khán giả trả %s tiền mỗi giây, kể cả khi không đua.\nĐó là doanh thu của đội." % ctx.get("rate", "8")
+			return I18n.t("tutorial.crowd_pays_cash_per_second") % ctx.get("rate", "8")
 		"A4_engine":
 			if sub == 0:
-				return "Nâng Động cơ để xe chạy nhanh hơn.\nBấm vào nút giá %s tiền này!" % ctx.get("price", "")
-			return "Xe đang chạy rồi nên nâng cấp được lắp vào xe từ lượt sau."
+				return I18n.t("tutorial.upgrade_engine_make_car_faster") % ctx.get("price", "")
+			return I18n.t("tutorial.car_already_racing_so_upgrade")
 		"A5_ticket":
 			if sub == 0:
-				return "Giờ nâng Ticket Marketing để có thêm tiền mỗi giây.\nBấm nút giá %s tiền." % ctx.get("price", "")
-			return "Doanh thu có hiệu lực ngay: tiền mỗi giây đã tăng!"
+				return I18n.t("tutorial.now_upgrade_ticket_marketing_earn") % ctx.get("price", "")
+			return I18n.t("tutorial.revenue_takes_effect_immediately_cash")
 		"A6_result":
 			if sub == 0:
 				var pos := int(ctx.get("position", 8))
 				if pos <= 3:
-					return "Về P%d! %s tiền thưởng đã cộng thẳng vào ví." % [pos, ctx.get("money", "")]
-				return "Về P%d. Lượt đầu ai cũng hồi hộp — có nâng cấp rồi, lượt sau sẽ khác!\n%s tiền thưởng đã vào ví." % [pos, ctx.get("money", "")]
-			return "Về đích top 3 sẽ nhận cúp.\nDùng cúp nâng cấp xe ở tab Giải."
+					return I18n.t("tutorial.finished_p_cash_prize_went") % [pos, ctx.get("money", "")]
+				return I18n.t("tutorial.finished_p_everyone_nervous_their") % [pos, ctx.get("money", "")]
+			return I18n.t("tutorial.finish_top_3_earn_trophies")
 		"A7_race2":
 			if sub == 0:
-				return "Động cơ mới đã lắp vào xe. Power đội: %s → %s." % [ctx.get("before", ""), ctx.get("after", "")]
-			return "Từ giờ Sếp tự quản lý nhé. Có gì mới tôi sẽ báo!"
+				return I18n.t("tutorial.new_engine_car_team_power") % [ctx.get("before", ""), ctx.get("after", "")]
+			if sub == 1:
+				return I18n.t("tutorial.power_explained")
+			return I18n.t("tutorial.from_now_you_run_things")
 	return ""
 
 
 static func primary_text(step: String, sub: int) -> String:
 	match step:
 		"A1_welcome":
-			return "Bắt đầu"
+			return I18n.t("tutorial.start")
 		"A4_engine", "A5_ticket":
-			return "" if sub == 0 else "Tiếp"
+			return "" if sub == 0 else I18n.t("tutorial.next")
 		"A7_race2":
-			return "Tiếp" if sub == 0 else "Rõ rồi!"
-	return "Tiếp"
+			return I18n.t("tutorial.next") if sub < 2 else I18n.t("tutorial.got")
+	return I18n.t("tutorial.next")
 
 
 # ---------------------------------------------------------------- Phần B: mở khóa tính năng dần (Design/23 §5)
@@ -102,12 +120,14 @@ const COUPON_NAMES := {"standard": "Standard Gear", "elite": "Elite Gear", "pro"
 
 static var _features: Array = []
 static var _loaded := false
+static var _rev := -1  # I18n.revision lúc nạp: đổi ngôn ngữ thì nạp lại chữ
 
 
 static func features() -> Array:
-	if not _loaded:
+	if not _loaded or _rev != I18n.revision:
 		_loaded = true
-		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(DATA_PATH))
+		_rev = I18n.revision
+		var parsed: Variant = I18n.translate_tree(JSON.parse_string(FileAccess.get_file_as_string(DATA_PATH)))
 		if typeof(parsed) == TYPE_DICTIONARY and typeof((parsed as Dictionary).get("features")) == TYPE_ARRAY:
 			_features = (parsed as Dictionary)["features"]
 	return _features
@@ -146,7 +166,7 @@ static func next_feature(completed: int) -> Dictionary:
 
 static func lock_text(f: Dictionary, completed: int) -> String:
 	var left := maxi(1, int(f["races"]) - completed)
-	return "Mở sau lượt %d · còn %d lượt" % [int(f["races"]), left]
+	return I18n.tn("tutorial.unlocks_after_race_races_left", left) % [int(f["races"]), left]
 
 
 static func gift_text(f: Dictionary) -> String:
@@ -187,19 +207,19 @@ static func validate() -> PackedStringArray:
 	for f: Dictionary in features():
 		var id := String(f.get("id", ""))
 		if id == "" or ids.has(id):
-			errs.append("tutorial.json: id trống hoặc trùng (%s)" % id)
+			errs.append("tutorial.json: id is empty or duplicated (%s)" % id)
 		ids[id] = true
 		var r := int(f.get("races", 0))
 		if r < 1 or r <= last:
-			errs.append("tutorial.json: %s: races phải ≥ 1 và tăng dần" % id)
+			errs.append("tutorial.json: %s: races must be ≥ 1 and increasing" % id)
 		if races.has(r):
-			errs.append("tutorial.json: %s: hai tính năng cùng lượt %d" % [id, r])
+			errs.append("tutorial.json: %s: two features share race %d" % [id, r])
 		races[r] = true
 		last = r
 		if (f.get("intro", []) as Array).is_empty():
-			errs.append("tutorial.json: %s: thiếu lời hướng dẫn" % id)
+			errs.append("tutorial.json: %s: missing guidance text" % id)
 	if features().is_empty():
-		errs.append("tutorial.json: không đọc được danh sách tính năng")
+		errs.append("tutorial.json: could not read the feature list")
 	return errs
 
 
@@ -212,7 +232,7 @@ const TIP_TABS := ["any", "race", "bag", "team"]
 
 
 static func tips() -> Array:
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(DATA_PATH))
+	var parsed: Variant = I18n.translate_tree(JSON.parse_string(FileAccess.get_file_as_string(DATA_PATH)))
 	if typeof(parsed) == TYPE_DICTIONARY and typeof((parsed as Dictionary).get("tips")) == TYPE_ARRAY:
 		return (parsed as Dictionary)["tips"]
 	return []
@@ -252,7 +272,7 @@ static func tip_info(id: String, gs: Node) -> Dictionary:
 			if not bool(gs.tutorial.get("offline_shown", false)):
 				return {}
 			var off: Dictionary = GameData.economy()["offline"]
-			return {"text": "Lúc Sếp vắng, đội vẫn thu %d%% doanh thu, tối đa %d giờ.\nNhớ quay lại nhận nhé!" % [
+			return {"text": I18n.t("tutorial.while_you_re_away_team") % [
 				roundi(float(off["ratio"]) * 100.0), roundi(float(off["cap_sec"]) / 3600.0)], "target": ""}
 		"C2_trophy":
 			if not gs.feature_unlocked("U2_league") or int(gs.trophies) <= 0:
@@ -260,7 +280,7 @@ static func tip_info(id: String, gs: Node) -> Dictionary:
 			for u: Dictionary in GameData.trophy_upgrades():
 				var cost: int = gs.trophy_cost(u["id"])
 				if gs.trophy_unlocked(u["id"]) and cost > 0 and int(gs.trophies) >= cost:
-					return {"text": "Sếp có %d cúp — đủ nâng cấp ở tab Giải rồi!\nCúp chỉ nhận khi về top 3." % int(gs.trophies), "target": ""}
+					return {"text": I18n.t("tutorial.you_have_trophies_enough_upgrade") % int(gs.trophies), "target": ""}
 			return {}
 		"C6_weaker":
 			if gs.owned_drivers.size() < 2 or not gs.feature_unlocked("U5_drivers"):
@@ -273,14 +293,14 @@ static func tip_info(id: String, gs: Node) -> Dictionary:
 					best_score = _driver_score(gs, d)
 			if best == "":
 				return {}
-			return {"text": "%s mạnh hơn tay đua đang dùng.\nChọn lại cho lượt sau nếu Sếp muốn nhé!" % _name_of(GameData.drivers(), best), "target": ""}
+			return {"text": I18n.t("tutorial.stronger_than_current_driver_pick") % _name_of(GameData.drivers(), best), "target": ""}
 		"C5_shards":
 			if not gs.feature_unlocked("U3_bag"):
 				return {}
 			for gid in gs.gear_owned.keys():
 				var need: int = gs.gear_upgrade_cost(gid)
 				if need > 0 and gs.gear_shards(gid) >= need:
-					return {"text": "%s đã đủ mảnh để nâng cấp!" % String(GameData.gear_item(gid).get("name", gid)), "target": "node:Upgrade_%s" % gid}
+					return {"text": I18n.t("tutorial.has_enough_shards_upgrade") % String(GameData.gear_item(gid).get("name", gid)), "target": "node:Upgrade_%s" % gid}
 			return {}
 		"C4_star":
 			var stars: Dictionary = GameData.economy().get("revenue_stars", {})
@@ -299,8 +319,8 @@ static func tip_info(id: String, gs: Node) -> Dictionary:
 						break
 			if best_kind == "":
 				return {}
-			var mult := String(stars.get("multiplier", "1")).replace(".", ",")
-			return {"text": "%s còn %d cấp nữa là tới cấp %d: được sao, doanh thu mục này ×%s!" % [
+			var mult := String(stars.get("multiplier", "1")).replace(".", I18n.dec())
+			return {"text": I18n.t("tutorial.levels_away_from_level_earn") % [
 				String(GameData.economy()["revenue_upgrades"][best_kind]["name"]), best_gap, best_level, mult], "target": "tile:" + best_kind}
 	return {}
 
@@ -338,8 +358,8 @@ static func validate_tips() -> PackedStringArray:
 	for t: Dictionary in tips():
 		var id := String(t.get("id", ""))
 		if id == "" or ids.has(id):
-			errs.append("tutorial.json: mẹo trống/trùng id (%s)" % id)
+			errs.append("tutorial.json: tip is empty/duplicated id (%s)" % id)
 		ids[id] = true
 		if not String(t.get("tab", "")) in TIP_TABS:
-			errs.append("tutorial.json: %s: tab mẹo không hợp lệ" % id)
+			errs.append("tutorial.json: %s: tip tab is invalid" % id)
 	return errs

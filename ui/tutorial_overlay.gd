@@ -1,5 +1,6 @@
 class_name TutorialOverlay
 extends Control
+const CleanArt = preload("res://ui/clean_modern_art.gd")
 ## Lớp hiển thị hướng dẫn đầu game Phần A (Design/23 §4): một callout của Linh + một spotlight + bàn tay.
 ## Không chặn vòng đua; chỉ giữ bảng kết quả hiện có ở bước A6. Lớp gốc bỏ qua chuột, chỉ callout nhận chạm.
 ## main.gd cấp vị trí mục tiêu qua `target_provider` và số liệu lời thoại qua `context_provider`.
@@ -7,13 +8,13 @@ extends Control
 signal result_released          # A6 xong: main ẩn bảng kết quả, vòng đua chạy tiếp
 signal reveal_requested(step: String)  # main cuộn trang tới mục tiêu (ô nâng cấp) nếu đang khuất
 
-const C_RING := Color("ff8a00")
+const C_RING := Color("087ee6")
 const C_DIM := Color(0, 0, 0, 0.6)
 const HAND_PATH := "res://assets/workshop_gp/ui/tutorial_hand.svg"
 const LINH_PORTRAITS := {
-	"smile": preload("res://assets/tutorial/portraits/linh_smile.tres"),
-	"point": preload("res://assets/tutorial/portraits/linh_point.tres"),
-	"excited": preload("res://assets/tutorial/portraits/linh_excited.tres"),
+	"smile": preload("res://assets/clean_modern/resources/tutorial/portraits/linh_smile.tres"),
+	"point": preload("res://assets/clean_modern/resources/tutorial/portraits/linh_point.tres"),
+	"excited": preload("res://assets/clean_modern/resources/tutorial/portraits/linh_excited.tres"),
 }
 
 ## (step: String, sub: int) -> {"rect": Rect2 toàn cục, "round": bool, "hand": Vector2 toàn cục (tùy chọn)}; {} = không có mục tiêu.
@@ -57,8 +58,8 @@ func _ready() -> void:
 	_panel.name = "TutorialCallout"
 	_panel.mouse_filter = Control.MOUSE_FILTER_STOP
 	var card := StyleBoxFlat.new()
-	card.bg_color = Color("122b4b")
-	card.border_color = Color("4f91d2")
+	card.bg_color = Color("ffffff")
+	card.border_color = Color("adc9de")
 	card.set_border_width_all(2)
 	card.set_corner_radius_all(16)
 	card.content_margin_left = 18
@@ -97,22 +98,22 @@ func _ready() -> void:
 	var name_l := Label.new()
 	name_l.text = Tutorial.MENTOR
 	name_l.add_theme_font_size_override("font_size", 22)
-	name_l.add_theme_color_override("font_color", Color("ffd478"))
+	name_l.add_theme_color_override("font_color", Color("087ee6"))
 	who.add_child(name_l)
 	var role := Label.new()
-	role.text = "Trưởng kỹ thuật"
+	role.text = I18n.t("tutorial.chief_engineer")
 	role.add_theme_font_size_override("font_size", 11)
-	role.add_theme_color_override("font_color", Color("9bb9d8"))
+	role.add_theme_color_override("font_color", Color("768ca0"))
 	who.add_child(role)
 	_progress = Label.new()
 	_progress.name = "TutorialProgress"
 	_progress.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	_progress.add_theme_font_size_override("font_size", 11)
-	_progress.add_theme_color_override("font_color", Color("ffd478"))
+	_progress.add_theme_color_override("font_color", Color("087ee6"))
 	row.add_child(_progress)
 	var rule := HSeparator.new()
 	var rule_style := StyleBoxLine.new()
-	rule_style.color = Color("345577")
+	rule_style.color = Color("adc9de")
 	rule_style.thickness = 1
 	rule.add_theme_stylebox_override("separator", rule_style)
 	body.add_child(rule)
@@ -122,20 +123,21 @@ func _ready() -> void:
 	_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_text.add_theme_font_size_override("font_size", 15)
 	_text.add_theme_constant_override("line_spacing", 4)
-	_text.add_theme_color_override("font_color", Color("f2f6fc"))
+	_text.add_theme_color_override("font_color", Color("23394a"))
 	body.add_child(_text)
 	var buttons := HBoxContainer.new()
 	buttons.add_theme_constant_override("separation", 8)
 	body.add_child(buttons)
 	_skip = Button.new()
 	_skip.name = "TutorialSkip"
-	_skip.flat = true
+	_skip.flat = false
 	_skip.custom_minimum_size = Vector2(0, 44)
 	_skip.add_theme_font_size_override("font_size", 13)
-	_skip.add_theme_color_override("font_color", Color("a8c1db"))
-	_skip.add_theme_color_override("font_hover_color", Color("ffffff"))
+	_skip.add_theme_color_override("font_color", Color("768ca0"))
+	_skip.add_theme_color_override("font_hover_color", Color("087ee6"))
 	_skip.add_theme_color_override("font_pressed_color", Color("ffd478"))
 	_skip.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
+	HdUi.style_button(_skip, "cancel")
 	_skip.pressed.connect(_on_skip)
 	buttons.add_child(_skip)
 	var gap := Control.new()
@@ -151,7 +153,7 @@ func _ready() -> void:
 	buttons.add_child(_primary)
 	_hand = TextureRect.new()
 	_hand.name = "TutorialHand"
-	_hand.texture = load(HAND_PATH) as Texture2D
+	_hand.texture = CleanArt.asset(HAND_PATH) as Texture2D
 	_hand.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_hand.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	_hand.custom_minimum_size = Vector2(56, 56)
@@ -287,8 +289,8 @@ func _advance() -> void:
 			result_released.emit()
 			_enter(Tutorial.next_of(step))
 		"A7_race2":
-			if sub == 0:
-				sub = 1
+			if sub < 2:  # 0: Power trước → sau, 1: giải thích Power, 2: câu kết
+				sub += 1
 				return
 			_finish("done")
 		_:
@@ -301,6 +303,15 @@ func _waiting() -> bool:
 	if step == "A7_race2":
 		return sub == 0 and GameState.phase != "racing"
 	return false
+
+
+## Callout đang hiện và chờ người chơi thao tác → main dừng game (kể cả mẹo, chờ bấm Đã hiểu). Câu phụ sau thao tác không dừng.
+func wants_pause() -> bool:
+	if not _panel.visible:
+		return false
+	if intro != "":
+		return tip_mode or intro_sub == 0
+	return running and Tutorial.pauses_game(step, sub, GameState)
 
 
 func _process_intro(delta: float) -> void:
@@ -365,7 +376,7 @@ func _process(delta: float) -> void:
 	if not _confirm:
 		_timer += delta
 		var auto := float(Tutorial.AUTO_SEC.get(step, 0.0))
-		if auto > 0.0 and _timer >= auto:
+		if auto > 0.0 and _timer >= auto and not wants_pause():  # đang dừng game: chờ người chơi bấm Tiếp
 			_advance()
 		elif ((step == "A4_engine" or step == "A5_ticket") and sub == 1) or (step == "A7_race2" and sub == 0):
 			if _timer >= Tutorial.AFTER_SEC:
@@ -416,10 +427,9 @@ func _update_view() -> void:
 		expression = "point" if String(tip_data.get("target", "")) != "" else "smile"
 		_portrait.texture = LINH_PORTRAITS[expression]
 		_text.text = String(tip_data.get("text", ""))
-		_primary.text = "Đã hiểu"
+		_primary.text = I18n.t("common.got")
 		_primary.visible = true
-		_skip.text = "Tắt mẹo"
-		_skip.visible = true
+		_skip.visible = false  # không có nút "Tắt mẹo" trên callout; tắt mẹo trong Cài đặt
 		_target = target_provider.call("tip:" + intro, 0) if target_provider.is_valid() else {}
 		_place_panel()
 		return
@@ -428,8 +438,11 @@ func _update_view() -> void:
 		var lines := Tutorial.intro_lines(f)
 		expression = "excited" if intro_sub == 1 else ("point" if f.has("target") else "smile")
 		_portrait.texture = LINH_PORTRAITS[expression]
-		_text.text = String(lines[mini(intro_sub, lines.size() - 1)])
-		_primary.text = "Đã hiểu" if intro_sub == 0 else "Xong"
+		var line := String(lines[mini(intro_sub, lines.size() - 1)])
+		if intro == "U3_bag" and "%s" in line:  # câu sau khi mở gói: Power đội vừa tăng
+			line = line % GearPage._fmt_power(GameState.gear_power_bonus())
+		_text.text = line
+		_primary.text = I18n.t("common.got") if intro_sub == 0 else "Xong"
 		_primary.visible = true
 		_skip.visible = false
 		_target = target_provider.call("intro:" + intro, intro_sub) if target_provider.is_valid() else {}
@@ -445,15 +458,15 @@ func _update_view() -> void:
 	var ctx: Dictionary = context_provider.call(step, _result) if context_provider.is_valid() else {}
 	var txt: String
 	if _confirm:
-		txt = "Bỏ qua hướng dẫn? Sếp vẫn chơi bình thường, chỉ không có lời dẫn nữa."
-		_primary.text = "Tiếp tục"
-		_skip.text = "Bỏ qua"
+		txt = I18n.t("tutorial.skip_tutorial_you_can_still")
+		_primary.text = I18n.t("common.continue")
+		_skip.text = I18n.t("tutorial.skip")
 	else:
 		txt = Tutorial.line(step, sub, ctx)
 		if _resumed:
-			txt = "Mình tiếp tục nhé! " + txt
+			txt = I18n.t("tutorial.let_continue") + txt
 		_primary.text = Tutorial.primary_text(step, sub)
-		_skip.text = "Bỏ qua"
+		_skip.text = I18n.t("tutorial.skip")
 	_primary.visible = _primary.text != ""
 	_text.text = txt
 	_target = target_provider.call(step, sub) if target_provider.is_valid() and not _confirm else {}
@@ -462,7 +475,7 @@ func _update_view() -> void:
 
 ## Đặt callout cạnh mục tiêu (trên hoặc dưới) và bàn tay nếu có.
 func _place_panel() -> void:
-	_progress.text = "MẸO" if tip_mode else ("MỞ KHÓA" if intro != "" else "%d / %d" % [maxi(1, Tutorial.STEPS.find(step) + 1), Tutorial.STEPS.size()])
+	_progress.text = I18n.t("tutorial.tip") if tip_mode else (I18n.t("tutorial.unlocked") if intro != "" else "%d / %d" % [maxi(1, Tutorial.STEPS.find(step) + 1), Tutorial.STEPS.size()])
 	var w := minf(size.x - 32.0, 380.0)
 	_panel.custom_minimum_size = Vector2(w, 0)
 	_panel.size = Vector2(w, 0)
@@ -516,10 +529,32 @@ func _draw() -> void:
 	draw_rect(Rect2(0, r.end.y, size.x, maxf(0.0, size.y - r.end.y)), C_DIM)
 	draw_rect(Rect2(0, r.position.y, maxf(0.0, r.position.x), r.size.y), C_DIM)
 	draw_rect(Rect2(r.end.x, r.position.y, maxf(0.0, size.x - r.end.x), r.size.y), C_DIM)
+	# Bo cả lỗ spotlight để nền tối không để lộ bốn góc vuông ngoài viền.
+	var radius := minf(16.0, minf(r.size.x, r.size.y) * 0.5)
+	if radius > 0.0:
+		var corners := [
+			Vector2(r.position.x, r.position.y),
+			Vector2(r.end.x, r.position.y),
+			Vector2(r.end.x, r.end.y),
+			Vector2(r.position.x, r.end.y),
+		]
+		var centers := [
+			r.position + Vector2(radius, radius),
+			Vector2(r.end.x - radius, r.position.y + radius),
+			r.end - Vector2(radius, radius),
+			Vector2(r.position.x + radius, r.end.y - radius),
+		]
+		for i in 4:
+			var points := PackedVector2Array([corners[i]])
+			for segment in 17:
+				var angle := PI + float(i) * PI * 0.5 + float(segment) / 16.0 * PI * 0.5
+				points.append(centers[i] + Vector2(cos(angle), sin(angle)) * radius)
+			draw_colored_polygon(points, C_DIM)
 	if r.size.x > 0.0:
 		var sb := StyleBoxFlat.new()
 		sb.draw_center = false
 		sb.border_color = col
 		sb.set_border_width_all(4)
 		sb.set_corner_radius_all(16)
+		sb.corner_detail = 16
 		draw_style_box(sb, r)

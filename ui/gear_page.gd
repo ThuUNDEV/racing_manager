@@ -5,11 +5,13 @@ extends VBoxContainer
 signal open_requested(pack_id: String, count: int)
 signal info_requested(pack_id: String)
 signal upgrade_requested(gear_id: String)
+## Lối tắt sang Shop (mục Mở gói): mọi giao dịch mở gói nằm ở Shop.
+signal shop_requested
 
-const INK := Color("16355c")
-const MUTED := Color("5a7294")
+const INK := Color("23394a")
+const MUTED := Color("768ca0")
 const CARD := Color("eaf2ff")
-const LINE := Color("9db9e3")
+const LINE := Color("adc9de")
 const SWORD := Color("c62828")
 const SHIELD := Color("2f6fb5")
 const RARITY_COLOR := {"rare": Color("3a78d6"), "epic": Color("8a5bd0"), "legendary": Color("d08a12")}
@@ -108,7 +110,7 @@ func _button(value: String, tint: Color, enabled: bool) -> Button:
 	b.add_theme_stylebox_override("disabled", off)
 	for c in ["font_color", "font_hover_color", "font_pressed_color"]:
 		b.add_theme_color_override(c, Color.WHITE)
-	b.add_theme_color_override("font_disabled_color", Color("5a7294"))
+	b.add_theme_color_override("font_disabled_color", Color("768ca0"))
 	HdUi.style_button(b, "upgrade")
 	return b
 
@@ -118,8 +120,8 @@ func _pay_label(pack_id: String, count: int) -> String:
 	if pay.is_empty():
 		return "—"
 	if pay["method"] == "coupon":
-		return "Mở x%d · %d coupon" % [count, int(pay["amount"])]
-	return "Mở x%d · %d gem" % [count, int(pay["amount"])]
+		return I18n.t("gear.open_x_coupons") % [count, int(pay["amount"])]
+	return I18n.t("gear.open_x_gems") % [count, int(pay["amount"])]
 
 
 func _signature() -> String:
@@ -142,23 +144,49 @@ func refresh() -> void:
 	_build(keep)
 
 
-func _build(keep_scroll: int = 0) -> void:
-	var title := _text("TÚI TRANG BỊ", 17)
-	add_child(title)
-	var packs := HBoxContainer.new()
-	packs.add_theme_constant_override("separation", 8)
-	add_child(packs)
-	for pack: Dictionary in GameData.gear_packs():
-		_build_pack(packs, pack)
+func _build_shop_shortcut() -> void:
+	var coupons := 0
+	for k: String in GameState.gear_coupons:
+		coupons += int(GameState.gear_coupons[k])
+	var card := PanelContainer.new()
+	card.name = "ShopShortcut"
+	card.mouse_filter = Control.MOUSE_FILTER_PASS
+	card.add_theme_stylebox_override("panel", _style(CARD, Color("f2a31e") if coupons > 0 else LINE, 2 if coupons > 0 else 1, 12))
+	add_child(card)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
+	card.add_child(row)
+	row.add_child(ExpansionArt.icon("standard_gear_pack", Vector2(40, 40)))
+	var info := _text(I18n.t("shop.shortcut_gear") % coupons, 13, INK)
+	info.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	row.add_child(info)
+	var go := Button.new()
+	go.name = "OpenPacksInShop"
+	go.text = I18n.t("shop.shortcut_button")
+	go.custom_minimum_size = Vector2(96, 40)
+	go.add_theme_font_size_override("font_size", 13)
+	HdUi.style_button(go, "upgrade")
+	go.pressed.connect(func() -> void: shop_requested.emit())
+	row.add_child(go)
 
+
+func _build(keep_scroll: int = 0) -> void:
+	var title := _text(I18n.t("gear.gear_bag"), 17)
+	add_child(title)
+	_build_shop_shortcut()
 	var head := HBoxContainer.new()
 	add_child(head)
-	head.add_child(_text("KHO PHỤ KIỆN", 15))
-	var count := _text("Sở hữu %d / %d" % [GameState.gear_owned_count(), GameState.gear_total()], 13, MUTED, false)
+	head.add_child(_text(I18n.t("gear.gear_storage"), 15))
+	var count := _text(I18n.t("gear.owned") % [GameState.gear_owned_count(), GameState.gear_total()], 13, MUTED, false)
 	count.size_flags_horizontal = Control.SIZE_SHRINK_END
 	head.add_child(count)
 
 	# Chỉ kho phụ kiện cuộn; phần đầu trang (gói, sức mạnh) đứng yên.
+	if GameState.gear_owned_count() > 0:
+		var total := _text(I18n.t("gear.power_total") % _fmt_power(GameState.gear_power_bonus()), 13, SWORD, true)
+		total.name = "GearPowerTotal"
+		add_child(total)
+
 	_scroll = ScrollContainer.new()
 	_scroll.name = "InventoryScroll"
 	_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -179,6 +207,12 @@ func _build(keep_scroll: int = 0) -> void:
 		_scroll.set_deferred("scroll_vertical", keep_scroll)
 
 
+## Số Power: bỏ ".0" thừa, dùng dấu thập phân theo ngôn ngữ.
+static func _fmt_power(v: float) -> String:
+	var r := snappedf(v, 0.1)
+	return (str(int(r)) if is_equal_approx(r, round(r)) else "%.1f" % r).replace(".", I18n.dec())
+
+
 ## Đã sở hữu lên trước, trong nhóm giữ thứ tự trong dữ liệu.
 func _sorted_items() -> Array:
 	var owned: Array = []
@@ -191,81 +225,6 @@ func _sorted_items() -> Array:
 	return owned + rest
 
 
-func _build_pack(parent: Node, pack: Dictionary) -> void:
-	var id := String(pack["id"])
-	var tint: Color = PACK_TINT.get(id, Color("3a78d6"))
-	var v := _panel(parent, _style(CARD, tint, 2, 12))
-	var header_row := HBoxContainer.new()
-	header_row.add_theme_constant_override("separation", 4)
-	v.add_child(header_row)
-	# Mặt nút bo tròn hai đầu; giữ trọn hai nắp khi kéo giãn theo tiêu đề.
-	var header := PanelContainer.new()
-	var header_skin := HdUi.pack_header(0.76 if id == "elite" else 0.60)
-	header.add_theme_stylebox_override("panel", header_skin)
-	header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	header_row.add_child(header)
-	var top := HBoxContainer.new()
-	top.add_theme_constant_override("separation", 2)
-	header.add_child(top)
-	var name := _text(String(pack["name"]), 11, Color.WHITE)
-	name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	name.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	name.custom_minimum_size.y = 30
-	name.add_theme_color_override("font_outline_color", HdUi.C_OUTLINE)
-	name.add_theme_constant_override("outline_size", 2)
-	top.add_child(name)
-	var info := Button.new()
-	info.text = "i"
-	info.name = "Info_" + id
-	HdUi.style_button(info, "info")
-	info.custom_minimum_size = Vector2(28, 28)
-	info.add_theme_font_size_override("font_size", 12)
-	info.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	info.size_flags_horizontal = Control.SIZE_SHRINK_END
-	info.tooltip_text = "Thông tin tỉ lệ"
-	info.pressed.connect(func() -> void: info_requested.emit(id))
-	header_row.add_child(info)
-	v.add_child(ExpansionArt.icon(id + "_gear_pack", Vector2(0, 64)))
-	var subtitle := _text("Có thể nhận Epic" if id == "standard" else "Có thể nhận Legendary", 11, MUTED)
-	subtitle.custom_minimum_size.y = 34
-	subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	subtitle.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	v.add_child(subtitle)
-	var kind := String(pack["coupon"])
-	var coupon_panel := PanelContainer.new()
-	coupon_panel.custom_minimum_size.y = 30
-	var coupon_skin := HdUi.coupon()
-	coupon_panel.add_theme_stylebox_override("panel", coupon_skin)
-	v.add_child(coupon_panel)
-	var coupon := HBoxContainer.new()
-	coupon.add_theme_constant_override("separation", 2)
-	coupon_panel.add_child(coupon)
-	coupon.add_child(ExpansionArt.icon(kind + "_coupon", Vector2(20, 22)))
-	var coupon_count := _text("Coupon: %d" % int(GameState.gear_coupons.get(kind, 0)), 12, INK)
-	coupon_count.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	coupon.add_child(coupon_count)
-	var actions := HBoxContainer.new()
-	actions.add_theme_constant_override("separation", 4)
-	v.add_child(actions)
-	for n in [1, 10]:
-		var payment := _pay_label(id, n)
-		var b := _button(payment.replace("Mở ", "").replace(" · ", "\n"), tint, GameState.gear_can_afford(id, n))
-		b.tooltip_text = payment
-		b.custom_minimum_size.y = 48
-		b.add_theme_font_size_override("font_size", 11)
-		# Hai nút chia đều chiều rộng; nhãn giá xuống dòng để vừa thẻ trên màn hình hẹp.
-		for state: String in ["normal", "hover", "pressed", "disabled"]:
-			var skin := b.get_theme_stylebox(state).duplicate() as StyleBoxTexture
-			if n == 1 and state != "disabled":
-				skin.modulate_color = Color(0.8, 0.9, 1.0)
-			skin.content_margin_left = 3
-			skin.content_margin_right = 3
-			b.add_theme_stylebox_override(state, skin)
-		b.name = "Open_%s_x%d" % [id, n]
-		b.pressed.connect(func() -> void: open_requested.emit(id, n))
-		actions.add_child(b)
-
-
 func _build_item(parent: Node, item: Dictionary) -> void:
 	var id := String(item["id"])
 	var rarity := String(item["rarity"])
@@ -276,7 +235,7 @@ func _build_item(parent: Node, item: Dictionary) -> void:
 		var silhouette := ExpansionArt.icon(id, Vector2(64, 64))
 		silhouette.modulate = Color(0.1, 0.14, 0.22, 0.35)
 		locked.add_child(silhouette)
-		var q := _text("Chưa sở hữu", 12, MUTED)
+		var q := _text(I18n.t("gear.not_owned"), 12, MUTED)
 		q.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		locked.add_child(q)
 		return
@@ -299,17 +258,14 @@ func _build_item(parent: Node, item: Dictionary) -> void:
 	var tag := _text(String(RARITY_NAME.get(rarity, rarity)), 10, col, false)
 	tag.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(tag)
-	var st := GameState.gear_stats_at(id, level)
-	var stats := HBoxContainer.new()
-	stats.alignment = BoxContainer.ALIGNMENT_CENTER
-	stats.add_theme_constant_override("separation", 6)
-	v.add_child(stats)
-	stats.add_child(_text("K+%d" % int(st["attack"]), 11, SWORD, false))
-	stats.add_child(_text("Kh+%d" % int(st["defense"]), 11, SHIELD, false))
+	var power := _text(I18n.t("gear.power_item") % _fmt_power(GameState.gear_item_power(id, level)), 12, SWORD, true)
+	power.name = "ItemPower"
+	power.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	v.add_child(power)
 	var need := GameState.gear_upgrade_cost(id)
 	var shards := GameState.gear_shards(id)
 	if need < 0:
-		var maxed := _text("Cấp tối đa", 11, MUTED, false)
+		var maxed := _text(I18n.t("common.max_level"), 11, MUTED, false)
 		maxed.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		v.add_child(maxed)
 		return
@@ -320,11 +276,11 @@ func _build_item(parent: Node, item: Dictionary) -> void:
 	bar.show_percentage = false
 	bar.custom_minimum_size = Vector2(0, 8)
 	v.add_child(bar)
-	var prog := _text("%d/%d mảnh" % [shards, need], 11, MUTED, false)
+	var prog := _text(I18n.t("gear.shards") % [shards, need], 11, MUTED, false)
 	prog.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(prog)
 	if shards >= need:
-		var up := _button("Nâng cấp", col, not (GameState.save_blocked or GameState.phase == "save_error"))
+		var up := _button(I18n.t("common.upgrade"), col, not (GameState.save_blocked or GameState.phase == "save_error"))
 		up.name = "Upgrade_" + id
 		up.custom_minimum_size.y = 36
 		up.pressed.connect(func() -> void: upgrade_requested.emit(id))

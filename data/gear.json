@@ -1,6 +1,8 @@
 {
  "schema_version": 1,
  "_note": "Gia tri can bang (so manh, chi so, manh khi trung) la placeholder cau hinh, chua lay tu game goc. Chi tieu manh cua chinh phu kien.",
+ "power_per_point": 0.025,
+ "_power_note": "Power cong them cho MOI chi so doi = (kiem + khien) cua cac mon so huu x power_per_point. Mon Rare level 0 (20+20) = +1.0. Placeholder can bang, chay lai lab nhip.",
  "coupon_types": [
   "standard",
   "elite"

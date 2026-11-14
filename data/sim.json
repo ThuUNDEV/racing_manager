@@ -50,47 +50,47 @@
   4
  ],
  "ai_names": [
-  "Kiên",
-  "Lan",
-  "Minh",
-  "Nam",
-  "Oanh",
-  "Phúc",
-  "Quân"
+  "Senna",
+  "Mansell",
+  "Häkkinen",
+  "Rosberg",
+  "Webber",
+  "Massa",
+  "Sainz"
  ],
  "ai_cars": [
   {
-   "name": "Kiên",
+   "name": "Senna",
    "offset": -6,
    "style": "inside"
   },
   {
-   "name": "Lan",
+   "name": "Mansell",
    "offset": -5,
    "style": "sweeper"
   },
   {
-   "name": "Minh",
+   "name": "Häkkinen",
    "offset": -3,
    "style": "counter"
   },
   {
-   "name": "Nam",
+   "name": "Rosberg",
    "offset": 0,
    "style": "defender"
   },
   {
-   "name": "Oanh",
+   "name": "Webber",
    "offset": 4,
    "style": "inside"
   },
   {
-   "name": "Phúc",
+   "name": "Massa",
    "offset": 8,
    "style": "sweeper"
   },
   {
-   "name": "Quân",
+   "name": "Sainz",
    "offset": 14,
    "style": "counter"
   }

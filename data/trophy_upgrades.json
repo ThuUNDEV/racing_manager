@@ -1,9 +1,9 @@
 {
  "schema_version": 1,
- "_note": "Nâng cấp bằng cúp (Design/24). Cúp chỉ nhận khi về đích top 3. Giá trị là số cụ thể, chưa phải phần trăm; cần chỉnh theo mô phỏng.",
+ "_note": "Upgrade with trophies (Design/24). Trophies are only earned by finishing in the top 3. Values are concrete numbers, not percentages; tune them against the simulation.",
  "currency": {
   "id": "trophy",
-  "name": "Cúp",
+  "name": "@common.trophies",
   "icon": "trophy"
  },
  "earn": {
@@ -25,7 +25,7 @@
    5,
    6
   ],
-  "note": "cúp nhận = by_position[vị trí-1] × league_multiplier[giải]; từ P4 trở xuống không có cúp. Nhận tối đa tới khi chạm cap: nhận = min(cúp tính được, cap - tổng đã kiếm)"
+  "note": "trophies earned = by_position[position-1] × league_multiplier[league]; from P4 down there are no trophies. Earn up to the cap: earned = min(computed trophies, cap - total earned)"
  },
  "cap": {
   "base": 100,
@@ -37,12 +37,12 @@
    365,
    420
   ],
-  "note": "Trần tổng cúp được kiếm (tính tích lũy cả đã tiêu). Đạt trần thì không nhận thêm cúp. Trần theo giải: by_league[giải] (thiếu thì dùng base) + trophy_cap_bonus. Không reset tổng đã kiếm khi lên giải."
+  "note": "Cap on total trophies earned (cumulative, including those spent). At the cap no more trophies are earned. Cap by league: by_league[league] (base if missing) + trophy_cap_bonus. Total earned is not reset when advancing leagues."
  },
  "groups": [
   {
    "id": "offense",
-   "name": "Tấn công",
+   "name": "@data.trophy_upgrades.attack",
    "stats": [
     "S",
     "A"
@@ -50,7 +50,7 @@
   },
   {
    "id": "defense",
-   "name": "Phòng thủ",
+   "name": "@data.trophy_upgrades.defense",
    "stats": [
     "H",
     "B"
@@ -58,28 +58,28 @@
   },
   {
    "id": "income",
-   "name": "Thu nhập",
+   "name": "@common.income",
    "stats": []
   }
  ],
  "effect_labels": {
-  "S": "Tốc độ",
-  "A": "Tăng tốc",
-  "H": "Bám cua",
-  "B": "Ổn định",
-  "race_bonus_seconds": "Thu nhập mỗi lượt",
-  "daily_bonus_seconds": "Quà hằng ngày"
+  "S": "@common.pace",
+  "A": "@common.acceleration",
+  "H": "@data.trophy_upgrades.corner_grip",
+  "B": "@common.stability",
+  "race_bonus_seconds": "@data.trophy_upgrades.income_per_race",
+  "daily_bonus_seconds": "@data.trophy_upgrades.daily_gift"
  },
  "effect_units": {
-  "race_bonus_seconds": " giây",
-  "daily_bonus_seconds": " giây"
+  "race_bonus_seconds": "@data.trophy_upgrades.sec",
+  "daily_bonus_seconds": "@data.trophy_upgrades.sec"
  },
  "upgrades": [
   {
    "id": "speed_tune",
-   "name": "Động cơ đua",
+   "name": "@data.trophy_upgrades.racing_engine",
    "group": "offense",
-   "description": "Tăng tốc độ tối đa trên đoạn thẳng",
+   "description": "@data.trophy_upgrades.increases_top_speed_straights",
    "unlock_league": 0,
    "max_level": 10,
    "cost_by_level": [
@@ -129,13 +129,13 @@
      "S": 12
     }
    ],
-   "display": "Tốc độ +{S}"
+   "display": "@data.trophy_upgrades.speed_plus"
   },
   {
    "id": "launch_boost",
-   "name": "Xuất phát nhanh",
+   "name": "@data.trophy_upgrades.fast_start",
    "group": "offense",
-   "description": "Tăng tốc nhanh hơn khi xuất phát và ra cua",
+   "description": "@data.trophy_upgrades.accelerates_faster_off_line_out",
    "unlock_league": 0,
    "max_level": 10,
    "cost_by_level": [
@@ -185,13 +185,13 @@
      "A": 12
     }
    ],
-   "display": "Tăng tốc +{A}"
+   "display": "@data.trophy_upgrades.acceleration_plus"
   },
   {
    "id": "overtake_kit",
-   "name": "Đà vượt xe",
+   "name": "@data.trophy_upgrades.overtaking_momentum",
    "group": "offense",
-   "description": "Bộ vượt xe: thêm tốc độ và tăng tốc",
+   "description": "@data.trophy_upgrades.overtaking_kit_extra_speed_acceleration",
    "unlock_league": 2,
    "max_level": 6,
    "cost_by_level": [
@@ -232,13 +232,13 @@
      "A": 6
     }
    ],
-   "display": "Tốc độ +{S} · Tăng tốc +{A}"
+   "display": "@data.trophy_upgrades.speed_plus_acceleration_plus"
   },
   {
    "id": "corner_grip",
-   "name": "Bám cua",
+   "name": "@data.trophy_upgrades.corner_grip",
    "group": "defense",
-   "description": "Giữ đường tốt hơn ở đoạn cua",
+   "description": "@data.trophy_upgrades.holds_racing_line_better_through",
    "unlock_league": 0,
    "max_level": 10,
    "cost_by_level": [
@@ -288,13 +288,13 @@
      "H": 12
     }
    ],
-   "display": "Bám cua +{H}"
+   "display": "@data.trophy_upgrades.corner_grip_plus"
   },
   {
    "id": "stability_tune",
-   "name": "Ổn định thân xe",
+   "name": "@data.trophy_upgrades.stable_chassis",
    "group": "defense",
-   "description": "Ít mất tốc khi bị áp sát hoặc sai đường",
+   "description": "@data.trophy_upgrades.loses_less_speed_when_pressured",
    "unlock_league": 0,
    "max_level": 10,
    "cost_by_level": [
@@ -344,13 +344,13 @@
      "B": 12
     }
    ],
-   "display": "Ổn định +{B}"
+   "display": "@data.trophy_upgrades.stability_plus"
   },
   {
    "id": "race_chassis",
-   "name": "Khung gầm đua",
+   "name": "@data.trophy_upgrades.racing_chassis",
    "group": "defense",
-   "description": "Khung gầm chuyên dụng: thêm bám cua và ổn định",
+   "description": "@data.trophy_upgrades.specialist_chassis_extra_corner_grip",
    "unlock_league": 2,
    "max_level": 6,
    "cost_by_level": [
@@ -391,13 +391,13 @@
      "B": 6
     }
    ],
-   "display": "Bám cua +{H} · Ổn định +{B}"
+   "display": "@data.trophy_upgrades.corner_grip_plus_stability_plus"
   },
   {
    "id": "sponsor",
-   "name": "Nhà tài trợ",
+   "name": "@data.trophy_upgrades.sponsor",
    "group": "income",
-   "description": "Mỗi chặng nhận thêm số giây thu nhập thụ động",
+   "description": "@data.trophy_upgrades.each_race_grants_extra_seconds",
    "unlock_league": 0,
    "max_level": 10,
    "cost_by_level": [
@@ -447,13 +447,13 @@
      "race_bonus_seconds": 15
     }
    ],
-   "display": "+{race_bonus_seconds} giây thu nhập/chặng"
+   "display": "@data.trophy_upgrades.plus_sec_income_race"
   },
   {
    "id": "grandstand",
-   "name": "Khán đài đông",
+   "name": "@data.trophy_upgrades.packed_stands",
    "group": "income",
-   "description": "Quà hằng ngày được cộng thêm số giây thu nhập",
+   "description": "@data.trophy_upgrades.daily_gifts_get_extra_seconds",
    "unlock_league": 1,
    "max_level": 10,
    "cost_by_level": [
@@ -503,7 +503,7 @@
      "daily_bonus_seconds": 300
     }
    ],
-   "display": "+{daily_bonus_seconds} giây thu nhập/quà ngày"
+   "display": "@data.trophy_upgrades.plus_sec_income_daily_gift"
   }
  ]
 }

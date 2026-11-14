@@ -6,6 +6,12 @@
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "8060", "--directory", "export/web"],
       "port": 8060
+    },
+    {
+      "name": "sfx-compare",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8061", "--directory", "Design/sfx_compare"],
+      "port": 8061
     }
   ]
 }
