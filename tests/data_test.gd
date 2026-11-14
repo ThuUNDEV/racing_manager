@@ -56,7 +56,7 @@ func _initialize() -> void:
 		ratio_prev = ratio
 	_check(curve_ok, "upgrade_curve: P(199)≈8117, P(10)≈5,84, P(50)≈53,2 và hệ số giá mỗi cấp giảm dần")
 	_check(Pricing.revenue_rate({}).equals(8), "rate nền 8")
-	_check(Pricing.revenue_gain("ticket", 0).is_zero() and Pricing.revenue_gain("ticket", 1).equals("0.25075"), "revenue_gain cấp 1 = 0,25 x 1,003")
+	_check(Pricing.revenue_gain("ticket", 0).is_zero() and Pricing.revenue_gain("ticket", 1).equals("0.252"), "revenue_gain cấp 1 = 0,25 x 1,008")
 	_check(Pricing.star_count(24) == 0 and Pricing.star_count(25) == 1 and Pricing.star_count(150) == 4, "mốc sao 25/50/100/150")
 	var star_ok := Pricing.revenue_gain("ticket", 25).compare(Pricing.revenue_gain("ticket", 24).multiply(BigNumber.parse_decimal("1.1"))) > 0
 	_check(star_ok, "đạt mốc sao làm tăng vọt lợi nhuận")

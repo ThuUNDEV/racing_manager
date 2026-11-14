@@ -24,10 +24,10 @@ func _initialize() -> void:
 		var cost: BigNumber = gs.cost_of(kind)
 		_check(gs.buy(kind) and gs.coins.equals(coins_before.subtract_checked(cost)) and gs.level_of(kind) == 1, "mua và trừ đúng giá: " + kind)
 		_check(gs.online_rate().compare(before) > 0, "tăng thu nhập: " + kind)
-	_check(gs.online_rate().equals("10.7695875"), "ba nguồn cộng (cấp 1 = per_level x 1,003), sức chứa 10,5/10 tuyến tính")
+	_check(gs.online_rate().equals("10.7814"), "ba nguồn cộng (cấp 1 = per_level x 1,008), sức chứa 10,5/10 tuyến tính")
 	var before_tick: BigNumber = gs.coins
 	gs.tick_income(2.0)
-	_check(gs.coins.subtract_checked(before_tick).equals(21) and gs.income_remainder.equals("0.539175"), "thu nhập thực có giữ phần lẻ")
+	_check(gs.coins.subtract_checked(before_tick).equals(21) and gs.income_remainder.equals("0.5628"), "thu nhập thực có giữ phần lẻ")
 	gs.begin_countdown()
 	gs.advance(3.0)
 	var snapshot: Dictionary = gs.race_snapshot.duplicate(true)

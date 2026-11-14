@@ -12,6 +12,7 @@ static func _e() -> Dictionary:
 	return GameData.economy()
 
 static var _curve_cache: Array = [1.0]
+static var _rev_curve_cache: Array = [1.0]
 
 ## Hệ số giá tích lũy P(L) = Π r(n), r(n) = r_inf + (r0 − r_inf)·e^(−n/τ) (kiểu Race Star:
 ## dốc ở cấp đầu rồi hội tụ). Thiếu `upgrade_curve` thì quay về g^L với g = upgrade_growth^(1/sub).
@@ -28,8 +29,23 @@ static func _curve(level: int) -> float:
 		_curve_cache.append(float(_curve_cache[n - 1]) * (r_inf + (r0 - r_inf) * exp(-n / tau)))
 	return _curve_cache[level]
 
+## Đường cong giá riêng cho nguồn thu nhập (`revenue_curve`, dốc hơn kiểu Income của Race Star: hệ số hội tụ ~×1,15).
+## Thiếu khóa thì dùng đường cong chung `upgrade_curve`.
+static func _revenue_curve(level: int) -> float:
+	var c: Variant = _e().get("revenue_curve", null)
+	if c == null:
+		return _curve(level)
+	var r0 := float(c["r0"])
+	var r_inf := float(c["r_inf"])
+	var tau := float(c["tau"])
+	while _rev_curve_cache.size() <= level:
+		var n := _rev_curve_cache.size()
+		_rev_curve_cache.append(float(_rev_curve_cache[n - 1]) * (r_inf + (r0 - r_inf) * exp(-n / tau)))
+	return _rev_curve_cache[level]
+
 static func reset_cache() -> void:
 	_curve_cache = [1.0]
+	_rev_curve_cache = [1.0]
 	_cost_cache.clear()
 	_gain_cache.clear()
 	_rate_cache.clear()
@@ -46,8 +62,8 @@ static func scale_of(tier: int) -> BigNumber:
 static func pacing(tier: int) -> int:
 	return int(_e()["business"]["pacing"][tier])
 
-static func _cost(base: String, tier: int, level: int) -> BigNumber:
-	var key := "%s/%d/%d" % [base, tier, level]
+static func _cost(base: String, tier: int, level: int, revenue: bool = false) -> BigNumber:
+	var key := "%s/%d/%d/%d" % [base, tier, level, 1 if revenue else 0]
 	if not _cost_cache.has(key):
 		# Design/13: cost = S × ceil(base × Q × D × g^m / K), g = growth^(1/sub), K = Σ g^j (j<sub).
 		var e := _e()
@@ -56,7 +72,7 @@ static func _cost(base: String, tier: int, level: int) -> BigNumber:
 		var k := 0.0
 		for j in sub:
 			k += pow(g, j)
-		var raw := float(base) * pacing(tier) * float(e["duration_factor"]) * _curve(level) / k  # K theo upgrade_growth cũ: giữ giá cấp 0
+		var raw := float(base) * pacing(tier) * float(e["duration_factor"]) * (_revenue_curve(level) if revenue else _curve(level)) / k  # K theo upgrade_growth cũ: giữ giá cấp 0
 		_cost_cache[key] = BigNumber.from_int(int(ceil(raw - 1e-9))).multiply(scale_of(tier))
 	return _cost_cache[key]
 
@@ -79,7 +95,7 @@ static func part_cost(class_index: int, level: int, kind: String = "") -> BigNum
 	return _cost(part_base(kind) if kind != "" else String(_e()["part_cost_base"]), tier, level)
 
 static func revenue_cost(kind: String, level: int, tier: int = 0) -> BigNumber:
-	return _cost(String(_e()["revenue_upgrades"][kind]["cost"]), tier, level)
+	return _cost(String(_e()["revenue_upgrades"][kind]["cost"]), tier, level, true)
 
 ## Số mốc sao đã đạt ở cấp `level` (Design/19: airport_empire star multiply).
 static func star_count(level: int) -> int:

@@ -4,12 +4,12 @@
   "start_gems": 100,
   "team_rename_gems": 50,
   "mock_gem_packs": [
-    {"gems": 10, "price": "Xem video"},
-    {"gems": 100, "price": "52.000đ"},
-    {"gems": 255, "price": "131.000đ"},
-    {"gems": 520, "price": "263.000đ"},
-    {"gems": 1100, "price": "526.000đ"},
-    {"gems": 2750, "price": "1.300.000đ"}
+    {"gems": 10, "price": "@common.watch_video"},
+    {"gems": 100, "price": "$1.99"},
+    {"gems": 255, "price": "$4.99"},
+    {"gems": 520, "price": "$9.99"},
+    {"gems": 1100, "price": "$19.99"},
+    {"gems": 2750, "price": "$49.99"}
   ],
   "max_level": 200,
   "level_subdivision": 10,
@@ -76,21 +76,21 @@
       "name": "Ticket Marketing",
       "base": "8.0",
       "per_level": "0.25",
-      "growth": "1.003",
+      "growth": "1.008",
       "cost": "150"
     },
     "celebration": {
       "name": "Victory Celebrations",
       "base": "0.0",
       "per_level": "0.75",
-      "growth": "1.003",
+      "growth": "1.008",
       "cost": "300"
     },
     "parking": {
       "name": "Parking",
       "base": "0.0",
       "per_level": "1.25",
-      "growth": "1.003",
+      "growth": "1.008",
       "cost": "500"
     },
     "grandstands": {
@@ -103,6 +103,7 @@
   "economy_version": 2,
   "upgrade_growth": "1.572",
   "upgrade_curve": {"r0": "1.30", "tau": 10, "r_inf": "1.0342"},
+  "revenue_curve": {"r0": "1.30", "tau": 10, "r_inf": "1.06"},
   "part_cost_base": "120",
   "part_cost_bases": {
     "engine": "160",
