@@ -1,0 +1,241 @@
+{
+  "date": "2026-11-13",
+  "theme": "F Clean Modern",
+  "engine": "Godot 4.7.2 stable Windows desktop renderer",
+  "runtime_enabled": true,
+  "source_images_preserved": 290,
+  "texture_routes_verified": 467,
+  "shop_skus": 30,
+  "modal_open_close_cycles": 180,
+  "viewport_widths": [
+    320,
+    390,
+    412
+  ],
+  "extra_layout_width": 360,
+  "export": {
+    "preset": "Web",
+    "format": "PCK",
+    "source_directory_available_to_runtime": false,
+    "tests_excluded": true,
+    "textures_loaded": 467,
+    "offer_scenes_loaded": 30,
+    "dynamic_audio_loaded": true,
+    "track_layouts_loaded": [
+      "harbor",
+      "pine",
+      "city"
+    ],
+    "pack": "C:\\Users\\thupv\\.codex\\visualizations\\2026\\11\\13\\clean-modern-export.pck"
+  },
+  "root_cause": "OfferArt changed custom_minimum_size from its resized signal, causing container sorting feedback. Stable minimum height removes the feedback.",
+  "implementation": {
+    "card_art_height": 144,
+    "detail_art_height": 180,
+    "resize_minimum_feedback_removed": true,
+    "overlay_fit_pending_experiment_removed": true,
+    "offline_info_size_limited": true,
+    "offline_continue_shared_green_skin": true,
+    "offline_atlas_regions_corrected": true,
+    "all_detail_art_restored": true
+  },
+  "checks": [
+    {
+      "test": "asset_integration_test",
+      "passed": true,
+      "log": "C:\\Users\\thupv\\.codex\\visualizations\\2026\\11\\13\\clean-modern-final-asset_integration_test.log",
+      "notes": []
+    },
+    {
+      "test": "asset_layout_test",
+      "passed": true,
+      "log": "C:\\Users\\thupv\\.codex\\visualizations\\2026\\11\\13\\clean-modern-resume-asset_layout_test.log",
+      "notes": []
+    },
+    {
+      "test": "upgrade_grid_ui_test",
+      "passed": true,
+      "log": "C:\\Users\\thupv\\.codex\\visualizations\\2026\\11\\13\\clean-modern-depth-upgrade_grid_ui_test.log",
+      "notes": []
+    },
+    {
+      "test": "gear_ui_test",
+      "passed": true,
+      "log": "C:\\Users\\thupv\\.codex\\visualizations\\2026\\11\\13\\clean-modern-final-gear_ui_test.log",
+      "notes": []
+    },
+    {
+      "test": "touch_scroll_test",
+      "passed": true,
+      "log": "C:\\Users\\thupv\\.codex\\visualizations\\2026\\11\\13\\clean-modern-depth-touch_scroll_test.log",
+      "notes": []
+    },
+    {
+      "test": "class_ui_test",
+      "passed": true,
+      "log": "C:\\Users\\thupv\\.codex\\visualizations\\2026\\11\\13\\clean-modern-final-class_ui_test.log",
+      "notes": []
+    },
+    {
+      "test": "popup_close_ui_test",
+      "passed": true,
+      "log": "C:\\Users\\thupv\\.codex\\visualizations\\2026\\11\\13\\clean-modern-resume-popup_close_ui_test.log",
+      "notes": []
+    },
+    {
+      "test": "offline_ui_test",
+      "passed": true,
+      "log": "C:\\Users\\thupv\\.codex\\visualizations\\2026\\11\\13\\clean-modern-depth-offline_ui_test.log",
+      "notes": []
+    },
+    {
+      "test": "daily_rewards_ui_test",
+      "passed": true,
+      "log": "C:\\Users\\thupv\\.codex\\visualizations\\2026\\11\\13\\clean-modern-depth-daily_rewards_ui_test.log",
+      "notes": []
+    },
+    {
+      "test": "ads_ui_test",
+      "passed": true,
+      "log": "C:\\Users\\thupv\\.codex\\visualizations\\2026\\11\\13\\clean-modern-resume-ads_ui_test.log",
+      "notes": []
+    },
+    {
+      "test": "ads_ticket_ui_test",
+      "passed": true,
+      "log": "C:\\Users\\thupv\\.codex\\visualizations\\2026\\11\\13\\clean-modern-depth-ads_ticket_ui_test.log",
+      "notes": []
+    },
+    {
+      "test": "shop_ui_test",
+      "passed": true,
+      "log": "C:\\Users\\thupv\\.codex\\visualizations\\2026\\11\\13\\clean-modern-final-shop_ui_test.log",
+      "notes": []
+    },
+    {
+      "test": "boot_test",
+      "passed": true,
+      "log": "C:\\Users\\thupv\\.codex\\visualizations\\2026\\11\\13\\clean-modern-final-boot_test.log",
+      "notes": []
+    },
+    {
+      "test": "tutorial_test",
+      "passed": true,
+      "log": "C:\\Users\\thupv\\.codex\\visualizations\\2026\\11\\13\\clean-modern-final-tutorial_test.log",
+      "notes": [
+        "Expected save rejection for deliberately invalid tutorial state (tests/tutorial_test.gd:56)."
+      ]
+    },
+    {
+      "test": "shop_redesign_test",
+      "passed": true,
+      "log": "C:\\Users\\thupv\\.codex\\visualizations\\2026\\11\\13\\clean-modern-depth-shop_redesign_test.log",
+      "notes": []
+    },
+    {
+      "test": "clean_modern_ui_test",
+      "passed": true,
+      "log": "C:\\Users\\thupv\\.codex\\visualizations\\2026\\11\\13\\clean-modern-resume-clean_modern_ui_test.log",
+      "notes": []
+    },
+    {
+      "test": "clean_modern_export_test",
+      "passed": true,
+      "log": "C:\\Users\\thupv\\.codex\\visualizations\\2026\\11\\13\\clean-modern-export-test.log",
+      "notes": []
+    },
+    {
+      "test": "clean_modern_demo_test",
+      "passed": true,
+      "log": "C:\\Users\\thupv\\.codex\\visualizations\\2026\\11\\13\\clean-modern-resume-clean_modern_demo_test.log",
+      "notes": [
+        "Real viewport pointer events open x2 at 320/390/412. Daily cap and locked states retain a disabled button with reason."
+      ]
+    }
+  ],
+  "visual_review": [
+    "Design/Previews/clean_modern_button_text_390.png",
+    "Design/Previews/clean_modern_demo_comparison_390.png",
+    "Design/Previews/clean_modern_demo_320_race.png",
+    "Design/Previews/clean_modern_demo_320_drivers.png",
+    "Design/Previews/clean_modern_demo_320_shop.png",
+    "Design/Previews/clean_modern_demo_320_classes.png",
+    "Design/Previews/clean_modern_demo_390_race.png",
+    "Design/Previews/clean_modern_demo_390_drivers.png",
+    "Design/Previews/clean_modern_demo_390_shop.png",
+    "Design/Previews/clean_modern_demo_390_classes.png",
+    "Design/Previews/clean_modern_demo_412_race.png",
+    "Design/Previews/clean_modern_demo_412_drivers.png",
+    "Design/Previews/clean_modern_demo_412_shop.png",
+    "Design/Previews/clean_modern_demo_412_classes.png",
+    "Design/Previews/clean_modern_demo_390_live_race.png"
+  ],
+  "limitations": [
+    "Physical mobile device and browser Web runtime have not been tested.",
+    "Several existing UI tests report retained RID/ObjectDB resources at engine shutdown.",
+    "Main race geometry remains procedural and driven by simulation; generated track images do not replace simulation geometry."
+  ],
+  "committed": false,
+  "pushed": false,
+  "demo_correction": {
+    "race_height": 294,
+    "audience_position": "original three-row band below HUD, above track",
+    "race_hud_preserved": true,
+    "x2_unavailable_state": "visible with reason",
+    "starter_card": "compact; illustration retained in detail",
+    "driver_order": "current driver, available, locked, scouting and recruit packs",
+    "navigation": "pale surface with blue selected tab and new bag/team vector icons"
+  },
+  "x2_visibility_fix": "Previously _refresh_chip hid the button for every unavailable state. It now retains a disabled button with a reason; availability, limits, rewards and persistence still belong to Ads.",
+  "button_and_text_feedback": {
+    "button_aspect": "preserves replacement texture ratio at original logical height",
+    "narrow_controls": "square skins for selected navigation and daily gift",
+    "nine_slice": "full purchase end caps and visible-button cap overlap checks",
+    "white_text": "2px dark outline, 1px offset shadow",
+    "slate_text": "1px light outline, soft 1px offset shadow",
+    "preview": "Design/Previews/clean_modern_button_text_390.png",
+    "verified_widths": [
+      320,
+      390,
+      412
+    ]
+  },
+  "typography_feedback": {
+    "font": "Roboto Bold (bundled static TTF, Apache 2.0)",
+    "reference": "Visual approximation; original typeface of raster reference unknown",
+    "vietnamese_glyphs": "passed",
+    "render_widths": [
+      320,
+      390,
+      412
+    ],
+    "checks": [
+      "clean_modern_demo_test",
+      "asset_layout_test",
+      "shop_redesign_test",
+      "clean_modern_export_test (isolated exported PCK)"
+    ]
+  },
+  "v5_popup_integration": {
+    "status": "integrated",
+    "widths": [
+      320,
+      390,
+      412
+    ],
+    "modal_cycles": 180,
+    "preview": "Design/Previews/iap_v5_runtime_390.png",
+    "checks": [
+      "clean_modern_ui_test",
+      "shop_redesign_test",
+      "popup_close_ui_test",
+      "touch_scroll_test"
+    ],
+    "original_heroes_retained": [
+      "starter_1",
+      "char_my",
+      "income_x2"
+    ],
+    "data_driven_rewards_and_prices": true
+  }
+}

@@ -1,4 +1,5 @@
 extends Control
+const CleanArt = preload("res://ui/clean_modern_art.gd")
 ## Pure rendering component: caller supplies normalized lap distances via set_racers().
 ## Does not advance a race or infer a gameplay sector from the painted road.
 const ROOT := "res://assets/workshop_gp/"
@@ -15,7 +16,7 @@ var _racers: Array = []
 func _ready() -> void:
 	clip_contents = true
 	for color: String in COLORS:
-		_cars.append(load(ROOT + "cars/" + color + ".tres") as Texture2D)
+		_cars.append(CleanArt.asset(ROOT + "cars/" + color + ".tres") as Texture2D)
 	set_track(track_id)
 	resized.connect(_build_path)
 
@@ -24,7 +25,7 @@ func set_track(id: String) -> void:
 	track_id = id
 	var json := FileAccess.get_file_as_string(ROOT + "layout/" + id + ".json")
 	_definition = JSON.parse_string(json) as Dictionary
-	_background = load(ROOT + str(_definition.texture)) as Texture2D
+	_background = CleanArt.asset(ROOT + str(_definition.texture)) as Texture2D
 	_build_path()
 
 

@@ -1,4 +1,6 @@
 extends Control
+const CleanArt = preload("res://ui/clean_modern_art.gd")
+const PopupAnim = preload("res://ui/popup_anim.gd")
 ## Reusable responsive overlay. Caller owns rewards/persistence and closes the instance.
 signal accepted
 signal dismissed
@@ -29,6 +31,9 @@ func _ready() -> void:
 	_panel = PanelContainer.new()
 	_panel.add_theme_stylebox_override("panel",HdUi.card_style("modal"))
 	center.add_child(_panel)
+	PopupAnim.close_on_outside_click(self, _panel, func() -> void:
+		if show_cancel:
+			dismissed.emit())
 	_resized()
 	resized.connect(_resized)
 	var box := VBoxContainer.new()
@@ -44,7 +49,7 @@ func _ready() -> void:
 	if not image_path.is_empty():
 		var picture := TextureRect.new()
 		picture.name = "Artwork"
-		picture.texture = load(image_path)
+		picture.texture = CleanArt.asset(image_path)
 		picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		picture.custom_minimum_size.y = 140
@@ -72,6 +77,8 @@ func _ready() -> void:
 		cancel.pressed.connect(func(): dismissed.emit())
 		box.add_child(cancel)
 	confirm.grab_focus()
+	modulate.a = 0.0  # để PopupAnim chạy hoạt ảnh mở dù node đã hiện
+	PopupAnim.open(self, _panel)
 
 
 func _resized() -> void:

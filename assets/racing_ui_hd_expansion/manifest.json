@@ -1087,7 +1087,7 @@
     },
     {
       "id": "driver_an",
-      "name": "An",
+      "name": "Button",
       "backlog_id": "A54",
       "sheet": "driver_portraits",
       "row": 1,
@@ -1108,7 +1108,7 @@
     },
     {
       "id": "driver_binh",
-      "name": "Bình",
+      "name": "Ricciardo",
       "backlog_id": "A55",
       "sheet": "driver_portraits",
       "row": 1,
@@ -1129,7 +1129,7 @@
     },
     {
       "id": "driver_chi",
-      "name": "Chi",
+      "name": "Barrichello",
       "backlog_id": "A56",
       "sheet": "driver_portraits",
       "row": 1,
@@ -1150,7 +1150,7 @@
     },
     {
       "id": "driver_dung",
-      "name": "Dũng",
+      "name": "Räikkönen",
       "backlog_id": "A45",
       "sheet": "driver_portraits",
       "row": 1,
@@ -1171,7 +1171,7 @@
     },
     {
       "id": "driver_ha",
-      "name": "Hà",
+      "name": "Leclerc",
       "backlog_id": "A46",
       "sheet": "driver_portraits",
       "row": 2,
@@ -1192,7 +1192,7 @@
     },
     {
       "id": "driver_khoi",
-      "name": "Khôi",
+      "name": "Norris",
       "backlog_id": "A47",
       "sheet": "driver_portraits",
       "row": 2,
@@ -1213,7 +1213,7 @@
     },
     {
       "id": "driver_lam",
-      "name": "Lâm",
+      "name": "Vettel",
       "backlog_id": "A48",
       "sheet": "driver_portraits",
       "row": 2,
@@ -1234,7 +1234,7 @@
     },
     {
       "id": "driver_my",
-      "name": "My",
+      "name": "Verstappen",
       "backlog_id": "A49",
       "sheet": "driver_portraits",
       "row": 2,
@@ -1255,7 +1255,7 @@
     },
     {
       "id": "driver_nhan",
-      "name": "Nhân",
+      "name": "Alonso",
       "backlog_id": "A50",
       "sheet": "driver_portraits",
       "row": 3,
@@ -1276,7 +1276,7 @@
     },
     {
       "id": "driver_phuong",
-      "name": "Phương",
+      "name": "Prost",
       "backlog_id": "A51",
       "sheet": "driver_portraits",
       "row": 3,
@@ -1297,7 +1297,7 @@
     },
     {
       "id": "driver_quang",
-      "name": "Quang",
+      "name": "Schumacher",
       "backlog_id": "A52",
       "sheet": "driver_portraits",
       "row": 3,
@@ -1318,7 +1318,7 @@
     },
     {
       "id": "driver_son",
-      "name": "Sơn",
+      "name": "Hamilton",
       "backlog_id": "A53",
       "sheet": "driver_portraits",
       "row": 3,

@@ -1,0 +1,22 @@
+{
+  "assets/workshop_gp/icons/vector/offline_info.svg": {
+    "sheet": "assets/clean_modern/sheets/utility_icons.png",
+    "region": [
+      979,
+      628,
+      149,
+      141
+    ],
+    "job": "utility_icons"
+  },
+  "assets/workshop_gp/icons/vector/offline_continue.svg": {
+    "sheet": "assets/clean_modern/sheets/core_surfaces.png",
+    "region": [
+      33,
+      294,
+      659,
+      136
+    ],
+    "job": "core_surfaces"
+  }
+}

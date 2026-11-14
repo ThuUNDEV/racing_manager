@@ -1,11 +1,12 @@
 extends PanelContainer
+const CleanArt = preload("res://ui/clean_modern_art.gd")
 ## Reusable, data-only UI. Call configure() with display data; connect action_requested.
 ## No economy, save or race logic lives in this component.
 signal action_requested(id: String)
 
 const ROOT := "res://assets/workshop_gp/"
-const INK := Color("16355c")
-const MUTED := Color("5a7294")
+const INK := Color("23394a")
+const MUTED := Color("768ca0")
 @export_enum("upgrade", "driver", "league", "reward", "mission", "toast", "stat", "resource", "modal") var kind := "upgrade"
 @export var item_id := ""
 @export var title := "Động cơ"
@@ -71,7 +72,7 @@ func _rebuild() -> void:
 	if not image_path.is_empty():
 		var picture := TextureRect.new()
 		picture.name = "Artwork"
-		picture.texture = load(image_path) as Texture2D
+		picture.texture = CleanArt.asset(image_path) as Texture2D
 		picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		var extent := Vector2(32, 36)

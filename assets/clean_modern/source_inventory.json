@@ -1,0 +1,2322 @@
+[
+  {
+    "source": "assets/ads_income_boost/boost_ticket_button.png",
+    "size": [
+      1729,
+      910
+    ],
+    "sha256": "797c3bfa56b2b712ff311eac8e0e0cc3b9de276f7a435a59847326aab7a649f4"
+  },
+  {
+    "source": "assets/ads_income_boost/cash_bundles.png",
+    "size": [
+      1254,
+      1254
+    ],
+    "sha256": "67abafbdb2710c7d85cb6a2ed5841616a12cc1509104bb879f6b2f99565869fd"
+  },
+  {
+    "source": "assets/ads_income_boost/ticket_panel.png",
+    "size": [
+      1180,
+      1333
+    ],
+    "sha256": "5f9ff421bac26b75876c08bf0c3f49b109390032a6cc9a5e63e1daa9a9b2dde2"
+  },
+  {
+    "source": "assets/iap_offers/illustrations/hero_driver_my.png",
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "248f206d5e81651eea942ed5dd7e39fde847845c852fd8b328ec1ce3014d4468"
+  },
+  {
+    "source": "assets/iap_offers/illustrations/hero_income_x2.png",
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "f7628e579c5e7e8f67c59c65e7e733a7ac6ee24a5df6cf9ed4ea3717184d2b1b"
+  },
+  {
+    "source": "assets/iap_offers/illustrations/hero_starter.png",
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "24b81bbe306b098332d66b140db6f336d1e939d68b79ee2babcdf7fb376c8409"
+  },
+  {
+    "source": "assets/iap_offers/sheets/characters.png",
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "ff25171e9267a2fbb9650ef45c456d078be75bea94fc94066a6c1bed3f53878c"
+  },
+  {
+    "source": "assets/iap_offers/sheets/drivers_legend.png",
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "737e13042387fd41618cd8ab2c9de186793bb2a64a3e870a505c41b53f6a5f48"
+  },
+  {
+    "source": "assets/iap_offers/sheets/drivers_pro_elite.png",
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "f107a9a5aaa6ef0cac39c8cd1ef9ef284f07b5e2c96a118ac838a1f581ad6175"
+  },
+  {
+    "source": "assets/iap_offers/sheets/feature_scenes.png",
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "e0e96cd0e4d02885a235e3f363a723f72495c51d790cf5a197783ed21c28a3dd"
+  },
+  {
+    "source": "assets/iap_offers/sheets/recruit_scenes.png",
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "7211f87b6546a995cc45ea8a4194f7eedf1428d9bf46d477b9c22fd62c58f91c"
+  },
+  {
+    "source": "assets/iap_offers/sheets/resource_scenes.png",
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "d6739e74bf2f3aafd685753939e1ca6c50dbfa618bb48c7a2ccc20acd0d2dbb8"
+  },
+  {
+    "source": "assets/iap_offers/sheets/ui_buttons.png",
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "9921955b7452b29197d674330b7bd5aa83258500578cd84282c9ec58a1587f91"
+  },
+  {
+    "source": "assets/iap_offers/sheets/ui_panels.png",
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "811e58adaec818aa346b62a0698a52b32f1dd3da7a010b2c4b1bc6e5552b28ff"
+  },
+  {
+    "source": "assets/racing_ui_hd/backgrounds/racetrack_background.png",
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "0c3e06dc0870643e7fc2a5a2f7a81391f0eac94b0ccb858b32f0cf28c516013d"
+  },
+  {
+    "source": "assets/racing_ui_hd/controls/alert.png",
+    "size": [
+      315,
+      312
+    ],
+    "sha256": "da47226dc265c5887f15785da0a7f43f8931ad1ca7a4871b456af0b3f0c302d4"
+  },
+  {
+    "source": "assets/racing_ui_hd/controls/arrow_up.png",
+    "size": [
+      316,
+      312
+    ],
+    "sha256": "b70d99bf8eae92f5d5f86e4b007f13732d6a54b3eaa9f79d7d2fa9334c48c28b"
+  },
+  {
+    "source": "assets/racing_ui_hd/controls/checkbox_off.png",
+    "size": [
+      316,
+      312
+    ],
+    "sha256": "e65494e50117c99140aa03ccd65b193f5962c8128233ef02384e1ec47e8a0332"
+  },
+  {
+    "source": "assets/racing_ui_hd/controls/checkbox_on.png",
+    "size": [
+      315,
+      312
+    ],
+    "sha256": "93edf1c594d66c6cf1a6bd42de76e54796d4bc2d5db1af5ffc968eb65070e599"
+  },
+  {
+    "source": "assets/racing_ui_hd/controls/chevrons.png",
+    "size": [
+      315,
+      312
+    ],
+    "sha256": "63505130ef32e9f4723fd5140ec1578ea9082274b92d36dfb781e9a6aa0ba7a3"
+  },
+  {
+    "source": "assets/racing_ui_hd/controls/plus.png",
+    "size": [
+      315,
+      312
+    ],
+    "sha256": "b819b575123d7449398aca3e7822837cf0fb1e9cfc77089951f92b70bda7f714"
+  },
+  {
+    "source": "assets/racing_ui_hd/controls/rarity_a.png",
+    "size": [
+      316,
+      312
+    ],
+    "sha256": "0e782107c7e28222ef80ed35620e969ef88edb61f4f749cc7022566fbba1e594"
+  },
+  {
+    "source": "assets/racing_ui_hd/controls/star_empty.png",
+    "size": [
+      316,
+      311
+    ],
+    "sha256": "03b5e046a2a333ea564cfb9c280796ae1f3ed0996a5db2876e8674ca010473a2"
+  },
+  {
+    "source": "assets/racing_ui_hd/controls/star_gold.png",
+    "size": [
+      315,
+      311
+    ],
+    "sha256": "0e3c7f5cacc58b2afccd0dac4c2ee10ee6d9abca88b8967ba9cd2a84bb708bd8"
+  },
+  {
+    "source": "assets/racing_ui_hd/controls/toggle_off.png",
+    "size": [
+      315,
+      312
+    ],
+    "sha256": "a483e712fe57fccd07d18644ccceb3f97f0e68b761b051220719669fde8d329f"
+  },
+  {
+    "source": "assets/racing_ui_hd/controls/toggle_on.png",
+    "size": [
+      315,
+      312
+    ],
+    "sha256": "da655f3788810399c8249e3c588176af11e1d852ea472074b33cbbf8a3f4c9ba"
+  },
+  {
+    "source": "assets/racing_ui_hd/icons/avatar.png",
+    "size": [
+      315,
+      312
+    ],
+    "sha256": "574970836d4c5148a6657dc30932fbe30d0a2e5b8019549af0d2dc409c9943e2"
+  },
+  {
+    "source": "assets/racing_ui_hd/icons/car_blue.png",
+    "size": [
+      330,
+      300
+    ],
+    "sha256": "3957f8aa8c7aea3116d330cf89f2602a9721340b2bd9b4e27e70bf138578eb6f"
+  },
+  {
+    "source": "assets/racing_ui_hd/icons/car_red.png",
+    "size": [
+      315,
+      312
+    ],
+    "sha256": "23a77d97b06e3c8b1ba26ff87f03c245e0591ce00bf5e3b43726af3a76382f71"
+  },
+  {
+    "source": "assets/racing_ui_hd/icons/cash.png",
+    "size": [
+      313,
+      313
+    ],
+    "sha256": "7ccc1389052f447a7c175e977602a3e30623f44b34bd7bfb6b59cdae394e2884"
+  },
+  {
+    "source": "assets/racing_ui_hd/icons/close_red.svg",
+    "size": [
+      48.0,
+      48.0
+    ],
+    "sha256": "4c7131d897308e0a94d6a33af18621f3f1266edfb860ad30731546544c67e0e7"
+  },
+  {
+    "source": "assets/racing_ui_hd/icons/crane.png",
+    "size": [
+      313,
+      314
+    ],
+    "sha256": "3c4c7c77373fb8c0edc33a1312653da2211b759f17d292d33f78f3e31dc76248"
+  },
+  {
+    "source": "assets/racing_ui_hd/icons/crown.png",
+    "size": [
+      314,
+      313
+    ],
+    "sha256": "c66ea08ff33f0d86c7b9869b50594158cbfd7deb9eb641db2c01fef5bd7c6e9e"
+  },
+  {
+    "source": "assets/racing_ui_hd/icons/energy.png",
+    "size": [
+      313,
+      313
+    ],
+    "sha256": "1cf6e57ded0c42c95fd37f35b0060e0a692cbd8a4d15617add2a508db1df02fb"
+  },
+  {
+    "source": "assets/racing_ui_hd/icons/event.png",
+    "size": [
+      314,
+      313
+    ],
+    "sha256": "ad4e065d864895329720c97c067e91e2475f9c57b97084e5d9f99a3cb829e9fe"
+  },
+  {
+    "source": "assets/racing_ui_hd/icons/first_place.png",
+    "size": [
+      315,
+      312
+    ],
+    "sha256": "956fa02dea9dccdb368a4236ca102e45ff8e725a611410e716c6ceecf4b2d5da"
+  },
+  {
+    "source": "assets/racing_ui_hd/icons/flag.png",
+    "size": [
+      313,
+      314
+    ],
+    "sha256": "d6f52d02ac6f37f6350d6a4f576fb7cdf6548209c7148118c13c245cbc001929"
+  },
+  {
+    "source": "assets/racing_ui_hd/icons/garage.png",
+    "size": [
+      334,
+      300
+    ],
+    "sha256": "4fef642f7b1590586b3cff2201da13a843aa2f32ffbeea3923ffa50cbce998d9"
+  },
+  {
+    "source": "assets/racing_ui_hd/icons/gear.png",
+    "size": [
+      314,
+      313
+    ],
+    "sha256": "6076583d9c07773c63fc1fb25aa1c2307e9106a34bca1a80ebef2ae56711a6e6"
+  },
+  {
+    "source": "assets/racing_ui_hd/icons/gem.png",
+    "size": [
+      314,
+      313
+    ],
+    "sha256": "3a8890022ff46cbf66be06ef13f5a96c0d63ad46c613491101f99e55e20da0dc"
+  },
+  {
+    "source": "assets/racing_ui_hd/icons/gift.png",
+    "size": [
+      313,
+      314
+    ],
+    "sha256": "866182d672685f061e320617fef73d077ad326fb44a528767573ae70b5242f1c"
+  },
+  {
+    "source": "assets/racing_ui_hd/icons/mission.png",
+    "size": [
+      313,
+      313
+    ],
+    "sha256": "ce8464df936cc3e891bd56282d21288b9f25fab353d378dbd8b62b4669eb508f"
+  },
+  {
+    "source": "assets/racing_ui_hd/icons/reactions/face_angry.png",
+    "size": [
+      128,
+      128
+    ],
+    "sha256": "bd8ee078062d6d393fa5204460c40ba7c388324afbe41c22bf1baf51eb45f50a"
+  },
+  {
+    "source": "assets/racing_ui_hd/icons/reactions/face_happy.png",
+    "size": [
+      128,
+      128
+    ],
+    "sha256": "2cbf1e8f5507e51405d34a83186c32cb20cbd4979eed4daf1bd953b5c9dc575d"
+  },
+  {
+    "source": "assets/racing_ui_hd/icons/reactions/face_sad.png",
+    "size": [
+      128,
+      128
+    ],
+    "sha256": "f8016acfc131824d50c96c34c26c2b8e14323ab6e683a17c1c187369f392f057"
+  },
+  {
+    "source": "assets/racing_ui_hd/icons/reactions/face_wow.png",
+    "size": [
+      128,
+      128
+    ],
+    "sha256": "5ec189f2cd1a08cc71d721a2f816b44646a126b298cb2c4ab706264061cddc4e"
+  },
+  {
+    "source": "assets/racing_ui_hd/icons/research.png",
+    "size": [
+      314,
+      314
+    ],
+    "sha256": "043663b66b53ed12fe0ba7b32885cdc672e0da940d73258f14e27bcb22f91bec"
+  },
+  {
+    "source": "assets/racing_ui_hd/icons/seats.png",
+    "size": [
+      315,
+      311
+    ],
+    "sha256": "71a96767e5f0bb25b56e3d6053d597b0fda9f22566c922ffdfff5f9237744e77"
+  },
+  {
+    "source": "assets/racing_ui_hd/icons/shop.png",
+    "size": [
+      313,
+      313
+    ],
+    "sha256": "e0cb0acc5f2c942a4309d2e9417c33f26f9541fe776d645206581481b4ea5a59"
+  },
+  {
+    "source": "assets/racing_ui_hd/icons/staff.png",
+    "size": [
+      315,
+      311
+    ],
+    "sha256": "58431c796b51383597f84c8c2e318f4787c5ac4d1c079e37c0749372212f2610"
+  },
+  {
+    "source": "assets/racing_ui_hd/icons/tools.png",
+    "size": [
+      286,
+      278
+    ],
+    "sha256": "f2bea8d62865f229ad62fe688c10050cddf8b04abe985dd86a1b03ac93d702bd"
+  },
+  {
+    "source": "assets/racing_ui_hd/icons/trophy.png",
+    "size": [
+      314,
+      314
+    ],
+    "sha256": "dfc5c68bd34469621554ef24c0095591d679a4dae552f56fa368f42176c7729e"
+  },
+  {
+    "source": "assets/racing_ui_hd/surfaces/button_amber.png",
+    "size": [
+      2172,
+      724
+    ],
+    "sha256": "55e697ab09f6d8dcf457fe3d46f25f11cc8d3d24523859fdeece3ec54e1744dd"
+  },
+  {
+    "source": "assets/racing_ui_hd/surfaces/button_cancel.png",
+    "size": [
+      640,
+      187
+    ],
+    "sha256": "3dd87a67705d1f77486d9e9bc737932afc1ea65b95a96a8e07c2e0cf5d0e0e18"
+  },
+  {
+    "source": "assets/racing_ui_hd/surfaces/button_claim.png",
+    "size": [
+      640,
+      195
+    ],
+    "sha256": "25149109f0028c8a17f8f3989377ccb4030de82284f8dd08c982dc9fb95ede44"
+  },
+  {
+    "source": "assets/racing_ui_hd/surfaces/button_menu.png",
+    "size": [
+      285,
+      242
+    ],
+    "sha256": "19e634d1dcfd7e46b038db4643b4bdaa9913ed696424103899d747d58ab434fc"
+  },
+  {
+    "source": "assets/racing_ui_hd/surfaces/button_nav.png",
+    "size": [
+      645,
+      220
+    ],
+    "sha256": "44077be9af78b2f2c699242e9cc78536e6f9e8aebc1ebf2de3c1abc0e97a496c"
+  },
+  {
+    "source": "assets/racing_ui_hd/surfaces/button_race.png",
+    "size": [
+      665,
+      220
+    ],
+    "sha256": "363ec2a83bcce9efcdc6cd2df5a42d3fae1257bb0640485721258e3570e6ad70"
+  },
+  {
+    "source": "assets/racing_ui_hd/surfaces/button_upgrade.png",
+    "size": [
+      640,
+      195
+    ],
+    "sha256": "456acb9ba35db8637225196e7df924244b9ff98e6a41b497f00cb0aaba282914"
+  },
+  {
+    "source": "assets/racing_ui_hd/surfaces/hud_bar.png",
+    "size": [
+      705,
+      170
+    ],
+    "sha256": "9ced6ebf1e5b00a93d599b16b1c46492244888127729fd13af6b6fc637944585"
+  },
+  {
+    "source": "assets/racing_ui_hd/surfaces/panel_body.png",
+    "size": [
+      705,
+      235
+    ],
+    "sha256": "d3ae6723a6744c37b0afdb32e0363c200867138eabdf0345a7422a8bede95779"
+  },
+  {
+    "source": "assets/racing_ui_hd_expansion/sheets/driver_portraits.png",
+    "size": [
+      1448,
+      1086
+    ],
+    "sha256": "ab68b2c73fe813b03a5eb744d47df7a5c0153608ce6a4411e55aea9cde0a5eb1"
+  },
+  {
+    "source": "assets/racing_ui_hd_expansion/sheets/garage.png",
+    "size": [
+      1619,
+      972
+    ],
+    "sha256": "7bf229da4f1a6717982dba698834d57aa19588814c0b197130db43a41eadafde"
+  },
+  {
+    "source": "assets/racing_ui_hd_expansion/sheets/gear_items_01_15.png",
+    "size": [
+      1620,
+      971
+    ],
+    "sha256": "9253696d4da0bcb91b51b4f72d7db8f933d20ad2b54fc9f3f2f6223c49174237"
+  },
+  {
+    "source": "assets/racing_ui_hd_expansion/sheets/gear_items_16_30.png",
+    "size": [
+      1619,
+      971
+    ],
+    "sha256": "e2d43cf3fe10df4349aac5e506ddb575cb7d430391bf28c1c6cfeaed3ec73a60"
+  },
+  {
+    "source": "assets/racing_ui_hd_expansion/sheets/layout_icons.png",
+    "size": [
+      1261,
+      1247
+    ],
+    "sha256": "7be37bfb0c40834bdd5de940505aab8ff45e7b393d3b7c7142d0f9211f8e0e33"
+  },
+  {
+    "source": "assets/racing_ui_hd_expansion/sheets/packs_facilities.png",
+    "size": [
+      2172,
+      724
+    ],
+    "sha256": "21c1025185045c5e2997ecede2e516aad9b9077deaeeaaff303414084ebd6ae8"
+  },
+  {
+    "source": "assets/startup_loading/loading_background.png",
+    "size": [
+      948,
+      1659
+    ],
+    "sha256": "1a79c5bcd58b478274049b5cf7d634d0f23ee4c4000cc712d09e3eb7cecb54b3"
+  },
+  {
+    "source": "assets/startup_loading/loading_background_hd.png",
+    "size": [
+      886,
+      1920
+    ],
+    "sha256": "745acea8640d78cbfd972a9266cd8374c0275af95ddec670557cb5125efb8294"
+  },
+  {
+    "source": "assets/startup_loading/loading_car.png",
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "bb6e37e7c9c6bf84cf6a9a652d95d6fe10c3d20a2ce1b5073312d2f9e5897f8e"
+  },
+  {
+    "source": "assets/startup_loading/loading_garage_background.png",
+    "size": [
+      852,
+      1846
+    ],
+    "sha256": "f5552d75a935c33808ca7d89158cccfb7cdbe2274185588b9c04cec1ce6e78c2"
+  },
+  {
+    "source": "assets/startup_loading/loading_pitlane_cyan.png",
+    "size": [
+      852,
+      1846
+    ],
+    "sha256": "2bfa5d9221577368aad7df72152715620220b41124483d8b8606d9cc80d0b678"
+  },
+  {
+    "source": "assets/tutorial/linh_expressions.png",
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "a39011ef4b44048240388647550e154ee369dd7db0af4a4fc852c96ce6d067b5"
+  },
+  {
+    "source": "assets/workshop_gp/atlases/cars.png",
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "2570bb00cfc7ea870532f4da741231a788b0496cdf4826b9ed6768bbcb43951b"
+  },
+  {
+    "source": "assets/workshop_gp/atlases/drivers_extra.png",
+    "size": [
+      2172,
+      724
+    ],
+    "sha256": "30a57736e07847ee7710b7405363beb53b5a92c9cee04896ab1bd813c22865d1"
+  },
+  {
+    "source": "assets/workshop_gp/atlases/rewards.png",
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "0a1f48db6c6be941e24db59f47c1fc75c1da247b38f3a089a5f54f0fbf6088e4"
+  },
+  {
+    "source": "assets/workshop_gp/atlases/ui_icons.png",
+    "size": [
+      1254,
+      1254
+    ],
+    "sha256": "8e80afae07ac476ff1e49dcb60428c4b049ff365121b66bfec5cd5c0cdfd09be"
+  },
+  {
+    "source": "assets/workshop_gp/atlases/workshop_props.png",
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "ae6879c6f6bd683ca6423ad71a9c48367d83d0c62ad0beac5e596f0072416551"
+  },
+  {
+    "source": "assets/workshop_gp/badges/medal_1.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "ef94eef136072565f9cc9f49202fa17968bb49dfb98fcb90944b84d70726636c"
+  },
+  {
+    "source": "assets/workshop_gp/badges/medal_2.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "4175e3d5f8e80cf1cba3c723d4e060e6becb53ce59ab59a7dbc537296e2bdcdd"
+  },
+  {
+    "source": "assets/workshop_gp/badges/medal_3.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "8e93f17a1934d58d1324a9ec247decff0be36b595f133361786d446b5bd4858e"
+  },
+  {
+    "source": "assets/workshop_gp/badges/pro.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "742f5288bb65a2a0cfab6deaa586781893957f6ef74b024ce80ed5d9ded7c516"
+  },
+  {
+    "source": "assets/workshop_gp/badges/rookie.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "ca1476ab9634fae79b22a6cc349db056e01f411b873c28f82b0fe2c967f99969"
+  },
+  {
+    "source": "assets/workshop_gp/badges/semi_pro.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "b88068a2310749f6c8674d83692419a89d1b330016913449f5f540fb73da68a4"
+  },
+  {
+    "source": "assets/workshop_gp/branding/app_icon.svg",
+    "size": [
+      1024.0,
+      1024.0
+    ],
+    "sha256": "c69b3833fd95e72469652169f4606348c5ee7831e8f53b158e10ccb2f26f9460"
+  },
+  {
+    "source": "assets/workshop_gp/branding/splash_background.svg",
+    "size": [
+      390.0,
+      844.0
+    ],
+    "sha256": "2631048e3c640c40dcfd9e2149d52538a9c2835e80a23be89128f0b0aba1e1b3"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/back.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "b641318b56f0a630b63622cfe169ce71ea1c2e2d5c9adea272402d52fe600d19"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/chassis.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "0d0d97ac55d7e8207f7210bf3ed8a5acc2e3074a13763f430bab33db6a3c448b"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/check.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "b239f2e5d8fd93a5f20daa0fff0afb30d2cd19c3ec8d145be99ba2f8604c86b3"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/clock.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "524ae082c074b44e743242322e1910927bb37ba92c8731debe06c5fc5adc8e9d"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/close.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "67a01b89d51c230bc40b3cac1db9def9fbf3174eade06ad9a6cde1b3fb97e07b"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/coin_small.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "dfa8efcbac32a5a91ed69333a1f33df3a3ae43448bbc53c5e29071d8e808ec08"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/engine.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "c246032e7d3f8a358ddca202281fa82afcc171fe6c8ccb6f7adbfc09079a1ad3"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/fan.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "40624a1f8f17879e9e29ab680a55bf9bd5e99c351d9b63e77f3a4ebcf58bc646"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/flag.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "03616596f51cdbb818624928ccc597a87887cc54c71c6af04331ae63d1b8f895"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/gearbox.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "10587c80be9ca088404673a48dca73d736f4af1e748c21ec62230755c5df3564"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/gem_small.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "d65aeb265ccbe068380b7d0e7e9d31d35827e3f5ee6def01ac9dae8a397fe78d"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/gift.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "48290336b91f7733ff330cf2b333f414ad4cb792e0c9d209744036de4f326b97"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/help.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "cb97c4bd9d97ef72b7b2197289b78e88a5c5468e5ce8a1136fe7119ad0bc11a1"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/home.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "c5790de2d1061f505c677144e7b142f62251911e0023cc94cc76b4db4e812fa4"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/info.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "66160bb0d223548bf63de10fb84ec429b3166e35d0b280308b3f8f97f2b9f1a6"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/lap.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "757a9c7773e50a1818741e0e244cb110245533d21115cdaf8cf26ef2129de9f0"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/lock.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "0268ef46d3fc47ffd20ecc2db0e7ad94ed610f59d8430d2e2044340e4117bf35"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/mail.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "b52c9d4852b7ebc6ae755f73199a25633b4266b5e9f2b3b779bc434c3101ba49"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/minus.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "bad24a2742ca888add931ec9178d07359a7c93cb021962e2ee44b0c485bcfe3d"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/mission.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "7d77282c8e45adeb27aff41c3ed5b32e27a9262917cd938ff4f779e329423c22"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/motion.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "bfcb3b50721238dba6fcc3d796e088bb959267f060295f4699f9ac7fe7c66119"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/music.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "ade0bbc874f22782aa617439fd369bbe800dfbca5ff4fb7cc67fe3a84be2bb89"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/mute.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "0ff088fa83b85f114df5fd32f8655286b8a2087ea67091d21e675603a60a299a"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/next.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "238e42f3ac816b387773ce6e405f83e1aa794a70115a4bb094b004d2c2f2f67f"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/offline.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "6b175e52e706539049fd9247ff2ece211d8428d1e7fd54ec07be2527b271e945"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/offline_continue.svg",
+    "size": [
+      320.0,
+      52.0
+    ],
+    "sha256": "3aa21024cb3fbe7aef8f30d892c98429e4af1c0b146b26c7b5d267895839ca49"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/offline_info.svg",
+    "size": [
+      32.0,
+      32.0
+    ],
+    "sha256": "a48e82e6290a1a94ba343f51f30d398f563f14d6889d55275210d2e142a126b7"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/pause.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "fb9dafa597f5d0a6ff87ce140a709288077e35a5855753e414a10b4d07b93fe9"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/play.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "2bfce010d6f89d0e5fcb778aea5f98d4841ffc6910c97237aa0f0e961bfcff09"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/plus.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "42bc0c83d4fbf793ac2b4b8519d3f3e6dc9590e6ee153dd6ef07020ada4abea0"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/rank_up.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "1ee2beee8edc57ba58cb34d79b70818abb522ec89839ddd6e4d36692af0d21e8"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/refresh.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "df668bc8c30b267870c1587f80161d16b4386be5050518358233c5d8f04d275b"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/save.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "330492eaf9144034c8bdcdecf0c1ae96d5518c4dcca10020b496ca95f0d73b46"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/settings.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "f37537221f2ca75cfe562f538b09c9b624babf9b42d44e1b7c19953e16201bcf"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/sound.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "625c0230370b10bfe665ad186efde0adaf8c1548dfa69ef154a4d2ee8ca68bc1"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/star.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "f05eb68763458f437253164f5fc10830b67f3dd0d12ee34fec5f1d05a96fd727"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/training.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "3b35f8cb076a214229777ec199cf4d74cf9687bf5ff4afc1eb69fc7d682a0822"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/tyre.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "4373f76bfe23e293f557a4e539014d5100a932c72d3abc628d66dc02c866a592"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/unlock.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "7e3cd3df60f1a5a5cfc4051a9f1a876088e74906dac252d4175b884c1fbd7c96"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/venue.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "1fc4898b2080f7c514c0f869b70223d47e5614ba5a246644d5b1fe26eedea572"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/vibration.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "a5f7ef9ff64b757a5402e9a05ffe49117dfcd3a80de6be4b71016d148d371472"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector/warning.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "fb22d2b2ef7a50814888717d80a9acdea54d715fd389006cdcf8dfb53e995937"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/back.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "09796c7b55557b498a5fca825e6bd731ac3a05f73f1273a41ce16d9a2aa94054"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/chassis.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "e97100306b0a72c1408c75018a8781459899e0859df0c45ac532a0852770597e"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/check.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "4f4d974ad085b9c86595f631ba069576f3fe1ed886deba674939ade526076362"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/clock.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "a3702f1814ab97ab63e5dc13631c340ee041dd3abf8f1e43ce100713195e025a"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/close.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "45beba91143fbf154472a47ba4e99f6a6fb68b78c81cccf657a10d0ecc0a1900"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/coin_small.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "918bd7cf25db1983cbf9f0b7c437a470c3fd57acd41541726300c52474249a58"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/engine.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "63f17dccab16479555e99809cb1f60ae0413a5e3bfb7142015a5f2540265caa2"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/fan.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "a56e9171ce1e2fcfb6ec547cadef52834e5cd635bc487d12cfec365c5fe56ef2"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/flag.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "510c26b656dec5a988926220dd8160ec899b9ec0fa054b2db4f0c7421a647e15"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/gearbox.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "3c8871f62d57a331a26c8b48972c6552f93f51af2fb46c422af5d71eb90c4c86"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/gem_small.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "fa07bafb3bd842991746251d1e940946e0d12713b6904313d93bf69afbfcbc19"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/gift.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "0e1491dfc933f2d24cfb909ec1945d73c07cdcdeba22a583ef87c24f8d722f8b"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/help.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "2f3ca69c54a5d7052a8816fad5c1fbe49e71b5f6d3cb250e4370ae7e8bc621c4"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/home.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "1c198f63719761fade032d322f239bf9286a30fb047007fd8cf444ce8a058715"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/info.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "b1df596384988f251180243641a67038fbac6c34fda0767d56e78478c46bd0eb"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/lap.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "0773cc15397ede873a8e64f0ce02974f4805d2913b31c27195e01fe0dec81c5e"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/lock.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "3645a59ff356e3dc79a2c2f17324b53165c7a1087d2175a66904f948faebe4e5"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/mail.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "4f526cc6f496b53c6efa0c5a8936f6bb8bc2e1101d79404bacd45b88d32109c4"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/minus.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "1a29088640285859d9abb1954c87b1ca1de092390382ff9b3148d48d2fd4c221"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/mission.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "b37794da846d9cc3755517b3a773b850f9f12f12e017b83587ecea7884c67d4b"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/motion.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "c8e4d06374f76f5bbc31549afc9ea9fd122ee663921a894777ab55be47e78605"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/music.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "3f88c5f1d8e47e87e2507c9c22bedf57b7b1b5065ca1527cbcc9ac7d96366919"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/mute.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "0115c64adc1642d239d37352da44de3eb8fd88199b1a26c16be41c25755ab69b"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/next.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "f533ecea19504793df3ca0d80487f9f6a71ce1b74b1203a3794487e73766e9f8"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/offline.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "44b8ff38b586d8ff07461da70604e059ae3b1be7d66f3e279e6741f4a0b1a2b7"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/pause.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "b86b96107cc678f14e151485d17d69323368eba73ffbbd326fcccf2b99176c7d"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/play.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "f44722559d2932a26a4d7be8e5dee2d0a5d9f3f5a5947f10389becc88f5b2898"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/plus.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "6c6f6926688b252fc6b1477d2abb76d7054540cfb0160a75e8ef69daea4a4626"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/rank_up.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "0d3a4da6a9a5d2add3d7a34ef668d77801f77e0543afc9da279866149593e1ac"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/refresh.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "051b4adfb76b1e7bf759008fba4778581ca67eb0ca432ad521f76fa5e3849bbd"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/save.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "ce0c58394923f59530794b18f9700fee4f5a5d3c901d749285866fece50b52ce"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/settings.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "a3f5f1a158d4ffe8415294e7a233415c01b0ef61293b570668aa8df5c21b9081"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/sound.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "8c4a08e5cf1fc7e94048ae3423ed1abfc35ab49e1310ac162df1c289826f7f56"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/star.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "230d155c2dbe3980572d436245d81a42da6a55796d1eeb35d4a91564ad2c1113"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/training.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "d6385aeadad98580750d0a4f0b34618942c0fee7382a0202a2ccc8e43e5deb4d"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/tyre.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "0e13d07a8984211cb3b4182c844a158cddd04357b4e8e5c9909699525d23fe91"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/unlock.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "a6f3866d16cda437fb479f6d2138b67e90f92b8214bd5e2d401c41ccedde67dc"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/venue.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "c881862fb3d1a7b5f72e4234e4e83ce9abb4bca855961bf24618f99d19a44842"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/vibration.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "ac37f6db12e4895fece20a72fe10fb75cfd006aa728889c65baf80d27cd1cf3b"
+  },
+  {
+    "source": "assets/workshop_gp/icons/vector_dark/warning.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "3833d37722adb9f3bb2a6bb6ff567045daccab7ec9f94c14f00779872c8f32f0"
+  },
+  {
+    "source": "assets/workshop_gp/portraits/driver_orange.png",
+    "size": [
+      1254,
+      1254
+    ],
+    "sha256": "7bca55ffc9aa6cf33f16b69752eb41a8eac82b993885011c0b14a0d2c8738783"
+  },
+  {
+    "source": "assets/workshop_gp/rewards/offline_garage.png",
+    "size": [
+      1774,
+      887
+    ],
+    "sha256": "93967edf8d850ad13de8679eaa7ed12f08af3b34a506d6bdc902018935f2bc61"
+  },
+  {
+    "source": "assets/workshop_gp/shop/preview/asset_sheet.png",
+    "size": [
+      1440,
+      1100
+    ],
+    "sha256": "b906d30767e9839ad5c9426ad4739f0bd076897750af88e4ace0061998965b16"
+  },
+  {
+    "source": "assets/workshop_gp/shop/textures/offer_combo.png",
+    "size": [
+      2172,
+      724
+    ],
+    "sha256": "54ab512046b86fd7ff6ccce29bc8b76304894f58208846bf6f8a13b72fad08f6"
+  },
+  {
+    "source": "assets/workshop_gp/shop/textures/offer_starter.png",
+    "size": [
+      2172,
+      724
+    ],
+    "sha256": "6eb16882ed672807c2e21ad93915d5ac121c23b28aa94c3bb340abac35123989"
+  },
+  {
+    "source": "assets/workshop_gp/shop/textures/shop_icons.png",
+    "size": [
+      1254,
+      1254
+    ],
+    "sha256": "c6a698065b692a3f11a5eccb5085c00746b774309af2e330405ea85f943d7f45"
+  },
+  {
+    "source": "assets/workshop_gp/shop/ui/button_disabled.svg",
+    "size": [
+      128.0,
+      96.0
+    ],
+    "sha256": "6c589eff315c80d06362e828e2be180fcf4a65afc1ed9ec88f52d89498d5c77a"
+  },
+  {
+    "source": "assets/workshop_gp/shop/ui/button_hover.svg",
+    "size": [
+      128.0,
+      96.0
+    ],
+    "sha256": "e1770385d6d2d76b4f6bdba50e82de74fdf21eb8d31d55425552ee00148297d5"
+  },
+  {
+    "source": "assets/workshop_gp/shop/ui/button_normal.svg",
+    "size": [
+      128.0,
+      96.0
+    ],
+    "sha256": "7fd85f4743cf1c86757363a14bae6519439fdcf8e6cb1d38933e7f1d317e848e"
+  },
+  {
+    "source": "assets/workshop_gp/shop/ui/button_pressed.svg",
+    "size": [
+      128.0,
+      96.0
+    ],
+    "sha256": "966bae5bc90a50b517255718613a6d3b73c97775a474f6fa22a67fbfe7b8a6f4"
+  },
+  {
+    "source": "assets/workshop_gp/shop/ui/card.svg",
+    "size": [
+      128.0,
+      96.0
+    ],
+    "sha256": "bcf5fbe10dd6d48dc94df70cb2041e6d4a768a7d73118ef0b13bd53465df315d"
+  },
+  {
+    "source": "assets/workshop_gp/shop/ui/currency.svg",
+    "size": [
+      128.0,
+      96.0
+    ],
+    "sha256": "8b4c7cd61ba38dc486b6e4c184b749b571171a97a3786dc5fdcc208ce6258cc9"
+  },
+  {
+    "source": "assets/workshop_gp/shop/ui/pass.svg",
+    "size": [
+      128.0,
+      96.0
+    ],
+    "sha256": "a834d871e565b30aed0bd656266da35643e7cfe931acde04853f79992e99104a"
+  },
+  {
+    "source": "assets/workshop_gp/shop/ui/reward.svg",
+    "size": [
+      128.0,
+      96.0
+    ],
+    "sha256": "f01429ec335d9497bc2833febf9ee767a093f4fb27a62f39db759440b6d83da9"
+  },
+  {
+    "source": "assets/workshop_gp/textures/city_technical.png",
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "ea83be3902995b92d27d6074a3f23c655baa8b952585aba68b764c02e6391eb7"
+  },
+  {
+    "source": "assets/workshop_gp/textures/pine_circuit.png",
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "08f69457b230b79388156244e2316398c88ff4d49f34a8bba5504229db7bca57"
+  },
+  {
+    "source": "assets/workshop_gp/textures/workshop_oval.png",
+    "size": [
+      1536,
+      1024
+    ],
+    "sha256": "9cd212bd3ffb1f2131ea7e8f408c1f77c0cd68d02e24c4034cc56d0ca88ebb6f"
+  },
+  {
+    "source": "assets/workshop_gp/ui/app_background.svg",
+    "size": [
+      390.0,
+      844.0
+    ],
+    "sha256": "41629946fbc7d293824b31c680e5a847e538dfa25b0197802273ad3c55ac07b0"
+  },
+  {
+    "source": "assets/workshop_gp/ui/button_danger.svg",
+    "size": [
+      512.0,
+      192.0
+    ],
+    "sha256": "79aa8d24cb9214857af68e598e1feba28398716819f28df1da6c3ea913f7cc2d"
+  },
+  {
+    "source": "assets/workshop_gp/ui/button_disabled.svg",
+    "size": [
+      512.0,
+      112.0
+    ],
+    "sha256": "27fa1c775a1c9cd7a938c90936492af37b997c05d69d3d378cc53427f721a9b2"
+  },
+  {
+    "source": "assets/workshop_gp/ui/button_orange.svg",
+    "size": [
+      512.0,
+      112.0
+    ],
+    "sha256": "331ca7f9b004875e744eb2b64c970d9b5c7c662f5f2fea67b68d506abb196a04"
+  },
+  {
+    "source": "assets/workshop_gp/ui/button_orange_hover.svg",
+    "size": [
+      512.0,
+      112.0
+    ],
+    "sha256": "45e3769f3de316b526b4fe86b4628b0b35bd20bb3822438bfe86492511c727d2"
+  },
+  {
+    "source": "assets/workshop_gp/ui/button_orange_pressed.svg",
+    "size": [
+      512.0,
+      112.0
+    ],
+    "sha256": "8fd0e9cde0529ba7026eed61b85d9a50818d69f36e27eaf9dfa652f41e62dca1"
+  },
+  {
+    "source": "assets/workshop_gp/ui/button_secondary.svg",
+    "size": [
+      512.0,
+      192.0
+    ],
+    "sha256": "c51776cde4d5afceef997bcd699bfff6db01284b6aa42cb3685bd3b856f94d92"
+  },
+  {
+    "source": "assets/workshop_gp/ui/button_success.svg",
+    "size": [
+      512.0,
+      192.0
+    ],
+    "sha256": "d54603ab40e170f5010486659bae2aedfd844f5de4623f8896f589ccf014e86f"
+  },
+  {
+    "source": "assets/workshop_gp/ui/capsule_ivory.svg",
+    "size": [
+      384.0,
+      96.0
+    ],
+    "sha256": "c749539c3a78416a4a788f0945850499fb0e53bdf6700d13ef201952686ad306"
+  },
+  {
+    "source": "assets/workshop_gp/ui/card_cream.svg",
+    "size": [
+      512.0,
+      192.0
+    ],
+    "sha256": "dfdbea4254e7d68d8736c2dc49d711fcd258424410e2fd75fa218f96ad465b02"
+  },
+  {
+    "source": "assets/workshop_gp/ui/card_locked.svg",
+    "size": [
+      512.0,
+      192.0
+    ],
+    "sha256": "4319544a9dfdd12abd8b9fd604904af7a924d665cbec6dd83324a11ad6834197"
+  },
+  {
+    "source": "assets/workshop_gp/ui/card_selected.svg",
+    "size": [
+      512.0,
+      192.0
+    ],
+    "sha256": "f74d8f3973994c78e911cd3bf199bf0be32d1d4706b546783b0083307646791f"
+  },
+  {
+    "source": "assets/workshop_gp/ui/checkbox_off.svg",
+    "size": [
+      36.0,
+      36.0
+    ],
+    "sha256": "2258ccc6f149e0581e312bf96b9275c69716902bcc8cd009ab3e077eb9972f6b"
+  },
+  {
+    "source": "assets/workshop_gp/ui/checkbox_on.svg",
+    "size": [
+      36.0,
+      36.0
+    ],
+    "sha256": "6f4acfef805da4b1a30ff334124e7e4902afc09897c7e0ffd97058b7dbcc3df4"
+  },
+  {
+    "source": "assets/workshop_gp/ui/empty_state.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "5f7d20d63250344abbd690cbd3c358a9aa90e1bf8b95f30db9a903b361f14d45"
+  },
+  {
+    "source": "assets/workshop_gp/ui/loading_spinner.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "d58a481d324574bd53c389386b2f63599ddd797b7fc20e25ea24ddcc8f623565"
+  },
+  {
+    "source": "assets/workshop_gp/ui/modal.svg",
+    "size": [
+      512.0,
+      192.0
+    ],
+    "sha256": "7af59970da4182e8ec2e01ebaa9c0213bcdc6368f72d0fbb61bfbc2cc78c0208"
+  },
+  {
+    "source": "assets/workshop_gp/ui/modal_overlay.svg",
+    "size": [
+      64.0,
+      64.0
+    ],
+    "sha256": "1f8d03adefec31ea28691c29ff716f06bc92ceb31908cfb0aee450f15a9db245"
+  },
+  {
+    "source": "assets/workshop_gp/ui/nav_selected.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "e4da0e7631c4c95a6f5ef34044ee6359882a0951fd348d5ff5cd6940f27a1403"
+  },
+  {
+    "source": "assets/workshop_gp/ui/notification_dot.svg",
+    "size": [
+      24.0,
+      24.0
+    ],
+    "sha256": "d49120a5f294b7173668b77b7de82cc52fc585d264baba2a0b88545a62637b6d"
+  },
+  {
+    "source": "assets/workshop_gp/ui/panel_graphite.svg",
+    "size": [
+      512.0,
+      192.0
+    ],
+    "sha256": "edf473fe23314370610b2225fdd50765bd911394b5766abaeb4c2005e872b418"
+  },
+  {
+    "source": "assets/workshop_gp/ui/progress_fill.svg",
+    "size": [
+      256.0,
+      24.0
+    ],
+    "sha256": "6f2fa7d23cd68a968fc481d7c20864c6ed9aab637ed98d02441c074e021c70d0"
+  },
+  {
+    "source": "assets/workshop_gp/ui/progress_track.svg",
+    "size": [
+      256.0,
+      24.0
+    ],
+    "sha256": "2196a39c4bc90c4053e619ed69e7fc917e6d731565aa7ee9ed689eedac180a75"
+  },
+  {
+    "source": "assets/workshop_gp/ui/slider_grabber.svg",
+    "size": [
+      32.0,
+      32.0
+    ],
+    "sha256": "4224efb63028572f06b688788c5adeed3e8ec4201691ffffa923cb438709ad96"
+  },
+  {
+    "source": "assets/workshop_gp/ui/slider_track.svg",
+    "size": [
+      256.0,
+      24.0
+    ],
+    "sha256": "a356b743f13323e247d48a6056329a370266fd8566f556b73322f4e4fe880e6e"
+  },
+  {
+    "source": "assets/workshop_gp/ui/stat_chip.svg",
+    "size": [
+      384.0,
+      88.0
+    ],
+    "sha256": "05d76a702f4fe06f689891d427a1cade8ca9786f573b1452b26e12e125396bef"
+  },
+  {
+    "source": "assets/workshop_gp/ui/toast.svg",
+    "size": [
+      512.0,
+      192.0
+    ],
+    "sha256": "27688c2e7289517635dacd07f5231be94ca5e08d550c9a36762277656daf23af"
+  },
+  {
+    "source": "assets/workshop_gp/ui/toggle_off.svg",
+    "size": [
+      64.0,
+      36.0
+    ],
+    "sha256": "5c92ef3c3b91c927a44e2c585cfc10e87c8fc6027d05dcfb1dbee87e8927f3ab"
+  },
+  {
+    "source": "assets/workshop_gp/ui/toggle_on.svg",
+    "size": [
+      64.0,
+      36.0
+    ],
+    "sha256": "03145b2dbe2fb2b203b54a3c1ebcf381b13877ecb9fbed3aad27cbd07b3003e2"
+  },
+  {
+    "source": "assets/workshop_gp/ui/tooltip_arrow.svg",
+    "size": [
+      32.0,
+      20.0
+    ],
+    "sha256": "a5f8fe49ac55a21e32a48a95df3851e29b1ed8a5e15f5a32bb144b28eebd64cf"
+  },
+  {
+    "source": "assets/workshop_gp/ui/tutorial_hand.svg",
+    "size": [
+      128.0,
+      128.0
+    ],
+    "sha256": "495b4f7f411c994cfa62385ec667aff88e64f7d9fb830a3bb365af65e6803c41"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/coin_spin/frame_00.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "d93cec881942041ab1516f559e1e11cb1d06fddf6df3d7a5aa628074b1cf02e6"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/coin_spin/frame_01.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "89a848e0115e12953c372062f24d09472de7aec330f163b8e8a8707832d7df39"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/coin_spin/frame_02.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "4f06921ec8bb8ff692a31bde721309e933d952be63790ffb291f49f5a9c107c7"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/coin_spin/frame_03.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "7fe5833eb7c1d8f47f3128d5b9c5c18d4396f069ba1d979e09d3305e1409a06e"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/coin_spin/frame_04.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "36a30113b14fb4da19511b017ac340feb42090f2cbd241f2b65229e2e13de735"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/coin_spin/frame_05.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "43e33ebd6d63e59b612c3801d36c2b748e24840d23e07b06bec29e3660fb0518"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/coin_spin/frame_06.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "43e33ebd6d63e59b612c3801d36c2b748e24840d23e07b06bec29e3660fb0518"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/coin_spin/frame_07.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "36a30113b14fb4da19511b017ac340feb42090f2cbd241f2b65229e2e13de735"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/coin_spin/frame_08.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "7fe5833eb7c1d8f47f3128d5b9c5c18d4396f069ba1d979e09d3305e1409a06e"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/coin_spin/frame_09.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "4f06921ec8bb8ff692a31bde721309e933d952be63790ffb291f49f5a9c107c7"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/coin_spin/frame_10.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "89a848e0115e12953c372062f24d09472de7aec330f163b8e8a8707832d7df39"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/coin_spin/frame_11.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "d93cec881942041ab1516f559e1e11cb1d06fddf6df3d7a5aa628074b1cf02e6"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/confetti/frame_00.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "98a80cac0cb49a85be34890e7ccff34790d86e6081be226d1dafdf128037a15c"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/confetti/frame_01.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "d3f3d6c1dfc786df28b00bb44c998c522c3c5a346905c1adec4f5e06200b7c01"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/confetti/frame_02.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "74633f6c981d4980e51d33ece2ddccababec3ec408f7d7a858b9c62cb026b685"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/confetti/frame_03.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "dec501bdc375706736862284272bed02466778e279a397c631a8ab18b4793b8a"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/confetti/frame_04.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "6c9178f2ff688a32d5d91e8fbb5ea0c71dac1d1547ef56e6bac3edcdf13a8d7e"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/confetti/frame_05.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "878981bb8c8278a8dfd0fc1303299e811423b6398f6b5eb196ccf1cc11a5aa1e"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/confetti/frame_06.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "c10ff68cef8e4fe9efc1dcb43cbcc9fdd6231e156424fe9787c6555830055b6d"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/confetti/frame_07.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "e7612b57d582c686816c4b11c4490c7dac9d72a7741af7fad9d86ca8596ae412"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/confetti/frame_08.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "0b6dfdf711ebe30435ea81d5549adc48291953ec7d762fa12d6a3a48d51a6f6b"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/confetti/frame_09.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "cc100db5e71a57de547bd79f0ff098fe567527af02e2c3052b545cd9f98067a4"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/confetti/frame_10.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "ec1f74ce6ddd9e02452543d7703ffc0c32d1d9439c6239423490b8fb0d8e28c2"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/confetti/frame_11.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "1fda16a2042a0c7dcde28c73e3d9610e3061a1ba575392d52bbdb673766da024"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/confetti/frame_12.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "76dfa769310d7b0d17600046dea558df1b9e7b417503a42ba24c3916a326fe5d"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/confetti/frame_13.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "86da889ba515ee953e5615aeb5e5a86cbd6d8fe4ce3fb13fcb58da048274b725"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/confetti/frame_14.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "30e900df76732c19dc8d1052e80c21b8a3add72f001cfee95368ff7551d26c9d"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/confetti/frame_15.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "d5f406c295dbe42c5368893bf237f64f71ba61322309b25c04cffeec2376f67d"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/finish_flash/frame_00.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "d02f7c4d1ec27c7df67344815d1ad63ef9d98afc7411cea55a4f7383938b93de"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/finish_flash/frame_01.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "f35d56d691127074afd60889cb2f420c2cac28f8c9f2508b729d41e31e6f5821"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/finish_flash/frame_02.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "b6b23d8f018bd8fac0aa50ebc85af1e0665f28ff1a3ff844d8736009a0458731"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/finish_flash/frame_03.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "153b79e5418b64ef4340406af70aed17250943f7cdd235799aeb2fc56adfbc41"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/finish_flash/frame_04.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "b9dd478c88f1f24313c95366a4fd1a09f7a164c5c88482bd324f8b8c3fff86f4"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/finish_flash/frame_05.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "ca5835f243aa677d27a0aa3e5d2407a80b0e713786e2bc0f880c63aab2ea8768"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/finish_flash/frame_06.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "0fcd82ac31076c5dc646f7021c0bcb77be92901aca2d7092620d343267fc824c"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/finish_flash/frame_07.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "8feee78af5ff2edc0b6987b10bb7a165ed0bb0b55236a61155783a18dc32391a"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/finish_flash/frame_08.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "7649aecc649aa070c4765bd97c67dfb4ef336228d9ffcd8fb53bcc05c8e5f949"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/finish_flash/frame_09.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "e1939474b54a3318c5dbc52d8bf51a8f46f85c0178961bd2823cb36dd9bc9465"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/player_ring/frame_00.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "70f497b21d083247c9f11dbcc02ee0b1f8000640d12a8135111030b39ec9a169"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/player_ring/frame_01.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "ed40cae655bc75618dee4950ffeac0c3e9b44b5eb73a5ed6d7b4bcff95e71739"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/player_ring/frame_02.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "137cb1ee74e83e97d0177d70084307d17aadd584320f956e7df39a878655d569"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/player_ring/frame_03.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "3b6cab2c6abacc59de3603f6d96ef61d868b902e730eeaea8329cf1a8b717256"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/player_ring/frame_04.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "43b17f98b74ebf359e9f06a975170e7127f0b21e94876c7b615f049517b8d76a"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/player_ring/frame_05.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "975980883150695423decf870db9408fe6ad7c051ed55a1ebcc03137e7f79053"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/player_ring/frame_06.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "3eb2052b29682cfb2f1f632c41e0c7902c37b0331f07c6d14993bc1aaed7e519"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/player_ring/frame_07.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "d0e5abff3eee6305a2cf260bafb982a542f3353afbeebb78488019ff349da047"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/player_ring/frame_08.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "1b0e171b90e6e3e55befcb2a039480aa2b258ea512acb28eabafeae192af7acd"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/player_ring/frame_09.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "172d994f9d50a54cd02ba966644d0c42af1583339694d7fe6bdd1e6a0c9995f8"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/player_ring/frame_10.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "e03ee0064484844f94c2a040608a665ac45b4f94acc91890b96e982b785af2dd"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/player_ring/frame_11.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "70f497b21d083247c9f11dbcc02ee0b1f8000640d12a8135111030b39ec9a169"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/reward_burst/frame_00.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "ed64c29a9b66d4f08689ee2a5e316d09c52b54cb1372cb555a352c4e340bc380"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/reward_burst/frame_01.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "d092a6898fba7914d7f726034d0562047bc2a34c722c13761b67c83587ff722d"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/reward_burst/frame_02.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "febf672cd9c26cf3d25bf43ff32cdfc10a362f516cfc956e9306d86fa52d2384"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/reward_burst/frame_03.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "91c52bba0984bc609fb3471269334b1e4206fe57e75b8fc4b0949a084707bd45"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/reward_burst/frame_04.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "2170c145801bfdfc5719e7b016acc7299514ddfdec64a9a55a773824b93ea191"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/reward_burst/frame_05.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "a86d9fe150329be6025170c38f6de90e89d3af451750203ec6c4937de04b070e"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/reward_burst/frame_06.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "3bba7d03c94c695a009fd99fdb1eba995579d07307a568e417d65eaa9595e541"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/reward_burst/frame_07.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "af35a2a92866e2b64b6e67d123e97cdbe4cd1ed44594d64d60e59698e9fdaa11"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/reward_burst/frame_08.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "8305bfc7b412142716cbb36225c39984f1c9e510889c131cea3603bb567ce5e2"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/reward_burst/frame_09.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "11fedcc1b9b7b323fdf6324fd26856da8e550f40b9e4aee42935cde0f3ec9531"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/reward_burst/frame_10.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "f2aa7dd05baf786aed1c29765b7eb877bfb9914ccb66cbbfbb4edb238a5a93c1"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/reward_burst/frame_11.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "8c27c5a0f51f9c39ff02fa444a417da27c2b1a54515bed82301dfa4f35a56992"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/upgrade/frame_00.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "fbc78a0047d3c5cca90354b58cb370bdd4fc407135a07b9d11bdaa3d721ac579"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/upgrade/frame_01.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "186b8c691bec1eed7098a3a6211c0ab5c6ffd05e09fb592b213369a867f912fd"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/upgrade/frame_02.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "2824ee7cc9a6fca97c723d6c390c0f078d9147cea8a53dc4339cf5c71512ebc7"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/upgrade/frame_03.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "80bdeb15cf879206c29f1f841bf744931f422d4f3a31c558a61d648b359ef0b8"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/upgrade/frame_04.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "9589d27ea04f2fad0669f5acd2c7dc84dc237369204c7247afd0280f9120914c"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/upgrade/frame_05.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "32b5c6eceb104aa70acf97cda4afab916676d5ad5779287697bb2d93f90ef5fb"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/upgrade/frame_06.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "acf0507937fc3e018e73e4de9cb1ca85c70b34a628e21e3f9ece0e2de5fff17d"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/upgrade/frame_07.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "891afd9adbda52bb2ea3f5438ea8f9d76f5185e5010b806ef928245815d76139"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/upgrade/frame_08.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "62a0d6831585e075009cf068cad5e9d446dfece8d8de8a3ba792f9eb3c562f10"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/upgrade/frame_09.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "ed2d572beeaeb293f5f026c5f3fa31298481c303e98911a79d3d36bdf0f01a28"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/upgrade/frame_10.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "10f500ba699c39c020870211f6e3d9eaa16a7b0823e61a2219c7cf5179af24a6"
+  },
+  {
+    "source": "assets/workshop_gp/vfx/upgrade/frame_11.svg",
+    "size": [
+      256.0,
+      256.0
+    ],
+    "sha256": "55a073a4c0d9a4f48e5ed8fc5d9006cb4c0e34496fb11f140a02ab251ccfaf41"
+  }
+]

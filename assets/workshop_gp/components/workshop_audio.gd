@@ -1,4 +1,5 @@
 extends Node
+const CleanArt = preload("res://ui/clean_modern_art.gd")
 ## Optional local audio helper. Adds missing buses without replacing the game's layout.
 ## Stream looping is configured from the catalog, including in a clean import.
 const ROOT := "res://assets/workshop_gp/audio/"
@@ -34,7 +35,7 @@ func play(cue: String) -> AudioStreamPlayer:
 		if not ResourceLoader.exists(path):
 			push_warning("Unknown Workshop GP audio cue: " + cue)
 			return null
-		var wav := (load(path) as AudioStreamWAV).duplicate() as AudioStreamWAV
+		var wav := (CleanArt.asset(path) as AudioStreamWAV).duplicate() as AudioStreamWAV
 		for record: Dictionary in _catalog:
 			if record.path == "audio/" + cue + ".wav" and bool(record.loop):
 				wav.loop_mode = AudioStreamWAV.LOOP_FORWARD

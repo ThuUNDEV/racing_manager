@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://q0va0f2e2lw4"
+
+[deps]
+
+files=["res://assets/clean_modern/coverage.replacement.translation", "res://assets/clean_modern/coverage.job.translation", "res://assets/clean_modern/coverage.status.translation"]
+
+source_file="res://assets/clean_modern/coverage.csv"
+dest_files=["res://assets/clean_modern/coverage.replacement.translation", "res://assets/clean_modern/coverage.job.translation", "res://assets/clean_modern/coverage.status.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

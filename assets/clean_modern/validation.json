@@ -1,0 +1,11 @@
+{
+  "ok": true,
+  "source_images": 290,
+  "generated_sheets": 53,
+  "replacement_resources": 290,
+  "remapped_atlas_resources": 177,
+  "errors": [],
+  "scope": "static_asset_integrity",
+  "runtime_verification": "runtime_verification.json",
+  "device_tested": false
+}

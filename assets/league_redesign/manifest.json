@@ -1,0 +1,431 @@
+{
+  "version": 2,
+  "finish": "soft satin, reduced highlights",
+  "approved_mockup": "source/approved_mockup.png",
+  "sources": [
+    {
+      "path": "source/exec-9d85fb0b-fe85-4123-876c-6d5480339252.png",
+      "sha256": "8c20211fb0f99568a98567ed77f3783322ca9472e806b6099c79dcd51fc741f6"
+    },
+    {
+      "path": "source/exec-387fdce4-2b9e-48eb-a6b7-1124198ddfb4.png",
+      "sha256": "42383ab6671a5bb55076a3a724f6a61b56c6822df724cf178bf4c3d9177970e7"
+    }
+  ],
+  "assets": {
+    "speed_tune": {
+      "path": "icons/speed_tune.png",
+      "size": [
+        251,
+        261
+      ],
+      "source": "source/exec-9d85fb0b-fe85-4123-876c-6d5480339252.png",
+      "source_rect": [
+        0,
+        0,
+        314,
+        314
+      ]
+    },
+    "launch_boost": {
+      "path": "icons/launch_boost.png",
+      "size": [
+        254,
+        218
+      ],
+      "source": "source/exec-9d85fb0b-fe85-4123-876c-6d5480339252.png",
+      "source_rect": [
+        314,
+        0,
+        627,
+        314
+      ]
+    },
+    "overtake_kit": {
+      "path": "icons/overtake_kit.png",
+      "size": [
+        302,
+        212
+      ],
+      "source": "source/exec-9d85fb0b-fe85-4123-876c-6d5480339252.png",
+      "source_rect": [
+        627,
+        0,
+        940,
+        314
+      ]
+    },
+    "corner_grip": {
+      "path": "icons/corner_grip.png",
+      "size": [
+        270,
+        239
+      ],
+      "source": "source/exec-9d85fb0b-fe85-4123-876c-6d5480339252.png",
+      "source_rect": [
+        940,
+        0,
+        1254,
+        314
+      ]
+    },
+    "stability_tune": {
+      "path": "icons/stability_tune.png",
+      "size": [
+        237,
+        204
+      ],
+      "source": "source/exec-9d85fb0b-fe85-4123-876c-6d5480339252.png",
+      "source_rect": [
+        0,
+        314,
+        314,
+        627
+      ]
+    },
+    "race_chassis": {
+      "path": "icons/race_chassis.png",
+      "size": [
+        303,
+        242
+      ],
+      "source": "source/exec-9d85fb0b-fe85-4123-876c-6d5480339252.png",
+      "source_rect": [
+        314,
+        314,
+        627,
+        627
+      ]
+    },
+    "sponsor": {
+      "path": "icons/sponsor.png",
+      "size": [
+        258,
+        266
+      ],
+      "source": "source/exec-9d85fb0b-fe85-4123-876c-6d5480339252.png",
+      "source_rect": [
+        627,
+        314,
+        940,
+        627
+      ]
+    },
+    "grandstand": {
+      "path": "icons/grandstand.png",
+      "size": [
+        294,
+        261
+      ],
+      "source": "source/exec-9d85fb0b-fe85-4123-876c-6d5480339252.png",
+      "source_rect": [
+        940,
+        314,
+        1254,
+        627
+      ]
+    },
+    "trophy": {
+      "path": "icons/trophy.png",
+      "size": [
+        278,
+        257
+      ],
+      "source": "source/exec-9d85fb0b-fe85-4123-876c-6d5480339252.png",
+      "source_rect": [
+        0,
+        627,
+        314,
+        940
+      ]
+    },
+    "offense": {
+      "path": "icons/offense.png",
+      "size": [
+        284,
+        189
+      ],
+      "source": "source/exec-9d85fb0b-fe85-4123-876c-6d5480339252.png",
+      "source_rect": [
+        314,
+        627,
+        627,
+        940
+      ]
+    },
+    "defense": {
+      "path": "icons/defense.png",
+      "size": [
+        229,
+        258
+      ],
+      "source": "source/exec-9d85fb0b-fe85-4123-876c-6d5480339252.png",
+      "source_rect": [
+        627,
+        627,
+        940,
+        940
+      ]
+    },
+    "income": {
+      "path": "icons/income.png",
+      "size": [
+        280,
+        220
+      ],
+      "source": "source/exec-9d85fb0b-fe85-4123-876c-6d5480339252.png",
+      "source_rect": [
+        940,
+        627,
+        1254,
+        940
+      ]
+    },
+    "medal_gold": {
+      "path": "icons/medal_gold.png",
+      "size": [
+        233,
+        272
+      ],
+      "source": "source/exec-9d85fb0b-fe85-4123-876c-6d5480339252.png",
+      "source_rect": [
+        0,
+        940,
+        314,
+        1254
+      ]
+    },
+    "medal_silver": {
+      "path": "icons/medal_silver.png",
+      "size": [
+        234,
+        274
+      ],
+      "source": "source/exec-9d85fb0b-fe85-4123-876c-6d5480339252.png",
+      "source_rect": [
+        314,
+        940,
+        627,
+        1254
+      ]
+    },
+    "medal_bronze": {
+      "path": "icons/medal_bronze.png",
+      "size": [
+        236,
+        275
+      ],
+      "source": "source/exec-9d85fb0b-fe85-4123-876c-6d5480339252.png",
+      "source_rect": [
+        627,
+        940,
+        940,
+        1254
+      ]
+    },
+    "lock": {
+      "path": "icons/lock.png",
+      "size": [
+        218,
+        262
+      ],
+      "source": "source/exec-9d85fb0b-fe85-4123-876c-6d5480339252.png",
+      "source_rect": [
+        940,
+        940,
+        1254,
+        1254
+      ]
+    },
+    "league_header": {
+      "path": "panels/league_header.png",
+      "size": [
+        200,
+        80
+      ],
+      "source": "source/exec-387fdce4-2b9e-48eb-a6b7-1124198ddfb4.png",
+      "source_rect": [
+        0,
+        0,
+        418,
+        314
+      ],
+      "nine_patch_margin": 16
+    },
+    "trophy_summary": {
+      "path": "panels/trophy_summary.png",
+      "size": [
+        193,
+        111
+      ],
+      "source": "source/exec-387fdce4-2b9e-48eb-a6b7-1124198ddfb4.png",
+      "source_rect": [
+        418,
+        0,
+        836,
+        314
+      ],
+      "nine_patch_margin": 16
+    },
+    "upgrade_card": {
+      "path": "panels/upgrade_card.png",
+      "size": [
+        202,
+        81
+      ],
+      "source": "source/exec-387fdce4-2b9e-48eb-a6b7-1124198ddfb4.png",
+      "source_rect": [
+        836,
+        0,
+        1254,
+        314
+      ],
+      "nine_patch_margin": 16
+    },
+    "upgrade_locked": {
+      "path": "panels/upgrade_locked.png",
+      "size": [
+        201,
+        81
+      ],
+      "source": "source/exec-387fdce4-2b9e-48eb-a6b7-1124198ddfb4.png",
+      "source_rect": [
+        0,
+        314,
+        418,
+        627
+      ],
+      "nine_patch_margin": 16
+    },
+    "tab_active": {
+      "path": "panels/tab_active.png",
+      "size": [
+        125,
+        44
+      ],
+      "source": "source/exec-387fdce4-2b9e-48eb-a6b7-1124198ddfb4.png",
+      "source_rect": [
+        418,
+        314,
+        836,
+        627
+      ],
+      "nine_patch_margin": 16
+    },
+    "tab_inactive": {
+      "path": "panels/tab_inactive.png",
+      "size": [
+        129,
+        44
+      ],
+      "source": "source/exec-387fdce4-2b9e-48eb-a6b7-1124198ddfb4.png",
+      "source_rect": [
+        836,
+        314,
+        1254,
+        627
+      ],
+      "nine_patch_margin": 16
+    },
+    "buy_normal": {
+      "path": "panels/buy_normal.png",
+      "size": [
+        92,
+        40
+      ],
+      "source": "source/exec-387fdce4-2b9e-48eb-a6b7-1124198ddfb4.png",
+      "source_rect": [
+        0,
+        627,
+        418,
+        940
+      ],
+      "nine_patch_margin": 16
+    },
+    "buy_pressed": {
+      "path": "panels/buy_pressed.png",
+      "size": [
+        92,
+        40
+      ],
+      "source": "source/exec-387fdce4-2b9e-48eb-a6b7-1124198ddfb4.png",
+      "source_rect": [
+        418,
+        627,
+        836,
+        940
+      ],
+      "nine_patch_margin": 16
+    },
+    "buy_disabled": {
+      "path": "panels/buy_disabled.png",
+      "size": [
+        94,
+        40
+      ],
+      "source": "source/exec-387fdce4-2b9e-48eb-a6b7-1124198ddfb4.png",
+      "source_rect": [
+        836,
+        627,
+        1254,
+        940
+      ],
+      "nine_patch_margin": 16
+    },
+    "reward_pill": {
+      "path": "panels/reward_pill.png",
+      "size": [
+        90,
+        30
+      ],
+      "source": "source/exec-387fdce4-2b9e-48eb-a6b7-1124198ddfb4.png",
+      "source_rect": [
+        0,
+        940,
+        418,
+        1254
+      ],
+      "nine_patch_margin": 14
+    },
+    "icon_tile": {
+      "path": "panels/icon_tile.png",
+      "size": [
+        77,
+        76
+      ],
+      "source": "source/exec-387fdce4-2b9e-48eb-a6b7-1124198ddfb4.png",
+      "source_rect": [
+        418,
+        940,
+        836,
+        1254
+      ],
+      "nine_patch_margin": 20
+    },
+    "info_button": {
+      "path": "panels/info_button.png",
+      "size": [
+        102,
+        102
+      ],
+      "source": "source/exec-387fdce4-2b9e-48eb-a6b7-1124198ddfb4.png",
+      "source_rect": [
+        836,
+        940,
+        1254,
+        1254
+      ],
+      "nine_patch_margin": 0
+    }
+  },
+  "upgrade_icons": {
+    "speed_tune": "icons/speed_tune.png",
+    "launch_boost": "icons/launch_boost.png",
+    "overtake_kit": "icons/overtake_kit.png",
+    "corner_grip": "icons/corner_grip.png",
+    "stability_tune": "icons/stability_tune.png",
+    "race_chassis": "icons/race_chassis.png",
+    "sponsor": "icons/sponsor.png",
+    "grandstand": "icons/grandstand.png"
+  }
+}
