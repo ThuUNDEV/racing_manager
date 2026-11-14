@@ -38,6 +38,15 @@ Thêm khóa `trophies`, `trophies_earned`, `trophy_levels`, `trophy_cap_bonus` (
 - Thẻ chưa mở chỉ hiện tên, cấp và giải yêu cầu.- Giữ nguyên dữ liệu, giá, hiệu ứng và điều kiện mua; nâng cấp vẫn áp dụng từ lượt sau.
 - Kiểm tra: `tests/trophy_ui_test.gd` (headless và native, 320/360/390/412 px), `tests/trophy_test.gd`. Ảnh: `Design/Previews/trophy_layout_390.png`.
 
+## Layout Giải — cập nhật 2026-11-14
+
+- Tích hợp demo đã chọn với bộ ssets/league_redesign/ phiên bản 2 giảm bóng: tiêu đề xanh họa tiết cờ, banner cúp kem vàng, ba tab có icon.
+- Thẻ dùng hình riêng cho đủ 8 nâng cấp, vạch cấp theo cấu hình, chỉ số và nút mua chỉ gồm cúp + giá. Thẻ khóa có icon khóa và giải yêu cầu.
+- Giữ nguyên luồng callback, dữ liệu kinh tế, bản dịch và điều kiện mua hiện có. Nút i vẫn mở giải thích trần tích lũy.
+- Nền dùng nine-patch; icon bật mipmap để giảm răng cưa khi thu nhỏ. Các thẻ tiếp tục cuộn khi màn hẹp hoặc nội dung dài.
+- Kiểm tra: 	rophy_test.gd, 	rophy_ui_test.gd và league_redesign_preview_test.gd đều qua. Preview native OpenGL ở 320/390/412 px cho đủ 3 nhóm; kiểm tra thêm trạng thái tối đa, chạm trần và VI/EN ở 320 px. Chưa kiểm tra điện thoại thật; Godot còn báo resource leak khi thoát test.
+- Ảnh thực tế: Design/Previews/league_redesign_390_offense.png (các ảnh còn lại cùng tiền tố).
+
 ## Nâng trần theo giải (đã code)
 
 **Vấn đề.** Trần cố định 100 chạm sau ~6 lượt P1 ở giải 5 (3 × 6 = 18 cúp/lượt). Hệ số giải ×1–×6 chỉ làm chạm trần nhanh hơn, không thêm tiến triển, và 414 cúp để mua hết không bao giờ đạt được.

@@ -1,5 +1,28 @@
 # UI các gói ưu đãi
 
+## Shop xanh–trắng theo demo — 13/11/2026
+
+Đã tích hợp banner ngang với minh họa bên trái, thưởng động ở giữa, giá bên phải và nút ⓘ mở popup. Các nhóm dùng thanh xanh; gem/đổi tiền giữ ba cột ở 320/390/412 px. Asset mới: `assets/shop_blue_white/` (sheet RGBA 12 sprite, nền 9-slice và nút SVG không chữ); adapter riêng `ui/shop_demo_skin.gd`. Chân dung giữ art gốc; My áo cam. Popup chi tiết tiếp tục dùng layout V5 bên dưới, giá/eligibility/tỉ lệ vẫn lấy từ hệ thống IAP hiện có.
+
+Không đổi danh mục, giá, thưởng hoặc điều kiện mua; gói XL vẫn theo cờ và đổi tiền vẫn “Sắp có”. Nút chuyển ba gói khởi đầu giữ chức năng cũ. Ảnh chạy thật: `Design/Previews/shop_blue_390_top.png`, `shop_blue_390_drivers.png`, `shop_blue_390_gems.png`. Test `shop_blue_demo_test.gd` kiểm tra 320/390/412 px, vuốt từ nút mua không mua nhầm, chạm ⓘ mở chi tiết và chạm mua đúng một giao dịch qua mock store. Đây là kiểm thử Godot với sự kiện chạm tổng hợp, chưa phải kiểm thử trên điện thoại thật.
+
+## V5 đã ghép vào game — 13/11/2026
+
+Concept `Design/Previews/iap_packs_v5_clean_modern_concept.png` đã được ghép vào popup chi tiết: khung trắng xanh, chữ navy, mô tả, minh họa lớn, ô thưởng và nút giá động. Ba mẫu Tân binh/My/Thu nhập ×2 giữ minh họa gốc V4; các pack khác dùng chung bố cục và art theo recipe. Không sửa giá, phần thưởng, điều kiện mua hoặc dữ liệu save. Ảnh thật: `Design/Previews/iap_v5_runtime_390.png`. Các ghi chú “chưa tích hợp” ở phần lịch sử dưới đây mô tả thời điểm làm bộ asset, không phải trạng thái hiện tại.
+
+
+## Bộ hoàn chỉnh v2 — cập nhật mới nhất 13/11/2026
+
+Đã tạo art và recipe cho **30/30 SKU** trong `data/iap.json`: tổng 15 cảnh/background, 9 tư thế nhân vật, 4 nền panel (xanh/tím/vàng/xanh ngọc), 6 nút trống (thường/hover/nhấn/khóa/xanh dương/cam). Chữ, giá, mức ×2/×3 và số thưởng vẫn là UI động. Bộ đóng gói gồm 11 PNG, 34 AtlasTexture, 10 StyleBoxTexture 9-slice và 30 scene art `.tscn` theo SKU.
+
+- Bộ hiện tại: `assets/iap_offers/README.md`, `manifest.json`, `coverage.csv`.
+- Duyệt tất cả pack và button/background: `assets/iap_offers/preview.html`.
+- ZIP hiện tại: `Design/AssetPacks/Racing_IAP_Complete_v2.zip`; ZIP v1 giữ lại để đối chiếu.
+- Preview: `Design/Previews/iap_assets_v2_catalog.png`, `iap_assets_v2_buttons_backgrounds.png`.
+- Runtime skin helper tùy chọn: `assets/iap_offers/iap_skin.gd`, thu nhỏ texture và biên 9-slice về pixel UI, không ghi/sửa PNG.
+
+Godot 4.7.2 đã import và khởi tạo resource trong project tách biệt không có autoload/save game: **34 texture, 10 style, 30 scene, 0 failures**. Log tại `Design/Previews/iap_assets_v2_godot_validation.log`. Browser kiểm tra đủ 30 pack, cỡ 320/390/412 px, nút 9-slice, trạng thái đã có tay đua/khóa và cờ XL. Chưa tích hợp vào Shop gameplay, chưa kiểm hình native/device hay thanh toán store. Các mục v1/V4 dưới đây là lịch sử thiết kế, không phải phạm vi bộ hiện tại.
+
 ## Asset đã tạo — 13/11/2026
 
 Bộ asset đợt 1 ở `assets/iap_offers/`: ba hình minh họa không chữ cho `starter_1`, `char_my`, `income_x2` (1536 × 1024); một sheet RGBA ba tư thế Linh/My; sáu AtlasTexture `.tres`; manifest nguồn và hash. Atlas nhân vật dùng ranh giới cột 0/512/990/1536 đã kiểm tra alpha, không chia đều theo 512 vì tư thế bên phải lấn trái mốc 1024.
