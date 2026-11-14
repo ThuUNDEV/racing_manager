@@ -1,0 +1,638 @@
+{
+  "catalog_sha256": "62cc905c6d67e3e99fd32b02d51f170604f7f42b3d589f6836bf3bcb24fff33e",
+  "iap": {
+    "schema_version": 1,
+    "_doc": "Danh mục IAP (Design/28). price_fallback chỉ dùng khi store không trả giá. income_min = phút thu nhập chốt lúc mua. SKU và consumable không đổi sau khi lên store.",
+    "owned_driver_shards": 40,
+    "feature_rotation": [
+      "char_lam",
+      "char_my",
+      "char_nhan",
+      "char_phuong",
+      "char_quang",
+      "char_son"
+    ],
+    "popup": {
+      "gap_sec": 1800,
+      "per_day": 3,
+      "first_after_tutorial": "U5_drivers",
+      "next_gap_hours": 24
+    },
+    "flags": {
+      "weekly_xl_enabled": false
+    },
+    "products": [
+      {
+        "sku": "gems_pack_1",
+        "kind": "gems",
+        "usd": 0.99,
+        "price_fallback": "26.000đ",
+        "consumable": true,
+        "grant": {
+          "gems": 50
+        },
+        "first_bonus": 2
+      },
+      {
+        "sku": "gems_pack_2",
+        "kind": "gems",
+        "usd": 4.99,
+        "price_fallback": "131.000đ",
+        "consumable": true,
+        "grant": {
+          "gems": 275
+        },
+        "first_bonus": 2
+      },
+      {
+        "sku": "gems_pack_3",
+        "kind": "gems",
+        "usd": 9.99,
+        "price_fallback": "263.000đ",
+        "consumable": true,
+        "grant": {
+          "gems": 600
+        },
+        "first_bonus": 2
+      },
+      {
+        "sku": "gems_pack_4",
+        "kind": "gems",
+        "usd": 19.99,
+        "price_fallback": "526.000đ",
+        "consumable": true,
+        "grant": {
+          "gems": 1300
+        },
+        "first_bonus": 2
+      },
+      {
+        "sku": "gems_pack_5",
+        "kind": "gems",
+        "usd": 49.99,
+        "price_fallback": "1.300.000đ",
+        "consumable": true,
+        "grant": {
+          "gems": 3500
+        },
+        "first_bonus": 2
+      },
+      {
+        "sku": "no_ads",
+        "kind": "perk",
+        "usd": 9.99,
+        "price_fallback": "263.000đ",
+        "consumable": false,
+        "grant": {
+          "perk": "no_ads",
+          "gems": 100
+        }
+      },
+      {
+        "sku": "income_x2",
+        "kind": "perk",
+        "usd": 4.99,
+        "price_fallback": "131.000đ",
+        "consumable": false,
+        "grant": {
+          "perk": "income_x2"
+        },
+        "hide_if_owned": [
+          "income_x3"
+        ]
+      },
+      {
+        "sku": "income_x3",
+        "kind": "perk",
+        "usd": 9.99,
+        "price_fallback": "263.000đ",
+        "consumable": false,
+        "grant": {
+          "perk": "income_x3"
+        },
+        "hide_if_owned": [
+          "income_x2",
+          "income_x3"
+        ]
+      },
+      {
+        "sku": "income_x3_up",
+        "kind": "perk",
+        "usd": 4.99,
+        "price_fallback": "131.000đ",
+        "consumable": false,
+        "grant": {
+          "perk": "income_x3"
+        },
+        "requires": [
+          "income_x2"
+        ],
+        "hide_if_owned": [
+          "income_x3"
+        ]
+      },
+      {
+        "sku": "offline_plus",
+        "kind": "perk",
+        "usd": 4.99,
+        "price_fallback": "131.000đ",
+        "consumable": false,
+        "grant": {
+          "perk": "offline_plus"
+        }
+      },
+      {
+        "sku": "starter_1",
+        "kind": "starter",
+        "usd": 0.99,
+        "price_fallback": "26.000đ",
+        "consumable": true,
+        "once": true,
+        "chain": 1,
+        "unlock": {
+          "tutorial": "U4_shop"
+        },
+        "auto_popup": 1,
+        "grant": {
+          "gems": 150,
+          "driver_coupon": {
+            "pro": 3
+          },
+          "gear_coupon": {
+            "standard": 3
+          },
+          "income_min": 60
+        }
+      },
+      {
+        "sku": "starter_2",
+        "kind": "starter",
+        "usd": 4.99,
+        "price_fallback": "131.000đ",
+        "consumable": true,
+        "once": true,
+        "chain": 2,
+        "unlock": {
+          "any": [
+            {
+              "bought": "starter_1"
+            },
+            {
+              "tutorial": "U5_drivers"
+            }
+          ]
+        },
+        "auto_popup": 1,
+        "grant": {
+          "driver": "driver_ha",
+          "gems": 500,
+          "driver_coupon": {
+            "allstar": 5
+          },
+          "gear_coupon": {
+            "elite": 5
+          },
+          "income_min": 120
+        }
+      },
+      {
+        "sku": "starter_3",
+        "kind": "starter",
+        "usd": 9.99,
+        "price_fallback": "263.000đ",
+        "consumable": true,
+        "once": true,
+        "chain": 3,
+        "unlock": {
+          "any": [
+            {
+              "bought": "starter_2"
+            },
+            {
+              "tier": 1
+            }
+          ]
+        },
+        "auto_popup": 1,
+        "grant": {
+          "driver": "driver_my",
+          "gems": 800,
+          "driver_coupon": {
+            "allstar": 10
+          },
+          "gear_coupon": {
+            "elite": 8
+          },
+          "income_min": 240
+        }
+      },
+      {
+        "sku": "offer_combo_1",
+        "kind": "offer",
+        "usd": 4.99,
+        "price_fallback": "131.000đ",
+        "consumable": true,
+        "once": true,
+        "unlock": {
+          "tier": 2
+        },
+        "auto_popup": 1,
+        "grant": {
+          "gems": 500,
+          "driver_coupon": {
+            "allstar": 6
+          },
+          "gear_coupon": {
+            "elite": 4
+          },
+          "income_min": 240
+        }
+      },
+      {
+        "sku": "offer_combo_2",
+        "kind": "offer",
+        "usd": 9.99,
+        "price_fallback": "263.000đ",
+        "consumable": true,
+        "once": true,
+        "unlock": {
+          "tier": 4
+        },
+        "auto_popup": 1,
+        "grant": {
+          "gems": 1000,
+          "driver_coupon": {
+            "allstar": 12
+          },
+          "gear_coupon": {
+            "elite": 8
+          },
+          "income_min": 480
+        }
+      },
+      {
+        "sku": "offer_noads_bundle",
+        "kind": "offer",
+        "usd": 9.99,
+        "price_fallback": "263.000đ",
+        "consumable": true,
+        "once": true,
+        "unlock": {
+          "ad_breaks_today": 3
+        },
+        "hide_if_owned": [
+          "no_ads"
+        ],
+        "auto_popup": 3,
+        "grant": {
+          "perk": "no_ads",
+          "gems": 300,
+          "driver_coupon": {
+            "allstar": 3
+          }
+        }
+      },
+      {
+        "sku": "char_lam",
+        "kind": "character",
+        "usd": 4.99,
+        "price_fallback": "131.000đ",
+        "consumable": true,
+        "once": true,
+        "unlock": {
+          "tier_before_driver": 1
+        },
+        "grant": {
+          "driver": "driver_lam",
+          "driver_shards": 30,
+          "gems": 100,
+          "gear_coupon": {
+            "elite": 3
+          }
+        }
+      },
+      {
+        "sku": "char_my",
+        "kind": "character",
+        "usd": 4.99,
+        "price_fallback": "131.000đ",
+        "consumable": true,
+        "once": true,
+        "unlock": {
+          "tier_before_driver": 1
+        },
+        "grant": {
+          "driver": "driver_my",
+          "driver_shards": 30,
+          "gems": 100,
+          "gear_coupon": {
+            "elite": 3
+          }
+        }
+      },
+      {
+        "sku": "char_nhan",
+        "kind": "character",
+        "usd": 4.99,
+        "price_fallback": "131.000đ",
+        "consumable": true,
+        "once": true,
+        "unlock": {
+          "tier_before_driver": 1
+        },
+        "grant": {
+          "driver": "driver_nhan",
+          "driver_shards": 30,
+          "gems": 100,
+          "gear_coupon": {
+            "elite": 3
+          }
+        }
+      },
+      {
+        "sku": "char_phuong",
+        "kind": "character",
+        "usd": 9.99,
+        "price_fallback": "263.000đ",
+        "consumable": true,
+        "once": true,
+        "unlock": {
+          "tier_before_driver": 1
+        },
+        "grant": {
+          "driver": "driver_phuong",
+          "driver_shards": 30,
+          "gems": 200,
+          "gear_coupon": {
+            "elite": 5
+          }
+        }
+      },
+      {
+        "sku": "char_quang",
+        "kind": "character",
+        "usd": 9.99,
+        "price_fallback": "263.000đ",
+        "consumable": true,
+        "once": true,
+        "unlock": {
+          "tier_before_driver": 1
+        },
+        "grant": {
+          "driver": "driver_quang",
+          "driver_shards": 30,
+          "gems": 200,
+          "gear_coupon": {
+            "elite": 5
+          }
+        }
+      },
+      {
+        "sku": "char_son",
+        "kind": "character",
+        "usd": 9.99,
+        "price_fallback": "263.000đ",
+        "consumable": true,
+        "once": true,
+        "unlock": {
+          "tier_before_driver": 1
+        },
+        "grant": {
+          "driver": "driver_son",
+          "driver_shards": 30,
+          "gems": 200,
+          "gear_coupon": {
+            "elite": 5
+          }
+        }
+      },
+      {
+        "sku": "daily_gear",
+        "kind": "daily",
+        "usd": 0.99,
+        "price_fallback": "26.000đ",
+        "consumable": true,
+        "daily_limit": 1,
+        "unlock": {
+          "tutorial": "U3_bag"
+        },
+        "grant": {
+          "gems": 50,
+          "gear_coupon": {
+            "elite": 2
+          }
+        }
+      },
+      {
+        "sku": "daily_driver",
+        "kind": "daily",
+        "usd": 0.99,
+        "price_fallback": "26.000đ",
+        "consumable": true,
+        "daily_limit": 1,
+        "unlock": {
+          "tutorial": "U5_drivers"
+        },
+        "grant": {
+          "gems": 50,
+          "driver_coupon": {
+            "allstar": 2
+          }
+        }
+      },
+      {
+        "sku": "pass_month",
+        "kind": "pass_month",
+        "usd": 4.99,
+        "price_fallback": "131.000đ",
+        "consumable": true,
+        "grant": {
+          "gems": 150
+        },
+        "days": 30,
+        "daily_gems": 30,
+        "offline_bonus_sec": 7200,
+        "rebuy_when_left_days": 5,
+        "max_days": 60
+      },
+      {
+        "sku": "pass_growth",
+        "kind": "pass_growth",
+        "usd": 4.99,
+        "price_fallback": "131.000đ",
+        "consumable": false,
+        "grant": {
+          "gems": 100
+        },
+        "milestones": [
+          [
+            1,
+            200
+          ],
+          [
+            2,
+            300
+          ],
+          [
+            3,
+            400
+          ],
+          [
+            4,
+            500
+          ],
+          [
+            5,
+            1000
+          ]
+        ]
+      },
+      {
+        "sku": "weekly_s",
+        "kind": "weekly",
+        "usd": 4.99,
+        "price_fallback": "131.000đ",
+        "consumable": true,
+        "weekly_limit": 1,
+        "unlock": {
+          "tier": 3
+        },
+        "grant": {
+          "gems": 300,
+          "driver_coupon": {
+            "allstar": 6
+          },
+          "gear_coupon": {
+            "elite": 4
+          },
+          "income_min": 240
+        }
+      },
+      {
+        "sku": "weekly_m",
+        "kind": "weekly",
+        "usd": 9.99,
+        "price_fallback": "263.000đ",
+        "consumable": true,
+        "weekly_limit": 1,
+        "unlock": {
+          "tier": 3
+        },
+        "grant": {
+          "gems": 650,
+          "driver_coupon": {
+            "allstar": 12
+          },
+          "gear_coupon": {
+            "elite": 8
+          },
+          "income_min": 480
+        }
+      },
+      {
+        "sku": "weekly_l",
+        "kind": "weekly",
+        "usd": 19.99,
+        "price_fallback": "526.000đ",
+        "consumable": true,
+        "weekly_limit": 1,
+        "unlock": {
+          "tier": 3
+        },
+        "grant": {
+          "gems": 1300,
+          "driver_coupon": {
+            "allstar": 25
+          },
+          "gear_coupon": {
+            "elite": 15
+          },
+          "income_min": 960
+        }
+      },
+      {
+        "sku": "weekly_xl",
+        "kind": "weekly",
+        "usd": 49.99,
+        "price_fallback": "1.300.000đ",
+        "consumable": true,
+        "weekly_limit": 1,
+        "unlock": {
+          "tier": 3
+        },
+        "flag": "weekly_xl_enabled",
+        "grant": {
+          "gems": 3500,
+          "driver_coupon": {
+            "allstar": 60
+          },
+          "gear_coupon": {
+            "elite": 40
+          },
+          "income_min": 2400
+        }
+      }
+    ]
+  },
+  "ads": {
+    "schema_version": 1,
+    "_doc": "Quảng cáo thưởng v1 (Design/26). daily_cap: trần chung rewarded mỗi ngày UTC (Ads Break không tính). Mỗi placement: reward = loại thưởng (boost | income_seconds | gems | driver_coupon | gear_coupon; còn offline_double | race_bonus | daily_double chỉ để test, v1 không khai báo); daily_limit 0 = chỉ theo trần chung; cooldown_sec giữa hai lần nhận; unlock = id tính năng ở tutorial.json (rỗng = luôn mở). Số liệu là khởi điểm, cần cân lại sau soft launch (Design/26 §5).",
+    "daily_cap": 12,
+    "placements": {
+      "income_boost": {
+        "reward": "boost",
+        "multiplier": 2,
+        "duration_sec": 1800,
+        "daily_limit": 3,
+        "cooldown_sec": 0,
+        "unlock": "U4_shop"
+      },
+      "flag_cash": {
+        "reward": "income_seconds",
+        "seconds": 600,
+        "daily_limit": 5,
+        "cooldown_sec": 0,
+        "unlock": "U4_shop",
+        "first_after_sec": 60,
+        "gap_sec": 120,
+        "cross_sec": 14,
+        "miss_limit": 3,
+        "miss_gap_max_sec": 480
+      },
+      "free_gems": {
+        "reward": "gems",
+        "amount": 5,
+        "daily_limit": 2,
+        "cooldown_sec": 43200,
+        "unlock": "U4_shop"
+      },
+      "free_driver_coupon": {
+        "reward": "driver_coupon",
+        "kind": "pro",
+        "count": 1,
+        "daily_limit": 1,
+        "cooldown_sec": 0,
+        "unlock": "U5_drivers"
+      },
+      "free_gear_coupon": {
+        "reward": "gear_coupon",
+        "kind": "standard",
+        "count": 1,
+        "daily_limit": 1,
+        "cooldown_sec": 0,
+        "unlock": "U3_bag"
+      }
+    },
+    "break": {
+      "_doc": "Ads Break (interstitial giữa hai lượt). Tên khoá theo monetize.interDue của Horus SDK. Chưa dùng tới P2e.",
+      "interFromRun": 8,
+      "sessionWarmup": 120,
+      "interEvery": 8,
+      "interCooldown": 420,
+      "rewardedGrace": 60,
+      "maxPerHour": 6,
+      "firstPlayMin": 15,
+      "bonusIncomeSec": 90
+    }
+  }
+}

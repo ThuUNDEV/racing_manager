@@ -1,0 +1,46 @@
+{
+  "boards": [
+    {
+      "group": "featured",
+      "cards": 6
+    },
+    {
+      "group": "drivers",
+      "cards": 6
+    },
+    {
+      "group": "perks",
+      "cards": 5
+    },
+    {
+      "group": "passes",
+      "cards": 6
+    },
+    {
+      "group": "resources",
+      "cards": 7
+    },
+    {
+      "group": "extras",
+      "cards": 8
+    }
+  ],
+  "mobile": [
+    {
+      "width": 320,
+      "page_overflow": false,
+      "card_overflow": []
+    },
+    {
+      "width": 390,
+      "page_overflow": false,
+      "card_overflow": []
+    },
+    {
+      "width": 412,
+      "page_overflow": false,
+      "card_overflow": []
+    }
+  ],
+  "errors": []
+}

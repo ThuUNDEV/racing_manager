@@ -1,0 +1,40 @@
+{
+  "origin": "Original procedural instrumental composition; synthesized instruments; no vocals or external samples.",
+  "sample_rate": 44100,
+  "channels": 2,
+  "bits": 16,
+  "tracks": [
+    {
+      "file": "A_sporty_electronic.wav",
+      "title": "Sporty Electronic \u2014 Modern Racing",
+      "bpm": 124,
+      "duration_seconds": 40.11,
+      "peak_dbfs": -0.54,
+      "rms_dbfs": -15.26
+    },
+    {
+      "file": "B_electro_funk.wav",
+      "title": "Electro Funk \u2014 Casual Racing",
+      "bpm": 112,
+      "duration_seconds": 44.26,
+      "peak_dbfs": -0.54,
+      "rms_dbfs": -15.01
+    },
+    {
+      "file": "C_electronic_rock.wav",
+      "title": "Electronic Rock \u2014 Motorsport",
+      "bpm": 138,
+      "duration_seconds": 36.18,
+      "peak_dbfs": -1.67,
+      "rms_dbfs": -14.9
+    },
+    {
+      "file": "D_upbeat_groove.wav",
+      "title": "Upbeat Groove \u2014 Tycoon Management",
+      "bpm": 104,
+      "duration_seconds": 47.55,
+      "peak_dbfs": -0.54,
+      "rms_dbfs": -15.08
+    }
+  ]
+}

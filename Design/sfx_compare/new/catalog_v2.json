@@ -1,0 +1,189 @@
+[
+  {
+    "path": "audio/ui_click.wav",
+    "duration": 0.2416,
+    "sample_rate": 44100,
+    "channels": 2,
+    "bits": 16,
+    "loop": false,
+    "peak": 0.37727,
+    "rms": 0.05169,
+    "origin": "original layered procedural synthesis v2, not a recording"
+  },
+  {
+    "path": "audio/ui_tab.wav",
+    "duration": 0.4454,
+    "sample_rate": 44100,
+    "channels": 2,
+    "bits": 16,
+    "loop": false,
+    "peak": 0.40001,
+    "rms": 0.10909,
+    "origin": "original layered procedural synthesis v2, not a recording"
+  },
+  {
+    "path": "audio/ui_back.wav",
+    "duration": 0.4573,
+    "sample_rate": 44100,
+    "channels": 2,
+    "bits": 16,
+    "loop": false,
+    "peak": 0.40001,
+    "rms": 0.09619,
+    "origin": "original layered procedural synthesis v2, not a recording"
+  },
+  {
+    "path": "audio/ui_confirm.wav",
+    "duration": 0.6106,
+    "sample_rate": 44100,
+    "channels": 2,
+    "bits": 16,
+    "loop": false,
+    "peak": 0.43999,
+    "rms": 0.0953,
+    "origin": "original layered procedural synthesis v2, not a recording"
+  },
+  {
+    "path": "audio/ui_error.wav",
+    "duration": 0.4274,
+    "sample_rate": 44100,
+    "channels": 2,
+    "bits": 16,
+    "loop": false,
+    "peak": 0.42,
+    "rms": 0.10437,
+    "origin": "original layered procedural synthesis v2, not a recording"
+  },
+  {
+    "path": "audio/upgrade.wav",
+    "duration": 1.4232,
+    "sample_rate": 44100,
+    "channels": 2,
+    "bits": 16,
+    "loop": false,
+    "peak": 0.55,
+    "rms": 0.09895,
+    "origin": "original layered procedural synthesis v2, not a recording"
+  },
+  {
+    "path": "audio/reward.wav",
+    "duration": 1.7344,
+    "sample_rate": 44100,
+    "channels": 2,
+    "bits": 16,
+    "loop": false,
+    "peak": 0.58,
+    "rms": 0.11274,
+    "origin": "original layered procedural synthesis v2, not a recording"
+  },
+  {
+    "path": "audio/unlock.wav",
+    "duration": 1.7537,
+    "sample_rate": 44100,
+    "channels": 2,
+    "bits": 16,
+    "loop": false,
+    "peak": 0.56001,
+    "rms": 0.08526,
+    "origin": "original layered procedural synthesis v2, not a recording"
+  },
+  {
+    "path": "audio/mission_complete.wav",
+    "duration": 1.6524,
+    "sample_rate": 44100,
+    "channels": 2,
+    "bits": 16,
+    "loop": false,
+    "peak": 0.48,
+    "rms": 0.12771,
+    "origin": "original layered procedural synthesis v2, not a recording"
+  },
+  {
+    "path": "audio/promotion.wav",
+    "duration": 2.4906,
+    "sample_rate": 44100,
+    "channels": 2,
+    "bits": 16,
+    "loop": false,
+    "peak": 0.50002,
+    "rms": 0.13418,
+    "origin": "original layered procedural synthesis v2, not a recording"
+  },
+  {
+    "path": "audio/coin_pickup.wav",
+    "duration": 0.8691,
+    "sample_rate": 44100,
+    "channels": 2,
+    "bits": 16,
+    "loop": false,
+    "peak": 0.52,
+    "rms": 0.11101,
+    "origin": "original layered procedural synthesis v2, not a recording"
+  },
+  {
+    "path": "audio/daily_gift.wav",
+    "duration": 2.1466,
+    "sample_rate": 44100,
+    "channels": 2,
+    "bits": 16,
+    "loop": false,
+    "peak": 0.58,
+    "rms": 0.10436,
+    "origin": "original layered procedural synthesis v2, not a recording"
+  },
+  {
+    "path": "audio/finish.wav",
+    "duration": 2.4624,
+    "sample_rate": 44100,
+    "channels": 2,
+    "bits": 16,
+    "loop": false,
+    "peak": 0.50002,
+    "rms": 0.14367,
+    "origin": "original layered procedural synthesis v2, not a recording"
+  },
+  {
+    "path": "audio/countdown_tick.wav",
+    "duration": 0.612,
+    "sample_rate": 44100,
+    "channels": 2,
+    "bits": 16,
+    "loop": false,
+    "peak": 0.31999,
+    "rms": 0.10485,
+    "origin": "original layered procedural synthesis v2, not a recording"
+  },
+  {
+    "path": "audio/countdown_go.wav",
+    "duration": 1.2561,
+    "sample_rate": 44100,
+    "channels": 2,
+    "bits": 16,
+    "loop": false,
+    "peak": 0.42,
+    "rms": 0.11969,
+    "origin": "original layered procedural synthesis v2, not a recording"
+  },
+  {
+    "path": "audio/tyre_squeak.wav",
+    "duration": 0.7146,
+    "sample_rate": 44100,
+    "channels": 2,
+    "bits": 16,
+    "loop": false,
+    "peak": 0.31999,
+    "rms": 0.0848,
+    "origin": "original layered procedural synthesis v2, not a recording"
+  },
+  {
+    "path": "audio/car_pass.wav",
+    "duration": 1.3382,
+    "sample_rate": 44100,
+    "channels": 2,
+    "bits": 16,
+    "loop": false,
+    "peak": 0.50002,
+    "rms": 0.08575,
+    "origin": "original layered procedural synthesis v2, not a recording"
+  }
+]

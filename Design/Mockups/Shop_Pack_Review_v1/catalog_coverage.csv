@@ -1,0 +1,39 @@
+﻿sku,type,title,price_fallback,grant,enabled_by_default,source
+gems_pack_1,gems,50 gem,26.000đ,"{""gems"": 50}",True,data/iap.json
+gems_pack_2,gems,275 gem,131.000đ,"{""gems"": 275}",True,data/iap.json
+gems_pack_3,gems,600 gem,263.000đ,"{""gems"": 600}",True,data/iap.json
+gems_pack_4,gems,1.300 gem,526.000đ,"{""gems"": 1300}",True,data/iap.json
+gems_pack_5,gems,3.500 gem,1.300.000đ,"{""gems"": 3500}",True,data/iap.json
+no_ads,perk,Đội tự do,263.000đ,"{""perk"": ""no_ads"", ""gems"": 100}",True,data/iap.json
+income_x2,perk,Thu nhập ×2,131.000đ,"{""perk"": ""income_x2""}",True,data/iap.json
+income_x3,perk,Thu nhập ×3,263.000đ,"{""perk"": ""income_x3""}",True,data/iap.json
+income_x3_up,perk,Nâng cấp ×2 → ×3,131.000đ,"{""perk"": ""income_x3""}",True,data/iap.json
+offline_plus,perk,Offline+,131.000đ,"{""perk"": ""offline_plus""}",True,data/iap.json
+starter_1,starter,Gói Tân binh,26.000đ,"{""gems"": 150, ""driver_coupon"": {""pro"": 3}, ""gear_coupon"": {""standard"": 3}, ""income_min"": 60}",True,data/iap.json
+starter_2,starter,Gói Khởi động,131.000đ,"{""driver"": ""driver_ha"", ""gems"": 500, ""driver_coupon"": {""allstar"": 5}, ""gear_coupon"": {""elite"": 5}, ""income_min"": 120}",True,data/iap.json
+starter_3,starter,Gói Chuyên nghiệp,263.000đ,"{""driver"": ""driver_my"", ""gems"": 800, ""driver_coupon"": {""allstar"": 10}, ""gear_coupon"": {""elite"": 8}, ""income_min"": 240}",True,data/iap.json
+offer_combo_1,offer,Combo bứt phá I,131.000đ,"{""gems"": 500, ""driver_coupon"": {""allstar"": 6}, ""gear_coupon"": {""elite"": 4}, ""income_min"": 240}",True,data/iap.json
+offer_combo_2,offer,Combo bứt phá II,263.000đ,"{""gems"": 1000, ""driver_coupon"": {""allstar"": 12}, ""gear_coupon"": {""elite"": 8}, ""income_min"": 480}",True,data/iap.json
+offer_noads_bundle,offer,Đội tự do + quà,263.000đ,"{""perk"": ""no_ads"", ""gems"": 300, ""driver_coupon"": {""allstar"": 3}}",True,data/iap.json
+char_lam,character,Chiêu mộ Lâm,131.000đ,"{""driver"": ""driver_lam"", ""driver_shards"": 30, ""gems"": 100, ""gear_coupon"": {""elite"": 3}}",True,data/iap.json
+char_my,character,Chiêu mộ My,131.000đ,"{""driver"": ""driver_my"", ""driver_shards"": 30, ""gems"": 100, ""gear_coupon"": {""elite"": 3}}",True,data/iap.json
+char_nhan,character,Chiêu mộ Nhân,131.000đ,"{""driver"": ""driver_nhan"", ""driver_shards"": 30, ""gems"": 100, ""gear_coupon"": {""elite"": 3}}",True,data/iap.json
+char_phuong,character,Chiêu mộ Phương,263.000đ,"{""driver"": ""driver_phuong"", ""driver_shards"": 30, ""gems"": 200, ""gear_coupon"": {""elite"": 5}}",True,data/iap.json
+char_quang,character,Chiêu mộ Quang,263.000đ,"{""driver"": ""driver_quang"", ""driver_shards"": 30, ""gems"": 200, ""gear_coupon"": {""elite"": 5}}",True,data/iap.json
+char_son,character,Chiêu mộ Sơn,263.000đ,"{""driver"": ""driver_son"", ""driver_shards"": 30, ""gems"": 200, ""gear_coupon"": {""elite"": 5}}",True,data/iap.json
+daily_gear,daily,Gói trang bị ngày,26.000đ,"{""gems"": 50, ""gear_coupon"": {""elite"": 2}}",True,data/iap.json
+daily_driver,daily,Gói tay đua ngày,26.000đ,"{""gems"": 50, ""driver_coupon"": {""allstar"": 2}}",True,data/iap.json
+pass_month,pass_month,Pass tháng,131.000đ,"{""gems"": 150}",True,data/iap.json
+pass_growth,pass_growth,Quỹ gem,131.000đ,"{""gems"": 100}",True,data/iap.json
+weekly_s,weekly,Gói tuần S,131.000đ,"{""gems"": 300, ""driver_coupon"": {""allstar"": 6}, ""gear_coupon"": {""elite"": 4}, ""income_min"": 240}",True,data/iap.json
+weekly_m,weekly,Gói tuần M,263.000đ,"{""gems"": 650, ""driver_coupon"": {""allstar"": 12}, ""gear_coupon"": {""elite"": 8}, ""income_min"": 480}",True,data/iap.json
+weekly_l,weekly,Gói tuần L,526.000đ,"{""gems"": 1300, ""driver_coupon"": {""allstar"": 25}, ""gear_coupon"": {""elite"": 15}, ""income_min"": 960}",True,data/iap.json
+weekly_xl,weekly,Gói tuần XL,1.300.000đ,"{""gems"": 3500, ""driver_coupon"": {""allstar"": 60}, ""gear_coupon"": {""elite"": 40}, ""income_min"": 2400}",False,data/iap.json
+gift_today,supplementary,,,,,ui/shop_page.gd + data/ads.json + data/daily_rewards.json
+login_rewards,supplementary,,,,,ui/shop_page.gd + data/ads.json + data/daily_rewards.json
+free_gear_coupon,supplementary,,,,,ui/shop_page.gd + data/ads.json + data/daily_rewards.json
+free_driver_coupon,supplementary,,,,,ui/shop_page.gd + data/ads.json + data/daily_rewards.json
+free_gems,supplementary,,,,,ui/shop_page.gd + data/ads.json + data/daily_rewards.json
+cash_small,supplementary,,,,,ui/shop_page.gd + data/ads.json + data/daily_rewards.json
+cash_medium,supplementary,,,,,ui/shop_page.gd + data/ads.json + data/daily_rewards.json
+cash_large,supplementary,,,,,ui/shop_page.gd + data/ads.json + data/daily_rewards.json
