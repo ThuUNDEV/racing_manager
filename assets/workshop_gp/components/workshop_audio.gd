@@ -2,6 +2,7 @@ extends Node
 ## Optional local audio helper. Adds missing buses without replacing the game's layout.
 ## Stream looping is configured from the catalog, including in a clean import.
 const ROOT := "res://assets/workshop_gp/audio/"
+const MUSIC_THEME := "res://assets/workshop_gp/audio/music_apex_pursuit.mp3"
 var music_enabled := true
 var sfx_enabled := true
 var _players: Array[AudioStreamPlayer] = []
@@ -23,16 +24,23 @@ func play(cue: String) -> AudioStreamPlayer:
 	var is_music := cue.begins_with("music_")
 	if (is_music and not music_enabled) or (not is_music and not sfx_enabled):
 		return null
-	var path := ROOT + cue + ".wav"
-	if not ResourceLoader.exists(path):
-		push_warning("Unknown Workshop GP audio cue: " + cue)
-		return null
-	var stream := (load(path) as AudioStreamWAV).duplicate() as AudioStreamWAV
-	for record: Dictionary in _catalog:
-		if record.path == "audio/" + cue + ".wav" and bool(record.loop):
-			stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
-			stream.loop_begin = 0
-			stream.loop_end = int(round(float(record.duration) * stream.mix_rate))
+	var stream: AudioStream
+	if is_music:
+		# Mọi nhạc nền (xưởng, đua) dùng một bản nhạc chủ đề: Apex Pursuit.
+		stream = (load(MUSIC_THEME) as AudioStreamMP3).duplicate() as AudioStreamMP3
+		(stream as AudioStreamMP3).loop = true
+	else:
+		var path := ROOT + cue + ".wav"
+		if not ResourceLoader.exists(path):
+			push_warning("Unknown Workshop GP audio cue: " + cue)
+			return null
+		var wav := (load(path) as AudioStreamWAV).duplicate() as AudioStreamWAV
+		for record: Dictionary in _catalog:
+			if record.path == "audio/" + cue + ".wav" and bool(record.loop):
+				wav.loop_mode = AudioStreamWAV.LOOP_FORWARD
+				wav.loop_begin = 0
+				wav.loop_end = int(round(float(record.duration) * wav.mix_rate))
+		stream = wav
 	var player := AudioStreamPlayer.new()
 	player.bus = "Music" if is_music else ("Engine" if cue.begins_with("engine_") else "SFX")
 	player.stream = stream

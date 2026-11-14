@@ -201,6 +201,9 @@ func _sfx(cue: String) -> void:
 
 ## Nhạc nền đang phát; đổi bản nhạc khi vào/ra đua.
 func _set_music(cue: String) -> void:
+	# Cùng một bản nhạc chủ đề cho xưởng và đua: đang phát thì để chạy tiếp, không phát lại từ đầu.
+	if _music_on and is_instance_valid(_music_player) and _music_player.playing:
+		return
 	if is_instance_valid(_music_player):
 		_music_player.stop()
 		_music_player.queue_free()
