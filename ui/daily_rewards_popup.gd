@@ -11,6 +11,7 @@ const ICON_GEAR := "icons/tools.png"
 const DESIGN_SIZE := Vector2(922, 1706)
 const INK := Color("0a2050")
 const FONT = preload("res://assets/clean_modern/fonts/Roboto-Bold.ttf")
+const UnitScale = preload("res://ui/unit_scale.gd")
 
 var _built_key := ""
 var _claim_button: Button
@@ -37,7 +38,9 @@ func _update_requested_size() -> void:
 func _layout_canvas() -> void:
 	var factor := maxf(size.x, custom_minimum_size.x) / DESIGN_SIZE.x
 	if is_instance_valid(_canvas):
-		_canvas.scale = Vector2.ONE * factor
+		# No Control.scale: UnitScale writes real pixel sizes for the design-unit layout.
+		_canvas.set_meta("unit", factor)
+		UnitScale.apply(_canvas, factor)
 
 func _process(delta: float) -> void:
 	_tick -= delta
@@ -83,23 +86,13 @@ func _countdown_text() -> String:
 	return I18n.t("daily.reopens") % [left / 3600, (left % 3600) / 60, left % 60]
 
 
-const ART_RECTS := {
-	"header": Rect2(8, 125, 403, 200), "chest": Rect2(449, 88, 363, 296),
-	"pro": Rect2(849, 102, 394, 257), "standard": Rect2(12, 502, 399, 259),
-	"allstar": Rect2(427, 494, 399, 270), "elite": Rect2(846, 495, 400, 269),
-	"gem": Rect2(70, 934, 286, 231), "gems": Rect2(432, 927, 379, 258),
-	"gift": Rect2(892, 893, 306, 300)
-}
 static var _art_cache: Dictionary = {}
 
 
+## Standalone PNGs in assets/daily_rewards/crops (see tools/export_daily_crops.py).
 static func _art_texture(key: String) -> Texture2D:
 	if not _art_cache.has(key):
-		var atlas := AtlasTexture.new()
-		atlas.atlas = load("res://assets/daily_rewards/art.png")
-		atlas.region = ART_RECTS[key]
-		atlas.filter_clip = true
-		_art_cache[key] = atlas
+		_art_cache[key] = load("res://assets/daily_rewards/crops/%s.png" % key)
 	return _art_cache[key]
 
 
@@ -110,9 +103,9 @@ func refresh() -> void:
 	_built_key = _state_key()
 	_canvas = Control.new()
 	_canvas.name = "ReferenceCanvas"
-	_canvas.size = DESIGN_SIZE
 	_canvas.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_canvas)
+	_canvas.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var background := _image(_canvas, load("res://assets/daily_rewards/skin.png"), Rect2(Vector2.ZERO, DESIGN_SIZE))
 	var material := ShaderMaterial.new()
 	material.shader = preload("res://assets/daily_rewards/button_free_skin.gdshader")
@@ -124,17 +117,9 @@ func refresh() -> void:
 	_mount(_canvas, counter, Rect2(327, 288, 270, 44))
 	var st: Dictionary = GameState.daily_rewards
 	_label(counter, I18n.tn("daily.claimed_days", int(st["total_days"])) % int(st["total_days"]), Rect2(6, 1, 258, 40), 27)
-	var close := _button(_canvas, Rect2(789, 87, 124, 124), "PopupClose")
-	close.accessibility_name = I18n.t("common.close")
-	for state in ["normal", "hover", "pressed", "disabled"]:
-		close.add_theme_stylebox_override(state, HdUi.ButtonSkin.palette(Color("ff6655"), Color("e82922"), Color("a81713"), 124.0 / 48.0))
-	close.text = "×"
-	close.add_theme_font_override("font", FONT)
-	close.add_theme_font_size_override("font_size", 94)
-	close.add_theme_color_override("font_color", Color.WHITE)
-	close.add_theme_constant_override("outline_size", 0)
-	HdUi.ButtonSkin.apply(close)
-	close.pressed.connect(func() -> void: closed.emit())
+	var close := HdUi.close_button(func() -> void: closed.emit(), "PopupClose", 124.0 / 48.0)
+	_mount(_canvas, close, Rect2(789, 87, 124, 124))
+	close.set_meta("ub_floor", Vector2(48, 48))  # touch target never under 48px
 	var can: bool = GameState.daily_reward_available()
 	var cycle_day := int(st["cycle_day"])
 	var ordinal := int(st["grand_ordinal"])
@@ -182,10 +167,9 @@ func refresh() -> void:
 
 
 func _mount(parent: Node, node: Control, rect: Rect2) -> void:
-	node.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	node.mouse_filter = Control.MOUSE_FILTER_STOP if node is BaseButton else Control.MOUSE_FILTER_IGNORE
 	parent.add_child(node)
-	node.position = rect.position
-	node.size = rect.size
+	UnitScale.place(node, rect.position, rect.size)
 
 
 func _image(parent: Node, texture: Texture2D, rect: Rect2, keep_aspect: bool = false) -> TextureRect:
@@ -261,11 +245,7 @@ func _daily_card(parent: Node, index: int, reward: Dictionary, state: String, re
 	var w := rect.size.x
 	var first_row := index < 3
 	if state == "today":
-		var selected := AtlasTexture.new()
-		selected.atlas = load("res://assets/daily_rewards/today.png")
-		selected.region = Rect2(124, 40, 1072, 1105)
-		selected.filter_clip = true
-		_image(content, selected, Rect2(-2, -4, w + 4, rect.size.y + 7))
+		_image(content, _art_texture("today"), Rect2(-2, -4, w + 4, rect.size.y + 7))
 	_label(content, I18n.t("daily.day") % (index + 1), Rect2(36, 2, w - 72, 43), 32, INK if state == "today" else Color.WHITE)
 	var parts := reward_parts(reward)
 	for i in parts.size():
@@ -297,8 +277,9 @@ func _daily_card(parent: Node, index: int, reward: Dictionary, state: String, re
 
 class ClaimedCheck extends Control:
 	func _draw() -> void:
-		draw_circle(Vector2(14, 14), 13, Color("267734"))
-		draw_polyline(PackedVector2Array([Vector2(7, 14), Vector2(12, 19), Vector2(22, 9)]), Color.WHITE, 3.5, true)
+		var k := size.x / 28.0  # drawn in a 28-unit box; follows the real pixel size
+		draw_circle(Vector2(14, 14) * k, 13 * k, Color("267734"))
+		draw_polyline(PackedVector2Array([Vector2(7, 14) * k, Vector2(12, 19) * k, Vector2(22, 9) * k]), Color.WHITE, 3.5 * k, true)
 
 
 func _claimed_badge(parent: Control, rect: Rect2) -> void:
@@ -358,10 +339,7 @@ func _milestones(st: Dictionary) -> void:
 	for i in window.size():
 		var m: Dictionary = window[i]
 		if m["state"] != "locked":
-			var marker := AtlasTexture.new()
-			marker.atlas = load("res://assets/daily_rewards/skin.png")
-			marker.region = Rect2(136, 1227, 62, 62)
-			marker.filter_clip = true
+			var marker := _art_texture("marker")
 			var marker_x: float = [80.0, 279.0, 474.0, 672.0][i]
 			_image(root, marker, Rect2(marker_x, 60, 62, 62))
 		var col := VBoxContainer.new()

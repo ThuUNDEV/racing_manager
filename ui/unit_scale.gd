@@ -8,7 +8,7 @@ extends RefCounted
 ## meta ("ub_*"), so repeated calls with different units never compound.
 const ButtonSkin = preload("res://ui/button_skin.gd")
 const CONSTANTS := ["separation", "h_separation", "v_separation", "margin_left", "margin_top",
-	"margin_right", "margin_bottom", "outline_size"]
+	"margin_right", "margin_bottom", "outline_size", "shadow_offset_x", "shadow_offset_y"]
 const BUTTON_STATES := ["normal", "hover", "pressed", "hover_pressed", "disabled", "focus"]
 
 
@@ -59,6 +59,11 @@ static func _apply_node(n: Node, u: float) -> void:
 		var rect: Array = c.get_meta("ub_rect")
 		c.position = (rect[0] as Vector2) * u
 		c.size = (rect[1] as Vector2) * u
+		if c.has_meta("ub_floor"):
+			# Grow around the centre so a floored touch target stays where it was designed.
+			var grown := c.size.max(c.get_meta("ub_floor") as Vector2)
+			c.position -= (grown - c.size) * 0.5
+			c.size = grown
 	if c.has_meta("ub_off"):
 		var o: Array = c.get_meta("ub_off")
 		c.offset_left = o[0] * u
@@ -75,7 +80,20 @@ static func _apply_node(n: Node, u: float) -> void:
 	if c.has_theme_font_size_override("font_size"):
 		if not c.has_meta("ub_font"):
 			c.set_meta("ub_font", c.get_theme_font_size("font_size"))
-		c.add_theme_font_size_override("font_size", maxi(1, roundi(float(c.get_meta("ub_font")) * u)))
+		var real_size := maxi(1, roundi(float(c.get_meta("ub_font")) * u))
+		if c is Label and c.has_meta("ub_rect") and (c as Label).autowrap_mode == TextServer.AUTOWRAP_OFF:
+			# At a few real pixels the glyph advances round up, so text laid out in design units can
+			# come out wider than its box; shrink until it fits the scaled rectangle again.
+			var label := c as Label
+			var font := label.get_theme_font("font")
+			var limit := ((c.get_meta("ub_rect") as Array)[1] as Vector2).x * u
+			while real_size > 6 and font.get_string_size(label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, real_size).x > limit:
+				real_size -= 1
+		c.add_theme_font_size_override("font_size", real_size)
+		if c is Label and c.has_meta("ub_rect"):
+			# The box was sized before the font changed and Label clamps to its old text width.
+			c.update_minimum_size()
+			c.size = ((c.get_meta("ub_rect") as Array)[1] as Vector2) * u
 	for key: String in CONSTANTS:
 		if c.has_theme_constant_override(key):
 			var meta := "ub_c_" + key
@@ -85,7 +103,7 @@ static func _apply_node(n: Node, u: float) -> void:
 			c.add_theme_constant_override(key, maxi(1, roundi(base * u)) if base > 0 else base)
 	if c is Button:
 		_scale_button(c as Button, u)
-	for state: String in ["panel", "normal"]:
+	for state: String in ["panel", "normal", "focus"]:
 		if c.has_theme_stylebox_override(state):
 			var sb := c.get_theme_stylebox(state)
 			if sb is StyleBoxFlat:
@@ -147,11 +165,11 @@ static func _scale_button(b: Button, u: float) -> void:
 		if not b.has_theme_stylebox_override(state):
 			continue
 		var sb := b.get_theme_stylebox(state)
-		if not sb.has_meta("rounded_button"):
+		if not sb.has_meta("rounded_button") or not sb.has_meta("rounded_palette"):
 			continue
 		if not bases.has(state):
 			# First sight of this face: remember its own scale and padding (design units).
-			bases[state] = {"scale": float(sb.get_meta("rounded_scale")),
+			bases[state] = {"scale": float(sb.get_meta("rounded_scale", 1.0)),
 				"cm": [sb.content_margin_left, sb.content_margin_top, sb.content_margin_right, sb.content_margin_bottom]}
 		var pal: Array = sb.get_meta("rounded_palette")
 		var base: Dictionary = bases[state]

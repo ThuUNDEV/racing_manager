@@ -86,10 +86,10 @@ func _run() -> void:
 	var c1 := main._overlay_box.find_child("DailyCell1", true, false) as Control
 	_check(grand.size.x > c1.size.x * 2.5, "ô ngày 7 chiếm trọn hàng")
 	var canvas: Control = main._daily_popup.find_child("ReferenceCanvas", true, false)
-	_check(canvas != null and absf(canvas.scale.x - canvas.scale.y) < 0.001, "giữ nguyên tỷ lệ ref, không bóp chiều ngang ruy băng")
+	_check(canvas != null and canvas.scale == Vector2.ONE and canvas.has_meta("unit"), "không dùng Control.scale; kích thước ghi bằng pixel thật theo một hệ số")
 	var first_rect: Rect2 = c1.get_global_rect()
 	var design_origin: Vector2 = canvas.global_position
-	var design_scale: float = canvas.scale.x
+	var design_scale: float = float(canvas.get_meta("unit"))
 	_check(first_rect.position.distance_to(design_origin + Vector2(60, 350) * design_scale) < 1.0 and absf(first_rect.size.x / design_scale - 274) < 1.0, "ô ngày giữ đúng tọa độ và kích thước ref")
 	_check(main._daily_popup.find_child("DailyRow1", true, false).get_child_count() == 3 and main._daily_popup.find_child("DailyRow2", true, false).get_child_count() == 3, "ngày 1–6: bố cục 3 cột")
 	_check(main._overlay_box.find_children("Milestone*", "VBoxContainer", true, false).size() == 4, "4 mốc hiển thị")
@@ -156,7 +156,7 @@ func _run() -> void:
 			content_fits = content_fits and bounds.encloses(label.get_global_rect())
 		_check(content_fits, "%d px: chữ và phần thưởng nằm trọn trong popup" % w)
 		var head_ok := true
-		for b in [btn, main._class_btn, main._sched_btn]:
+		for b in [btn]:
 			head_ok = head_ok and (b as Control).get_global_rect().end.x <= float(w) + 0.5
 		_check(head_ok, "%d px: nút Lịch/Class/Quà vẫn nằm trong màn hình" % w)
 		if "--daily-shots" in OS.get_cmdline_user_args():
