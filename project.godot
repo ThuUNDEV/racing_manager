@@ -35,6 +35,10 @@ window/stretch/mode="canvas_items"
 window/stretch/scale=2.2718
 window/handheld/orientation=1
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/save_tool/plugin.cfg")
+
 [input_devices]
 
 pointing/emulate_touch_from_mouse=true
