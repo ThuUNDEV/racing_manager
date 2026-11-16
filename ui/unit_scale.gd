@@ -57,13 +57,16 @@ static func _apply_node(n: Node, u: float) -> void:
 		c.custom_minimum_size = c.custom_minimum_size.max(c.get_meta("ub_floor") as Vector2)
 	if c.has_meta("ub_rect"):
 		var rect: Array = c.get_meta("ub_rect")
-		c.position = (rect[0] as Vector2) * u
-		c.size = (rect[1] as Vector2) * u
+		var wanted := (rect[1] as Vector2) * u
+		var pos := (rect[0] as Vector2) * u
 		if c.has_meta("ub_floor"):
-			# Grow around the centre so a floored touch target stays where it was designed.
-			var grown := c.size.max(c.get_meta("ub_floor") as Vector2)
-			c.position -= (grown - c.size) * 0.5
-			c.size = grown
+			# Grow around the centre so a floored touch target stays where it was designed
+			# (measured from the requested size: Control.size is already clamped by min size).
+			var grown := wanted.max(c.get_meta("ub_floor") as Vector2)
+			pos -= (grown - wanted) * 0.5
+			wanted = grown
+		c.position = pos
+		c.size = wanted
 	if c.has_meta("ub_off"):
 		var o: Array = c.get_meta("ub_off")
 		c.offset_left = o[0] * u
