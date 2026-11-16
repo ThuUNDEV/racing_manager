@@ -20,6 +20,7 @@ const ART := "res://assets/workshop_gp/shop/"
 const INK := Color("23394a")
 const MUTED := Color("768ca0")
 const PackUi = preload("res://ui/shop_pack_ui.gd")
+const UnitScale = preload("res://ui/unit_scale.gd")
 const ShopSkin = preload("res://ui/shop_demo_skin.gd")
 ## Icon gói cũ -> icon gói racing_ui_hd (đường dẫn trong assets/racing_ui_hd/).
 const HD_ICONS := {
@@ -197,48 +198,49 @@ func _build() -> void:
 	add_child(_login_row)
 	_sync_sections()
 
+## Fixed-ratio card built in design units; UnitScale writes real pixel sizes on every resize.
+## Children use UnitScale.place()/offsets() (or containers) - never Control.scale.
 func _reference_canvas(parent: Node, design_size: Vector2) -> Control:
 	var panel := Control.new()
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	parent.add_child(panel)
 	var canvas := Control.new()
-	canvas.size = design_size
 	canvas.mouse_filter = Control.MOUSE_FILTER_PASS
 	panel.add_child(canvas)
+	canvas.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var bg := Panel.new()
-	bg.size = design_size
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	bg.add_theme_stylebox_override("panel", ShopSkin.surface("banner", 0))
 	canvas.add_child(bg)
+	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	panel.resized.connect(func() -> void:
-		var factor := panel.size.x / design_size.x
-		canvas.scale = Vector2.ONE * factor
-		panel.custom_minimum_size.y = design_size.y * factor
+		var unit := panel.size.x / design_size.x
+		if unit <= 0.0:
+			return
+		panel.set_meta("unit", unit)
+		panel.custom_minimum_size.y = design_size.y * unit
+		UnitScale.apply(canvas, unit)
 	)
 	return canvas
 
 func _build_daily_banner() -> void:
 	var canvas := _reference_canvas(self, Vector2(550, 94))
 	canvas.get_parent().name = "DailyGiftBanner"
-	var gift := ShopSkin.region_picture(Rect2(62, 1104, 112, 94))
-	gift.position = Vector2(28, 0)
-	gift.size = Vector2(112, 94)
+	var gift := ShopSkin.sprite("gift")
 	canvas.add_child(gift)
+	UnitScale.place(gift, Vector2(28, 0), Vector2(112, 94))
 	var title := _text(I18n.t("shop.today_gift"), 29, ShopSkin.INK)
-	title.position = Vector2(180, 0)
-	title.size = Vector2(235, 38)
 	canvas.add_child(title)
+	UnitScale.place(title, Vector2(180, 0), Vector2(235, 38))
 	_daily_description = _text("", 19, ShopSkin.INK)
-	_daily_description.position = Vector2(180, 47)
-	_daily_description.size = Vector2(205, 30)
 	canvas.add_child(_daily_description)
+	UnitScale.place(_daily_description, Vector2(180, 47), Vector2(205, 30))
 	_daily_button = _button(I18n.t("shop.claim"))
 	_daily_button.name = "ClaimDaily"
-	_daily_button.position = Vector2(398, 30)
-	_daily_button.size = Vector2(138, 55)
 	_daily_button.add_theme_font_size_override("font_size", 30)
 	_daily_button.pressed.connect(func() -> void: daily_requested.emit())
 	canvas.add_child(_daily_button)
+	UnitScale.place(_daily_button, Vector2(398, 30), Vector2(138, 55))
 	_daily_status = _text("", 12, MUTED)
 	_daily_status.hide()
 	canvas.add_child(_daily_status)
@@ -379,9 +381,7 @@ func _offer_card(parent: Node, p: Dictionary) -> void:
 	var info_layer := Control.new()
 	info_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	panel.add_child(info_layer)
-	var details := _link("ⓘ")
-	details.name = "Detail_" + sku
-	details.add_theme_font_size_override("font_size", 23)
+	var details := ShopSkin.info_button(sku)
 	details.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
 	details.offset_left = -35
 	details.offset_right = 9
@@ -393,110 +393,236 @@ func _offer_card(parent: Node, p: Dictionary) -> void:
 	_offer_cards[sku] = panel
 
 
+## Single source of truth for the geometry of every reference offer card (design units).
+## "mode": "side"  = art | text | buy column, all in the flow;
+##         "below" = art bleeds out of the card, buy sits under the text (starter);
+##         "bleed" = art bleeds out of the card, buy in a right column (drivers);
+##         "stack" = title on top, art | rewards + buy underneath (daily).
+static func _offer_layout(sku: String, kind: String) -> Dictionary:
+	var l := {
+		"mode": "side", "size": Vector2(550, 142),
+		"art_pos": Vector2(16, 8), "art_size": Vector2(177, 125),
+		"text_x": 0.0, "title_top": 2, "rewards_h": 73,
+		"buy_size": Vector2(168, 55), "buy_margin": Vector2(16, 12),
+		"price_font": 29,
+	}
+	match kind:
+		"starter":
+			l.merge({"mode": "below", "size": Vector2(550, 190), "art_pos": Vector2(10, -3), "art_size": Vector2(184, 190),
+				"text_x": 200.0, "rewards_h": 72, "buy_size": Vector2(177, 54), "buy_margin": Vector2(15, 11)}, true)
+		"character":
+			l.merge({"mode": "bleed", "size": Vector2(550, 128), "art_pos": Vector2(10, -3), "art_size": Vector2(155, 132),
+				"text_x": 177.0, "buy_size": Vector2(124, 49), "buy_margin": Vector2(12, 6), "price_font": 23}, true)
+		"daily":
+			l.merge({"mode": "stack", "size": Vector2(264, 142), "art_pos": Vector2(14, 38), "art_size": Vector2(108, 83),
+				"rewards_h": 40, "buy_size": Vector2(121, 46), "buy_margin": Vector2(11, 6), "price_font": 23}, true)
+	if sku == "income_x2":
+		l["size"] = Vector2(550, 140)
+	elif sku == "no_ads":
+		l.merge({"size": Vector2(550, 118), "art_pos": Vector2(34, 10), "art_size": Vector2(133, 101)}, true)
+	return l
+
+
+## Anchors a child to its parent's edges with pixel margins (left, top, right, bottom).
+## Right/bottom margins are measured from the parent's far edge, so the child follows it
+## if the card width/height changes instead of relying on `width - N` arithmetic.
+static func _pin(c: Control, anchor_x: float, anchor_y: float, left: float, top: float, right: float, bottom: float) -> void:
+	c.anchor_left = 0.0 if anchor_x == 0.0 else 1.0
+	c.anchor_right = c.anchor_left
+	c.anchor_top = 0.0 if anchor_y == 0.0 else 1.0
+	c.anchor_bottom = c.anchor_top
+	UnitScale.offsets(c, left, top, right, bottom)
+
+
+static func _margin(parent: Node, left: float = 0.0, top: float = 0.0, right: float = 0.0, bottom: float = 0.0) -> MarginContainer:
+	var m := MarginContainer.new()
+	m.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	m.add_theme_constant_override("margin_left", int(left))
+	m.add_theme_constant_override("margin_top", int(top))
+	m.add_theme_constant_override("margin_right", int(right))
+	m.add_theme_constant_override("margin_bottom", int(bottom))
+	parent.add_child(m)
+	return m
+
+
+static func _box(parent: Node, vertical: bool, separation: int = 0) -> BoxContainer:
+	var box: BoxContainer = VBoxContainer.new() if vertical else HBoxContainer.new()
+	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	box.add_theme_constant_override("separation", separation)
+	parent.add_child(box)
+	return box
+
+
+static func _spacer(parent: Node, width: float = 0.0, grow_vertical: bool = false, min_height: float = 0.0) -> Control:
+	var c := Control.new()
+	c.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	c.custom_minimum_size = Vector2(width, min_height)
+	if grow_vertical:
+		c.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	parent.add_child(c)
+	return c
+
+
 func _demo_offer_card(parent: Node, p: Dictionary) -> void:
 	var sku := String(p["sku"])
 	var kind := String(p["kind"])
-	var starter := kind == "starter"
-	var character := kind == "character"
-	var daily := kind == "daily"
-	var height := 190.0 if starter else (140.0 if sku == "income_x2" else (118.0 if sku == "no_ads" else (128.0 if character else 142.0)))
-	var width := 264.0 if daily else 550.0
+	var layout := _offer_layout(sku, kind)
+	var mode := String(layout["mode"])
+	var design: Vector2 = layout["size"]
+	var width := design.x
+	var height := design.y
 	var panel := Control.new()
 	panel.name = "Offer_" + sku
 	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	parent.add_child(panel)
+	# The card is built in design units and written out in real pixels by UnitScale on every
+	# resize; there is no Control.scale transform on it.
 	var canvas := Control.new()
 	canvas.mouse_filter = Control.MOUSE_FILTER_PASS
-	canvas.size = Vector2(width, height)
 	panel.add_child(canvas)
+	canvas.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var bg := Panel.new()
 	bg.add_theme_stylebox_override("panel", ShopSkin.surface("banner", 0))
-	bg.size = canvas.size
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	canvas.add_child(bg)
+	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var art: TextureRect
 	if sku in ["starter_1", "char_my", "char_lam", "daily_gear", "daily_driver"]:
 		art = ShopSkin.demo_picture(sku, Vector2.ZERO)
-	elif starter or character:
+	elif kind in ["starter", "character"]:
 		art = ShopSkin.portrait(sku, Vector2.ZERO)
 	else:
-		art = ShopSkin.region_picture(Rect2(50, 484, 177, 125) if sku == "income_x2" else Rect2(65, 643, 133, 101))
+		art = ShopSkin.sprite("income_x2_art" if sku == "income_x2" else "no_ads_art")
 	art.name = "OfferArt_" + sku
-	canvas.add_child(art)
-	art.position = Vector2(10, -3) if starter or character else Vector2(16, 8)
-	art.size = Vector2(184, 190) if starter else (Vector2(155, 132) if character else Vector2(177, 125))
-	if sku == "no_ads":
-		art.position = Vector2(34, 10)
-		art.size = Vector2(133, 101)
-	if daily:
-		art.position = Vector2(14, 38)
-		art.size = Vector2(108, 83)
-	var title := _text(I18n.t("common.gear") if sku == "daily_gear" else (I18n.t("common.drivers") if daily else PackUi.title(p)), 30, ShopSkin.INK)
+	var art_pos: Vector2 = layout["art_pos"]
+	var art_size: Vector2 = layout["art_size"]
+	var buy_size: Vector2 = layout["buy_size"]
+	var buy_margin: Vector2 = layout["buy_margin"]
+	var text_x: float = layout["text_x"]
+
+	var title := _text(I18n.t("common.gear") if sku == "daily_gear" else (I18n.t("common.drivers") if kind == "daily" else PackUi.title(p)), 30, ShopSkin.INK)
 	title.name = "PackTitle"
 	title.autowrap_mode = TextServer.AUTOWRAP_OFF
-	title.position = Vector2(200, 2) if starter else Vector2(177 if character else 207, 2)
-	if daily: title.position = Vector2(20, 0)
-	title.size = Vector2(width - title.position.x - 38, 40)
-	canvas.add_child(title)
+	title.custom_minimum_size.y = 38 if mode == "stack" else 40
 	var rewards := VBoxContainer.new()
 	rewards.name = "PackRewards_" + sku
-	rewards.position = Vector2(202, 50) if starter else (Vector2(178, 39) if character else Vector2(200, 48))
-	rewards.size = Vector2(334, 72) if starter else Vector2(230 if character else 165, 73)
-	if daily:
-		rewards.position = Vector2(150, 42)
-		rewards.size = Vector2(105, 40)
-	canvas.add_child(rewards)
-	_render_rewards(rewards, p, false, false)
-	if sku == "income_x2":
-		rewards.hide()
-		var multiplier := ShopSkin.region_picture(Rect2(233, 520, 152, 87))
-		multiplier.position = Vector2(204, 44)
-		multiplier.size = Vector2(152, 87)
-		canvas.add_child(multiplier)
+	rewards.custom_minimum_size.y = int(layout["rewards_h"])
 	var buy := _button(String(p.get("price_fallback", "")))
 	buy.name = "Iap_" + sku
-	buy.custom_minimum_size = Vector2.ZERO
-	buy.position = Vector2(358, 125) if starter else (Vector2(414, 73) if character else Vector2(366, height - 67))
-	buy.size = Vector2(177, 54) if starter else (Vector2(124, 49) if character else Vector2(168, 55))
-	if daily:
-		buy.position = Vector2(132, 90)
-		buy.size = Vector2(121, 46)
+	buy.custom_minimum_size = buy_size
+	buy.size_flags_horizontal = Control.SIZE_SHRINK_END
+	buy.set_meta("ub_floor", Vector2(0, 44))
+
+	var inset := Control.new()
+	inset.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	canvas.add_child(inset)
+	inset.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	if mode == "side":
+		var row := _box(inset, false, 12)
+		row.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		var art_slot := _margin(row, art_pos.x, art_pos.y)
+		art.custom_minimum_size = art_size
+		art.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+		art_slot.add_child(art)
+		var text_slot := _margin(row, 0, int(layout["title_top"]))
+		text_slot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var text_col := _box(text_slot, true, 4)
+		text_col.add_child(title)
+		text_col.add_child(rewards)
+		if sku == "income_x2":
+			rewards.hide()
+			var multiplier := ShopSkin.sprite("income_x2_multiplier")
+			multiplier.custom_minimum_size = Vector2(152, 87)
+			multiplier.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+			text_col.add_child(multiplier)
+		var side := _margin(row, 0, 0, buy_margin.x, buy_margin.y)
+		var side_col := _box(side, true)
+		_spacer(side_col, 0.0, true)
+		side_col.add_child(buy)
+	elif mode == "stack":
+		var col := _box(inset, true)
+		col.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		var title_slot := _margin(col, 20)
+		title_slot.add_child(title)
+		var row := _box(col, false, 10)
+		row.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		var art_slot := _margin(row, art_pos.x)
+		art.custom_minimum_size = art_size
+		art.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+		art_slot.add_child(art)
+		var side := _margin(row, 0, 4, buy_margin.x, buy_margin.y)
+		side.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var side_col := _box(side, true)
+		var rewards_slot := _margin(side_col, 18)
+		rewards_slot.add_child(rewards)
+		_spacer(side_col, 0.0, true, 8.0)
+		side_col.add_child(buy)
+	else:
+		# Art bleeds past the card edge, so it floats above the flow; text/buy are still containers.
+		canvas.add_child(art)
+		UnitScale.place(art, art_pos, art_size)
+		var row := _box(inset, false)
+		row.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		_spacer(row, text_x)
+		if mode == "below":
+			var text_slot := _margin(row, 0, int(layout["title_top"]), buy_margin.x, buy_margin.y)
+			text_slot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			var text_col := _box(text_slot, true)
+			text_col.add_child(title)
+			_spacer(text_col, 0.0, false, 8.0)
+			text_col.add_child(rewards)
+			_spacer(text_col, 0.0, true, 3.0)
+			text_col.add_child(buy)
+		else:
+			var text_slot := _margin(row, 0, int(layout["title_top"]))
+			text_slot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			var text_col := _box(text_slot, true, 4)
+			text_col.add_child(title)
+			text_col.add_child(rewards)
+			var side := _margin(row, 0, 0, buy_margin.x, buy_margin.y)
+			var side_col := _box(side, true)
+			_spacer(side_col, 0.0, true)
+			side_col.add_child(buy)
+	_render_rewards(rewards, p, false, false)
 	buy.pressed.connect(func() -> void: iap_requested.emit(sku))
-	canvas.add_child(buy)
-	ShopSkin.price_text(buy, 29 if not character and not daily else 23)
+	ShopSkin.price_text(buy, int(layout["price_font"]))
 	var status := _text("", 16, MUTED)
 	status.visible = false
-	status.position = Vector2(205, height - 25)
-	status.size = Vector2(width - 215, 25)
 	status.autowrap_mode = TextServer.AUTOWRAP_OFF
 	canvas.add_child(status)
-	var info := Button.new()
-	info.name = "Detail_" + sku
-	info.flat = true
-	info.position = Vector2(width - 51, 1)
-	info.size = Vector2(44, 44)
-	info.add_theme_stylebox_override("normal", StyleBoxEmpty.new())
-	info.add_theme_stylebox_override("hover", StyleBoxEmpty.new())
-	info.add_theme_stylebox_override("pressed", StyleBoxEmpty.new())
-	var info_art := ShopSkin.region_picture(Rect2(529, 280, 34, 34))
-	info_art.position = Vector2(5, 5)
-	info_art.size = Vector2(34, 34)
-	info.add_child(info_art)
-	info.pressed.connect(func() -> void: details_requested.emit(sku))
+	_pin(status, 0.0, 1.0, 205.0, -25.0, -10.0, 0.0)
+	status.anchor_right = 1.0
+	# 44px touch target pinned to the top-right corner; the art is a standalone
+	# transparent PNG (no atlas Rect2), so it can't clip or pick up neighbouring pixels.
+	var info := ShopSkin.info_button(sku)
 	canvas.add_child(info)
-	if starter:
-		var badge := ShopSkin.region_picture(Rect2(22, 262, 82, 76))
-		badge.position = Vector2(-7, -12)
-		badge.size = Vector2(82, 76)
+	_pin(info, 1.0, 0.0, -51.0, 1.0, -7.0, 45.0)
+	info.pressed.connect(func() -> void: details_requested.emit(sku))
+	if kind == "starter":
+		var badge := ShopSkin.sprite("starter_badge")
 		canvas.add_child(badge)
+		UnitScale.place(badge, Vector2(-7, -12), Vector2(82, 76))
 	panel.resized.connect(func() -> void:
-		var factor := panel.size.x / width
-		canvas.scale = Vector2.ONE * factor
-		panel.custom_minimum_size.y = height * factor
+		var unit := panel.size.x / width
+		if unit <= 0.0:
+			return
+		panel.set_meta("unit", unit)
+		UnitScale.apply(canvas, unit)
+		# Grow the card if real-pixel content (44px touch targets) needs more than the scaled design height.
+		var fit := func() -> void:
+			if not is_instance_valid(panel) or not is_instance_valid(inset):
+				return
+			var need := height * unit
+			for child in inset.get_children():
+				if child is Control:
+					need = maxf(need, (child as Control).get_combined_minimum_size().y)
+			if absf(panel.custom_minimum_size.y - need) > 0.5:
+				panel.custom_minimum_size.y = need
+		panel.custom_minimum_size.y = height * unit
+		fit.call_deferred()
 	)
 	_iap_buttons[sku] = {"button": buy, "status": status, "rewards": rewards, "full": false, "owned": false, "reference": true}
 	_offer_cards[sku] = panel
-
 
 func _demo_badge(color: Color) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
@@ -511,18 +637,15 @@ func _demo_badge(color: Color) -> StyleBoxFlat:
 func _build_free_gem_banner() -> void:
 	var canvas := _reference_canvas(self, Vector2(550, 110))
 	canvas.get_parent().name = "FreeGemBanner"
-	var art := ShopSkin.region_picture(Rect2(621, 211, 180, 112))
-	art.position = Vector2(-3, -7)
-	art.size = Vector2(180, 112)
+	var art := ShopSkin.sprite("free_gem_art")
 	canvas.add_child(art)
+	UnitScale.place(art, Vector2(-3, -7), Vector2(180, 112))
 	var title := _text(I18n.t("shop.free_gems"), 26, ShopSkin.INK)
-	title.position = Vector2(188, 35)
-	title.size = Vector2(180, 40)
 	canvas.add_child(title)
+	UnitScale.place(title, Vector2(188, 35), Vector2(180, 40))
 	var action := VBoxContainer.new()
-	action.position = Vector2(366, 35)
-	action.size = Vector2(170, 54)
 	canvas.add_child(action)
+	UnitScale.place(action, Vector2(366, 35), Vector2(170, 54))
 	_ad_button(action, "free_gems_banner")
 	_ad_buttons["free_gems_banner"]["button"].add_theme_font_size_override("font_size", 23)
 	_ad_buttons["free_gems_banner"]["button"].custom_minimum_size.y = 54
@@ -592,7 +715,7 @@ func update_packs() -> void:
 		return
 	var parts: Array = [GameState.gems, GameState.gear_coupons.duplicate(), GameState.driver_coupons.duplicate(),
 		GameState.driver_pity.duplicate(), GameState.save_blocked, GameState.phase == "save_error",
-		GameState.feature_unlocked("U3_bag"), GameState.feature_unlocked("U5_drivers")]
+		GameState.feature_unlocked("U4_shop"), GameState.feature_unlocked("U5_drivers")]
 	var sig := str(parts)
 	if sig == _pack_sig and _pack_box.get_child_count() > 0:
 		return
@@ -634,7 +757,7 @@ func _pack_card(parent: Node, kind: String, pack: Dictionary) -> void:
 	info.pressed.connect(func() -> void: pack_info_requested.emit(kind, id))
 	column.add_child(info)
 	var actions := HBoxContainer.new()
-	actions.add_theme_constant_override("separation", 4)
+	actions.add_theme_constant_override("separation", 6)
 	column.add_child(actions)
 	for n in [1, 10]:
 		var pay: Dictionary = GameState.driver_payment(id, n) if kind == "driver" else GameState.gear_payment(id, n)
@@ -642,14 +765,72 @@ func _pack_card(parent: Node, kind: String, pack: Dictionary) -> void:
 		var cost := "—"
 		if not pay.is_empty():
 			cost = ("%d coupon" if pay["method"] == "coupon" else "%d gem") % int(pay["amount"])
-		var b := _button("×%d
-%s" % [n, cost])
+		var b := Button.new()
+		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		b.name = "ShopOpen_%s_%s_x%d" % [kind, id, n]
-		b.custom_minimum_size.y = 52
-		b.add_theme_font_size_override("font_size", 11)
+		b.custom_minimum_size.y = 54
 		b.disabled = not affordable
+		b.accessibility_name = I18n.t("drivers.open_x") % [n, cost]
+		b.tooltip_text = b.accessibility_name
+		for state in ["normal", "hover", "pressed", "disabled"]:
+			var skin := StyleBoxFlat.new()
+			skin.bg_color = Color("087ee6") if n == 10 else Color("e4f3ff")
+			skin.border_color = Color("0665bd") if n == 10 else Color("85bde9")
+			if state == "hover":
+				skin.bg_color = skin.bg_color.lightened(0.1)
+			elif state == "pressed":
+				skin.bg_color = skin.bg_color.darkened(0.1)
+			elif state == "disabled":
+				skin.bg_color = Color("e7edf3")
+				skin.border_color = Color("b7c9d9")
+			skin.set_corner_radius_all(10)
+			skin.set_border_width_all(1)
+			skin.border_width_bottom = 3
+			b.add_theme_stylebox_override(state, skin)
+		var focus := StyleBoxFlat.new()
+		focus.bg_color = Color.TRANSPARENT
+		focus.border_color = Color("ffca51")
+		focus.set_border_width_all(2)
+		focus.set_corner_radius_all(10)
+		b.add_theme_stylebox_override("focus", focus)
+		var margin := MarginContainer.new()
+		margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		margin.add_theme_constant_override("margin_left", 4)
+		margin.add_theme_constant_override("margin_right", 4)
+		margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var row := VBoxContainer.new()
+		row.alignment = BoxContainer.ALIGNMENT_CENTER
+		row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		row.add_theme_constant_override("separation", 4)
+		var ink := Color.WHITE if n == 10 else Color("12538b")
+		if not affordable:
+			ink = Color("62798e")
+		var count := _text("×%d" % n, 16, ink)
+		count.autowrap_mode = TextServer.AUTOWRAP_OFF
+		count.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		count.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		count.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		row.add_child(count)
+		var price_row := HBoxContainer.new()
+		price_row.alignment = BoxContainer.ALIGNMENT_CENTER
+		price_row.add_theme_constant_override("separation", 3)
+		price_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		row.add_child(price_row)
+		var currency := ShopSkin.picture("gem_single" if pay.get("method", "") != "coupon" else ("driver_coupon" if kind == "driver" else "gear_coupon"), Vector2(18, 18))
+		currency.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		currency.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		price_row.add_child(currency)
+		var price := _text(str(int(pay.get("amount", 0))) if not pay.is_empty() else "—", 14, ink)
+		price.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		price.autowrap_mode = TextServer.AUTOWRAP_OFF
+		price.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		price.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		price_row.add_child(price)
+		margin.add_child(row)
+		b.add_child(margin)
 		b.pressed.connect(func() -> void: pack_open_requested.emit(kind, id, n))
 		actions.add_child(b)
+
 
 
 func _bundle(parent: Node, icon: String, title: String) -> void:
@@ -679,21 +860,18 @@ func _free_gem_card(parent: Node) -> void:
 	var canvas := _reference_canvas(parent, Vector2(175, 180))
 	var art := ShopSkin.picture("gem_cluster", Vector2.ZERO)
 	art.name = "GemArt_free"
-	art.position = Vector2(16, 25)
-	art.size = Vector2(143, 80)
 	canvas.add_child(art)
+	UnitScale.place(art, Vector2(16, 25), Vector2(143, 80))
 	var amount := _text("5", 30, Color.WHITE)
-	amount.position = Vector2(0, 99)
-	amount.size = Vector2(175, 36)
+	canvas.add_child(amount)
+	UnitScale.place(amount, Vector2(0, 99), Vector2(175, 36))
 	amount.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	amount.add_theme_font_override("font", preload("res://assets/clean_modern/fonts/Roboto-Bold.ttf"))
 	amount.add_theme_color_override("font_outline_color", Color("091326"))
 	amount.add_theme_constant_override("outline_size", 4)
-	canvas.add_child(amount)
 	var action := VBoxContainer.new()
-	action.position = Vector2(11, 133)
-	action.size = Vector2(153, 44)
 	canvas.add_child(action)
+	UnitScale.place(action, Vector2(11, 133), Vector2(153, 44))
 	_ad_button(action, "free_gems")
 	_ad_buttons["free_gems"]["button"].add_theme_font_size_override("font_size", 23)
 
@@ -754,28 +932,24 @@ func update_ads(view: Dictionary) -> void:
 func _currency_card(parent: Node, icon: String, amount: String, price: String, category: String) -> void:
 	var canvas := _reference_canvas(parent, Vector2(175, 170))
 	var art := ShopSkin.picture(icon, Vector2.ZERO)
-	art.position = Vector2(30, 20)
-	art.size = Vector2(115, 60)
 	canvas.add_child(art)
+	UnitScale.place(art, Vector2(30, 20), Vector2(115, 60))
 	var count := _text(amount.replace(".", ","), 31, ShopSkin.INK)
-	count.position = Vector2(0, 75)
-	count.size = Vector2(175, 37)
 	count.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	canvas.add_child(count)
-	var ribbon := ShopSkin.region_picture(Rect2(625, 987, 95, 49))
-	ribbon.position = Vector2(0, -7)
-	ribbon.size = Vector2(95, 49)
+	UnitScale.place(count, Vector2(0, 75), Vector2(175, 37))
+	var ribbon := ShopSkin.sprite("currency_ribbon")
 	canvas.add_child(ribbon)
+	UnitScale.place(ribbon, Vector2(0, -7), Vector2(95, 49))
 	var button := _coming_button(price, amount + " " + category, I18n.t("shop.coming_soon_exchange_gems_cash"))
 	ShopSkin.style_button(button, "action")
 	button.icon = ShopSkin.picture("gem_single", Vector2.ZERO).texture
 	button.expand_icon = true
 	button.add_theme_constant_override("icon_max_width", 34)
 	button.add_theme_constant_override("h_separation", 8)
-	button.position = Vector2(11, 113)
-	button.size = Vector2(153, 46)
 	button.add_theme_font_size_override("font_size", 30)
 	canvas.add_child(button)
+	UnitScale.place(button, Vector2(11, 113), Vector2(153, 46))
 
 
 func _gem_card(parent: Node, sku: String, amount: int, price: String) -> void:
@@ -783,30 +957,26 @@ func _gem_card(parent: Node, sku: String, amount: int, price: String) -> void:
 	var canvas := _reference_canvas(parent, Vector2(175, 180))
 	var status := _text("", 16, Color.WHITE)
 	status.autowrap_mode = TextServer.AUTOWRAP_OFF
-	status.position = Vector2(0, -5)
-	status.size = Vector2(126, 32)
 	status.add_theme_stylebox_override("normal", ShopSkin.surface("action", 1))
 	canvas.add_child(status)
+	UnitScale.place(status, Vector2(0, -5), Vector2(126, 32))
 	# Use complete transparent source sprites, not rectangles from the demo UI.
 	var art := ShopSkin.picture(["gem_single", "gem_cluster", "gem_bag", "gem_chest", "gem_vault"][index], Vector2.ZERO)
 	art.name = "GemArt_" + sku
-	art.position = Vector2(16, 25)
-	art.size = Vector2(143, 80)
 	canvas.add_child(art)
+	UnitScale.place(art, Vector2(16, 25), Vector2(143, 80))
 	var count := _text("%d.%03d" % [amount / 1000, amount % 1000] if amount >= 1000 else str(amount), 30, Color.WHITE)
-	count.position = Vector2(0, 99)
-	count.size = Vector2(175, 36)
+	canvas.add_child(count)
+	UnitScale.place(count, Vector2(0, 99), Vector2(175, 36))
 	count.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	count.add_theme_font_override("font", preload("res://assets/clean_modern/fonts/Roboto-Bold.ttf"))
 	count.add_theme_color_override("font_outline_color", Color("091326"))
 	count.add_theme_constant_override("outline_size", 5)
-	canvas.add_child(count)
 	var button := _button(price)
 	button.name = "Iap_" + sku
-	button.position = Vector2(11, 133)
-	button.size = Vector2(153, 44)
 	button.pressed.connect(func() -> void: iap_requested.emit(sku))
 	canvas.add_child(button)
+	UnitScale.place(button, Vector2(11, 133), Vector2(153, 44))
 	_iap_buttons[sku] = {"button": button, "status": status, "reference": true}
 
 
@@ -839,7 +1009,7 @@ func update_iap(view: Dictionary) -> void:
 		var status: Label = _iap_buttons[sku]["status"]
 		var reason := String(entry.get("reason", "none"))
 		button.text = I18n.t("shop.processing") if busy else String(entry.get("price", ""))
-		ShopSkin.price_text(button, 29 if bool(_iap_buttons[sku].get("reference", false)) else 18)
+		ShopSkin.price_text(button, 29 if bool(_iap_buttons[sku].get("reference", false)) else 18, UnitScale.unit_of(button))
 		button.disabled = busy or reason != ""
 		status.text = I18n.t("shop.first_time_x_2") if bool(entry.get("first_bonus", false)) and reason == "" else _reason_text(reason)
 		status.visible = not status.text.is_empty()
@@ -893,7 +1063,7 @@ func _adapt_grids() -> void:
 			grid.columns = 3
 	for sku: String in _iap_buttons:
 		var button: Button = _iap_buttons[sku]["button"]
-		ShopSkin.price_text(button, 29 if bool(_iap_buttons[sku].get("reference", false)) else 18)
+		ShopSkin.price_text(button, 29 if bool(_iap_buttons[sku].get("reference", false)) else 18, UnitScale.unit_of(button))
 		var portrait = _iap_buttons[sku].get("portrait")
 		if is_instance_valid(portrait):
 			portrait.custom_minimum_size.x = 66 if size.x < 335 else 82
@@ -939,6 +1109,13 @@ static func _has_coupons(p: Dictionary) -> bool:
 
 
 func _render_rewards(container: VBoxContainer, product: Dictionary, full: bool, owned: bool) -> void:
+	_render_rewards_raw(container, product, full, owned)
+	var unit := UnitScale.unit_of(container)
+	if unit != 1.0:
+		UnitScale.apply(container, unit)
+
+
+func _render_rewards_raw(container: VBoxContainer, product: Dictionary, full: bool, owned: bool) -> void:
 	for child in container.get_children():
 		container.remove_child(child)
 		child.queue_free()

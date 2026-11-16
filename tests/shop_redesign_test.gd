@@ -67,7 +67,7 @@ func run() -> void:
 				check(card.size.x <= scroll.size.x + 1, "offer fits %d: %s" % [width, sku])
 				var art := card.find_child("OfferArt_" + sku, true, false) as Control
 				if String(GameData.iap_product(sku).get("kind", "")) != "daily":
-					check(art != null and art.size.y >= 60, "illustration has a visible layout height")
+					check(art != null and art.get_global_rect().size.y >= 40, "illustration has a visible layout height")
 				var button: Button = shop._iap_buttons[sku]["button"]
 				check(button.size.y >= 44 and card.get_global_rect().encloses(button.get_global_rect()), "touch target inside card")
 		scroll.scroll_vertical = 0

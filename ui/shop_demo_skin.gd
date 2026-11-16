@@ -2,45 +2,49 @@ extends RefCounted
 ## Shop-only art direction. Other pages keep their current skin.
 const ROOT := "res://assets/shop_blue_white/"
 const INK := Color("102d60")
+const UnitScale = preload("res://ui/unit_scale.gd")
 static var _source: Dictionary = {}
 
-static func region_picture(region: Rect2) -> TextureRect:
-	var atlas := AtlasTexture.new()
-	atlas.atlas = load(ROOT + "demo_reference.png")
-	atlas.region = region
-	atlas.filter_clip = true
+## Standalone artwork from assets/shop_blue_white/crops (see tools/export_shop_crops.py).
+static func sprite(name: String) -> TextureRect:
 	var t := TextureRect.new()
-	t.texture = atlas
+	t.texture = load(ROOT + "crops/" + name + ".png")
 	t.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	t.stretch_mode = TextureRect.STRETCH_SCALE
 	t.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return t
 
-## Atlas regions from the supplied demo; copy the original without resampling.
+
+## Same files, but kept proportional inside whatever box the caller gives it.
 static func demo_picture(id: String, extent: Vector2) -> TextureRect:
-	var regions := {
-		"starter_1": Rect2(39, 274, 184, 186),
-		"char_my": Rect2(40, 817, 155, 132),
-		"char_lam": Rect2(40, 960, 155, 124),
-		"driver_coupon": Rect2(326, 329, 59, 42),
-		"gear_coupon": Rect2(402, 326, 59, 43),
-		"elite_gear": Rect2(369, 865, 58, 52),
-		"shard_my": Rect2(212, 860, 69, 62),
-		"shard_lam": Rect2(212, 1004, 69, 62),
-		"daily_gear": Rect2(641, 435, 108, 83),
-		"daily_driver": Rect2(914, 434, 115, 82),
-	}
-	var atlas := AtlasTexture.new()
-	atlas.atlas = load(ROOT + "demo_reference.png")
-	atlas.region = regions[id]
-	atlas.filter_clip = true
-	var t := TextureRect.new()
-	t.texture = atlas
-	t.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	var t := sprite(id)
 	t.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	t.custom_minimum_size = extent
-	t.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return t
+
+
+## 44px round info icon (transparent PNG) used by every offer card.
+static func info_button(sku: String) -> Button:
+	var info := Button.new()
+	info.name = "Detail_" + sku
+	info.flat = true
+	info.focus_mode = Control.FOCUS_NONE
+	for state in ["normal", "hover", "pressed", "hover_pressed", "disabled", "focus"]:
+		info.add_theme_stylebox_override(state, StyleBoxEmpty.new())
+	var icon := TextureRect.new()
+	icon.texture = load(ROOT + "info_icon.png")
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	info.add_child(icon)
+	# Touch target never drops under 44px; the drawn icon still follows the card's scale.
+	info.set_meta("ub_floor", Vector2(44, 44))
+	icon.anchor_left = 0.5
+	icon.anchor_right = 0.5
+	icon.anchor_top = 0.5
+	icon.anchor_bottom = 0.5
+	UnitScale.offsets(icon, -22.0, -22.0, 22.0, 22.0)
+	return info
 
 static func surface(id: String, margin: float = 8.0) -> StyleBoxTexture:
 	var s := StyleBoxTexture.new()
@@ -103,19 +107,21 @@ static func style_button(b: Button, kind: String = "buy") -> void:
 	b.add_theme_constant_override("shadow_offset_y", 0)
 	HdUi.ButtonSkin.apply(b)
 
-static func price_text(b: Button, preferred_size: int = 18) -> void:
+static func price_text(b: Button, preferred_size: int = 18, unit: float = 1.0) -> void:
 	# Fit the complete localized store price, including its outline, in narrow cards.
 	var font := b.get_theme_font("font")
-	var available := b.size.x - 10.0
+	var available := b.size.x / unit - 10.0
 	if b.icon != null:
 		available -= 22.0
 	var point_size := preferred_size
 	if available > 0:
 		while point_size > 12 and font.get_string_size(b.text, HORIZONTAL_ALIGNMENT_LEFT, -1, point_size).x > available:
 			point_size -= 1
-	b.add_theme_font_size_override("font_size", point_size)
+	b.add_theme_font_size_override("font_size", roundi(point_size * unit))
+	b.set_meta("ub_font", point_size)
 	b.add_theme_color_override("font_outline_color", Color("174d19") if b.icon == null else Color("063d83"))
-	b.add_theme_constant_override("outline_size", 2)
+	b.add_theme_constant_override("outline_size", maxi(1, roundi(2 * unit)))
+	b.set_meta("ub_c_outline_size", 2)
 	if b.icon != null and b.size.x > 0:
 		# Godot centers an icon over text when icon_alignment is CENTER. Instead,
 		# center their shared content area, with the icon on its left edge.
