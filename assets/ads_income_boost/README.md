@@ -1,4 +1,24 @@
-# Rewarded-ad income boost — ticket option A
+# Rewarded-ad income boost
+
+## Current popup layout (2026-11-16)
+
+The boost modal is a layered reward card drawn by `ui/ads_race_controls.gd`:
+- Large cash illustration overlaps the top edge, with vector rays and sparkles
+  from `ui/reward_burst.gd` behind it.
+- Theme colors come from `HdUi`: brand blue hero, white panel/badge, pale blue
+  duration pill and shared blue action button.
+- A tilted ×multiplier badge overlaps the illustration and the light lower panel.
+- The lower panel contains title, configured duration, description, error status,
+  shared Clean Modern blue watch-ad CTA and text-only Later action.
+- Boost cash art loads the original `cash_bundles.png` directly to preserve its
+  cash-only composition; the flag reward retains its routed cash icon.
+
+The card no longer loads `ticket_panel.png`: its clean-modern replacement is a
+landscape atlas region and must not be stretched into a portrait modal.
+Close uses `HdUi.close_button()`.
+The PNG notes below describe the earlier ticket concept and retained assets.
+
+## Original ticket option A
 
 Integrated in `ui/ads_race_controls.gd`. The modal renders on a dedicated
 CanvasLayer above the clipped race view and dims the full viewport.

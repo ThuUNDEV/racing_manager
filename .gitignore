@@ -31,3 +31,5 @@ Design/AssetPacks/*.zip
 # Công cụ cục bộ / cache Python
 .serena/
 __pycache__/
+
+.claude/remote.env

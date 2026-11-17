@@ -1,7 +1,7 @@
 # 27 — Khán giả xem đua (dải khán đài)
 
 - Ngày: 12/11/2026
-- Trạng thái: **P0 + P1 đã triển khai (12/11/2026)** trong `ui/race_view.gd`. Đã chốt: **mật độ theo cấp Parking (chỗ ngồi), không theo Grandstands** (`fill = log10(1 + giá trị Parking) / 3`, tối thiểu 12%), 3 hàng, chấm tròn, **không chú thích khi chạm**, phản ứng bằng **icon mặt vui/buồn** (thay cho chấm nhảy/cúi/giật ở §4). Chưa làm: hiệu ứng lên cấp, spotlight tutorial, `--reduce-motion`, màu nền theo bậc, confetti. Chỉ đụng lớp vẽ; không đổi sim, kinh tế hay save.
+- Trạng thái: **P0 + P1 đã triển khai (12/11/2026)** trong `ui/race_view.gd`. Đã chốt: **mật độ theo cấp Parking (chỗ ngồi), không theo Grandstands** (`fill = (cấp Parking / cấp tối đa)^0.8`, tối thiểu 12%), 3 hàng, chấm tròn, **không chú thích khi chạm**, phản ứng bằng **icon mặt vui/buồn** (thay cho chấm nhảy/cúi/giật ở §4). Chưa làm: hiệu ứng lên cấp, spotlight tutorial, `--reduce-motion`, màu nền theo bậc, confetti. Chỉ đụng lớp vẽ; không đổi sim, kinh tế hay save.
 - Liên quan: [08 §3](08_Race_Traffic_Revision.md) (khung đua), [10](10_Continuous_Race_Loop.md), [11](11_Eight_Upgrades.md) và [12 §4](12_BigNumber_Economy.md) (Grandstands), [23](23_Tutorial_Script.md) (câu "Khán giả trả tiền mỗi giây"), [25 §7.5](25_Ads_Lumber_Reference.md) (hiệu năng bản Web), [26](26_Ads_Placements.md).
 - Nguồn yêu cầu: ảnh tham chiếu có dải khoanh đỏ giữa HUD và đường đua, gồm 3 hàng chấm, đa số xanh, rải chấm màu khác.
 
