@@ -3,10 +3,10 @@ extends Control
 const CleanArt = preload("res://ui/clean_modern_art.gd")
 ## Điều khiển quảng cáo trên khung đua (Design/26 §3–§4): chip tăng tốc ×2 ở góc phải HUD, lá cờ thưởng income chạy
 ## trên dải khán đài, và popup xác nhận xem video. Chỉ là lớp UI: mọi luật (lượt/ngày, thời gian chờ, thưởng) nằm trong Ads.
-## Popup vé thưởng dùng cash; thông số thưởng lấy trực tiếp từ Ads.
+## Popup thưởng dùng cash; thông số thưởng lấy trực tiếp từ Ads.
 
 const FLAG_W := 34.0
-const CHIP_SIZE := Vector2(100, 48)
+const CHIP_SIZE := Vector2(100, 36)
 const BOOST := "income_boost"
 const FLAG := "flag_cash"
 
@@ -42,7 +42,9 @@ var _cash_art: TextureRect
 var _multiplier: Label
 var _duration: Label
 var _separator: HBoxContainer
-var _ticket_background: TextureRect
+var _ticket_background: Panel
+var _boost_details: Panel
+var _reward_burst: Control
 var _cash_background: Panel
 var _cash_glow: Panel
 var _cash_amount: Label
@@ -64,9 +66,16 @@ func _ready() -> void:
 	for state in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color", "font_disabled_color"]:
 		_chip.add_theme_color_override(state, Color.TRANSPARENT)
 	_chip.add_theme_constant_override("outline_size", 0)
+	_chip.add_theme_font_size_override("font_size", 1)
 	_chip.add_theme_color_override("font_shadow_color", Color.TRANSPARENT)
 	for state in ["normal", "hover", "pressed", "disabled"]:
-		var ticket := HdUi.button("race", state)
+		var ticket := StyleBoxFlat.new()
+		ticket.bg_color = Color("d4e9fc") if state == "pressed" else Color("e3f1ff")
+		ticket.border_color = Color("c0dcf6")
+		ticket.set_border_width_all(1)
+		ticket.set_corner_radius_all(11)
+		# Preserve the compact HUD face instead of converting it to a pill.
+		ticket.set_meta("rounded_button", true)
 		_chip.add_theme_stylebox_override(state, ticket)
 		_chip_idle_styles[state] = ticket
 	var active_style := StyleBoxFlat.new()
@@ -154,12 +163,31 @@ func _build_popup() -> void:
 	_card.name = "RewardTicket"
 	_card.mouse_filter = Control.MOUSE_FILTER_STOP
 	_popup.add_child(_card)
-	var background := _art("res://assets/ads_income_boost/ticket_panel.png")
-	background.name = "TicketBackground"
+	# Draw the portrait card directly: atlas ticket art has a landscape aspect ratio.
+	var background := Panel.new()
+	background.name = "BoostBackground"
+	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_ticket_background = background
-	background.stretch_mode = TextureRect.STRETCH_SCALE
+	var boost_panel := StyleBoxFlat.new()
+	boost_panel.bg_color = HdUi.C_BLUE
+	boost_panel.border_color = HdUi.C_LINE
+	boost_panel.set_border_width_all(3)
+	boost_panel.set_corner_radius_all(26)
+	boost_panel.shadow_color = Color(0.01, 0.06, 0.15, 0.35)
+	boost_panel.shadow_size = 24
+	boost_panel.shadow_offset = Vector2(0, 8)
+	background.add_theme_stylebox_override("panel", boost_panel)
 	_card.add_child(background)
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_boost_details = Panel.new()
+	_boost_details.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var details_skin := StyleBoxFlat.new()
+	details_skin.bg_color = HdUi.C_PANEL
+	details_skin.set_corner_radius_all(22)
+	_boost_details.add_theme_stylebox_override("panel", details_skin)
+	_card.add_child(_boost_details)
+	_reward_burst = preload("res://ui/reward_burst.gd").new()
+	_card.add_child(_reward_burst)
 	_cash_background = Panel.new()
 	_cash_background.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var cash_panel := StyleBoxFlat.new()
@@ -188,15 +216,16 @@ func _build_popup() -> void:
 	_card.add_child(_cash_caption)
 	_title = _lbl(18, HdUi.C_TEXT)
 	_title.name = "RewardTitle"
+	_title.clip_text = true
 	_card.add_child(_title)
 	_close_button = HdUi.close_button(_on_later, "AdsClose")
 	_card.add_child(_close_button)
 	_cash_art = _art("res://assets/racing_ui_hd/icons/cash.png")
 	_cash_art.name = "CashRewardArt"
 	_card.add_child(_cash_art)
-	_multiplier = _lbl(64, Color("ff9d08"))
-	_multiplier.add_theme_color_override("font_outline_color", Color("a43d00"))
-	_multiplier.add_theme_constant_override("outline_size", 4)
+	_multiplier = _lbl(68, HdUi.C_BLUE)
+	_multiplier.add_theme_color_override("font_outline_color", HdUi.C_BLUE)
+	_multiplier.add_theme_constant_override("outline_size", 3)
 	_card.add_child(_multiplier)
 	_separator = HBoxContainer.new()
 	_separator.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -204,13 +233,13 @@ func _build_popup() -> void:
 	_card.add_child(_separator)
 	for i in 20:
 		var dash := ColorRect.new()
-		dash.color = Color("ff9000")
+		dash.color = HdUi.C_LINE
 		dash.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		dash.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		_separator.add_child(dash)
-	_duration = _lbl(19, Color.WHITE)
+	_duration = _lbl(17, HdUi.C_BLUE)
 	var pill := StyleBoxFlat.new()
-	pill.bg_color = Color("142b4e")
+	pill.bg_color = HdUi.C_PANEL_HI
 	pill.set_corner_radius_all(16)
 	_duration.add_theme_stylebox_override("normal", pill)
 	_card.add_child(_duration)
@@ -223,7 +252,7 @@ func _build_popup() -> void:
 	_watch = Button.new()
 	_watch.name = "WatchAd"
 	_watch.custom_minimum_size = Vector2(0, 44)
-	HdUi.style_button(_watch, "upgrade")
+	HdUi.style_button(_watch, "race")
 	_watch.add_theme_font_size_override("font_size", 18)
 	HdUi.text_depth(_watch, true)
 	_watch.pressed.connect(_on_watch)
@@ -233,7 +262,6 @@ func _build_popup() -> void:
 	_later.custom_minimum_size = Vector2(0, 40)
 	for state in ["normal", "hover", "pressed", "disabled", "focus"]:
 		_later.add_theme_stylebox_override(state, StyleBoxEmpty.new())
-	HdUi.style_button(_later, "cancel")
 	_later.add_theme_color_override("font_color", HdUi.C_MUTED)
 	_later.add_theme_color_override("font_hover_color", HdUi.C_NAVY)
 	HdUi.text_depth(_later)
@@ -254,29 +282,37 @@ func _art(path: String) -> TextureRect:
 
 func _layout_popup() -> void:
 	var view := get_viewport_rect().size
-	var w := minf(view.x - 12.0, 360.0)
-	var h := minf(430.0, view.y - 16.0)
+	var w := minf(view.x - 32.0, 360.0)
+	var h := minf(480.0, view.y - 100.0)
 	_card.size = Vector2(w, h)
 	_card.position = (view - _card.size) * 0.5
-	_place(_title, 0.10, 0.065, 0.70, 0.11)
-	_place(_close_button, 0.80, 0.05, 0.14, 0.12)
-	_place(_cash_art, 0.12, 0.20, 0.43, 0.25)
-	if _popup_pl == FLAG:
-		_place(_cash_art, 0.29, 0.20, 0.42, 0.32)
-	_place(_multiplier, 0.54, 0.20, 0.33, 0.25)
-	_place(_separator, 0.12, 0.48, 0.76, 0.004)
-	_place(_duration, 0.27, 0.51, 0.46, 0.075)
-	_place(_body, 0.12, 0.59, 0.76, 0.08)
-	_place(_status, 0.12, 0.675, 0.76, 0.06)
-	_place(_watch, 0.12, 0.74, 0.76, 0.115)
-	_place(_later, 0.25, 0.855, 0.50, 0.095)
-	_later.position.y = maxf(_later.position.y, _watch.position.y + _watch.size.y)
+	_place(_boost_details, 0.012, 0.39, 0.976, 0.60)
+	_place(_reward_burst, -0.05, -0.19, 1.10, 0.67)
+	_place(_title, 0.08, 0.43, 0.84, 0.09)
+	_place(_close_button, 0.82, -0.015, 0.14, 0.11)
+	_close_button.size = Vector2(48, 48)
+	_place(_cash_art, 0.07, -0.12, 0.86, 0.55)
+	_place(_multiplier, 0.58, 0.235, 0.34, 0.16)
+	_multiplier.pivot_offset = _multiplier.size * 0.5
+	_multiplier.rotation = -0.12
+	_place(_duration, 0.28, 0.54, 0.44, 0.075)
+	_place(_separator, 0.09, 0.64, 0.82, 0.003)
+	_place(_body, 0.09, 0.66, 0.82, 0.09)
+	_place(_status, 0.08, 0.75, 0.84, 0.05)
+	_place(_watch, 0.07, 0.815, 0.86, 0.115)
+	_place(_later, 0.08, 0.94, 0.84, 0.065)
+	# Keep the secondary action inside the card, including its 40px touch target.
+	_later.position.y = _watch.position.y + _watch.size.y + 8.0
+	_card.size.y = maxf(_card.size.y, _later.position.y + _later.size.y + 16.0)
+	_boost_details.size.y = _card.size.y - _boost_details.position.y - 5.0
+	_card.position = (view - _card.size) * 0.5
 	if _popup_pl == FLAG:
 		_card.size = Vector2(minf(view.x - 32.0, 340.0), minf(408.0, view.y - 24.0))
 		_card.position = (view - _card.size) * 0.5
 		_place(_title, 0.07, 0.045, 0.72, 0.09)
 		_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 		_place(_close_button, 0.80, 0.025, 0.15, 0.12)
+		_close_button.size = Vector2(48, 48)
 		_place(_cash_glow, 0.28, 0.16, 0.44, 0.29)
 		_place(_cash_art, 0.19, 0.145, 0.62, 0.30)
 		_place(_cash_caption, 0.08, 0.46, 0.84, 0.05)
@@ -331,10 +367,14 @@ func _set_chip_state(state: String) -> void:
 	HdUi.ButtonSkin.apply(_chip)
 	_chip_progress.visible = running
 	_chip_cash.visible = not running
-	_chip_title.add_theme_font_size_override("font_size", 12 if running else 22)
-	HdUi.text_depth(_chip_title, true)
+	_chip_title.add_theme_font_size_override("font_size", 11 if running else 18)
+	_chip_title.add_theme_color_override("font_color", Color.WHITE if running else Color("0877d2"))
+	_chip_title.add_theme_constant_override("outline_size", 0)
+	_chip_title.add_theme_constant_override("shadow_offset_x", 0)
+	_chip_title.add_theme_constant_override("shadow_offset_y", 0)
+	_chip_title.add_theme_color_override("font_shadow_color", Color.TRANSPARENT)
 	_chip_time.add_theme_font_size_override("font_size", 14 if running else 11)
-	_chip_time.add_theme_color_override("font_color", Color("d9f4ff") if running else Color.WHITE)
+	_chip_time.add_theme_color_override("font_color", Color("d9f4ff") if running else Color("0877d2"))
 	_chip.mouse_default_cursor_shape = Control.CURSOR_ARROW if running else Control.CURSOR_POINTING_HAND
 
 
@@ -344,20 +384,26 @@ func _layout_chip() -> void:
 	_chip.size = rect.size
 	_chip.position = rect.position
 	var w := rect.size.x
+	_chip_time.clip_text = true
+	var caption_font := 11 if _chip_state == "active" else 10
+	while caption_font > 9 and _chip_time.get_theme_font("font").get_string_size(_chip_time.text, HORIZONTAL_ALIGNMENT_LEFT, -1, caption_font).x > w - 12.0:
+		caption_font -= 1
+	_chip_time.add_theme_font_size_override("font_size", caption_font)
+	_chip_time.position = Vector2(4, 21)
+	_chip_time.size = Vector2(w - 8, 12)
 	if _chip_state == "active":
-		_chip_title.position = Vector2(4, 4)
-		_chip_title.size = Vector2(w - 8, 18)
-		_chip_time.position = Vector2(4, 23)
-		_chip_time.size = Vector2(w - 8, 18)
+		_chip_title.position = Vector2(4, 1)
+		_chip_title.size = Vector2(w - 8, 20)
 	else:
-		_chip_cash.position = Vector2(w * 0.14, 3)
-		_chip_cash.size = Vector2(27, 26)
-		_chip_title.position = Vector2(w * 0.47, 1)
-		_chip_title.size = Vector2(w * 0.39, 28)
-		_chip_time.position = Vector2(w * 0.12, 29)
-		_chip_time.size = Vector2(w * 0.76, 15)
-	_chip_progress.position = Vector2(w * 0.12, 43)
+		var title_width := 34.0
+		var group_x := (w - 27.0 - 4.0 - title_width) * 0.5
+		_chip_cash.position = Vector2(group_x, 1)
+		_chip_cash.size = Vector2(27, 20)
+		_chip_title.position = Vector2(group_x + 31.0, 1)
+		_chip_title.size = Vector2(title_width, 20)
+	_chip_progress.position = Vector2(w * 0.12, 34)
 	_chip_progress.size = Vector2(w * 0.76, 2)
+
 
 
 func _refresh_chip() -> void:
@@ -381,7 +427,7 @@ func _refresh_chip() -> void:
 			_chip.disabled = false
 			_chip.text = I18n.t("ads.x_min") % [mult, int(_ads.offer_amount(BOOST)["seconds"]) / 60]
 			_chip_title.text = "×%d" % mult
-			_chip_time.text = I18n.t("common.watch_video")
+			_chip_time.text = I18n.t("ads.watch_ad").replace("▶", "").strip_edges()
 			if not _chip_offered:
 				_chip_offered = true
 				_ads.note_offer(BOOST)
@@ -459,8 +505,36 @@ func _open(pl: String) -> void:
 	_ticket_background.visible = pl == BOOST
 	_cash_background.visible = pl == FLAG
 	_cash_glow.visible = pl == FLAG
+	_boost_details.visible = pl == BOOST
+	_reward_burst.visible = pl == BOOST
 	_cash_amount.visible = pl == FLAG
 	_cash_caption.visible = pl == FLAG
+	var is_boost := pl == BOOST
+	_title.add_theme_color_override("font_color", HdUi.C_TEXT)
+	_title.add_theme_font_size_override("font_size", 24 if is_boost else 18)
+	_body.add_theme_color_override("font_color", HdUi.C_NAVY)
+	_status.add_theme_color_override("font_color", Color("a32d2d"))
+	_later.add_theme_color_override("font_color", HdUi.C_MUTED)
+	_later.add_theme_color_override("font_hover_color", HdUi.C_NAVY)
+	var hero_skin := _cash_glow.get_theme_stylebox("panel").duplicate() as StyleBoxFlat
+	hero_skin.bg_color = Color("1b4067") if is_boost else Color("e5f5d9")
+	hero_skin.set_corner_radius_all(24 if is_boost else 72)
+	_cash_glow.add_theme_stylebox_override("panel", hero_skin)
+	HdUi.style_button(_watch, "race")
+	_cash_art.texture = load("res://assets/ads_income_boost/cash_bundles.png") if is_boost else CleanArt.asset("res://assets/racing_ui_hd/icons/cash.png")
+	if is_boost:
+		_multiplier.add_theme_font_size_override("font_size", 56)
+		_multiplier.add_theme_color_override("font_color", HdUi.C_BLUE)
+		_multiplier.add_theme_constant_override("outline_size", 0)
+		var badge := StyleBoxFlat.new()
+		badge.bg_color = HdUi.C_PANEL
+		badge.border_color = HdUi.C_PANEL_HI
+		badge.set_border_width_all(3)
+		badge.set_corner_radius_all(18)
+		badge.shadow_color = Color(0.01, 0.04, 0.10, 0.5)
+		badge.shadow_size = 5
+		badge.shadow_offset = Vector2(0, 5)
+		_multiplier.add_theme_stylebox_override("normal", badge)
 	if pl == BOOST:
 		_title.text = I18n.t("ads.income_x") % int(amount["multiplier"])
 		_multiplier.text = "×%d" % int(amount["multiplier"])

@@ -549,6 +549,869 @@
     "engine"
    ],
    "hint": "@data.tracks.run_consecutive_corners_tyres_hold"
+  },
+  {
+   "id": "track_circuit_c",
+   "name": "Circuit C",
+   "experimental": true,
+   "lap_length": 924,
+   "straight_pct": 40,
+   "sectors": [
+    {
+     "len": 90,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 50,
+     "type": "C",
+     "width": 4.0,
+     "turn": 112.07
+    },
+    {
+     "len": 50,
+     "type": "C",
+     "width": 4.0,
+     "turn": -55.7338
+    },
+    {
+     "len": 30,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 44,
+     "type": "C",
+     "width": 4.0,
+     "turn": 46.819
+    },
+    {
+     "len": 44,
+     "type": "C",
+     "width": 4.0,
+     "turn": 57.539
+    },
+    {
+     "len": 30,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 44,
+     "type": "C",
+     "width": 4.0,
+     "turn": 64.5053
+    },
+    {
+     "len": 44,
+     "type": "C",
+     "width": 4.0,
+     "turn": -89.7932
+    },
+    {
+     "len": 30,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 44,
+     "type": "C",
+     "width": 4.0,
+     "turn": 101.172
+    },
+    {
+     "len": 44,
+     "type": "C",
+     "width": 4.0,
+     "turn": -42.5764
+    },
+    {
+     "len": 30,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 44,
+     "type": "C",
+     "width": 4.0,
+     "turn": 81.5734
+    },
+    {
+     "len": 44,
+     "type": "C",
+     "width": 4.0,
+     "turn": -44.4722
+    },
+    {
+     "len": 30,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 50,
+     "type": "C",
+     "width": 4.0,
+     "turn": 72.6795
+    },
+    {
+     "len": 50,
+     "type": "C",
+     "width": 4.0,
+     "turn": 56.2174
+    },
+    {
+     "len": 132,
+     "type": "S",
+     "width": 4.0
+    }
+   ],
+   "important": [
+    "tyre",
+    "engine"
+   ],
+   "hint": "@data.tracks.run_consecutive_corners_tyres_hold"
+  },
+  {
+   "id": "track_circuit_d",
+   "name": "Circuit D",
+   "experimental": true,
+   "lap_length": 924,
+   "straight_pct": 55,
+   "sectors": [
+    {
+     "len": 130,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 54,
+     "type": "C",
+     "width": 4.0,
+     "turn": 77.9822
+    },
+    {
+     "len": 54,
+     "type": "C",
+     "width": 4.0,
+     "turn": 84.3198
+    },
+    {
+     "len": 100,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 50,
+     "type": "C",
+     "width": 4.0,
+     "turn": -33.535
+    },
+    {
+     "len": 50,
+     "type": "C",
+     "width": 4.0,
+     "turn": 20.6916
+    },
+    {
+     "len": 130,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 54,
+     "type": "C",
+     "width": 4.0,
+     "turn": 138.4043
+    },
+    {
+     "len": 54,
+     "type": "C",
+     "width": 4.0,
+     "turn": 22.3626
+    },
+    {
+     "len": 100,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 50,
+     "type": "C",
+     "width": 4.0,
+     "turn": -57.0447
+    },
+    {
+     "len": 50,
+     "type": "C",
+     "width": 4.0,
+     "turn": 106.8192
+    },
+    {
+     "len": 48,
+     "type": "S",
+     "width": 4.0
+    }
+   ],
+   "important": [
+    "engine",
+    "tyre"
+   ],
+   "hint": "@common.engine_boosts_top_speed_straights"
+  },
+  {
+   "id": "track_circuit_e",
+   "name": "Circuit E",
+   "experimental": true,
+   "lap_length": 924,
+   "straight_pct": 55,
+   "sectors": [
+    {
+     "len": 120,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 68,
+     "type": "C",
+     "width": 4.0,
+     "turn": 125.7528
+    },
+    {
+     "len": 70,
+     "type": "C",
+     "width": 4.0,
+     "turn": -37.5804
+    },
+    {
+     "len": 60,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 70,
+     "type": "C",
+     "width": 4.0,
+     "turn": 116.9473
+    },
+    {
+     "len": 120,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 70,
+     "type": "C",
+     "width": 4.0,
+     "turn": -24.5879
+    },
+    {
+     "len": 70,
+     "type": "C",
+     "width": 4.0,
+     "turn": 65.4051
+    },
+    {
+     "len": 60,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 70,
+     "type": "C",
+     "width": 4.0,
+     "turn": 114.0631
+    },
+    {
+     "len": 146,
+     "type": "S",
+     "width": 4.0
+    }
+   ],
+   "important": [
+    "engine",
+    "tyre"
+   ],
+   "hint": "@common.tyres_help_car_hold_speed"
+  },
+  {
+   "id": "track_circuit_f",
+   "name": "Circuit F",
+   "experimental": true,
+   "lap_length": 924,
+   "straight_pct": 32,
+   "sectors": [
+    {
+     "len": 60,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 54,
+     "type": "C",
+     "width": 4.0,
+     "turn": 56.1199
+    },
+    {
+     "len": 52,
+     "type": "C",
+     "width": 4.0,
+     "turn": -31.8437
+    },
+    {
+     "len": 52,
+     "type": "C",
+     "width": 4.0,
+     "turn": 99.084
+    },
+    {
+     "len": 36,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 52,
+     "type": "C",
+     "width": 4.0,
+     "turn": -48.8472
+    },
+    {
+     "len": 52,
+     "type": "C",
+     "width": 4.0,
+     "turn": 96.7702
+    },
+    {
+     "len": 52,
+     "type": "C",
+     "width": 4.0,
+     "turn": 30.3581
+    },
+    {
+     "len": 36,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 52,
+     "type": "C",
+     "width": 4.0,
+     "turn": -27.7393
+    },
+    {
+     "len": 52,
+     "type": "C",
+     "width": 4.0,
+     "turn": 36.7011
+    },
+    {
+     "len": 52,
+     "type": "C",
+     "width": 4.0,
+     "turn": 49.0414
+    },
+    {
+     "len": 36,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 52,
+     "type": "C",
+     "width": 4.0,
+     "turn": -63.0899
+    },
+    {
+     "len": 52,
+     "type": "C",
+     "width": 4.0,
+     "turn": 92.8892
+    },
+    {
+     "len": 52,
+     "type": "C",
+     "width": 4.0,
+     "turn": 70.5562
+    },
+    {
+     "len": 130,
+     "type": "S",
+     "width": 4.0
+    }
+   ],
+   "important": [
+    "tyre",
+    "gearbox"
+   ],
+   "hint": "@common.tyres_help_car_hold_speed"
+  },
+  {
+   "id": "track_circuit_g",
+   "name": "Circuit G",
+   "experimental": true,
+   "lap_length": 924,
+   "straight_pct": 55,
+   "sectors": [
+    {
+     "len": 120,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 52,
+     "type": "C",
+     "width": 4.0,
+     "turn": 70.3612
+    },
+    {
+     "len": 52,
+     "type": "C",
+     "width": 4.0,
+     "turn": 84.8195
+    },
+    {
+     "len": 110,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 52,
+     "type": "C",
+     "width": 4.0,
+     "turn": -29.1343
+    },
+    {
+     "len": 52,
+     "type": "C",
+     "width": 4.0,
+     "turn": 47.5175
+    },
+    {
+     "len": 110,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 52,
+     "type": "C",
+     "width": 4.0,
+     "turn": 33.8527
+    },
+    {
+     "len": 52,
+     "type": "C",
+     "width": 4.0,
+     "turn": 121.301
+    },
+    {
+     "len": 110,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 52,
+     "type": "C",
+     "width": 4.0,
+     "turn": -67.0706
+    },
+    {
+     "len": 52,
+     "type": "C",
+     "width": 4.0,
+     "turn": 98.353
+    },
+    {
+     "len": 58,
+     "type": "S",
+     "width": 4.0
+    }
+   ],
+   "important": [
+    "engine",
+    "gearbox"
+   ],
+   "hint": "@common.engine_boosts_top_speed_straights"
+  },
+  {
+   "id": "track_circuit_h",
+   "name": "Circuit H",
+   "experimental": true,
+   "lap_length": 924,
+   "straight_pct": 39,
+   "sectors": [
+    {
+     "len": 70,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 58,
+     "type": "C",
+     "width": 4.0,
+     "turn": 63.6437
+    },
+    {
+     "len": 60,
+     "type": "C",
+     "width": 4.0,
+     "turn": 114.7393
+    },
+    {
+     "len": 50,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 60,
+     "type": "C",
+     "width": 4.0,
+     "turn": -34.1204
+    },
+    {
+     "len": 60,
+     "type": "C",
+     "width": 4.0,
+     "turn": -28.1799
+    },
+    {
+     "len": 70,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 60,
+     "type": "C",
+     "width": 4.0,
+     "turn": 68.093
+    },
+    {
+     "len": 60,
+     "type": "C",
+     "width": 4.0,
+     "turn": 84.5119
+    },
+    {
+     "len": 50,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 60,
+     "type": "C",
+     "width": 4.0,
+     "turn": -41.1249
+    },
+    {
+     "len": 60,
+     "type": "C",
+     "width": 4.0,
+     "turn": 89.6923
+    },
+    {
+     "len": 40,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 44,
+     "type": "C",
+     "width": 4.0,
+     "turn": 58.5728
+    },
+    {
+     "len": 44,
+     "type": "C",
+     "width": 4.0,
+     "turn": -15.8278
+    },
+    {
+     "len": 78,
+     "type": "S",
+     "width": 4.0
+    }
+   ],
+   "important": [
+    "tyre",
+    "engine"
+   ],
+   "hint": "@data.tracks.run_consecutive_corners_tyres_hold"
+  },
+  {
+   "id": "track_circuit_i",
+   "name": "Circuit I",
+   "experimental": true,
+   "lap_length": 924,
+   "straight_pct": 55,
+   "sectors": [
+    {
+     "len": 150,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 68,
+     "type": "C",
+     "width": 4.0,
+     "turn": 130.3776
+    },
+    {
+     "len": 70,
+     "type": "C",
+     "width": 4.0,
+     "turn": -17.5773
+    },
+    {
+     "len": 120,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 70,
+     "type": "C",
+     "width": 4.0,
+     "turn": 84.5606
+    },
+    {
+     "len": 70,
+     "type": "C",
+     "width": 4.0,
+     "turn": 42.4576
+    },
+    {
+     "len": 120,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 70,
+     "type": "C",
+     "width": 4.0,
+     "turn": -28.035
+    },
+    {
+     "len": 70,
+     "type": "C",
+     "width": 4.0,
+     "turn": 148.2165
+    },
+    {
+     "len": 116,
+     "type": "S",
+     "width": 4.0
+    }
+   ],
+   "important": [
+    "engine",
+    "gearbox"
+   ],
+   "hint": "@common.engine_boosts_top_speed_straights"
+  },
+  {
+   "id": "track_circuit_j",
+   "name": "Circuit J",
+   "experimental": true,
+   "lap_length": 924,
+   "straight_pct": 48,
+   "sectors": [
+    {
+     "len": 60,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 40,
+     "type": "C",
+     "width": 4.0,
+     "turn": 103.3729
+    },
+    {
+     "len": 40,
+     "type": "C",
+     "width": 4.0,
+     "turn": -35.926
+    },
+    {
+     "len": 30,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 40,
+     "type": "C",
+     "width": 4.0,
+     "turn": 111.4993
+    },
+    {
+     "len": 40,
+     "type": "C",
+     "width": 4.0,
+     "turn": -65.5324
+    },
+    {
+     "len": 30,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 40,
+     "type": "C",
+     "width": 4.0,
+     "turn": 70.5579
+    },
+    {
+     "len": 40,
+     "type": "C",
+     "width": 4.0,
+     "turn": 25.6635
+    },
+    {
+     "len": 30,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 40,
+     "type": "C",
+     "width": 4.0,
+     "turn": 43.6859
+    },
+    {
+     "len": 40,
+     "type": "C",
+     "width": 4.0,
+     "turn": -67.5381
+    },
+    {
+     "len": 30,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 40,
+     "type": "C",
+     "width": 4.0,
+     "turn": 60.0219
+    },
+    {
+     "len": 40,
+     "type": "C",
+     "width": 4.0,
+     "turn": -53.9311
+    },
+    {
+     "len": 30,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 40,
+     "type": "C",
+     "width": 4.0,
+     "turn": 76.9251
+    },
+    {
+     "len": 40,
+     "type": "C",
+     "width": 4.0,
+     "turn": 91.2011
+    },
+    {
+     "len": 234,
+     "type": "S",
+     "width": 4.0
+    }
+   ],
+   "important": [
+    "tyre",
+    "gearbox"
+   ],
+   "hint": "@common.tyres_help_car_hold_speed"
+  },
+  {
+   "id": "track_circuit_k",
+   "name": "Circuit K",
+   "experimental": true,
+   "lap_length": 924,
+   "straight_pct": 52,
+   "sectors": [
+    {
+     "len": 100,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 54,
+     "type": "C",
+     "width": 4.0,
+     "turn": 128.9115
+    },
+    {
+     "len": 56,
+     "type": "C",
+     "width": 4.0,
+     "turn": 54.6586
+    },
+    {
+     "len": 56,
+     "type": "C",
+     "width": 4.0,
+     "turn": -49.6799
+    },
+    {
+     "len": 60,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 56,
+     "type": "C",
+     "width": 4.0,
+     "turn": 47.446
+    },
+    {
+     "len": 56,
+     "type": "C",
+     "width": 4.0,
+     "turn": 45.0255
+    },
+    {
+     "len": 60,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 56,
+     "type": "C",
+     "width": 4.0,
+     "turn": -40.7586
+    },
+    {
+     "len": 56,
+     "type": "C",
+     "width": 4.0,
+     "turn": 20.7634
+    },
+    {
+     "len": 56,
+     "type": "C",
+     "width": 4.0,
+     "turn": 153.6335
+    },
+    {
+     "len": 60,
+     "type": "S",
+     "width": 4.0
+    },
+    {
+     "len": 198,
+     "type": "S",
+     "width": 4.0
+    }
+   ],
+   "important": [
+    "tyre",
+    "engine"
+   ],
+   "hint": "@data.tracks.run_consecutive_corners_tyres_hold"
   }
  ]
 }

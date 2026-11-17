@@ -54,6 +54,16 @@ func _initialize() -> void:
 	tb.run_to_end()
 	_check(is_equal_approx(tb.lap_length, 924.0) and tb.ranking()[0].s > 924.0 * 0.9, "lượt 40 giây chạy được khoảng một vòng 924 (xe đầu %.0f)" % tb.ranking()[0].s)
 
+	print("== Hình học Circuit C–K (layout đường đua thay thế, vòng 924) ==")
+	for cid in ["track_circuit_c", "track_circuit_d", "track_circuit_e", "track_circuit_f", "track_circuit_g", "track_circuit_h", "track_circuit_i", "track_circuit_j", "track_circuit_k"]:
+		var lc := TrackLayout.build(cid)
+		_check(lc.valid and lc.count() == 924, "%s: dựng được, 924 điểm" % cid)
+		_check(lc.closure_error < 0.05 and absf(absf(lc.total_turn) - 360.0) < 0.001, "%s: khép kín, tổng góc 360°" % cid)
+		_check(lc.min_clearance() > road * 1.3, "%s: hai đoạn đường cách nhau %.1f > %.1f" % [cid, lc.min_clearance(), road * 1.3])
+		var tc := _new(555, _stats(), cid, {"duration": 40.0, "sprint_duration": 10.0})
+		tc.run_to_end()
+		_check(tc.ranking()[0].s > 0.0, "%s: đua chạy được" % cid)
+
 	print("== Bot kịch bản (ai_cars) ==")
 	var plain_ai := _new(31, _stats(), "track_circuit_a")
 	# ai_cars (dải lồi, TrafficSim) tách khỏi ai_offsets (RaceSim v1.0 giữ làm chuẩn): so với offset trong ai_cars.
@@ -246,7 +256,10 @@ func _initialize() -> void:
 	var avg_swaps := float(swaps_total) / float(races)
 	var avg_same := float(base_same) / float(races)
 	print("  race nền: %.1f lượt đổi chỗ · %.2f/8 xe về đúng ô xuất phát" % [avg_swaps, avg_same])
-	_check(avg_swaps >= 10.0, "thứ hạng thay đổi trong race (TB %.1f cặp đổi chỗ ≥ 10)" % avg_swaps)
+	# Hút gió không còn dính xe sát/ngang hàng (tránh dồn chùm), nên ít đổi chỗ hơn so với ngưỡng cũ 10.
+	# 16/11/2026 (Design/31): nhiễu form của đua chính giảm (±6,6% → ±4,4%) để sức mạnh quyết định thứ hạng rõ hơn;
+	# đổi lại số lần đổi chỗ giảm (≈7 so với ≥ 8). Ngưỡng hạ 8 → 6, vẫn thấp hơn xa mức bị khóa theo ô xuất phát.
+	_check(avg_swaps >= 6.0, "thứ hạng thay đổi trong race (TB %.1f cặp đổi chỗ ≥ 6)" % avg_swaps)
 	_check(avg_same <= 4.0, "kết quả không bị khóa theo ô xuất phát (TB %.2f/8 ≤ 4,0)" % avg_same)
 
 	var wins := 0
@@ -261,7 +274,8 @@ func _initialize() -> void:
 	var avg_final := float(final_pos) / float(strong_races)
 	print("  build mạnh xuất phát cuối: về hạng TB %.2f · thắng %d/%d" % [avg_final, wins, strong_races])
 	_check(avg_final <= 4.0, "build mạnh hơn nhiều xuất phát cuối lên được ≥ 4 hạng (về hạng TB %.2f)" % avg_final)
-	_check(wins >= strong_races / 2, "build mạnh hơn nhiều thắng ít nhất một nửa số race (%d/%d)" % [wins, strong_races])
+	# Không còn lỗi tay đua (errors_enabled=false) nên xe dẫn đầu không tự chậm lại: xuất phát cuối khó thắng hơn, chỉ cần thắng được một phần tư số race.
+	_check(wins >= strong_races / 4, "build mạnh hơn nhiều thắng ít nhất một phần tư số race (%d/%d)" % [wins, strong_races])
 
 	print("== Đặc tính tay đua ==")
 	var trait_ok := true
@@ -426,3 +440,28 @@ func _test_driver_stats() -> void:
 	var lg := _new(3, legacy_stats, "track_circuit_a", {"duration": 10.0})
 	lg.run_to_end()
 	_check(lg.finished and lg.cars[0].dL == 0.0 and lg.cars[0].dE == 0.0, "thiếu L/R/K/E => mặc định bằng chuẩn giải")
+
+	print("== Xe về đích đỗ ở ô riêng (không chụm một chỗ) ==")
+	var pk := _new(11, _stats(), "track_circuit_b")
+	pk.run_to_end()
+	for i in 400:
+		pk._roll_out_finished(pk.tick)  # để mọi xe lăn hết về ô đỗ (cuộc đua đã chốt, chỉ hình ảnh)
+	var slots_ok := true
+	var min_gap := INF
+	var prev_s := INF
+	for id in pk.finish_order:
+		var cp: TrafficSim.Car = pk.cars[id]
+		if cp.s > prev_s + 0.001:
+			slots_ok = false  # xe về đích trước phải đỗ xa hơn hoặc ngang xe về sau
+		prev_s = cp.s
+	for i in pk.cars.size():
+		for j in range(i + 1, pk.cars.size()):
+			var ca: TrafficSim.Car = pk.cars[i]
+			var cb: TrafficSim.Car = pk.cars[j]
+			# khoảng cách tâm–tâm (dọc, ngang) chuẩn hóa theo thân xe: không có hai xe chồng lên nhau
+			var overlap: bool = absf(ca.s - cb.s) < pk.L and absf(ca.y - cb.y) < pk.W
+			if overlap:
+				min_gap = 0.0
+	_check(slots_ok, "xe về đích trước đỗ xa hơn xe về sau")
+	_check(min_gap != 0.0, "không có hai xe đỗ chồng thân lên nhau")
+

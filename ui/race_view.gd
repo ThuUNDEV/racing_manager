@@ -1,34 +1,33 @@
 class_name RaceView
 extends Control
 const CleanArt = preload("res://ui/clean_modern_art.gd")
+const Diorama = preload("res://ui/race_diorama.gd")
 ## Khung đua 2D nhìn từ trên xuống. Chỉ vẽ trạng thái của TrafficSim, không chứa logic.
 ## Đường vẽ dựng từ hình học track (TrackLayout) ở cùng tỉ lệ với quãng đường sim,
-## nên vị trí, bề rộng mặt đường và độ lệch ngang của xe khớp với mô phỏng (Design/08 §3, §6).
-## Mỗi xe là một chấm tròn màu (có thể chồng lên nhau khi vượt, như bảng xếp hạng có hình ảnh); xe người chơi to hơn, viền trắng.
+## Giữ quãng đường và hình học sim; phóng đại chiều ngang đường/làn để dễ đọc trên mobile.
+## Xe đồ chơi quay theo tiếp tuyến đường, giữ nguyên vị trí và làn của TrafficSim.
 ## Phía trên là HUD lớn (hạng, đồng hồ, vòng, khoảng cách xe trước) và thanh tiến trình trải thẳng một vòng đường.
-## Nền và mặt đường vẽ bằng code theo bảng màu Racing UI HD (cỏ xanh, nhựa xanh than, lề đỏ-trắng, HUD xanh đậm).
+## Sa bàn, cây, hồ và khu pit được cache cùng mặt đường; chỉ xe và hiệu ứng vẽ mỗi khung.
 
-## Màu chấm theo id xe (khớp ui/leaderboard.gd): người chơi cam, rồi graphite, trắng, xanh, đỏ, vàng, ngọc, tím.
-const DOT_COLORS := [Color("f47510"), Color("3b3e44"), Color("ffffff"), Color("3a78d6"), Color("d1423b"), Color("f2c230"), Color("2aa5a0"), Color("8a5bd0")]
+## Màu thân xe theo id (khớp ui/leaderboard.gd): người chơi cam, rồi graphite, trắng, xanh, đỏ, vàng, ngọc, tím.
+const CAR_COLORS := [Color("f47510"), Color("3b3e44"), Color("ffffff"), Color("3a78d6"), Color("d1423b"), Color("f2c230"), Color("2aa5a0"), Color("8a5bd0")]
 const C_HUD := Color("f1f7fc")
 const C_HUD_PANEL := Color("ffffff")
 const C_HUD_TEXT := Color("23394a")
 const C_HUD_MUTED := Color("768ca0")
-const C_DOT_EDGE := Color("1d1f24")
-var income_text: String = ""   # "11,5K/s", do Main cập nhật
-const HUD_H := 78.0       # chiều cao dải HUD (px)
-const DOT_TRAIL := 4.0     # khoảng cách các chấm mờ phía sau xe (đơn vị sim)
+const HUD_H := 44.0       # chiều cao dải HUD (px)
 const C_INCOME := Color("2e9e2e")
-const C_GROUND :=Color("8fd16a")
-const C_RUNOFF := Color("72bb52")
-const C_ASPHALT := Color("3a4254")
-const C_ASPHALT2 := Color("3f4659")
+const C_GROUND := Color("dce8e9")
+const C_RUNOFF := Color("b5c99a")
+const C_ASPHALT := Color("414e59")
+const C_ASPHALT2 := Color("414e59")
 const C_LINE := Color("ffffff")
-const C_KERB_A := Color("e53935")
-const C_KERB_B := Color("ffffff")
+const C_KERB_A := Color("dd6857")
+const C_KERB_B := Color("f9e8ce")
 const C_RING := Color("ffffff")
 const C_MARK := Color("f47510")
 const MARGIN := 22.0       # lề quanh đường (đơn vị sim)
+const ROAD_WIDTH_SCALE := 1.55  # Presentation only: road and lateral positions scale together.
 const STEP := 2.0          # bước lấy mẫu khi vẽ (đơn vị sim)
 
 var sim: TrafficSim = null
@@ -47,7 +46,7 @@ const C_STAND := Color("a9b8d0")
 const C_STAND_LINE := Color("8fa0bb")
 const C_FAN := Color("3a78d6")
 const BLUE_SHARE := 0.7    # tỉ lệ khán giả mặc áo xanh của đội
-const CAP_FULL_LOG := 3.0  # log10(1 + chỗ ngồi Parking) để kín khán đài
+const FILL_CURVE := 0.8    # <1: cấp thấp tăng nhanh, cấp cao tăng chậm nhưng không bao giờ phẳng
 const FILL_MIN := 0.12
 const FACE_LIFE := 1.2     # giây tồn tại của một icon mặt
 const FACE_MAX := 10
@@ -82,15 +81,22 @@ var _track_layer: TrackLayer = null
 var _static_pts := PackedVector2Array()
 var _static_cols := PackedColorArray()
 var _static_idx := PackedInt32Array()
-var _hud_box: StyleBoxFlat = null
+var _scenery: Array = []
+var _car_outline := StyleBoxFlat.new()
 var _crowd_salt: int = 0
-var _crowd_log: float = 0.0          # log10(1 + Parking) gần nhất
+var _crowd_frac: float = 0.0         # cấp Parking / cấp tối đa, 0..1
 var _seats := PackedVector2Array()
 var _seat_r := PackedFloat32Array()
 var _seat_cols := PackedColorArray()
 var _seat_rank := PackedInt32Array()  # thứ tự lấp chỗ: seat có rank < số hiện = có người
 var _faces: Array = []                # {x, y, t (ms), happy}
 var _rng := RandomNumberGenerator.new()
+# Vào lưới: lượt mới bắt đầu, xe lăn từ phía sau vạch vào ô xuất phát thay vì hiện ngay một cụm ở lưới.
+const ARRIVE_MS := 2200.0
+const ARRIVE_LEAD := 140.0   # đơn vị sim: điểm xe bắt đầu lăn vào, phía sau ô xuất phát
+const ARRIVE_STAGGER := 0.05 # xe ở ô sau vào trễ thêm (tỉ lệ thời gian) theo từng ô
+var _arrive_sim: TrafficSim = null
+var _arrive_start_ms: int = 0
 
 
 ## Lớp nền + mặt đường tĩnh, vẽ sau lưng RaceView (show_behind_parent) và chỉ vẽ lại khi đổi kích thước/track.
@@ -105,6 +111,10 @@ class TrackLayer extends Control:
 
 func _ready() -> void:
 	clip_contents = true
+	_car_outline.bg_color = Color(1, 1, 1, 0.12)
+	_car_outline.border_color = Color("fff3d7")
+	_car_outline.set_border_width_all(1)
+	_car_outline.set_corner_radius_all(4)
 	_cache_face_textures()
 	var sm := GameData.sim()
 	_L = float(sm["car_length"])
@@ -143,10 +153,10 @@ func _on_resized() -> void:
 		return
 	var fu := _frame_units()
 	# Khung do cha cấp (co giãn theo màn): đường vừa với cả chiều rộng lẫn phần cao còn lại, căn giữa.
-	var avail := Vector2(size.x, maxf(size.y - _top, 40.0))
+	var avail := Vector2(maxf(size.x - 22.0, 8.0), maxf(size.y - _top - 23.0, 20.0))
 	_k = minf(avail.x / fu.x, avail.y / fu.y)
 	var drawn := fu * _k
-	var off := Vector2((avail.x - drawn.x) * 0.5, (avail.y - drawn.y) * 0.5)
+	var off := Vector2((avail.x - drawn.x) * 0.5 + 11.0, (avail.y - drawn.y) * 0.5 + 8.0)
 	_origin = Vector2(MARGIN * _k, MARGIN * _k) + off + Vector2(0.0, _top) - _layout.bounds.position * _k
 	_left = PackedVector2Array()
 	_right = PackedVector2Array()
@@ -155,14 +165,15 @@ func _on_resized() -> void:
 	_kerb_r = PackedVector2Array()
 	var s := 0.0
 	while s <= _layout.lap_length + 0.001:
-		var half := _layout.width_at(s) * _W * 0.5
+		var half := _road_half_at(s)
 		_mid.append(_to_px(_layout.pos_at(s)))
 		_left.append(_to_px(_layout.point_at(s, half)))
 		_right.append(_to_px(_layout.point_at(s, -half)))
-		_kerb_l.append(_to_px(_layout.point_at(s, half + 0.9)))
+		_kerb_l.append(_to_px(_layout.point_at(s, half + 1.4)))
 		_kerb_r.append(_to_px(_layout.point_at(s, -half - 0.9)))
 		s += STEP
 	_build_static_mesh()
+	_scenery = Diorama.build(_mid, _left, _board_rect(), _crowd_salt)
 	_build_crowd()
 	_ensure_track_layer()
 	_track_layer.queue_redraw()
@@ -195,7 +206,7 @@ func _build_crowd() -> void:
 			var y := HUD_H + 9.0 + 13.0 * float(row) + (_hash01(idx, 2) - 0.5) * 3.0
 			_seats.append(Vector2(x, y))
 			_seat_r.append(2.6 + 0.4 * float(row))
-			_seat_cols.append(C_FAN if _hash01(idx, 3) < BLUE_SHARE else DOT_COLORS[1 + int(_hash01(idx, 5) * 7.0) % 7])
+			_seat_cols.append(C_FAN if _hash01(idx, 3) < BLUE_SHARE else CAR_COLORS[1 + int(_hash01(idx, 5) * 7.0) % 7])
 			prio.append([absf(x - size.x * 0.5) / maxf(size.x * 0.5, 1.0) * 0.6 + _hash01(idx, 4) * 0.4 + float(STAND_ROWS - 1 - row) * 0.03, idx])
 	prio.sort_custom(func(a: Array, b: Array) -> bool: return a[0] < b[0])
 	_seat_rank.resize(_seats.size())
@@ -205,16 +216,16 @@ func _build_crowd() -> void:
 
 ## Số chỗ có người theo chỗ ngồi Parking (thang lôga; giá trị là BigNumber có thể rất lớn).
 func _seat_count() -> int:
-	var fill := clampf(_crowd_log / CAP_FULL_LOG, FILL_MIN, 1.0)
+	var fill := clampf(pow(_crowd_frac, FILL_CURVE), FILL_MIN, 1.0)
 	return int(round(float(_seats.size()) * fill))
 
 
-## Cập nhật mật độ khi cấp Parking đổi (gọi mỗi khung cũng được: không làm gì nếu không đổi).
-func set_seats(seats: BigNumber) -> void:
-	var lg := big_log10(seats.add(BigNumber.from_int(1)))
-	if is_equal_approx(lg, _crowd_log):
+## Cập nhật mật độ khi cấp Parking đổi: kín khán đài đúng ở cấp tối đa, mỗi cấp thêm vài chỗ.
+func set_parking_level(level: int, max_level: int) -> void:
+	var f := clampf(float(level) / float(maxi(max_level, 1)), 0.0, 1.0)
+	if is_equal_approx(f, _crowd_frac):
 		return
-	_crowd_log = lg
+	_crowd_frac = f
 	if _track_layer != null:
 		_track_layer.queue_redraw()
 
@@ -313,20 +324,33 @@ func _to_px(p: Vector2) -> Vector2:
 	return p * _k + _origin
 
 
-## Phần tĩnh (gọi từ TrackLayer): nền cỏ, vùng thoát, mặt đường, lề, vạch xuất phát.
+func _road_half_at(s: float) -> float:
+	return _layout.width_at(s) * _W * 0.5 * ROAD_WIDTH_SCALE
+
+
+func _car_position(s: float, lateral: float) -> Vector2:
+	return _to_px(_layout.point_at(s, lateral * ROAD_WIDTH_SCALE))
+
+
+func _bend_at(s: float) -> float:
+	return absf(angle_difference(_layout.heading_at(s - 5.0), _layout.heading_at(s + 5.0)))
+
+
+func _board_rect() -> Rect2:
+	return Rect2(5.0, _top + 3.0, maxf(size.x - 10.0, 1.0), maxf(size.y - _top - 12.0, 1.0))
+
+
+## Static scenery shares the existing cached track layer, never the per-frame car draw.
 func _draw_static(ci: CanvasItem) -> void:
-	for row in 32:
-		var t := float(row) / 31.0
-		ci.draw_rect(Rect2(0, size.y * row / 32.0, size.x, size.y / 32.0 + 1), Color("86da19").lerp(Color("54b800"), t))
-	for corner in [Vector2(18, 18), Vector2(size.x - 18, 18), Vector2(18, size.y - 22), Vector2(size.x - 18, size.y - 22)]:
-		ci.draw_circle(corner + Vector2(0, 4), 11, Color("398c0c"))
-		ci.draw_circle(corner + Vector2(-6, 0), 6, Color("70ce08"))
-		ci.draw_circle(corner + Vector2(4, -4), 8, Color("b2eb20"))
-		ci.draw_circle(corner + Vector2(9, 3), 5, Color("84d70e"))
+	Diorama.board(ci, _board_rect())
 	_draw_stand(ci)
 	if _layout == null or not _layout.valid or _left.size() < 3 or _static_idx.is_empty():
 		return
 	RenderingServer.canvas_item_add_triangle_array(ci.get_canvas_item(), _static_idx, _static_pts, _static_cols)
+	Diorama.draw_props(ci, _scenery)
+	for side: float in [-1.0, 1.0]:
+		var post := _to_px(_layout.point_at(3.0, side * (_road_half_at(0.0) + 7.0)))
+		Diorama.start_flag(ci, post, clampf(_k, 0.7, 1.15))
 
 
 func _add_quad(a: Vector2, b: Vector2, c: Vector2, d: Vector2, col: Color) -> void:
@@ -353,32 +377,54 @@ func _build_static_mesh() -> void:
 	var n := _mid.size()
 	if n < 3:
 		return
-	var max_w := 0.0
-	for w in _layout.widths:
-		max_w = maxf(max_w, w)
-	var run_half := (max_w * _W + 12.0) * 0.5
 	var s := 0.0
 	var prev_l := Vector2.ZERO
 	var prev_r := Vector2.ZERO
 	for i in n:
+		var bend := _bend_at(s)
+		var run_half := _road_half_at(s) + 6.0 + minf(bend * 16.0, 5.0)
 		var l := _to_px(_layout.point_at(s, run_half))
 		var r := _to_px(_layout.point_at(s, -run_half))
 		if i > 0:
-			_add_quad(prev_l, l, r, prev_r, C_RUNOFF)
+			_add_quad(prev_l, l, r, prev_r, Color("cfbf96") if bend > 0.13 else C_RUNOFF)
 		prev_l = l
 		prev_r = r
 		s += STEP
 	for i in n - 1:
+		_add_quad(_kerb_l[i] + Vector2(0, 1.5), _kerb_l[i + 1] + Vector2(0, 1.5), _kerb_r[i + 1] + Vector2(0, 1.5), _kerb_r[i] + Vector2(0, 1.5), Color("899780"))
+	for i in n - 1:
 		_add_quad(_left[i], _left[i + 1], _right[i + 1], _right[i], C_ASPHALT if (i / 6) % 2 == 0 else C_ASPHALT2)
 	for i in n - 1:
-		var col := C_KERB_A if (i / 2) % 2 == 0 else C_KERB_B
+		var col := C_KERB_A if (i / 4) % 2 == 0 else C_KERB_B
 		_add_line(_left[i], _left[i + 1], C_LINE, maxf(1.0, 0.35 * _k))
 		_add_line(_right[i], _right[i + 1], C_LINE, maxf(1.0, 0.35 * _k))
-		_add_line(_kerb_l[i], _kerb_l[i + 1], col, maxf(2.0, 1.4 * _k))
-		_add_line(_kerb_r[i], _kerb_r[i + 1], col, maxf(2.0, 1.4 * _k))
-	for i in range(0, n - 1, 4):
-		_add_line(_mid[i], _mid[i + 1], Color(C_LINE, 0.55), maxf(1.0, 0.3 * _k))
-	var half := _layout.width_at(0.0) * _W * 0.5
+		_add_line(_kerb_l[i], _kerb_l[i + 1], col, maxf(2.8, 2.6 * _k))
+		_add_line(_kerb_r[i], _kerb_r[i + 1], col, maxf(2.8, 2.6 * _k))
+	# Paired rubber lines follow the turn, instead of a dotted centerline everywhere.
+	for i in n - 1:
+		var distance := float(i) * STEP
+		if _bend_at(distance) > 0.13:
+			var direction := signf(angle_difference(_layout.heading_at(distance - 5.0), _layout.heading_at(distance + 5.0)))
+			for tire: float in [-0.9, 0.9]:
+				var offset := direction * _road_half_at(distance) * 0.24 + tire
+				_add_line(_to_px(_layout.point_at(distance, offset)), _to_px(_layout.point_at(distance + STEP, offset)), Color("32414b"), maxf(0.65, _k * 0.6))
+	for i in range(0, n - 3, 9):
+		if _bend_at(float(i) * STEP) < 0.05:
+			_add_line(_mid[i], _mid[i + 2], Color(C_LINE, 0.48), maxf(1.0, 0.5 * _k))
+	# Starting slots follow the same grid positions as the simulated cars.
+	var traffic: Dictionary = GameData.sim()["traffic"]
+	for slot in Balance.CAR_COUNT:
+		var row: int = slot / 2
+		var column: int = slot % 2
+		var grid_s := -(float(row) * float(traffic["grid_row_len"]) + float(column) * float(traffic["grid_col_offset_len"])) * _L
+		var grid_y := (1.0 if column == 0 else -1.0) * float(traffic["grid_col_width"]) * _W * ROAD_WIDTH_SCALE
+		var a := _to_px(_layout.point_at(grid_s - 5.0, grid_y + 2.8))
+		var b := _to_px(_layout.point_at(grid_s + 5.0, grid_y + 2.8))
+		var c := _to_px(_layout.point_at(grid_s + 5.0, grid_y - 2.8))
+		var d := _to_px(_layout.point_at(grid_s - 5.0, grid_y - 2.8))
+		for edge in [[a, b], [b, c], [c, d]]:
+			_add_line(edge[0], edge[1], Color("a7b4b5"), 0.8)
+	var half := _road_half_at(0.0)
 	var cols := int(ceil(half * 2.0 / 2.4))
 	var cell := half * 2.0 / float(cols)
 	for row in 2:
@@ -399,39 +445,57 @@ func _draw() -> void:
 		_draw_overlay_text()
 		return
 	_draw_faces()
+	if sim != _arrive_sim:
+		_arrive_sim = sim
+		_arrive_start_ms = Time.get_ticks_msec()
 	# Từ xe cuối lên xe đầu: xe dẫn đầu nằm trên khi chồng nhau; xe người chơi luôn trên cùng.
 	var order := sim.ranking()
 	order.reverse()
 	for c: TrafficSim.Car in order:
 		if not c.is_player:
-			_draw_dot(sim.render_pos(c, alpha), sim.render_lat(c, alpha), c.id, false)
+			_draw_car(sim.render_pos(c, alpha) - _arrive_offset(c), sim.render_lat(c, alpha), c.id, false)
 	var me := sim.player_car()
-	_draw_dot(sim.render_pos(me, alpha), sim.render_lat(me, alpha), 0, true)
+	_draw_car(sim.render_pos(me, alpha) - _arrive_offset(me), sim.render_lat(me, alpha), 0, true)
 	_draw_fx()
 	_draw_hud()
 	_draw_overlay_text()
 
 
-## Tâm và bán kính chấm xe người chơi (tọa độ cục bộ) cho spotlight hướng dẫn; r = 0 khi chưa có sim/track.
+## Quãng xe còn phải lăn để tới ô xuất phát (đơn vị sim, ≥ 0): giảm dần theo hàm bậc hai nên xe chậm lại khi vào ô.
+func _arrive_offset(c: TrafficSim.Car) -> float:
+	if sim == null or sim.tick_count > 0:
+		return 0.0
+	var t := float(Time.get_ticks_msec() - _arrive_start_ms) / ARRIVE_MS
+	var span := 1.0 - ARRIVE_STAGGER * float(Balance.CAR_COUNT - 1)
+	var u := clampf((t - ARRIVE_STAGGER * float(c.grid_slot)) / span, 0.0, 1.0)
+	return ARRIVE_LEAD * (1.0 - u) * (1.0 - u)
+
+
+## Tâm và bán kính bao xe người chơi (tọa độ cục bộ) cho spotlight hướng dẫn; r = 0 khi chưa có sim/track.
 func player_marker() -> Dictionary:
 	if sim == null or _layout == null or not _layout.valid:
 		return {"pos": size * 0.5, "r": 0.0}
 	var me := sim.player_car()
-	return {"pos": _to_px(_layout.point_at(sim.render_pos(me, alpha), sim.render_lat(me, alpha))), "r": _dot_radius(true)}
+	return {"pos": _car_position(sim.render_pos(me, alpha), sim.render_lat(me, alpha)), "r": _car_marker_radius(true)}
 
 
 ## Ô hạng + đồng hồ giữa HUD (tọa độ cục bộ), cùng công thức với _draw_hud.
 func hud_rank_rect() -> Rect2:
-	var pw := minf(170.0, size.x * 0.42)
-	var x := (size.x - pw) * 0.5
-	var right := hud_boost_rect_for_width(size.x).position.x - 8.0
-	return Rect2(x, 6.0, maxf(1.0, right - x), HUD_H - 12.0)
+	var available := size.x - 24.0
+	var team_width := available * 0.28
+	var rank_width := available * 0.40
+	return Rect2(12.0 + team_width, (HUD_H - 36.0) * 0.5, rank_width - 10.0, 36.0)
 
 
-## Shared bounds keep the boost and rank aligned, including on narrow phones.
+## The three HUD blocks share a 60px height and the same two text rows.
 static func hud_boost_rect_for_width(width: float) -> Rect2:
-	var button_width := clampf(width * 0.27, 80.0, 100.0)
-	return Rect2(width - button_width - 8.0, (HUD_H - 48.0) * 0.5, button_width, 48.0)
+	var button_width := (width - 24.0) * 0.32
+	return Rect2(width - button_width - 12.0, (HUD_H - 36.0) * 0.5, button_width, 36.0)
+
+
+func _hud_baseline(font: Font, font_size: int, row_top: float, row_height: float) -> float:
+	return row_top + (row_height - font.get_height(font_size)) * 0.5 + font.get_ascent(font_size)
+
 
 
 ## Nhận sự kiện mới từ sim (gọi mỗi frame). Trả về các sự kiện mới để lớp trên phát âm thanh / bảng tin.
@@ -458,14 +522,23 @@ func pump_events() -> Array:
 
 
 func _draw_fx() -> void:
+	var player_pass: Dictionary = {}
+	for event: Dictionary in _fx:
+		if String(event["type"]) == "pass" and int(event["id"]) == 0:
+			player_pass = event
 	for e: Dictionary in _fx:
 		var age: float = sim.time - float(e["t"])
 		var c: TrafficSim.Car = sim.cars[int(e["id"])]
-		var p := _to_px(_layout.point_at(sim.render_pos(c, alpha), sim.render_lat(c, alpha)))
+		var p := _car_position(sim.render_pos(c, alpha), sim.render_lat(c, alpha))
 		if String(e["type"]) == "pass":
 			if age > FX_PASS:
 				continue
 			var f := age / FX_PASS
+			if c.is_player:
+				if e != player_pass:
+					continue
+				_draw_comic_pass(p, f)
+				continue
 			var col := C_GOOD if c.is_player else (C_BAD if int(e["other"]) == 0 else C_RING)
 			draw_arc(p, _L * _k * (0.7 + 0.9 * f), 0.0, TAU, 28, Color(col, 1.0 - f), maxf(2.0, 0.55 * _k), true)
 			var up := p + Vector2(0, -_L * _k * (1.0 + 0.5 * f))
@@ -475,6 +548,32 @@ func _draw_fx() -> void:
 			var f2 := age / FX_ERROR
 			var blink := 0.55 + 0.45 * sin(age * 18.0)
 			draw_arc(p, _L * _k * 0.8, 0.0, TAU, 28, Color(C_BAD, (1.0 - f2) * blink), maxf(2.0, 0.6 * _k), true)
+
+
+## One compact callout for the latest player overtake; no invented gameplay boosts.
+func _draw_comic_pass(car_pos: Vector2, progress: float) -> void:
+	var text := I18n.t("race.overtake")
+	var font := get_theme_default_font()
+	var fs := 12
+	var half := Vector2(minf(font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x * 0.5 + 12.0, size.x * 0.42), 17.0)
+	var center := car_pos + Vector2(0, -35.0 - progress * 6.0)
+	center.x = clampf(center.x, half.x + 8.0, size.x - half.x - 8.0)
+	center.y = clampf(center.y, _top + half.y + 5.0, size.y - half.y - 8.0)
+	var opacity := clampf((1.0 - progress) * 3.0, 0.0, 1.0)
+	var polygon := PackedVector2Array()
+	for i in 20:
+		var a := TAU * float(i) / 20.0
+		polygon.append(center + Vector2(cos(a), sin(a)) * half * (1.0 if i % 2 == 0 else 0.78))
+	draw_colored_polygon(polygon, Color(Color("ffe28a"), opacity))
+	var border := polygon.duplicate()
+	border.append(polygon[0])
+	draw_polyline(border, Color(Color("586153"), opacity), 1.0, true)
+	draw_string(font, Vector2(center.x - half.x, center.y + 4), text, HORIZONTAL_ALIGNMENT_CENTER, half.x * 2, fs, Color(Color("31494c"), opacity))
+	var heading := _layout.heading_at(sim.render_pos(sim.player_car(), alpha))
+	var forward := Vector2.from_angle(heading)
+	for i in 3:
+		var tail := car_pos - forward * (10.0 + float(i) * 3.0) + forward.orthogonal() * (float(i) - 1.0) * 3.0
+		draw_line(tail, tail - forward * 6.0, Color(Color("fff1ba"), opacity), 1.5, true)
 
 
 func _draw_overlay_text() -> void:
@@ -501,35 +600,39 @@ func _draw_grid() -> void:
 		var col: int = i % 2
 		var s := -(float(row) * float(tr["grid_row_len"]) + float(col) * float(tr["grid_col_offset_len"])) * _L
 		var y := (1.0 if col == 0 else -1.0) * float(tr["grid_col_width"]) * _W
-		_draw_dot(s, y, i, i == 0)
+		_draw_car(s, y, i, i == 0)
 
 
-func _dot_radius(is_player: bool) -> float:
-	return maxf(6.0, _W * _k * 1.2) * (1.4 if is_player else 1.0)
+func _car_half_length(is_player: bool) -> float:
+	return clampf(_L * _k * 0.9, 7.0, 10.0) * (1.12 if is_player else 1.0)
 
 
-## Một xe = một chấm tròn màu có viền tối và vài chấm mờ phía sau để thấy hướng chạy / tốc độ.
-func _draw_dot(s: float, y: float, id: int, is_player: bool) -> void:
-	var col: Color = DOT_COLORS[clampi(id, 0, DOT_COLORS.size() - 1)]
+func _car_marker_radius(is_player: bool) -> float:
+	# Circumscribed car body plus the player outline, also used by tutorial spotlight.
+	return _car_half_length(is_player) * 1.25 + (2.0 if is_player else 0.0)
+
+
+## Tiny cars face the actual track tangent, including reverse bends and lane changes.
+func _draw_car(s: float, y: float, id: int, is_player: bool) -> void:
+	var col: Color = CAR_COLORS[clampi(id, 0, CAR_COLORS.size() - 1)]
 	if is_player and player_paint_id != "":
 		var pd := GameData.paint(player_paint_id)
 		if not pd.is_empty():
 			col = Color(String(pd["color"]))
-	var r := _dot_radius(is_player)
-	var p := _to_px(_layout.point_at(s, y))
-	for i in range(3, 0, -1):
-		var q := _to_px(_layout.point_at(s - DOT_TRAIL * float(i), y))
-		draw_circle(q, r * (1.0 - 0.17 * float(i)), Color(col, 0.30 - 0.07 * float(i)))
+	var p := _car_position(s, y)
+	var heading := _layout.heading_at(s)
+	if sim != null and id < sim.cars.size():
+		heading += sim.render_yaw(sim.cars[id])
+	var half_length := _car_half_length(is_player)
 	if is_player:
-		var pulse := 0.5 + 0.5 * sin(float(Time.get_ticks_msec()) * 0.006)
-		draw_arc(p, r + 3.0 + 1.5 * pulse, 0.0, TAU, 32, Color(C_RING, 0.55 + 0.45 * pulse), 2.5, true)
-	draw_circle(p, r, col)
+		var ring := Rect2(p - Vector2(half_length + 2, half_length * 0.6 + 2), Vector2(half_length * 2 + 4, half_length * 1.2 + 4))
+		draw_set_transform(p, heading)
+		draw_style_box(_car_outline, Rect2(ring.position - p, ring.size))
+		draw_set_transform(Vector2.ZERO)
+	Diorama.car(self, p, heading, half_length, col, player_decal_id if is_player else "none", CarPreview.contrast_for(player_paint_id) if is_player else Color.WHITE)
 	if is_player:
-		_draw_dot_decal(p, r, CarPreview.contrast_for(player_paint_id))
-	draw_arc(p, r, 0.0, TAU, 24, C_DOT_EDGE, 1.6 if not is_player else 2.2, true)
-	if is_player:
-		var mark := p + Vector2(0, -r - 11.0)
-		draw_colored_polygon(PackedVector2Array([mark + Vector2(-5.5, -4.0), mark + Vector2(5.5, -4.0), mark + Vector2(0, 5.0)]), C_MARK)
+		var mark := p + Vector2(0, -half_length - 6.0)
+		draw_colored_polygon(PackedVector2Array([mark + Vector2(-3.5, -2.0), mark + Vector2(3.5, -2.0), mark + Vector2(0, 3.0)]), C_MARK)
 
 
 # ---------------------------------------------------------------- HUD
@@ -544,43 +647,36 @@ func _draw_hud() -> void:
 	# Giữa: hạng và đồng hồ.
 	var panel := hud_rank_rect()
 	var pw := panel.size.x
-	if _hud_box == null:
-		_hud_box = StyleBoxFlat.new()
-		_hud_box.bg_color = C_HUD_PANEL
-		_hud_box.set_corner_radius_all(12)
-		_hud_box.set_border_width_all(2)
-	var sb := _hud_box
-	sb.border_color = C_MARK if idx == 0 else Color("46607a")
-	draw_style_box(sb, panel)
-	var rank_txt := "P%d/%d" % [idx + 1, rk.size()]
-	draw_string(font, Vector2(panel.position.x, panel.position.y + 27.0), rank_txt, HORIZONTAL_ALIGNMENT_CENTER, pw, 28, C_HUD_TEXT)
+	var main_top := panel.position.y + 1.0
+	var caption_top := panel.position.y + 21.0
+	draw_line(Vector2(panel.position.x - 5.0, panel.position.y + 12.0), Vector2(panel.position.x - 5.0, panel.end.y - 12.0), Color("dae5ed"), 1.0)
+	var rank_txt := "P%d" % [idx + 1]
+	var total_txt := "/%d" % rk.size()
+	var rank_width := font.get_string_size(rank_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 21).x
+	var total_width := font.get_string_size(total_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 18).x
+	var rank_x := panel.position.x + (pw - rank_width - total_width) * 0.5
+	var baseline := _hud_baseline(font, 21, main_top, 20.0)
+	draw_string(font, Vector2(rank_x, baseline), rank_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 21, C_HUD_TEXT)
+	draw_string(font, Vector2(rank_x + rank_width, baseline), total_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, C_HUD_MUTED)
 	var clock := Balance.fmt_clock(ceil(sim.time_left())) if sim.is_timed() else I18n.t("race.lap") % sim.lap_of(me)
-	draw_string(font, Vector2(panel.position.x, panel.position.y + 44.0), clock, HORIZONTAL_ALIGNMENT_CENTER, pw, 14, C_HUD_MUTED)
-	if income_text != "":
-		# Icon tiền + "12,6K/s": cả cụm căn giữa trong ô hạng.
-		var icon := HdUi.tex("icons/cash.png")
-		var icon_s := 16.0
-		var gap := 3.0
-		var inc_font := 13
-		while inc_font > 9 and font.get_string_size(income_text, HORIZONTAL_ALIGNMENT_LEFT, -1, inc_font).x + icon_s + gap > pw - 8.0:
-			inc_font -= 1
-		var tw := font.get_string_size(income_text, HORIZONTAL_ALIGNMENT_LEFT, -1, inc_font).x
-		var x0 := panel.position.x + (pw - (tw + icon_s + gap)) * 0.5
-		var base_y := panel.position.y + 61.0
-		if icon != null:
-			draw_texture_rect(icon, Rect2(x0, base_y - icon_s + 3.0, icon_s, icon_s), false)
-		draw_string(font, Vector2(x0 + icon_s + gap, base_y), income_text, HORIZONTAL_ALIGNMENT_LEFT, -1, inc_font, C_INCOME)
-	# Trái: ĐỘI CỦA BẠN = tổng 11 chỉ số xe + tay đua (chỉ số đã chốt lúc xuất phát khi đang đua).
-	var side := panel.position.x - 8.0
-	draw_string(font, Vector2(10.0, 22.0), I18n.t("race.team"), HORIZONTAL_ALIGNMENT_LEFT, side, 11, C_HUD_MUTED)
+	draw_string(font, Vector2(panel.position.x, _hud_baseline(font, 11, caption_top, 12.0)), clock, HORIZONTAL_ALIGNMENT_CENTER, pw, 11, C_HUD_MUTED)
+	# Team power and caption use exactly the same rows as rank and boost.
+	var side := panel.position.x - 22.0
+	var team_label := I18n.t("race.team")
+	var label_size := 10
+	while label_size > 9 and font.get_string_size(team_label, HORIZONTAL_ALIGNMENT_LEFT, -1, label_size).x > side:
+		label_size -= 1
+	draw_string(font, Vector2(12.0, _hud_baseline(font, label_size, caption_top, 12.0)), team_label, HORIZONTAL_ALIGNMENT_CENTER, side, label_size, C_HUD_MUTED)
 	if power_value > 0.0:
-		_draw_team_icon(Vector2(18.0, 38.0))
 		var power_text := format_team_power(power_value)
-		var power_width := maxf(panel.position.x - 40.0, 24.0)
-		var power_font := 22
+		var power_width := maxf(side - 24.0, 24.0)
+		var power_font := 18
 		while power_font > 12 and font.get_string_size(power_text, HORIZONTAL_ALIGNMENT_LEFT, -1, power_font).x > power_width:
 			power_font -= 1
-		draw_string(font, Vector2(34.0, 46.0), power_text, HORIZONTAL_ALIGNMENT_LEFT, power_width, power_font, C_HUD_TEXT)
+		var text_width := font.get_string_size(power_text, HORIZONTAL_ALIGNMENT_LEFT, -1, power_font).x
+		var group_x := 12.0 + (side - text_width - 24.0) * 0.5
+		_draw_team_icon(Vector2(group_x + 9.0, main_top + 8.0))
+		draw_string(font, Vector2(group_x + 24.0, _hud_baseline(font, power_font, main_top, 20.0)), power_text, HORIZONTAL_ALIGNMENT_LEFT, power_width, power_font, C_HUD_TEXT)
 
 
 
@@ -606,22 +702,3 @@ func _draw_team_icon(c: Vector2) -> void:
 	for dx: float in [-4.0, 5.0]:
 		draw_circle(c + Vector2(dx, -4.0), 3.0, C_HUD_MUTED)
 		draw_arc(c + Vector2(dx, 7.0), 5.0, PI, TAU, 10, C_HUD_MUTED, 2.0)
-
-
-
-## Decal thu gọn trên chấm xe người chơi (chỉ nhận ra hình dạng, không phải bản chi tiết ở Garage).
-func _draw_dot_decal(p: Vector2, r: float, c: Color) -> void:
-	match player_decal_id:
-		"double_stripe":
-			var w := maxf(1.6, r * 0.2)
-			for sx: float in [-0.38, 0.38]:
-				var h := sqrt(maxf(1.0 - sx * sx, 0.0)) * r * 0.92
-				draw_line(p + Vector2(sx * r, -h), p + Vector2(sx * r, h), c, w)
-		"lightning":
-			var u := r * 0.9
-			draw_colored_polygon(PackedVector2Array([p + Vector2(0.25, -1.0) * u, p + Vector2(-0.55, 0.1) * u, p + Vector2(-0.05, 0.1) * u,
-				p + Vector2(-0.3, 1.0) * u, p + Vector2(0.6, -0.2) * u, p + Vector2(0.08, -0.2) * u]), c)
-		"checker":
-			var q := r * 0.5
-			draw_rect(Rect2(p + Vector2(-q, -q), Vector2(q, q)), c)
-			draw_rect(Rect2(p, Vector2(q, q)), c)

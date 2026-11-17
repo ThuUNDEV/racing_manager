@@ -156,8 +156,20 @@
   "exit_speed": 12,
   "exit_decel": 3,
   "speed_scale": 6,
-  "draft_bonus": 0.03,
-  "draft_len": 3
+  "draft_bonus": 0.05,
+  "form_min": 0.98,
+  "form_max": 1.02,
+  "draft_min_len": 1.2,
+  "draft_ramp_len": 1.0,
+  "draft_len": 3,
+  "error_speed_factor": 0.8,
+  "error_drift": false,
+  "errors_enabled": false,
+  "squeeze_penalty": 0.0,
+  "squeeze_len": 0.9,
+  "corner_grip_per_stability": 0.0006,
+  "corner_grip_per_composure": 0.0004,
+  "corner_grip_limit": 0.03
  },
  "driver_stats": {
   "launch_accel_per_point": 0.05,

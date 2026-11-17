@@ -195,10 +195,12 @@ func setup(p_seed: int, player_stats: Dictionary, league: int = 0, p_track_id: S
 	# race_form: lấy đúng một lần mỗi xe trước xuất phát, giữ nguyên cả race.
 	for c: Car in cars:
 		c.stamina = float(STA.get("start", 100.0))
-		var lo := float(T["form_min"])
+		# Class đặt form riêng (opts.tuning) thì ưu tiên; không thì dùng form riêng của đua chính (traffic.form_min/max).
+		var class_form: bool = (opts.get("tuning", {}) as Dictionary).has("form_min")
+		var lo := float(T["form_min"]) if class_form else float(TR.get("form_min", T["form_min"]))
 		if c.trait_id == "golden":
 			lo = float(traits["golden"]["form_min"])
-		c.form = rng.randf_range(lo, float(T["form_max"]))
+		c.form = rng.randf_range(lo, float(T["form_max"]) if class_form else float(TR.get("form_max", T["form_max"])))
 		# Giãn đoàn: khuếch đại độ lệch form quanh 1,0 (chỉ TrafficSim; RaceSim v1.0 giữ nguyên làm chuẩn).
 		c.form = 1.0 + (c.form - 1.0) * float(TR.get("form_spread", 1.0))
 		# Kịch bản: bot có "form" cố định thì ghi đè (vẫn bốc RNG ở trên để các xe khác không đổi).
@@ -461,7 +463,25 @@ func _plan_lane(c: Car) -> void:
 
 ## Hiệu ứng cục bộ của đặc tính theo xe lân cận (tính từ vị trí đầu tick, trước khi ai di chuyển).
 func _neighbour_mult(c: Car) -> float:
-	return _trait_mult(c) * _draft_mult(c) * _style_mult(c)
+	return _trait_mult(c) * _draft_mult(c) * _style_mult(c) * _squeeze_mult(c)
+
+
+## Xe kẹp giữa hai xe chạy ngang hàng hai bên (ba xe cạnh nhau): bị chậm nhẹ nên tự tụt lại, ba xe không đi ngang mãi.
+func _squeeze_mult(c: Car) -> float:
+	var pen := float(TR.get("squeeze_penalty", 0.0))
+	if pen <= 0.0 or c.lane != 0:
+		return 1.0
+	var reach := float(TR.get("squeeze_len", 0.9)) * L
+	var left := false
+	var right := false
+	for o: Car in cars:
+		if o == c or o.finished or absf(_wrap(o.s - c.s)) > reach:
+			continue
+		if o.lane < 0 or o.y < -0.5 * W:
+			left = true
+		elif o.lane > 0 or o.y > 0.5 * W:
+			right = true
+	return 1.0 - pen if left and right else 1.0
 
 
 ## Hệ số racecraft: nhân độ mạnh của mọi thế vượt/giữ (chase/defend) theo chỉ số racecraft.
@@ -586,8 +606,15 @@ func _draft_mult(c: Car) -> float:
 			continue
 		var ds := o.s - c.s
 		if ds > 0.0 and ds <= reach:
+			# Chỉ hút gió khi thật sự bám đuôi: xe ngang hàng hoặc dính sát (< draft_min_len thân xe) không được cộng,
+			# nên xe sau không dính mãi vào xe trước và các xe không dồn thành chùm.
+			var lo := float(TR.get("draft_min_len", 0.0)) * L
+			var ramp := float(TR.get("draft_ramp_len", 1.0)) * L
+			var f := clampf((ds - lo) / maxf(ramp, 0.001), 0.0, 1.0) if lo > 0.0 else 1.0
+			if f <= 0.0:
+				continue
 			var dm := float((styles.get(c.style_id, {}) as Dictionary).get("draft_mult", 1.0))
-			return 1.0 + draft_bonus * dm
+			return 1.0 + draft_bonus * dm * f
 	return 1.0
 
 
@@ -648,6 +675,9 @@ func step() -> void:
 			if not DS.is_empty():
 				target *= 1.0 + c.dR * float(DS["braking_corner_per_point"])
 			target *= _corner_style_mult(c)
+			# Không còn lỗi tay đua: Ổn định (B) và Điềm tĩnh (C) giữ xe bám đường, ra cua nhanh hơn.
+			target *= clampf(1.0 + float(TR.get("corner_grip_per_stability", 0.0)) * c.dB \
+				+ float(TR.get("corner_grip_per_composure", 0.0)) * c.dC, 1.0 - float(TR.get("corner_grip_limit", 0.03)), 1.0 + float(TR.get("corner_grip_limit", 0.03)))
 		target *= c.form * float(near[c.id]) * _stamina_mult(c) * speed_scale
 		if c.trait_id == "sprint":
 			var sprinting: bool = c.laps_done >= laps - 1
@@ -657,7 +687,7 @@ func step() -> void:
 				target *= float(traits["sprint"]["last_lap_speed_mult"])
 		var unfaulted := target
 		if c.err_timer > 0.0:
-			target *= float(T["error_speed_factor"])
+			target *= float(TR.get("error_speed_factor", T["error_speed_factor"]))
 			c.err_timer = maxf(0.0, c.err_timer - dt)
 		c.free_speed = target
 
@@ -696,6 +726,8 @@ func step() -> void:
 					continue
 				if first_lap and c.trait_id == "discipline":
 					continue
+				if not bool(TR.get("errors_enabled", true)):
+					continue  # đua chuyên nghiệp: tay đua không mắc lỗi
 				var p_error := float(T["error_base"]) - float(T["error_per_stability"]) * c.dB \
 					- float(T["error_per_composure"]) * c.dC
 				if c.trait_id == "steady":
@@ -710,9 +742,10 @@ func step() -> void:
 					c.last_error_lap = lap_idx
 					events.append({"t": time, "type": "error", "id": c.id, "other": -1})
 					# Lỗi nhỏ: lệch ra phía ngoài cua vừa qua, thấy được nguyên nhân mất hạng.
-					c.drift_until = prev_time + dur
-					c.drift_dir = -float(_corner_dirs[ei])
-					c.drift_pending = true
+					if bool(TR.get("error_drift", true)):
+						c.drift_until = prev_time + dur
+						c.drift_dir = -float(_corner_dirs[ei])
+						c.drift_pending = true
 					if c.trait_id == "recovery":
 						c.recover_until = prev_time + dur + float(traits["recovery"]["duration"])
 
@@ -777,15 +810,27 @@ func _roll_out_finished(dt: float) -> void:
 			continue
 		c.prev_s = c.s
 		c.prev_y = c.y
-		if c.s >= race_length + 60.0:
+		# Mỗi xe có ô đỗ riêng theo thứ tự về đích (hai cột so le như grid): xe nhất xa nhất, mỗi hàng lùi
+		# grid_row_len thân xe. Chỉ là hình ảnh sau vạch; không ảnh hưởng hạng hay thưởng.
+		var slot := maxi(finish_order.find(c.id), 0)
+		var row: int = slot / 2
+		var col: int = slot % 2
+		var park_s: float = race_length + float(TR.get("park_front_len", 20.0)) * L \
+			- (float(row) * float(TR["grid_row_len"]) + float(col) * float(TR["grid_col_offset_len"])) * L
+		var dist := park_s - c.s
+		if dist <= 0.0:
 			c.speed = 0.0
 			c.vy = 0.0
 			continue
-		c.speed = move_toward(c.speed, float(TR["exit_speed"]) * speed_scale, float(TR["exit_decel"]) * speed_scale * dt)
-		c.s += c.speed * dt
+		# Giảm tốc đủ để dừng đúng ô (v = sqrt(2·a·khoảng cách còn lại)), không vượt tốc độ lăn ra.
+		var a := float(T["brake"]) * speed_scale
+		var v_cap := minf(float(TR["exit_speed"]) * speed_scale, sqrt(2.0 * a * dist))
+		c.speed = move_toward(c.speed, v_cap, a * dt)
+		c.s += minf(c.speed * dt, dist)
 		var hr := half_range(c.s)
+		var target_y := clampf((1.0 if col == 0 else -1.0) * float(TR["grid_col_width"]) * W, -hr, hr)
 		var lat := float(TR["lat_speed"]) * speed_scale * dt
-		var ny := c.y + clampf(-hr - c.y, -lat, lat)
+		var ny := c.y + clampf(target_y - c.y, -lat, lat)
 		c.vy = (ny - c.y) / dt
 		c.y = ny
 
