@@ -1,0 +1,16 @@
+{
+  "id": "A1_welcome",
+  "purpose": "Meet Linh and understand the goal of building a racing team.",
+  "trigger": {
+    "when": "new_game"
+  },
+  "completion": "read_all",
+  "stages": {
+    "0": {
+      "text": "@tutorial.hi_boss_our_team_has",
+      "args": [
+        "coins"
+      ]
+    }
+  }
+}

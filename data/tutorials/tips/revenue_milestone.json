@@ -1,0 +1,14 @@
+{
+  "id": "C4_star",
+  "purpose": "Understand the next revenue-star multiplier.",
+  "trigger": {
+    "condition": "near_revenue_milestone",
+    "tab": "race"
+  },
+  "completion": "acknowledge_or_condition_resolved",
+  "stages": {
+    "0": {
+      "text": "@tutorial.levels_away_from_level_earn"
+    }
+  }
+}

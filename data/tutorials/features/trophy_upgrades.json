@@ -1,0 +1,42 @@
+{
+  "id": "U2_league",
+  "name": "@data.tutorial.leagues_tab_plus_profile",
+  "nav_hint": "force",
+  "purpose": "Spend earned trophies on a real speed upgrade and observe the stat bonus before and after.",
+  "trigger": {
+    "completed_races": 2,
+    "tab": "league",
+    "wait": "affordable_trophy_upgrade"
+  },
+  "completion": "perform_action_and_acknowledge",
+  "navigation": {
+    "purpose_stage": "0",
+    "purpose_page": 0
+  },
+  "stages": {
+    "0": {
+      "text": "@data.tutorial.finish_top_3_earn_trophies",
+      "args": [
+        "cost"
+      ],
+      "roles": [
+        "purpose",
+        "action"
+      ]
+    },
+    "1": {
+      "text": "@tutorial.trophy.upgraded",
+      "args": [
+        "before",
+        "after"
+      ],
+      "roles": [
+        "observe_result"
+      ]
+    }
+  },
+  "script_version": 2,
+  "action": "trophy_upgrade",
+  "upgrade_id": "speed_tune",
+  "target": "node:Buy_speed_tune"
+}

@@ -1,0 +1,34 @@
+{
+  "id": "A4_engine",
+  "purpose": "Buy the first engine upgrade and understand when it takes effect.",
+  "trigger": {
+    "after": "A3_income",
+    "wait": "engine_affordable"
+  },
+  "completion": "engine_level_1_and_acknowledge",
+  "stages": {
+    "0": {
+      "text": "@tutorial.upgrade_engine_make_car_faster",
+      "args": [
+        "price"
+      ],
+      "roles": [
+        "purpose",
+        "action"
+      ]
+    },
+    "1": {
+      "text": "@tutorial.car_already_racing_so_upgrade",
+      "role": "complete"
+    },
+    "2": {
+      "text": "@tutorial.need_more_cash_wait_moment",
+      "role": "waiting"
+    }
+  },
+  "action": {
+    "metric": "engine_level",
+    "at_least": 1
+  },
+  "target": "tile:engine"
+}

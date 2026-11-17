@@ -1,0 +1,23 @@
+{
+  "id": "U6_garage",
+  "name": "Garage",
+  "nav_hint": "force",
+  "purpose": "Compare cars and understand that each car has its own upgrades.",
+  "trigger": {
+    "completed_races": 7,
+    "tab": "garage"
+  },
+  "completion": "read_all",
+  "navigation": {
+    "purpose_stage": "0",
+    "purpose_page": 0
+  },
+  "stages": {
+    "0": {
+      "text": "@data.tutorial.new_cars_have_higher_base",
+      "roles": [
+        "explain"
+      ]
+    }
+  }
+}

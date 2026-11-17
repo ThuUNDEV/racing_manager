@@ -1,0 +1,14 @@
+{
+  "id": "C2_trophy",
+  "purpose": "Use available trophies for an affordable upgrade.",
+  "trigger": {
+    "condition": "trophy_upgrade_affordable",
+    "tab": "any"
+  },
+  "completion": "acknowledge_or_condition_resolved",
+  "stages": {
+    "0": {
+      "text": "@tutorial.you_have_trophies_enough_upgrade"
+    }
+  }
+}

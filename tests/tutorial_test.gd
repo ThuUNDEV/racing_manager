@@ -1,5 +1,6 @@
 extends SceneTree
-## Hướng dẫn đầu game Phần A (Design/23 §4): luồng A1–A7, tự qua khi đã làm, bỏ qua, chặn khi khác tab,
+## Hướng dẫn đầu game Phần A (Design/23 §4, Design/31): luồng 6 bước (A5 Ticket đã bỏ), tự qua khi đã làm, bỏ qua, chặn khi khác tab,
+## chặn chạm ngoài vùng sáng, A4 chờ đủ tiền,
 ## giữ bảng kết quả ở A6, lưu/tiếp tục và migration save cũ. Dùng save riêng, không đụng save người chơi.
 const BigNumber = preload("res://core/math/big_number.gd")
 var failures := 0
@@ -28,7 +29,8 @@ func run() -> void:
 	GameData.reload()
 
 	print("== Logic bước ==")
-	check(Tutorial.next_of("A1_welcome") == "A2_car" and Tutorial.next_of("A7_race2") == "", "thứ tự bước A1 → A7")
+	check(Tutorial.next_of("A1_welcome") == "A2_car" and Tutorial.next_of("A4_engine") == "A6_result" and Tutorial.next_of("A7_race2") == "", "thứ tự bước A1 → A4 → A6 → A7 (không còn A5)")
+	check(not Tutorial.is_step("A5_ticket"), "A5 Ticket đã bỏ khỏi danh sách bước")
 	state.init_new_game()
 	state.active = false
 	check(state.tutorial_state() == "new" and Tutorial.should_run(state), "save mới: cần chạy hướng dẫn")
@@ -38,9 +40,12 @@ func run() -> void:
 
 	print("== Lưu, tiếp tục, migration ==")
 	state.active = true
-	check(state.set_tutorial("active", "A5_ticket") and state.save_game(), "lưu bước đang dở")
+	check(state.set_tutorial("active", "A4_engine") and state.save_game(), "lưu bước đang dở")
 	state.init_new_game()
-	check(state.load_game() == "ok" and state.tutorial_step() == "A5_ticket" and Tutorial.resume_step(state) == "A5_ticket", "tải lại: tiếp tục đúng bước")
+	check(state.load_game() == "ok" and state.tutorial_step() == "A4_engine" and Tutorial.resume_step(state) == "A4_engine", "tải lại: tiếp tục đúng bước")
+	check(state.set_tutorial("active", "A5_ticket") and state.save_game(), "lưu bước cũ A5_ticket (save trước khi bỏ Ticket)")
+	state.init_new_game()
+	check(state.load_game() == "ok" and Tutorial.resume_step(state) == "A6_result", "save dừng ở A5 cũ: tiếp tục ở A6")
 	var legacy: Dictionary = state._save_data()
 	legacy.erase("tutorial")
 	legacy["completed_races"] = 3
@@ -80,10 +85,26 @@ func run() -> void:
 	tut.blocked = false
 	check(tut.start() and tut.step == "A1_welcome" and state.tutorial_state() == "active", "bắt đầu ở A1")
 	tut._process(0.1)
-	check(tut._panel.visible and tut._text.text.begins_with("Chào Sếp") and tut._primary.text == "Bắt đầu", "A1: callout chào + nút Bắt đầu")
+	check(tut._panel.visible and tut._text.text.begins_with("Chào Sếp") and tut._primary.text == "Tiếp", "A1: Linh giới thiệu trước khi bắt đầu")
+	check(tut._has_more_pages() and tut._text.text.contains("nhận cúp"), "A1: mở đầu có mục tiêu của đội, chia nhịp thoại")
+	check((tut._blockers[0] as Control).visible and (tut._blockers[0] as Control).mouse_filter == Control.MOUSE_FILTER_STOP, "A1: chặn chạm cả màn")
+	tut._timer = 0.0
+	var tap := InputEventMouseButton.new()
+	tap.button_index = MOUSE_BUTTON_LEFT
+	tap.pressed = true
+	tut._on_block_input(tap)
+	check(tut.step == "A1_welcome", "chạm ngay lúc vừa hiện: chưa qua (tránh lỡ tay)")
+	tut._timer = 1.0
+	tut._on_block_input(tap)
+	check(tut.step == "A1_welcome" and tut._page == 1 and tut._primary.text == "Bắt đầu", "A1: đọc lời giới thiệu rồi mới tới Bắt đầu")
+	tut._on_primary()
+	check(tut.step == "A2_car", "Bắt đầu chuyển sang A2")
+	tut._enter("A1_welcome")
+	tut._process(0.1)
 	check(tut._panel.get_rect().end.x <= tut.size.x and tut._panel.position.x >= 0.0, "callout nằm trong màn 390")
 	tut._on_primary()
-	check(tut.step == "A2_car", "Bắt đầu → A2")
+	tut._on_primary()
+	check(tut.step == "A2_car", "đọc hai nhịp A1 rồi sang A2")
 	tut.blocked = true
 	tut._process(10.0)
 	check(tut.step == "A2_car" and not tut._panel.visible, "khác tab: ẩn và không tự qua")
@@ -95,27 +116,70 @@ func run() -> void:
 	tut._process(4.0)
 	check(tut.step == "A2_car", "A2 đang dừng game: không tự qua, chờ bấm Tiếp")
 	tut._on_primary()
+	tut._on_primary()
 	check(tut.step == "A3_income", "A2 → A3 khi bấm Tiếp")
 	tut._process(0.1)
-	check(tut._target.has("rect") and (tut._target["rect"] as Rect2).is_equal_approx(main._coin_bar.get_global_rect()), "A3: spotlight thanh tiền")
+	var pill := main.find_child("IncomePill", true, false) as Control
+	check(tut._target.has("rect") and (tut._target["rect"] as Rect2).is_equal_approx(pill.get_global_rect()), "A3: spotlight ô thu nhập (tiền mỗi giây)")
+	await settle()
+	tut._process(0.01)
+	check(tut._panel.position.y >= pill.get_global_rect().end.y - 1.0, "A3: callout nằm dưới ô thu nhập, không che")
 	tut._process(3.0)
 	check(tut.step == "A3_income" and tut.wants_pause(), "A3 đang dừng game: không tự qua")
 	tut._on_primary()
-	check(tut.step == "A4_engine", "A3 → A4 khi bấm Tiếp")
 	tut._process(0.1)
+	check(tut.sub == 1 and tut._text.text.contains("Ticket Marketing"), "A3: chỉ nhóm Doanh thu và giải thích yếu tố tăng thu nhập")
+	tut._on_primary()
+	tut._on_primary()
+	tut._process(0.1)
+	check(tut.sub == 2 and tut._hand.visible and not tut._primary.visible and tut._block_mode() == "hole", "A3: yêu cầu mua Ticket Marketing thật")
+	tut._on_primary()
+	check(tut.sub == 2, "A3: không thể bấm Tiếp để bỏ qua thao tác")
+	var income_before := Balance.fmt_rate(state.total_online_rate())
+	check(state.buy("ticket"), "A3: mua một lần Ticket Marketing")
+	tut._process(0.1)
+	check(tut.sub == 3 and tut._text.text.contains(income_before + " → ") and not tut._hand.visible, "A3: hiện thu nhập trước/sau sau khi nâng thành công")
+	check((tut._target["rect"] as Rect2).is_equal_approx(pill.get_global_rect()), "A3: spotlight quay về ô thu nhập")
+	tut._on_primary()
+	tut._on_primary()
+	check(tut.step == "A4_engine", "A3: trải nghiệm tăng thu nhập xong mới sang nâng Động cơ")
+	tut._process(0.1)
+	check(not tut._hand.visible and tut._primary.visible and tut._block_mode() == "all", "A4: giải thích mục đích trước, chưa cho mua")
+	tut._on_primary()
 	check(tut._hand.visible and not tut._primary.visible, "A4: bàn tay chỉ nút mua, không có nút Tiếp")
+	var hole: Rect2 = (tut._target["rect"] as Rect2).grow(6.0)
+	var covered := 0
+	for b: Control in tut._blockers:
+		if b.visible:
+			covered += 1
+			check(not b.get_rect().intersects(hole.grow(-1.0)), "A4: tấm chặn không đè vùng mục tiêu")
+	check(covered == 4, "A4: bốn tấm chặn quanh ô Động cơ")
 	tut._on_primary()
 	check(tut.step == "A4_engine", "A4 chỉ qua bằng thao tác mua thật")
+	var saved_coins = state.coins
+	state.coins = BigNumber.zero()
+	tut._process(0.1)
+	check(not tut._panel.visible and not tut.wants_pause(), "A4: chưa đủ tiền: không hiện callout, không dừng game")
+	check(not (tut._blockers[0] as Control).visible, "A4: chưa đủ tiền: không chặn chạm")
+	tut._money_wait = Tutorial.MONEY_WAIT_SEC - 0.5
+	tut._process(1.0)
+	check(tut.sub == 2 and tut._panel.visible and tut._text.text.contains("thiếu chút tiền") and not tut.wants_pause(), "A4: chờ quá lâu: nhắc một lần, không dừng game")
+	tut._process(Tutorial.AFTER_SEC + 1.5)
+	tut._process(0.01)
+	check(tut.sub == 0 and not tut._panel.visible, "A4: hết nhắc, chờ im lặng")
+	tut._process(Tutorial.MONEY_WAIT_SEC + 1.0)
+	check(tut.sub == 0 and not tut._panel.visible, "A4: chỉ nhắc một lần")
+	state.coins = saved_coins
+	tut._process(0.1)
+	check(tut._panel.visible and tut.sub == 0 and tut.wants_pause(), "A4: đủ tiền: hiện lời chỉ nút mua, dừng game")
 	check(state.buy("engine"), "mua Động cơ")
 	tut._process(0.1)
 	check(tut.sub == 1 and tut._text.text.contains("lượt sau") and not tut._hand.visible, "A4: báo áp dụng từ lượt sau")
-	tut._process(3.0)
-	check(tut.step == "A5_ticket", "A4 → A5")
-	check(state.buy("ticket"), "mua Ticket Marketing")
-	tut._process(0.1)
-	check(tut.sub == 1 and tut._text.text.contains("ngay"), "A5: doanh thu có hiệu lực ngay")
-	tut._process(3.0)
-	check(tut.step == "A6_result", "A5 → A6")
+	check(not (tut._blockers[0] as Control).visible, "A4 câu phụ: không chặn chạm")
+	tut._process(10.0)
+	check(tut.step == "A4_engine", "câu sau nâng không tự mất khi đang đọc")
+	tut._on_primary()
+	check(tut.step == "A6_result", "A4 → A6 (một ô nâng cấp)")
 	tut._process(0.1)
 	check(not tut._panel.visible, "A6 chờ kết quả lượt, không hiện callout")
 
@@ -147,13 +211,16 @@ func run() -> void:
 		guard += 1
 	tut._process(0.1)
 	check(tut._panel.visible and tut._text.text.contains("→"), "A7: Power trước → sau")
-	tut._process(3.0)
-	check(tut.sub == 1 and tut._text.text.contains("sức mạnh của cả đội") and tut.wants_pause(), "A7 giải thích Power, dừng game chờ bấm Tiếp")
+	tut._on_primary()
+	tut._process(0.1)
+	check(tut.sub == 1 and tut._text.text.contains("sức mạnh tổng hợp") and tut.wants_pause(), "A7 giải thích Power, dừng game chờ bấm Tiếp")
 	tut._process(5.0)
 	check(tut.sub == 1, "câu giải thích Power không tự qua")
 	tut._on_primary()
+	tut._on_primary()
 	tut._process(0.1)
-	check(tut.sub == 2 and tut._primary.text == "Rõ rồi!" and not tut.wants_pause(), "A7 câu kết")
+	check(tut.sub == 2 and tut._primary.text == "Tiếp" and not tut.wants_pause(), "A7 câu kết")
+	tut._on_primary()
 	tut._on_primary()
 	check(not tut.running and state.tutorial_state() == "done" and not tut._panel.visible, "hoàn tất Phần A")
 	check(not tut.start(), "đã xong thì không chạy lại")
@@ -173,7 +240,7 @@ func run() -> void:
 	state.tutorial = {"state": "active", "step": "A4_engine", "power_before": 0.0}
 	check(tut.start() and tut._resumed, "tiếp tục bước dở")
 	tut._process(0.1)
-	check(tut.sub == 1 and tut._text.text.begins_with("Mình tiếp tục"), "đã nâng Động cơ từ trước: A4 tự qua, có câu tiếp tục")
+	check(tut.sub == 1 and tut._text.text.begins_with("Sếp quay lại"), "đã nâng Động cơ từ trước: A4 tự qua, có câu tiếp tục")
 	for width in [320, 412]:
 		root.size = Vector2i(width, 844)
 		await settle()

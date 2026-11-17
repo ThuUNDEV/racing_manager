@@ -1,101 +1,26 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
+  "onboarding": [
+    "res://data/tutorials/onboarding/welcome.json",
+    "res://data/tutorials/onboarding/race_view.json",
+    "res://data/tutorials/onboarding/income.json",
+    "res://data/tutorials/onboarding/engine_upgrade.json",
+    "res://data/tutorials/onboarding/race_result.json",
+    "res://data/tutorials/onboarding/team_power.json"
+  ],
   "features": [
-    {
-      "id": "U2_league",
-      "name": "@data.tutorial.leagues_tab_plus_profile",
-      "races": 2,
-      "tab": "league",
-      "intro": [
-        "@data.tutorial.finish_top_3_earn_trophies"
-      ]
-    },
-    {
-      "id": "U4_shop",
-      "name": "Shop",
-      "races": 3,
-      "tab": "shop",
-      "target": "node:ClaimDaily",
-      "action": "daily",
-      "intro": [
-        "@data.tutorial.there_free_gift_shop_every",
-        "@data.tutorial.come_back_tomorrow_boss"
-      ]
-    },
-    {
-      "id": "U3_bag",
-      "name": "@data.tutorial.gear_bag",
-      "races": 4,
-      "tab": "shop",
-      "gift": {
-        "gear_coupon": {
-          "standard": 1
-        }
-      },
-      "target": "node:ShopOpen_gear_standard_x1",
-      "action": "gear_pack",
-      "intro": [
-        "@data.tutorial.gear_boosts_driver_stats_open",
-        "@data.tutorial.duplicates_turn_into_shards_with"
-      ]
-    },
-    {
-      "id": "U5_drivers",
-      "name": "@data.tutorial.recruit_drivers",
-      "races": 5,
-      "tab": "shop",
-      "gift": {
-        "driver_coupon": {
-          "pro": 1
-        }
-      },
-      "target": "node:ShopOpen_driver_pro_x1",
-      "action": "driver_pack",
-      "intro": [
-        "@data.tutorial.every_driver_has_their_own",
-        "@data.tutorial.pick_new_driver_next_race"
-      ]
-    },
-    {
-      "id": "U6_garage",
-      "name": "Garage",
-      "races": 7,
-      "tab": "garage",
-      "intro": [
-        "@data.tutorial.new_cars_have_higher_base"
-      ]
-    },
-    {
-      "id": "U7_class",
-      "name": "@data.tutorial.class_discipline",
-      "races": 10,
-      "tab": "race",
-      "target": "node:ClassButton",
-      "intro": [
-        "@data.tutorial.each_discipline_favors_different_stats"
-      ]
-    }
+    "res://data/tutorials/features/trophy_upgrades.json",
+    "res://data/tutorials/features/first_gear_pack.json",
+    "res://data/tutorials/features/gear_bag.json",
+    "res://data/tutorials/features/first_driver_pack.json",
+    "res://data/tutorials/features/garage.json",
+    "res://data/tutorials/features/race_classes.json"
   ],
   "tips": [
-    {
-      "id": "C1_offline",
-      "tab": "any"
-    },
-    {
-      "id": "C2_trophy",
-      "tab": "any"
-    },
-    {
-      "id": "C6_weaker",
-      "tab": "team"
-    },
-    {
-      "id": "C5_shards",
-      "tab": "bag"
-    },
-    {
-      "id": "C4_star",
-      "tab": "race"
-    }
+    "res://data/tutorials/tips/offline_income.json",
+    "res://data/tutorials/tips/enough_trophies.json",
+    "res://data/tutorials/tips/stronger_driver.json",
+    "res://data/tutorials/tips/gear_shards.json",
+    "res://data/tutorials/tips/revenue_milestone.json"
   ]
 }

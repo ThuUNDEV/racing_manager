@@ -1,0 +1,32 @@
+{
+  "id": "A6_result",
+  "purpose": "Understand race prize money and the top-three trophy reward.",
+  "trigger": {
+    "after": "A4_engine",
+    "wait": "race_result"
+  },
+  "completion": "acknowledge_result",
+  "stages": {
+    "0": {
+      "variants": {
+        "top3": {
+          "text": "@tutorial.finished_p_cash_prize_went",
+          "args": [
+            "position",
+            "money"
+          ]
+        },
+        "other": {
+          "text": "@tutorial.finished_p_everyone_nervous_their",
+          "args": [
+            "position",
+            "money"
+          ]
+        }
+      }
+    },
+    "1": {
+      "text": "@tutorial.finish_top_3_earn_trophies"
+    }
+  }
+}

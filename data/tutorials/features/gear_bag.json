@@ -1,0 +1,23 @@
+{
+  "id": "U3_bag",
+  "name": "@data.tutorial.gear_bag",
+  "nav_hint": "force",
+  "purpose": "Understand duplicate shards and where to upgrade owned gear.",
+  "trigger": {
+    "completed_races": 4,
+    "tab": "bag"
+  },
+  "completion": "read_all",
+  "navigation": {
+    "purpose_stage": "0",
+    "purpose_page": 0
+  },
+  "stages": {
+    "0": {
+      "text": "@data.tutorial.bag_holds_gear_upgrade",
+      "roles": [
+        "explain"
+      ]
+    }
+  }
+}

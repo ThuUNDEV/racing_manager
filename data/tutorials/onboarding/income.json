@@ -1,0 +1,45 @@
+{
+  "id": "A3_income",
+  "purpose": "Find the income indicator, understand its modifiers, buy one revenue upgrade and observe the real before/after rate.",
+  "trigger": {
+    "after": "A2_car"
+  },
+  "completion": "revenue_upgrade_and_acknowledge",
+  "stages": {
+    "0": {
+      "text": "@tutorial.crowd_pays_cash_per_second",
+      "args": [
+        "rate"
+      ],
+      "role": "locate"
+    },
+    "1": {
+      "text": "@tutorial.income.sources",
+      "role": "explain_modifiers"
+    },
+    "2": {
+      "text": "@tutorial.income.upgrade",
+      "args": [
+        "price"
+      ],
+      "role": "action"
+    },
+    "3": {
+      "text": "@tutorial.income.increased",
+      "args": [
+        "before",
+        "after"
+      ],
+      "role": "observe_result"
+    },
+    "4": {
+      "text": "@tutorial.income.waiting",
+      "role": "waiting"
+    }
+  },
+  "action": {
+    "metric": "ticket_level_increase",
+    "kind": "ticket"
+  },
+  "target": "tile:ticket"
+}

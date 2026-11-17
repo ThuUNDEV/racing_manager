@@ -256,6 +256,8 @@ Theo yêu cầu, game không còn **mùa / 5 chặng**. Thay bằng **thanh đi�
 
 ## 14. Trạng thái triển khai Phần A (12/11/2026)
 
+> **Cập nhật 16/11/2026 ([31](31_Tutorial_Improvements.md)):** đã bỏ A5 Ticket (còn 6 bước, id A6/A7 giữ nguyên), lời thoại rút ngắn, A4 chờ đủ tiền, lớp phủ chặn chạm ngoài vùng sáng, A2 có vòng quanh xe, A3 sáng ô thu nhập, thêm bước chỉ tab khi tính năng mới mở. Các mô tả A4/A5/A6/A7 bên dưới là lịch sử.
+
 Đã làm A1–A7 trong Godot:
 
 - `game/tutorial.gd` (`class_name Tutorial`): thứ tự bước, điều kiện tự qua (A4: `level_of("engine") ≥ 1`, A5: `level_of("ticket") ≥ 1`), thời gian tự qua (A2 4 giây, A3 3 giây, câu phụ 3 giây), lời thoại có chèn số thật.

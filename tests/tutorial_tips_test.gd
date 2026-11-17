@@ -173,6 +173,8 @@ func run() -> void:
 	state.levels["ticket"] = 23
 	state.completed_races = 1
 	state.tutorial["tips_seen"] = []
+	for reset_tip: Dictionary in Tutorial.tips():
+		(state.tutorial.get("lessons", {}) as Dictionary).erase(reset_tip["id"])
 	state.tutorial["tips_last"] = -1
 	main._pump_intro()
 	check(tut.intro == "C4_star", "hiện lại để thử Đã hiểu")
@@ -192,9 +194,14 @@ func run() -> void:
 
 	print("== Ưu tiên và cài đặt ==")
 	state.tutorial["tips_seen"] = []
+	for reset_tip: Dictionary in Tutorial.tips():
+		(state.tutorial.get("lessons", {}) as Dictionary).erase(reset_tip["id"])
 	state.tutorial["tips_last"] = -1
 	state.tutorial["offline_shown"] = false  # để C4 là mẹo duy nhất đủ điều kiện
 	state.tutorial["gated"] = true
+	for feature: Dictionary in Tutorial.features():
+		if feature["id"] != "U7_class":
+			state.complete_lesson(feature["id"])  # chỉ để lại Class để kiểm tra ưu tiên với mẹo
 	state.completed_races = 10
 	main._lock_sig = ""
 	main._refresh_light()
@@ -206,6 +213,8 @@ func run() -> void:
 	tut._on_primary()
 	state.tutorial["gated"] = false
 	state.tutorial["tips_seen"] = []
+	for reset_tip: Dictionary in Tutorial.tips():
+		(state.tutorial.get("lessons", {}) as Dictionary).erase(reset_tip["id"])
 	main._show_settings()
 	check(main._overlay_box.find_child("TipsToggle", true, false) == null, "Cài đặt không còn công tắc mẹo")
 	var lang_btn := main._overlay_box.find_child("LanguageButton", true, false) as Button

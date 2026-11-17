@@ -1,0 +1,38 @@
+{
+  "id": "U5_drivers",
+  "name": "@data.tutorial.recruit_drivers",
+  "gift": {
+    "driver_coupon": {
+      "pro": 1
+    }
+  },
+  "target": "node:ShopOpen_driver_pro_x1",
+  "action": "driver_pack",
+  "nav_hint": "force",
+  "purpose": "Recruit a driver with the gifted coupon and find the roster.",
+  "trigger": {
+    "completed_races": 5,
+    "tab": "shop"
+  },
+  "completion": "perform_action_and_acknowledge",
+  "navigation": {
+    "purpose_stage": "0",
+    "purpose_page": 0
+  },
+  "stages": {
+    "0": {
+      "text": "@data.tutorial.every_driver_has_their_own",
+      "roles": [
+        "purpose",
+        "action"
+      ]
+    },
+    "1": {
+      "text": "@data.tutorial.pick_new_driver_next_race",
+      "roles": [
+        "complete"
+      ]
+    }
+  },
+  "action_metric": "driver_open_count"
+}

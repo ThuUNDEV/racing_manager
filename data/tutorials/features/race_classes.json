@@ -1,0 +1,24 @@
+{
+  "id": "U7_class",
+  "name": "@data.tutorial.class_discipline",
+  "target": "node:ClassButton",
+  "nav_hint": "force",
+  "purpose": "Understand the stat priorities of different race disciplines.",
+  "trigger": {
+    "completed_races": 10,
+    "tab": "race"
+  },
+  "completion": "read_all",
+  "navigation": {
+    "purpose_stage": "0",
+    "purpose_page": 0
+  },
+  "stages": {
+    "0": {
+      "text": "@data.tutorial.each_discipline_favors_different_stats",
+      "roles": [
+        "explain"
+      ]
+    }
+  }
+}

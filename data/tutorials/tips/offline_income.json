@@ -1,0 +1,14 @@
+{
+  "id": "C1_offline",
+  "purpose": "Understand the income earned while away.",
+  "trigger": {
+    "condition": "offline_report_closed",
+    "tab": "any"
+  },
+  "completion": "acknowledge_or_condition_resolved",
+  "stages": {
+    "0": {
+      "text": "@tutorial.while_you_re_away_team"
+    }
+  }
+}

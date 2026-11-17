@@ -1,0 +1,24 @@
+{
+  "id": "A7_race2",
+  "purpose": "See the upgrade applied and understand team Power.",
+  "trigger": {
+    "after": "A6_result",
+    "wait": "race_start"
+  },
+  "completion": "read_all",
+  "stages": {
+    "0": {
+      "text": "@tutorial.new_engine_car_team_power",
+      "args": [
+        "before",
+        "after"
+      ]
+    },
+    "1": {
+      "text": "@tutorial.power_explained"
+    },
+    "2": {
+      "text": "@tutorial.from_now_you_run_things"
+    }
+  }
+}

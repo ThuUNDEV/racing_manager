@@ -1,0 +1,38 @@
+{
+  "id": "U4_shop",
+  "name": "Shop",
+  "gift": {
+    "gear_coupon": {
+      "standard": 1
+    }
+  },
+  "target": "node:ShopOpen_gear_standard_x1",
+  "action": "gear_pack",
+  "nav_hint": "force",
+  "purpose": "Spend the gifted coupon to open one gear pack and understand its Power bonus.",
+  "trigger": {
+    "completed_races": 3,
+    "tab": "shop"
+  },
+  "completion": "perform_action_and_acknowledge",
+  "navigation": {
+    "purpose_stage": "0",
+    "purpose_page": 0
+  },
+  "stages": {
+    "0": {
+      "text": "@data.tutorial.gear_boosts_driver_stats_open",
+      "roles": [
+        "purpose",
+        "action"
+      ]
+    },
+    "1": {
+      "text": "@data.tutorial.duplicates_turn_into_shards_with",
+      "roles": [
+        "complete"
+      ]
+    }
+  },
+  "action_metric": "gear_open_count"
+}

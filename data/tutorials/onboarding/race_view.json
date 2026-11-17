@@ -1,0 +1,13 @@
+{
+  "id": "A2_car",
+  "purpose": "Identify our car and learn how to follow its race position.",
+  "trigger": {
+    "after": "A1_welcome"
+  },
+  "completion": "read_all",
+  "stages": {
+    "0": {
+      "text": "@tutorial.this_race_window_glowing_dot"
+    }
+  }
+}

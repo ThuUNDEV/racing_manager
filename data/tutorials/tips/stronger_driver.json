@@ -1,0 +1,14 @@
+{
+  "id": "C6_weaker",
+  "purpose": "Find an owned driver with stronger total stats.",
+  "trigger": {
+    "condition": "stronger_owned_driver",
+    "tab": "team"
+  },
+  "completion": "acknowledge_or_condition_resolved",
+  "stages": {
+    "0": {
+      "text": "@tutorial.stronger_than_current_driver_pick"
+    }
+  }
+}
