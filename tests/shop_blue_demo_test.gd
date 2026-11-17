@@ -70,19 +70,25 @@ func run() -> void:
 	var scroll: ScrollContainer = main._shop_box.get_parent()
 	for i in 5:
 		var art: TextureRect = shop.find_child("GemArt_gems_pack_%d" % (i + 1), true, false)
-		var atlas := art.texture as AtlasTexture
-		check(atlas != null and atlas.atlas.resource_path == "res://assets/shop_blue_white/items.png" and atlas.region.size.x >= 220 and atlas.region.size.y >= 220, "gem icon uses the complete high resolution source %d" % (i + 1))
+		check(art.texture.resource_path == "res://assets/shop_blue_white/match/gem_%d.png" % (i + 1) and art.texture.get_width() >= 100, "gem silhouette comes from the reference, without baked quantities %d" % (i + 1))
 		var buy: Button = shop._iap_buttons["gems_pack_%d" % (i + 1)]["button"]
-		check(art.position.y + art.size.y < buy.position.y, "gem art stays clear of its price button %d" % (i + 1))
+		check(art.get_global_rect().end.y <= buy.face.get_global_rect().position.y + 1, "gem art stays clear of its price button %d" % (i + 1))
+	for sku in ["daily_gear", "daily_driver"]:
+		var quantity: Label = shop._offer_cards[sku].find_child("PackQuantity", true, false)
+		var expected := ""
+		for reward: Dictionary in shop.PackUi.rewards(GameData.iap_product(sku)):
+			if String(reward["icon"]).ends_with("_pack"):
+				expected = String(reward["value"])
+		check(quantity != null and quantity.text == expected, "daily quantity is rendered from catalog " + sku)
 	check(main._shop_chrome.get_node("ShopTitle") != null and main.find_child("ShopFilters", true, false) == null, "Shop has a fixed title and no category tabs")
-	for width in [320, 390, 412]:
+	for width in [320, 390, 412, 448]:
 		root.size = Vector2i(width, 844)
 		scroll.scroll_vertical = 0
 		await settle()
 		check(shop.size.x <= scroll.size.x + 1, "page fits %d" % width)
 		check(not shop._starter_steps["starter_1"].is_visible_in_tree(), "demo has one starter banner without an extra tabs row")
 		check(shop._offer_cards["starter_1"].is_visible_in_tree() and shop._gem_grid.is_visible_in_tree() and shop._cash_grid.is_visible_in_tree(), "offers and currencies share one visible list")
-		check(absf(scroll.position.y - width * 155.0 / 600.0) < 1, "removed tabs leave no empty row")
+		check(absf(scroll.position.y - width * 73.0 / 600.0) < 1, "content starts at the existing shell scroll boundary")
 		var chrome_at: Vector2 = main._shop_chrome.global_position
 		for sku: String in shop._offer_cards:
 			var card: Control = shop._offer_cards[sku]

@@ -34,7 +34,7 @@ func run() -> void:
 	settings_button.pressed.emit()
 	await settle()
 	var toggles: Array = main._overlay_box.find_children("*", "CheckButton", true, false)
-	check(main._overlay.visible and toggles.size() == 3, "Settings button opens audio and tips controls")
+	check(main._overlay.visible and main._overlay_box.find_child("MusicToggle", true, false) != null and main._overlay_box.find_child("SfxToggle", true, false) != null, "Settings button opens the current music and sound controls")
 	toggles[0].button_pressed = false
 	toggles[1].button_pressed = false
 	check(not main._music_on and not main._sfx_on, "Settings controls disable music and sound effects")
@@ -69,6 +69,8 @@ func run() -> void:
 	check(main._overlay.visible, "Upcoming offer opens details")
 	check(state.gems == gems_after and state.coins.to_save() == coins_before, "Upcoming offer does not change wallets")
 	main._overlay.hide()
+	check(shop.find_child("FreeGemBanner", true, false).get_index() < shop._offer_cards["daily_gear"].get_parent().get_index(), "Free gem banner precedes daily packs")
+	check(shop._pack_heading.get_index() > shop._cash_grid.get_index(), "Pack-opening controls follow the reference catalog")
 	check(shop._gem_grid.get_child_count() == 6, "Free gem card + five real IAP gem packs shown")
 	var iap: Node = root.get_node("Iap")
 	var mock := MockIapProvider.new()
@@ -94,7 +96,7 @@ func run() -> void:
 	state.save_blocked = false
 	check(not state.grant_iap("no_such_sku", "x") and state.gems == gems_blocked, "Unknown SKU rejected")
 	check((shop.find_child("RestorePurchases", true, false) as Button).visible, "Restore button visible when the store supports it")
-	for width in [320, 390, 412]:
+	for width in [320, 390, 412, 448]:
 		root.size = Vector2i(width, 844)
 		await settle()
 		check(shop.size.x <= scroll.size.x + 1, "Shop fits viewport %d without horizontal overflow" % width)

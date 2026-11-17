@@ -1,0 +1,192 @@
+{
+  "source": "../demo_reference.png",
+  "source_sha256": "b553811eb987ad37ed212e4c1f20fbcf9471b758898b56505a1eee122f7d3494",
+  "method": "Reference crops with foreground masks; gem quantities are removed and rendered from catalog. Rebuild with tools/build_shop_match_assets.py.",
+  "regions": {
+    "gem_1": [
+      661,
+      630,
+      107,
+      62
+    ],
+    "gem_2": [
+      839,
+      630,
+      122,
+      65
+    ],
+    "gem_3": [
+      1027,
+      628,
+      113,
+      77
+    ],
+    "gem_4": [
+      659,
+      785,
+      122,
+      79
+    ],
+    "gem_5": [
+      829,
+      783,
+      147,
+      83
+    ],
+    "cash_small": [
+      676,
+      1015,
+      81,
+      59
+    ],
+    "cash_medium": [
+      842,
+      1009,
+      116,
+      66
+    ],
+    "cash_large": [
+      1012,
+      1006,
+      138,
+      70
+    ],
+    "starter_portrait": [
+      38,
+      267,
+      212,
+      194
+    ],
+    "starter_badge": [
+      22,
+      262,
+      82,
+      76
+    ],
+    "income_x2_art": [
+      50,
+      484,
+      177,
+      125
+    ],
+    "income_x2_multiplier": [
+      233,
+      520,
+      152,
+      87
+    ],
+    "no_ads_art": [
+      65,
+      643,
+      133,
+      101
+    ],
+    "gift": [
+      62,
+      1104,
+      112,
+      94
+    ],
+    "driver_coupon": [
+      326,
+      329,
+      59,
+      42
+    ],
+    "gear_coupon": [
+      402,
+      326,
+      59,
+      43
+    ],
+    "elite_gear": [
+      369,
+      865,
+      58,
+      52
+    ],
+    "shard_my": [
+      212,
+      860,
+      69,
+      62
+    ],
+    "shard_lam": [
+      212,
+      1004,
+      69,
+      62
+    ],
+    "daily_gear": [
+      641,
+      435,
+      108,
+      83
+    ],
+    "daily_driver": [
+      914,
+      434,
+      115,
+      82
+    ],
+    "first_bonus": [
+      625,
+      598,
+      126,
+      47
+    ],
+    "coming_soon": [
+      625,
+      987,
+      95,
+      49
+    ],
+    "free_ribbon": [
+      621,
+      211,
+      129,
+      85
+    ],
+    "char_my": [
+      40,
+      817,
+      155,
+      132
+    ],
+    "char_lam": [
+      40,
+      960,
+      155,
+      124
+    ]
+  },
+  "runtime_surface": {
+    "implementation": "ui/shop_demo_skin.gd:reference_surface",
+    "source": "demo_reference.png card silhouettes and sampled blue/white palette",
+    "gradient": [
+      "#ceeafb",
+      "#ffffff"
+    ],
+    "free_gradient": [
+      "#a1e4f9",
+      "#c8effc"
+    ],
+    "border": "#6db4ef",
+    "border_design_px": 2.5,
+    "radius_design_px": 17
+  },
+  "surfaces": {
+    "buy_match.svg": {
+      "source": "Authored SVG following the reference palette, border and rounded silhouette",
+      "sha256": "8ab639c2f3e8fa710b82f85d562a849b1f215da5de5208e0aab7e3ed4ab657b4"
+    },
+    "action_match.svg": {
+      "source": "Authored SVG following the reference palette, border and rounded silhouette",
+      "sha256": "457c40ebbda10c3d309e00158719a1c3f32b3675ebfce467057b7644f34e5405"
+    },
+    "section_match.svg": {
+      "source": "Authored SVG following the reference palette, border and rounded silhouette",
+      "sha256": "5ed2d5f61c8832b32e850bea13349338dc80d74cd41bd24d96fb8b0629583362"
+    }
+  }
+}

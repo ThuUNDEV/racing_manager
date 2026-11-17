@@ -6,8 +6,8 @@ extends SceneTree
 ##   godot --path . -s tests/shop_snapshot_test.gd                       compare
 ##   godot --path . -s tests/shop_snapshot_test.gd -- --update-golden    rewrite goldens
 ## Needs a real renderer; under --headless it prints SKIP and passes.
-const WIDTHS := [320, 390, 412]
-const SCROLLS := [0, 700, 1500]
+const WIDTHS := [320, 390, 412, 448]
+const SCROLLS := [0, 400, 700, 800, 1500]
 const GOLDEN_DIR := "res://tests/golden/"
 ## A pixel counts as different when any channel moves by more than this (0-1).
 const CHANNEL_TOLERANCE := 0.06

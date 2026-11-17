@@ -42,6 +42,8 @@ func run() -> void:
 	var b := main.find_child("ShopOpen_gear_standard_x1", true, false) as Button
 	check(b != null, "tìm thấy nút mở gói phụ kiện")
 	if b != null:
+		var gem_icon := b.find_child("PaymentIcon", true, false) as TextureRect
+		check(gem_icon != null and gem_icon.texture != null and gem_icon.texture.resource_path.ends_with("sprites/gem_single.tres"), "thanh toán gem vẫn có icon gem")
 		b.pressed.emit()
 		await settle()
 		check(int(state.gear_open_count) > before or state.gems < 5000, "mở gói phụ kiện từ Shop có hiệu lực (gem hoặc lượt đổi)")
@@ -59,6 +61,14 @@ func run() -> void:
 		check(main._overlay.visible, "nút i mở bảng tỉ lệ")
 	# Lối tắt từ Gear và Team sang Shop.
 	state.grant_gear_coupons("standard", 1)
+	main._select_tab(main.Tab.SHOP)
+	main._shop_content.update_packs()
+	await settle()
+	var coupon_button := main.find_child("ShopOpen_gear_standard_x1", true, false) as Button
+	var payment_icon := coupon_button.find_child("PaymentIcon", true, false) as TextureRect
+	check(payment_icon != null and payment_icon.texture != null, "nút dùng coupon có icon thanh toán")
+	if payment_icon != null and payment_icon.texture != null:
+		check(payment_icon.texture.resource_path.ends_with("crops/gear_coupon.png"), "coupon dùng đúng ảnh vé, không hiển thị như giá gem")
 	for tab in [1, 2]:
 		main._select_tab(tab)
 		if tab == 2:

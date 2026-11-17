@@ -29,3 +29,14 @@ Kiểm tra: `tests/shop_blue_demo_test.gd`, `tests/shop_ui_test.gd`, `tests/shop
 ## Sửa icon Gem
 
 Năm gói Gem và ô Gem miễn phí dùng các sprite RGBA đầy đủ từ `items.png` (vùng nguồn rộng 262–338 px), không cắt icon từ ảnh chụp demo. Bật mipmap cho sheet và dùng linear mipmap khi thu nhỏ. Thẻ Gem cao 180 px trong canvas thiết kế để có vùng riêng cho icon, số lượng và nút giá.
+
+
+## Đối chiếu lại nội dung cuộn qua Main (16/11)
+
+Phần từ GÓI ĐẶC BIỆT dùng `_reference_canvas` và `UnitScale.place`, không đặt `Control.scale` trên thẻ. Các nhóm mở gói/coupon và catalog bổ sung nằm sau ĐỔI TIỀN để giữ thứ tự của hai màn mẫu. Gem giữ ba cột: hàng đầu 175×148, hàng sau 175×164 theo chiều cao hai hàng trong ảnh; gói ngày 264×142, đổi tiền 175×170.
+
+`match/manifest.json` ghi tọa độ, SHA-256 ảnh gốc và SVG mới. Chạy `python3 tools/build_shop_match_assets.py` để dựng lại crop có mask. Số gem và số vé gói ngày được bỏ khỏi crop, vẽ bằng dữ liệu catalog/ads; tên, giá, giới hạn và trạng thái mua giữ luồng hiện có. Ruy băng ảnh giữ chữ Việt của mẫu. Chuỗi động mới `shop.gem_bonus` có trong cả tám bảng i18n.
+
+`ui/shop_reference_buy.gd` giữ mặt nút đúng kích thước thiết kế, còn vùng bấm trong suốt tối thiểu 44px được chặn trong thẻ. Nền/nút SVG cố định tỉ lệ được kéo cả ảnh để góc bo không bị cắt bởi nine-slice ở 320px. Palette nằm trong ShopSkin.
+
+Chụp toàn bộ Shop thật: `DISPLAY=:0 RM_LANG=vi godot --path . -s tests/shop_reference_match_test.gd`. Script kiểm tra save nằm trong `/tests/`, gọi `main._select_tab(main.Tab.SHOP)` và `main._rebuild_shop()`, chụp/ghép toàn chiều cuộn tại 320/390/448. Chạy `python3 tools/compare_shop_reference.py` để tạo từng ảnh [mẫu | render 390px]. Kết quả và chênh lệch: `Design/Previews/shop_match_review.md`.
