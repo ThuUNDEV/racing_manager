@@ -138,7 +138,7 @@ func run() -> void:
 	await settle()
 	box = main._league_box
 	check(box.find_child("Buy_overtake_kit", true, false) != null, "thẻ khóa mở đầy đủ khi đạt giải Chuyên nghiệp")
-	state.trophy_levels["speed_tune"] = 10
+	state.trophy_levels["speed_tune"] = 15
 	state.changed.emit()
 	await settle()
 	buy = main._league_box.find_child("Buy_speed_tune", true, false)

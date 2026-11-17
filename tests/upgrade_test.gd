@@ -62,8 +62,16 @@ func _initialize() -> void:
 	gs.save_blocked = true
 	_check(Balance.max_level() == 200 and absf(Pricing.part_stat_per_level() - 0.2) < 1e-9, "max_level 200, mặc định +0,2 chỉ số mỗi cấp")
 	_check(absf(Pricing.part_stat_per_level("engine") - 0.25) < 1e-9 and absf(Pricing.part_stat_per_level("tyre") - 0.15) < 1e-9, "mỗi bộ phận có hệ số riêng")
-	_check(absf((gs.part_stat("engine", 10) - gs.part_stat("engine", 0)) - 2.5) < 1e-6, "động cơ 10 cấp = +2,5 chỉ số")
-	_check(absf((gs.part_stat("tyre", 10) - gs.part_stat("tyre", 0)) - 1.5) < 1e-6, "lốp 10 cấp = +1,5 chỉ số")
+	# Design/31 §8: tăng trưởng dồn vào cấp đầu: gain = hệ số × 200 × (cấp/200)^0,7; cấp 200 vẫn = hệ số × 200 như tuyến tính.
+	_check(absf(Pricing.part_stat_gain("engine", 200) - 50.0) < 1e-6 and absf(Pricing.part_stat_gain("tyre", 200) - 30.0) < 1e-6, "cấp 200 giữ nguyên đích cuối (động cơ +50, lốp +30)")
+	_check(absf((gs.part_stat("engine", 10) - gs.part_stat("engine", 0)) - 50.0 * pow(0.05, 0.7)) < 1e-6, "động cơ 10 cấp = 50 × (10/200)^0,7 chỉ số")
+	_check(absf((gs.part_stat("tyre", 10) - gs.part_stat("tyre", 0)) - 30.0 * pow(0.05, 0.7)) < 1e-6, "lốp 10 cấp = 30 × (10/200)^0,7 chỉ số")
+	_check(gs.part_stat("engine", 10) - gs.part_stat("engine", 0) > 2.5 * 1.5, "10 cấp đầu cho nhiều hơn tuyến tính (> 1,5 lần mức cũ +2,5)")
+	var gains_ok := true
+	for lv in range(1, 200):
+		if Pricing.part_stat_gain("engine", lv + 1) <= Pricing.part_stat_gain("engine", lv):
+			gains_ok = false
+	_check(gains_ok, "chỉ số tăng đơn điệu theo cấp (mỗi cấp luôn cho thêm)")
 	var ten_sum := BigNumber.zero()
 	for m in 10:
 		ten_sum = ten_sum.add(Pricing.part_cost(0, m))

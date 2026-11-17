@@ -10,6 +10,11 @@ func check(ok: bool, message: String) -> void:
 		failures += 1
 
 
+func _prof(main) -> Control:
+	main._profile.refresh()
+	return main._profile
+
+
 func settle() -> void:
 	for i in 10:
 		await process_frame
@@ -32,13 +37,15 @@ func run() -> void:
 	root.add_child(main)
 	main.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	await settle()
-	var btn: Button = main.find_child("ClassButton", true, false)
+	main._profile.open()
+	await settle()
+	var btn: Button = _prof(main).find_child("ClassButton", true, false)
 	check(btn != null and btn.get_global_rect().end.x <= 390.0 and btn.get_global_rect().size.y >= 44.0, "Nút Class trong HUD, vừa màn hình")
 	btn.pressed.emit()
 	await settle()
 	var page = main._class_page
 	check(page.visible, "Nút Class mở modal")
-	check(page.find_child("ClassActive_racing", true, false) != null, "Racing là Active khi mới vào")
+	check(_prof(main).find_child("ClassActive_racing", true, false) != null, "Racing là Active khi mới vào")
 	check(page.find_child("ClassCard_rally", true, false) == null and page.find_child("ClassCard_racing", true, false) != null, "Chỉ hiện class đã có cơ sở")
 	var fbuy: Button = page.find_child("FacilityBuy", true, false)
 	check(fbuy != null and fbuy.disabled, "Thiếu tiền: nút Mở cơ sở xám")
@@ -93,17 +100,17 @@ func run() -> void:
 	check(not ok.disabled, "Chọn một ô: OK sáng")
 	ok.pressed.emit()
 	await settle()
-	check(state.class_has("rally") and state.facilities == ["racing", "rally"] and page.find_child("FacilityPicker", true, false) == null and page.find_child("ClassWatch_rally", true, false) != null, "OK: hoàn tất, Rally có thẻ Watch")
-	check(page.find_child("ClassActive_racing", true, false) != null, "Vẫn Active Racing")
-	check(state.managed_class == "rally" and (page.find_child("ClassManage_rally", true, false) as Button).disabled, "Mở xong: tự quản lý Rally")
-	var mg: Button = page.find_child("ClassManage_racing", true, false)
+	check(state.class_has("rally") and state.facilities == ["racing", "rally"] and page.find_child("FacilityPicker", true, false) == null and _prof(main).find_child("ClassWatch_rally", true, false) != null, "OK: hoàn tất, Rally có thẻ Watch")
+	check(_prof(main).find_child("ClassActive_racing", true, false) != null, "Vẫn Active Racing")
+	check(state.managed_class == "rally" and (_prof(main).find_child("ClassManage_rally", true, false) as Button).disabled, "Mở xong: tự quản lý Rally")
+	var mg: Button = _prof(main).find_child("ClassManage_racing", true, false)
 	check(mg != null and not mg.disabled, "Racing có nút Quản lý")
 	mg.pressed.emit()
 	await settle()
-	check(state.managed_class == "racing" and state.active_class == "racing" and (page.find_child("ClassManage_racing", true, false) as Button).disabled, "Quản lý đổi tức thì, không đổi cơ sở đang đua")
-	(page.find_child("ClassWatch_rally", true, false) as Button).pressed.emit()
+	check(state.managed_class == "racing" and state.active_class == "racing" and (_prof(main).find_child("ClassManage_racing", true, false) as Button).disabled, "Quản lý đổi tức thì, không đổi cơ sở đang đua")
+	(_prof(main).find_child("ClassWatch_rally", true, false) as Button).pressed.emit()
 	await settle()
-	check(state.active_class == "rally" and page.find_child("ClassActive_rally", true, false) != null, "Watch đổi Active sang Rally")
+	check(state.active_class == "rally" and _prof(main).find_child("ClassActive_rally", true, false) != null, "Watch đổi Active sang Rally")
 	if "--class-shots" in OS.get_cmdline_user_args():
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("res://Design/Previews/classes_native_owned.png")

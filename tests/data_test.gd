@@ -30,7 +30,13 @@ func _initialize() -> void:
 	_check((sm["ai_offsets"] as Array).size() + 1 == Balance.CAR_COUNT, "số xe")
 
 	print("== Dữ liệu cụ thể ==")
-	_check(GameData.tracks().size() == 12, "12 track (10 theo lịch giải + Circuit A, B thử nghiệm, Design/08)")
+	var seen_tracks := {}
+	for c: Dictionary in GameData.race_classes():
+		var ct := GameData.class_track(String(c["id"]))
+		_check(String(c.get("track", "")) == ct and TrackLayout.build(ct).valid, "class %s có đường đua riêng có hình học (%s)" % [c["id"], ct])
+		seen_tracks[ct] = true
+	_check(seen_tracks.size() == GameData.race_classes().size(), "mỗi class một đường đua khác nhau")
+	_check(GameData.tracks().size() == 21, "21 track (10 theo lịch giải + Circuit A–K thử nghiệm, Design/08)")
 	_check(GameData.leagues().size() == 6, "6 giải")
 	_check(GameData.cars().size() == 15, "15 xe")
 	_check(GameData.drivers().size() == 12, "12 tay đua")

@@ -6,6 +6,7 @@ const BigNumber = preload("res://core/math/big_number.gd")
 ## Mọi hằng số cân bằng nằm ở đây, không rải trong code hoặc scene (Design/07 §3).
 
 const DIR := "res://data/"
+const DEFAULT_TRACK := "track_circuit_b"  # đường đua mặc định khi class không khai báo "track"
 const TRAIT_IDS := [
 	"fast_start", "smooth_corners", "calm", "sprint", "hunter", "defender",
 	"straight_line", "steady", "recovery", "golden", "discipline",
@@ -119,6 +120,12 @@ static func facility_price_mults() -> Array:
 
 
 ## Bộ ghi đè cho TrafficSim.setup(opts): {"tuning", "traffic_tuning"}. Racing (hệ số rỗng) trả về rỗng nên kết quả không đổi.
+## Đường đua riêng của class (classes.json "track"); thiếu thì dùng track mặc định.
+static func class_track(id: String) -> String:
+	var t := String(race_class(id).get("track", ""))
+	return t if t != "" and not track(t).is_empty() else DEFAULT_TRACK
+
+
 static func class_opts(id: String) -> Dictionary:
 	var c := race_class(id)
 	var out := {"tuning": {}, "traffic_tuning": {}}
@@ -507,6 +514,12 @@ static func _validate_economy(ec: Dictionary) -> Array:
 		var n := BigNumber.parse_decimal(v) if typeof(v) == TYPE_STRING else null
 		if n == null or n.is_zero() or absi(n.exponent) > 1000:
 			errs.append("economy.json: %s must be a positive decimal string" % key)
+	if ec.has("part_stat_curve_exp"):
+		var cv: Variant = ec["part_stat_curve_exp"]
+		var cn := BigNumber.parse_decimal(cv) if typeof(cv) == TYPE_STRING else null
+		var cf := float(cv) if typeof(cv) == TYPE_STRING else 0.0
+		if cn == null or cf < 0.3 or cf > 1.0:
+			errs.append("economy.json: part_stat_curve_exp must be a decimal string in 0.3..1")
 	var by_part: Variant = ec.get("part_stat_per_level_by_part", {})
 	if typeof(by_part) != TYPE_DICTIONARY:
 		errs.append("economy.json: part_stat_per_level_by_part must be an object")
@@ -726,9 +739,21 @@ static func trophy_cap_base() -> int:
 ## Trần cúp theo giải (cap.by_league); thiếu bảng thì dùng trần gốc. Giải ngoài bảng lấy mục cuối.
 static func trophy_cap_for_league(league: int) -> int:
 	var by_league: Array = ((_load("trophy_upgrades") as Dictionary).get("cap", {}) as Dictionary).get("by_league", [])
-	if by_league.is_empty():
-		return trophy_cap_base()
-	return int(by_league[clampi(league, 0, by_league.size() - 1)])
+	var cap := trophy_cap_base()
+	if not by_league.is_empty():
+		cap = int(by_league[clampi(league, 0, by_league.size() - 1)])
+	if league >= leagues().size() - 1:
+		cap += int(trophy_prestige().get("cap", 0))  # Prestige chỉ mở thêm trần ở giải cuối
+	return cap
+
+
+## Cấu hình Prestige sau MAX (prestige trong trophy_upgrades.json); rỗng = không có.
+static func trophy_prestige() -> Dictionary:
+	return (_load("trophy_upgrades") as Dictionary).get("prestige", {})
+
+
+static func trophy_prestige_levels() -> int:
+	return maxi(0, int(trophy_prestige().get("levels", 0)))
 
 
 ## Cúp nhận được ở một vị trí (1..8) tại một giải; từ P4 trở xuống là 0.
@@ -811,7 +836,7 @@ static func _validate_iap() -> Array:
 	var errs: Array = []
 	var d := iap()
 	var feature_ids: Array = []
-	for f: Dictionary in (_load("tutorial") as Dictionary).get("features", []):
+	for f: Dictionary in Tutorial.features():
 		feature_ids.append(String(f.get("id", "")))
 	var pop: Variant = d.get("popup")
 	if typeof(pop) != TYPE_DICTIONARY or not _is_num((pop as Dictionary).get("gap_sec")) or float((pop as Dictionary)["gap_sec"]) <= 0.0 \
@@ -951,7 +976,7 @@ static func _validate_ads() -> Array:
 		errs.append("ads.json: missing placements")
 		return errs
 	var feature_ids: Array = []
-	for f: Dictionary in (_load("tutorial") as Dictionary).get("features", []):
+	for f: Dictionary in Tutorial.features():
 		feature_ids.append(String(f.get("id", "")))
 	for id: String in places:
 		var p: Dictionary = places[id]
@@ -1027,6 +1052,16 @@ static func _validate_trophy_upgrades() -> Array:
 				errs.append("trophy_upgrades.json: cap.by_league must be non-decreasing numbers >= 0")
 				break
 			prev = int(v)
+	var pr := trophy_prestige()
+	if not pr.is_empty():
+		var mults: Array = pr.get("cost_multiplier", [])
+		if trophy_prestige_levels() < 1 or mults.size() != trophy_prestige_levels():
+			errs.append("trophy_upgrades.json: prestige.cost_multiplier must have one entry per level")
+		for m in mults:
+			if not _is_num(m) or float(m) <= 0:
+				errs.append("trophy_upgrades.json: prestige.cost_multiplier must be > 0")
+		if not _is_num(pr.get("effect_step_ratio")) or float(pr["effect_step_ratio"]) < 0 or not _is_num(pr.get("cap")) or int(pr["cap"]) < 0:
+			errs.append("trophy_upgrades.json: prestige.effect_step_ratio/cap is invalid")
 	var group_ids: Array = []
 	for g: Dictionary in trophy_groups():
 		group_ids.append(String(g.get("id", "")))

@@ -152,7 +152,6 @@ func refresh() -> void:
 func _card(cls: Dictionary) -> Control:
 	var id := String(cls["id"])
 	var is_active := id == GameState.active_class
-	var is_pending := id == GameState.pending_class
 	var managed := id == GameState.managed_class
 	var card := _surface(Color.WHITE, Color("2985ef") if managed else Color("c5d9ee"), 22, 14)
 	card.name = "ClassCard_" + id
@@ -182,21 +181,6 @@ func _card(cls: Dictionary) -> Control:
 		badge.add_child(active)
 		name_row.add_child(badge)
 	names.add_child(_label(String(cls.get("blurb", "")), 12, MUTED, true))
-	var mg := Button.new()
-	mg.name = "ClassManage_" + id
-	mg.text = I18n.t("class.managing") if managed else I18n.t("class.manage")
-	mg.disabled = managed
-	mg.custom_minimum_size.y = 28 if managed else 44
-	mg.size_flags_horizontal = SIZE_SHRINK_BEGIN
-	mg.add_theme_font_size_override("font_size", 13)
-	if managed:
-		mg.add_theme_stylebox_override("disabled", StyleBoxEmpty.new())
-		mg.add_theme_color_override("font_disabled_color", Color("1664cb"))
-		HdUi.text_depth(mg)
-	else:
-		HdUi.style_button(mg, "upgrade")
-	mg.pressed.connect(_on_manage.bind(id))
-	names.add_child(mg)
 	var line := ColorRect.new()
 	line.color = Color("c9e1f7")
 	line.custom_minimum_size.y = 1
@@ -232,14 +216,6 @@ func _card(cls: Dictionary) -> Control:
 	if variant != "":
 		hints.add_child(_label(I18n.t("class.suggested_car") + variant, 13, INK, true))
 	hints.add_child(_label(String(cls.get("key_stats", "")), 12, MUTED, true))
-	if not is_active:
-		var watch := Button.new()
-		watch.name = "ClassWatch_" + id
-		watch.text = I18n.t("class.after_this_race") if is_pending else I18n.t("class.watch_race")
-		watch.custom_minimum_size.y = 44
-		HdUi.style_button(watch, "amber" if is_pending else "claim")
-		watch.pressed.connect(_on_watch.bind(id))
-		box.add_child(watch)
 	return card
 
 
@@ -442,24 +418,6 @@ func _close_picker() -> void:
 		_picker = null
 	if GameState.facility_unassigned() >= 0:
 		_say(I18n.t("class.facility_still_waiting_tap_pick"))
-
-
-func _on_manage(id: String) -> void:
-	var cname := String(GameData.race_class(id)["name"])
-	if GameState.manage_class(id):
-		_say(I18n.t("class.now_managing") % cname)
-	else:
-		_say(I18n.t("class.could_not_switch_facility"))
-
-
-func _on_watch(id: String) -> void:
-	var cname := String(GameData.race_class(id)["name"])
-	if not GameState.select_class(id):
-		_say(I18n.t("class.could_not_change_class"))
-	elif GameState.pending_class == id:
-		_say(I18n.t("class.switching_after_current_race_ends") % cname)
-	else:
-		_say(I18n.t("class.switched") % cname)
 
 
 func _say(text: String) -> void:

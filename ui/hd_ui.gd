@@ -26,28 +26,25 @@ static var _tex_cache: Dictionary = {}
 static var _box_cache: Dictionary = {}
 static var _font: Font = null
 
-## Shared close control uses the same rounded face as the action buttons.
-static func close_button(action: Callable, node_name: String = "PopupClose") -> Button:
+## Dedicated square artwork includes the X so its alignment never depends on fonts or theme padding.
+static func close_button(action: Callable, node_name: String = "PopupClose", visual_scale: float = 1.0) -> Button:
 	var button := Button.new()
 	button.name = node_name
 	button.accessibility_name = I18n.t("common.close")
-	button.custom_minimum_size = Vector2(48, 48)
+	button.custom_minimum_size = Vector2(48, 48) * visual_scale
 	button.size_flags_horizontal = Control.SIZE_SHRINK_END
 	button.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-	button.text = "×"
-	button.add_theme_font_size_override("font_size", 36)
-	button.add_theme_color_override("font_color", Color.WHITE)
-	button.add_theme_color_override("font_hover_color", Color.WHITE)
-	button.add_theme_color_override("font_pressed_color", Color.WHITE)
-	button.add_theme_constant_override("outline_size", 0)
-	for state in ["normal", "hover", "pressed", "disabled"]:
-		var skin := ButtonSkin.palette(Color("ff6655"), Color("e82922"), Color("a81713"))
+	for state in ["normal", "hover", "pressed", "hover_pressed", "disabled"]:
+		var skin := StyleBoxTexture.new()
+		skin.texture = preload("res://assets/racing_ui_hd/icons/popup_close_x.svg")
 		skin.set_content_margin_all(0)
+		# Preserve this dedicated artwork when generic button styling runs.
+		skin.set_meta("rounded_button", true)
 		if state == "hover":
-			skin.modulate_color = Color(1.0, 0.92, 0.88)
-		elif state == "pressed":
-			skin.modulate_color = Color(0.8, 0.8, 0.8)
+			skin.modulate_color = Color(1.0, 0.94, 0.94)
+		elif state in ["pressed", "hover_pressed"]:
+			skin.modulate_color = Color(0.85, 0.85, 0.85)
 		elif state == "disabled":
 			skin.modulate_color = Color(0.65, 0.65, 0.65, 0.65)
 		button.add_theme_stylebox_override(state, skin)
@@ -55,9 +52,8 @@ static func close_button(action: Callable, node_name: String = "PopupClose") -> 
 	focus.bg_color = Color.TRANSPARENT
 	focus.border_color = C_BLUE
 	focus.set_border_width_all(2)
-	focus.set_corner_radius_all(24)
+	focus.set_corner_radius_all(roundi(16 * visual_scale))
 	button.add_theme_stylebox_override("focus", focus)
-	ButtonSkin.apply(button)
 	button.pressed.connect(action)
 	return button
 

@@ -14,7 +14,7 @@ import re
 import sys
 
 ROOT_DIRS = ["core", "game", "ui", "scenes"]
-DATA = glob.glob("data/*.json") + ["assets/iap_offers/manifest.json"]
+DATA = glob.glob("data/**/*.json", recursive=True) + ["assets/iap_offers/manifest.json"]
 CALL = re.compile(r'I18n\.(?:t|tn|has|is_any_translation)\("([^"]+)"')
 QUOTED = re.compile(r'"((?:[^"\\\n]|\\.)*)"')
 KEYLIKE = re.compile(r"^[a-z][a-z0-9_]*(\.[a-z0-9_]+)+$")

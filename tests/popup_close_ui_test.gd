@@ -23,17 +23,28 @@ func verify(control: Control, button_name: String, tag: String) -> void:
 		return
 	var rect := button.get_global_rect()
 	check(rect.size.x >= 48 and rect.size.y >= 48, tag + " touch target")
+	check(is_equal_approx(rect.size.x, rect.size.y), tag + " square close button")
+	var face := button.get_theme_stylebox("normal") as StyleBoxTexture
+	check(face != null and face.texture.resource_path == "res://assets/racing_ui_hd/icons/popup_close_x.svg", tag + " uses centered close artwork")
 	check(Rect2(Vector2.ZERO, Vector2(root.size)).encloses(rect), tag + " close fits viewport")
 	var header := button.get_parent() as Control
 	for child in header.get_children():
-		if child is Label:
+		if header is HBoxContainer and child is Label:
 			check(child.get_global_rect().end.x <= rect.position.x - 7, tag + " title clears X")
 	if "--popup-shots" in OS.get_cmdline_user_args():
 		await RenderingServer.frame_post_draw
 		var directory := OS.get_environment("TEMP").replace("\\", "/") + "/racing_popup_close"
 		DirAccess.make_dir_recursive_absolute(directory)
 		root.get_texture().get_image().save_png(directory + "/%d_%s.png" % [root.size.x, tag])
-	button.pressed.emit()
+	check(button.mouse_filter != Control.MOUSE_FILTER_IGNORE, tag + " receives pointer input")
+	for down in [true, false]:
+		var event := InputEventMouseButton.new()
+		event.button_index = MOUSE_BUTTON_LEFT
+		event.position = rect.get_center()
+		event.global_position = event.position
+		event.pressed = down
+		root.push_input(event, true)
+		await process_frame
 	await settle()
 	check(not control.visible, tag + " closes")
 
@@ -56,6 +67,8 @@ func run() -> void:
 	var name_before: String = state.player_team_name
 	for width in [320, 390, 412]:
 		root.size = Vector2i(width, 844)
+		main._show_daily_rewards()
+		await verify(main._overlay, "PopupClose", "daily_rewards")
 		main._show_settings()
 		await verify(main._overlay, "SettingsClose", "settings")
 		main._show_gear_info("standard")

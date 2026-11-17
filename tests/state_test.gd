@@ -44,7 +44,7 @@ func _initialize() -> void:
 	_check(gs.phase == "racing" and started[0] == 1, "đủ 3 giây: xuất phát đúng một lần (x4 vẫn 3 giây)")
 	_check(is_equal_approx(gs.sim.cars[0].s, s0) and gs.sim.time == 0.0, "đồng hồ đua bắt đầu từ 0 sau countdown")
 	gs.time_scale = 1.0
-	_check(is_equal_approx(gs.sim.duration, Balance.race_duration(GameState.PROTOTYPE_TRACK)), "lượt dài đúng cấu hình (%.0f giây)" % Balance.race_duration(GameState.PROTOTYPE_TRACK))
+	_check(not gs.sim.is_timed() and gs.sim.laps == Balance.race_laps(), "lượt kết thúc theo số vòng (%d vòng), không theo thời gian" % Balance.race_laps())
 
 	print("== Nâng cấp trong lúc đua: snapshot, áp dụng lượt sau ==")
 	var snap_before: float = gs.race_snapshot["stats"]["S"]

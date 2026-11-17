@@ -60,7 +60,7 @@ var completed_races: int = 0
 ## Hướng dẫn đầu game Phần A (Design/23 §4). state: new | active | done | skipped; step: id bước A1..A7 đang làm.
 const TUTORIAL_STATES := ["new", "active", "done", "skipped"]
 ## gated: save bắt đầu ở chế độ mở khóa dần (Phần B, Design/23 §5); intro_seen: id tính năng đã xem hướng dẫn ngắn.
-var tutorial: Dictionary = {"state": "new", "step": "", "power_before": 0.0, "gated": false, "intro_seen": [], "tips_seen": [], "tips_off": false, "tips_last": -1, "offline_shown": false}
+var tutorial: Dictionary = {"state": "new", "step": "", "power_before": 0.0, "gated": false, "intro_seen": [], "nav_seen": [], "tips_seen": [], "tips_off": false, "tips_last": -1, "offline_shown": false}
 var race_history_complete: bool = true
 var active_car_id: String = ""
 var active_driver_id: String = "driver_an"
@@ -261,7 +261,7 @@ func init_new_game() -> void:
 	team_name_changes = 0
 	completed_races = 0
 	race_history_complete = true
-	tutorial = {"state": "new", "step": "", "power_before": 0.0, "gated": false, "intro_seen": [], "tips_seen": [], "tips_off": false, "tips_last": -1, "offline_shown": false}
+	tutorial = {"state": "new", "step": "", "power_before": 0.0, "gated": false, "intro_seen": [], "nav_seen": [], "tips_seen": [], "tips_off": false, "tips_last": -1, "offline_shown": false}
 	active_car_id = GameData.starter_car_id()
 	active_driver_id = "driver_an"
 	facilities = [GameData.default_class_id()]
@@ -468,7 +468,7 @@ func car_level(car_id: String, kind: String) -> int:
 ## Chỉ số bộ phận của một xe bất kỳ ở cấp `level`.
 func car_part_stat(car_id: String, kind: String, level: int) -> float:
 	var base: int = int(GameData.car(car_id)["base"][Balance.PART_KEY[kind]])
-	return base + Pricing.part_stat_per_level(kind) * level
+	return base + Pricing.part_stat_gain(kind, level)
 
 
 ## Trạng thái nâng bộ phận của xe `car_id` (không cần chọn xe đó): "ok" | "short" | "maxed" | "save_error" | "invalid".
@@ -1084,7 +1084,7 @@ func _commit_expansion() -> bool:
 ## Chỉ số bộ phận = nền của xe đang dùng + hệ số riêng của bộ phận × cấp (economy.json: part_stat_per_level_by_part).
 func part_stat(kind: String, level: int) -> float:
 	var base: int = int(GameData.car(active_car_id)["base"][Balance.PART_KEY[kind]])
-	return base + Pricing.part_stat_per_level(kind) * level
+	return base + Pricing.part_stat_gain(kind, level)
 
 
 func _driver() -> Dictionary:
@@ -1136,16 +1136,16 @@ func player_stats() -> Dictionary:
 
 func _make_sim(p_seed: int, stats: Dictionary, driver_id: String) -> TrafficSim:
 	var t := TrafficSim.new()
-	var opts := {
-		"driver_id": driver_id,
-		"duration": float(race_cfg["duration"]), "sprint_duration": float(race_cfg["sprint"]),
-	}
+	# Đua theo SỐ VÒNG: không truyền "duration" (duration = 0 => kết thúc khi xe cán vạch đủ race_laps).
+	# race_cfg["duration"] chỉ còn dùng làm thời lượng tham chiếu để tính thưởng kinh tế.
+	var opts := {"driver_id": driver_id}
+	var tuning: Dictionary = {"laps": Balance.race_laps()}
 	var co := GameData.class_opts(race_class_id)
-	if not (co["tuning"] as Dictionary).is_empty():
-		opts["tuning"] = co["tuning"]
+	tuning.merge(co["tuning"] as Dictionary, true)
+	opts["tuning"] = tuning
 	if not (co["traffic_tuning"] as Dictionary).is_empty():
 		opts["traffic_tuning"] = co["traffic_tuning"]
-	t.setup(p_seed, stats, business_tier, PROTOTYPE_TRACK, opts)
+	t.setup(p_seed, stats, business_tier, GameData.class_track(race_class_id), opts)
 	return t
 
 
@@ -1232,7 +1232,7 @@ func begin_countdown() -> void:
 
 
 func _begin_countdown_inner() -> void:
-	race_cfg = {"duration": Balance.race_duration(PROTOTYPE_TRACK), "sprint": Balance.sprint_duration()}
+	race_cfg = {"duration": Balance.race_duration(GameData.class_track(race_class_id)), "sprint": Balance.sprint_duration()}
 	_race_seed = hash("race_%d" % race_counter)
 	countdown_left = float(Balance.COUNTDOWN_SECONDS)
 	_sim_accum = 0.0
@@ -1287,7 +1287,7 @@ func advance(delta: float) -> void:
 			_sim_accum += delta * time_scale
 			var guard := 0
 			while not sim.finished and guard < 2000:
-				var need := minf(sim.tick, sim.time_left())
+				var need := minf(sim.tick, sim.time_left()) if sim.is_timed() else sim.tick
 				if _sim_accum < need - 0.000001:
 					break
 				sim.step()
@@ -1401,10 +1401,19 @@ func _compute_result(s_: TrafficSim) -> Dictionary:
 		recent_results.pop_front()
 
 	var dist := s_.distance_of(player)
-	var rec_key := "%s|%s" % [PROTOTYPE_TRACK, str(snappedf(s_.duration, 0.001))]
-	var new_record := dist > float(records.get(rec_key, 0.0)) + 0.001
-	if new_record:
-		records[rec_key] = dist
+	var rec_key := "%s|%s" % [GameData.class_track(race_class_id), str(snappedf(s_.duration, 0.001))]
+	var new_record: bool
+	if s_.is_timed():
+		new_record = dist > float(records.get(rec_key, 0.0)) + 0.001
+		if new_record:
+			records[rec_key] = dist
+	else:
+		# Đua theo vòng: kỷ lục là thời gian về đích nhanh nhất (giây), riêng theo track và số vòng.
+		rec_key = "%s|laps%d" % [GameData.class_track(race_class_id), s_.laps]
+		var best: float = float(records.get(rec_key, INF))
+		new_record = player.finished and player.finish_time < best - 0.001
+		if new_record:
+			records[rec_key] = player.finish_time
 
 	var res := {
 		"race": race_counter, "position": pos, "points": points, "money": granted, "trophies": trophy_gain,
@@ -1551,13 +1560,29 @@ func trophy_unlocked(id: String) -> bool:
 	return not u.is_empty() and business_tier >= int(u["unlock_league"])
 
 
-## Giá cúp để lên cấp kế; -1 khi đã tối đa hoặc id lạ.
+## Cấp tối đa kể cả các bậc Prestige sau MAX.
+func trophy_total_levels(id: String) -> int:
+	var u := GameData.trophy_upgrade(id)
+	return 0 if u.is_empty() else int(u["max_level"]) + GameData.trophy_prestige_levels()
+
+
+## Số bậc Prestige đã mua (0 khi chưa vượt MAX thường).
+func trophy_prestige_level(id: String) -> int:
+	var u := GameData.trophy_upgrade(id)
+	return 0 if u.is_empty() else maxi(0, trophy_level(id) - int(u["max_level"]))
+
+
+## Giá cúp để lên cấp kế (kể cả bậc Prestige); -1 khi đã tối đa hoàn toàn hoặc id lạ.
 func trophy_cost(id: String) -> int:
 	var u := GameData.trophy_upgrade(id)
 	var lv := trophy_level(id)
-	if u.is_empty() or lv >= int(u["max_level"]):
+	if u.is_empty() or lv >= trophy_total_levels(id):
 		return -1
-	return int((u["cost_by_level"] as Array)[lv])
+	var costs: Array = u["cost_by_level"]
+	if lv < costs.size():
+		return int(costs[lv])
+	var mults: Array = GameData.trophy_prestige().get("cost_multiplier", [])
+	return maxi(1, int(ceil(float(costs[-1]) * float(mults[lv - costs.size()]))))
 
 
 ## Hiệu ứng của một nâng cấp ở một cấp (dictionary số, ví dụ {"S": 3}).
@@ -1566,7 +1591,13 @@ func trophy_effect_at(id: String, level: int) -> Dictionary:
 	if u.is_empty():
 		return {}
 	var table: Array = u["effect_by_level"]
-	return (table[clampi(level, 0, table.size() - 1)] as Dictionary).duplicate()
+	var out: Dictionary = (table[clampi(level, 0, table.size() - 1)] as Dictionary).duplicate()
+	var extra := clampi(level - (table.size() - 1), 0, GameData.trophy_prestige_levels())
+	if extra > 0:
+		var ratio := float(GameData.trophy_prestige().get("effect_step_ratio", 0.0))
+		for k: String in out:
+			out[k] = float(out[k]) + extra * maxf(1.0, roundf(float(out[k]) * ratio))
+	return out
 
 
 ## Tổng hiệu ứng của mọi nâng cấp cúp, gộp theo khóa (S/H/B/A/race_bonus_seconds/daily_bonus_seconds).
@@ -1617,7 +1648,7 @@ func _apply_trophies(d: Dictionary) -> void:
 			var u := GameData.trophy_upgrade(String(id))
 			if u.is_empty():
 				continue
-			var lv := clampi(int(raw[id]), 0, int(u["max_level"]))
+			var lv := clampi(int(raw[id]), 0, int(u["max_level"]) + GameData.trophy_prestige_levels())
 			if lv > 0:
 				trophy_levels[String(id)] = lv
 
@@ -1710,7 +1741,7 @@ func gear_payment(pack_id: String, count: int) -> Dictionary:
 
 func gear_can_afford(pack_id: String, count: int) -> bool:
 	var pay := gear_payment(pack_id, count)
-	if pay.is_empty() or _gear_blocked() or not feature_unlocked("U3_bag"):
+	if pay.is_empty() or _gear_blocked() or not feature_unlocked("U4_shop"):  # mở gói cùng lúc Shop mở (lượt 3); nâng cấp ở Túi (U3_bag)
 		return false
 	return pay["method"] == "coupon" or gems >= int(pay["amount"])
 
@@ -2371,6 +2402,29 @@ func _valid_save(raw: Variant) -> bool:
 			return false
 		if (d["tutorial"] as Dictionary).has("tips_seen") and typeof((d["tutorial"] as Dictionary)["tips_seen"]) != TYPE_ARRAY:
 			return false
+		if (d["tutorial"] as Dictionary).has("nav_seen") and typeof((d["tutorial"] as Dictionary)["nav_seen"]) != TYPE_ARRAY:
+			return false
+		if (d["tutorial"] as Dictionary).has("lessons"):
+			var progress: Variant = d["tutorial"]["lessons"]
+			if not progress is Dictionary:
+				return false
+			for id in progress:
+				var item: Variant = progress[id]
+				if not id is String or not item is Dictionary:
+					return false
+				if not item.get("status", "") in ["active", "done"]:
+					return false
+				if item.has("context"):
+					if not item["context"] is Dictionary:
+						return false
+					var context: Dictionary = item["context"]
+					if context.has("ticket_level") and not _integer_in(context["ticket_level"], 0, 1000000000):
+						return false
+					if context.has("before") and not context["before"] is String:
+						return false
+				for field in ["sub", "page"]:
+					if not _integer_in(item.get(field, 0), 0, 10000):
+						return false
 		for flag in ["tips_off", "offline_shown"]:
 			if (d["tutorial"] as Dictionary).has(flag) and typeof((d["tutorial"] as Dictionary)[flag]) != TYPE_BOOL:
 				return false
@@ -2596,13 +2650,18 @@ func _apply_tutorial(d: Dictionary) -> void:
 		for id in (t.get("intro_seen", []) as Array):
 			if typeof(id) == TYPE_STRING and not Tutorial.feature(id).is_empty() and not id in seen:
 				seen.append(id)
+		var nav_seen: Array = []
+		for id in (t.get("nav_seen", []) as Array):
+			if typeof(id) == TYPE_STRING and not Tutorial.feature(id).is_empty() and not id in nav_seen:
+				nav_seen.append(id)
 		tutorial = {"state": String(t.get("state", "done")), "step": String(t.get("step", "")),
-			"power_before": float(t.get("power_before", 0.0)), "gated": bool(t.get("gated", false)), "intro_seen": seen,
+			"power_before": float(t.get("power_before", 0.0)), "gated": bool(t.get("gated", false)), "intro_seen": seen, "nav_seen": nav_seen,
+			"lessons": _clean_lesson_progress(t.get("lessons", {})),
 			"tips_seen": _clean_tip_ids(t.get("tips_seen", [])), "tips_off": bool(t.get("tips_off", false)),
 			"tips_last": clampi(int(t.get("tips_last", -1)), -1, 1000000000), "offline_shown": bool(t.get("offline_shown", false))}
 	else:
 		# Save trước khi có tutorial: không bị khóa tính năng nào (người chơi cũ đã dùng hết).
-		tutorial = {"state": "done" if completed_races > 0 else "new", "step": "", "power_before": 0.0, "gated": false, "intro_seen": [], "tips_seen": [], "tips_off": false, "tips_last": -1, "offline_shown": false}
+		tutorial = {"state": "done" if completed_races > 0 else "new", "step": "", "power_before": 0.0, "gated": false, "intro_seen": [], "nav_seen": [], "tips_seen": [], "tips_off": false, "tips_last": -1, "offline_shown": false}
 
 
 ## Đang chạy lịch mở khóa dần (chỉ save mới bắt đầu ở chế độ này; save cũ và test mặc định mở hết).
@@ -2626,6 +2685,17 @@ func mark_intro_seen(id: String) -> void:
 		return
 	seen.append(id)
 	tutorial["intro_seen"] = seen
+	if active and not save_blocked and phase != "save_error":
+		save_game()
+
+
+## Đã chỉ tab cho tính năng vừa mở (Design/31 §3.5): chỉ một lần, dù người chơi bỏ qua hay đổi tab.
+func mark_nav_seen(id: String) -> void:
+	var seen: Array = tutorial.get("nav_seen", [])
+	if id in seen:
+		return
+	seen.append(id)
+	tutorial["nav_seen"] = seen
 	if active and not save_blocked and phase != "save_error":
 		save_game()
 
@@ -2781,3 +2851,62 @@ func set_player_team_name(value: String) -> bool:
 	gems -= cost
 	changed.emit()
 	return true
+
+
+## Independent lesson checkpoints. The global FTUE step remains for old saves.
+func _clean_lesson_progress(raw: Dictionary) -> Dictionary:
+	var out := {}
+	for id: String in raw:
+		var definition := Tutorial.lesson(id)
+		if definition.is_empty():
+			continue
+		var item: Dictionary = raw[id].duplicate(true)
+		var sub := int(item.get("sub", 0))
+		var stages: Dictionary = definition.get("stages", {})
+		if not stages.has(str(sub)):
+			sub = 0
+		var spec: Dictionary = stages.get(str(sub), {})
+		if spec.has("variants"):
+			spec = spec["variants"]["other"]
+		var page_count := String(spec.get("text", "")).split("\n\n", false).size()
+		item["sub"] = sub
+		item["page"] = clampi(int(item.get("page", 0)), 0, maxi(0, page_count - 1))
+		out[id] = item
+	return out
+
+
+func set_lesson_progress(id: String, status: String, sub: int = 0, page: int = 0) -> void:
+	if Tutorial.lesson(id).is_empty() or status not in ["active", "done"]:
+		return
+	var lessons: Dictionary = tutorial.get("lessons", {})
+	var item: Dictionary = (lessons.get(id, {}) as Dictionary).duplicate(true)
+	item.merge({"status": status, "sub": maxi(0, sub), "page": maxi(0, page)}, true)
+	item["script_version"] = int(Tutorial.lesson(id).get("script_version", 1))
+	if lessons.get(id, {}) == item:
+		return
+	lessons[id] = item
+	tutorial["lessons"] = lessons
+	if active and not save_blocked and phase != "save_error":
+		save_game()
+
+
+## Complete a lesson and its compatibility flags in the same save transaction.
+func complete_lesson(id: String) -> void:
+	if Tutorial.lesson(id).is_empty():
+		return
+	var lessons: Dictionary = tutorial.get("lessons", {})
+	lessons[id] = {"status": "done", "sub": 0, "page": 0, "script_version": int(Tutorial.lesson(id).get("script_version", 1))}
+	tutorial["lessons"] = lessons
+	if not Tutorial.tip(id).is_empty():
+		var seen: Array = tutorial.get("tips_seen", [])
+		if not id in seen:
+			seen.append(id)
+		tutorial["tips_seen"] = seen
+		tutorial["tips_last"] = completed_races
+	elif not Tutorial.feature(id).is_empty():
+		var seen: Array = tutorial.get("intro_seen", [])
+		if not id in seen:
+			seen.append(id)
+		tutorial["intro_seen"] = seen
+	if active and not save_blocked and phase != "save_error":
+		save_game()

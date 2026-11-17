@@ -25,6 +25,13 @@ func run() -> void:
 	for width in [320, 390, 412]:
 		root.size = Vector2i(width, 844)
 		await settle()
+		var reference: Dictionary = main._rows[0]
+		for entry in main._rows:
+			check(absf(entry["tile"].size.y - reference["tile"].size.y) < 1.0, "All upgrade cards share height at %d" % width)
+			for field in ["name", "level", "eff", "btn"]:
+				var expected_y: float = reference[field].global_position.y - reference["tile"].global_position.y
+				var actual_y: float = entry[field].global_position.y - entry["tile"].global_position.y
+				check(absf(actual_y - expected_y) < 1.0, "Race Car and Revenue %s share layout at %d" % [field, width])
 		for id in ["CarUpgradeGrid", "RevenueUpgradeGrid"]:
 			var grid = main.find_child(id, true, false)
 			check(grid.columns == 2 and grid.get_child_count() == 4, "%s is 2x2" % id)

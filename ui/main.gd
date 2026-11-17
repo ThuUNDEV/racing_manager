@@ -58,7 +58,6 @@ var _coin_label: Label
 var _gem_label: Label
 var _profile: Control
 var _class_page: Control
-var _class_btn: Button
 var _daily_btn: Button  # nút quà mỗi ngày ở dải chặng (Design/30 §5.1)
 var _daily_dot: Panel
 var _daily_popup: Control
@@ -66,15 +65,17 @@ var _daily_auto_hold := 0.0  # giây liên tục đủ điều kiện tự bật
 const DAILY_AUTO_DELAY := 1.2
 var _header_avatar: Control
 var _progress_label: Label
+var _income_label: Label
 var _status_label: Label
 var _save_err_box: PanelContainer
 var _snapshot_label: Label       # nhắc đội đang đua dùng snapshot lúc xuất phát
 var _view_sim: TrafficSim = null # sim mà RaceView đang hiển thị
+var _race_view_track: String = ""  # track RaceView đang vẽ (theo class đua)
 var _race_view: RaceView
 var _power_banner: Control
 var _race_block: VBoxContainer   # khung đua + tiến độ + banner, ghim ở Đua/Túi/Đội
-const STATUS_SLOT_H := 56.0  # Chiều cao ô dưới khung đua (trước là một dòng chữ ~20px)
-const RACE_HEIGHT :=312.0  # Giữ chỗ cho dải khán giả cũ mà không thu nhỏ đường đua.
+const STATUS_SLOT_H := 12.0  # Compact status row gives the race more vertical room.
+const RACE_HEIGHT := 400.0  # Maximum race height; compact phones retain scrollable upgrades.
 const SCENERY_H := 140.0   # chiều cao dải ảnh sân đua phía sau thanh tài nguyên
 var _drivers_box: VBoxContainer
 var _roster: DriverRosterPage
@@ -125,7 +126,6 @@ var _cli_races: int = -1             # --races=N: đặt số lượt đã hoàn
 var _cli_tut_done: bool = false      # --tutorial-done: coi như xong Phần A (chụp ảnh mẹo Phần C)
 var _cli_levels: String = ""         # --levels=ticket:23,parking:48: đặt cấp nâng cấp (chụp ảnh mẹo C4)
 var _nav_items: Array = []           # ô điều hướng (chứa NavLock/NavDot)
-var _sched_btn: Button
 var _toast_seq := 0
 var _next_hint_key := ""             # khóa gợi ý "Sắp mở" đã báo (popup), tránh báo lặp
 var _lock_sig := ""
@@ -172,6 +172,8 @@ func _ready() -> void:
 	add_child(_audio)
 	_build_ui()
 	resized.connect(_fit_overlay)
+	resized.connect(_fit_race_view)
+	_fit_race_view()
 	GameState.changed.connect(_refresh)
 	_select_tab(_tab)
 	_refresh()
@@ -557,7 +559,8 @@ func _build_ui() -> void:
 	_class_page.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(_class_page)
 	_class_page.hide()
-	_class_page.closed.connect(func() -> void: _class_btn.grab_focus())
+	_class_page.closed.connect(func() -> void: _header_avatar.grab_focus())
+	_profile.class_requested.connect(_show_classes)
 	_build_overlay()
 	_tutorial = TutorialOverlay.new()
 	_tutorial.name = "TutorialOverlay"
@@ -667,6 +670,15 @@ func _build_race_page() -> void:
 	_build_upgrade_grid(v)
 
 
+## Keep the circuit readable without pushing navigation off short phone screens.
+func _fit_race_view() -> void:
+	if _race_view == null:
+		return
+	var target := minf(RACE_HEIGHT, size.x * 0.9 + 60.0)
+	var budget := maxf(250.0, size.y - 340.0)
+	_race_view.custom_minimum_size.y = minf(target, budget)
+
+
 ## Draw a slimmer face inside the existing 44px touch target, only for this header.
 func _style_race_header_button(button: Button, blue: bool = false) -> void:
 	HdUi.style_button(button, "cancel")
@@ -718,27 +730,47 @@ func _build_race_block(v: VBoxContainer) -> void:
 	_progress_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	pill_row.add_child(_progress_label)
 	stage_pill.add_child(pill_row)
+	stage_pill.size_flags_stretch_ratio = 0.85
 	head.add_child(stage_pill)
-	var sched := _button(I18n.t("main.schedule"), true, 44.0)
-	sched.custom_minimum_size = Vector2(64, 44)
-	sched.add_theme_font_size_override("font_size", 12)
-	sched.icon = HdUi.scaled("icons/event.png", 0.1)
-	sched.expand_icon = true
-	sched.add_theme_constant_override("icon_max_width", 18)
-	sched.add_theme_constant_override("h_separation", 4)
-	sched.pressed.connect(_select_tab.bind(Tab.LEAGUE))
-	_sched_btn = sched
-	head.add_child(sched)
-	_class_btn = _button("Class", true, 44.0)
-	_class_btn.name = "ClassButton"
-	_class_btn.icon = HdUi.scaled("icons/trophy.png", 0.06)
-	_class_btn.expand_icon = true
-	_class_btn.add_theme_constant_override("icon_max_width", 16)
-	_class_btn.add_theme_constant_override("h_separation", 2)
-	_class_btn.custom_minimum_size = Vector2(72, 44)
-	_class_btn.add_theme_font_size_override("font_size", 12)
-	_class_btn.pressed.connect(_show_classes)
-	head.add_child(_class_btn)
+	var income_pill := PanelContainer.new()
+	income_pill.name = "IncomePill"
+	income_pill.custom_minimum_size = Vector2(0, 44)
+	income_pill.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	income_pill.size_flags_stretch_ratio = 1.15
+	var income_skin := _style(Color("087ee6"), 12, Color("5bb8ff"), 1)
+	income_skin.content_margin_left = 6
+	income_skin.content_margin_right = 8
+	income_skin.content_margin_top = 4
+	income_skin.content_margin_bottom = 4
+	income_skin.shadow_color = Color(0.02, 0.24, 0.46, 0.20)
+	income_skin.shadow_size = 2
+	income_skin.shadow_offset = Vector2(0, 2)
+	income_pill.add_theme_stylebox_override("panel", income_skin)
+	var income_row := HBoxContainer.new()
+	income_row.add_theme_constant_override("separation", 7)
+	var income_badge := PanelContainer.new()
+	income_badge.custom_minimum_size = Vector2(30, 30)
+	income_badge.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	var badge_skin := _style(Color("0864bc"), 9, Color("8ed5ff"), 1)
+	badge_skin.set_content_margin_all(3)
+	income_badge.add_theme_stylebox_override("panel", badge_skin)
+	income_badge.add_child(HdUi.icon("icons/cash.png", Vector2(22, 22)))
+	income_row.add_child(income_badge)
+	var income_details := VBoxContainer.new()
+	income_details.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	income_details.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	income_details.add_theme_constant_override("separation", 0)
+	_income_label = _hud_label(20)
+	_income_label.name = "IncomeLabel"
+	_income_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	_income_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	_income_label.add_theme_color_override("font_color", Color.WHITE)
+	_income_label.add_theme_constant_override("outline_size", 0)
+	_income_label.add_theme_constant_override("shadow_offset_y", 0)
+	income_details.add_child(_income_label)
+	income_row.add_child(income_details)
+	income_pill.add_child(income_row)
+	head.add_child(income_pill)
 	_daily_btn = _button("", true, 44.0, "menu")
 	_daily_btn.name = "DailyRewardsButton"
 	_daily_btn.custom_minimum_size = Vector2(44, 44)
@@ -799,19 +831,20 @@ func _build_race_block(v: VBoxContainer) -> void:
 	_race_view.custom_minimum_size = Vector2(0, RACE_HEIGHT)
 	_race_view.clip_contents = true
 	race_clip.add_child(_race_view)
-	_race_view.set_track(GameState.PROTOTYPE_TRACK)
+	_race_view_track = GameData.class_track(GameState.race_class_id)
+	_race_view.set_track(_race_view_track)
 	_ads_controls = AdsRaceControls.new()
 	_race_view.add_child(_ads_controls)
 	_power_banner = PowerIncreaseBanner.new()
 	_race_view.add_child(_power_banner)
 	_build_race_result_panel()
 	# Gợi ý đường đua nằm trong tooltip của dòng tiến độ (không còn chỗ cho dòng chữ riêng).
-	var track: Dictionary = GameData.track(GameState.PROTOTYPE_TRACK)
+	var track: Dictionary = GameData.track(_race_view_track)
 
 	_status_label = _label("", 14, C_TEXT)
 	_status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_status_label.clip_text = true
-	_status_label.custom_minimum_size = Vector2(0, STATUS_SLOT_H)  # Chỗ trống cho dải icon pack.
+	_status_label.custom_minimum_size = Vector2(0, STATUS_SLOT_H)
 	v.add_child(_status_label)
 
 	_snapshot_label = _label("", 12, C_MUTED, true)
@@ -1297,39 +1330,37 @@ func _add_tile(parent: Control, kind: String) -> void:
 	var st := _upgrade_skin(false)
 	st.content_margin_left = 10.0
 	st.content_margin_right = 10.0
-	st.content_margin_top = 10.0
-	st.content_margin_bottom = 10.0
+	st.content_margin_top = 4.0
+	st.content_margin_bottom = 4.0
 	pc.add_theme_stylebox_override("panel", st)
 	pc.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	pc.mouse_filter = Control.MOUSE_FILTER_PASS
 	parent.add_child(pc)
 	var content := VBoxContainer.new()
-	content.add_theme_constant_override("separation", 8)
+	content.add_theme_constant_override("separation", 2)
 	pc.add_child(content)
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 6)
-	row.custom_minimum_size.y = 52
+	row.custom_minimum_size.y = 36
 	content.add_child(row)
 	var art: TextureRect
 	if ROW_ICONS.has(kind):
-		var ic := ExpansionArt.icon(kind, Vector2(44, 44))
+		var ic := ExpansionArt.icon(kind, Vector2(32, 32))
 		art = ic
 		ic.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		row.add_child(ic)
 	var info := VBoxContainer.new()
 	info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	info.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	info.add_theme_constant_override("separation", 2)
+	info.add_theme_constant_override("separation", 0)
 	row.add_child(info)
-	var name_l := _label("", 15, C_TEXT, true)
-	name_l.max_lines_visible = 2
+	var name_l := _label("", 15, C_TEXT)
+	name_l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	name_l.max_lines_visible = 1
+	name_l.clip_text = true
 	name_l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	name_l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	if kind in Balance.REVENUE:
-		row.custom_minimum_size.y = 60
-		name_l.custom_minimum_size.y = 38
-		name_l.autowrap_mode = TextServer.AUTOWRAP_WORD
-		name_l.clip_text = true
+	# Both groups share one compact header so level, stats and buy stay aligned.
 	info.add_child(name_l)
 	var level_l := _label("", 12, C_MUTED)
 	info.add_child(level_l)
@@ -1338,22 +1369,22 @@ func _add_tile(parent: Control, kind: String) -> void:
 		name_l.add_theme_font_size_override("font_size", 13 if narrow else 15)
 		row.add_theme_constant_override("separation", 4 if narrow else 6)
 		if art != null:
-			art.custom_minimum_size = Vector2.ONE * (40 if narrow else 46))
+			art.custom_minimum_size = Vector2.ONE * (30 if narrow else 32))
 	var stats := HBoxContainer.new()
 	stats.alignment = BoxContainer.ALIGNMENT_CENTER
-	stats.custom_minimum_size.y = 32
+	stats.custom_minimum_size.y = 22
 	stats.add_theme_constant_override("separation", 0)
 	content.add_child(stats)
-	var eff_l := _label("", 19, C_TEXT)
+	var eff_l := _label("", 18, C_TEXT)
 	stats.add_child(eff_l)
-	var next_l := _label("", 19, C_GREEN)
+	var next_l := _label("", 18, C_GREEN)
 	stats.add_child(next_l)
 	var btn := Button.new()
 	HdUi.style_button(btn, "upgrade")
 	for state in ["normal", "hover", "pressed", "disabled"]:
 		var skin := _upgrade_buy_skin(state)
 		btn.add_theme_stylebox_override(state, skin)
-	btn.custom_minimum_size = Vector2(0, 44)
+	btn.custom_minimum_size = Vector2(0, 34)
 	btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	btn.add_theme_font_size_override("font_size", 16)
 	var price_center := CenterContainer.new()
@@ -1364,10 +1395,10 @@ func _add_tile(parent: Control, kind: String) -> void:
 	price_group.add_theme_constant_override("separation", 5)
 	price_group.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	price_center.add_child(price_group)
-	var cash_icon := HdUi.icon("icons/cash.png", Vector2(27.3, 27.3))
+	var cash_icon := HdUi.icon("icons/cash.png", Vector2(23, 23))
 	cash_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	price_group.add_child(cash_icon)
-	var price_label := _label("", 26, Color.WHITE)
+	var price_label := _label("", 22, Color.WHITE)
 	HdUi.text_depth(price_label, true)
 	price_label.add_theme_color_override("font_outline_color", Color("28550c"))
 	price_label.add_theme_constant_override("outline_size", 4)
@@ -1380,7 +1411,7 @@ func _add_tile(parent: Control, kind: String) -> void:
 	buy_center.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	content.add_child(buy_center)
 	buy_center.add_child(btn)
-	pc.resized.connect(func() -> void: btn.custom_minimum_size.x = floorf(pc.size.x * 0.80))
+	pc.resized.connect(func() -> void: btn.custom_minimum_size.x = floorf(pc.size.x * 0.65))
 	# `short` giữ cho _refresh_rows; ô không có chỗ cho dòng "Thiếu ..." nên để ẩn, nội dung đi vào tooltip.
 	var short_l := _label("", 11, C_RED)
 	short_l.hide()
@@ -1589,9 +1620,7 @@ func _refresh_light() -> void:
 	_coin_label.text = Balance.fmt_compact(GameState.coins)
 	var mult := GameState.income_multiplier()
 	var income_txt: String = Balance.fmt_rate(GameState.total_online_rate().multiply_ratio(mult, 1)) + "/s" + (" ×%d" % mult if mult > 1 else "")
-	if _race_view != null and _race_view.income_text != income_txt:
-		_race_view.income_text = income_txt
-		_race_view.queue_redraw()
+	_income_label.text = income_txt
 	_gem_label.text = Balance.fmt_int(GameState.gems)
 	_refresh_rows()
 	_refresh_catalog()
@@ -1788,7 +1817,7 @@ func _claim_shop_daily() -> void:
 ## Tự bật popup quà ngày một lần mỗi ngày (Design/30 R4). Chỉ khi rảnh liên tục DAILY_AUTO_DELAY giây:
 ## không có popup/bảng kết quả nào, không đang hướng dẫn, đã đọc xong giới thiệu tính năng mới, không lỗi lưu.
 func _update_daily_auto(delta: float, modal_open: bool) -> void:
-	var idle: bool = not modal_open and not _result_panel.visible and not _tutorial.running and _tutorial.intro == "" 		and GameState.phase != "save_error" and not GameState.save_blocked
+	var idle: bool = not modal_open and not _result_panel.visible and not _tutorial.running and _tutorial.intro == "" and _tutorial.nav == "" 		and GameState.phase != "save_error" and not GameState.save_blocked
 	if not idle or not DailyRewards.should_auto_popup(GameState.daily_rewards, GameState.daily_reward_today()):
 		_daily_auto_hold = 0.0
 		return
@@ -1854,13 +1883,19 @@ func _process(delta: float) -> void:
 	var modal_open: bool = _overlay.visible or (is_instance_valid(_profile) and _profile.visible) \
 		or (is_instance_valid(_class_page) and _class_page.visible)
 	_ads_controls.blocked = modal_open or _result_panel.visible or _tab != Tab.RACE or _tutorial.running \
-		or _tutorial.intro != "" or GameState.phase != "racing"
+		or _tutorial.intro != "" or _tutorial.nav != "" or GameState.phase != "racing"
+	_sync_tutorial_nav()
+	if GameState.gating_on() and _tutorial.intro != "" and not _tutorial.tip_mode and not modal_open and not _result_panel.visible:
+		if not _intro_tab_ok(Tutorial.feature(_tutorial.intro)):
+			_tutorial.suspend_intro()
 	if _tutorial.intro != "":
 		var tab_ok: bool = _tip_tab_ok(Tutorial.tip(_tutorial.intro)) if _tutorial.tip_mode else _intro_tab_ok(Tutorial.feature(_tutorial.intro))
 		_tutorial.blocked = modal_open or _result_panel.visible or not tab_ok
-	else:
+	elif _tutorial.running:
 		_tutorial.blocked = _tab != Tab.RACE or modal_open
-		if not modal_open and not _result_panel.visible:
+	else:
+		_tutorial.blocked = modal_open or _result_panel.visible
+		if not _tutorial.blocked:
 			_pump_intro()
 	GameState.tutorial_pause = _tutorial.wants_pause()  # callout đang chờ thao tác → dừng đua + thu nhập
 	_update_daily_auto(delta, modal_open)
@@ -1890,6 +1925,9 @@ func _sync_sim() -> void:
 	var sim := GameState.sim
 	if sim != _view_sim:
 		_view_sim = sim
+		if sim != null and sim.track_id != "" and sim.track_id != _race_view_track:
+			_race_view_track = sim.track_id
+			_race_view.set_track(sim.track_id)
 		_race_view.sim = sim
 	_race_view.alpha = GameState.render_alpha()
 
@@ -1935,7 +1973,7 @@ func _update_race_ui() -> void:
 			_status_label.text = I18n.t("main.time_up_p") % [int(gs.last_result.get("position", 1)), Balance.CAR_COUNT]
 	_race_view.overlay_text = overlay
 	_race_view.power_value = gs.team_power()
-	_race_view.set_seats(Pricing.revenue_value("parking", int(gs.levels.get("parking", 0))))
+	_race_view.set_parking_level(int(gs.levels.get("parking", 0)), Balance.max_level())
 	_race_view.queue_redraw()
 	_save_err_box.visible = gs.phase == "save_error"
 	var differs := false
@@ -2367,7 +2405,7 @@ func _refresh_locks() -> void:
 	var login_open: bool = DailyRewards.is_unlocked(GameState.daily_rewards)
 	var login_can: bool = login_open and GameState.daily_reward_available()
 	var has_coupons: bool = GameState.gear_coupons.values().any(func(n: Variant) -> bool: return int(n) > 0) or GameState.driver_coupons.values().any(func(n: Variant) -> bool: return int(n) > 0)
-	var sig := "%s|%d|%s|%s|%s|%s|%s" % [GameState.gating_on(), GameState.completed_races, str(GameState.tutorial.get("intro_seen", [])), shop_ad, login_open, login_can, has_coupons]
+	var sig := "%s|%d|%s|%s|%s|%s|%s|%s" % [GameState.gating_on(), GameState.completed_races, str(GameState.tutorial.get("intro_seen", [])), shop_ad, login_open, login_can, has_coupons, str(GameState.tutorial.get("lessons", {}))]
 	if sig == _lock_sig:
 		return
 	_lock_sig = sig
@@ -2384,11 +2422,7 @@ func _refresh_locks() -> void:
 	_daily_btn.visible = login_open
 	_daily_dot.visible = login_can
 	var u2 := GameState.feature_unlocked("U2_league")
-	_style_race_header_button(_sched_btn)
 	_header_avatar.modulate = Color.WHITE if u2 else Color(0.62, 0.66, 0.76)
-	_style_race_header_button(_class_btn)
-	_class_btn.clip_text = true
-	_class_btn.text = "Class" if GameState.managed_class == GameState.active_class else String(GameData.race_class(GameState.managed_class).get("name", "Class"))
 	var garage_btn: Button = _team_sub_buttons[1]
 	garage_btn.icon = null if GameState.feature_unlocked("U6_garage") else _tex("icons/vector_dark/lock.svg")
 	garage_btn.expand_icon = true
@@ -2424,15 +2458,55 @@ func _intro_tab_ok(f: Dictionary) -> bool:
 
 ## Tính năng đã mở mà chưa xem hướng dẫn: hiện khi người chơi đứng đúng tab (một cái một lúc).
 func _pump_intro() -> void:
-	if _tutorial.running or _tutorial.intro != "":
+	if _tutorial.running or _tutorial.intro != "" or _tutorial.nav != "":
+		return
+	if _overlay.visible or _result_panel.visible or _profile.visible or _class_page.visible:
 		return
 	if GameState.gating_on():
+		# Earliest eligible lesson owns its entire route, from any current tab.
 		for f: Dictionary in Tutorial.features():
 			var id: String = f["id"]
-			if GameState.feature_unlocked(id) and not Tutorial.intro_seen(GameState, id) and _intro_tab_ok(f):
+			if not GameState.feature_unlocked(id) or Tutorial.intro_seen(GameState, id) or not Tutorial.intro_ready(f, GameState):
+				continue
+			if _intro_tab_ok(f):
 				_tutorial.show_intro(id)
 				return
+			var hint := Tutorial.nav_hint(f, GameState)
+			if hint == "none" or (hint == "soft" and Tutorial.nav_seen(GameState, id)):
+				continue
+			var destination := _nav_tab_of(f)
+			if destination < 0 or not _nav_tab_open(destination):
+				continue
+			_tutorial.show_nav(id, hint == "force")
+			return
 	_pump_tip()
+
+
+## Complete navigation only at the lesson destination, including the Garage subtab.
+func _sync_tutorial_nav() -> void:
+	if _tutorial.nav != "" and _intro_tab_ok(Tutorial.feature(_tutorial.nav)):
+		_tutorial.finish_nav()
+
+
+## Tab điều hướng (chỉ số Tab) của tính năng, -1 nếu không có tab riêng.
+func _nav_tab_of(f: Dictionary) -> int:
+	match String(f.get("tab", "")):
+		"race":
+			return Tab.RACE
+		"bag":
+			return Tab.BAG
+		"shop":
+			return Tab.SHOP
+		"league":
+			return Tab.LEAGUE
+		"team", "garage":
+			return Tab.TEAM
+	return -1
+
+
+func _nav_tab_open(tab: int) -> bool:
+	var fid := _tab_feature(tab)
+	return fid == "" or GameState.feature_unlocked(fid)
 
 
 ## Tab hiện tại dưới dạng khóa của mẹo ("" = tab không có mẹo riêng, chỉ nhận mẹo "any").
@@ -2480,6 +2554,20 @@ func _reveal_node(n: Control) -> void:
 
 ## Mục tiêu spotlight của từng bước, theo tọa độ toàn cục.
 func _tutorial_target(step: String, sub: int) -> Dictionary:
+	if step.begins_with("nav:"):
+		var destination := Tutorial.feature(step.substr(4))
+		if destination.get("tab", "") == "garage" and _tab == Tab.TEAM:
+			var garage_tab: Control = _team_sub_buttons[1]
+			return {"rect": garage_tab.get_global_rect(), "hand": garage_tab.get_global_rect().get_center()}
+		# Tab điều hướng của tính năng vừa mở: bàn tay đứng phía trên tab, chỉ xuống (Design/31 §3.5).
+		var ni := _nav_tab_of(Tutorial.feature(step.substr(4)))
+		if ni < 0 or ni >= _nav_items.size():
+			return {}
+		var nctrl := _nav_items[ni] as Control
+		if nctrl == null or not nctrl.is_visible_in_tree():
+			return {}
+		var nr := nctrl.get_global_rect()
+		return {"rect": nr, "hand": Vector2(nr.get_center().x, nr.position.y), "hand_down": true}
 	if step.begins_with("tip:"):
 		var tctrl := _ctrl_for_spec(String(_tutorial.tip_data.get("target", "")))
 		if tctrl == null or not tctrl.is_visible_in_tree():
@@ -2488,6 +2576,8 @@ func _tutorial_target(step: String, sub: int) -> Dictionary:
 	if step.begins_with("intro:"):
 		var f := Tutorial.feature(step.substr(6))
 		var spec := String(f.get("target", ""))
+		if f.get("action", "") == "trophy_upgrade" and sub == 1:
+			spec = "node:TrophyLevel_" + String(f["upgrade_id"])
 		var ctrl: Control = null
 		if spec.begins_with("tile:"):
 			var row := _row_of(spec.substr(5))
@@ -2502,14 +2592,31 @@ func _tutorial_target(step: String, sub: int) -> Dictionary:
 		return t
 	match step:
 		"A2_car":
-			# Sáng cả khung đua (HUD hạng + khán đài + đường đua), không chỉ chấm xe.
+			# Vòng tròn quanh chấm xe của người chơi (Design/31 §3.2); chưa có vị trí xe thì sáng cả khung đua.
 			if _race_view.size.x <= 0.0 or _race_view.size.y <= 0.0:
 				return {}
-			return {"rect": _race_view.get_global_rect()}
+			var mk := _race_view.player_marker()
+			if float(mk["r"]) <= 0.0:
+				return {"rect": _race_view.get_global_rect()}
+			var mpos: Vector2 = _race_view.get_global_transform() * (mk["pos"] as Vector2)
+			var mrad := maxf(float(mk["r"]) * 2.6, 22.0)
+			return {"rect": Rect2(mpos - Vector2(mrad, mrad), Vector2(mrad, mrad) * 2.0), "round": true}
 		"A3_income":
+			if sub == 1:
+				var header := find_child("RevenueSectionHeader", true, false) as Control
+				if header != null:
+					return {"rect": header.get_global_rect()}
+			if sub == 2:
+				var row := _row_of("ticket")
+				if not row.is_empty():
+					return {"rect": (row["btn"] as Control).get_global_rect(), "hand": (row["btn"] as Control).get_global_rect().get_center()}
+			# Ô thu nhập (tiền mỗi giây), không phải ô tiền: đúng thứ lời dẫn đang nói tới.
+			var pill := find_child("IncomePill", true, false) as Control
+			if pill != null and pill.is_visible_in_tree():
+				return {"rect": pill.get_global_rect()}
 			return {"rect": _coin_bar.get_global_rect()}
-		"A4_engine", "A5_ticket":
-			var row := _row_of("engine" if step == "A4_engine" else "ticket")
+		"A4_engine":
+			var row := _row_of("engine")
 			if row.is_empty():
 				return {}
 			var t := {"rect": (row["tile"] as Control).get_global_rect()}
@@ -2532,11 +2639,10 @@ func _tutorial_context(step: String, res: Dictionary) -> Dictionary:
 		"A1_welcome":
 			return {"coins": Balance.fmt_money(GameState.coins)}
 		"A3_income":
-			return {"rate": Balance.fmt_rate(GameState.online_rate())}
+			var effective := GameState.total_online_rate().multiply_ratio(GameState.income_multiplier(), 1)
+			return {"rate": Balance.fmt_rate(effective), "price": Balance.fmt_money(GameState.cost_of("ticket")), "before": String(Tutorial.income_snapshot(GameState).get("before", "")), "after": Balance.fmt_rate(effective)}
 		"A4_engine":
 			return {"price": Balance.fmt_money(GameState.cost_of("engine"))}
-		"A5_ticket":
-			return {"price": Balance.fmt_money(GameState.cost_of("ticket"))}
 		"A6_result":
 			return {"position": int(res.get("position", 8)), "money": Balance.fmt_money(res.get("money", 0))}
 		"A7_race2":
@@ -2547,13 +2653,29 @@ func _tutorial_context(step: String, res: Dictionary) -> Dictionary:
 
 ## Ô nâng cấp ở nhóm Doanh thu có thể nằm dưới mép màn: cuộn trang Đua tới ô đó.
 func _tutorial_reveal(step: String) -> void:
+	if step == "A3_income":
+		if _tutorial.sub == 1:
+			var header := find_child("RevenueSectionHeader", true, false) as Control
+			if header != null:
+				_reveal_node(header)
+		elif _tutorial.sub == 2:
+			var ticket := _row_of("ticket")
+			if not ticket.is_empty():
+				_reveal_node(ticket["tile"])
+		return
 	if step.begins_with("tip:"):
 		var tc := _ctrl_for_spec(String(_tutorial.tip_data.get("target", "")))
 		if tc != null:
 			_reveal_node(tc)
 		return
 	if step.begins_with("intro:"):
-		var spec := String(Tutorial.feature(step.substr(6)).get("target", ""))
+		var f := Tutorial.feature(step.substr(6))
+		if f.get("action", "") == "trophy_upgrade":
+			var group := String(GameData.trophy_upgrade(String(f["upgrade_id"]))["group"])
+			if _trophy_group != group:
+				_set_trophy_group(group)
+				await get_tree().process_frame
+		var spec := String(f.get("target", ""))
 		var ctrl: Control = null
 		if spec.begins_with("tile:"):
 			var row := _row_of(spec.substr(5))
@@ -2563,9 +2685,9 @@ func _tutorial_reveal(step: String) -> void:
 		if ctrl != null:
 			_reveal_node(ctrl)
 		return
-	if step != "A4_engine" and step != "A5_ticket":
+	if step != "A4_engine":
 		return
-	var row := _row_of("engine" if step == "A4_engine" else "ticket")
+	var row := _row_of("engine")
 	var sc := _pages[Tab.RACE] as ScrollContainer
 	if not row.is_empty() and sc != null:
 		sc.ensure_control_visible(row["tile"])

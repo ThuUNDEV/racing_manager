@@ -24,7 +24,9 @@ func _initialize() -> void:
 	_check(GameData.validate().is_empty(), "GameData.validate() sạch: %s" % str(GameData.validate()))
 	_check(GameData.race_classes().size() == 6, "có 6 class")
 	var racing_opts := GameData.class_opts("racing")
-	_check((racing_opts["tuning"] as Dictionary).is_empty() and (racing_opts["traffic_tuning"] as Dictionary).is_empty(), "Racing không ghi đè gì (giữ nguyên kết quả)")
+	# 16/11/2026: Racing hạ hút gió (0,05 → 0,015) để xe không dồn thành chùm (Design/31); không ghi đè gì khác.
+	_check((racing_opts["tuning"] as Dictionary).is_empty() and (racing_opts["traffic_tuning"] as Dictionary).size() == 1 \
+		and is_equal_approx(float(racing_opts["traffic_tuning"]["draft_bonus"]), 0.05 * 0.3), "Racing chỉ ghi đè hút gió (0,05 × 0,3)")
 	var rally := GameData.class_opts("rally")
 	_check(is_equal_approx(float(rally["tuning"]["corner_per_handling"]), 0.045 * 1.2), "Rally: corner_per_handling = 0,045 × 1,2")
 	_check(is_equal_approx(float(rally["tuning"]["error_base"]), 0.35 * 1.2), "Rally: error_base nhân 1,2")
@@ -125,7 +127,7 @@ func _initialize() -> void:
 	print("== Racing giữ nguyên kết quả ==")
 	GameData.reload()
 	var a := TrafficSim.new()
-	a.setup(12345, {"S": 40, "H": 40, "B": 40, "A": 40, "P": 40, "T": 40, "C": 40}, 0, GameState.PROTOTYPE_TRACK, {"duration": 30.0, "sprint_duration": 0.0})
+	a.setup(12345, {"S": 40, "H": 40, "B": 40, "A": 40, "P": 40, "T": 40, "C": 40}, 0, GameState.PROTOTYPE_TRACK, {"duration": 30.0, "sprint_duration": 0.0, "traffic_tuning": {"draft_bonus": 0.05 * 0.3}})
 	var b := TrafficSim.new()
 	var co := GameData.class_opts("racing")
 	b.setup(12345, {"S": 40, "H": 40, "B": 40, "A": 40, "P": 40, "T": 40, "C": 40}, 0, GameState.PROTOTYPE_TRACK, {"duration": 30.0, "sprint_duration": 0.0, "tuning": co["tuning"], "traffic_tuning": co["traffic_tuning"]})
@@ -136,7 +138,7 @@ func _initialize() -> void:
 	for i in a.cars.size():
 		if a.cars[i].s != b.cars[i].s:
 			same = false
-	_check(same, "Racing có tuning rỗng cho cùng vị trí xe từng bit")
+	_check(same, "Racing (hút gió 0,015 ghi tường minh) cho cùng vị trí xe từng bit")
 	var r := TrafficSim.new()
 	var ro := GameData.class_opts("speed")
 	r.setup(12345, {"S": 40, "H": 40, "B": 40, "A": 40, "P": 40, "T": 40, "C": 40}, 0, GameState.PROTOTYPE_TRACK, {"duration": 30.0, "sprint_duration": 0.0, "tuning": ro["tuning"], "traffic_tuning": ro["traffic_tuning"]})

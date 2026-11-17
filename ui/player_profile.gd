@@ -3,6 +3,7 @@ const CleanArt = preload("res://ui/clean_modern_art.gd")
 const PopupAnim = preload("res://ui/popup_anim.gd")
 ## Centered player-profile popup. Racing continues behind the dimmed backdrop.
 signal closed
+signal class_requested
 
 const INK := Color("23394a")
 const MUTED := Color("768ca0")
@@ -16,6 +17,9 @@ var _collection: VBoxContainer
 var _lineup: HBoxContainer
 var _storage: Label
 var _edit: Button
+var _class_open: Button
+var _class_list: VBoxContainer
+var _class_note: Label
 var _dialog: Control
 var _dialog_panel: PanelContainer
 var _name_input: LineEdit
@@ -100,6 +104,27 @@ func _ready() -> void:
 	_edit = _button(I18n.t("profile.edit_team_name"), _show_edit)
 	_edit.name = "ProfileEditName"
 	edit_row.add_child(_edit)
+	var class_row := _panel(content, Color("f8fbff"), 14, 10)
+	var class_col := VBoxContainer.new()
+	class_col.add_theme_constant_override("separation", 8)
+	class_row.add_child(class_col)
+	var class_box := HBoxContainer.new()
+	class_box.add_theme_constant_override("separation", 8)
+	class_col.add_child(class_box)
+	class_box.add_child(HdUi.icon("icons/trophy.png", Vector2(28, 28)))
+	var class_caption := _label("Class", 15, INK, true)
+	class_caption.size_flags_horizontal = SIZE_EXPAND_FILL
+	class_box.add_child(class_caption)
+	_class_open = _button("Class", _open_class)
+	_class_open.name = "ClassButton"
+	class_box.add_child(_class_open)
+	_class_list = VBoxContainer.new()
+	_class_list.name = "ClassSwitcher"
+	_class_list.add_theme_constant_override("separation", 6)
+	class_col.add_child(_class_list)
+	_class_note = _label("", 12, MUTED, true)
+	_class_note.name = "ClassNote"
+	class_col.add_child(_class_note)
 	_heading(content, I18n.t("profile.racing_journey"), I18n.t("profile.accumulated"))
 	var stats := HBoxContainer.new()
 	stats.add_theme_constant_override("separation", 10)
@@ -128,9 +153,7 @@ func _ready() -> void:
 	var footer_skin := footer.get_theme_stylebox("panel") as StyleBoxFlat
 	footer_skin.corner_radius_bottom_left = 20
 	footer_skin.corner_radius_bottom_right = 20
-	var done := _button(I18n.t("common.close"), _close, true, true)
-	done.name = "ProfileClose"
-	done.custom_minimum_size.y = 48
+	var done := HdUi.close_button(_close, "ProfileClose")
 	footer.add_child(done)
 	_build_edit_dialog()
 	PopupAnim.close_on_outside_click(self, _popup, _close)
@@ -286,6 +309,8 @@ func refresh() -> void:
 	_races.text = str(GameState.completed_races)
 	_race_caption.text = I18n.t("profile.races_completed") if GameState.race_history_complete else I18n.t("profile.races_since_update")
 	_seasons.text = str(GameState.business_tier)
+	_class_open.text = "Class" if GameState.managed_class == GameState.active_class else String(GameData.race_class(GameState.managed_class).get("name", "Class"))
+	_build_classes()
 	_clear(_collection)
 	_collect("car_red", I18n.t("profile.race_car"), GameData.cars(), GameState.owned_cars)
 	_collect("staff", I18n.t("common.drivers"), GameData.drivers(), GameState.owned_drivers)
@@ -301,6 +326,50 @@ func refresh() -> void:
 	var error := GameState.save_blocked or GameState.phase == "save_error" or GameState.simulate_write_failure
 	_storage.text = I18n.t("profile.could_not_save_data_return") if error else I18n.t("profile.data_this_device_account_sync")
 	_storage.add_theme_color_override("font_color", HdUi.C_RED if error else MUTED)
+
+
+func _build_classes() -> void:
+	_clear(_class_list)
+	for cls: Dictionary in GameData.race_classes():
+		var id := String(cls["id"])
+		if not GameState.class_has(id):
+			continue
+		var managed := id == GameState.managed_class
+		var row := HBoxContainer.new()
+		row.name = "ClassRow_" + id
+		row.add_theme_constant_override("separation", 6)
+		_class_list.add_child(row)
+		var title := _label(String(cls["name"]), 14, INK, true)
+		title.size_flags_horizontal = SIZE_EXPAND_FILL
+		row.add_child(title)
+		if id == GameState.active_class:
+			var active := _label(I18n.t("class.racing"), 11, Color("238331"))
+			active.name = "ClassActive_" + id
+			row.add_child(active)
+		var manage := _button(I18n.t("class.managing") if managed else I18n.t("class.manage"), _on_manage.bind(id))
+		manage.name = "ClassManage_" + id
+		manage.disabled = managed
+		row.add_child(manage)
+		if id != GameState.active_class:
+			var pending := id == GameState.pending_class
+			var watch := _button(I18n.t("class.after_this_race") if pending else I18n.t("class.watch_race"), _on_watch.bind(id))
+			watch.name = "ClassWatch_" + id
+			row.add_child(watch)
+
+
+func _on_manage(id: String) -> void:
+	var cname := String(GameData.race_class(id)["name"])
+	_class_note.text = I18n.t("class.now_managing") % cname if GameState.manage_class(id) else I18n.t("class.could_not_switch_facility")
+
+
+func _on_watch(id: String) -> void:
+	var cname := String(GameData.race_class(id)["name"])
+	if not GameState.select_class(id):
+		_class_note.text = I18n.t("class.could_not_change_class")
+	elif GameState.pending_class == id:
+		_class_note.text = I18n.t("class.switching_after_current_race_ends") % cname
+	else:
+		_class_note.text = I18n.t("class.switched") % cname
 
 
 func _refresh_if_visible() -> void:
@@ -321,6 +390,13 @@ func _fit_popup() -> void:
 		return
 	_popup.size = Vector2(minf(390, maxf(0, size.x - 32)), minf(720, maxf(0, size.y - 64)))
 	_popup.position = (size - _popup.size) * 0.5
+
+
+func _open_class() -> void:
+	_dialog.hide()
+	PopupAnim.close(self, _popup, func() -> void:
+		closed.emit()
+		class_requested.emit())
 
 
 func _close() -> void:

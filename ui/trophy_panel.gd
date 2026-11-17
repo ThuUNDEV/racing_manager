@@ -252,7 +252,38 @@ static func _filter(group: String, on_group: Callable) -> PanelContainer:
 		HdUi.ButtonSkin.apply(b)
 		b.pressed.connect(func() -> void: on_group.call(id))
 		row.add_child(b)
+		if group_can_upgrade(id):
+			b.add_child(_notify_dot())
 	return pc
+
+
+## Nhóm có ít nhất một nâng cấp đã mở khoá, chưa tối đa và đủ cúp để mua.
+static func group_can_upgrade(group: String) -> bool:
+	if GameState.phase == "save_error" or GameState.save_blocked:
+		return false
+	for u: Dictionary in GameData.trophy_upgrades():
+		if u["group"] != group:
+			continue
+		var id: String = u["id"]
+		if GameState.trophy_unlocked(id) and GameState.trophy_cost(id) > 0 \
+				and GameState.trophies >= GameState.trophy_cost(id):
+			return true
+	return false
+
+
+static func _notify_dot() -> Panel:
+	var dot := Panel.new()
+	dot.name = "NotifyDot"
+	dot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	dot.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	dot.offset_left = -16
+	dot.offset_right = -4
+	dot.offset_top = 4
+	dot.offset_bottom = 16
+	var sb := _flat(Color("ff3b30"), Color.WHITE, 6, 0)
+	sb.set_border_width_all(2)
+	dot.add_theme_stylebox_override("panel", sb)
+	return dot
 
 
 ## Số cụ thể và đơn vị lấy từ cấu hình, kể cả hiệu ứng kép và cấp tối đa.
@@ -276,7 +307,8 @@ static func _card(u: Dictionary, on_buy: Callable) -> PanelContainer:
 	var id: String = u["id"]
 	var lv := GameState.trophy_level(id)
 	var max_lv := int(u["max_level"])
-	var maxed := lv >= max_lv
+	var total_lv := GameState.trophy_total_levels(id)
+	var maxed := lv >= total_lv
 	var unlocked := GameState.trophy_unlocked(id)
 	var pc := _art_surface("upgrade_card" if unlocked else "upgrade_locked", 12)
 	pc.name = "Upgrade_" + id
@@ -295,15 +327,23 @@ static func _card(u: Dictionary, on_buy: Callable) -> PanelContainer:
 	row.add_child(v)
 	v.add_child(_label(String(u["name"]), 15, C_TEXT if unlocked else C_MUTED, true))
 	var level := HBoxContainer.new()
+	level.name = "TrophyLevel_" + id
 	level.add_theme_constant_override("separation", 7)
-	level.add_child(_label(I18n.t("trophy.level") % [lv, max_lv], 11, C_MUTED))
+	var prestige := GameData.trophy_prestige_levels()
+	if lv >= max_lv and prestige > 0:
+		level.add_child(_label(I18n.t("trophy.prestige") % [lv - max_lv, prestige], 11, Color("a06a00")))
+	else:
+		level.add_child(_label(I18n.t("trophy.level") % [lv, max_lv], 11, C_MUTED))
 	var segments := HBoxContainer.new()
 	segments.name = "LevelSegments"
 	segments.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	segments.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	segments.add_theme_constant_override("separation", 2)
-	for index in max_lv:
-		var segment := _surface(C_BLUE if index < lv else Color("e3edf8"), Color("afc7df"), 2, 0)
+	var gold := lv >= max_lv and prestige > 0
+	for index in (prestige if gold else max_lv):
+		var filled := index < (lv - max_lv if gold else lv)
+		var on_color := Color("ffbf1d") if gold else C_BLUE
+		var segment := _surface(on_color if filled else Color("e3edf8"), Color("afc7df"), 2, 0)
 		segment.custom_minimum_size = Vector2(0, 6)
 		segments.add_child(segment)
 	level.add_child(segments)

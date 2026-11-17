@@ -82,3 +82,15 @@ Thêm khóa `trophies`, `trophies_earned`, `trophy_levels`, `trophy_cap_bonus` (
 ## Cần cân bằng bằng mô phỏng
 
 Giá và hiệu ứng là giá trị khởi điểm chưa qua playtest: mức +12 chỉ số, +15 giây thu nhập/lượt, tốc độ kiếm cúp so với trần 100.
+
+## Prestige sau MAX (đã code)
+
+Khi một nâng cấp đạt MAX, người chơi tiếp tục nâng thêm **5 bậc Prestige** để cúp luôn có chỗ tiêu ở giải cuối.
+
+- Cấu hình: khóa `prestige` trong `data/trophy_upgrades.json` (`levels` 5, `cost_multiplier` [1,2,3,4,5], `effect_step_ratio` 0.1, `cap` 1260).
+- Giá bậc n = giá cấp cuối × `cost_multiplier[n]` (ví dụ Racing engine: 10, 20, 30, 40, 50 = 150 cúp).
+- Hiệu ứng mỗi bậc = `max(1, round(hiệu ứng cấp cuối × 0.1))` cho từng khóa (Pace +12 → +13 … +17; quà ngày +300s → +330s…).
+- Cấp Prestige lưu chung trong `trophy_levels` (cấp > `max_level`), không đổi save; cấp lưu bị chặn ở `max_level + levels`.
+- Trần: `prestige.cap` (1260 = tổng giá mọi bậc) cộng vào trần cúp từ giải cuối, nên trần giải 5 thành 1680. Giải thấp hơn giữ trần cũ.
+- UI: thẻ hiển thị "Prestige n / 5" với thanh vàng; chỉ hiện "MAX" khi đã hết bậc Prestige.
+- Chưa playtest: tổng 1260 cúp ≈ 70 lượt P1 ở giải 5 (18 cúp/lượt).

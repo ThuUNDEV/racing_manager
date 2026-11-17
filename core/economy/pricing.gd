@@ -85,6 +85,17 @@ static func part_stat_per_level(kind: String = "") -> float:
 		return float(by_part[kind])
 	return float(e["part_stat_per_level"])
 
+## Chỉ số cộng thêm của bộ phận ở cấp `level`: hệ số riêng × max_level × (level / max_level)^p, p = `part_stat_curve_exp`
+## (economy.json; mặc định 1 = tuyến tính như cũ). p < 1 dồn tăng trưởng vào các cấp đầu (cấp đầu đã đổi hạng thấy được),
+## còn ở max_level vẫn bằng đúng hệ số × max_level nên đích cuối không đổi (Design/31 §8).
+static func part_stat_gain(kind: String, level: int) -> float:
+	var per := part_stat_per_level(kind)
+	var p := float(_e().get("part_stat_curve_exp", "1"))
+	if is_equal_approx(p, 1.0) or level <= 0:
+		return per * float(maxi(level, 0))
+	var ml := float(max_level())
+	return per * ml * pow(float(level) / ml, p)
+
 ## Giá gốc của từng bộ phận: part_cost_bases[kind] nếu có, không thì part_cost_base chung.
 static func part_base(kind: String) -> String:
 	var per_kind: Dictionary = _e().get("part_cost_bases", {})

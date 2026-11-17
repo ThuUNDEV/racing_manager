@@ -26,8 +26,8 @@ func _initialize() -> void:
 	var caps := []
 	for l in 6:
 		caps.append(GameData.trophy_cap_for_league(l))
-	_check(caps == [100, 160, 230, 300, 365, 420], "trần theo giải: %s" % str(caps))
-	_check(GameData.trophy_cap_for_league(99) == 420 and GameData.trophy_cap_for_league(-1) == 100, "giải ngoài bảng được chặn")
+	_check(caps == [100, 160, 230, 300, 365, 1680], "trần theo giải (giải cuối gồm trần Prestige): %s" % str(caps))
+	_check(GameData.trophy_cap_for_league(99) == 1680 and GameData.trophy_cap_for_league(-1) == 100, "giải ngoài bảng được chặn")
 	_check(GameData.trophy_reward(1, 0) == 3 and GameData.trophy_reward(2, 0) == 2 and GameData.trophy_reward(3, 0) == 1, "P1/P2/P3 = 3/2/1 ở giải 0")
 	_check(GameData.trophy_reward(4, 0) == 0 and GameData.trophy_reward(8, 5) == 0, "từ P4 trở xuống không có cúp")
 	_check(GameData.trophy_reward(1, 3) == 12, "hệ số giải: P1 giải 3 = 3 × 4")
@@ -61,7 +61,7 @@ func _initialize() -> void:
 	_check(gs._award_trophies(1) == 9, "lên giải: nhận tiếp, không reset tổng đã kiếm")
 	gs.business_tier = 5
 	gs.trophy_cap_bonus = 10
-	_check(gs.trophy_cap() == 430, "trần giải + trophy_cap_bonus")
+	_check(gs.trophy_cap() == 1690, "trần giải + trophy_cap_bonus")
 	var nb: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/trophy_upgrades.json"))
 	nb["cap"].erase("by_league")
 	GameData.set_override("trophy_upgrades", nb)
@@ -86,8 +86,17 @@ func _initialize() -> void:
 	gs.trophies = 9999
 	for i in 7:
 		gs.buy_trophy_upgrade("speed_tune")
-	_check(gs.trophy_level("speed_tune") == 10 and gs.trophy_cost("speed_tune") == -1, "dừng ở cấp tối đa")
-	_check(not gs.buy_trophy_upgrade("speed_tune"), "không mua vượt cấp tối đa")
+	_check(gs.trophy_level("speed_tune") == 10 and gs.trophy_prestige_level("speed_tune") == 0, "đạt MAX thường")
+	_check(gs.trophy_cost("speed_tune") == 10 and gs.trophy_effect_at("speed_tune", 10).get("S") == 12, "Prestige 1 giá 10 cúp")
+	var before: int = gs.trophies
+	_check(gs.buy_trophy_upgrade("speed_tune") and gs.trophy_level("speed_tune") == 11 and gs.trophies == before - 10, "mua Prestige 1")
+	_check(gs.trophy_effect_at("speed_tune", 11).get("S") == 13, "Prestige 1 cộng thêm 1 Pace")
+	_check(gs.trophy_cost("speed_tune") == 20, "Prestige 2 giá 20 cúp")
+	for i in 4:
+		gs.buy_trophy_upgrade("speed_tune")
+	_check(gs.trophy_level("speed_tune") == 15 and gs.trophy_cost("speed_tune") == -1, "dừng ở Prestige tối đa")
+	_check(gs.trophy_effect_at("speed_tune", 15).get("S") == 17, "Prestige tối đa +5 Pace")
+	_check(not gs.buy_trophy_upgrade("speed_tune"), "không mua vượt Prestige tối đa")
 
 	print("== Hiệu ứng ==")
 	gs.init_new_game()
@@ -139,7 +148,7 @@ func _initialize() -> void:
 	var dirty := {"trophies": -5, "trophies_earned": 1, "trophy_levels": {"speed_tune": 99, "xxx": 3, "sponsor": -2}}
 	gs._apply_trophies(dirty)
 	_check(gs.trophies == 0 and gs.trophies_earned == 1, "số âm bị làm sạch, tổng đã kiếm không nhỏ hơn số đang có")
-	_check(gs.trophy_level("speed_tune") == 10 and gs.trophy_level("xxx") == 0 and gs.trophy_level("sponsor") == 0, "cấp ngoài cấu hình bị chặn, id lạ bị bỏ")
+	_check(gs.trophy_level("speed_tune") == 15 and gs.trophy_level("xxx") == 0 and gs.trophy_level("sponsor") == 0, "cấp ngoài cấu hình bị chặn, id lạ bị bỏ")
 
 	print("== Hoàn tác khi lưu lỗi ==")
 	gs.init_new_game()

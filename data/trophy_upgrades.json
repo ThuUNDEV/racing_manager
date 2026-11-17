@@ -505,5 +505,18 @@
    ],
    "display": "@data.trophy_upgrades.plus_sec_income_daily_gift"
   }
- ]
+ ],
+ "prestige": {
+  "levels": 5,
+  "cost_multiplier": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "effect_step_ratio": 0.1,
+  "cap": 1260,
+  "note": "After MAX each upgrade can take `levels` Prestige steps. Step cost = last cost x cost_multiplier[step]. Effect per step = max(1, round(last effect x effect_step_ratio)) per key. `cap` is added to the trophy cap once the player is in the final league."
+ }
 }

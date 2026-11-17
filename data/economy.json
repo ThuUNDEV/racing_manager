@@ -15,6 +15,7 @@
   "level_subdivision": 10,
   "duration_factor": "3",
   "part_stat_per_level": "0.2",
+  "part_stat_curve_exp": "0.7",
   "part_stat_per_level_by_part": {
     "engine": "0.25",
     "chassis": "0.2",
