@@ -152,7 +152,7 @@ alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
-theme_type_variation = &"OrangeButton"
+theme_type_variation = &"BuyButton"
 expand_icon = true
 
 [node name="Price2" type="Button" parent="Row/Right/Box"]
@@ -160,7 +160,7 @@ unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
-theme_type_variation = &"OrangeButton"
+theme_type_variation = &"GemButton"
 
 [node name="Detail" type="LinkButton" parent="Row/Right/Box"]
 unique_name_in_owner = true

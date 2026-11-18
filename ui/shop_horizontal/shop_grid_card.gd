@@ -4,6 +4,7 @@ extends PanelContainer
 signal buy_pressed
 
 const DESIGN_SIZE := Vector2(276, 316)
+const ShopSkin = preload("res://ui/shop_demo_skin.gd")
 const NAVY := Color(0.05, 0.14, 0.38, 1)
 
 var art_rect: TextureRect
@@ -41,10 +42,11 @@ func _init() -> void:
 	button_margin.add_theme_constant_override("margin_bottom", 12)
 	box.add_child(button_margin)
 	price = Button.new()
-	price.theme_type_variation = &"OrangeButton"
 	price.custom_minimum_size = Vector2(0, 72)
 	price.expand_icon = true
 	price.add_theme_constant_override("icon_max_width", 40)
+	ShopSkin.set_kind(price, "gem")
+	price.resized.connect(func() -> void: ShopSkin.center_icon(price))
 	price.pressed.connect(buy_pressed.emit)
 	button_margin.add_child(price)
 

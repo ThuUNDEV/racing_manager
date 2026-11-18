@@ -3,7 +3,10 @@ extends PanelContainer
 
 signal info_pressed
 
-const DESIGN_SIZE := Vector2(420, 450)
+const DESIGN_SIZE := Vector2(420, 414)
+const ShopSkin = preload("res://ui/shop_demo_skin.gd")
+const DISABLED_TEXT := Color(0.4, 0.43, 0.5, 1)
+const OUTLINE := Color(0.25, 0.1, 0.45, 1)
 const NAVY := Color(0.05, 0.14, 0.38, 1)
 
 var art_rect: TextureRect
@@ -76,20 +79,21 @@ func setup(art: Texture2D, title: String, subtitle: String) -> void:
 
 func add_open_button(count: int, currency: Texture2D, cost: String, disabled: bool) -> Button:
 	var button := Button.new()
-	button.theme_type_variation = &"OrangeButton"
-	button.custom_minimum_size = Vector2(0, 72)
+	ShopSkin.set_kind(button, "gem")
+	button.custom_minimum_size = Vector2(230, 54)
+	button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	button.disabled = disabled
 	var row := HBoxContainer.new()
 	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
-	row.add_theme_constant_override("separation", 10)
+	row.add_theme_constant_override("separation", 8)
 	row.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	button.add_child(row)
 	for part in ["×%d" % count, currency, cost]:
 		if part is Texture2D:
 			var icon := TextureRect.new()
 			icon.texture = part
-			icon.custom_minimum_size = Vector2(38, 38)
+			icon.custom_minimum_size = Vector2(30, 30)
 			icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 			icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 			icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -98,10 +102,10 @@ func add_open_button(count: int, currency: Texture2D, cost: String, disabled: bo
 			var label := Label.new()
 			label.text = String(part)
 			label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			label.add_theme_font_size_override("font_size", 38)
-			label.add_theme_color_override("font_color", NAVY)
-			label.add_theme_color_override("font_outline_color", Color.TRANSPARENT)
-			label.add_theme_constant_override("outline_size", 0)
+			label.add_theme_font_size_override("font_size", 30)
+			label.add_theme_color_override("font_color", DISABLED_TEXT if disabled else Color.WHITE)
+			label.add_theme_color_override("font_outline_color", OUTLINE)
+			label.add_theme_constant_override("outline_size", 0 if disabled else 5)
 			row.add_child(label)
 	buttons_box.add_child(button)
 	return button

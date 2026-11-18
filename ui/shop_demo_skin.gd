@@ -52,7 +52,7 @@ static func gem_slot() -> StyleBoxFlat:
 
 static func video_icon() -> Texture2D:
 	var image := Image.new()
-	image.load_svg_from_string('<svg xmlns="http://www.w3.org/2000/svg" width="34" height="26"><rect x="1" y="1" width="32" height="24" rx="3" fill="white" stroke="#09285a" stroke-width="2"/><path d="M14 6l11 7-11 7z" fill="#102d60"/></svg>')
+	image.load_svg_from_string('<svg xmlns="http://www.w3.org/2000/svg" width="34" height="26"><rect x="1" y="1" width="32" height="24" rx="3" fill="white" stroke="white" stroke-width="2"/><path d="M14 6l11 7-11 7z" fill="#1f6fc4"/></svg>')
 	return ImageTexture.create_from_image(image)
 
 static func reference_surface(_extent: Vector2, cyan: bool = false) -> StyleBoxTexture:
@@ -179,6 +179,14 @@ static func style_reference_button(b: Button, kind: String = "buy") -> void:
 	style_button(b, kind)
 
 
+const BUTTON_KINDS := {
+	"gem": {"variation": &"GemButton", "color": Color("7b4bc4"), "dark": Color("4a2a86")},
+	"ad": {"variation": &"AdButton", "color": Color("2f8be6"), "dark": Color("1456a3")},
+	"buy": {"variation": &"BuyButton", "color": Color("34a82c"), "dark": Color("1f7a1a")},
+}
+const BUTTON_OUTLINES := {&"BuyButton": Color(0.1, 0.4, 0.1), &"GemButton": Color(0.25, 0.1, 0.45), &"AdButton": Color(0.07, 0.27, 0.55)}
+
+
 static func price_text(b: Button, preferred_size: int = 18, unit: float = 1.0) -> void:
 	# Fit the complete localized store price, including its outline, in narrow cards.
 	var font := b.get_theme_font("font")
@@ -193,19 +201,54 @@ static func price_text(b: Button, preferred_size: int = 18, unit: float = 1.0) -
 			point_size -= 1
 	b.add_theme_font_size_override("font_size", roundi(point_size * unit))
 	b.set_meta("ub_font", point_size)
-	var buy := b.theme_type_variation == &"BuyButton" and not b.disabled
-	b.add_theme_color_override("font_outline_color", Color(0.1, 0.4, 0.1) if buy else Color.TRANSPARENT)
+	var buy := BUTTON_OUTLINES.has(b.theme_type_variation) and not b.disabled
+	b.add_theme_color_override("font_outline_color", BUTTON_OUTLINES[b.theme_type_variation] if buy else Color.TRANSPARENT)
 	var outline := 4 if buy else 0
 	b.add_theme_constant_override("outline_size", roundi(outline * unit))
 	b.set_meta("ub_c_outline_size", outline)
-	if b.icon != null and b.size.x > 0 and not reference:
-		# Godot centers an icon over text when icon_alignment is CENTER. Instead,
-		# center their shared content area, with the icon on its left edge.
-		b.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
-		b.alignment = HORIZONTAL_ALIGNMENT_RIGHT
-		var text_width := font.get_string_size(b.text, HORIZONTAL_ALIGNMENT_LEFT, -1, point_size).x
-		var inset := maxf(3.0, (b.size.x - text_width - 22.0) * 0.5)
-		for state in ["normal", "hover", "pressed", "hover_pressed", "disabled", "focus"]:
-			var style := b.get_theme_stylebox(state)
-			style.content_margin_left = inset
-			style.content_margin_right = inset
+	if not reference:
+		center_icon(b)
+
+
+## Glossy gradient face for shop action buttons: "gem" (pay with gems), "ad" (watch video), "buy" (real money).
+static func set_kind(b: Button, kind: String) -> void:
+	var k: Dictionary = BUTTON_KINDS[kind]
+	var color: Color = k["color"]
+	var dark: Color = k["dark"]
+	var faces := {
+		"normal": [color.lightened(0.28), color, dark],
+		"hover": [color.lightened(0.4), color.lightened(0.12), dark],
+		"pressed": [color.darkened(0.05), color.darkened(0.15), dark.darkened(0.1)],
+		"disabled": [Color("e6e1da"), Color("d8d3cb"), Color("b8b2aa")],
+	}
+	b.theme_type_variation = k["variation"]
+	for state in ["normal", "hover", "pressed", "hover_pressed", "disabled"]:
+		var face: Array = faces["pressed" if state == "hover_pressed" else state]
+		b.add_theme_stylebox_override(state, HdUi.ButtonSkin.palette(face[0], face[1], face[2]))
+	b.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
+	HdUi.ButtonSkin.apply(b)
+
+
+## Godot pins a button icon to the left edge; pad both sides so icon and text sit together in the middle.
+static func center_icon(b: Button) -> void:
+	if b.icon == null or b.size.x <= 0.0 or b.size.y <= 0.0:
+		return
+	b.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	b.alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	var face := b.get_theme_stylebox("normal")
+	var icon_w := float(b.icon.get_width())
+	if b.expand_icon:
+		var inner_h := b.size.y - face.get_margin(SIDE_TOP) - face.get_margin(SIDE_BOTTOM)
+		icon_w *= inner_h / float(b.icon.get_height())
+		var cap := b.get_theme_constant("icon_max_width")
+		if cap > 0:
+			icon_w = minf(icon_w, cap)
+	var text_w := 0.0
+	if b.text != "":
+		text_w = b.get_theme_font("font").get_string_size(b.text, HORIZONTAL_ALIGNMENT_LEFT, -1, b.get_theme_font_size("font_size")).x
+	var gap := float(maxi(b.get_theme_constant("h_separation"), 6)) if b.text != "" else 0.0
+	var inset := maxf(3.0, (b.size.x - icon_w - gap - text_w) * 0.5)
+	for state in ["normal", "hover", "pressed", "hover_pressed", "disabled"]:
+		var style := b.get_theme_stylebox(state)
+		style.content_margin_left = inset
+		style.content_margin_right = inset

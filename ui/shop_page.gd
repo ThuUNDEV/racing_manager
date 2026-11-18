@@ -414,7 +414,7 @@ func _h_offer_card(parent: Node, p: Dictionary, row_h: float) -> void:
 	(card.get_node("%Art") as Control).name = "OfferArt_" + sku
 	var button := card.get_node("%Price") as Button
 	button.name = "Iap_" + sku
-	button.theme_type_variation = &"BuyButton"
+	ShopSkin.set_kind(button, "buy")
 	card.buy_pressed.connect(func() -> void: iap_requested.emit(sku))
 	var status := _text("", 10, MUTED)
 	status.hide()
@@ -803,6 +803,7 @@ func _free_card(parent: Node, art_id: String, card_title: String, placement: Str
 	var card := _h_card(parent, row_h, art_id, card_title, 38)
 	var button := card.get_node("%Price") as Button
 	button.name = "Ad_" + placement
+	ShopSkin.set_kind(button, "ad")
 	if placement == "free_gems_banner":
 		card.get_parent().name = "FreeGemBanner"
 	card.buy_pressed.connect(func() -> void: ad_requested.emit("free_gems" if placement == "free_gems_banner" else placement))
@@ -866,6 +867,8 @@ func update_ads(view: Dictionary) -> void:
 				button.text = I18n.t("shop.none_yet")
 		status.visible = not status.text.is_empty() and not bool(_ad_buttons[pl].get("reference", false))
 		button.tooltip_text = status.text
+		if button.icon != null:
+			button.text = button.text.trim_prefix("▶ ")
 		if bool(_ad_buttons[pl].get("reference", false)):
 			ShopSkin.price_text(button, int(_ad_buttons[pl].get("price_font", 34)), UnitScale.unit_of(button))
 
@@ -889,6 +892,7 @@ func _free_gem_card(parent: Node) -> void:
 	card.get_parent().name = "FreeGemCard"
 	card.art_rect.name = "GemArt_free"
 	card.price.name = "Ad_free_gems"
+	ShopSkin.set_kind(card.price, "ad")
 	card.buy_pressed.connect(func() -> void: ad_requested.emit("free_gems"))
 	var status := _text("", 11, MUTED)
 	status.hide()
@@ -901,7 +905,7 @@ func _gem_card(parent: Node, sku: String, amount: int, price: String) -> void:
 	card.setup(_h_tex("gems_%d" % amount), "%d.%03d" % [amount / 1000, amount % 1000] if amount >= 1000 else str(amount), price, null, I18n.t("shop.first_time_x_2"))
 	card.art_rect.name = "GemArt_" + sku
 	card.price.name = "Iap_" + sku
-	card.price.theme_type_variation = &"BuyButton"
+	ShopSkin.set_kind(card.price, "buy")
 	card.buy_pressed.connect(func() -> void: iap_requested.emit(sku))
 	var status := _text("", 16, Color.WHITE)
 	status.hide()
