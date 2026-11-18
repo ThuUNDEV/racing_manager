@@ -7,19 +7,19 @@ base_font = ExtResource("1_font")
 variation_opentype = {2003265652: 900.0}
 
 [sub_resource type="StyleBoxFlat" id="Card"]
-bg_color = Color(0.965, 0.93, 0.878, 1)
+bg_color = Color(1, 0.957, 0.894, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
-border_width_bottom = 3
-border_color = Color(0.9, 0.84, 0.76, 1)
-corner_radius_top_left = 30
-corner_radius_top_right = 30
-corner_radius_bottom_right = 30
-corner_radius_bottom_left = 30
-shadow_color = Color(0.45, 0.3, 0.15, 0.22)
-shadow_size = 6
-shadow_offset = Vector2(0, 4)
+border_width_bottom = 2
+border_color = Color(0.91, 0.835, 0.737, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0.475, 0.349, 0.212, 0.2)
+shadow_size = 4
+shadow_offset = Vector2(0, 3)
 
 [sub_resource type="StyleBoxFlat" id="Orange"]
 bg_color = Color(0.65, 0.86, 0.97, 1)
