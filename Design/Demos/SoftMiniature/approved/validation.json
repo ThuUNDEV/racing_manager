@@ -1,0 +1,47 @@
+{
+  "screens": [
+    {
+      "file": "01-race.png",
+      "size": [
+        887,
+        1772
+      ]
+    },
+    {
+      "file": "02-bag.png",
+      "size": [
+        887,
+        1773
+      ]
+    },
+    {
+      "file": "03-drivers.png",
+      "size": [
+        887,
+        1773
+      ]
+    },
+    {
+      "file": "04-garage.png",
+      "size": [
+        888,
+        1772
+      ]
+    },
+    {
+      "file": "05-league.png",
+      "size": [
+        888,
+        1772
+      ]
+    },
+    {
+      "file": "06-shop.png",
+      "size": [
+        887,
+        1772
+      ]
+    }
+  ],
+  "runtime_modified": false
+}

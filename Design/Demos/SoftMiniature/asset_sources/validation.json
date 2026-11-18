@@ -1,0 +1,211 @@
+{
+  "runtime_restored": true,
+  "source_mockup": "Design/Demos/SoftMiniature/layout-review.html",
+  "reference": "Design/Demos/SoftMiniature/concept_options/Pocket_Circuit_Options_v1/02-soft-miniature.png",
+  "checks": [
+    {
+      "id": "race",
+      "width": 728,
+      "contentHeight": 763,
+      "capturedHeight": 763,
+      "consoleMessages": [
+        {
+          "level": "log",
+          "text": "{\"contentWidth\":318,\"scrollWidth\":318,\"popupWidth\":null,\"phoneWidth\":320}"
+        }
+      ],
+      "screenshot": {
+        "mimeType": "image/png",
+        "width": 728,
+        "height": 763
+      }
+    },
+    {
+      "id": "bag",
+      "width": 728,
+      "contentHeight": 763,
+      "capturedHeight": 763,
+      "consoleMessages": [
+        {
+          "level": "log",
+          "text": "{\"contentWidth\":318,\"scrollWidth\":318,\"popupWidth\":null,\"phoneWidth\":320}"
+        }
+      ],
+      "screenshot": {
+        "mimeType": "image/png",
+        "width": 728,
+        "height": 763
+      }
+    },
+    {
+      "id": "drivers",
+      "width": 728,
+      "contentHeight": 763,
+      "capturedHeight": 763,
+      "consoleMessages": [
+        {
+          "level": "log",
+          "text": "{\"contentWidth\":318,\"scrollWidth\":318,\"popupWidth\":null,\"phoneWidth\":320}"
+        }
+      ],
+      "screenshot": {
+        "mimeType": "image/png",
+        "width": 728,
+        "height": 763
+      }
+    },
+    {
+      "id": "garage",
+      "width": 728,
+      "contentHeight": 763,
+      "capturedHeight": 763,
+      "consoleMessages": [
+        {
+          "level": "log",
+          "text": "{\"contentWidth\":318,\"scrollWidth\":318,\"popupWidth\":null,\"phoneWidth\":320}"
+        }
+      ],
+      "screenshot": {
+        "mimeType": "image/png",
+        "width": 728,
+        "height": 763
+      }
+    },
+    {
+      "id": "league",
+      "width": 728,
+      "contentHeight": 763,
+      "capturedHeight": 763,
+      "consoleMessages": [
+        {
+          "level": "log",
+          "text": "{\"contentWidth\":318,\"scrollWidth\":318,\"popupWidth\":null,\"phoneWidth\":320}"
+        }
+      ],
+      "screenshot": {
+        "mimeType": "image/png",
+        "width": 728,
+        "height": 763
+      }
+    },
+    {
+      "id": "shop",
+      "width": 728,
+      "contentHeight": 763,
+      "capturedHeight": 763,
+      "consoleMessages": [
+        {
+          "level": "log",
+          "text": "{\"contentWidth\":318,\"scrollWidth\":318,\"popupWidth\":null,\"phoneWidth\":320}"
+        }
+      ],
+      "screenshot": {
+        "mimeType": "image/png",
+        "width": 728,
+        "height": 763
+      }
+    },
+    {
+      "id": "result",
+      "width": 728,
+      "contentHeight": 763,
+      "capturedHeight": 763,
+      "consoleMessages": [
+        {
+          "level": "log",
+          "text": "{\"contentWidth\":318,\"scrollWidth\":318,\"popupWidth\":282,\"phoneWidth\":320}"
+        }
+      ],
+      "screenshot": {
+        "mimeType": "image/png",
+        "width": 728,
+        "height": 763
+      }
+    },
+    {
+      "id": "offline",
+      "width": 728,
+      "contentHeight": 763,
+      "capturedHeight": 763,
+      "consoleMessages": [
+        {
+          "level": "log",
+          "text": "{\"contentWidth\":318,\"scrollWidth\":318,\"popupWidth\":296,\"phoneWidth\":320}"
+        }
+      ],
+      "screenshot": {
+        "mimeType": "image/png",
+        "width": 728,
+        "height": 763
+      }
+    },
+    {
+      "id": "daily",
+      "width": 728,
+      "contentHeight": 763,
+      "capturedHeight": 763,
+      "consoleMessages": [
+        {
+          "level": "log",
+          "text": "{\"contentWidth\":318,\"scrollWidth\":318,\"popupWidth\":296,\"phoneWidth\":320}"
+        }
+      ],
+      "screenshot": {
+        "mimeType": "image/png",
+        "width": 728,
+        "height": 763
+      }
+    },
+    {
+      "id": "classes",
+      "width": 728,
+      "contentHeight": 763,
+      "capturedHeight": 763,
+      "consoleMessages": [
+        {
+          "level": "log",
+          "text": "{\"contentWidth\":318,\"scrollWidth\":318,\"popupWidth\":296,\"phoneWidth\":320}"
+        }
+      ],
+      "screenshot": {
+        "mimeType": "image/png",
+        "width": 728,
+        "height": 763
+      }
+    },
+    {
+      "id": "driver_detail",
+      "width": 728,
+      "contentHeight": 763,
+      "capturedHeight": 763,
+      "consoleMessages": [
+        {
+          "level": "log",
+          "text": "{\"contentWidth\":318,\"scrollWidth\":318,\"popupWidth\":296,\"phoneWidth\":320}"
+        }
+      ],
+      "screenshot": {
+        "mimeType": "image/png",
+        "width": 728,
+        "height": 763
+      }
+    },
+    {
+      "id": "settings",
+      "width": 728,
+      "contentHeight": 763,
+      "capturedHeight": 763,
+      "consoleMessages": [
+        {
+          "level": "log",
+          "text": "{\"contentWidth\":318,\"scrollWidth\":318,\"popupWidth\":296,\"phoneWidth\":320}"
+        }
+      ],
+      "screenshot": {
+        "mimeType": "image/png",
+        "width": 728,
+        "height": 763
+      }
+    }
+  ]
+}

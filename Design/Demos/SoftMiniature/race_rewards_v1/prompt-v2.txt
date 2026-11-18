@@ -1,0 +1,7 @@
+Generated with built-in image_gen.
+
+Edit the provided full racing UI mockup. Make ONLY these three UI simplifications:
+1. Completely remove the reset/revert button with circular arrow on the left beneath the income chip. Fill its former area seamlessly with the same turquoise background.
+2. Remove 'Race 16' and the vertical separator from the upper-left cream rank pill. Shrink that pill to fit only its existing trophy badge and existing 'Appre' text, with balanced small padding. Do not leave a long empty cream extension.
+3. Compact the green income pill: delete the word 'Income', retain the coin icon and exact text '+672/min'. Reduce its width and height to a neat compact status chip, left aligned below the rank pill. Do not enlarge any text to fill the vacated space.
+Preserve the entire full image and its aspect ratio, the orange Facilities button top right, Daily Gift and ×2 Reward / Watch ad buttons on the right, circuit geometry and position and all trees and cars, leaderboard, P8/8 marker, Lap 1/3 badge, Drag to rotate hint, soft rounded outer frame, matte toy/clay Soft Miniature art and colors. No new controls or elements. Keep changes local to the upper-left UI and removed reset button. Deliver the complete full panel, not a crop.
