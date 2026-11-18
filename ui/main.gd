@@ -109,6 +109,8 @@ var _gear: GearPage
 var _catalog_buttons: Array = []
 
 var _row_timer: float = 0.0
+var _shop_iap_sig: int = 0
+var _shop_ads_sig: int = 0
 var _last_count: int = -1        # số countdown vừa phát tiếng
 var _seen_result: int = 0        # results_serial đã hiển thị
 
@@ -1668,8 +1670,16 @@ func _rebuild_shop() -> void:
 	var login_can: bool = GameState.daily_reward_available()
 	_shop_content.update_login_rewards(login_ok, login_can, int(GameState.daily_rewards["total_days"]),
 		DailyRewardsPopup.reward_line(DailyRewards.next_reward(GameState.daily_rewards)))
-	_shop_content.update_iap(_iap_view())
-	_shop_content.update_ads(_ads_view())
+	var iap_view := _iap_view()
+	var iap_sig := hash([iap_view.hash(), TranslationServer.get_locale()])
+	if iap_sig != _shop_iap_sig:
+		_shop_iap_sig = iap_sig
+		_shop_content.update_iap(iap_view)
+	var ads_view := _ads_view()
+	var ads_sig := hash([ads_view.hash(), TranslationServer.get_locale()])
+	if ads_sig != _shop_ads_sig:
+		_shop_ads_sig = ads_sig
+		_shop_content.update_ads(ads_view)
 	_shop_content.update_packs()
 
 
