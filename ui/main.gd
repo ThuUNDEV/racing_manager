@@ -1167,7 +1167,6 @@ func _build_shop_page() -> void:
 	_shop_content = (CleanArt.asset("res://ui/shop_page.gd") as GDScript).new()
 	_shop_box.add_child(_shop_content)
 
-	_shop_content.daily_requested.connect(_claim_shop_daily)
 	_shop_content.daily_rewards_requested.connect(_show_daily_rewards)
 	_shop_content.offer_requested.connect(_show_shop_offer)
 	_shop_content.iap_requested.connect(_buy_iap)
@@ -1804,10 +1803,6 @@ func _buy_trophy(id: String) -> void:
 func _rebuild_shop() -> void:
 	if not is_instance_valid(_shop_content):
 		return
-	_shop_content.update_daily(
-		Balance.fmt_money(GameState.daily_gift_amount()),
-		int(GameData.economy()["rewards"]["daily_gems"]),
-		GameState.daily_available(), GameState.save_blocked or GameState.phase == "save_error")
 	var login_ok: bool = DailyRewards.is_unlocked(GameState.daily_rewards)
 	var login_can: bool = GameState.daily_reward_available()
 	_shop_content.update_login_rewards(login_ok, login_can, int(GameState.daily_rewards["total_days"]),
@@ -1914,14 +1909,6 @@ func _watch_shop_ad(pl: String) -> void:
 		Ads.retry_pending(pl, done)
 	else:
 		Ads.try_show_rewarded(pl, done)
-	_rebuild_shop()
-
-
-func _claim_shop_daily() -> void:
-	if GameState.claim_daily():
-		_sfx("daily_gift")
-	else:
-		_show_toast(I18n.t("main.cannot_claim_reward_check_save"))
 	_rebuild_shop()
 
 

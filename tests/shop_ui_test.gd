@@ -48,20 +48,7 @@ func run() -> void:
 		root.get_texture().get_image().save_png("res://Design/Previews/settings_audio.png")
 	main._overlay.hide()
 	check(shop.get_child_count() > 15, "All Shop sections are present")
-	check(not shop._daily_button.disabled, "Daily gift initially available")
-	state.save_blocked = true
-	main._refresh()
-	check(shop._daily_button.disabled, "Daily gift disabled while saving is blocked")
-	state.save_blocked = false
-	main._refresh()
-	var gems_before: int = state.gems
-	shop._daily_button.pressed.emit()
-	await settle()
-	check(state.gems == gems_before + int(GameData.economy()["rewards"]["daily_gems"]), "Daily button awards configured gems")
-	check(shop._daily_button.disabled, "Claimed daily gift is disabled")
-	check(not state.claim_daily(), "Daily gift cannot be claimed twice")
-	# Let the one-shot reward effect finish before screenshots/cleanup.
-	await create_timer(1.5).timeout
+	check(shop.find_child("DailyGiftBanner", true, false) == null and shop.find_child("ClaimDaily", true, false) == null, "Shop has no daily gift claim card")
 	var coins_before = state.coins.to_save()
 	var gems_after: int = state.gems
 	shop.offer_requested.emit("PASS THÁNG", "Nhận thưởng mỗi ngày.")
