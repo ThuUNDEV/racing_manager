@@ -119,7 +119,7 @@ func rebuild(track: TrackLayout, size: Vector2, width: float) -> void:
 	road_width = width
 	center = layout.bounds.get_center()
 	portrait = layout.bounds.size.y > layout.bounds.size.x
-	view_rect = Rect2(size.x * 0.035, size.y * 0.22, maxf(size.x * 0.86, 8), maxf(size.y * 0.72, 8))
+	view_rect = Rect2(size.x * 0.01, size.y * 0.13, maxf(size.x * 0.98, 8), maxf(size.y * 0.83, 8))
 	viewport.size = Vector2i(view_rect.size * 2.0)
 	if same_track:
 		var dimensions := layout.bounds.grow(28.0).size * SCALE

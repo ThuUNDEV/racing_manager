@@ -18,6 +18,7 @@ var blocked := false
 var _ads: Node
 var _gs: Node
 var _chip: Button
+var _chip_host: Control
 var _chip_title: Label
 var _chip_time: Label
 var _chip_video: TextureRect
@@ -370,16 +371,29 @@ func _set_chip_state(state: String) -> void:
 	_chip.mouse_default_cursor_shape = Control.CURSOR_ARROW if running else Control.CURSOR_POINTING_HAND
 
 
+func dock_chip(host: Control) -> void:
+	_chip_host = host
+	_chip.reparent(host, false)
+	_chip.visibility_changed.connect(func() -> void: host.visible = _chip.visible)
+	host.visible = _chip.visible
+	_layout_chip()
+
+
 func _layout_chip() -> void:
 	var k := size.x / 1448.0
 	var rect := RaceView.hud_boost_rect_for_width(size.x)
+	if _chip_host != null:
+		k = 1.0
+		rect = Rect2(Vector2.ZERO, Vector2(260, 205))
 	_chip.custom_minimum_size = Vector2.ZERO
 	_chip.size = rect.size
 	_chip.position = rect.position
-	_chip_cash.position = Vector2(22, 12) * k
-	_chip_cash.size = Vector2(125, 85) * k
-	_chip_video.position = Vector2(149, 38) * k
-	_chip_video.size = Vector2(69, 58) * k
+	_chip_cash.position = Vector2(14, 51) * k
+	_chip_cash.size = Vector2(150, 102) * k
+	_chip_video.position = Vector2(166, 83) * k
+	_chip_video.size = Vector2(83, 70) * k
+	_chip_title.hide()
+	_chip_time.hide()
 	_chip_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_chip_title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_chip_title.clip_text = true

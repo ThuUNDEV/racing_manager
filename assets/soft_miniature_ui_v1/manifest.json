@@ -2397,6 +2397,16 @@
       ],
       "sha256": "0045c8e254c778a049ed82b60e3e9b58c1abf0b514a8be713ec6d81a5ebff15c",
       "transparent": true
+    },
+    "offline_income_art": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, quality=low, refs: assets/workshop_gp/rewards/offline_garage.png + flare/facility_garage.png (tools/gen_image.py); background removed with art-tools; raw+prompt in output/imagegen/offline_income_art/",
+      "png_2x": "custom/offline_income_art.png",
+      "native_size": [
+        744,
+        444
+      ],
+      "transparent": true
     }
   },
   "hd_restoration": {

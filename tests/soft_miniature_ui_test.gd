@@ -135,12 +135,13 @@ func run() -> void:
 	var coins_before: BigNumber = state.coins
 	var buy := main._rows[0]["btn"] as Button
 	check(not buy.disabled, "affordable upgrade enabled")
-	buy.pressed.emit()
+	buy.button_down.emit()
+	buy.button_up.emit()
 	check(state.level_of("engine") == level_before + 1, "upgrade increases real part level")
 	check(state.coins.compare(coins_before) < 0, "upgrade spends real currency")
 	state.coins = BigNumber.zero()
 	main._refresh_rows()
-	check(buy.disabled and (main._rows[0]["short"] as Label).visible, "unaffordable upgrade disabled with shortfall")
+	check(buy.disabled, "unaffordable upgrade disabled")
 	state.grant_gear_coupons("standard", 1)
 	main._select_tab(4)
 	main._shop_content.update_packs()

@@ -4,10 +4,14 @@ const PopupAnim = preload("res://ui/popup_anim.gd")
 signal closed
 
 const INK := Color("0e2b5c")
-const MUTED := Color("6a7d99")
+const MUTED := Color("5f7391")
 const TouchScroll = preload("res://ui/touch_scroll.gd")
-const TILE := {"blue": Color("bfd9ff"), "orange": Color("ffd9b0"), "red": Color("ffc4c4"),
-	"purple": Color("dcc9ff"), "gold": Color("ffeaa0"), "green": Color("bff0cf")}
+const TILE := {"blue": Color("cfe3f7"), "orange": Color("ffdcae"), "red": Color("ffd0c8"),
+	"purple": Color("e2d6f5"), "gold": Color("fbe9a8"), "green": Color("cdeec0")}
+const CAR_ART := {"blue": "race_car_blue", "orange": "race_car_yellow", "red": "race_car_red",
+	"purple": "race_car_purple", "gold": "race_car_yellow", "green": "race_car_green"}
+const EDGE := Color("d8d7ca")
+const CARD_FILL := Color("f6edd9")
 var _popup: PanelContainer
 var _header: PanelContainer
 var _list: VBoxContainer
@@ -28,7 +32,7 @@ func _ready() -> void:
 		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT and not is_instance_valid(_picker):
 			_close())
 	add_child(dim)
-	_popup = _surface(Color("e6f3ff"), Color("b6dbfa"), 24, 0)
+	_popup = _surface(HdUi.Soft.BG, EDGE, 24, 0)
 	_popup.name = "ClassPopup"
 	_popup.clip_contents = true
 	var skin := _popup.get_theme_stylebox("panel") as StyleBoxFlat
@@ -40,11 +44,12 @@ func _ready() -> void:
 	_popup.add_child(root)
 	var head := PanelContainer.new()
 	_header = head
-	var hs := StyleBoxFlat.new()
-	hs.bg_color = Color("dcefff")
+	var hs := HdUi.Soft.flat(Color("f3e6c9"), 10, 0)
 	hs.corner_radius_top_left = 24
 	hs.corner_radius_top_right = 24
-	hs.set_content_margin_all(10)
+	hs.border_width_left = 0
+	hs.border_width_right = 0
+	hs.border_width_top = 0
 	head.add_theme_stylebox_override("panel", hs)
 	root.add_child(head)
 	var row := HBoxContainer.new()
@@ -56,13 +61,13 @@ func _ready() -> void:
 	row.add_child(titles)
 	titles.add_child(_label("Classes", 25, INK))
 	titles.add_child(_label(I18n.t("class.manage_race_facilities"), 11, MUTED, true))
-	var wallet := _surface(Color("e0efff"), Color("8eb4e9"), 18, 8)
+	var wallet := _surface(Color("fffaf0"), EDGE, 18, 8)
 	wallet.size_flags_vertical = SIZE_SHRINK_CENTER
 	row.add_child(wallet)
 	var cash_row := HBoxContainer.new()
 	cash_row.add_theme_constant_override("separation", 4)
 	wallet.add_child(cash_row)
-	cash_row.add_child(HdUi.icon("icons/cash.png", Vector2(24, 24)))
+	cash_row.add_child(HdUi.Soft.art("currency_cash", Vector2(26, 24)))
 	_coins = _label("", 16, INK)
 	cash_row.add_child(_coins)
 	row.add_child(HdUi.close_button(_close, "ClassClose"))
@@ -153,7 +158,7 @@ func _card(cls: Dictionary) -> Control:
 	var id := String(cls["id"])
 	var is_active := id == GameState.active_class
 	var managed := id == GameState.managed_class
-	var card := _surface(Color.WHITE, Color("2985ef") if managed else Color("c5d9ee"), 22, 14)
+	var card := _surface(Color("fffaf0"), Color("ff9225") if managed else EDGE, 22, 14)
 	card.name = "ClassCard_" + id
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 12)
@@ -161,9 +166,10 @@ func _card(cls: Dictionary) -> Control:
 	var head := HBoxContainer.new()
 	head.add_theme_constant_override("separation", 10)
 	box.add_child(head)
-	var tile := _surface(TILE.get(String(cls.get("color", "blue")), Color("bfd9ff")), Color("c2e1ff"), 16, 4)
+	var tint: Color = TILE.get(String(cls.get("color", "blue")), TILE["blue"])
+	var tile := _surface(tint, EDGE, 16, 4)
 	tile.size_flags_vertical = SIZE_SHRINK_CENTER
-	tile.add_child(HdUi.icon("icons/car_blue.png", Vector2(56, 64)))
+	tile.add_child(HdUi.Soft.art(String(CAR_ART.get(String(cls.get("color", "blue")), "race_car_blue")), Vector2(60, 60)))
 	head.add_child(tile)
 	var names := VBoxContainer.new()
 	names.size_flags_horizontal = SIZE_EXPAND_FILL
@@ -174,15 +180,14 @@ func _card(cls: Dictionary) -> Control:
 	names.add_child(name_row)
 	name_row.add_child(_label(String(cls["name"]), 22, INK, true))
 	if is_active:
-		var badge := _surface(Color("e0f8df"), Color("a7dfaa"), 14, 5)
+		var badge := HdUi.Soft.pill(I18n.t("class.racing"), Color("d3f2c6"), 11)
 		badge.size_flags_vertical = SIZE_SHRINK_CENTER
-		var active := _label(I18n.t("class.racing"), 11, Color("238331"))
-		active.name = "ClassActive_" + id
-		badge.add_child(active)
+		badge.get_child(0).name = "ClassActive_" + id
+		badge.get_child(0).add_theme_color_override("font_color", Color("238331"))
 		name_row.add_child(badge)
 	names.add_child(_label(String(cls.get("blurb", "")), 12, MUTED, true))
 	var line := ColorRect.new()
-	line.color = Color("c9e1f7")
+	line.color = EDGE
 	line.custom_minimum_size.y = 1
 	line.mouse_filter = MOUSE_FILTER_IGNORE
 	box.add_child(line)
@@ -191,24 +196,24 @@ func _card(cls: Dictionary) -> Control:
 	team.add_child(_label(I18n.t("class.team_name"), 11, MUTED))
 	team.add_child(_label(GameState.player_team_name, 20, INK, true))
 	box.add_child(team)
-	var metrics := _surface(Color("e6f3ff"), Color("e6f3ff"), 16, 10)
+	var metrics := _surface(CARD_FILL, CARD_FILL, 16, 10)
 	box.add_child(metrics)
 	var metric_row := HBoxContainer.new()
 	metric_row.add_theme_constant_override("separation", 8)
 	metrics.add_child(metric_row)
-	metric_row.add_child(_metric("icons/trophy.png", I18n.t("class.current_league"), String(GameData.league(GameState.facility_tier(id))["name"]), INK))
+	metric_row.add_child(_metric("trophy_large", I18n.t("class.current_league"), String(GameData.league(GameState.facility_tier(id))["name"]), INK))
 	var divider := ColorRect.new()
-	divider.color = Color("bedaf4")
+	divider.color = EDGE
 	divider.custom_minimum_size.x = 1
 	divider.mouse_filter = MOUSE_FILTER_IGNORE
 	metric_row.add_child(divider)
-	metric_row.add_child(_metric("icons/cash.png", I18n.t("class.income"), I18n.t("common.plus_sec") % Balance.fmt_rate(GameState.facility_rate(id)), Color("22852f")))
-	var hint := _surface(Color("eaf4ff"), Color("eaf4ff"), 14, 8)
+	metric_row.add_child(_metric("currency_cash", I18n.t("class.income"), I18n.t("common.plus_sec") % Balance.fmt_rate(GameState.facility_rate(id)), Color("22852f")))
+	var hint := _surface(CARD_FILL, CARD_FILL, 14, 8)
 	box.add_child(hint)
 	var hint_row := HBoxContainer.new()
 	hint_row.add_theme_constant_override("separation", 8)
 	hint.add_child(hint_row)
-	hint_row.add_child(HdUi.icon("icons/energy.png", Vector2(30, 34)))
+	hint_row.add_child(HdUi.Soft.art("engine", Vector2(34, 34)))
 	var hints := VBoxContainer.new()
 	hints.size_flags_horizontal = SIZE_EXPAND_FILL
 	hint_row.add_child(hints)
@@ -226,7 +231,7 @@ func _metric(icon_path: String, caption: String, value: String, color: Color) ->
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 4)
 	col.add_child(row)
-	row.add_child(HdUi.icon(icon_path, Vector2(22, 22)))
+	row.add_child(HdUi.Soft.art(icon_path, Vector2(24, 24)))
 	row.add_child(_label(caption, 9, MUTED, true))
 	col.add_child(_label(value, 17, color, true))
 	return col
@@ -234,12 +239,9 @@ func _metric(icon_path: String, caption: String, value: String, color: Color) ->
 
 func _surface(fill: Color, border: Color, radius: int, padding: int) -> PanelContainer:
 	var panel := PanelContainer.new()
-	var style := StyleBoxFlat.new()
-	style.bg_color = fill
+	var style := HdUi.Soft.flat(fill, padding, radius)
 	style.border_color = border
 	style.set_border_width_all(2 if fill != border else 0)
-	style.set_corner_radius_all(radius)
-	style.set_content_margin_all(padding)
 	panel.add_theme_stylebox_override("panel", style)
 	return panel
 
@@ -249,7 +251,7 @@ func _variant_name(variant: String) -> String:
 
 
 func _facility_panel() -> Control:
-	var card := _surface(Color("fff7e6"), Color("ffc65b"), 22, 14)
+	var card := _surface(Color("ffe9c4"), Color("f0b866"), 22, 14)
 	card.name = "FacilityPanel"
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 12)
@@ -257,7 +259,7 @@ func _facility_panel() -> Control:
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 10)
 	box.add_child(row)
-	row.add_child(HdUi.icon("icons/garage.png", Vector2(64, 64)))
+	row.add_child(HdUi.Soft.art("facility_garage", Vector2(72, 64)))
 	var col := VBoxContainer.new()
 	col.size_flags_horizontal = SIZE_EXPAND_FILL
 	row.add_child(col)
@@ -275,7 +277,7 @@ func _facility_panel() -> Control:
 		var buy := Button.new()
 		buy.name = "FacilityBuy"
 		buy.text = I18n.t("class.open_facility") + Balance.fmt_money(GameState.facility_price())
-		buy.icon = HdUi.scaled("icons/cash.png", 0.08)
+		buy.icon = HdUi.Soft.icon("cash")
 		buy.expand_icon = true
 		buy.add_theme_constant_override("icon_max_width", 26)
 		buy.add_theme_font_size_override("font_size", 18)
@@ -326,10 +328,8 @@ func _open_picker() -> void:
 	center.mouse_filter = MOUSE_FILTER_IGNORE
 	_picker.add_child(center)
 	var panel := PanelContainer.new()
-	var ps := StyleBoxFlat.new()
-	ps.bg_color = Color.WHITE
-	ps.set_corner_radius_all(22)
-	ps.set_content_margin_all(16)
+	var ps := HdUi.Soft.flat(HdUi.Soft.BG, 16, 22)
+	ps.set_border_width_all(2)
 	panel.add_theme_stylebox_override("panel", ps)
 	panel.custom_minimum_size = Vector2(minf(358.0, size.x - 32.0), 0)
 	center.add_child(panel)
@@ -371,25 +371,24 @@ func _option(cls: Dictionary) -> Button:
 	b.text = "%s
 %s" % [String(cls["name"]), String(cls.get("blurb", ""))]
 	b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	b.icon = HdUi.scaled("icons/car_blue.png", 0.1)
+	b.icon = HdUi.Soft.texture(String(CAR_ART.get(String(cls.get("color", "blue")), "race_car_blue")))
 	b.expand_icon = true
 	b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	b.vertical_icon_alignment = VERTICAL_ALIGNMENT_TOP
-	b.add_theme_constant_override("icon_max_width", 44)
+	b.add_theme_constant_override("icon_max_width", 52)
 	b.add_theme_font_size_override("font_size", 12)
 	for c in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color"]:
 		b.add_theme_color_override(c, INK)
-	var tint: Color = TILE.get(String(cls.get("color", "blue")), Color("bfd9ff"))
+	var tint: Color = TILE.get(String(cls.get("color", "blue")), TILE["blue"])
 	for st in ["normal", "hover", "pressed", "hover_pressed"]:
 		var s := StyleBoxFlat.new()
 		var on: bool = st.contains("pressed")
-		s.bg_color = Color("dcf8e4") if on else tint.lerp(Color.WHITE, 0.6)
-		s.border_color = Color("2fcf6c") if on else Color("dde6f1")
+		s.bg_color = Color("d3f2c6") if on else tint.lerp(HdUi.Soft.BG, 0.45)
+		s.border_color = Color("5cbf5a") if on else EDGE
 		s.set_border_width_all(2)
 		s.set_corner_radius_all(16)
 		s.set_content_margin_all(8)
 		b.add_theme_stylebox_override(st, s)
-	HdUi.ButtonSkin.apply(b)
 	b.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
 	b.pressed.connect(_on_option.bind(id))
 	return b

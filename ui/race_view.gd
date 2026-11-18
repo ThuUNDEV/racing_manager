@@ -32,7 +32,6 @@ const C_ASPHALT2 := Color("7d8b94")
 const C_LINE := Color("ffffff")
 const C_KERB_A := Color("f48a78")
 const C_KERB_B := Color("fff8e9")
-const C_RING := Color("ffffff")
 const C_MARK := Color("ffad40")
 const MARGIN := 22.0       # lề quanh đường (đơn vị sim)
 const ROAD_WIDTH_SCALE := 1.55  # Presentation only: road and lateral positions scale together.
@@ -65,8 +64,6 @@ const C_FACE_INK := Color("2a2f3a")
 static var _face_textures: Dictionary = {}
 static var _face_textures_loaded: bool = false
 
-const C_GOOD := Color("2e9b5a")
-const C_BAD := Color("d1423b")
 const FX_PASS := 1.1       # giây (giờ sim) hiệu ứng vượt
 const FX_ERROR := 1.6      # giây hiệu ứng lỗi
 
@@ -564,6 +561,7 @@ func _draw() -> void:
 	if sim == null:
 		_draw_grid()
 		_draw_overlay_text()
+		_draw_power_chip()
 		return
 	# Spectators are rendered in the shared 3D world.
 	if sim != _arrive_sim:
@@ -646,28 +644,13 @@ func _draw_fx() -> void:
 	for event: Dictionary in _fx:
 		if String(event["type"]) == "pass" and int(event["id"]) == 0:
 			player_pass = event
-	for e: Dictionary in _fx:
-		var age: float = sim.time - float(e["t"])
-		var c: TrafficSim.Car = sim.cars[int(e["id"])]
-		var p := _car_position(sim.render_pos(c, alpha), sim.render_lat(c, alpha))
-		if String(e["type"]) == "pass":
-			if age > FX_PASS:
-				continue
-			var f := age / FX_PASS
-			if c.is_player:
-				if e != player_pass:
-					continue
-				_draw_comic_pass(p, f)
-				continue
-			var col := C_GOOD if c.is_player else (C_BAD if int(e["other"]) == 0 else C_RING)
-			draw_arc(p, _L * _k * (0.7 + 0.9 * f), 0.0, TAU, 28, Color(col, 1.0 - f), maxf(2.0, 0.55 * _k), true)
-			var up := p + Vector2(0, -_L * _k * (1.0 + 0.5 * f))
-			var u := _k * 0.8
-			draw_colored_polygon(PackedVector2Array([up + Vector2(0, -3.0) * u, up + Vector2(3.0, 2.0) * u, up + Vector2(-3.0, 2.0) * u]), Color(col, 1.0 - f))
-		else:
-			var f2 := age / FX_ERROR
-			var blink := 0.55 + 0.45 * sin(age * 18.0)
-			draw_arc(p, _L * _k * 0.8, 0.0, TAU, 28, Color(C_BAD, (1.0 - f2) * blink), maxf(2.0, 0.6 * _k), true)
+	if player_pass.is_empty():
+		return
+	var age: float = sim.time - float(player_pass["t"])
+	if age > FX_PASS:
+		return
+	var c: TrafficSim.Car = sim.cars[0]
+	_draw_comic_pass(_car_position(sim.render_pos(c, alpha), sim.render_lat(c, alpha)), age / FX_PASS)
 
 
 ## One compact callout for the latest player overtake; no invented gameplay boosts.
@@ -762,50 +745,49 @@ func _draw_car(s: float, y: float, id: int, is_player: bool) -> void:
 
 # ---------------------------------------------------------------- HUD
 
+## Chip power của đội, dưới ô hạng; vẽ cả khi chưa có cuộc đua.
+func _draw_power_chip() -> void:
+	if power_value <= 0.0:
+		return
+	var font := get_theme_default_font()
+	var k := size.x / 1448.0
+	var scale_ui := size.x / 390.0
+	var power_canvas := Rect2(30, 146, 330, 100)
+	var power_rect := Rect2(power_canvas.position * k, power_canvas.size * k)
+	draw_set_transform(Vector2.ZERO, 0.0, Vector2(k, k))
+	RaceArt.hud_skin("lap_teal").draw(get_canvas_item(), power_canvas)
+	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+	var icon_side := power_rect.size.y * 0.72
+	draw_texture_rect(HdUi.Soft.texture("speedometer"), Rect2(power_rect.position + Vector2(power_rect.size.y * 0.3, (power_rect.size.y - icon_side) * 0.5), Vector2.ONE * icon_side), false)
+	var text_x := power_rect.position.x + power_rect.size.y * 1.1
+	_draw_centered_text(font, Rect2(text_x, power_rect.position.y, power_rect.end.x - text_x - 4.0 * scale_ui, power_rect.size.y), format_team_power(power_value), int(17 * scale_ui), Color.WHITE)
+
+
 func _draw_hud() -> void:
+	_draw_power_chip()
 	var font := get_theme_default_font()
 	var scale_ui := size.x / 390.0
 	var rk := sim.ranking()
 	var me := sim.player_car()
-	var board := Rect2(7, size.y * 0.52, 96 * scale_ui, 104 * scale_ui)
-	draw_texture_rect(RaceArt.texture("skins/leaderboard_teal"), board, false)
-	# Bốn dòng: top 4; nếu người chơi ngoài top 4 thì top 3 + dòng của người chơi. "···" khi còn xe phía sau.
-	var shown: Array = []
-	var me_rank := rk.find(me)
-	for i in mini(4, rk.size()):
-		shown.append(i)
-	if me_rank >= 4:
-		shown[3] = me_rank
-	for row in shown.size():
-		var i: int = shown[row]
-		var c: TrafficSim.Car = rk[i]
-		var y := board.position.y + (row * 19 + 17) * scale_ui
-		if c.is_player:
-			draw_texture_rect(RaceArt.texture("skins/selected_row_gold"), Rect2(board.position.x + 3, y - 14 * scale_ui, board.size.x - 6, 19 * scale_ui), false)
-		var txt_col := Color("123c57") if c.is_player else Color.WHITE
-		var rank_box := Rect2(board.position.x + 6 * scale_ui, y - 12 * scale_ui, 15 * scale_ui, 15 * scale_ui)
-		draw_style_box(HdUi.Soft.flat(Color("fffaf0"), 0, 4), rank_box)
-		draw_string(font, Vector2(rank_box.position.x + 4 * scale_ui, y), str(i + 1), HORIZONTAL_ALIGNMENT_LEFT, -1, int(11 * scale_ui), Color("123c57"))
-		draw_string(font, Vector2(board.position.x + 27 * scale_ui, y), ("Bạn" if I18n.lang() == "vi" else "You") if c.is_player else "#%d" % c.id, HORIZONTAL_ALIGNMENT_LEFT, -1, int(12 * scale_ui), txt_col)
-		var car_col: Color = CAR_COLORS[clampi(c.id, 0, CAR_COLORS.size() - 1)]
-		if c.is_player and player_paint_id != "":
-			var pd := GameData.paint(player_paint_id)
-			if not pd.is_empty():
-				car_col = Color(String(pd["color"]))
-		var car_box := Rect2(board.end.x - 25 * scale_ui, y - 9 * scale_ui, 19 * scale_ui, 9 * scale_ui)
-		draw_style_box(HdUi.Soft.flat(car_col, 0, 4), car_box)
-		draw_rect(Rect2(car_box.position + Vector2(car_box.size.x * 0.55, 1.5 * scale_ui), Vector2(car_box.size.x * 0.22, car_box.size.y - 3 * scale_ui)), Color(1, 1, 1, 0.75))
-	if rk.size() > 4:
-		var dot_y := board.position.y + (4 * 19 + 15) * scale_ui
-		for k in 3:
-			draw_circle(Vector2(board.position.x + (13 + k * 6) * scale_ui, dot_y), 1.6 * scale_ui, Color(1, 1, 1, 0.9))
-	var lap := ("Vòng %d/%d" if I18n.lang() == "vi" else "Lap %d/%d") % [sim.lap_of(me), sim.laps]
-	var lap_rect := Rect2(size.x - 97 * scale_ui, size.y - 32 * scale_ui, 93 * scale_ui, 25 * scale_ui)
-	draw_texture_rect(RaceArt.texture("skins/lap_teal"), lap_rect, false)
-	draw_string(font, lap_rect.position + Vector2(6, 18) * scale_ui, lap, HORIZONTAL_ALIGNMENT_LEFT, -1, int(14 * scale_ui), Color.WHITE)
+	var lap := "%d/%d" % [sim.lap_of(me), sim.laps]
+	# Cùng toạ độ canvas 1448 với rank/income/facilities (y=20, cao 111) và cùng margin bo góc 9-slice.
+	var k := size.x / 1448.0
+	var lap_canvas := Rect2(710, 20, 230, 111)
+	var lap_rect := Rect2(lap_canvas.position * k, lap_canvas.size * k)
+	draw_set_transform(Vector2.ZERO, 0.0, Vector2(k, k))
+	RaceArt.hud_skin("lap_teal").draw(get_canvas_item(), lap_canvas)
+	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+	_draw_centered_text(font, lap_rect, lap, int(22 * scale_ui), Color.WHITE)
 	var marker := _car_position(sim.render_pos(me, alpha), sim.render_lat(me, alpha)) - Vector2(24, 33) * scale_ui
-	draw_texture_rect(RaceArt.texture("skins/position_teal"), Rect2(marker, Vector2(48, 29) * scale_ui), false)
-	draw_string(font, marker + Vector2(5, 16) * scale_ui, "P%d/%d" % [rk.find(me) + 1, rk.size()], HORIZONTAL_ALIGNMENT_LEFT, -1, int(13 * scale_ui), Color("ffda36"))
+	var marker_rect := Rect2(marker, Vector2(48, 29) * scale_ui)
+	draw_texture_rect(RaceArt.texture("skins/position_teal"), marker_rect, false)
+	var text_rect := Rect2(marker_rect.position, Vector2(marker_rect.size.x, marker_rect.size.y - 6 * scale_ui))
+	_draw_centered_text(font, text_rect, "P%d/%d" % [rk.find(me) + 1, rk.size()], int(13 * scale_ui), Color("ffda36"))
+
+
+func _draw_centered_text(font: Font, rect: Rect2, text: String, font_size: int, color: Color) -> void:
+	var baseline := rect.position.y + (rect.size.y + font.get_ascent(font_size) - font.get_descent(font_size)) * 0.5
+	draw_string(font, Vector2(rect.position.x, baseline), text, HORIZONTAL_ALIGNMENT_CENTER, rect.size.x, font_size, color)
 
 
 

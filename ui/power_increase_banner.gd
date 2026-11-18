@@ -3,7 +3,7 @@ extends Control
 const DURATION := 2.0
 const ENTER := 0.22
 const EXIT := 0.18
-const GREEN := Color("55eb97")
+const GREEN := Color("22852f")
 
 var total_power := 0.0
 var gain := 0.0
@@ -95,16 +95,9 @@ func _box(rect: Rect2, color: Color, edge: Color, radius: int) -> void:
 
 
 func _draw() -> void:
-	_box(Rect2(0, 3, size.x, 62), Color("061a39"), Color("061a39"), 15)
-	_box(Rect2(Vector2.ZERO, size), Color("102b4f"), Color("79a4ed"), 15)
-	_box(Rect2(12, 11, 40, 40), Color("2c77e9"), Color("94c1ff"), 11)
-	# Icon đội hai người, không có nhãn chữ.
-	draw_arc(Vector2(29, 25), 4, 0, TAU, 20, Color.WHITE, 1.8, true)
-	draw_arc(Vector2(29, 40), 7, PI, TAU, 20, Color.WHITE, 1.8, true)
-	draw_line(Vector2(22, 40), Vector2(22, 43), Color.WHITE, 1.8, true)
-	draw_line(Vector2(36, 40), Vector2(36, 43), Color.WHITE, 1.8, true)
-	draw_arc(Vector2(39, 25), 4, -PI * 0.5, PI * 0.5, 12, Color.WHITE, 1.8, true)
-	draw_arc(Vector2(38, 40), 7, -PI * 0.5, 0.0, 12, Color.WHITE, 1.8, true)
+	_box(Rect2(0, 3, size.x, 62), Color("d8d7ca"), Color("d8d7ca"), 15)
+	_box(Rect2(Vector2.ZERO, size), Color("fff7e9"), Color("d8d7ca"), 15)
+	draw_texture_rect(HdUi.Soft.texture("nav_team"), Rect2(10, 8, 46, 46), false)
 	var font := get_theme_default_font()
 	var total := RaceView.format_team_power(total_power)
 	var delta_text := "+" + RaceView.format_team_power(gain)
@@ -115,7 +108,7 @@ func _draw() -> void:
 	var delta_width := font.get_string_size(delta_text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
 	var delta_x := size.x - 12.0 - delta_width
 	var baseline := (size.y - font.get_height(font_size)) * 0.5 + font.get_ascent(font_size)
-	draw_string(font, Vector2(64, baseline), total, HORIZONTAL_ALIGNMENT_LEFT, delta_x - 90.0, font_size, Color.WHITE)
+	draw_string(font, Vector2(64, baseline), total, HORIZONTAL_ALIGNMENT_LEFT, delta_x - 90.0, font_size, HdUi.Soft.INK)
 	draw_string(font, Vector2(delta_x, baseline), delta_text, HORIZONTAL_ALIGNMENT_LEFT, delta_width + 1.0, font_size, GREEN)
 	for y: float in [25.0, 34.0]:
 		draw_polyline(PackedVector2Array([Vector2(delta_x - 23, y + 5), Vector2(delta_x - 17, y - 1), Vector2(delta_x - 11, y + 5)]), GREEN, 2.5, true)

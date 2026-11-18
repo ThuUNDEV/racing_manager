@@ -6,7 +6,7 @@ const INK := Color("0e2b5c")
 const MUTED := Color("5f7391")
 const EDGE := Color("d8d7ca")
 const ICON_ALIASES := {
-	"cash": "currency_cash", "coins": "currency_coin", "gem": "currency_gem",
+	"cash": "currency_cash", "coins": "currency_cash", "gem": "currency_gem",
 	"settings": "settings", "flag": "nav_race", "bag": "nav_bag", "team": "nav_team",
 	"trophy": "nav_league", "shop": "nav_shop", "gift": "gift_red", "ticket": "ticket",
 	"star": "star_gold", "star_locked": "star_locked", "avatar": "avatar_portrait",
@@ -55,7 +55,7 @@ static func expansion(id: String) -> Texture2D:
 		return texture(id)
 	if id == "car_pico_showroom":
 		return texture("car_showroom")
-	var aliases := {"celebration": "nav_league", "parking": "currency_coins", "grandstands": "inventory_crate",
+	var aliases := {"celebration": "nav_league", "parking": "currency_cash", "grandstands": "inventory_crate",
 		"standard_driver_pack": "ticket", "elite_driver_pack": "nav_team",
 		"standard_gear_pack": "inventory_crate", "elite_gear_pack": "gift_red"}
 	if aliases.has(id):

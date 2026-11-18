@@ -20,6 +20,19 @@ static func skin(name: String) -> StyleBoxTexture:
 	result.set_content_margin_all(0)
 	return result
 
+## Skin cho dải HUD trên cùng (rank / income / lap / facilities): bán kính bo của 4 skin đều ~0,38 chiều cao,
+## nên margin 9-slice = bán kính để góc không bị kéo giãn và 4 khối bo đồng đều.
+const HUD_CORNER_RATIO := 0.40
+
+static func hud_skin(name: String) -> StyleBoxTexture:
+	var result := skin(name)
+	var margin := roundf(result.texture.get_height() * HUD_CORNER_RATIO)
+	result.texture_margin_left = margin
+	result.texture_margin_right = margin
+	result.texture_margin_top = margin
+	result.texture_margin_bottom = margin
+	return result
+
 static func image(parent: Node, path: String, rect: Rect2) -> TextureRect:
 	var result := TextureRect.new()
 	result.texture = texture(path)

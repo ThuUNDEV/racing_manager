@@ -59,8 +59,13 @@ func run() -> void:
 	for width in [320, 390, 412]:
 		root.size = Vector2i(width, 844)
 		await settle()
-		check(ctl.get_global_rect().encloses(ctl._chip.get_global_rect()), "boost ticket fits race %d" % width)
-		check(ctl._chip.position.x > race.size.x * 0.75, "reward tile sits in right rail %d" % width)
+		if ctl._chip_host != null:
+			var strip: Control = race.get_parent().get_node("ActionStrip")
+			check(strip.get_global_rect().encloses(ctl._chip.get_global_rect()), "boost ticket fits action strip %d" % width)
+			check(ctl._chip.get_global_rect().position.y >= race.get_global_rect().end.y - 1.0, "reward tile sits below race view %d" % width)
+		else:
+			check(ctl.get_global_rect().encloses(ctl._chip.get_global_rect()), "boost ticket fits race %d" % width)
+			check(ctl._chip.position.x > race.size.x * 0.75, "reward tile sits in right rail %d" % width)
 		if not "--ticket-component" in OS.get_cmdline_user_args():
 			check(not main._daily_btn.get_global_rect().intersects(ctl._chip.get_global_rect()), "Daily Gift and ads have separate targets %d" % width)
 		check(ctl._chip_time.text == "Xem quảng cáo" and "×2" in ctl._chip_title.text, "reward tile CTA and multiplier")
