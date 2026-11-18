@@ -61,21 +61,6 @@
       "consumable": false
     },
     {
-      "sku": "income_x3",
-      "usd": 9.99,
-      "consumable": false
-    },
-    {
-      "sku": "income_x3_up",
-      "usd": 4.99,
-      "consumable": false
-    },
-    {
-      "sku": "offline_plus",
-      "usd": 4.99,
-      "consumable": false
-    },
-    {
       "sku": "starter_1",
       "usd": 0.99,
       "consumable": true

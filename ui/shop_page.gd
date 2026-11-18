@@ -215,7 +215,6 @@ func _build() -> void:
 	_free_card(free["grid"], "free_gear_ticket", _sentence(I18n.t("shop.gear_tickets")), "free_gear_coupon")
 	_free_card(free["grid"], "free_driver_ticket", _sentence(I18n.t("shop.driver_tickets")), "free_driver_coupon")
 	_sections.append({"heading": free["heading"], "content": free["grid"], "group": "resources"})
-	_offer_section(I18n.t("shop.more_perks"), ["perk"], ["income_x3", "income_x3_up", "offline_plus"], 165.0)
 	_offer_section(I18n.t("shop.breakthrough_combo"), ["offer"], ["offer_combo_1", "offer_combo_2"], 210.0)
 	_offer_section(I18n.t("shop.weekly_packs"), ["weekly"], [], 225.0)
 	_offer_section(I18n.t("shop.recruit_drivers"), ["character"], ["char_my", "char_lam", "char_nhan", "char_phuong", "char_quang", "char_son"], 185.0)

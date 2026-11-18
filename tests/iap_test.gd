@@ -71,7 +71,7 @@ func _initialize() -> void:
 	print("== Dữ liệu ==")
 	_check(GameData.validate().is_empty(), "validate() không lỗi: %s" % str(GameData.validate()))
 	var prods := GameData.iap_products()
-	_check(prods.size() == 30, "30 SKU (có %d)" % prods.size())
+	_check(prods.size() == 27, "27 SKU (có %d)" % prods.size())
 	var horus: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://horus-game.json"))
 	var hp := {}
 	for e: Dictionary in horus.get("products", []):
@@ -199,7 +199,6 @@ func _initialize() -> void:
 	print("== Quyền vĩnh viễn ==")
 	_fresh()
 	g0 = _gs.gems
-	_check(_iap.block_reason("income_x3_up") == "requires", "income_x3_up ẩn khi chưa có ×2")
 	await _buy("no_ads")
 	_check(_gs.iap_has("no_ads") and bool(_gs.ad_state.get("free", false)), "no_ads: owned và ad_state.free = true")
 	_check(_gs.gems == g0 + 100, "no_ads tặng 100 gem")
@@ -207,12 +206,9 @@ func _initialize() -> void:
 	_check(_iap.block_reason("offer_noads_bundle") == "hidden", "bundle ẩn khi đã có no_ads")
 	await _buy("income_x2")
 	_check(_gs.purchased_mult() == 2, "income_x2 → hệ số 2")
-	_check(_iap.block_reason("income_x3") == "hidden" and _iap.block_reason("income_x3_up") == "", "đã có ×2: ẩn x3 thẳng, mở x3_up")
-	await _buy("income_x3_up")
-	_check(_gs.purchased_mult() == 3 and _iap.block_reason("income_x2") == "hidden", "nâng lên ×3")
 	_gs.ad_state = {}
 	_gs.load_game()
-	_check(_gs.purchased_mult() == 3 and bool(_gs.ad_state.get("free", false)), "nạp lại save: hệ số và ad_state.free suy ra từ owned")
+	_check(_gs.purchased_mult() == 2 and bool(_gs.ad_state.get("free", false)), "nạp lại save: hệ số và ad_state.free suy ra từ owned")
 	_gs.init_new_game()  # mô phỏng cài lại app: save sạch
 	_check(not _gs.iap_has("no_ads") and _gs.purchased_mult() == 1, "save sạch: mất quyền lợi")
 	_mock.store = []
@@ -304,21 +300,12 @@ func _initialize() -> void:
 	_gs.income_boost_left = 1800.0
 	_check(_gs.income_multiplier() == 2, "boost ×2 chồng lên ×2 mua: vẫn 2 (không nhân chồng)")
 	_gs.income_boost_left = 0.0
-	await _buy("income_x3_up")
-	_check(_gs.income_multiplier() == 3, "nâng ×3")
 	_fresh()
 	var now := Time.get_unix_time_from_system()
 	_gs.last_accrual_utc = now - 100000.0
 	_gs.settle_offline()
 	var rep1: Dictionary = _gs.offline_report
 	_check(is_equal_approx(float(rep1["eligible"]), Balance.offline_cap_sec()) and bool(rep1["capped"]), "offline gốc: chặn ở trần mặc định")
-	_fresh()
-	await _buy("offline_plus")
-	_gs.last_accrual_utc = now - 100000.0
-	_gs.settle_offline()
-	var rep2: Dictionary = _gs.offline_report
-	_check(is_equal_approx(float(rep2["eligible"]), 86400.0), "offline_plus: trần 24 giờ")
-	_check((rep2["reward"] as BigNumber).compare(rep1["reward"]) > 0 and is_equal_approx(float(rep2["ratio"]), Balance.offline_ratio() * 3.0), "offline_plus: thưởng lớn hơn, tỉ lệ ×3")
 	_fresh()
 	_gs.grant_iap("pass_month", "tok-pm")
 	_check(is_equal_approx(_gs.offline_cap_sec_now(), Balance.offline_cap_sec() + 7200.0), "Pass tháng còn hạn: +2 giờ trần offline")

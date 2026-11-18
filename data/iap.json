@@ -94,49 +94,6 @@
    "consumable": false,
    "grant": {
     "perk": "income_x2"
-   },
-   "hide_if_owned": [
-    "income_x3"
-   ]
-  },
-  {
-   "sku": "income_x3",
-   "kind": "perk",
-   "usd": 9.99,
-   "price_fallback": "$9.99",
-   "consumable": false,
-   "grant": {
-    "perk": "income_x3"
-   },
-   "hide_if_owned": [
-    "income_x2",
-    "income_x3"
-   ]
-  },
-  {
-   "sku": "income_x3_up",
-   "kind": "perk",
-   "usd": 4.99,
-   "price_fallback": "$4.99",
-   "consumable": false,
-   "grant": {
-    "perk": "income_x3"
-   },
-   "requires": [
-    "income_x2"
-   ],
-   "hide_if_owned": [
-    "income_x3"
-   ]
-  },
-  {
-   "sku": "offline_plus",
-   "kind": "perk",
-   "usd": 4.99,
-   "price_fallback": "$4.99",
-   "consumable": false,
-   "grant": {
-    "perk": "offline_plus"
    }
   },
   {

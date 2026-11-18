@@ -4,7 +4,7 @@ signal buy_pressed
 const Soft = preload("res://ui/soft_miniature.gd")
 const ButtonSkin = preload("res://ui/button_skin.gd")
 const HERO_PATH := "res://assets/perk_cards_v1/heroes.png"
-const SKUS := ["income_x2", "income_x3", "income_x3_up", "offline_plus"]
+const SKUS := ["income_x2"]
 
 var sku := ""
 var price: Button

@@ -88,28 +88,23 @@ func run() -> void:
 	shop.iap_requested.connect(func(sku: String) -> void: clicks.append(sku))
 	state.iap["owned"] = []
 	shop.update_iap(view())
-	check(shop._offer_cards["income_x2"].visible and shop._offer_cards["income_x3"].visible, "chưa mua hiện ×2 và ×3")
-	check(not shop._offer_cards["income_x3_up"].visible, "chưa có ×2 ẩn upgrade")
+	check(shop._offer_cards["income_x2"].visible, "chưa mua hiện ×2")
 	shop._iap_buttons["income_x2"]["button"].pressed.emit()
 	check(clicks.has("income_x2"), "CTA phát đúng SKU cho luồng IAP")
 	state.iap["owned"] = ["income_x2"]
 	shop.update_iap(view())
-	check(not shop._offer_cards["income_x3"].visible and shop._offer_cards["income_x3_up"].visible, "có ×2 hiện upgrade thay ×3")
 	check(shop._iap_buttons["income_x2"]["button"].disabled, "không mua lại quyền đã có")
-	state.iap["owned"] = ["income_x3"]
-	shop.update_iap(view())
-	check(not shop._offer_cards["income_x2"].visible and not shop._offer_cards["income_x3_up"].visible, "có ×3 ẩn ×2 và upgrade")
 	var data := view()
 	data["busy"] = true
 	shop.update_iap(data)
-	check(shop._iap_buttons["offline_plus"]["button"].disabled, "đang xử lý khóa CTA")
+	check(shop._iap_buttons["income_x2"]["button"].disabled, "đang xử lý khóa CTA")
 	data["busy"] = false
-	data["items"]["offline_plus"] = {"reason": "", "price": "Rp 1.234.567,00"}
+	data["items"]["income_x2"] = {"reason": "", "price": "Rp 1.234.567,00"}
 	shop.update_iap(data)
 	await settle()
-	check(shop._iap_buttons["offline_plus"]["button"].text == "Rp 1.234.567,00", "hiện nguyên giá store bản địa")
-	check(not shop._iap_buttons["offline_plus"]["button"].disabled, "khôi phục CTA sau xử lý")
-	var localized_price: Button = shop._iap_buttons["offline_plus"]["button"]
+	check(shop._iap_buttons["income_x2"]["button"].text == "Rp 1.234.567,00", "hiện nguyên giá store bản địa")
+	check(not shop._iap_buttons["income_x2"]["button"].disabled, "khôi phục CTA sau xử lý")
+	var localized_price: Button = shop._iap_buttons["income_x2"]["button"]
 	check(localized_price.get_theme_font("font").get_string_size(localized_price.text, HORIZONTAL_ALIGNMENT_LEFT, -1, localized_price.get_theme_font_size("font_size")).x <= localized_price.size.x - 20, "giá bản địa dài không bị cắt")
 	margin.queue_free()
 	await settle()
@@ -127,12 +122,9 @@ func run() -> void:
 		await settle()
 		var live_shop: Control = main._shop_content
 		var live_scroll: ScrollContainer = main._shop_box.get_parent()
-		for sku: String in ["income_x2", "income_x3"]:
+		for sku: String in ["income_x2"]:
 			live_scroll.ensure_control_visible(live_shop._offer_cards[sku])
 			await settle()
-			if sku == "income_x3":
-				live_scroll.scroll_vertical += roundi(live_shop._offer_cards[sku].global_position.y - 190)
-				await settle()
 			await RenderingServer.frame_post_draw
 			root.get_texture().get_image().save_png("res://Design/Previews/perk_cards/shop_%s_390.png" % sku)
 		main.queue_free()
