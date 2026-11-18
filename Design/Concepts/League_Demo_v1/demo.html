@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Giải Tập sự – Demo</title>
+<style>
+:root{--navy:#1b2f6b;--blue:#2d7fd8;--cream:#fbf5e9;--orange:#f7831f;--green:#2f9e44}
+*{box-sizing:border-box;margin:0}
+body{background:#2a3a5e;display:flex;justify-content:center;font-family:"Baloo 2","Nunito",system-ui,sans-serif;font-weight:800;color:var(--navy)}
+.phone{width:430px;min-height:860px;position:relative;background:linear-gradient(#69b6ee,#a9d8f6 40%,#d7ecfa);padding-bottom:110px;overflow:hidden}
+img{display:block}
+.hud{height:56px;background:linear-gradient(#3b8be0,#2a6fc6);display:flex;align-items:center;gap:10px;padding:0 10px;color:#fff;font-size:17px;border-bottom:3px solid #1d58a5}
+.hud .av{width:40px}.lv{display:flex;flex-direction:column;gap:2px;font-size:15px}
+.bar{width:54px;height:7px;border-radius:4px;background:#1d4f94}.bar i{display:block;width:45%;height:100%;border-radius:4px;background:#ffc93c}
+.pill{display:flex;align-items:center;gap:6px;background:#1d4f94;border-radius:14px;padding:2px 4px 2px 2px;margin-left:auto}
+.pill+.pill{margin-left:0}.pill img{height:26px}.plus{width:22px;height:22px;border-radius:6px;background:#47c25b;display:grid;place-items:center;font-size:18px;line-height:1;box-shadow:inset 0 -2px #2c8a3d}
+.gear{width:32px;margin-left:auto}
+.title{margin:10px 8px 8px;height:76px;border-radius:12px 30px 12px 30px;background:linear-gradient(#3f93e6,#2262b8);display:flex;align-items:center;color:#fff;font-size:34px;text-shadow:0 3px 0 #1b4a8f;padding-left:96px;position:relative;box-shadow:0 4px 0 #1a4a8c}
+.title img{position:absolute;left:-2px;top:-14px;width:96px}
+.card{margin:0 10px 10px;background:var(--cream);border-radius:18px;box-shadow:0 4px 0 #cdbf9e,0 8px 14px #0002;padding:12px}
+.cup{display:flex;align-items:center;gap:12px}.cup img{width:84px}
+.cup .sep,.up .sep{width:2px;align-self:stretch;background:#c8bfa8;margin:4px 0}
+.cup small{font-size:16px;display:block}.cup b{font-size:42px;color:#1f8a3b;line-height:1}.cup b span{font-size:24px;color:var(--navy)}
+.x1{margin-left:auto;background:#cdeccc;color:#1f8a3b;border-radius:20px;padding:6px 16px;font-size:26px}
+.info{width:34px;margin-left:6px;cursor:pointer}
+.modes{display:flex;gap:8px;margin:0 10px 12px}
+.mode{flex:1;border:0;border-radius:16px;color:#fff;font:inherit;font-size:18px;text-shadow:0 2px 0 #0004;padding:8px 4px 10px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;background:linear-gradient(#4aa0f0,#1f6cc8);box-shadow:0 4px 0 #154b94;transition:transform .1s}
+.mode img{height:48px}.mode.atk{background:linear-gradient(#ffa63a,#f0700f);box-shadow:0 4px 0 #b9510a;flex:1.15}
+.mode:active{transform:translateY(3px);box-shadow:none}
+.sec{margin:0 10px 8px;height:44px;border-radius:22px;background:linear-gradient(#dff0fc,#bcdcf6);display:flex;align-items:center;gap:8px;padding-left:8px;font-size:24px;font-style:italic;color:var(--navy)}
+.sec img{height:38px}
+.up{display:flex;align-items:center;gap:12px}.up>img{width:84px;height:84px;object-fit:contain}
+.up h3{font-size:21px;line-height:1.1}.up p{font-size:16px;margin:2px 0 4px}
+.stat{display:inline-flex;align-items:center;gap:6px;background:#d4efd0;color:#1f8a3b;border-radius:14px;padding:3px 10px;font-size:14px}.stat img{height:16px}
+.muted{font-size:14px;color:#8a8a8a;font-weight:700}
+.buy{margin-left:auto;border:0;border-radius:14px;background:linear-gradient(#ff9a3a,#f0640a);color:#fff;font:inherit;font-size:28px;padding:8px 14px;display:flex;align-items:center;gap:4px;box-shadow:0 4px 0 #b4480a;cursor:pointer;text-shadow:0 2px 0 #0003}
+.buy img{height:34px}.buy:active{transform:translateY(3px);box-shadow:none}
+.buy.lock{background:linear-gradient(#bdbdc2,#8d8d94);box-shadow:0 4px 0 #66666d;cursor:not-allowed;padding:10px 26px}.buy.lock img{height:38px}
+.nav{position:absolute;left:0;right:0;bottom:0;height:104px;background:linear-gradient(#3a8be0,#2467c0);border-radius:24px 24px 0 0;display:flex;padding:8px 8px 6px;gap:6px;box-shadow:0 -4px 0 #6bb0ee}
+.tab{flex:1;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-size:17px;text-shadow:0 2px 0 #0005}
+.tab img{height:52px}.tab.on{background:linear-gradient(#ffc946,#f39a10);box-shadow:0 0 12px #ffd25e;color:var(--navy);text-shadow:none}
+.toast{position:absolute;left:50%;top:70px;transform:translate(-50%,-30px);background:#1b2f6b;color:#fff;padding:8px 18px;border-radius:20px;opacity:0;transition:.25s;font-size:16px}.toast.show{opacity:1;transform:translate(-50%,0)}
+</style></head><body>
+<div class="phone">
+ <div class="hud">
+  <img class="av" src="sprites/avatar_player.png"><div class="lv">Lv.12<div class="bar"><i></i></div></div>
+  <div class="pill"><img src="sprites/icon_cash.png">12.5K<span class="plus">+</span></div>
+  <div class="pill"><img src="sprites/icon_gem.png">240<span class="plus">+</span></div>
+  <img class="gear" src="sprites/icon_settings.png">
+ </div>
+ <div class="title"><img src="sprites/trophy_banner.png">Giải Tập sự</div>
+ <div class="card cup">
+  <img src="sprites/trophy_card.png"><div class="sep"></div>
+  <div><small>Cúp đang có</small><b id="cups">12</b> <b><span>cúp</span></b></div>
+  <div class="x1">×1</div><img class="info" src="sprites/btn_info.png" onclick="toast('Mỗi chiến thắng nhận cúp theo hệ số ×1')">
+ </div>
+ <div class="modes">
+  <button class="mode atk" onclick="toast('Tấn công!')"><img src="sprites/icon_attack_gauge.png">Tấn công</button>
+  <button class="mode" onclick="toast('Phòng thủ')"><img src="sprites/icon_shield.png">Phòng thủ</button>
+  <button class="mode" onclick="toast('Thu nhập')"><img src="sprites/icon_coins.png">Thu nhập</button>
+ </div>
+ <div class="sec"><img src="sprites/flags_crossed.png">Nâng cấp bằng cúp</div>
+ <div class="card up"><img src="sprites/engine.png"><div class="sep"></div>
+  <div><h3>Động cơ đua</h3><p>Cấp <span data-lv="engine">2</span>/10</p><span class="stat"><img src="sprites/icon_gauge_green.png">Tốc độ +2 → +3</span></div>
+  <button class="buy" data-k="engine" data-cost="3"><img src="sprites/trophy_small.png">3</button></div>
+ <div class="card up"><img src="sprites/traffic_light.png"><div class="sep"></div>
+  <div><h3>Xuất phát nhanh</h3><p>Cấp <span data-lv="light">0</span>/10</p><span class="stat"><img src="sprites/icon_gauge_green.png">Tăng tốc +0 → +1</span></div>
+  <button class="buy" data-k="light" data-cost="1"><img src="sprites/trophy_small.png">1</button></div>
+ <div class="card up"><img src="sprites/barrier.png"><div class="sep"></div>
+  <div><h3>Đà vượt xe</h3><p>Cấp 0/6</p><span class="muted">Mở ở giải Chuyên nghiệp</span></div>
+  <button class="buy lock" onclick="toast('Cần giải Chuyên nghiệp')"><img src="sprites/icon_lock.png"></button></div>
+ <div class="nav">
+  <div class="tab"><img src="sprites/nav_race.png">Đua</div>
+  <div class="tab"><img src="sprites/nav_bag.png">Túi</div>
+  <div class="tab"><img src="sprites/nav_team.png">Đội</div>
+  <div class="tab on"><img src="sprites/nav_trophy.png">Giải</div>
+  <div class="tab"><img src="sprites/nav_shop.png">Shop</div>
+ </div>
+ <div class="toast" id="t"></div>
+</div>
+<script>
+let cups=12;const t=document.getElementById('t');
+function toast(m){t.textContent=m;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),1400)}
+document.querySelectorAll('.buy[data-k]').forEach(b=>b.onclick=()=>{
+ const c=+b.dataset.cost;if(cups<c)return toast('Không đủ cúp');
+ cups-=c;document.getElementById('cups').textContent=cups;
+ const l=document.querySelector(`[data-lv=${b.dataset.k}]`);l.textContent=+l.textContent+1;toast('Nâng cấp thành công −'+c+' cúp')});
+</script></body></html>
