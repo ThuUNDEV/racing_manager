@@ -15,12 +15,14 @@ Bộ asset để setup popup Daily Gift theo concept soft miniature. Chưa thay 
 
 ## Coupon
 
-| Reward kind / tier | PNG | Dấu hiệu |
-|---|---|---|
-| driver / pro | `coupon_driver_pro.png` | Mũ, xanh/bạc, một sao |
-| driver / allstar | `coupon_driver_allstar.png` | Mũ, tím/vàng, ba sao |
-| gear / standard | `coupon_gear_standard.png` | Cờ lê/bánh răng, xanh/bạc |
-| gear / elite | `coupon_gear_elite.png` | Cờ lê/bánh răng, tím/vàng, kim cương |
+Theo concept demo, popup dùng chung icon cho mọi hạng; hạng vé hiển thị bằng chữ I18n (`1 vé All-Star`, `1 vé Elite`...).
+
+| Reward kind / tier | PNG dùng trong popup |
+|---|---|
+| driver / pro, allstar | `drivers.png` (3 tay đua) |
+| gear / standard, elite | `gear_bag.png` (túi gear xanh vàng) |
+
+`coupon_*.png` (tem vé xanh bạc/tím vàng) vẫn nằm trong `icons/` làm art dự phòng, không được popup tham chiếu. Ô Ngày 7 dùng `gift.png` kèm `glow_soft.png`; `checker_flag.png` là họa tiết cờ caro ở header và góc ô Ngày 7.
 
 ## Dùng trong Godot
 

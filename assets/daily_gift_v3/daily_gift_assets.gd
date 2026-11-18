@@ -2,10 +2,10 @@ extends RefCounted
 ## Asset adapter only. The caller owns claim availability, rewards and reset time.
 const ROOT := "res://assets/daily_gift_v3/"
 const COUPON_ICONS := {
-	"driver.pro": "coupon_driver_pro",
-	"driver.allstar": "coupon_driver_allstar",
-	"gear.standard": "coupon_gear_standard",
-	"gear.elite": "coupon_gear_elite",
+	"driver.pro": "drivers",
+	"driver.allstar": "drivers",
+	"gear.standard": "gear_bag",
+	"gear.elite": "gear_bag",
 }
 static func reward_texture(kind: String, tier := "") -> Texture2D:
 	var id := String(COUPON_ICONS.get(kind+"."+tier, kind))

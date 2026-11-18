@@ -765,6 +765,36 @@
         255
       ],
       "sha256": "775a99635b3c687797c1e6413fe6a4d9423c28ef26638783eb34bdbe543ed6e0"
+    },
+    {
+      "name": "checker_flag",
+      "file": "icons/checker_flag.png",
+      "size": [
+        127,
+        180
+      ],
+      "origin": "Python/PIL generated accent",
+      "role": "Họa tiết cờ caro trắng nghiêng cho header/ô Ngày 7",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "2bf331bd8d59241f4ba359da0b5b51a9466fc98fdb268c2f18ad76e8ff7e5b2d"
+    },
+    {
+      "name": "glow_soft",
+      "file": "icons/glow_soft.png",
+      "size": [
+        256,
+        256
+      ],
+      "origin": "Python/PIL generated accent",
+      "role": "Quầng sáng trắng mềm sau hộp quà Ngày 7",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "e14b2defdf5e8e574a6c2913beea4dd687b87297eca14d1defb18d436f137f2e"
     }
   ],
   "logical_density_note": "skins/ contains HD sources; runtime/ contains native logical-size skins for standard Godot StyleBoxTexture. Margin units are runtime texture pixels. Icons remain HD.",
@@ -776,10 +806,10 @@
     "countdown": "disabled style plus live HH:MM:SS text; no text baked in art"
   },
   "coupon_mapping": {
-    "driver.pro": "coupon_driver_pro",
-    "driver.allstar": "coupon_driver_allstar",
-    "gear.standard": "coupon_gear_standard",
-    "gear.elite": "coupon_gear_elite"
+    "driver.pro": "drivers",
+    "driver.allstar": "drivers",
+    "gear.standard": "gear_bag",
+    "gear.elite": "gear_bag"
   },
   "validation": {
     "godot": "4.7.2",
@@ -790,5 +820,6 @@
     ],
     "failures": 0,
     "report": "output/imagegen/daily_gift/setup_v3/validation/validation_report.json"
-  }
+  },
+  "coupon_mapping_note": "Khớp concept demo: mọi vé tay đua dùng icon đội đua, mọi vé trang bị dùng túi gear; hạng được phân biệt bằng chữ i18n. coupon_* PNG giữ lại làm art dự phòng, popup không dùng."
 }

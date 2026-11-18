@@ -91,7 +91,7 @@ func _run() -> void:
 	var first_rect: Rect2 = c1.get_global_rect()
 	var design_origin: Vector2 = canvas.global_position
 	var design_scale: float = float(canvas.get_meta("unit"))
-	_check(first_rect.position.distance_to(design_origin + Vector2(20, 115) * design_scale) < 1.0 and absf(first_rect.size.x / design_scale - 310.0 / 3.0) < 1.0, "ô ngày giữ đúng tọa độ và kích thước demo v3")
+	_check(first_rect.position.distance_to(design_origin + Vector2(20, 108) * design_scale) < 1.0 and absf(first_rect.size.x / design_scale - 310.0 / 3.0) < 1.0, "ô ngày giữ đúng tọa độ và kích thước demo v3")
 	_check(main._daily_popup.find_child("DailyRow1", true, false).get_child_count() == 3 and main._daily_popup.find_child("DailyRow2", true, false).get_child_count() == 3, "ngày 1–6: bố cục 3 cột")
 	_check(main._overlay_box.find_children("Milestone*", "VBoxContainer", true, false).size() == 4, "4 mốc hiển thị")
 	var claim := main._overlay_box.find_child("ClaimDailyReward", true, false) as Button
@@ -114,7 +114,7 @@ func _run() -> void:
 	var claimed_icon := first_cell.find_child("RewardIcon", true, false) as Control
 	var claimed_quantity := first_cell.find_child("RewardQuantity", true, false) as Control
 	_check(claimed_badge != null and first_cell.get_global_rect().encloses(claimed_badge.get_global_rect()), "nhãn xanh nằm trọn trong thẻ đã nhận")
-	_check(is_equal_approx(claimed_icon.self_modulate.a, 0.25) and is_equal_approx(claimed_quantity.self_modulate.a, 0.30), "quà đã nhận: icon và số thưởng mờ rõ, nhãn giữ nguyên độ rõ")
+	_check(is_equal_approx(claimed_icon.self_modulate.a, 0.8) and is_equal_approx(claimed_quantity.self_modulate.a, 0.75), "quà đã nhận: icon vẫn rõ màu (alpha 0.8), số thưởng alpha 0.75")
 	if "--daily-shots" in OS.get_cmdline_user_args():
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("res://output/daily_gift_runtime_v3/daily_rewards_claimed_runtime_390.png")
@@ -203,7 +203,7 @@ func _run() -> void:
 	await _settle()
 	var mixed: Node = main._daily_popup.find_child("Milestone30", true, false)
 	var reward_columns: Node = mixed.find_child("MilestoneRewards", true, false)
-	_check(reward_columns.get_child_count() == 2, "mốc 30: hai cột icon trên, số lượng dưới, không đường phân cách")
+	_check(reward_columns.find_children("*", "TextureRect", false, false).size() == 2 and _has_text(reward_columns, "80 gem + 2 vé"), "mốc 30: hàng icon gem + vé, một dòng chữ có đơn vị bên dưới")
 	main._overlay.hide()
 
 	print("== P2: tự bật mỗi ngày (R4) ==")

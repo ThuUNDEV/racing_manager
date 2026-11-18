@@ -21,7 +21,11 @@ func settle() -> void:
 func capture(id: String) -> void:
 	if capture_enabled:
 		await RenderingServer.frame_post_draw
-		check(root.get_texture().get_image().save_png(OUT + id + ".png") == OK, "capture " + id)
+		var image := root.get_texture().get_image()
+		check(image.save_png(OUT + id + ".png") == OK, "capture " + id)
+		if is_instance_valid(main._daily_popup) and main._overlay.visible:
+			var bounds: Rect2 = main._daily_popup.get_global_rect()
+			image.get_region(Rect2i(bounds)).save_png(OUT + id + "_popup.png")
 func click(button: BaseButton) -> void:
 	var pos := button.get_global_rect().get_center()
 	var motion := InputEventMouseMotion.new()
@@ -92,10 +96,18 @@ func run() -> void:
 		main._show_daily_rewards();await settle()
 		assert_layout(dims.x)
 		var popup: Control=main._daily_popup
-		for pair in [[1,"coupon_driver_pro"],[2,"coupon_gear_standard"],[4,"coupon_driver_allstar"],[5,"coupon_gear_elite"]]:
-			var cell=popup.find_child("DailyCell%d"%pair[0],true,false)
+		# Demo parity: driver tickets show the racers icon, gear tickets the bag; the tier is data on the node.
+		for triple in [[1,"drivers","pro"],[2,"gear_bag","standard"],[4,"drivers","allstar"],[5,"gear_bag","elite"]]:
+			var cell=popup.find_child("DailyCell%d"%triple[0],true,false)
 			var icon: TextureRect=cell.find_child("RewardIcon",true,false)
-			check(icon.texture.resource_path.ends_with("/%s.png"%pair[1]),"coupon tier %s"%pair[1])
+			check(icon.texture.resource_path.ends_with("/%s.png"%triple[1]) and icon.get_meta("tier")==triple[2],"ticket icon/tier %s"%triple[2])
+		check((popup.find_child("GrandGift",true,false) as TextureRect).texture.resource_path.ends_with("/gift.png"),"day 7 uses the red gift box")
+		check(popup.find_child("HeaderChecker",true,false)!=null,"header checker accent")
+		var badge_today: Control=popup.find_child("TodayBadge",true,false)
+		var today_cell: Control=popup.find_child("DailyCell3",true,false)
+		check(badge_today.get_global_rect().position.x>today_cell.get_global_rect().position.x+6 and badge_today.get_global_rect().end.y<today_cell.get_global_rect().end.y-3,"today badge is an inset pill inside its card")
+		var claimed_icon: TextureRect=popup.find_child("DailyCell1",true,false).find_child("RewardIcon",true,false)
+		check(claimed_icon.self_modulate.a>=0.7,"claimed card icon stays readable")
 		var marker: TextureRect=popup.find_child("MilestoneNode10",true,false)
 		check(marker.texture.resource_path.ends_with("/milestone_empty.png"),"2/10 days must not mark day10 claimed")
 		await capture("demo_%d"%dims.x)
@@ -123,7 +135,7 @@ func run() -> void:
 		I18n.set_lang(language);demo_state()
 		main._show_daily_rewards();await settle();assert_layout(320)
 		var icon: TextureRect=main._daily_popup.find_child("DailyCell4",true,false).find_child("RewardIcon",true,false)
-		check(icon.texture.resource_path.ends_with("/coupon_driver_allstar.png"),"tier independent of language "+language)
+		check(icon.texture.resource_path.ends_with("/drivers.png") and icon.get_meta("tier")=="allstar","tier independent of language "+language)
 		if language=="en":await capture("demo_en_320")
 	I18n.set_lang("vi")
 	demo_state();main._show_daily_rewards();await settle()

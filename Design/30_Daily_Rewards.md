@@ -125,6 +125,21 @@ Kiểm tra bằng `tests/daily_rewards_ui_test.gd`: bố cục và chữ ở 320
 
 ---
 
+### 5.3. Tích hợp demo Daily Gift v3 — 18/11/2026 (đã chỉnh khớp concept)
+
+Popup runtime dùng bộ `assets/daily_gift_v3` và bám ảnh concept `output/imagegen/daily_gift/daily_gift_concept_v1.png`: nền kem, header cyan có hộp quà và họa tiết cờ caro, 6 thẻ 3×2, ô Ngày 7 xanh viền vàng, 4 mốc nối bằng thanh tiến trình và nút nhận cam. Bố cục tham chiếu 360×588 design units; `UnitScale` ghi kích thước/font thật, không scale canvas. Popup có lề ngang 8px, dọc 12px và co vừa viewport; nút nhận/đóng ≥48px.
+
+- **Icon thưởng khớp concept:** vé tay đua (Pro/All-Star) dùng `drivers.png`, vé trang bị (Standard/Elite) dùng `gear_bag.png`, gem dùng `gem.png`. Hạng vé hiển thị bằng chữ I18n và nằm trong `meta("tier")` của icon, không phân tích câu đã dịch. Bộ icon "coupon" tem vé vẫn nằm trong asset nhưng popup không dùng.
+- **Ô Ngày 7:** hộp quà đỏ `gift.png` với quầng sáng `glow_soft.png`, vạch chia dọc và cờ caro mờ ở hai góc dưới. Header dùng `checker_flag.png`.
+- **Thẻ ngày:** chữ ngày 15, icon cao 30–33, số/nhãn 13. Badge "ĐÃ NHẬN" / "HÔM NAY" là viên thuốc thụt vào trong thẻ. Thẻ đã nhận nền xám, icon alpha 0.8, chữ alpha 0.75. Thẻ tương lai giữ mặt gọn, Ngày mai nằm trong tooltip.
+- **Hàng mốc:** một hàng icon `gem + vé` kèm dòng chữ có đơn vị ("40 gem", "2 vé All-Star", "80 gem + 2 vé"), 3 vạch chia dọc. Thanh mốc chỉ tick các mốc đã nhận; 2/10 không đánh dấu mốc 10 (demo vẽ tick ở mốc đầu nhưng logic game không cho phép).
+- **Nút nhận:** cao 52 units, icon quà 40, chữ 27. Sau nhận dùng nút xám với đếm ngược I18n, tự mở lại khi qua ngày UTC. Khi save bị khóa hiện trạng thái chờ lưu và thông báo lỗi, không báo đếm ngược giả.
+- Overlay khác được khôi phục lề riêng khi đóng/chuyển popup.
+
+Ảnh runtime: `output/daily_gift_runtime_v3/`. Kiểm thử: `tests/daily_gift_v3_ui_test.gd` (pointer input thật, 320×568/390×778/412×915, 7 Grand, 8 ngôn ngữ, save blocked/recovery, icon/badge theo demo), `daily_rewards_ui_test.gd`, `daily_rewards_test.gd`, `popup_close_ui_test.gd`. Thêm `-- --capture` vào test v3 để lưu ảnh. Chưa kiểm tra trên điện thoại thật.
+
+---
+
 ## 6. Video nhân đôi
 
 - Nút `Nhận x2` chỉ hiện khi ô hôm nay **có gem** (ngày 3, 6, và Grand vòng 0, 1, 2, 6).
