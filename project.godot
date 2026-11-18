@@ -13,6 +13,7 @@ config_version=5
 config/name="racing_manager"
 config/version="0.1.0"
 run/main_scene="res://scenes/splash.tscn"
+run/max_fps=60
 config/features=PackedStringArray("4.7", "Forward Plus")
 boot_splash/bg_color=Color(1, 0.9529412, 0.8862745, 1)
 boot_splash/show_image=false
