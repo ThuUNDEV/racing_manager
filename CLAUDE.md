@@ -25,7 +25,9 @@ Game idle/manager đua xe, Godot 4.7 (GDScript, Forward Plus), màn dọc 886x19
 
 ## Chạy game an toàn
 
-- Xem/chụp game: `--screen 1` (màn hình phụ) và `--audio-driver Dummy` (tắt tiếng). Script dump/layout dùng `--headless`.
+- Mọi lần chạy game hoặc test có cửa sổ (không `--headless`) phải mở ở màn hình phụ và tắt tiếng: `godot --path . --screen 1 --audio-driver Dummy ...`. Ví dụ chạy một test có cửa sổ: `XDG_DATA_HOME=$(mktemp -d) RM_LANG=vi godot --path . --screen 1 --audio-driver Dummy -s res://tests/<tên>_test.gd`.
+- Test thường và script dump/layout chạy `--headless` (không cửa sổ, không tiếng), như `tools/run_tests.sh`. Chỉ bỏ `--headless` khi cần thấy hoặc chụp màn hình thật.
+- `game_run` của Godot MCP chỉ truyền được tham số người dùng (sau `--`), không truyền được `--screen` hay `--audio-driver`. Nên khi cần chạy có cửa sổ, chạy `godot` trực tiếp bằng Bash với các cờ trên, không dùng `game_run` không-headless.
 - Các cờ CLI như `--races=N`, `--gated`, `--tutorial-done` ghi vào `save.json` thật. Luôn đặt `XDG_DATA_HOME=<thư mục tạm>` khi chạy game/test có cờ này.
 - Không chạy `--reset` nếu chưa hỏi người dùng.
 
