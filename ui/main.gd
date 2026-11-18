@@ -1359,7 +1359,8 @@ func _add_tile(parent: Control, kind: String) -> void:
 	short_l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	short_l.clip_text = true
 	action.add_child(short_l)
-	btn.pressed.connect(_on_buy.bind(kind))
+	btn.button_down.connect(_start_hold_buy.bind(kind))
+	btn.button_up.connect(_stop_hold_buy)
 	pc.resized.connect(func() -> void:
 		var narrow := pc.size.x < 330
 		art.custom_minimum_size.x = 42 if narrow else 56
@@ -1395,11 +1396,47 @@ func _upgrade_skin(button: bool) -> StyleBoxTexture:
 	return skin
 
 
-func _on_buy(kind: String) -> void:
+func _on_buy(kind: String) -> bool:
 	if GameState.buy_many(kind, 1):
 		_sfx("upgrade")
-	else:
-		_sfx("ui_error")
+		return true
+	_sfx("ui_error")
+	return false
+
+
+const HOLD_DELAY := 0.4
+const HOLD_START_INTERVAL := 0.14
+const HOLD_MIN_INTERVAL := 0.04
+var _hold_kind := ""
+var _hold_timer: Timer
+
+
+## Nhấn giữ nút nâng cấp: mua ngay một cấp, sau HOLD_DELAY giữ thì mua liên tục và nhanh dần.
+func _start_hold_buy(kind: String) -> void:
+	if not _on_buy(kind):
+		return
+	_hold_kind = kind
+	if _hold_timer == null:
+		_hold_timer = Timer.new()
+		_hold_timer.one_shot = true
+		_hold_timer.timeout.connect(_hold_buy_tick)
+		add_child(_hold_timer)
+	_hold_timer.wait_time = HOLD_DELAY
+	_hold_timer.start()
+
+
+func _hold_buy_tick() -> void:
+	if _hold_kind == "" or not _on_buy(_hold_kind):
+		_stop_hold_buy()
+		return
+	_hold_timer.wait_time = maxf(HOLD_MIN_INTERVAL, _hold_timer.wait_time * 0.85 if _hold_timer.wait_time < HOLD_DELAY else HOLD_START_INTERVAL)
+	_hold_timer.start()
+
+
+func _stop_hold_buy() -> void:
+	_hold_kind = ""
+	if _hold_timer != null:
+		_hold_timer.stop()
 
 
 func _refresh_rows() -> void:
