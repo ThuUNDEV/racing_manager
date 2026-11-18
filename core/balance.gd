@@ -146,7 +146,7 @@ static func fmt_money(value: Variant) -> String:
 
 static func fmt_rate(r: Variant) -> String:
 	if r is BigNumber:
-		return r.format_compact() if r.exponent >= 3 else r.format_decimal()
+		return r.format_compact() if r.exponent >= 3 else r.format_decimal(2)
 	var s := "%.2f" % float(r)
 	return s.rstrip("0").rstrip(".").replace(".", I18n.dec())
 
