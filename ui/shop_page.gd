@@ -331,7 +331,7 @@ const H_ART_ID := {"starter_1": "starter", "starter_2": "starter", "starter_3": 
 
 
 ## Wraps a design-size control in a slot that scales it to the page width.
-func _h_slot(parent: Node, content: Control, design_h: float, design_w: float = H_DESIGN_W) -> Control:
+func _h_slot(parent: Node, content: Control, design_h: float, design_w: float = H_DESIGN_W, inset: float = 0.0) -> Control:
 	var slot := Control.new()
 	slot.theme = H_THEME
 	slot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -340,10 +340,11 @@ func _h_slot(parent: Node, content: Control, design_h: float, design_w: float = 
 	slot.add_child(content)
 	content.size = Vector2(design_w, design_h)
 	slot.resized.connect(func() -> void:
-		var k := slot.size.x / design_w
+		var k := (slot.size.x - inset * 2.0) / design_w
 		if k <= 0.0:
 			return
 		slot.custom_minimum_size.y = design_h * k
+		content.position.x = inset
 		content.scale = Vector2(k, k)
 		content.size = Vector2(design_w, design_h))
 	return slot
@@ -379,7 +380,7 @@ func _ui_icon(id: String) -> Texture2D:
 
 func _h_card(parent: Node, design_h: float, art_id: String, card_title: String, title_size: int = 42) -> ShopOfferCard:
 	var card := H_CARD.instantiate() as ShopOfferCard
-	_h_slot(parent, card, design_h)
+	_h_slot(parent, card, design_h, H_DESIGN_W, 8.0)
 	card.art = _h_tex(art_id)
 	card.title = card_title
 	card.title_size = title_size
