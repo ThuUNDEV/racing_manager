@@ -50,47 +50,47 @@
   4
  ],
  "ai_names": [
-  "Senna",
-  "Mansell",
-  "Häkkinen",
-  "Rosberg",
-  "Webber",
-  "Massa",
-  "Sainz"
+  "Kovac",
+  "Moreau",
+  "Lindqvist",
+  "Okafor",
+  "Brenner",
+  "Castell",
+  "Hayashi"
  ],
  "ai_cars": [
   {
-   "name": "Senna",
+   "name": "Kovac",
    "offset": -1,
    "style": "inside"
   },
   {
-   "name": "Mansell",
+   "name": "Moreau",
    "offset": 1,
    "style": "sweeper"
   },
   {
-   "name": "Häkkinen",
+   "name": "Lindqvist",
    "offset": 3,
    "style": "counter"
   },
   {
-   "name": "Rosberg",
+   "name": "Okafor",
    "offset": 5,
    "style": "defender"
   },
   {
-   "name": "Webber",
+   "name": "Brenner",
    "offset": 8,
    "style": "inside"
   },
   {
-   "name": "Massa",
+   "name": "Castell",
    "offset": 11,
    "style": "sweeper"
   },
   {
-   "name": "Sainz",
+   "name": "Hayashi",
    "offset": 20,
    "style": "counter"
   }

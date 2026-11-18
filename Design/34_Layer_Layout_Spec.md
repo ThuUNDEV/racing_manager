@@ -171,7 +171,7 @@ Section "OWNED / IN USE" → thẻ tay đua  (cao 100, cách nhau 100)
 "LOCKED (11)" 12,802 357×18 → các thẻ khóa; dòng điều kiện "Finish 5 races", "Unlock league Semi-Pro"…
 ```
 
-12 tay đua: Button (đang dùng), Ricciardo, Barrichello, Räikkönen, Leclerc, Norris, Vettel, Verstappen, Alonso, Prost, …
+12 tay đua: Ashford (đang dùng), Varga, Delacroix, Halvorsen, Marchetti, Quinlan, Ferreira, Zielinski, Calloway, Ibarra, …
 
 ### 3.4 Team · Garage
 
@@ -467,7 +467,7 @@ y700 ┌─ OWNED ────────────────────�
      │             Counterpuncher       [ In use ] │ nút 82×44
      │             Launch 40 · Pace 40             │
 y802 LOCKED (11)
-     │ [ảnh] Ricciardo  Rookie           [ Locked ]│
+     │ [ảnh] Varga      Rookie           [ Locked ]│
      │       Finish 5 races                        │
 ```
 

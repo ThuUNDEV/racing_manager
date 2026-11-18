@@ -3,7 +3,7 @@
   "drivers": [
     {
       "id": "driver_an",
-      "name": "Button",
+      "name": "Ashford",
       "tier": 0,
       "role": "all_round",
       "pace": 40,
@@ -23,7 +23,7 @@
     },
     {
       "id": "driver_binh",
-      "name": "Ricciardo",
+      "name": "Varga",
       "tier": 0,
       "role": "speed",
       "pace": 50,
@@ -44,7 +44,7 @@
     },
     {
       "id": "driver_chi",
-      "name": "Barrichello",
+      "name": "Delacroix",
       "tier": 0,
       "role": "technical",
       "pace": 34,
@@ -65,7 +65,7 @@
     },
     {
       "id": "driver_dung",
-      "name": "Räikkönen",
+      "name": "Halvorsen",
       "tier": 1,
       "role": "calm",
       "pace": 41,
@@ -86,7 +86,7 @@
     },
     {
       "id": "driver_ha",
-      "name": "Leclerc",
+      "name": "Marchetti",
       "tier": 1,
       "role": "speed",
       "pace": 55,
@@ -107,7 +107,7 @@
     },
     {
       "id": "driver_khoi",
-      "name": "Norris",
+      "name": "Quinlan",
       "tier": 1,
       "role": "technical",
       "pace": 39,
@@ -128,7 +128,7 @@
     },
     {
       "id": "driver_lam",
-      "name": "Vettel",
+      "name": "Ferreira",
       "tier": 2,
       "role": "all_round",
       "pace": 50,
@@ -149,7 +149,7 @@
     },
     {
       "id": "driver_my",
-      "name": "Verstappen",
+      "name": "Zielinski",
       "tier": 2,
       "role": "speed",
       "pace": 60,
@@ -170,7 +170,7 @@
     },
     {
       "id": "driver_nhan",
-      "name": "Alonso",
+      "name": "Calloway",
       "tier": 2,
       "role": "technical",
       "pace": 44,
@@ -191,7 +191,7 @@
     },
     {
       "id": "driver_phuong",
-      "name": "Prost",
+      "name": "Ibarra",
       "tier": 3,
       "role": "calm",
       "pace": 51,
@@ -212,7 +212,7 @@
     },
     {
       "id": "driver_quang",
-      "name": "Schumacher",
+      "name": "Thorne",
       "tier": 3,
       "role": "speed",
       "pace": 65,
@@ -233,7 +233,7 @@
     },
     {
       "id": "driver_son",
-      "name": "Hamilton",
+      "name": "Takeda",
       "tier": 3,
       "role": "technical",
       "pace": 49,
