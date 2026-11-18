@@ -73,7 +73,7 @@ func run() -> void:
 			if tab == 2:
 				main._select_team_sub(0)
 			await settle()
-			var page := main._pages[tab] as ScrollContainer
+			var page := main._upgrade_scroll as ScrollContainer if tab == 0 else main._pages[tab] as ScrollContainer
 			check(page.get_child(0).size.x <= page.size.x + 1, "page %d fits %d" % [tab, viewport.x])
 			if tab == 4:
 				for b: Button in main._shop_content.find_children("ShopOpen_*", "Button", true, false):

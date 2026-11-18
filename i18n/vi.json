@@ -416,11 +416,11 @@
  "main.purchases_restored": "Đã khôi phục giao dịch.",
  "main.race": "ĐUA!",
  "main.race_2": "Đua",
- "main.race_car": "XE ĐUA",
+ "main.race_car": "Nâng cấp xe",
  "main.rates": "Tỉ lệ · %s",
  "main.reached_day_milestone": " · Đạt mốc %d ngày!",
  "main.recruit_points_sp": "Điểm tuyển (SP)",
- "main.revenue": "DOANH THU",
+ "main.revenue": "Thu nhập",
  "main.schedule": "Lịch",
  "main.sec": "%d giây",
  "main.sec_2": "/giây",
@@ -648,5 +648,11 @@
  "tutorial.trophy.upgraded": "Xong rồi! Thưởng tốc độ từ nâng cấp này: +%d → +%d. Lượt đua sau đội sẽ dùng chỉ số mới.",
  "trophy.prestige": "Tinh luyện %d / %d",
  "shop.starter_spotlight": "KHỞI ĐẦU ĐƯỜNG ĐUA",
- "shop.starter_pitch": "Gem, vé và tiền để tiếp sức cho đội đua của bạn."
+ "shop.starter_pitch": "Gem, vé và tiền để tiếp sức cho đội đua của bạn.",
+ "soft.facilities": "Cơ sở",
+ "soft.gear_power": "Sức mạnh",
+ "soft.team_power": "Sức mạnh đội",
+ "soft.minute": "phút",
+ "soft.bag": "Túi",
+ "soft.race_no": "Lượt %d"
 }

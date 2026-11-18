@@ -5,12 +5,12 @@ const CleanArt = preload("res://ui/clean_modern_art.gd")
 ## 100% và đã vẽ ít nhất một khung hình, loading bàn giao, mờ dần rồi tự giải phóng.
 
 const ART := "res://assets/startup_loading/"
-const BG_FILE := "loading_pitlane_cyan.png"  # art đã gồm logo, không chứa UI tiến độ
+const BG_FILE := "loading_garage_flare_v2.png"  # art đã gồm logo, không chứa UI tiến độ
 const GAME_TITLE := "RACING TYCOON"
-const C_BG := Color("f1f7fc")
-const C_TEXT := Color("23394a")
-const C_MUTED := Color("768ca0")
-const C_ACCENT := Color("087ee6")
+const C_BG := Color("fff3e2")
+const C_TEXT := Color("173f60")
+const C_MUTED := Color("567286")
+const C_ACCENT := Color("ff931f")
 const LoadingProgress = preload("res://ui/loading_progress.gd")
 const C_TRACK := Color("d5e6f3")
 const C_RED := HdUi.C_RED
@@ -40,6 +40,7 @@ var _err_title: Label
 var _err_msg: Label
 var _err_code: Label
 var _stall_retry: Button
+var _footer: Control
 
 var _shown: float = 0.0
 var _target: float = 0.0
@@ -167,28 +168,32 @@ func _build_header() -> void:
 	_band(title, 0.10, 0.24)
 
 
+func _normal_progress_top() -> float:
+	return 0.83 if get_viewport().get_visible_rect().size.y < 650.0 else 0.87
+
+
 func _build_progress() -> void:
 	# Keep progress directly on the artwork without an enclosing card.
 	_progress_card = PanelContainer.new()
 	var progress_skin := StyleBoxEmpty.new()
 	progress_skin.content_margin_left = 8
 	progress_skin.content_margin_right = 8
-	progress_skin.content_margin_top = 28  # room for the car above the track
+	progress_skin.content_margin_top = 8
 	progress_skin.content_margin_bottom = 6
 	_progress_card.add_theme_stylebox_override("panel", progress_skin)
-	_band(_progress_card, 0.83, 0.95)
+	_band(_progress_card, _normal_progress_top(), 0.95)
 	_progress_box = VBoxContainer.new()
 	_progress_box.add_theme_constant_override("separation", 8)
 	_progress_card.add_child(_progress_box)
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 8)
 	_progress_box.add_child(row)
-	_status = _label("", 14, Color("e6f2fc"))
+	_status = _label("", 14, C_TEXT)
 	_status.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_status.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	_status.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	row.add_child(_status)
-	_percent = _label("0%", 18, Color("d3e8f4"))
+	_percent = _label("0%", 18, C_TEXT)
 	_percent.custom_minimum_size = Vector2(48, 0)
 	_percent.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	row.add_child(_percent)
@@ -203,7 +208,7 @@ func _build_progress() -> void:
 	_progress_box.add_child(_bar)
 	_progress_box.move_child(_bar, 0)
 
-	_slow_note = _label(I18n.t(SLOW_NOTE), 12, Color("bed2e7"))
+	_slow_note = _label(I18n.t(SLOW_NOTE), 12, C_TEXT)
 	_slow_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_slow_note.hide()
 	_progress_box.add_child(_slow_note)
@@ -216,7 +221,7 @@ func _build_error() -> void:
 	var pc := PanelContainer.new()
 	pc.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_band(pc, 0.68, 0.95)
-	var panel := _pill(Color("ffffff"), Color("adc9de"), 1)
+	var panel := _pill(Color("ffffff"), Color("d8e2df"), 1)
 	panel.content_margin_left = 16
 	panel.content_margin_right = 16
 	panel.content_margin_top = 12
@@ -240,12 +245,13 @@ func _build_error() -> void:
 
 func _build_footer() -> void:
 	var row := HBoxContainer.new()
+	_footer = row
 	_band(row, 0.955, 0.985)
 	var ver := String(ProjectSettings.get_setting("application/config/version", ""))
-	var v := _label_outlined("v" + ver if ver != "" else "", 13, 5)
+	var v := _label("v" + ver if ver != "" else "", 13, C_MUTED)
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	v.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	v.add_theme_color_override("font_color", Color("819dcf"))
+	v.add_theme_color_override("font_color", C_MUTED)
 	row.add_child(v)
 
 
@@ -305,6 +311,7 @@ func _on_attempt_started() -> void:
 	_failed = false
 	_finishing = false
 	_progress_card.show()
+	_footer.show()
 	_error_panel.hide()
 	_stall_retry.hide()
 	_slow_note.hide()
@@ -326,6 +333,7 @@ func _on_progress(target: float) -> void:
 
 func _on_failed(code: String, message: String) -> void:
 	_failed = true
+	_footer.hide()
 	_progress_card.hide()
 	_err_msg.text = message
 	_err_code.text = I18n.t("loading.support_code") + code
@@ -358,7 +366,7 @@ func _process(delta: float) -> void:
 			var speed := maxf(0.6, (display_target - _shown) / SMOOTH_TIME)
 			_shown = minf(display_target, _shown + speed * delta)
 	# Chừa đủ chỗ cho thông báo tải chậm và nút thử lại trên màn nhỏ.
-	_progress_card.anchor_top = 0.67 if _stall_retry.visible else (0.75 if _slow_note.visible else 0.83)
+	_progress_card.anchor_top = 0.67 if _stall_retry.visible else (0.75 if _slow_note.visible else _normal_progress_top())
 	_update_bar()
 	_check_shots()
 

@@ -6,6 +6,8 @@ const ROOT := "res://assets/racing_ui_hd_expansion/sprites/"
 static var _textures: Dictionary = {}
 
 static func texture(id: String) -> Texture2D:
+	var clay := HdUi.Soft.expansion(id)
+	if clay != null: return clay
 	if not _textures.has(id):
 		var path := ROOT + id + ".tres"
 		_textures[id] = CleanArt.asset(path) as Texture2D if ResourceLoader.exists(path) else null

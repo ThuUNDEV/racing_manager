@@ -98,7 +98,9 @@ func _initialize() -> void:
 	var x0 := flag.position.x
 	await _frames(10)
 	_check(flag.position.x > x0, "cờ chạy từ trái sang phải")
-	_check(flag.position.y >= RaceView.HUD_H and flag.position.y + flag.size.y <= RaceView.HUD_H + RaceView.STAND_H, "cờ chạy trong dải khán giả phía trên đường đua")
+	var flag_art := flag.get_node("FlagArtwork") as Control
+	_check(flag.position.y + flag_art.position.y >= RaceView.HUD_H and flag.position.y + flag_art.position.y + flag_art.size.y <= RaceView.HUD_H + RaceView.STAND_H, "ảnh cờ nằm trong dải khán giả phía trên đường đua")
+	_check(flag.size.x >= 44 and flag.size.y >= 44 and flag.position.y >= RaceView.HUD_H, "cờ có vùng chạm 44px, không che nút boost")
 	ctl.blocked = true
 	var xb := flag.position.x
 	await _frames(5)

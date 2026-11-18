@@ -3,7 +3,7 @@ const PopupAnim = preload("res://ui/popup_anim.gd")
 ## Popup Classes: cơ sở đua, quản lý và mở rộng. Đua vẫn chạy sau lớp nền tối.
 signal closed
 
-const INK := Color("23394a")
+const INK := Color("0e2b5c")
 const MUTED := Color("6a7d99")
 const TouchScroll = preload("res://ui/touch_scroll.gd")
 const TILE := {"blue": Color("bfd9ff"), "orange": Color("ffd9b0"), "red": Color("ffc4c4"),

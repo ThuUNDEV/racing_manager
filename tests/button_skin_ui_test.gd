@@ -111,8 +111,10 @@ func run() -> void:
 	main._refresh_rows()
 	check(not main._rows[0]["btn"].disabled, "affordable upgrade remains enabled")
 	var upgrade: StyleBoxTexture = main._rows[0]["btn"].get_theme_stylebox("normal")
-	var green: Color = upgrade.get_meta("rounded_palette")[0]
-	check(green.g > green.r and green.g > green.b, "upgrade remains green")
+	var pixels := upgrade.texture.get_image()
+	if pixels.is_compressed(): pixels.decompress()
+	var orange_face := pixels.get_pixel(pixels.get_width() / 2, pixels.get_height() / 2)
+	check(orange_face.r > orange_face.g and orange_face.g > orange_face.b, "upgrade uses the approved orange action face")
 	var profile_button: Button = main._profile._button("Close", func(): pass, true, true)
 	var orange: Color = profile_button.get_theme_stylebox("normal").get_meta("rounded_palette")[0]
 	check(orange.is_equal_approx(Color("d66a00")), "profile orange stays unchanged")

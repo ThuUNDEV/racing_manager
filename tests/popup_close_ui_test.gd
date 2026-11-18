@@ -17,15 +17,18 @@ func settle() -> void:
 
 func verify(control: Control, button_name: String, tag: String) -> void:
 	await settle()
-	var button := control.find_child(button_name, true, false) as Button
+	var button := control.find_child(button_name, true, false) as BaseButton
 	check(button != null, tag + " has close button")
 	if button == null:
 		return
 	var rect := button.get_global_rect()
 	check(rect.size.x >= 48 and rect.size.y >= 48, tag + " touch target")
 	check(is_equal_approx(rect.size.x, rect.size.y), tag + " square close button")
-	var face := button.get_theme_stylebox("normal") as StyleBoxTexture
-	check(face != null and face.texture.resource_path == "res://assets/racing_ui_hd/icons/popup_close_x.svg", tag + " uses centered close artwork")
+	if button is TextureButton:
+		check((button as TextureButton).texture_normal.resource_path == "res://assets/daily_gift_v3/runtime/button_close.png", tag + " uses v3 close artwork")
+	else:
+		var face := button.get_theme_stylebox("normal") as StyleBoxTexture
+		check(face != null and face.texture.resource_path == "res://assets/racing_ui_hd/icons/popup_close_x.svg", tag + " uses centered close artwork")
 	check(Rect2(Vector2.ZERO, Vector2(root.size)).encloses(rect), tag + " close fits viewport")
 	var header := button.get_parent() as Control
 	for child in header.get_children():

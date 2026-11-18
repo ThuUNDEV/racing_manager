@@ -61,37 +61,37 @@
  "ai_cars": [
   {
    "name": "Senna",
-   "offset": -6,
+   "offset": -1,
    "style": "inside"
   },
   {
    "name": "Mansell",
-   "offset": -5,
+   "offset": 1,
    "style": "sweeper"
   },
   {
    "name": "Häkkinen",
-   "offset": -3,
+   "offset": 3,
    "style": "counter"
   },
   {
    "name": "Rosberg",
-   "offset": 0,
+   "offset": 5,
    "style": "defender"
   },
   {
    "name": "Webber",
-   "offset": 4,
+   "offset": 8,
    "style": "inside"
   },
   {
    "name": "Massa",
-   "offset": 8,
+   "offset": 11,
    "style": "sweeper"
   },
   {
    "name": "Sainz",
-   "offset": 14,
+   "offset": 20,
    "style": "counter"
   }
  ],

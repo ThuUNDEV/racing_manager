@@ -1,5 +1,6 @@
 extends RefCounted
 ## One rounded face for every button palette. Nine-slice caps never stretch horizontally.
+const Soft = preload("res://ui/soft_miniature.gd")
 const STATES := ["normal", "hover", "pressed", "hover_pressed", "disabled"]
 static var _textures: Dictionary = {}
 static var _palettes: Dictionary = {}
@@ -92,7 +93,12 @@ static func _fit(reference: WeakRef) -> void:
 		if not button.has_theme_stylebox_override(state):
 			continue
 		var source := button.get_theme_stylebox(state) as StyleBoxTexture
-		if source == null or not source.has_meta("rounded_palette"):
+		if source == null:
+			continue
+		if source.has_meta("soft_skin"):
+			button.add_theme_stylebox_override(state, Soft.fit_button(source, button.size))
+			continue
+		if not source.has_meta("rounded_palette"):
 			continue
 		var height := button.size.y + source.expand_margin_top + source.expand_margin_bottom
 		var scale := maxf(0.25, height / 48.0)

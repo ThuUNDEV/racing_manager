@@ -16,6 +16,10 @@ static func _initialize() -> void:
 		_paths["res://" + entry["source"]] = "res://" + entry["replacement"]
 
 static func asset(path: String) -> Resource:
+	# Legacy components resolve known foregrounds through the approved new pack.
+	if path.begins_with("res://assets/workshop_gp/portraits/"):
+		var portrait := preload("res://ui/soft_miniature.gd").texture(path.get_file().get_basename())
+		if portrait != null: return portrait
 	_initialize()
 	return load(String(_paths.get(path, path)))
 

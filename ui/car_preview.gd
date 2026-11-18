@@ -128,9 +128,10 @@ func _ready() -> void:
 
 func _draw() -> void:
 	if show_floor:
-		var floor_tex := ExpansionArt.texture("showroom_floor")
-		if floor_tex != null:
-			draw_texture_rect(floor_tex, Rect2(size.x * 0.08, size.y * 0.62, size.x * 0.84, size.y * 0.3), false)
+		var background := HdUi.Soft.texture("garage_background_empty")
+		if background != null:
+			draw_texture_rect(background, Rect2(Vector2.ZERO, size), false)
+
 
 
 ## Lớp decal phủ lên thân xe (toạ độ điểm ảnh ảnh gốc, gốc ở tâm xe).

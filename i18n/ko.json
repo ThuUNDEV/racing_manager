@@ -648,5 +648,11 @@
  "tutorial.trophy.upgraded": "완료! 이 업그레이드의 속도 보너스: +%d → +%d. 새 능력치는 다음 경주부터 적용됩니다.",
  "trophy.prestige": "Prestige %d / %d",
  "shop.starter_spotlight": "첫 번째 팀을 만드세요",
- "shop.starter_pitch": "젬, 티켓, 자금으로 팀의 성장을 시작하세요."
+ "shop.starter_pitch": "젬, 티켓, 자금으로 팀의 성장을 시작하세요.",
+ "soft.facilities": "Facilities",
+ "soft.gear_power": "파워",
+ "soft.team_power": "Team power",
+ "soft.minute": "min",
+ "soft.bag": "Bag",
+ "soft.race_no": "레이스 %d"
 }

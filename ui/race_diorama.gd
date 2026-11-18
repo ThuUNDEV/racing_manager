@@ -23,14 +23,14 @@ static func oval(ci: CanvasItem, center: Vector2, radius: Vector2, color: Color)
 
 
 static func board(ci: CanvasItem, rect: Rect2) -> void:
-	ci.draw_rect(rect.grow(10), Color("dce8e9"))
-	rounded(ci, Rect2(rect.position + Vector2(1, 5), rect.size), Color("bdced0"), 16)
-	rounded(ci, Rect2(rect.position + Vector2(0, 3), rect.size), Color("54765c"), 15)
-	rounded(ci, rect, Color("8fbd76"), 15)
+	ci.draw_rect(rect.grow(10), Color("c6e7e7"))
+	rounded(ci, Rect2(rect.position + Vector2(1, 5), rect.size), Color("9dc4c4"), 16)
+	rounded(ci, Rect2(rect.position + Vector2(0, 3), rect.size), Color("a2c297"), 15)
+	rounded(ci, rect, Color("b6daa5"), 15)
 	var stripe_height := maxf(12.0, rect.size.y / 9.0)
 	var y := rect.position.y + 11.0
 	while y < rect.end.y - 8.0:
-		ci.draw_rect(Rect2(rect.position.x + 5.0, y, rect.size.x - 10.0, minf(stripe_height, rect.end.y - 8.0 - y)), Color("98c47e"))
+		ci.draw_rect(Rect2(rect.position.x + 5.0, y, rect.size.x - 10.0, minf(stripe_height, rect.end.y - 8.0 - y)), Color("bfdfb0"))
 		y += stripe_height * 2.0
 
 
@@ -91,6 +91,10 @@ static func draw_props(ci: CanvasItem, props: Array) -> void:
 		var u: float = prop.u
 		match String(prop.kind):
 			"garage":
+				var garage := HdUi.Soft.icon("garage")
+				if garage != null:
+					ci.draw_texture_rect(garage, Rect2(p + Vector2(-25, -28) * u, Vector2(50, 44) * u), false)
+					continue
 				oval(ci, p + Vector2(4, 6) * u, Vector2(23, 7) * u, Color("709b65"))
 				rounded(ci, Rect2(p + Vector2(-17, -7) * u, Vector2(36, 19) * u), Color("c9bd9a"), 2)
 				rounded(ci, Rect2(p + Vector2(-19, -9) * u, Vector2(36, 18) * u), Color("ffedc8"), 2)
@@ -111,12 +115,12 @@ static func draw_props(ci: CanvasItem, props: Array) -> void:
 				if String(prop.kind) == "pine":
 					for i in 3:
 						var y := -25.0 + float(i) * 6.0
-						ci.draw_colored_polygon(PackedVector2Array([p + Vector2(0, y) * u, p + Vector2(8 - i, y + 15) * u, p + Vector2(-8 + i, y + 15) * u]), [Color("3e795a"), Color("569665"), Color("73ac71")][i])
+						ci.draw_colored_polygon(PackedVector2Array([p + Vector2(0, y) * u, p + Vector2(8 - i, y + 15) * u, p + Vector2(-8 + i, y + 15) * u]), [Color("6cae83"), Color("84bf94"), Color("a4d2a5")][i])
 				else:
-					ci.draw_circle(p + Vector2(2, -9) * u, 9 * u, Color("468357"))
-					ci.draw_circle(p + Vector2(-3, -13) * u, 8 * u, Color("6aa460"))
-					ci.draw_circle(p + Vector2(0, -17) * u, 7 * u, Color("8ec275"))
-					ci.draw_circle(p + Vector2(-2, -20) * u, 3 * u, Color("a4d082"))
+					ci.draw_circle(p + Vector2(2, -9) * u, 9 * u, Color("77b88d"))
+					ci.draw_circle(p + Vector2(-3, -13) * u, 8 * u, Color("96c99d"))
+					ci.draw_circle(p + Vector2(0, -17) * u, 7 * u, Color("b0d7aa"))
+					ci.draw_circle(p + Vector2(-2, -20) * u, 3 * u, Color("c7e6bb"))
 
 
 static func start_flag(ci: CanvasItem, p: Vector2, u: float) -> void:

@@ -391,14 +391,15 @@ static func validate() -> Array:
 			else:
 				if lay.closure_error > 1.0:
 					errs.append("%s: track is not closed (error %.2f units)" % [id, lay.closure_error])
-				if absf(absf(lay.total_turn) - 360.0) > 0.5:
-					errs.append("%s: total turn angle %.1f, needs ±360" % [id, lay.total_turn])
-				var max_w := 0.0
-				for w in lay.widths:
-					max_w = maxf(max_w, w)
-				var road: float = max_w * float(sm["car_width"])
-				if lay.min_clearance() < road * 1.3:
-					errs.append("%s: two track segments are too close together" % id)
+				if lay.shape != "figure_eight":
+					if absf(absf(lay.total_turn) - 360.0) > 0.5:
+						errs.append("%s: total turn angle %.1f, needs ±360" % [id, lay.total_turn])
+					var max_w := 0.0
+					for w in lay.widths:
+						max_w = maxf(max_w, w)
+					var road: float = max_w * float(sm["car_width"])
+					if lay.min_clearance() < road * 1.3:
+						errs.append("%s: two track segments are too close together" % id)
 
 	var ls := leagues()
 	if ls.size() != 6:

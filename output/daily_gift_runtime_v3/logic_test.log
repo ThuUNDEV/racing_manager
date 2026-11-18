@@ -1,0 +1,126 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+== Dữ liệu ==
+  ok   validate() không lỗi: []
+  ok   6 ô thường, 7 vòng Grand, 3 bậc mốc
+  ok   mốc mỗi 10 ngày, mở khóa U5_drivers
+  ok   data lỗi bị bắt: { "cycle": [{ "gems": 0 }] }
+  ok   data lỗi bị bắt: { "cycle": [{ "driver_coupon": { "ghost": 1 } }] }
+  ok   data lỗi bị bắt: { "cycle": [{  }] }
+  ok   data lỗi bị bắt: { "cycle": [{ "lol": 1 }] }
+  ok   data lỗi bị bắt: { "milestone_interval": 0 }
+  ok   data lỗi bị bắt: { "gem_scale": 0 }
+  ok   data lỗi bị bắt: { "unlock": "U99_x" }
+  ok   data lỗi bị bắt: { "grand": [{ "gems": 5 }] }
+== Bảng thưởng (Design/30 §3, §4) ==
+  ok   ô ngày 1: 0 gem
+  ok   ô ngày 2: 0 gem
+  ok   ô ngày 3: 15 gem
+  ok   ô ngày 4: 0 gem
+  ok   ô ngày 5: 0 gem
+  ok   ô ngày 6: 20 gem
+  ok   ngày 1 = 2 Pro, ngày 2 = 2 Standard
+  ok   ngày 4 = 1 All-Star, ngày 5 = 1 Elite
+  ok   Grand vòng 6 = 4 All-Star + 2 Elite + 50 gem
+  ok   ordinal 7 quay lại vòng 0
+  ok   mốc 1 = 40 gem, mốc 2 = 2 All-Star
+  ok   mốc 3 = 80 gem + 2 All-Star
+  ok   mốc 4 quay lại bậc 1
+== Vòng lặp thuần ==
+  ok   ngày 1: nhận được
+  ok   ngày 1: nhận xong thì hết nhận trong ngày
+  ok   ngày 2: nhận được
+  ok   ngày 2: nhận xong thì hết nhận trong ngày
+  ok   ngày 3: nhận được
+  ok   ngày 3: nhận xong thì hết nhận trong ngày
+  ok   ngày 4: nhận được
+  ok   ngày 4: nhận xong thì hết nhận trong ngày
+  ok   ngày 5: nhận được
+  ok   ngày 5: nhận xong thì hết nhận trong ngày
+  ok   ngày 6: nhận được
+  ok   ngày 6: nhận xong thì hết nhận trong ngày
+  ok   ngày 7: nhận được
+  ok   ngày 7: nhận xong thì hết nhận trong ngày
+  ok   ngày 8: nhận được
+  ok   ngày 8: nhận xong thì hết nhận trong ngày
+  ok   ngày 9: nhận được
+  ok   ngày 9: nhận xong thì hết nhận trong ngày
+  ok   ngày 10: nhận được
+  ok   ngày 10: nhận xong thì hết nhận trong ngày
+  ok   ngày 11: nhận được
+  ok   ngày 11: nhận xong thì hết nhận trong ngày
+  ok   ngày 12: nhận được
+  ok   ngày 12: nhận xong thì hết nhận trong ngày
+  ok   ngày 13: nhận được
+  ok   ngày 13: nhận xong thì hết nhận trong ngày
+  ok   ngày 14: nhận được
+  ok   ngày 14: nhận xong thì hết nhận trong ngày
+  ok   sau 14 ngày: cycle_day 0, grand_ordinal 2
+  ok   ngày 7 và 14 là Grand
+  ok   vòng 0 = 2 All-Star + 30, vòng 1 = 2 Elite + 30
+== Mốc ==
+  ok   mốc chạm ở ngày nhận 10, 20, 30: [10, 20, 30]
+  ok   claimed_milestones = 3
+  ok   cửa sổ khi chưa nhận: 4 mốc 10..40, mốc đầu là 'next'
+  ok   sau mốc 3: giữ mốc 30 đã nhận, mốc 40 'next', 50, 60 khóa
+  ok   đếm ngược tới mốc kế
+  ok   ô thường trùng mốc: cộng cả hai (15 + 40 gem)
+== Trên GameState: nhận cơ bản ==
+  ok   mới chơi (không gated): mở khóa ngày D0, nhận được
+  ok   nhận ngày 1
+  ok   ngày 1 = +2 Pro, gem không đổi
+  ok   nhận lần hai cùng ngày bị từ chối
+  ok   23:59:59 UTC vẫn cùng ngày
+  ok   00:00:00 UTC ngày sau: nhận lại được
+  ok   ngày 2 = +2 Standard Gear
+  ok   last_daily_reward ghi ô vừa nhận
+== Bỏ lỡ ngày giữ tiến trình (R1) ==
+  ok   bỏ 39 ngày: vẫn ô ngày 2
+  ok   nhận ô ngày 2, không nhận bù, total_days = 2
+  ok   không nhận hai ô trong cùng một ngày sau khi bỏ lỡ
+== Gem, x2 ==
+  ok   x2 ở ngày 3: 15 gem thành 30
+  ok   x2 ở ô coupon: không nhân coupon, không tính x2
+  ok   cờ x2_enabled tắt: chỉ nhận thường
+  ok   gem_scale 2.0 nhân phần gem, không đụng coupon
+  ok   gem_scale nhỏ: thưởng gem không về 0
+  ok   cờ enabled tắt: không nhận
+== Chống lùi giờ ==
+  ok   giờ máy lùi: ngày không lùi (max_seen_day)
+  ok   lùi giờ không làm mất quyền nhận ở ngày đã thấy
+  ok   lùi giờ không cho nhận lần hai
+  ok   có giờ server: lấy ngày lớn nhất
+  ok   server cũ hơn máy: không lùi
+  ok   đếm ngược 01:00 UTC còn 23 giờ
+  ok   đúng 00:00 UTC còn 24 giờ
+== Mở khóa sau U5_drivers ==
+  ok   trước lượt 5: chưa mở khóa
+  ok   trước lượt 5: không nhận được
+  ok   đủ 5 lượt: mở khóa tại ngày hiện tại
+  ok   ngày mở khóa là ngày 1, nhận được ngay
+  ok   mở khóa chỉ ghi một lần
+== Popup tự bật (R4) ==
+  ok   còn thưởng, chưa bật hôm nay: bật
+  ok   đã bật hôm nay: không bật lại dù chưa nhận
+  ok   đóng popup không làm mất quyền nhận
+  ok   ngày sau: bật lại
+  ok   đã nhận: không bật
+== Save/load ==
+  ok   10 ngày: total 10, mốc 1, cycle_day 3
+  ok   state sống sót qua save/load
+  ok   schema_version >= 13
+  ok   save cũ không có khối daily_rewards: mặc định
+  ok   sanitize chặn giá trị sai kiểu/ngoài biên
+  ok   sanitize không phải object: mặc định
+  ok   save có daily_rewards sai kiểu bị từ chối
+== Lỗi lưu hoàn tác ==
+  ok   ghi lỗi: nhận thất bại
+  ok   ghi lỗi: không mất ngày, không cộng thưởng
+  ok   ghi lại được sau khi hết lỗi
+  ok   save bị khóa: không nhận, không đổi state
+== Vòng đầy đủ 49 ngày trên GameState ==
+  ok   49 ngày = 7 vòng: ordinal quay về 0
+  ok   49 ngày: 4 mốc (10, 20, 30, 40)
+  ok   tổng gem 49 ngày = 595 (có 595)
+
+DAILY REWARDS TEST: ĐẠT

@@ -38,7 +38,7 @@ func run() -> void:
 			check(box.get_global_rect().end.x <= width, "Popup fits width %d capped=%s" % [width, capped])
 			var button = box.find_child("OfflineContinue", true, false)
 			var button_skin := button.get_theme_stylebox("normal") as StyleBoxTexture
-			check(button_skin.texture.get_width() > 3 * button_skin.texture.get_height(), "Continue uses a wide button skin")
+			check(button.size.x > 3 * button.size.y and button_skin.texture_margin_left + button_skin.texture_margin_right < button.size.x, "Continue stays wide with intact nine-slice caps")
 			check(button.get_global_rect().end.y < root.size.y, "Continue visible at %d" % width)
 			var panel: PanelContainer = box.get_parent().get_parent()
 			check(panel.get_global_rect().end.y - button.get_global_rect().end.y < 35.0, "No empty panel below Continue at %d" % width)

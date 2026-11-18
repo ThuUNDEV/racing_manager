@@ -266,7 +266,7 @@ func _initialize() -> void:
 	var final_pos := 0
 	var strong_races := 16
 	for s in strong_races:
-		var sim3 := _new(8000 + s, _stats([30, 30, 30, 30, 10, 10, 10]), "track_circuit_a", {"player_slot": 7})
+		var sim3 := _new(8000 + s, _stats([40, 40, 40, 40, 15, 15, 15]), "track_circuit_a", {"player_slot": 7})
 		sim3.run_to_end()
 		final_pos += sim3.ranking().find(sim3.player_car()) + 1
 		if sim3.ranking()[0] == sim3.player_car():
@@ -274,7 +274,7 @@ func _initialize() -> void:
 	var avg_final := float(final_pos) / float(strong_races)
 	print("  build mạnh xuất phát cuối: về hạng TB %.2f · thắng %d/%d" % [avg_final, wins, strong_races])
 	_check(avg_final <= 4.0, "build mạnh hơn nhiều xuất phát cuối lên được ≥ 4 hạng (về hạng TB %.2f)" % avg_final)
-	# Không còn lỗi tay đua (errors_enabled=false) nên xe dẫn đầu không tự chậm lại: xuất phát cuối khó thắng hơn, chỉ cần thắng được một phần tư số race.
+	# Không còn lỗi tay đua (errors_enabled=false) nên xe dẫn đầu không tự chậm lại: xuất phát cuối khó thắng hơn, chỉ cần thắng được một phần tư số race. (build nâng lên +40/+15 vì bot mạnh nhất nay +20)
 	_check(wins >= strong_races / 4, "build mạnh hơn nhiều thắng ít nhất một phần tư số race (%d/%d)" % [wins, strong_races])
 
 	print("== Đặc tính tay đua ==")

@@ -43,7 +43,7 @@ func run() -> void:
 	check(b != null, "tìm thấy nút mở gói phụ kiện")
 	if b != null:
 		var gem_icon := b.find_child("PaymentIcon", true, false) as TextureRect
-		check(gem_icon != null and gem_icon.texture != null and gem_icon.texture.resource_path.ends_with("sprites/gem_single.tres"), "thanh toán gem vẫn có icon gem")
+		check(gem_icon != null and gem_icon.texture != null and gem_icon.texture == HdUi.Soft.texture("currency_gem"), "thanh toán gem vẫn có icon gem")
 		b.pressed.emit()
 		await settle()
 		check(int(state.gear_open_count) > before or state.gems < 5000, "mở gói phụ kiện từ Shop có hiệu lực (gem hoặc lượt đổi)")

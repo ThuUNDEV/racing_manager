@@ -5,8 +5,8 @@ const PopupAnim = preload("res://ui/popup_anim.gd")
 signal closed
 signal class_requested
 
-const INK := Color("23394a")
-const MUTED := Color("768ca0")
+const INK := Color("0e2b5c")
+const MUTED := Color("788b95")
 const TouchScroll = preload("res://ui/touch_scroll.gd")
 var _name: Label
 var _league: Label
@@ -40,7 +40,7 @@ func _ready() -> void:
 	_popup.name = "ProfilePopup"
 	_popup.clip_contents = true
 	var popup_skin := StyleBoxFlat.new()
-	popup_skin.bg_color = Color("e7f0ff")
+	popup_skin.bg_color = Color("fff8ee")
 	popup_skin.set_corner_radius_all(20)
 	popup_skin.shadow_color = Color(0, 0, 0, 0.25)
 	popup_skin.shadow_size = 12
@@ -49,7 +49,7 @@ func _ready() -> void:
 	var root := VBoxContainer.new()
 	root.add_theme_constant_override("separation", 0)
 	_popup.add_child(root)
-	var header := _panel(root, Color("174c8c"), 0, 14)
+	var header := _panel(root, Color("579cc5"), 0, 14)
 	var header_skin := header.get_theme_stylebox("panel") as StyleBoxFlat
 	header_skin.corner_radius_top_left = 20
 	header_skin.corner_radius_top_right = 20
@@ -76,7 +76,7 @@ func _ready() -> void:
 	var content := VBoxContainer.new()
 	content.add_theme_constant_override("separation", 12)
 	margin.add_child(content)
-	var identity := _panel(content, Color("1b5baa"), 20, 18)
+	var identity := _panel(content, Color("72b4d7"), 20, 18)
 	var id_box := VBoxContainer.new()
 	id_box.add_theme_constant_override("separation", 14)
 	identity.add_child(id_box)

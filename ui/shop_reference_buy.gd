@@ -2,6 +2,7 @@ extends Button
 ## The face follows the reference rectangle; its invisible hit target stays 44px
 ## and is clamped inside the card. No scaling transform or extra layout minimum.
 var face := Button.new()
+var _face_styles: Dictionary = {}
 
 func _init() -> void:
 	clip_text = true
@@ -40,10 +41,10 @@ func _process(_delta: float) -> void:
 	for key in ["outline_size", "icon_max_width", "h_separation"]:
 		face.add_theme_constant_override(key, roundi(get_theme_constant(key) * u) if key in ["icon_max_width", "h_separation"] else get_theme_constant(key))
 	for state in ["normal", "hover", "pressed", "disabled", "focus", "hover_pressed"]:
-		face.add_theme_stylebox_override(state, get_theme_stylebox(state))
+		face.add_theme_stylebox_override(state, _face_style(state, at.size))
 	if icon != null:
 		for state in ["normal", "hover", "pressed", "disabled", "focus", "hover_pressed"]:
-			var style := get_theme_stylebox(state)
+			var style := face.get_theme_stylebox(state)
 			var text_width := face.get_theme_font("font").get_string_size(face.text, HORIZONTAL_ALIGNMENT_LEFT, -1, face.get_theme_font_size("font_size")).x
 			var content_width := text_width + face.get_theme_constant("icon_max_width") + face.get_theme_constant("h_separation")
 			var inset := maxf(3 * u, (at.size.x - content_width) * 0.5)
@@ -51,3 +52,14 @@ func _process(_delta: float) -> void:
 			style.content_margin_right = inset
 	face.position = at.position - hit_at
 	face.size = at.size
+
+## Cache each resized raster face; reference cards update their text every frame.
+func _face_style(state: String, extent: Vector2) -> StyleBox:
+	var source := get_theme_stylebox(state)
+	if not source.has_meta("soft_skin"):
+		return source
+	var cached: Dictionary = _face_styles.get(state, {})
+	if int(cached.get("source", 0)) != source.get_instance_id() or cached.get("extent", Vector2.ZERO) != extent:
+		_face_styles[state] = {"source": source.get_instance_id(), "extent": extent,
+			"skin": preload("res://ui/soft_miniature.gd").fit_button(source as StyleBoxTexture, extent)}
+	return _face_styles[state]["skin"] as StyleBox

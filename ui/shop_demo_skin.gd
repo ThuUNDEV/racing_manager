@@ -1,8 +1,8 @@
 extends RefCounted
 ## Shop-only art direction. Other pages keep their current skin.
 const ROOT := "res://assets/shop_blue_white/"
-const LEGACY_INK := Color("23394a")
-const MUTED := Color("768ca0")
+const LEGACY_INK := HdUi.C_TEXT
+const MUTED := HdUi.C_MUTED
 const LIMIT_INK := Color("3e6b9b")
 const PACK_BLUE := Color("087ee6")
 const PACK_PALE := Color("e4f3ff")
@@ -19,7 +19,7 @@ const DETAIL_BG := Color("dfedff")
 const DETAIL_EDGE := Color("b6d8fb")
 const CONVERSION_INK := Color("7652aa")
 const DETAIL_INK := Color("476991")
-const INK := Color("102d60")
+const INK := HdUi.C_TEXT
 const UnitScale = preload("res://ui/unit_scale.gd")
 static var _source: Dictionary = {}
 
@@ -55,23 +55,8 @@ static func video_icon() -> Texture2D:
 	image.load_svg_from_string('<svg xmlns="http://www.w3.org/2000/svg" width="34" height="26"><rect x="1" y="1" width="32" height="24" rx="3" fill="white" stroke="#09285a" stroke-width="2"/><path d="M14 6l11 7-11 7z" fill="#102d60"/></svg>')
 	return ImageTexture.create_from_image(image)
 
-static func reference_surface(extent: Vector2, cyan: bool = false) -> StyleBoxTexture:
-	var key := str(extent) + str(cyan)
-	if not _surfaces.has(key):
-		var w := int(extent.x)
-		var h := int(extent.y)
-		var svg := '<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d"><defs><linearGradient id="g" x1="0" y1="1" x2="1" y2="0"><stop stop-color="%s"/><stop offset="1" stop-color="%s"/></linearGradient><clipPath id="c"><rect x="4" y="3" width="%d" height="%d" rx="16"/></clipPath></defs><rect x="1" y="5" width="%d" height="%d" rx="18" fill="#add4f3"/><rect x="1.5" y="1.5" width="%d" height="%d" rx="17" fill="url(#g)" stroke="%s" stroke-width="2.5"/><g clip-path="url(#c)" fill="white" opacity=".22"><path d="M90 0h48L-62 %dh-48zM320 0h38L168 %dh-38zM420 0h20L268 %dh-20z"/></g><rect x="4" y="4" width="%d" height="%d" rx="15" fill="none" stroke="white" stroke-width="2"/></svg>' % [w,h,"#a1e4f9" if cyan else "#ceeafb","#c8effc" if cyan else "#ffffff",w-8,h-10,w-2,h-6,w-3,h-8,"#1fa8e9" if cyan else "#6db4ef",h,h,h,w-8,h-13]
-		var image := Image.new()
-		image.load_svg_from_string(svg)
-		_surfaces[key] = ImageTexture.create_from_image(image)
-	var style := StyleBoxTexture.new()
-	style.texture = _surfaces[key]
-	style.texture_margin_left = 0
-	style.texture_margin_right = 0
-	style.texture_margin_top = 0
-	style.texture_margin_bottom = 0
-	style.set_content_margin_all(0)
-	return style
+static func reference_surface(_extent: Vector2, cyan: bool = false) -> StyleBoxTexture:
+	return HdUi.Soft.surface("selected" if cyan else "panel", Vector4.ZERO)
 
 ## Standalone artwork from assets/shop_blue_white/crops (see tools/export_shop_crops.py).
 static func sprite(name: String) -> TextureRect:
@@ -115,26 +100,39 @@ static func info_button(sku: String, square: bool = false) -> Button:
 	return info
 
 static func surface(id: String, margin: float = 8.0) -> StyleBoxTexture:
-	var s := StyleBoxTexture.new()
-	s.texture = load(ROOT + id + ".svg")
-	s.texture_margin_left = 16
-	s.texture_margin_right = 16
-	s.texture_margin_top = 16 if id in ["banner", "free", "tile"] else 12
-	s.texture_margin_bottom = s.texture_margin_top
-	s.set_content_margin_all(margin)
-	return s
+	var kind := "panel"
+	if id.begins_with("section"): kind = "section"
+	elif id.begins_with("disabled"): kind = "disabled"
+	elif id.begins_with("buy") or id.begins_with("action"): kind = "orange"
+	elif id.begins_with("tab"): kind = "cancel"
+	elif id == "free": kind = "reward"
+	return HdUi.Soft.surface(kind, Vector4.ONE * margin)
 
 static func picture(id: String, extent: Vector2) -> TextureRect:
-	var t := TextureRect.new()
-	t.texture = load(ROOT + "sprites/" + id + ".tres")
-	t.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	t.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	t.custom_minimum_size = extent
-	t.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	t.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
-	return t
+	var key: String = {"gem_single": "currency_gem", "cash_small": "currency_cash", "cash_medium": "currency_cash", "cash_large": "currency_cash", "gift": "gift_red", "income": "currency_coins", "no_ads": "shop_no_ads", "offline": "garage_with_car"}.get(id, "")
+	var texture: Texture2D = HdUi.Soft.texture(key) if key != "" else load(ROOT + "sprites/" + id + ".tres") as Texture2D
+	return _texture_rect(texture, extent)
+
+static func _texture_rect(texture: Texture2D, extent: Vector2) -> TextureRect:
+	var image := TextureRect.new()
+	image.texture = texture
+	image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	image.custom_minimum_size = extent
+	image.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return image
+
+static func offer_art(sku: String, kind: String, extent: Vector2) -> TextureRect:
+	var key: String = {"starter_1": "shop_starter", "income_x2": "shop_income_x2", "no_ads": "shop_no_ads", "offer_noads_bundle": "shop_combo", "offer_combo_1": "shop_combo", "offer_combo_2": "shop_combo"}.get(sku, "")
+	if key != "": return _texture_rect(HdUi.Soft.texture(key), extent)
+	if kind in ["character", "starter"]: return portrait(sku, extent)
+	return _texture_rect(HdUi.Soft.icon("gift"), extent)
 
 static func portrait(sku: String, extent: Vector2) -> TextureRect:
+	var did := String(GameData.iap_product(sku).get("grant", {}).get("driver", ""))
+	var clay := HdUi.Soft.texture("driver_lam_shop" if did == "driver_lam" else did)
+	if clay != null:
+		return _texture_rect(clay, extent)
 	if _source.is_empty():
 		_source = JSON.parse_string(FileAccess.get_file_as_string("res://assets/iap_offers/manifest.json"))
 	var recipe: Dictionary = _source["recipes"].get(sku, {})
@@ -176,22 +174,7 @@ static func style_button(b: Button, kind: String = "buy") -> void:
 	HdUi.ButtonSkin.apply(b)
 
 static func style_reference_button(b: Button, kind: String = "buy") -> void:
-	b.clip_text = true
-	b.add_theme_font_override("font", FONT)
-	for state in ["normal", "hover", "pressed", "hover_pressed", "disabled", "focus"]:
-		var style := surface("disabled" if state == "disabled" else kind + "_match", 3)
-		style.texture_margin_left = 0
-		style.texture_margin_right = 0
-		style.texture_margin_top = 0
-		style.texture_margin_bottom = 0
-		b.add_theme_stylebox_override(state, style)
-	for color in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color"]:
-		b.add_theme_color_override(color, Color.WHITE)
-	b.add_theme_color_override("font_disabled_color", Color("647f98"))
-	b.add_theme_color_override("font_outline_color", Color("063d83") if kind == "action" else Color("174d19"))
-	b.add_theme_constant_override("outline_size", 6)
-	b.add_theme_constant_override("shadow_offset_x", 0)
-	b.add_theme_constant_override("shadow_offset_y", 0)
+	style_button(b, kind)
 
 
 static func price_text(b: Button, preferred_size: int = 18, unit: float = 1.0) -> void:
@@ -208,8 +191,8 @@ static func price_text(b: Button, preferred_size: int = 18, unit: float = 1.0) -
 			point_size -= 1
 	b.add_theme_font_size_override("font_size", roundi(point_size * unit))
 	b.set_meta("ub_font", point_size)
-	b.add_theme_color_override("font_outline_color", Color("174d19") if b.icon == null else Color("063d83"))
-	var outline := 6 if reference else 3
+	b.add_theme_color_override("font_outline_color", Color("a65f32"))
+	var outline := 0
 	b.add_theme_constant_override("outline_size", maxi(1, roundi(outline * unit)))
 	b.set_meta("ub_c_outline_size", outline)
 	if b.icon != null and b.size.x > 0 and not reference:

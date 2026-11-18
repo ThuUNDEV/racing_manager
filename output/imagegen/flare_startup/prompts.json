@@ -1,0 +1,22 @@
+{
+  "model": "gpt-image-2.5-flare",
+  "mode": "OpenAI API via imagegen skill CLI",
+  "assets": {
+    "logo": "Use case: logo-brand. Create a polished production raster logo for mobile game, exact text \"RACING\" above \"TYCOON\". Soft Miniature v2 art direction: premium glossy cartoon toy, softly rounded chunky dimensional letters, ivory RACING and warm golden orange TYCOON, deep ocean ink blue thick rounded backing, soft restrained specular highlights and ambient occlusion, two small checkered flags behind upper corners, a small charming rounded orange toy sports car integrated below the lettering. Friendly bright casual racing tycoon, not esports. Compact balanced silhouette, extremely legible at 300 pixels wide, centered with modest transparent padding. Only the exact title RACING TYCOON, no other text, no UI, no background scenery, no watermark. Genuine transparent background. ",
+    "loading": "Use case: stylized-concept. Asset type: portrait mobile game loading background 390:844 aspect ratio, full bleed. Primary request: Soft Miniature v2 glossy cartoon toy racing garage and racetrack illustration with the exact game logo RACING TYCOON above. Brand design: ivory rounded RACING over golden orange TYCOON on deep blue dimensional backing, little checkered flags. Art direction: warm friendly soft ceramic/plastic toys, rounded bevels, rich restrained highlights, soft ambient occlusion, powder sky blue, ocean blue, warm ivory, orange, mint and gold. Composition: logo centered in upper 15-32 percent, safely inset at least 12 percent horizontally and 12 percent vertically. Middle 36-73 percent features a beautiful miniature ivory garage with coral orange roof, open workshop bay, little tool trolley and spare tires, a prominent glossy orange toy sports car in front, curving race track with red/ivory curb, small blue racecar and soft green shrubs, bright coastal sky. Simplify and maintain clear visual hierarchy. Lower 24 percent smoothly opens into quiet pale warm ivory ground with very little detail and absolutely no objects at bottom, reserved for runtime UI. Important: NO progress bar, NO loading text, NO percentage, NO status, NO version, NO buttons, NO UI panels, NO other lettering except RACING TYCOON. No dark esports, no neon, no photorealism, no watermark. Cheerful premium casual tycoon game, polished 3D toy illustration. Deliver portrait."
+  },
+  "postprocessing": "Loading: extend top sky by 200px and bottom quiet ground to 1024x2216 with edge colors, without scaling illustration. Logo alpha preserved.",
+  "runtime_assets": [
+    "assets/branding/racing_tycoon_logo_flare_v1.png",
+    "assets/startup_loading/loading_garage_flare_v1.png"
+  ],
+  "revision_2": {
+    "model": "gpt-image-2.5-flare",
+    "operation": "edit",
+    "input": "assets/startup_loading/loading_garage_flare_v1.png",
+    "prompt": "Use case: stylized-concept. Edit this mobile game loading illustration. Preserve the exact RACING TYCOON branding, glossy soft miniature 3D toy style, blue/ivory/orange palette, coastal garage, orange sports car and racetrack. CRITICAL COMPOSITION CHANGE: eliminate the large empty cream foreground completely. Recompose for a tall portrait loading screen. Logo compact and centered at 12-28% height. Garage occupies 30-60% height. Make the orange hero sports car much larger, in three-quarter front view occupying 52-77% height, on a detailed racing pit apron. Extend the curved racetrack and red/white curbs into the lower foreground, with subtle asphalt texture, painted pit lane markings and a few attractive small tufts of greenery at the outer corners. The entire 30-80% height must be meaningful richly illustrated scenery, no large empty flat floor, no large blank cream patch. Reserve ONLY a narrow calm warm ivory strip at 83-94% height for runtime loading UI, without drawing any actual UI. Bottom 6% can contain a soft track edge. Keep important logo lettering inside central 62% width and hero car inside central 68% width to survive narrower mobile crops. No extra text, no progress bar, no percentage, no loading label, no UI, no watermark. Maintain crisp premium casual game rendering and coherent perspective. This is the loading background art itself, not a phone mockup.",
+    "output": "assets/startup_loading/loading_garage_flare_v2.png",
+    "size": "auto",
+    "quality": "high"
+  }
+}

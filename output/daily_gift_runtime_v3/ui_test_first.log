@@ -1,0 +1,67 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+== Trước khi mở khóa ==
+  ok   nút quà ẩn khi chưa mở khóa (3 lượt)
+  ok   chấm tab Shop tắt
+== Sau khi mở khóa ==
+  ok   đủ 5 lượt: nút quà hiện
+  ok   chấm đỏ trên nút khi nhận được
+  ok   chấm đỏ tab Shop khi nhận được
+  FAIL Shop có dòng Quà mỗi ngày, nút 'Nhận quà'
+== Popup ==
+  ok   bấm nút mở popup
+  ok   7 ô ngày
+  ok   ô ngày 7 chiếm trọn hàng
+  ok   không dùng Control.scale; kích thước ghi bằng pixel thật theo một hệ số
+  FAIL ô ngày giữ đúng tọa độ và kích thước ref
+  ok   ngày 1–6: bố cục 3 cột
+  ok   4 mốc hiển thị
+  FAIL nút NHẬN bật
+  ok   bấm NHẬN: +2 vé Pro (ngày 1)
+  ok   sau khi nhận: nút khóa, hiện đếm ngược
+  FAIL nhận xong: tắt hai chấm đỏ
+  ok   reward_line đúng: '2 vé Pro'
+  ok   ô ngày 1 có nhãn ĐÃ NHẬN
+  ok   nhãn xanh nằm trọn trong thẻ đã nhận
+  ok   quà đã nhận: icon và số thưởng mờ rõ, nhãn giữ nguyên độ rõ
+  FAIL ô ngày 2 là Ngày mai
+== Qua ngày ==
+  FAIL qua 00:00 UTC khi popup đang mở: nút tự bật lại
+  ok   ô ngày 2 thành Hôm nay
+  ok   nút đóng tắt popup
+== Dòng Shop mở popup ==
+  ok   nút trong Shop mở cùng popup
+== Bề rộng điện thoại ==
+  ok   320 px: popup không tràn ngang (rộng 304)
+  ok   320 px: chữ và phần thưởng nằm trọn trong popup
+  ok   320 px: nút Lịch/Class/Quà vẫn nằm trong màn hình
+  ok   390 px: popup không tràn ngang (rộng 374)
+  ok   390 px: chữ và phần thưởng nằm trọn trong popup
+  ok   390 px: nút Lịch/Class/Quà vẫn nằm trong màn hình
+  ok   412 px: popup không tràn ngang (rộng 396)
+  ok   412 px: chữ và phần thưởng nằm trọn trong popup
+  ok   412 px: nút Lịch/Class/Quà vẫn nằm trong màn hình
+== Mốc hỗn hợp và chu kỳ Grand ==
+  ok   320 px: Grand vòng 0 hiển thị đủ phần thưởng và nút nhận
+  ok   320 px: Grand vòng 1 hiển thị đủ phần thưởng và nút nhận
+  ok   320 px: Grand vòng 2 hiển thị đủ phần thưởng và nút nhận
+  ok   320 px: Grand vòng 3 hiển thị đủ phần thưởng và nút nhận
+  ok   320 px: Grand vòng 4 hiển thị đủ phần thưởng và nút nhận
+  ok   320 px: Grand vòng 5 hiển thị đủ phần thưởng và nút nhận
+  ok   320 px: Grand vòng 6 hiển thị đủ phần thưởng và nút nhận
+  ok   hoàn thành ngày 7: nhãn xanh nằm trọn trong thẻ
+  ok   mốc 30: hai cột icon trên, số lượng dưới, không đường phân cách
+== P2: tự bật mỗi ngày (R4) ==
+  ok   vừa sang ngày mới: chưa bật ngay (có độ trễ)
+  ok   đang hướng dẫn: không tự bật
+  ok   rảnh đủ 1.2 giây: popup tự bật
+  ok   ghi popup_shown_day
+  ok   đóng rồi (chưa nhận): không bật lại trong ngày
+  ok   đóng popup không làm mất quyền nhận
+  ok   ngày sau: tự bật lại
+  ok   đã nhận: không bật lại
+  ok   đang hiện bảng kết quả đua: không bật
+
+DAILY REWARDS UI TEST: 6 lỗi
+WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

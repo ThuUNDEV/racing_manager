@@ -20,47 +20,25 @@ static func build(parent: Control, group: String, on_group: Callable, on_buy: Ca
 	box.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	parent.add_child(box)
-	var title := HBoxContainer.new()
-	title.add_theme_constant_override("separation", 8)
-	var header := _art_surface("league_header", 13)
+	var header := PanelContainer.new()
 	header.name = "LeagueHeader"
-	header.custom_minimum_size.y = 58
+	header.custom_minimum_size.y = 80
+	header.add_theme_stylebox_override("panel", HdUi.Soft.surface("section", Vector4(4, 3, 4, 3)))
+	var title := HBoxContainer.new()
 	header.add_child(title)
-	var accent := ColorRect.new()
-	accent.color = Color("ffcd39")
-	accent.custom_minimum_size = Vector2(3, 34)
-	accent.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	accent.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	title.add_child(accent)
-	var names := VBoxContainer.new()
-	names.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	names.add_theme_constant_override("separation", 1)
-	names.add_child(_label(I18n.t("trophy.leagues"), 10, Color("e4efff")))
-	names.add_child(_label(I18n.t("trophy.league") + Balance.league_name(GameState.business_tier), 21, Color.WHITE, true))
-	title.add_child(names)
-	var multiplier := maxi(1, GameData.trophy_reward(3, GameState.business_tier))
-	var badge := _surface(Color.WHITE, C_LINE, 8, 6)
-	badge.size_flags_horizontal = Control.SIZE_SHRINK_END
-	badge.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	var badge_row := HBoxContainer.new()
-	badge_row.add_theme_constant_override("separation", 3)
-	badge_row.add_child(_icon("trophy", Vector2(22, 24)))
-	badge_row.add_child(_label(I18n.t("trophy.trophies_x") % multiplier, 10, C_BLUE))
-	badge.add_child(badge_row)
-	title.add_child(badge)
+	title.add_child(HdUi.Soft.art("nav_league", Vector2(120, 78)))
+	var name := _label(I18n.t("trophy.league") + Balance.league_name(GameState.business_tier), 30, HdUi.Soft.INK, true)
+	name.add_theme_font_override("font", HdUi.font())
+	name.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	title.add_child(name)
 	box.add_child(header)
 	box.add_child(_banner())
-	var heading := HBoxContainer.new()
-	heading.add_theme_constant_override("separation", 6)
-	heading.add_child(_label(I18n.t("trophy.upgrade_with_trophies"), 14, C_TEXT, true))
-	var note := _label(I18n.t("trophy.applies_from_next_race"), 10, C_MUTED)
-	note.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	heading.add_child(note)
-	box.add_child(heading)
 	box.add_child(_filter(group, on_group))
+	box.add_child(HdUi.Soft.heading(I18n.t("trophy.upgrade_with_trophies"), "nav_race", 44))
 	for u: Dictionary in GameData.trophy_upgrades():
 		if u["group"] == group:
 			box.add_child(_card(u, on_buy))
+
 
 
 static func _label(text: String, size: int, color: Color, wrap: bool = false) -> Label:
@@ -96,6 +74,9 @@ static func _surface(bg: Color, line: Color, radius: int = 14, padding: int = 12
 
 
 static func _texture(folder: String, asset: String) -> Texture2D:
+	var alias: String = {"trophy": "trophy_large", "speed_tune": "engine", "launch_control": "gearbox", "corner_grip": "tyre", "sponsor": "currency_cash", "overtake_kit": "spoiler", "stability": "stability_scales"}.get(asset, "")
+	if alias != "":
+		return HdUi.Soft.texture(alias)
 	var path := ART + folder + "/" + asset + ".png"
 	if not _textures.has(path):
 		_textures[path] = load(path)
@@ -114,15 +95,13 @@ static func _icon(asset: String, dimensions: Vector2) -> TextureRect:
 
 
 static func _skin(asset: String, padding: int = 12) -> StyleBoxTexture:
-	var skin := StyleBoxTexture.new()
-	skin.texture = _texture("panels", asset)
-	var margin := minf(20 if asset == "icon_tile" else 16, floorf((skin.texture.get_height() - 1) / 2.0))
-	for side in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]:
-		skin.set_texture_margin(side, margin)
-		skin.set_content_margin(side, padding)
-	if asset.begins_with("buy_") or asset.begins_with("tab_"):
-		return HdUi.ButtonSkin.rounded(skin) as StyleBoxTexture
-	return skin
+	var kind := "panel"
+	if asset == "league_header": kind = "hud"
+	elif asset.begins_with("buy_"): kind = "disabled" if asset.contains("locked") or asset.contains("disabled") else "orange"
+	elif asset.begins_with("tab_"): kind = "orange" if asset == "tab_active" else "cancel"
+	elif asset == "upgrade_locked": kind = "locked"
+	elif asset in ["icon_tile", "reward_pill"]: kind = "selected"
+	return HdUi.Soft.surface(kind, Vector4.ONE * padding)
 
 
 static func _art_surface(asset: String, padding: int = 12) -> PanelContainer:
@@ -135,7 +114,7 @@ static func _art_surface(asset: String, padding: int = 12) -> PanelContainer:
 
 static func _banner() -> PanelContainer:
 	var gs := GameState
-	var pc := _art_surface("trophy_summary", 11)
+	var pc := _art_surface("trophy_summary", 6)
 	pc.name = "TrophyBanner"
 	var v := VBoxContainer.new()
 	v.add_theme_constant_override("separation", 3)
@@ -153,13 +132,13 @@ static func _banner() -> PanelContainer:
 	var mid := VBoxContainer.new()
 	mid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	mid.add_theme_constant_override("separation", 0)
-	mid.add_child(_label(I18n.t("trophy.trophies_owned"), 14, C_TEXT, true))
+	mid.add_child(_label(I18n.t("trophy.trophies_owned"), 16, C_TEXT, true))
 	var amount := HBoxContainer.new()
 	amount.add_theme_constant_override("separation", 5)
-	var count := _label(str(gs.trophies), 34, Color("795000"))
+	var count := _label(str(gs.trophies), 39, Color("1b8a1b"))
 	count.name = "TrophyCount"
 	amount.add_child(count)
-	var unit := _label(I18n.t("trophy.trophies_2"), 13, Color("8c5300"))
+	var unit := _label(I18n.t("trophy.trophies_2"), 15, C_TEXT)
 	unit.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	amount.add_child(unit)
 	mid.add_child(amount)
@@ -169,13 +148,17 @@ static func _banner() -> PanelContainer:
 	info.text = "i"
 	info.toggle_mode = true
 	info.custom_minimum_size = Vector2(36, 36)
-	info.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	info.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	for state in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color"]:
-		info.add_theme_color_override(state, C_MUTED)
-	info.add_theme_stylebox_override("normal", _flat(Color.WHITE, C_LINE, 16, 0))
-	info.add_theme_stylebox_override("hover", _flat(C_SOFT, C_LINE, 16, 0))
-	info.add_theme_stylebox_override("pressed", _flat(C_SOFT, C_BLUE, 16, 0))
+		info.add_theme_color_override(state, Color.WHITE)
+	info.add_theme_stylebox_override("normal", _flat(Color("2f86ea"), Color.WHITE, 18, 0))
+	info.add_theme_stylebox_override("hover", _flat(Color("4a98f0"), Color.WHITE, 18, 0))
+	info.add_theme_stylebox_override("pressed", _flat(Color("1f66c4"), Color.WHITE, 18, 0))
 	HdUi.ButtonSkin.apply(info)
+	var multiplier := HdUi.Soft.pill("×%d" % maxi(1, GameData.trophy_reward(3, gs.business_tier)), Color("c9efbf"), 24)
+	multiplier.custom_minimum_size = Vector2(48, 0)
+	multiplier.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	top.add_child(multiplier)
 	top.add_child(info)
 	var earned_row := HBoxContainer.new()
 	var earned_title := _label(I18n.t("trophy.total_earned"), 11, C_MUTED)
@@ -185,6 +168,7 @@ static func _banner() -> PanelContainer:
 	earned.name = "TrophyEarned"
 	earned_row.add_child(earned)
 	v.add_child(earned_row)
+	earned_row.hide()
 	var bar := ProgressBar.new()
 	bar.name = "TrophyCapProgress"
 	bar.show_percentage = false
@@ -194,9 +178,12 @@ static func _banner() -> PanelContainer:
 	bar.add_theme_stylebox_override("background", _flat(Color("e5ddc9"), Color.TRANSPARENT, 3, 0))
 	bar.add_theme_stylebox_override("fill", _flat(Color("ffbf1d"), Color.TRANSPARENT, 3, 0))
 	v.add_child(bar)
+	bar.hide()
 	var rewards := HBoxContainer.new()
 	rewards.add_theme_constant_override("separation", 5)
-	v.add_child(_label(I18n.t("trophy.top_3_reward"), 10, C_MUTED))
+	var rewards_title := _label(I18n.t("trophy.top_3_reward"), 10, C_MUTED)
+	v.add_child(rewards_title)
+	rewards_title.hide()
 	for p in 3:
 		var pill := _art_surface("reward_pill", 5)
 		var reward_row := HBoxContainer.new()
@@ -206,11 +193,17 @@ static func _banner() -> PanelContainer:
 		reward_row.add_child(_label("P%d +%d" % [p + 1, GameData.trophy_reward(p + 1, gs.business_tier)], 11, RANK_COLORS[p]))
 		rewards.add_child(pill)
 	v.add_child(rewards)
+	rewards.hide()
 	var details := _label(I18n.t("trophy.trophies_are_only_earned_by"), 11, C_MUTED, true)
 	details.name = "TrophyCapInfo"
 	details.visible = false
 	v.add_child(details)
-	info.toggled.connect(func(pressed: bool) -> void: details.visible = pressed)
+	info.toggled.connect(func(pressed: bool) -> void:
+		details.visible = pressed
+		earned_row.visible = pressed
+		bar.visible = pressed
+		rewards.visible = pressed
+		rewards_title.visible = pressed)
 	if gs.trophies_earned >= gs.trophy_cap():
 		var hint := I18n.t("trophy.trophy_cap_reached_no_more")
 		var next_cap := GameData.trophy_cap_for_league(gs.business_tier + 1) + maxi(0, gs.trophy_cap_bonus)
@@ -231,22 +224,25 @@ static func _filter(group: String, on_group: Callable) -> PanelContainer:
 		b.name = "Group_" + id
 		b.text = String(g["name"])
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		b.custom_minimum_size = Vector2(0, 44)
-		b.add_theme_font_size_override("font_size", 12)
+		b.custom_minimum_size = Vector2(0, 66)
+		b.add_theme_font_size_override("font_size", 13)
 		b.icon = _texture("icons", id)
 		b.expand_icon = true
-		b.add_theme_constant_override("icon_max_width", 21)
+		b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		b.vertical_icon_alignment = VERTICAL_ALIGNMENT_TOP
+		b.add_theme_constant_override("icon_max_width", 34)
 		b.add_theme_constant_override("h_separation", 3)
 		b.clip_text = true
 		b.toggle_mode = true
 		b.button_pressed = id == group
-		b.add_theme_stylebox_override("normal", _skin("tab_inactive", 4))
-		b.add_theme_stylebox_override("hover", _skin("tab_inactive", 4))
+		var inactive := HdUi.Soft.surface("panel", Vector4(4, 4, 4, 4))
+		b.add_theme_stylebox_override("normal", inactive)
+		b.add_theme_stylebox_override("hover", inactive)
 		b.add_theme_stylebox_override("pressed", _skin("tab_active", 4))
 		b.add_theme_stylebox_override("hover_pressed", _skin("tab_active", 4))
 		b.add_theme_color_override("font_color", C_TEXT)
 		b.add_theme_color_override("font_hover_color", C_TEXT)
-		b.add_theme_color_override("font_focus_color", C_TEXT)
+		b.add_theme_color_override("font_focus_color", Color.WHITE if id == group else C_TEXT)
 		b.add_theme_color_override("font_pressed_color", Color.WHITE)
 		b.add_theme_color_override("font_hover_pressed_color", Color.WHITE)
 		HdUi.ButtonSkin.apply(b)
@@ -310,68 +306,71 @@ static func _card(u: Dictionary, on_buy: Callable) -> PanelContainer:
 	var total_lv := GameState.trophy_total_levels(id)
 	var maxed := lv >= total_lv
 	var unlocked := GameState.trophy_unlocked(id)
-	var pc := _art_surface("upgrade_card" if unlocked else "upgrade_locked", 12)
+	var pc := _art_surface("upgrade_card", 7)
+	if not unlocked:
+		# Thẻ khoá: nền phẳng xám kem (texture button_disabled bị kéo thành viên thuốc khổng lồ).
+		pc.add_theme_stylebox_override("panel", _flat(Color("efe9dc"), Color("d9d0b8"), 16, 7))
 	pc.name = "Upgrade_" + id
-	pc.custom_minimum_size.y = 116 if unlocked else 86
+	pc.custom_minimum_size.y = 87
 	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 10)
+	row.add_theme_constant_override("separation", 7)
 	pc.add_child(row)
-	var tile := _art_surface("icon_tile", 3)
-	tile.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
-	tile.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	tile.add_child(_icon(id, Vector2(64, 70)))
-	row.add_child(tile)
+	row.add_child(_icon(id, Vector2(82, 71)))
+	var card_divider := ColorRect.new()
+	card_divider.color = Color("cfc6b0") if unlocked else Color("d9d0b8")
+	card_divider.custom_minimum_size = Vector2(1, 60)
+	card_divider.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	card_divider.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_child(card_divider)
 	var v := VBoxContainer.new()
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	v.add_theme_constant_override("separation", 4)
+	v.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	row.add_child(v)
-	v.add_child(_label(String(u["name"]), 15, C_TEXT if unlocked else C_MUTED, true))
-	var level := HBoxContainer.new()
+	v.add_child(_label(String(u["name"]), 19, C_TEXT if unlocked else C_MUTED, true))
+	var level := _label(I18n.t("trophy.level") % [lv, max_lv], 15, C_TEXT)
 	level.name = "TrophyLevel_" + id
-	level.add_theme_constant_override("separation", 7)
-	var prestige := GameData.trophy_prestige_levels()
-	if lv >= max_lv and prestige > 0:
-		level.add_child(_label(I18n.t("trophy.prestige") % [lv - max_lv, prestige], 11, Color("a06a00")))
-	else:
-		level.add_child(_label(I18n.t("trophy.level") % [lv, max_lv], 11, C_MUTED))
-	var segments := HBoxContainer.new()
-	segments.name = "LevelSegments"
-	segments.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	segments.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	segments.add_theme_constant_override("separation", 2)
-	var gold := lv >= max_lv and prestige > 0
-	for index in (prestige if gold else max_lv):
-		var filled := index < (lv - max_lv if gold else lv)
-		var on_color := Color("ffbf1d") if gold else C_BLUE
-		var segment := _surface(on_color if filled else Color("e3edf8"), Color("afc7df"), 2, 0)
-		segment.custom_minimum_size = Vector2(0, 6)
-		segments.add_child(segment)
-	level.add_child(segments)
 	v.add_child(level)
 	if not unlocked:
-		tile.modulate = Color(0.8, 0.85, 0.92)
-		var locked := HBoxContainer.new()
-		locked.add_theme_constant_override("separation", 4)
-		locked.add_child(_icon("lock", Vector2(15, 20)))
 		var lock_text := _label(I18n.t("trophy.unlocks_league") + Balance.league_name(int(u["unlock_league"])), 11, C_MUTED, true)
 		lock_text.name = "UnlockLeague"
-		locked.add_child(lock_text)
-		v.add_child(locked)
+		v.add_child(lock_text)
+		var lock_btn := Button.new()
+		lock_btn.name = "Locked_" + id
+		lock_btn.disabled = true
+		lock_btn.custom_minimum_size = Vector2(78, 44)
+		lock_btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		lock_btn.icon = load("res://assets/workshop_gp/icons/vector/lock.svg") as Texture2D
+		lock_btn.expand_icon = true
+		lock_btn.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		lock_btn.add_theme_constant_override("icon_max_width", 24)
+		for st: String in ["normal", "hover", "pressed", "disabled"]:
+			lock_btn.add_theme_stylebox_override(st, _skin("buy_disabled", 8))
+		HdUi.ButtonSkin.apply(lock_btn)
+		row.add_child(lock_btn)
 		return pc
-	v.add_child(_label(String(u["description"]), 11, C_MUTED, true))
-	var bottom := HBoxContainer.new()
-	bottom.add_theme_constant_override("separation", 5)
-	var effects := VBoxContainer.new()
-	effects.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	effects.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	effects.add_theme_constant_override("separation", 2)
 	for text: String in effect_lines(u, lv, maxed):
-		var l := _label(text, 12, C_MUTED if maxed else C_GREEN, true)
-		l.name = "Effect"
-		effects.add_child(l)
-	bottom.add_child(effects)
-	bottom.add_child(_buy_button(u, maxed, on_buy))
-	v.add_child(bottom)
+		var effect := PanelContainer.new()
+		effect.add_theme_stylebox_override("panel", HdUi.Soft.flat(Color("d3f2c6"), 3, 9))
+		effect.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var effect_row := HBoxContainer.new()
+		effect_row.add_theme_constant_override("separation", 3)
+		effect.add_child(effect_row)
+		var gauge := TextureRect.new()
+		gauge.texture = HdUi.Soft.icon("speed")
+		gauge.custom_minimum_size = Vector2(13, 13)
+		gauge.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		gauge.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		gauge.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		gauge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		effect_row.add_child(gauge)
+		var effect_label := _label(text, 13, C_GREEN)
+		effect_label.name = "Effect"
+		effect_label.clip_text = true
+		effect_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		effect_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		effect_row.add_child(effect_label)
+		v.add_child(effect)
+	row.add_child(_buy_button(u, maxed, on_buy))
 	return pc
 
 
@@ -380,18 +379,20 @@ static func _buy_button(u: Dictionary, maxed: bool, on_buy: Callable) -> Button:
 	var b := Button.new()
 	b.name = "Buy_" + id
 	b.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	b.custom_minimum_size = Vector2(76, 40)
+	b.custom_minimum_size = Vector2(78, 44)
 	b.add_theme_font_size_override("font_size", 14)
 	b.add_theme_stylebox_override("normal", _skin("buy_normal", 8))
 	b.add_theme_stylebox_override("hover", _skin("buy_normal", 8))
 	b.add_theme_stylebox_override("pressed", _skin("buy_pressed", 8))
 	b.add_theme_stylebox_override("disabled", _skin("buy_disabled", 8))
 	HdUi.ButtonSkin.apply(b)
-	b.add_theme_color_override("font_color", Color("503600"))
-	b.add_theme_color_override("font_hover_color", Color("503600"))
-	b.add_theme_color_override("font_pressed_color", Color("503600"))
-	b.add_theme_color_override("font_focus_color", Color("503600"))
-	b.add_theme_color_override("font_disabled_color", C_MUTED)
+	b.add_theme_color_override("font_color", Color.WHITE)
+	b.add_theme_color_override("font_hover_color", Color.WHITE)
+	b.add_theme_color_override("font_pressed_color", Color.WHITE)
+	b.add_theme_color_override("font_focus_color", Color.WHITE)
+	b.add_theme_color_override("font_disabled_color", Color("e9edf3"))
+	b.add_theme_color_override("font_outline_color", Color("8a4a08"))
+	b.add_theme_constant_override("outline_size", 4)
 	if maxed:
 		b.text = I18n.t("trophy.max")
 		b.add_theme_font_size_override("font_size", 11)

@@ -648,5 +648,11 @@
  "tutorial.trophy.upgraded": "สำเร็จ! โบนัสความเร็วจากการอัปเกรดนี้: +%d → +%d ค่าสถานะใหม่จะใช้ในการแข่งครั้งถัดไป",
  "trophy.prestige": "Prestige %d / %d",
  "shop.starter_spotlight": "สร้างทีมแรกของคุณ",
- "shop.starter_pitch": "อัญมณี ตั๋ว และเงินเพื่อพัฒนาทีมของคุณ"
+ "shop.starter_pitch": "อัญมณี ตั๋ว และเงินเพื่อพัฒนาทีมของคุณ",
+ "soft.facilities": "Facilities",
+ "soft.gear_power": "พลัง",
+ "soft.team_power": "Team power",
+ "soft.minute": "min",
+ "soft.bag": "Bag",
+ "soft.race_no": "การแข่ง %d"
 }

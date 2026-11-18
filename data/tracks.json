@@ -419,6 +419,7 @@
   },
   {
    "id": "track_circuit_b",
+   "shape": "figure_eight",
    "name": "Circuit B",
    "experimental": true,
    "lap_length": 924,

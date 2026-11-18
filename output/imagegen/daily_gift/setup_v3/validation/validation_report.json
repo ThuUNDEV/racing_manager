@@ -1,0 +1,19 @@
+{
+	"failure_count": 0,
+	"failures": [],
+	"resource_count": 32,
+	"viewport_cases": [
+		[
+			320,
+			568
+		],
+		[
+			390,
+			778
+		],
+		[
+			412,
+			915
+		]
+	]
+}

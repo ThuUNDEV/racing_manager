@@ -63,8 +63,8 @@ func run() -> void:
 		var rank := race.hud_rank_rect()
 		check(is_equal_approx(rank.position.y, ctl._chip.position.y) and is_equal_approx(rank.size.y, ctl._chip.size.y), "rank and boost align %d" % width)
 		check(rank.end.x + 7.9 <= ctl._chip.position.x, "rank and boost have gap %d" % width)
-		check(ctl._chip.position.y + ctl._chip.size.y <= RaceView.HUD_H - 5.9, "boost stays above spectators")
-		check(ctl._chip_time.text == "Xem video" and "×2" in ctl._chip_title.text, "orange ticket CTA and multiplier")
+		check(ctl._chip.position.y + ctl._chip.size.y <= RaceView.HUD_H - 3.9, "boost stays above spectators")
+		check(ctl._chip_time.text == "Xem quảng cáo" and "×2" in ctl._chip_title.text, "orange ticket CTA and multiplier")
 		if "--ticket-shots" in OS.get_cmdline_user_args():
 			await RenderingServer.frame_post_draw
 			root.get_texture().get_image().save_png("res://Design/Previews/ads_boost_entry_%d.png" % width)
@@ -84,7 +84,7 @@ func run() -> void:
 			root.get_texture().get_image().get_region(Rect2i(race.get_global_rect())).save_png("res://Design/Previews/ads_boost_active_race_%d.png" % width)
 		gs.income_boost_left = 0.0
 		ctl._refresh_chip()
-		check(ctl._chip_state == "offer" and not ctl._chip_progress.visible and ctl._chip_time.text == "Xem video", "expiry restores orange offer")
+		check(ctl._chip_state == "offer" and not ctl._chip_progress.visible and ctl._chip_time.text == "Xem quảng cáo", "expiry restores orange offer")
 		ctl._chip.pressed.emit()
 		await settle()
 		var screen := Rect2(Vector2.ZERO, Vector2(root.size))

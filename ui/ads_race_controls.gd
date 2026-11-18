@@ -5,7 +5,7 @@ const CleanArt = preload("res://ui/clean_modern_art.gd")
 ## trên dải khán đài, và popup xác nhận xem video. Chỉ là lớp UI: mọi luật (lượt/ngày, thời gian chờ, thưởng) nằm trong Ads.
 ## Popup thưởng dùng cash; thông số thưởng lấy trực tiếp từ Ads.
 
-const FLAG_W := 34.0
+const FLAG_W := 44.0
 const CHIP_SIZE := Vector2(100, 36)
 const BOOST := "income_boost"
 const FLAG := "flag_cash"
@@ -25,6 +25,7 @@ var _chip_state := ""
 var _chip_idle_styles: Dictionary = {}
 var _chip_active_style: StyleBoxTexture
 var _flag: Button
+var _flag_art: TextureRect
 var _flag_x := 0.0
 var _flag_on := false
 var _chip_offered := false
@@ -79,8 +80,8 @@ func _ready() -> void:
 		_chip.add_theme_stylebox_override(state, ticket)
 		_chip_idle_styles[state] = ticket
 	var active_style := StyleBoxFlat.new()
-	active_style.bg_color = Color("087ee6")
-	active_style.border_color = Color("adc9de")
+	active_style.bg_color = Color("62b8e5")
+	active_style.border_color = Color("d8e2df")
 	active_style.set_border_width_all(2)
 	_chip_active_style = HdUi.ButtonSkin.rounded(active_style) as StyleBoxTexture
 	var focus := StyleBoxFlat.new()
@@ -122,18 +123,17 @@ func _ready() -> void:
 	_chip.add_child(_chip_progress)
 	_flag = Button.new()
 	_flag.name = "CashFlag"
-	_flag.text = "$"
+	_flag.accessibility_name = I18n.t("ads.bonus_cash")
 	_flag.size = Vector2(FLAG_W, FLAG_W)
-	_flag.add_theme_font_size_override("font_size", 18)
-	var sb := StyleBoxFlat.new()
-	sb.bg_color = Color("e53935")
-	sb.border_color = Color("ffd0cc")
-	sb.set_border_width_all(2)
-	sb.set_corner_radius_all(8)
+	# The 16px artwork follows the compact audience strip; its 44px hit area
+	# extends into the board below, leaving the boost button in the HUD clear.
 	for st in ["normal", "hover", "pressed", "focus"]:
-		_flag.add_theme_stylebox_override(st, sb)
-	HdUi.ButtonSkin.apply(_flag)
-	_flag.add_theme_color_override("font_color", Color.WHITE)
+		_flag.add_theme_stylebox_override(st, StyleBoxEmpty.new())
+	_flag_art = HdUi.icon("icons/cash.png", Vector2(24, 16))
+	_flag_art.name = "FlagArtwork"
+	_flag_art.position = Vector2(10, 0)
+	_flag_art.size = Vector2(24, 16)
+	_flag.add_child(_flag_art)
 	_flag.pressed.connect(_on_flag_pressed)
 	_flag.hide()
 	add_child(_flag)
@@ -469,7 +469,7 @@ func _tick_flag(delta: float) -> void:
 	if _flag_x > size.x:
 		_end_flag(false)
 		return
-	_flag.position = Vector2(_flag_x, RaceView.HUD_H + (RaceView.STAND_H - FLAG_W) * 0.5)
+	_flag.position = Vector2(_flag_x, RaceView.HUD_H)
 
 
 func _end_flag(tapped: bool) -> void:

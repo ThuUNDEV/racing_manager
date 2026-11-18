@@ -83,14 +83,14 @@ func _text(value: String, font_size: int = 14, color: Color = INK) -> Label:
 
 
 func _heading(value: String) -> Label:
-	var heading := _text(value, 16, Color.WHITE)
+	var heading := _text(value, 16, HdUi.C_TEXT)
 	heading.name = "Section_" + value
 	heading.custom_minimum_size.y = 30
-	heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	heading.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	heading.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	heading.add_theme_stylebox_override("normal", ShopSkin.surface("section_match", 4))
-	heading.add_theme_color_override("font_outline_color", ShopSkin.SECTION_OUTLINE)
-	heading.add_theme_constant_override("outline_size", 1)
+	heading.add_theme_stylebox_override("normal", HdUi.Soft.surface("section", Vector4(11, 4, 8, 4)))
+	heading.add_theme_font_override("font", HdUi.font())
+	heading.add_theme_constant_override("outline_size", 0)
 	add_child(heading)
 	return heading
 
@@ -172,7 +172,8 @@ func _build() -> void:
 	add_child(header)
 	for side in range(3):
 		if side == 1:
-			var title := _text(I18n.t("shop.shop"), 27, ShopSkin.INK)
+			header.add_child(HdUi.Soft.art("nav_shop", Vector2(66, 62)))
+			var title := _text("Shop", 30, ShopSkin.INK)
 			title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			header.add_child(title)
 		else:
@@ -183,7 +184,7 @@ func _build() -> void:
 			flag.custom_minimum_size = Vector2(34, 32)
 			flag.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			header.add_child(flag)
-	_offer_section(I18n.t("shop.special_packs"), ["starter", "perk", "offer"], ["starter_1", "starter_2", "starter_3", "income_x2", "no_ads", "offer_noads_bundle"])
+	_offer_section(I18n.t("shop.special_packs"), ["starter", "perk", "offer"], ["starter_1", "income_x2", "no_ads", "offer_noads_bundle", "starter_2", "starter_3"])
 	_offer_section(I18n.t("shop.recruit_drivers"), ["character"], ["char_my", "char_lam"])
 	_build_daily_banner()
 	_build_free_gem_banner()
@@ -278,6 +279,7 @@ func _build_daily_banner() -> void:
 	_sections.append({"heading": canvas.get_parent(), "content": canvas, "group": "featured"})
 	# Keep the separate login reward entry available after the reference catalog.
 	_login_row = HBoxContainer.new()
+	_login_row.name = "DailyLoginRow"
 	_login_row.hide()
 	_login_description = _text("", 12, MUTED)
 	_login_row.add_child(_login_description)
@@ -334,7 +336,7 @@ func _offer_section(title: String, kinds: Array, only_skus: Array = []) -> void:
 		steps = HBoxContainer.new()
 		steps.add_theme_constant_override("separation", 4)
 		add_child(steps)
-	var grid := _grid(2 if "daily" in kinds else 1)
+	var grid := _grid(2)
 	var candidates: Array = []
 	if only_skus.is_empty():
 		candidates = GameData.iap_products()
@@ -359,68 +361,46 @@ func _offer_section(title: String, kinds: Array, only_skus: Array = []) -> void:
 func _offer_card(parent: Node, p: Dictionary) -> void:
 	var sku := String(p["sku"])
 	var kind := String(p.get("kind", ""))
-	if kind in ["starter", "character", "daily"] or sku in ["income_x2", "no_ads", "offer_noads_bundle"]:
-		_demo_offer_card(parent, p)
-		return
 	var panel := _panel(parent)
 	panel.name = "Offer_" + sku
-	panel.add_theme_stylebox_override("panel", ShopSkin.surface("banner", 7))
-	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 6)
-	panel.add_child(row)
-	var portrait: TextureRect
-	if kind != "daily":
-		if kind in ["starter", "character"]:
-			portrait = ShopSkin.portrait(sku, Vector2(78, 105))
-		else:
-			var id := "income" if sku.begins_with("income") else ("no_ads" if sku in ["no_ads", "offer_noads_bundle"] else ("offline" if sku == "offline_plus" else "gift"))
-			portrait = ShopSkin.picture(id, Vector2(78, 86))
-		portrait.name = "OfferArt_" + sku
-		row.add_child(portrait)
-	var column := _column(row)
-	column.add_theme_constant_override("separation", 3)
-	var title_row := HBoxContainer.new()
-	column.add_child(title_row)
-	var title := _text(PackUi.title(p), 16 if kind == "daily" else 18, ShopSkin.INK)
+	var column := _column(panel)
+	var title := _text(PackUi.title(p), 21)
 	title.name = "PackTitle"
-	title_row.add_child(title)
-	var space := Control.new()
-	space.custom_minimum_size.x = 25
-	title_row.add_child(space)
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	column.add_child(title)
+	var art := ShopSkin.offer_art(sku, kind, Vector2(0, 98))
+	art.name = "OfferArt_" + sku
+	column.add_child(art)
 	var rewards := VBoxContainer.new()
-	rewards.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	rewards.name = "PackRewards_" + sku
+	rewards.set_meta("compact_offer", true)
+	rewards.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	column.add_child(rewards)
 	_render_rewards(rewards, p, false, false)
-	var footer := HBoxContainer.new()
-	footer.add_theme_constant_override("separation", 3)
-	column.add_child(footer)
-	if kind != "daily":
-		var limit := _text(PackUi.limit(p), 10, ShopSkin.LIMIT_INK)
-		limit.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		footer.add_child(limit)
+	var limit := _text(PackUi.limit(p), 10, MUTED)
+	limit.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	column.add_child(limit)
+	var details := _button(I18n.t("shop.view"))
+	details.name = "Detail_" + sku
+	ShopSkin.style_button(details, "tab")
+	details.pressed.connect(func() -> void: details_requested.emit(sku))
+	var action := HBoxContainer.new()
+	column.add_child(action)
 	var button := _button(String(p.get("price_fallback", "")))
 	button.name = "Iap_" + sku
-	button.custom_minimum_size.x = 108 if kind != "daily" else 0
-	button.add_theme_font_size_override("font_size", 15)
+	button.add_theme_font_size_override("font_size", 14)
 	button.pressed.connect(func() -> void: iap_requested.emit(sku))
-	footer.add_child(button)
+	action.add_child(button)
+	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	details.custom_minimum_size = Vector2(44, 30)
+	details.add_theme_font_size_override("font_size", 12)
+	for face in ["normal", "hover", "pressed"]:
+		details.add_theme_stylebox_override(face, StyleBoxEmpty.new())
+	action.add_child(details)
 	var status := _text("", 10, MUTED)
 	column.add_child(status)
-	status.visible = false
-	# A 44px info target overlays the quiet top-right corner without adding a tall links row.
-	var info_layer := Control.new()
-	info_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	panel.add_child(info_layer)
-	var details := ShopSkin.info_button(sku)
-	details.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
-	details.offset_left = -35
-	details.offset_right = 9
-	details.offset_top = -9
-	details.offset_bottom = 35
-	details.pressed.connect(func() -> void: details_requested.emit(sku))
-	info_layer.add_child(details)
-	_iap_buttons[sku] = {"button": button, "status": status, "rewards": rewards, "full": false, "owned": false, "portrait": portrait}
+	status.hide()
+	_iap_buttons[sku] = {"button": button, "status": status, "rewards": rewards, "full": false, "owned": false, "price_font": 14}
 	_offer_cards[sku] = panel
 
 
@@ -500,6 +480,7 @@ func _demo_offer_card(parent: Node, p: Dictionary) -> void:
 	title.name = "PackTitle"
 	var rewards := VBoxContainer.new()
 	rewards.name = "PackRewards_" + sku
+	rewards.set_meta("compact_offer", true)
 	rewards.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	rewards.set_meta("reference_rewards", true)
 	rewards.set_meta("reward_design", rewards_size)
@@ -645,7 +626,7 @@ func update_packs() -> void:
 		_pack_box.remove_child(c)
 		c.queue_free()
 	var grid := GridContainer.new()
-	grid.columns = 2
+	grid.columns = 1
 	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	grid.add_theme_constant_override("h_separation", 8)
 	grid.add_theme_constant_override("v_separation", 8)
@@ -705,27 +686,7 @@ func _pack_card(parent: Node, kind: String, pack: Dictionary) -> void:
 		b.disabled = not affordable
 		b.accessibility_name = I18n.t("drivers.open_x") % [n, cost]
 		b.tooltip_text = b.accessibility_name
-		for state in ["normal", "hover", "pressed", "disabled"]:
-			var skin := StyleBoxFlat.new()
-			skin.bg_color = ShopSkin.PACK_BLUE if n == 10 else ShopSkin.PACK_PALE
-			skin.border_color = ShopSkin.PACK_EDGE if n == 10 else ShopSkin.PACK_PALE_EDGE
-			if state == "hover":
-				skin.bg_color = skin.bg_color.lightened(0.1)
-			elif state == "pressed":
-				skin.bg_color = skin.bg_color.darkened(0.1)
-			elif state == "disabled":
-				skin.bg_color = ShopSkin.DISABLED_BG
-				skin.border_color = ShopSkin.DISABLED_EDGE
-			skin.set_corner_radius_all(10)
-			skin.set_border_width_all(1)
-			skin.border_width_bottom = 3
-			b.add_theme_stylebox_override(state, skin)
-		var focus := StyleBoxFlat.new()
-		focus.bg_color = Color.TRANSPARENT
-		focus.border_color = ShopSkin.FOCUS
-		focus.set_border_width_all(2)
-		focus.set_corner_radius_all(10)
-		b.add_theme_stylebox_override("focus", focus)
+		ShopSkin.style_button(b, "action" if n == 10 else "tab")
 		var margin := MarginContainer.new()
 		margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		margin.add_theme_constant_override("margin_left", 4)
@@ -989,10 +950,6 @@ func _adapt_grids() -> void:
 			heading.custom_minimum_size.y = 44 * factor
 			heading.add_theme_font_size_override("font_size", roundi(30 * factor))
 			var style := heading.get_theme_stylebox("normal") as StyleBoxTexture
-			style.texture_margin_left = 0
-			style.texture_margin_right = 0
-			style.texture_margin_top = 0
-			style.texture_margin_bottom = 0
 			style.content_margin_top = 4 * factor
 			style.content_margin_bottom = 4 * factor
 		var grid = entry["content"]
@@ -1063,6 +1020,14 @@ func _render_rewards_raw(container: VBoxContainer, product: Dictionary, full: bo
 	if full:
 		container.add_child(PackUi.reward_strip(product, owned))
 		return
+	if bool(container.get_meta("compact_offer", false)):
+		var summary := _text(PackUi.summary(product, owned), 11, MUTED)
+		summary.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		summary.max_lines_visible = 3
+		summary.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		summary.tooltip_text = PackUi.summary(product, owned)
+		container.add_child(summary)
+		return
 	if bool(container.get_meta("reference_rewards", false)):
 		_render_reference_rewards(container, product, owned)
 		return
@@ -1087,8 +1052,8 @@ func _render_rewards_raw(container: VBoxContainer, product: Dictionary, full: bo
 	var rows := PackUi.rewards(product, owned)
 	if sku == "no_ads":
 		var gem_row := HBoxContainer.new()
-		gem_row.add_child(ShopSkin.picture("gem_single", Vector2(57, 48)))
-		gem_row.add_child(_text(str(int(product["grant"].get("gems", 0))), 34, ShopSkin.INK))
+		gem_row.add_child(ShopSkin.picture("gem_single", Vector2(38, 35)))
+		gem_row.add_child(_text(str(int(product["grant"].get("gems", 0))), 20, ShopSkin.INK))
 		container.add_child(gem_row)
 		return
 	if String(product.get("kind", "")) == "daily":
@@ -1103,7 +1068,7 @@ func _render_rewards_raw(container: VBoxContainer, product: Dictionary, full: bo
 	if sku in ["no_ads", "offer_noads_bundle"]:
 		rows.pop_front() # The large no-ads illustration carries the permanent benefit.
 	var grid := GridContainer.new()
-	grid.columns = mini(4, maxi(1, rows.size()))
+	grid.columns = mini(2, maxi(1, rows.size()))
 	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	grid.add_theme_constant_override("h_separation", 2)
 	grid.add_theme_constant_override("v_separation", 3)
@@ -1148,7 +1113,7 @@ func _render_reference_rewards(container: VBoxContainer, product: Dictionary, ow
 	if sku == "no_ads" or kind == "daily":
 		var gem := ShopSkin.picture("gem_single", Vector2.ZERO)
 		stage.add_child(gem)
-		UnitScale.place(gem, Vector2.ZERO, Vector2(57, 48) if sku == "no_ads" else Vector2(40, 34))
+		UnitScale.place(gem, Vector2.ZERO, Vector2(38, 35) if sku == "no_ads" else Vector2(40, 34))
 		_reference_label(stage, str(int(product.get("grant", {}).get("gems", 0))), Vector2(65, 0) if sku == "no_ads" else Vector2(44, 0), Vector2(85, 48) if sku == "no_ads" else Vector2(60, 34), 34 if sku == "no_ads" else 27)
 		return
 	var rows := PackUi.rewards(product, owned)
@@ -1212,8 +1177,6 @@ func _sync_sections() -> void:
 	var noads_bundle := _available_card("offer_noads_bundle")
 	for sku: String in _offer_cards:
 		var show_card := _available_card(sku)
-		if _starter_steps.has(sku):
-			show_card = show_card and sku == _starter_choice
 		if sku == "no_ads" and noads_bundle:
 			show_card = false
 		(_offer_cards[sku] as Control).visible = show_card

@@ -1,0 +1,1487 @@
+{
+  "source": "/home/thupv/Desktop/DataSSD/racing_manager/output/imagegen/daily_gift/daily_gift_concept_v1.png",
+  "source_size": [
+    1024,
+    1536
+  ],
+  "method": "Rectangle slicing; transparent art extracted with art-tools MCP remove_background, refine=true. Composite crops retain baked text/art.",
+  "sprites": [
+    {
+      "name": "gift_header",
+      "category": "icons",
+      "source_rect_xywh": [
+        141,
+        45,
+        143,
+        149
+      ],
+      "file": "icons/gift_header.png",
+      "transparent": true,
+      "baked_content": false,
+      "mcp_tool": "art-tools.remove_background",
+      "size": [
+        143,
+        149
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "close_red",
+      "category": "icons",
+      "source_rect_xywh": [
+        827,
+        84,
+        105,
+        100
+      ],
+      "file": "icons/close_red.png",
+      "transparent": true,
+      "baked_content": false,
+      "mcp_tool": "art-tools.remove_background",
+      "cleanup": "Clip alpha to convex hull of red button; remove adjacent header fragments.",
+      "size": [
+        105,
+        100
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "day01_driver_pro",
+      "category": "icons",
+      "source_rect_xywh": [
+        163,
+        345,
+        161,
+        92
+      ],
+      "file": "icons/day01_driver_pro.png",
+      "transparent": true,
+      "baked_content": false,
+      "mcp_tool": "art-tools.remove_background",
+      "size": [
+        161,
+        92
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "day02_gear_standard",
+      "category": "icons",
+      "source_rect_xywh": [
+        452,
+        344,
+        129,
+        94
+      ],
+      "file": "icons/day02_gear_standard.png",
+      "transparent": true,
+      "baked_content": false,
+      "mcp_tool": "art-tools.remove_background",
+      "size": [
+        129,
+        94
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "day03_gem_today",
+      "category": "icons",
+      "source_rect_xywh": [
+        718,
+        351,
+        128,
+        92
+      ],
+      "file": "icons/day03_gem_today.png",
+      "transparent": true,
+      "baked_content": false,
+      "mcp_tool": "art-tools.remove_background",
+      "size": [
+        128,
+        92
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "day04_driver_allstar",
+      "category": "icons",
+      "source_rect_xywh": [
+        166,
+        607,
+        159,
+        88
+      ],
+      "file": "icons/day04_driver_allstar.png",
+      "transparent": true,
+      "baked_content": false,
+      "mcp_tool": "art-tools.remove_background",
+      "size": [
+        159,
+        88
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "day05_gear_elite",
+      "category": "icons",
+      "source_rect_xywh": [
+        451,
+        604,
+        126,
+        92
+      ],
+      "file": "icons/day05_gear_elite.png",
+      "transparent": true,
+      "baked_content": false,
+      "mcp_tool": "art-tools.remove_background",
+      "size": [
+        126,
+        92
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "day06_gem",
+      "category": "icons",
+      "source_rect_xywh": [
+        721,
+        596,
+        121,
+        93
+      ],
+      "file": "icons/day06_gem.png",
+      "transparent": true,
+      "baked_content": false,
+      "mcp_tool": "art-tools.remove_background",
+      "size": [
+        121,
+        93
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "gift_grand",
+      "category": "icons",
+      "source_rect_xywh": [
+        162,
+        803,
+        198,
+        179
+      ],
+      "file": "icons/gift_grand.png",
+      "transparent": true,
+      "baked_content": false,
+      "mcp_tool": "art-tools.remove_background",
+      "size": [
+        198,
+        179
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "grand_gem",
+      "category": "icons",
+      "source_rect_xywh": [
+        466,
+        822,
+        102,
+        78
+      ],
+      "file": "icons/grand_gem.png",
+      "transparent": true,
+      "baked_content": false,
+      "mcp_tool": "art-tools.remove_background",
+      "size": [
+        102,
+        78
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "grand_driver_allstar",
+      "category": "icons",
+      "source_rect_xywh": [
+        663,
+        820,
+        137,
+        80
+      ],
+      "file": "icons/grand_driver_allstar.png",
+      "transparent": true,
+      "baked_content": false,
+      "mcp_tool": "art-tools.remove_background",
+      "size": [
+        137,
+        80
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "milestone10_gem",
+      "category": "icons",
+      "source_rect_xywh": [
+        164,
+        1175,
+        75,
+        56
+      ],
+      "file": "icons/milestone10_gem.png",
+      "transparent": true,
+      "baked_content": false,
+      "mcp_tool": "art-tools.remove_background",
+      "size": [
+        75,
+        56
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "milestone20_drivers",
+      "category": "icons",
+      "source_rect_xywh": [
+        358,
+        1176,
+        92,
+        54
+      ],
+      "file": "icons/milestone20_drivers.png",
+      "transparent": true,
+      "baked_content": false,
+      "mcp_tool": "art-tools.remove_background",
+      "size": [
+        92,
+        54
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "milestone30_gem",
+      "category": "icons",
+      "source_rect_xywh": [
+        540,
+        1178,
+        64,
+        50
+      ],
+      "file": "icons/milestone30_gem.png",
+      "transparent": true,
+      "baked_content": false,
+      "mcp_tool": "art-tools.remove_background",
+      "size": [
+        64,
+        50
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "milestone30_drivers",
+      "category": "icons",
+      "source_rect_xywh": [
+        627,
+        1179,
+        72,
+        48
+      ],
+      "file": "icons/milestone30_drivers.png",
+      "transparent": true,
+      "baked_content": false,
+      "mcp_tool": "art-tools.remove_background",
+      "size": [
+        72,
+        48
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "milestone40_gem",
+      "category": "icons",
+      "source_rect_xywh": [
+        791,
+        1174,
+        74,
+        57
+      ],
+      "file": "icons/milestone40_gem.png",
+      "transparent": true,
+      "baked_content": false,
+      "mcp_tool": "art-tools.remove_background",
+      "size": [
+        74,
+        57
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "gift_claim",
+      "category": "icons",
+      "source_rect_xywh": [
+        274,
+        1343,
+        122,
+        117
+      ],
+      "file": "icons/gift_claim.png",
+      "transparent": true,
+      "baked_content": false,
+      "mcp_tool": "art-tools.remove_background",
+      "size": [
+        122,
+        117
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "claimed_check_day01",
+      "category": "icons",
+      "source_rect_xywh": [
+        170,
+        488,
+        33,
+        28
+      ],
+      "file": "icons/claimed_check_day01.png",
+      "transparent": true,
+      "baked_content": false,
+      "mcp_tool": "art-tools.remove_background",
+      "size": [
+        33,
+        28
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "claimed_check_day02",
+      "category": "icons",
+      "source_rect_xywh": [
+        439,
+        489,
+        33,
+        28
+      ],
+      "file": "icons/claimed_check_day02.png",
+      "transparent": true,
+      "baked_content": false,
+      "mcp_tool": "art-tools.remove_background",
+      "size": [
+        33,
+        28
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "milestone_node_check",
+      "category": "icons",
+      "source_rect_xywh": [
+        174,
+        1086,
+        60,
+        58
+      ],
+      "file": "icons/milestone_node_check.png",
+      "transparent": true,
+      "baked_content": false,
+      "mcp_tool": "art-tools.remove_background",
+      "cleanup": "Clip alpha to circular node to remove adjoining progress bar.",
+      "size": [
+        60,
+        58
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "milestone_node_empty20",
+      "category": "icons",
+      "source_rect_xywh": [
+        384,
+        1085,
+        54,
+        55
+      ],
+      "file": "icons/milestone_node_empty20.png",
+      "transparent": true,
+      "baked_content": false,
+      "mcp_tool": "art-tools.remove_background",
+      "cleanup": "Clip alpha to circular node to remove adjoining progress bar.",
+      "size": [
+        54,
+        55
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "milestone_node_empty30",
+      "category": "icons",
+      "source_rect_xywh": [
+        587,
+        1085,
+        55,
+        55
+      ],
+      "file": "icons/milestone_node_empty30.png",
+      "transparent": true,
+      "baked_content": false,
+      "mcp_tool": "art-tools.remove_background",
+      "cleanup": "Clip alpha to circular node to remove adjoining progress bar.",
+      "size": [
+        55,
+        55
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "milestone_node_empty40",
+      "category": "icons",
+      "source_rect_xywh": [
+        798,
+        1084,
+        54,
+        55
+      ],
+      "file": "icons/milestone_node_empty40.png",
+      "transparent": true,
+      "baked_content": false,
+      "mcp_tool": "art-tools.remove_background",
+      "cleanup": "Clip alpha to circular node to remove adjoining progress bar.",
+      "size": [
+        54,
+        55
+      ],
+      "alpha_range": [
+        0,
+        255
+      ]
+    },
+    {
+      "name": "popup_complete",
+      "category": "composites",
+      "source_rect_xywh": [
+        60,
+        37,
+        904,
+        1480
+      ],
+      "file": "composites/popup_complete.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        904,
+        1480
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "header_complete",
+      "category": "composites",
+      "source_rect_xywh": [
+        94,
+        45,
+        841,
+        162
+      ],
+      "file": "composites/header_complete.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        841,
+        162
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "header_cyan_with_title",
+      "category": "composites",
+      "source_rect_xywh": [
+        97,
+        69,
+        828,
+        135
+      ],
+      "file": "composites/header_cyan_with_title.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        828,
+        135
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "counter_claimed_days",
+      "category": "composites",
+      "source_rect_xywh": [
+        364,
+        246,
+        296,
+        49
+      ],
+      "file": "composites/counter_claimed_days.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        296,
+        49
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "day01_claimed_card",
+      "category": "composites",
+      "source_rect_xywh": [
+        107,
+        300,
+        272,
+        245
+      ],
+      "file": "composites/day01_claimed_card.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        272,
+        245
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "day02_claimed_card",
+      "category": "composites",
+      "source_rect_xywh": [
+        379,
+        299,
+        270,
+        246
+      ],
+      "file": "composites/day02_claimed_card.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        270,
+        246
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "day03_today_card",
+      "category": "composites",
+      "source_rect_xywh": [
+        648,
+        298,
+        270,
+        247
+      ],
+      "file": "composites/day03_today_card.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        270,
+        247
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "day04_future_card",
+      "category": "composites",
+      "source_rect_xywh": [
+        108,
+        544,
+        270,
+        209
+      ],
+      "file": "composites/day04_future_card.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        270,
+        209
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "day05_future_card",
+      "category": "composites",
+      "source_rect_xywh": [
+        379,
+        544,
+        270,
+        209
+      ],
+      "file": "composites/day05_future_card.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        270,
+        209
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "day06_future_card",
+      "category": "composites",
+      "source_rect_xywh": [
+        649,
+        543,
+        269,
+        210
+      ],
+      "file": "composites/day06_future_card.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        269,
+        210
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "day01_claimed_badge",
+      "category": "composites",
+      "source_rect_xywh": [
+        150,
+        477,
+        192,
+        49
+      ],
+      "file": "composites/day01_claimed_badge.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        192,
+        49
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "day02_claimed_badge",
+      "category": "composites",
+      "source_rect_xywh": [
+        420,
+        477,
+        192,
+        49
+      ],
+      "file": "composites/day02_claimed_badge.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        192,
+        49
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "today_badge",
+      "category": "composites",
+      "source_rect_xywh": [
+        691,
+        477,
+        189,
+        49
+      ],
+      "file": "composites/today_badge.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        189,
+        49
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "grand_reward_complete",
+      "category": "composites",
+      "source_rect_xywh": [
+        93,
+        757,
+        837,
+        260
+      ],
+      "file": "composites/grand_reward_complete.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        837,
+        260
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "grand_hint_pill",
+      "category": "composites",
+      "source_rect_xywh": [
+        380,
+        944,
+        401,
+        43
+      ],
+      "file": "composites/grand_hint_pill.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        401,
+        43
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "cumulative_complete",
+      "category": "composites",
+      "source_rect_xywh": [
+        116,
+        1024,
+        799,
+        304
+      ],
+      "file": "composites/cumulative_complete.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        799,
+        304
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "cumulative_counter",
+      "category": "composites",
+      "source_rect_xywh": [
+        706,
+        1026,
+        205,
+        51
+      ],
+      "file": "composites/cumulative_counter.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        205,
+        51
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "cumulative_progress_complete",
+      "category": "composites",
+      "source_rect_xywh": [
+        171,
+        1082,
+        686,
+        64
+      ],
+      "file": "composites/cumulative_progress_complete.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        686,
+        64
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "milestone10_complete",
+      "category": "composites",
+      "source_rect_xywh": [
+        149,
+        1143,
+        128,
+        122
+      ],
+      "file": "composites/milestone10_complete.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        128,
+        122
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "milestone20_complete",
+      "category": "composites",
+      "source_rect_xywh": [
+        329,
+        1143,
+        155,
+        122
+      ],
+      "file": "composites/milestone20_complete.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        155,
+        122
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "milestone30_complete",
+      "category": "composites",
+      "source_rect_xywh": [
+        526,
+        1143,
+        194,
+        122
+      ],
+      "file": "composites/milestone30_complete.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        194,
+        122
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "milestone40_complete",
+      "category": "composites",
+      "source_rect_xywh": [
+        757,
+        1143,
+        133,
+        122
+      ],
+      "file": "composites/milestone40_complete.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        133,
+        122
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "cumulative_hint_pill",
+      "category": "composites",
+      "source_rect_xywh": [
+        254,
+        1278,
+        516,
+        47
+      ],
+      "file": "composites/cumulative_hint_pill.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        516,
+        47
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "claim_button_complete",
+      "category": "composites",
+      "source_rect_xywh": [
+        124,
+        1332,
+        775,
+        145
+      ],
+      "file": "composites/claim_button_complete.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        775,
+        145
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "progress_track_empty_segment",
+      "category": "composites",
+      "source_rect_xywh": [
+        442,
+        1101,
+        144,
+        27
+      ],
+      "file": "composites/progress_track_empty_segment.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        144,
+        27
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "progress_track_blue_segment",
+      "category": "composites",
+      "source_rect_xywh": [
+        235,
+        1101,
+        63,
+        27
+      ],
+      "file": "composites/progress_track_blue_segment.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        63,
+        27
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "header_title",
+      "category": "text_crops",
+      "source_rect_xywh": [
+        294,
+        98,
+        464,
+        67
+      ],
+      "file": "text_crops/header_title.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        464,
+        67
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "subtitle",
+      "category": "text_crops",
+      "source_rect_xywh": [
+        237,
+        210,
+        551,
+        36
+      ],
+      "file": "text_crops/subtitle.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        551,
+        36
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "counter_text",
+      "category": "text_crops",
+      "source_rect_xywh": [
+        407,
+        255,
+        212,
+        30
+      ],
+      "file": "text_crops/counter_text.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        212,
+        30
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "day01_label",
+      "category": "text_crops",
+      "source_rect_xywh": [
+        176,
+        312,
+        122,
+        37
+      ],
+      "file": "text_crops/day01_label.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        122,
+        37
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "day02_label",
+      "category": "text_crops",
+      "source_rect_xywh": [
+        447,
+        312,
+        125,
+        37
+      ],
+      "file": "text_crops/day02_label.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        125,
+        37
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "day03_label",
+      "category": "text_crops",
+      "source_rect_xywh": [
+        717,
+        312,
+        120,
+        37
+      ],
+      "file": "text_crops/day03_label.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        120,
+        37
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "day01_reward",
+      "category": "text_crops",
+      "source_rect_xywh": [
+        180,
+        440,
+        125,
+        34
+      ],
+      "file": "text_crops/day01_reward.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        125,
+        34
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "day02_reward",
+      "category": "text_crops",
+      "source_rect_xywh": [
+        422,
+        440,
+        185,
+        34
+      ],
+      "file": "text_crops/day02_reward.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        185,
+        34
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "day03_reward",
+      "category": "text_crops",
+      "source_rect_xywh": [
+        740,
+        440,
+        90,
+        34
+      ],
+      "file": "text_crops/day03_reward.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        90,
+        34
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "day04_label",
+      "category": "text_crops",
+      "source_rect_xywh": [
+        177,
+        560,
+        123,
+        37
+      ],
+      "file": "text_crops/day04_label.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        123,
+        37
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "day05_label",
+      "category": "text_crops",
+      "source_rect_xywh": [
+        448,
+        560,
+        125,
+        37
+      ],
+      "file": "text_crops/day05_label.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        125,
+        37
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "day06_label",
+      "category": "text_crops",
+      "source_rect_xywh": [
+        718,
+        560,
+        122,
+        37
+      ],
+      "file": "text_crops/day06_label.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        122,
+        37
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "day04_reward",
+      "category": "text_crops",
+      "source_rect_xywh": [
+        153,
+        695,
+        175,
+        36
+      ],
+      "file": "text_crops/day04_reward.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        175,
+        36
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "day05_reward",
+      "category": "text_crops",
+      "source_rect_xywh": [
+        450,
+        695,
+        124,
+        36
+      ],
+      "file": "text_crops/day05_reward.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        124,
+        36
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "day06_reward",
+      "category": "text_crops",
+      "source_rect_xywh": [
+        738,
+        695,
+        91,
+        36
+      ],
+      "file": "text_crops/day06_reward.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        91,
+        36
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "grand_title",
+      "category": "text_crops",
+      "source_rect_xywh": [
+        342,
+        777,
+        533,
+        39
+      ],
+      "file": "text_crops/grand_title.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        533,
+        39
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "grand_gem_amount",
+      "category": "text_crops",
+      "source_rect_xywh": [
+        465,
+        898,
+        112,
+        36
+      ],
+      "file": "text_crops/grand_gem_amount.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        112,
+        36
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "grand_driver_amount",
+      "category": "text_crops",
+      "source_rect_xywh": [
+        650,
+        898,
+        176,
+        36
+      ],
+      "file": "text_crops/grand_driver_amount.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        176,
+        36
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "cumulative_title",
+      "category": "text_crops",
+      "source_rect_xywh": [
+        123,
+        1027,
+        301,
+        48
+      ],
+      "file": "text_crops/cumulative_title.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        301,
+        48
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    },
+    {
+      "name": "claim_label",
+      "category": "text_crops",
+      "source_rect_xywh": [
+        421,
+        1359,
+        314,
+        75
+      ],
+      "file": "text_crops/claim_label.png",
+      "transparent": false,
+      "baked_content": true,
+      "size": [
+        314,
+        75
+      ],
+      "alpha_range": [
+        255,
+        255
+      ]
+    }
+  ]
+}

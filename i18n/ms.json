@@ -648,5 +648,11 @@
  "tutorial.trophy.upgraded": "Berjaya! Bonus kelajuan daripada naik taraf ini: +%d → +%d. Statistik baharu digunakan mulai perlumbaan seterusnya.",
  "trophy.prestige": "Prestige %d / %d",
  "shop.starter_spotlight": "BINA PASUKAN PERTAMA",
- "shop.starter_pitch": "Permata, tiket dan wang untuk memajukan pasukan."
+ "shop.starter_pitch": "Permata, tiket dan wang untuk memajukan pasukan.",
+ "soft.facilities": "Facilities",
+ "soft.gear_power": "Kuasa",
+ "soft.team_power": "Team power",
+ "soft.minute": "min",
+ "soft.bag": "Bag",
+ "soft.race_no": "Lumba %d"
 }

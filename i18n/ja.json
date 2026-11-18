@@ -648,5 +648,11 @@
  "tutorial.trophy.upgraded": "完了です！この強化の速度ボーナス：+%d → +%d。新しい能力は次のレースから適用されます。",
  "trophy.prestige": "Prestige %d / %d",
  "shop.starter_spotlight": "最初のチームを作ろう",
- "shop.starter_pitch": "ジェム、チケット、資金でチームの成長を後押し。"
+ "shop.starter_pitch": "ジェム、チケット、資金でチームの成長を後押し。",
+ "soft.facilities": "Facilities",
+ "soft.gear_power": "パワー",
+ "soft.team_power": "Team power",
+ "soft.minute": "min",
+ "soft.bag": "Bag",
+ "soft.race_no": "レース %d"
 }

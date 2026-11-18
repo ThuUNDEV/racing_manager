@@ -8,7 +8,7 @@ const CleanArt = preload("res://ui/clean_modern_art.gd")
 signal result_released          # A6 xong: main ẩn bảng kết quả, vòng đua chạy tiếp
 signal reveal_requested(step: String)  # main cuộn trang tới mục tiêu (ô nâng cấp) nếu đang khuất
 
-const C_RING := Color("087ee6")
+const C_RING := Color("62b8e5")
 const C_DIM := Color(0, 0, 0, 0.6)
 const C_DIM_LIGHT := Color(0, 0, 0, 0.42)  # vòng tròn quanh xe: nền nhẹ hơn để vẫn thấy xe
 const HAND_PATH := "res://assets/workshop_gp/ui/tutorial_hand.svg"
@@ -71,7 +71,7 @@ func _ready() -> void:
 	_panel.mouse_filter = Control.MOUSE_FILTER_STOP
 	var card := StyleBoxFlat.new()
 	card.bg_color = Color("ffffff")
-	card.border_color = Color("adc9de")
+	card.border_color = Color("d8e2df")
 	card.set_border_width_all(2)
 	card.set_corner_radius_all(16)
 	card.content_margin_left = 18
@@ -110,22 +110,22 @@ func _ready() -> void:
 	var name_l := Label.new()
 	name_l.text = Tutorial.MENTOR
 	name_l.add_theme_font_size_override("font_size", 22)
-	name_l.add_theme_color_override("font_color", Color("087ee6"))
+	name_l.add_theme_color_override("font_color", Color("62b8e5"))
 	who.add_child(name_l)
 	var role := Label.new()
 	role.text = I18n.t("tutorial.chief_engineer")
 	role.add_theme_font_size_override("font_size", 11)
-	role.add_theme_color_override("font_color", Color("768ca0"))
+	role.add_theme_color_override("font_color", Color("788b95"))
 	who.add_child(role)
 	_progress = Label.new()
 	_progress.name = "TutorialProgress"
 	_progress.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	_progress.add_theme_font_size_override("font_size", 11)
-	_progress.add_theme_color_override("font_color", Color("087ee6"))
+	_progress.add_theme_color_override("font_color", Color("62b8e5"))
 	row.add_child(_progress)
 	var rule := HSeparator.new()
 	var rule_style := StyleBoxLine.new()
-	rule_style.color = Color("adc9de")
+	rule_style.color = Color("d8e2df")
 	rule_style.thickness = 1
 	rule.add_theme_stylebox_override("separator", rule_style)
 	body.add_child(rule)
@@ -135,7 +135,7 @@ func _ready() -> void:
 	_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_text.add_theme_font_size_override("font_size", 15)
 	_text.add_theme_constant_override("line_spacing", 4)
-	_text.add_theme_color_override("font_color", Color("23394a"))
+	_text.add_theme_color_override("font_color", Color("0e2b5c"))
 	body.add_child(_text)
 	var buttons := HBoxContainer.new()
 	buttons.add_theme_constant_override("separation", 8)
@@ -145,8 +145,8 @@ func _ready() -> void:
 	_skip.flat = false
 	_skip.custom_minimum_size = Vector2(0, 44)
 	_skip.add_theme_font_size_override("font_size", 13)
-	_skip.add_theme_color_override("font_color", Color("768ca0"))
-	_skip.add_theme_color_override("font_hover_color", Color("087ee6"))
+	_skip.add_theme_color_override("font_color", Color("788b95"))
+	_skip.add_theme_color_override("font_hover_color", Color("62b8e5"))
 	_skip.add_theme_color_override("font_pressed_color", Color("ffd478"))
 	_skip.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
 	HdUi.style_button(_skip, "cancel")

@@ -44,8 +44,8 @@ static func limit(product: Dictionary) -> String:
 static func panel(sku: String = "") -> StyleBoxFlat:
 	var id := String(recipe(sku).get("panel", "panel_blue"))
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color("f4faff")
-	style.border_color = Color("087ee6")
+	style.bg_color = HdUi.C_PANEL
+	style.border_color = HdUi.C_LINE
 	if "purple" in id:
 		style.border_color = Color("9a52dc")
 	elif "gold" in id:
@@ -60,23 +60,7 @@ static func panel(sku: String = "") -> StyleBoxFlat:
 
 
 static func buy_style(state: String = "normal") -> StyleBoxTexture:
-	var style := StyleBoxTexture.new()
-	style.texture = preload("res://assets/clean_modern/icons/shop_buy.svg")
-	style.texture_margin_left = 22
-	style.texture_margin_right = 22
-	style.texture_margin_top = 12
-	style.texture_margin_bottom = 12
-	style.content_margin_left = 10
-	style.content_margin_right = 10
-	style.content_margin_top = 4
-	style.content_margin_bottom = 4
-	if state == "hover":
-		style.modulate_color = Color(1.05, 1.05, 1.05)
-	elif state == "pressed":
-		style.modulate_color = Color("c5e5ae")
-	elif state == "disabled":
-		style.modulate_color = Color("a8b5c3")
-	return HdUi.ButtonSkin.rounded(style) as StyleBoxTexture
+	return HdUi.button("upgrade", state)
 
 
 static func button(node: Button, secondary: bool = false) -> void:
@@ -99,6 +83,19 @@ static func art(sku: String, minimum_height: float = 144, approved_hero: bool = 
 	frame.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	frame.custom_minimum_size.y = minimum_height
 	frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var key: String = {"starter_1": "shop_starter", "income_x2": "shop_income_x2", "no_ads": "shop_no_ads", "offer_noads_bundle": "shop_combo", "offer_combo_1": "shop_combo", "offer_combo_2": "shop_combo"}.get(sku, "")
+	var did := String(GameData.iap_product(sku).get("grant", {}).get("driver", ""))
+	if key == "" and did != "": key = "driver_lam_shop" if did == "driver_lam" else did
+	var clay := HdUi.Soft.texture(key) if key != "" else null
+	if clay != null:
+		var image := TextureRect.new()
+		image.texture = clay
+		image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		image.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		image.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		frame.add_child(image)
+		return frame
 	# V5 keeps the approved source illustrations, including My's orange uniform.
 	var heroes := {
 		"starter_1": preload("res://assets/iap_offers/illustrations/hero_starter.png"),

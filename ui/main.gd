@@ -12,7 +12,7 @@ const PopupAnim = preload("res://ui/popup_anim.gd")
 const ROOT := "res://assets/workshop_gp/"
 const RACE_SPEED := 1.0  # thời gian đua = giờ thật; độ nhanh của xe nằm ở sim.json traffic.speed_scale
 const HD := "res://assets/racing_ui_hd/"
-const C_BG := Color("f1f7fc")
+const C_BG := Color("fff8ee")
 const C_PANEL := HdUi.C_PANEL
 const C_PANEL_HI := HdUi.C_PANEL_HI
 const C_CYAN := HdUi.C_ORANGE
@@ -23,7 +23,7 @@ const C_RED := HdUi.C_RED
 const C_GREEN := HdUi.C_GREEN
 
 enum Tab { RACE, BAG, TEAM, LEAGUE, SHOP }
-const TAB_NAMES := ["main.race_2", "main.upgrades", "main.team", "main.leagues", "main.shop"]
+const TAB_NAMES := ["main.race_2", "soft.bag", "main.team", "main.leagues", "main.shop"]
 ## Icon thanh dưới (gói racing_ui_hd/icons): Đua = cờ, Túi = dụng cụ, Đội = nhóm, Giải = cúp, Shop = cửa hàng.
 const TAB_ICONS := ["flag", "tools", "staff", "trophy", "shop"]
 ## Icon cho từng loại nâng cấp (khóa trùng `kind` của hàng nâng cấp), đều thuộc gói racing_ui_hd/icons.
@@ -47,9 +47,9 @@ var _nav_to: Array = []
 var _nav_old := 0
 var _nav_new := 0
 var _nav_tween: Tween
-const NAV_SEL_W := 1.9
-const NAV_ICON_SEL := 42.0
-const NAV_ICON_TOP := -8.0
+const NAV_SEL_W := 1.0
+const NAV_ICON_SEL := 49.0
+const NAV_ICON_TOP := 0.0
 var _rows: Array = []
 var _tab: int = Tab.RACE
 
@@ -65,25 +65,25 @@ var _daily_auto_hold := 0.0  # giây liên tục đủ điều kiện tự bật
 const DAILY_AUTO_DELAY := 1.2
 var _header_avatar: Control
 var _progress_label: Label
+var _race_no_label: Label
 var _income_label: Label
 var _status_label: Label
 var _save_err_box: PanelContainer
 var _snapshot_label: Label       # nhắc đội đang đua dùng snapshot lúc xuất phát
 var _view_sim: TrafficSim = null # sim mà RaceView đang hiển thị
+var _track_caption: Label
 var _race_view_track: String = ""  # track RaceView đang vẽ (theo class đua)
 var _race_view: RaceView
 var _power_banner: Control
-var _race_block: VBoxContainer   # khung đua + tiến độ + banner, ghim ở Đua/Túi/Đội
-const STATUS_SLOT_H := 12.0  # Compact status row gives the race more vertical room.
-const RACE_HEIGHT := 400.0  # Maximum race height; compact phones retain scrollable upgrades.
-const SCENERY_H := 140.0   # chiều cao dải ảnh sân đua phía sau thanh tài nguyên
+var _race_block: VBoxContainer   # Fixed circuit and HUD above the upgrade scroller.
+var _upgrade_scroll: ScrollContainer
+const STATUS_SLOT_H := 0.0  # Compact status row gives the race more vertical room.
+const RACE_HEIGHT := 242.0  # Circuit height, scaled to the phone width.
 var _drivers_box: VBoxContainer
 var _roster: DriverRosterPage
 var _league_box: VBoxContainer
 var _shop_box: VBoxContainer
 var _shop_content: VBoxContainer
-var _shop_chrome: Control
-var _shop_shell: Control
 var _toast: Label
 var _overlay: Control
 var _ads_controls: AdsRaceControls  # chip ×2 + lá cờ thưởng + popup xem video (ui/ads_race_controls.gd)
@@ -138,6 +138,7 @@ var _active: bool = false
 
 
 func _ready() -> void:
+	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	for a in OS.get_cmdline_user_args():
 		if a.begins_with("--shot="):
 			_shot_prefix = a.substr(7)
@@ -343,106 +344,88 @@ func _show_toast(msg: String) -> void:
 # ---------------------------------------------------------------- dựng UI
 
 func _build_ui() -> void:
-	# Nền: nền xanh nhạt; ảnh sân đua chỉ nằm ở dải trên cùng (sau thanh tài nguyên) rồi mờ dần vào nền,
-	# để khung đua và bảng nâng cấp không che mất sân (art direction: panel xanh-trắng, tránh che sân đua).
+	# The resource and stage rows share the demo sky.
 	var sky := ColorRect.new()
 	sky.color = C_BG
 	sky.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	sky.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(sky)
-	var scenery := TextureRect.new()
-	scenery.name = "HeaderScenery"
-	scenery.texture = HdUi.scaled("backgrounds/racetrack_background.png", 0.6)
-	scenery.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	scenery.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-	scenery.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
-	scenery.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	scenery.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	scenery.offset_bottom = SCENERY_H
-	add_child(scenery)
-	var fade := TextureRect.new()
-	var grad := Gradient.new()
-	grad.offsets = PackedFloat32Array([0.0, 0.30, 0.78])
-	grad.colors = PackedColorArray([Color(C_BG, 0.0), Color(C_BG, 0.35), C_BG])
-	var gt := GradientTexture2D.new()
-	gt.gradient = grad
-	gt.fill_from = Vector2(0, 0)
-	gt.fill_to = Vector2(0, 1)
-	gt.width = 4
-	gt.height = 128
-	fade.texture = gt
-	fade.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	fade.stretch_mode = TextureRect.STRETCH_SCALE
-	fade.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	fade.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	fade.offset_bottom = SCENERY_H
-	add_child(fade)
+	var header_back := preload("res://ui/race_header_backdrop.gd").new()
+	header_back.name = "SoftHeaderBackground"
+	header_back.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	header_back.offset_bottom = 118
+	add_child(header_back)
 
 	var margin := MarginContainer.new()
 	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
-	margin.add_theme_constant_override("margin_left", 12)
-	margin.add_theme_constant_override("margin_right", 12)
-	margin.add_theme_constant_override("margin_top", 14)
-	margin.add_theme_constant_override("margin_bottom", 8)
+	margin.add_theme_constant_override("margin_left", 4)
+	margin.add_theme_constant_override("margin_right", 4)
+	margin.add_theme_constant_override("margin_top", 0)
+	margin.add_theme_constant_override("margin_bottom", 0)
 	add_child(margin)
 
 	var root := VBoxContainer.new()
-	root.add_theme_constant_override("separation", 8)
+	root.add_theme_constant_override("separation", 3)
 	margin.add_child(root)
 
-	# Thanh tài nguyên: avatar | tiền (+ thu nhập) | gem | cài đặt
-	var top := HBoxContainer.new()
-	top.add_theme_constant_override("separation", 4)
-	root.add_child(top)
+	# Positions and type sizes are measured on the approved 887px-wide demo.
+	# One scaled canvas keeps icon, text, and spacing proportions at every width.
+	var top := _header_canvas(root, 101.0)
+	top.name = "ResourceHeader"
 	_header_avatar = Button.new()
 	_header_avatar.name = "PlayerProfileButton"
-	_header_avatar.custom_minimum_size = Vector2(44, 44)
-	_header_avatar.add_theme_stylebox_override("normal", StyleBoxEmpty.new())
-	_header_avatar.add_theme_stylebox_override("hover", StyleBoxEmpty.new())
-	_header_avatar.add_theme_stylebox_override("pressed", StyleBoxEmpty.new())
+	for state in ["normal", "hover", "pressed", "focus", "disabled"]:
+		_header_avatar.add_theme_stylebox_override(state, StyleBoxEmpty.new())
 	_header_avatar.accessibility_name = I18n.t("common.player_profile")
 	_header_avatar.pressed.connect(_show_profile)
-	var avatar_icon := HdUi.icon("icons/avatar.png", Vector2(44, 44))
+	_header_place(top, _header_avatar, Rect2(18, 7, 106, 94))
+	var avatar_icon := _header_icon("icons/avatar.png")
 	avatar_icon.name = "PlayerAvatarIcon"
 	avatar_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_header_avatar.add_child(avatar_icon)
 	avatar_icon.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	_header_avatar.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
-	top.add_child(_header_avatar)
-	var money := VBoxContainer.new()
-	money.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	money.add_theme_constant_override("separation", 1)
-	_coin_label = _hud_label(20)
-	_coin_bar = _hud_bar("icons/cash.png", _coin_label, 46.0)
+	avatar_icon.stretch_mode = TextureRect.STRETCH_SCALE
+	var lv_badge := Panel.new()
+	lv_badge.add_theme_stylebox_override("panel", HdUi.Soft.flat(Color("226bb1"), 0, 15))
+	_header_place(top, lv_badge, Rect2(128, 19, 107, 44))
+	var lv_label := _label("Lv.%d" % GameState.driver_level(GameState.active_driver_id), 42, Color.WHITE)
+	lv_label.name = "HudLevel"
+	lv_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	lv_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	HdUi.text_depth(lv_label, true)
+	_header_place(top, lv_label, Rect2(128, 7, 107, 54))
+	var xp := ProgressBar.new()
+	xp.name = "HudExperience"
+	xp.show_percentage = false
+	xp.max_value = maxi(1, GameState.driver_upgrade_cost(GameState.active_driver_id))
+	xp.value = GameState.driver_shards(GameState.active_driver_id)
+	xp.add_theme_stylebox_override("background", HdUi.Soft.gloss("xp_track", Vector4.ZERO))
+	xp.add_theme_stylebox_override("fill", HdUi.Soft.gloss("xp_fill", Vector4.ZERO))
+	_header_place(top, xp, Rect2(128, 65, 112, 24))
+	for x in [264, 530, 782]:
+		var divider := _hud_divider()
+		divider.custom_minimum_size = Vector2.ZERO
+		_header_place(top, divider, Rect2(x, 21, 2, 57))
+	_coin_label = _hud_label(48)
+	_coin_bar = _hud_bar("icons/cash.png", _coin_label, 74)
 	_coin_bar.name = "HudCoins"
-	money.add_child(_coin_bar)
-	top.add_child(money)
-	var gems := VBoxContainer.new()
-	gems.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_gem_label = _hud_label(20)
-	var gem_bar := _hud_bar("icons/gem.png", _gem_label, 46.0)
+	_header_place(top, _coin_bar, Rect2(281, 12, 236, 74))
+	_gem_label = _hud_label(48)
+	var gem_bar := _hud_bar("icons/gem.png", _gem_label, 74)
 	gem_bar.name = "HudGems"
-	gems.add_child(gem_bar)
-	top.add_child(gems)
+	_header_place(top, gem_bar, Rect2(545, 12, 218, 74))
 	_hud_bar_link(_coin_bar, "cash", I18n.t("main.buy_cash"))
 	_hud_bar_link(gem_bar, "gem", I18n.t("main.buy_gems"))
-	var settings := _button("", false, 44, "menu")
+	var settings := Button.new()
 	settings.name = "SettingsButton"
-	settings.custom_minimum_size = Vector2(48, 48)
-	settings.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
-	# Center the gear in the whole button, independently of skin padding.
-	var settings_center := CenterContainer.new()
-	settings_center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	settings_center.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	settings.add_child(settings_center)
-	var settings_icon := HdUi.icon("icons/gear.png", Vector2(28, 28))
-	# Center the visible gear, excluding the PNG's uneven transparent margins.
-	settings_icon.texture = HdUi.tex("icons/gear.png")
-	settings_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	settings_center.add_child(settings_icon)
+	for state in ["normal", "hover", "pressed", "focus", "disabled"]:
+		settings.add_theme_stylebox_override(state, StyleBoxEmpty.new())
 	settings.accessibility_name = I18n.t("common.settings")
 	settings.pressed.connect(_show_settings)
-	top.add_child(settings)
+	_header_place(top, settings, Rect2(801, 13, 74, 70))
+	var settings_icon := _header_icon("icons/gear.png")
+	settings.add_child(settings_icon)
+	settings_icon.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 
 	_toast = _label("", 12, C_RED, true)
 	_toast.hide()
@@ -462,12 +445,12 @@ func _build_ui() -> void:
 	# Thanh dưới nền sáng; tab đang chọn xanh dương, icon và chữ gọn theo demo.
 	var nav_frame := PanelContainer.new()
 	nav_frame.name = "BottomNavigation"
-	var nav_skin := _style(Color("e6f2fc"), 16, Color("adc9de"), 1)
+	var nav_skin := HdUi.Soft.surface("nav")
 	nav_skin.set_content_margin_all(3)
 	nav_frame.add_theme_stylebox_override("panel", nav_skin)
 	root.add_child(nav_frame)
 	var nav_holder := Control.new()
-	nav_holder.custom_minimum_size = Vector2(0, 60)
+	nav_holder.custom_minimum_size = Vector2(0, 77)
 	nav_frame.add_child(nav_holder)
 	# Nền xanh của tab đang chọn: một khối trượt giữa các tab (xem _animate_nav).
 	_nav_pill = Panel.new()
@@ -482,7 +465,7 @@ func _build_ui() -> void:
 	nav_holder.add_child(nav)
 	for i in TAB_NAMES.size():
 		var item := Control.new()
-		item.custom_minimum_size = Vector2(0, 60)
+		item.custom_minimum_size = Vector2(0, 77)
 		item.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		nav.add_child(item)
 		var b := _button("", false, 44.0, "tab")
@@ -494,8 +477,6 @@ func _build_ui() -> void:
 		b.pressed.connect(_select_tab.bind(i))
 		item.add_child(b)
 		var ic := HdUi.icon("icons/%s.png" % TAB_ICONS[i], Vector2(32, 32))
-		if i == Tab.BAG or i == Tab.TEAM:
-			ic.texture = load("res://assets/clean_modern/icons/nav_bag.svg" if i == Tab.BAG else "res://assets/clean_modern/icons/nav_team.svg")
 		ic.set_anchors_preset(Control.PRESET_CENTER_TOP)
 		ic.offset_left = -16.0
 		ic.offset_right = 16.0
@@ -503,7 +484,7 @@ func _build_ui() -> void:
 		ic.offset_bottom = 36.0
 		ic.name = "NavIcon"
 		item.add_child(ic)
-		var lab := _label(I18n.t(TAB_NAMES[i]), 14, Color.WHITE)
+		var lab := _label(I18n.t(TAB_NAMES[i]), 17, Color.WHITE)
 		lab.name = "NavLabel"
 		lab.add_theme_color_override("font_outline_color", HdUi.C_OUTLINE)
 		HdUi.text_depth(lab)
@@ -542,7 +523,7 @@ func _build_ui() -> void:
 		dot.offset_bottom = 18.0
 		dot.hide()
 		item.add_child(dot)
-		HdUi.text_depth(lab, true)
+		HdUi.text_depth(lab)
 		lab.modulate.a = 0.0
 		_nav_items.append(item)
 		_nav.append(b)
@@ -571,6 +552,50 @@ func _build_ui() -> void:
 	add_child(_tutorial)
 
 
+## Lay out a demo-sized canvas, scaling the entire row rather than squeezing labels.
+func _header_canvas(parent: Control, height: float) -> Control:
+	var slot := Control.new()
+	parent.add_child(slot)
+	var canvas := Control.new()
+	canvas.mouse_filter = Control.MOUSE_FILTER_PASS
+	canvas.size = Vector2(887, height)
+	slot.add_child(canvas)
+	var fit := func() -> void:
+		var factor := (slot.size.x + 8.0) / 887.0
+		canvas.position.x = -4.0
+		canvas.scale = Vector2.ONE * factor
+		slot.custom_minimum_size.y = height * factor
+	slot.resized.connect(fit)
+	fit.call()
+	return canvas
+
+
+func _header_icon(path: String) -> TextureRect:
+	var art := TextureRect.new()
+	art.texture = HdUi.tex(path)
+	art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	art.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+	art.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return art
+
+
+func _header_place(parent: Control, child: Control, rect: Rect2) -> void:
+	parent.add_child(child)
+	child.position = rect.position
+	child.size = rect.size
+
+
+## Vạch đứng mảnh ngăn các khối trên thanh tài nguyên.
+func _hud_divider() -> Control:
+	var d := ColorRect.new()
+	d.color = Color(1, 1, 1, 0.55)
+	d.custom_minimum_size = Vector2(2, 34)
+	d.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	d.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return d
+
+
 ## Viền sáng quanh chữ đậm để đọc được khi nằm trên ảnh nền sân đua.
 func _halo(l: Label) -> void:
 	l.add_theme_color_override("font_outline_color", Color(1, 1, 1, 0.95))
@@ -586,31 +611,51 @@ func _hud_label(size: int) -> Label:
 	l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	l.clip_text = true
+	l.resized.connect(_fit_hud_label.bind(l, size))
 	return l
+
+
+## Thu nhỏ chữ vừa đủ để số không bị cắt trong ô tiền/gem hẹp (không đổi kích thước ô).
+func _fit_hud_label(l: Label, max_size: int = 16, min_size: int = 10) -> void:
+	var avail := l.size.x
+	if avail <= 4.0 or l.text.is_empty():
+		return
+	var font := l.get_theme_font("font")
+	var s := max_size
+	while s > min_size and font.get_string_size(l.text, HORIZONTAL_ALIGNMENT_LEFT, -1, s).x + 2.0 > avail:
+		s -= 1
+	if l.get_theme_font_size("font_size") != s:
+		l.add_theme_font_size_override("font_size", s)
 
 
 ## Thanh tài nguyên dạng viên thuốc xanh đậm, icon lớn đè lên mép trái.
 func _hud_bar(icon_rel: String, label: Label, h: float) -> Control:
 	var wrap := Control.new()
-	wrap.custom_minimum_size = Vector2(0, h)
-	wrap.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var pc := PanelContainer.new()
-	pc.set_anchors_preset(Control.PRESET_FULL_RECT)
-	pc.offset_left = 14.0
-	pc.offset_top = 6.0
-	pc.offset_bottom = -6.0
-	var skin := HdUi.hud_bar().duplicate() as StyleBoxTexture
-	skin.texture_margin_top = 17.0
-	skin.texture_margin_bottom = 17.0
-	skin.content_margin_top = 2.0
-	skin.content_margin_bottom = 4.0
-	pc.add_theme_stylebox_override("panel", skin)
-	pc.add_child(label)
+	wrap.custom_minimum_size.y = h
+	var pc := Panel.new()
+	pc.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	pc.offset_left = 16
+	pc.offset_top = 8
+	pc.offset_bottom = -8
+	pc.add_theme_stylebox_override("panel", HdUi.Soft.surface("hud", Vector4.ZERO))
 	wrap.add_child(pc)
-	var ic := HdUi.icon(icon_rel, Vector2(h, h))
-	ic.position = Vector2(-4, 0)
-	ic.size = Vector2(h, h)
-	wrap.add_child(ic)
+	var ic := _header_icon(icon_rel)
+	_header_place(wrap, ic, Rect2(0, 0, 78, h))
+	label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	label.offset_left = 78
+	label.offset_right = -58
+	wrap.add_child(label)
+	var plus_bg := TextureRect.new()
+	plus_bg.texture = HdUi.Soft.texture("plus_button")
+	plus_bg.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	plus_bg.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	plus_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	plus_bg.set_anchors_preset(Control.PRESET_CENTER_RIGHT)
+	plus_bg.offset_left = -54
+	plus_bg.offset_right = -4
+	plus_bg.offset_top = -25
+	plus_bg.offset_bottom = 25
+	wrap.add_child(plus_bg)
 	return wrap
 
 
@@ -634,7 +679,7 @@ func _open_shop_section(kind: String) -> void:
 		_shop_content.scroll_to_section(kind)
 
 
-## Trang Đua không cuộn: khung đua co giãn, lưới nâng cấp cố định bên dưới.
+## Fixed page shell; children choose which region can scroll.
 func _make_fixed_page() -> VBoxContainer:
 	var v := VBoxContainer.new()
 	v.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -651,186 +696,134 @@ func _make_page() -> VBoxContainer:
 	_pages_root.add_child(sc)
 	var v := VBoxContainer.new()
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	v.add_theme_constant_override("separation", 10)
+	v.add_theme_constant_override("separation", 5)
 	sc.add_child(v)
 	_pages.append(sc)
 	return v
 
 
-## Khung đua ghim cố định phía trên vùng nội dung ở các tab Đua/Túi/Đội (cùng kích thước), ẩn ở Giải/Shop.
-## Trang Đua chỉ còn lưới nâng cấp (cuộn được khi màn thấp).
+## Keep the stage and circuit fixed; only upgrades scroll in the remaining space.
 func _build_race_page() -> void:
-	var v := _make_page()
+	var v := _make_fixed_page()
+	v.name = "RacePage"
 	_race_block = VBoxContainer.new()
-	_race_block.add_theme_constant_override("separation", 6)
-	var host := _pages_root.get_parent()
-	host.add_child(_race_block)
-	host.move_child(_race_block, _pages_root.get_index())
+	_race_block.add_theme_constant_override("separation", 0)
+	v.add_child(_race_block)
 	_build_race_block(_race_block)
-	_build_upgrade_grid(v)
+	_upgrade_scroll = preload("res://ui/touch_scroll.gd").new()
+	_upgrade_scroll.name = "UpgradeScroll"
+	_upgrade_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_upgrade_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	v.add_child(_upgrade_scroll)
+	var upgrades := VBoxContainer.new()
+	upgrades.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_upgrade_scroll.add_child(upgrades)
+	_build_upgrade_grid(upgrades)
 
 
 ## Keep the circuit readable without pushing navigation off short phone screens.
 func _fit_race_view() -> void:
 	if _race_view == null:
 		return
-	var target := minf(RACE_HEIGHT, size.x * 0.9 + 60.0)
-	var budget := maxf(250.0, size.y - 340.0)
-	_race_view.custom_minimum_size.y = minf(target, budget)
+	_race_view.custom_minimum_size.y = size.x * 550.0 / 887.0
 
-
-## Draw a slimmer face inside the existing 44px touch target, only for this header.
-func _style_race_header_button(button: Button, blue: bool = false) -> void:
-	HdUi.style_button(button, "cancel")
-	for state in ["normal", "hover", "pressed", "disabled"]:
-		var skin := StyleBoxFlat.new()
-		skin.bg_color = Color("087ee6") if blue else Color("e8f3fd")
-		if state == "pressed":
-			skin.bg_color = skin.bg_color.darkened(0.12)
-		elif state == "hover":
-			skin.bg_color = skin.bg_color.lightened(0.06)
-		elif state == "disabled":
-			skin.bg_color = Color("d5e3ed")
-		skin.border_color = Color("5bb8ff") if blue else Color("adc9de")
-		skin.set_border_width_all(1)
-		skin.set_corner_radius_all(12)
-		skin.content_margin_left = 10
-		skin.content_margin_right = 10
-		skin.expand_margin_top = -5
-		skin.expand_margin_bottom = -5
-		button.add_theme_stylebox_override(state, skin)
-	HdUi.ButtonSkin.apply(button)
-	if blue:
-		for state in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color"]:
-			button.add_theme_color_override(state, Color.WHITE)
 
 
 func _build_race_block(v: VBoxContainer) -> void:
-	# Dải chặng: viên thuốc xanh đậm (cùng kiểu thanh tài nguyên) + nút Lịch.
-	var head := HBoxContainer.new()
-	head.add_theme_constant_override("separation", 8)
-	var stage_pill := PanelContainer.new()
-	stage_pill.custom_minimum_size = Vector2(0, 44)
-	stage_pill.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var stage_skin := _style(Color("087ee6"), 12, Color("5bb8ff"), 1)
-	stage_skin.content_margin_left = 8
-	stage_skin.content_margin_right = 8
-	stage_skin.content_margin_top = 0
-	stage_skin.content_margin_bottom = 0
-	stage_skin.expand_margin_top = -5
-	stage_skin.expand_margin_bottom = -5
-	stage_pill.add_theme_stylebox_override("panel", stage_skin)
-	var pill_row := HBoxContainer.new()
-	pill_row.add_theme_constant_override("separation", 6)
-	pill_row.add_child(HdUi.icon("icons/flag.png", Vector2(22, 22)))
-	_progress_label = _hud_label(13)
-	_progress_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-	HdUi.text_depth(_progress_label, true)
+	var head := _header_canvas(v, 78)
+	head.name = "RaceStageRow"
+	var stage := Panel.new()
+	var stage_skin := HdUi.Soft.flat(Color("fff6e9"), 0, 34)
+	stage_skin.border_color = Color.WHITE
+	stage_skin.set_border_width_all(2)
+	stage_skin.shadow_color = Color("76624b55")
+	stage_skin.shadow_size = 3
+	stage_skin.shadow_offset = Vector2(0, 2)
+	stage.add_theme_stylebox_override("panel", stage_skin)
+	_header_place(head, stage, Rect2(16, 0, 551, 68))
+	var rank_shield := _header_icon("icons/trophy.png")
+	rank_shield.texture = HdUi.Soft.texture("rank_shield")
+	_header_place(head, rank_shield, Rect2(39, 3, 89, 60))
+	_progress_label = _label("", 46)
+	_progress_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_progress_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	_progress_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	pill_row.add_child(_progress_label)
-	stage_pill.add_child(pill_row)
-	stage_pill.size_flags_stretch_ratio = 0.85
-	head.add_child(stage_pill)
-	var income_pill := PanelContainer.new()
-	income_pill.name = "IncomePill"
-	income_pill.custom_minimum_size = Vector2(0, 44)
-	income_pill.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	income_pill.size_flags_stretch_ratio = 1.15
-	var income_skin := _style(Color("087ee6"), 12, Color("5bb8ff"), 1)
-	income_skin.content_margin_left = 6
-	income_skin.content_margin_right = 8
-	income_skin.content_margin_top = 4
-	income_skin.content_margin_bottom = 4
-	income_skin.shadow_color = Color(0.02, 0.24, 0.46, 0.20)
-	income_skin.shadow_size = 2
-	income_skin.shadow_offset = Vector2(0, 2)
-	income_pill.add_theme_stylebox_override("panel", income_skin)
+	_progress_label.clip_text = true
+	_header_place(head, _progress_label, Rect2(143, 0, 145, 68))
+	var divider := ColorRect.new()
+	divider.color = Color("a6a4a0")
+	_header_place(head, divider, Rect2(296, 14, 2, 40))
+	_race_no_label = _label("", 46)
+	_race_no_label.name = "RaceNumberLabel"
+	_race_no_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_race_no_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_race_no_label.clip_text = true
+	_header_place(head, _race_no_label, Rect2(310, 0, 244, 68))
+	var facilities := Button.new()
+	facilities.name = "FacilitiesButton"
+	facilities.accessibility_name = I18n.t("soft.facilities")
+	for state in ["normal", "hover", "pressed", "focus", "disabled"]:
+		facilities.add_theme_stylebox_override(state, HdUi.Soft.fit_button(HdUi.Soft.surface("orange", Vector4.ZERO), Vector2(290, 70)))
+	facilities.pressed.connect(_show_classes)
+	_header_place(head, facilities, Rect2(585, 0, 290, 70))
+	var facility_icon := _header_icon("icons/garage.png")
+	facility_icon.texture = HdUi.Soft.texture("facility_base")
+	_header_place(facilities, facility_icon, Rect2(19, 5, 100, 58))
+	var facility_label := _label(I18n.t("soft.facilities"), 42, Color.WHITE)
+	facility_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	facility_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	facility_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	HdUi.text_depth(facility_label, true)
+	_header_place(facilities, facility_label, Rect2(124, 0, 151, 68))
 	var income_row := HBoxContainer.new()
-	income_row.add_theme_constant_override("separation", 7)
-	var income_badge := PanelContainer.new()
-	income_badge.custom_minimum_size = Vector2(30, 30)
-	income_badge.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	var badge_skin := _style(Color("0864bc"), 9, Color("8ed5ff"), 1)
-	badge_skin.set_content_margin_all(3)
-	income_badge.add_theme_stylebox_override("panel", badge_skin)
-	income_badge.add_child(HdUi.icon("icons/cash.png", Vector2(22, 22)))
-	income_row.add_child(income_badge)
-	var income_details := VBoxContainer.new()
-	income_details.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	income_details.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	income_details.add_theme_constant_override("separation", 0)
-	_income_label = _hud_label(20)
+	income_row.name = "IncomePill"
+	income_row.add_theme_constant_override("separation", 6)
+	income_row.add_child(HdUi.icon("icons/coins.png", Vector2(20, 20)))
+	_income_label = _label("", 17, C_GREEN)
 	_income_label.name = "IncomeLabel"
-	_income_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-	_income_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	_income_label.add_theme_color_override("font_color", Color.WHITE)
-	_income_label.add_theme_constant_override("outline_size", 0)
-	_income_label.add_theme_constant_override("shadow_offset_y", 0)
-	income_details.add_child(_income_label)
-	income_row.add_child(income_details)
-	income_pill.add_child(income_row)
-	head.add_child(income_pill)
-	_daily_btn = _button("", true, 44.0, "menu")
+	_income_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	income_row.add_child(_income_label)
+	_daily_btn = _button("", false, 44, "cancel")
 	_daily_btn.name = "DailyRewardsButton"
 	_daily_btn.custom_minimum_size = Vector2(44, 44)
-	_style_race_header_button(_daily_btn, true)
+	_daily_btn.icon = HdUi.tex("icons/gift.png")
+	_daily_btn.expand_icon = true
+	_daily_btn.add_theme_constant_override("icon_max_width", 27)
 	_daily_btn.accessibility_name = I18n.t("main.daily_rewards")
-	_daily_btn.visible = false
 	_daily_btn.pressed.connect(_show_daily_rewards)
-	var gift_center := CenterContainer.new()
-	gift_center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	gift_center.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var gift_icon := HdUi.icon("icons/gift.png", Vector2(22, 22))
-	gift_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	gift_center.add_child(gift_icon)
-	_daily_btn.add_child(gift_center)
+	_daily_btn.hide()
 	_daily_dot = Panel.new()
 	_daily_dot.name = "DailyDot"
 	_daily_dot.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var ddsb := StyleBoxFlat.new()
-	ddsb.bg_color = Color("ef4444")
-	ddsb.border_color = Color.WHITE
-	ddsb.set_border_width_all(2)
-	ddsb.set_corner_radius_all(7)
-	_daily_dot.add_theme_stylebox_override("panel", ddsb)
+	_daily_dot.add_theme_stylebox_override("panel", HdUi.Soft.flat(C_RED, 0, 5))
 	_daily_dot.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	_daily_dot.offset_left = -15.0
-	_daily_dot.offset_right = -1.0
-	_daily_dot.offset_top = 4.0
-	_daily_dot.offset_bottom = 18.0
-	_daily_dot.hide()
+	_daily_dot.offset_left = -11
+	_daily_dot.offset_right = -1
+	_daily_dot.offset_top = 1
+	_daily_dot.offset_bottom = 11
 	_daily_btn.add_child(_daily_dot)
-	head.add_child(_daily_btn)
-	v.add_child(head)
+	# Nút quà ngày không nằm trong dải thu nhập (demo không có). Giữ node ẩn trong
+	# "DailyRewardsSlot" cho tới khi đặt sang vị trí mới; chỉ cần đổi parent của _daily_btn.
+	var daily_slot := Control.new()
+	daily_slot.name = "DailyRewardsSlot"
+	daily_slot.hide()
+	daily_slot.add_child(_daily_btn)
+	add_child(daily_slot)
+	_daily_btn.custom_minimum_size = Vector2(30, 30)
+	_daily_btn.add_theme_constant_override("icon_max_width", 22)
+	# Income chip overlays the sea instead of adding a separate vertical row.
 
-	# Khung đua đặt trong panel xanh-trắng có viền, giống bức tranh có khung.
-	var frame := PanelContainer.new()
-	var frame_sb := HdUi.panel().duplicate() as StyleBoxTexture
-	frame_sb.content_margin_left = 8.0
-	frame_sb.content_margin_right = 8.0
-	frame_sb.content_margin_top = 8.0
-	frame_sb.content_margin_bottom = 11.0
-	frame.add_theme_stylebox_override("panel", frame_sb)
-	frame.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	v.add_child(frame)
-	# Clip both the HUD and the grass to the same rounded silhouette.
-	# clip_contents alone only clips to a rectangle.
-	var race_clip := PanelContainer.new()
-	race_clip.name = "RaceRoundedClip"
-	race_clip.clip_children = CanvasItem.CLIP_CHILDREN_AND_DRAW
-	var rounded := StyleBoxFlat.new()
-	rounded.bg_color = RaceView.C_GROUND
-	rounded.set_corner_radius_all(12)
-	rounded.corner_detail = 12
-	race_clip.add_theme_stylebox_override("panel", rounded)
-	frame.add_child(race_clip)
 	_race_view = RaceView.new()
 	_race_view.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_race_view.size_flags_vertical = Control.SIZE_FILL
 	_race_view.custom_minimum_size = Vector2(0, RACE_HEIGHT)
 	_race_view.clip_contents = true
-	race_clip.add_child(_race_view)
+	v.add_child(_race_view)
+	var chip := PanelContainer.new()
+	chip.position = Vector2(5, 3)
+	chip.add_theme_stylebox_override("panel", HdUi.Soft.gloss("income", Vector4(5, 2, 8, 2)))
+	_race_view.add_child(chip)
+	_income_label.add_theme_color_override("font_color", Color.WHITE)
+	HdUi.text_depth(_income_label, true)
+	chip.add_child(income_row)
 	_race_view_track = GameData.class_track(GameState.race_class_id)
 	_race_view.set_track(_race_view_track)
 	_ads_controls = AdsRaceControls.new()
@@ -838,17 +831,25 @@ func _build_race_block(v: VBoxContainer) -> void:
 	_power_banner = PowerIncreaseBanner.new()
 	_race_view.add_child(_power_banner)
 	_build_race_result_panel()
-	# Gợi ý đường đua nằm trong tooltip của dòng tiến độ (không còn chỗ cho dòng chữ riêng).
+	# The caption always follows the active simulation circuit.
 	var track: Dictionary = GameData.track(_race_view_track)
+	_track_caption = _label(String(track.get("name", _race_view_track)), 11, C_MUTED)
+	_track_caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_track_caption.clip_text = true
+	v.add_child(_track_caption)
+	_track_caption.hide()
 
 	_status_label = _label("", 14, C_TEXT)
 	_status_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_status_label.clip_text = true
 	_status_label.custom_minimum_size = Vector2(0, STATUS_SLOT_H)
+	_status_label.hide()
 	v.add_child(_status_label)
+	_status_label.hide()
 
 	_snapshot_label = _label("", 12, C_MUTED, true)
 	_snapshot_label.hide()
+	v.add_child(_snapshot_label)
 
 	# Lỗi lưu khi chốt kết quả: giữ giao dịch đang chờ, cho thử lại (Design/10 §5).
 	_save_err_box = PanelContainer.new()
@@ -867,14 +868,14 @@ func _build_race_block(v: VBoxContainer) -> void:
 
 func _build_upgrade_grid(v: VBoxContainer) -> void:
 	v.add_theme_constant_override("separation", 8)
-	for group in [[I18n.t("main.race_car"), "icons/car_red.png", Balance.PARTS, "CarUpgradeGrid"], [I18n.t("main.revenue"), "icons/cash.png", Balance.REVENUE, "RevenueUpgradeGrid"]]:
+	for group in [[I18n.t("main.race_car"), "icons/car_red.png", Balance.PARTS, "CarUpgradeGrid"], [I18n.t("main.revenue"), "icons/coins.png", Balance.REVENUE, "RevenueUpgradeGrid"]]:
 		_section_head(v, group[0], group[1])
 		var grid := GridContainer.new()
 		grid.name = group[3]
-		grid.columns = 2
+		grid.columns = 1
 		grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		grid.add_theme_constant_override("h_separation", 8)
-		grid.add_theme_constant_override("v_separation", 8)
+		grid.add_theme_constant_override("v_separation", 1)
 		v.add_child(grid)
 		for kind: String in group[2]:
 			_add_tile(grid, kind)
@@ -885,7 +886,7 @@ func _section_head(parent: Control, text: String, icon_rel: String) -> void:
 	var ribbon := preload("res://ui/racing_section_header.gd").new()
 	ribbon.name = "CarSectionHeader" if text == I18n.t("main.race_car") else "RevenueSectionHeader"
 	ribbon.title = text
-	ribbon.icon_texture = preload("res://assets/clean_modern/icons/section_car_white.svg") if text == I18n.t("main.race_car") else HdUi.tex(icon_rel)
+	ribbon.icon_texture = HdUi.tex("icons/flag.png") if text == I18n.t("main.race_car") else HdUi.tex(icon_rel)
 	ribbon.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	parent.add_child(ribbon)
 
@@ -896,8 +897,8 @@ func _build_team_page() -> void:
 	var tabs := PanelContainer.new()
 	tabs.name = "TeamTabs"
 	var track := StyleBoxFlat.new()
-	track.bg_color = Color("e2edf6")
-	track.border_color = Color("cbdde9")
+	track.bg_color = Color("e9f3f5")
+	track.border_color = Color("d1e4e8")
 	track.set_border_width_all(1)
 	track.set_corner_radius_all(15)
 	track.set_content_margin_all(4)
@@ -917,7 +918,7 @@ func _build_team_page() -> void:
 		sub.add_child(sb)
 	var v := VBoxContainer.new()
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	v.add_theme_constant_override("separation", 10)
+	v.add_theme_constant_override("separation", 5)
 	page.add_child(v)
 	_team_drivers_wrap = v
 	_garage = GaragePage.new()
@@ -962,11 +963,11 @@ func _style_team_tab(button: Button, selected: bool) -> void:
 		skin.set_corner_radius_all(11)
 		skin.content_margin_left = 12
 		skin.content_margin_right = 12
-		skin.bg_color = Color("1675dc") if selected else Color("e2edf6")
+		skin.bg_color = Color("ff9225") if selected else Color("fff7e9")
 		if state in ["hover", "hover_pressed"]:
-			skin.bg_color = Color("2182eb") if selected else Color("d2e3f1")
+			skin.bg_color = Color("ffad45") if selected else Color("d2e3f1")
 		elif state == "pressed":
-			skin.bg_color = Color("1064c0") if selected else Color("c5dbed")
+			skin.bg_color = Color("ed7e19") if selected else Color("c5dbed")
 		button.add_theme_stylebox_override(state, skin)
 	HdUi.ButtonSkin.apply(button)
 	var focus := StyleBoxFlat.new()
@@ -1098,7 +1099,7 @@ func _on_gear_upgrade(gear_id: String) -> void:
 func _build_league_page() -> void:
 	_league_box = _make_page()
 	var background := StyleBoxFlat.new()
-	background.bg_color = Color("f1f7fc")
+	background.bg_color = Color("fff8ee")
 	background.content_margin_top = 12
 	background.content_margin_bottom = 12
 	(_league_box.get_parent() as ScrollContainer).add_theme_stylebox_override("panel", background)
@@ -1106,26 +1107,9 @@ func _build_league_page() -> void:
 
 func _build_shop_page() -> void:
 	_shop_box = _make_page()
-	# Keep the Shop inside the same horizontal margins as its fixed categories.
-	var shop_scroll := _shop_box.get_parent() as ScrollContainer
-	shop_scroll.offset_right = 0.0
-	var shop_background := StyleBoxFlat.new()
-	shop_background.bg_color = Color("eff8ff")
-	shop_scroll.add_theme_stylebox_override("panel", shop_background)
 	_shop_content = (CleanArt.asset("res://ui/shop_page.gd") as GDScript).new()
 	_shop_box.add_child(_shop_content)
-	# Keep the title and category tabs visible while browsing lower Shop sections.
-	_shop_chrome = Control.new()
-	_shop_chrome.name = "ShopChrome"
-	_shop_chrome.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	_pages_root.add_child(_shop_chrome)
-	_shop_content.get_node("ShopTitle").reparent(_shop_chrome)
-	_shop_shell = preload("res://ui/shop_reference_shell.gd").new()
-	_shop_shell.name = "ShopReferenceShell"
-	add_child(_shop_shell)
-	_shop_shell.setup(self, _shop_content, shop_scroll, _shop_chrome)
-	_shop_shell.hide()
-	_shop_chrome.visible = false
+
 	_shop_content.daily_requested.connect(_claim_shop_daily)
 	_shop_content.daily_rewards_requested.connect(_show_daily_rewards)
 	_shop_content.offer_requested.connect(_show_shop_offer)
@@ -1327,109 +1311,87 @@ func _settings_audio_row(parent: VBoxContainer, node_name: String, text: String,
 ## Một ô nâng cấp gọn: icon + tên/cấp, dòng hiệu ứng ngắn, nút giá. Chi tiết (gợi ý, hoàn vốn) ở tooltip.
 func _add_tile(parent: Control, kind: String) -> void:
 	var pc := PanelContainer.new()
-	var st := _upgrade_skin(false)
-	st.content_margin_left = 10.0
-	st.content_margin_right = 10.0
-	st.content_margin_top = 4.0
-	st.content_margin_bottom = 4.0
-	pc.add_theme_stylebox_override("panel", st)
+	pc.name = "Upgrade_" + kind
+	pc.add_theme_stylebox_override("panel", HdUi.Soft.surface("panel", Vector4(5, 3, 5, 4)))
 	pc.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	pc.mouse_filter = Control.MOUSE_FILTER_PASS
 	parent.add_child(pc)
-	var content := VBoxContainer.new()
-	content.add_theme_constant_override("separation", 2)
-	pc.add_child(content)
 	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 6)
-	row.custom_minimum_size.y = 36
-	content.add_child(row)
-	var art: TextureRect
-	if ROW_ICONS.has(kind):
-		var ic := ExpansionArt.icon(kind, Vector2(32, 32))
-		art = ic
-		ic.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-		row.add_child(ic)
+	row.add_theme_constant_override("separation", 7)
+	pc.add_child(row)
+	var art := ExpansionArt.icon(kind, Vector2(56, 48))
+	if kind == "gearbox": art.texture = HdUi.Soft.texture("upgrade_gearbox")
+	row.add_child(art)
 	var info := VBoxContainer.new()
 	info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	info.size_flags_stretch_ratio = 1.0
 	info.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	info.add_theme_constant_override("separation", 0)
 	row.add_child(info)
-	var name_l := _label("", 15, C_TEXT)
-	name_l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	name_l.max_lines_visible = 1
+	var name_l := _label("", 17)
 	name_l.clip_text = true
 	name_l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	name_l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	# Both groups share one compact header so level, stats and buy stay aligned.
 	info.add_child(name_l)
-	var level_l := _label("", 12, C_MUTED)
-	info.add_child(level_l)
-	pc.resized.connect(func() -> void:
-		var narrow := pc.size.x < 150.0
-		name_l.add_theme_font_size_override("font_size", 13 if narrow else 15)
-		row.add_theme_constant_override("separation", 4 if narrow else 6)
-		if art != null:
-			art.custom_minimum_size = Vector2.ONE * (30 if narrow else 32))
+	var values := VBoxContainer.new()
+	values.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	values.size_flags_stretch_ratio = 1.15
+	values.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	values.add_theme_constant_override("separation", 4)
+	row.add_child(values)
+	var level_l := _label("", 15, C_TEXT)
+	level_l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	values.add_child(level_l)
 	var stats := HBoxContainer.new()
 	stats.alignment = BoxContainer.ALIGNMENT_CENTER
-	stats.custom_minimum_size.y = 22
 	stats.add_theme_constant_override("separation", 0)
-	content.add_child(stats)
-	var eff_l := _label("", 18, C_TEXT)
+	var stat_pill := PanelContainer.new()
+	stat_pill.add_theme_stylebox_override("panel", HdUi.Soft.flat(Color("d3f2c6"), 2, 9))
+	values.add_child(stat_pill)
+	stat_pill.add_child(stats)
+	var eff_l := _label("", 15)
 	stats.add_child(eff_l)
-	var next_l := _label("", 18, C_GREEN)
+	var next_l := _label("", 15, C_GREEN)
 	stats.add_child(next_l)
+	var action := VBoxContainer.new()
+	action.custom_minimum_size.x = 82
+	action.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	action.add_theme_constant_override("separation", 3)
+	row.add_child(action)
 	var btn := Button.new()
+	btn.name = "Buy_" + kind
+	btn.custom_minimum_size = Vector2(82, 34)
 	HdUi.style_button(btn, "upgrade")
-	for state in ["normal", "hover", "pressed", "disabled"]:
-		var skin := _upgrade_buy_skin(state)
-		btn.add_theme_stylebox_override(state, skin)
-	btn.custom_minimum_size = Vector2(0, 34)
-	btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	btn.add_theme_font_size_override("font_size", 16)
+	action.add_child(btn)
 	var price_center := CenterContainer.new()
 	price_center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	price_center.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	btn.add_child(price_center)
 	var price_group := HBoxContainer.new()
-	price_group.add_theme_constant_override("separation", 5)
+	price_group.add_theme_constant_override("separation", 3)
 	price_group.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	price_center.add_child(price_group)
-	var cash_icon := HdUi.icon("icons/cash.png", Vector2(23, 23))
-	cash_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var cash_icon := HdUi.icon("icons/cash.png", Vector2(21, 21))
 	price_group.add_child(cash_icon)
-	var price_label := _label("", 22, Color.WHITE)
+	var price_label := _label("", 17, Color.WHITE)
 	HdUi.text_depth(price_label, true)
-	price_label.add_theme_color_override("font_outline_color", Color("28550c"))
-	price_label.add_theme_constant_override("outline_size", 4)
-	price_label.add_theme_constant_override("shadow_offset_y", 0)
-	price_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	price_group.add_child(price_label)
+	var short_l := _label("", 12, C_RED)
+	short_l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	short_l.clip_text = true
+	action.add_child(short_l)
 	btn.pressed.connect(_on_buy.bind(kind))
-	btn.pressed.connect(func() -> void: _sfx("ui_click"))
-	var buy_center := CenterContainer.new()
-	buy_center.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	content.add_child(buy_center)
-	buy_center.add_child(btn)
-	pc.resized.connect(func() -> void: btn.custom_minimum_size.x = floorf(pc.size.x * 0.65))
-	# `short` giữ cho _refresh_rows; ô không có chỗ cho dòng "Thiếu ..." nên để ẩn, nội dung đi vào tooltip.
-	var short_l := _label("", 11, C_RED)
-	short_l.hide()
-	info.add_child(short_l)
+	pc.resized.connect(func() -> void:
+		var narrow := pc.size.x < 330
+		art.custom_minimum_size.x = 42 if narrow else 56
+		row.add_theme_constant_override("separation", 4 if narrow else 7)
+		name_l.add_theme_font_size_override("font_size", 14 if narrow else 17)
+		level_l.add_theme_font_size_override("font_size", 13 if narrow else 15)
+		eff_l.add_theme_font_size_override("font_size", 13 if narrow else 15)
+		next_l.add_theme_font_size_override("font_size", 13 if narrow else 15))
 	_rows.append({"kind": kind, "name": name_l, "level": level_l, "eff": eff_l, "next": next_l, "short": short_l, "btn": btn, "price": price_label, "cash_icon": cash_icon, "tile": pc})
 
 
 func _upgrade_buy_skin(state: String) -> StyleBoxTexture:
-	var skin := StyleBoxTexture.new()
-	skin.texture = preload("res://assets/upgrade_cards/buy_disabled.svg") if state == "disabled" else preload("res://assets/upgrade_cards/buy.svg")
-	for side in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]:
-		skin.set_texture_margin(side, 12)
-		skin.set_content_margin(side, 4)
-	if state == "hover":
-		skin.modulate_color = Color(1.05, 1.03, 1.0)
-	elif state == "pressed":
-		skin.modulate_color = Color(0.86, 0.92, 0.82)
-	return HdUi.ButtonSkin.rounded(skin) as StyleBoxTexture
+	return HdUi.button("upgrade", state)
 
 
 ## Rounded gradient surfaces sized for the compact upgrade cards.
@@ -1460,11 +1422,11 @@ func _refresh_rows() -> void:
 			(r["name"] as Label).text = String(GameData.economy()["revenue_upgrades"][kind]["name"])
 		else:
 			(r["name"] as Label).text = I18n.t(Balance.PART_NAMES[kind])
-		(r["level"] as Label).text = I18n.t("main.level") % lv
+		(r["level"] as Label).text = (I18n.t("main.level") % lv) + (" → %d" % (lv + 1) if not maxed else "")
 		# Dòng ngắn trên ô: xe "Speed 46 → 48"; doanh thu "+x/giây" (hết cấp thì giá trị hiện tại).
 		var short_eff := ""
 		if kind in Balance.PARTS:
-			short_eff = "%.1f" % GameState.part_stat(kind, lv) if maxed else "%.1f → %.1f" % [GameState.part_stat(kind, lv), GameState.part_stat(kind, lv + 1)]
+			short_eff = "%.1f" % GameState.part_stat(kind, lv) if maxed else "%.0f → %.0f" % [GameState.part_stat(kind, lv), GameState.part_stat(kind, lv + 1)]
 		elif kind in Balance.REVENUE:
 			if maxed:
 				short_eff = Balance.fmt_rate(rate) + I18n.t("main.sec_2")
@@ -1493,6 +1455,11 @@ func _refresh_rows() -> void:
 			"maxed":
 				(r["price"] as Label).text = I18n.t("main.max")
 				btn.disabled = true
+		var shortage := cost.subtract_checked(GameState.coins) if st == "short" else BigNumber.zero()
+		(r["short"] as Label).text = (("Thiếu " if I18n.lang() == "vi" else "Need ") + Balance.fmt_money(shortage)) if st == "short" else ""
+		(r["short"] as Label).visible = st == "short"
+		btn.tooltip_text = (r["name"] as Label).text + " · " + (r["level"] as Label).text + " · " + (r["price"] as Label).text
+		btn.accessibility_name = btn.tooltip_text
 		_set_font_color(r, "price", Color("7a8aa6") if btn.disabled else Color.WHITE)
 		(r["cash_icon"] as TextureRect).modulate.a = 0.5 if btn.disabled else 1.0
 
@@ -1515,19 +1482,12 @@ func _select_tab(i: int) -> void:
 		return
 	var prev_tab := _tab
 	_tab = i
-	if is_instance_valid(_shop_chrome):
-		_shop_chrome.visible = i == Tab.SHOP
-		_shop_shell.visible = i == Tab.SHOP
-		if i == Tab.SHOP: move_child(_shop_shell, _overlay.get_index() - 1 if _overlay != null else get_child_count() - 1)
-	# The Shop viewport clips the scrolling cards below its fixed title and tabs.
-	_pages_root.clip_contents = i != Tab.SHOP
-	var shop_scenery := get_node_or_null("HeaderScenery") as TextureRect
-	if shop_scenery != null:
-		shop_scenery.visible = i != Tab.SHOP
+	_pages_root.clip_contents = true
+
 	_header_avatar.visible = true
-	# Khung đua cùng kích thước ở Đua/Túi/Đội; Giải/Shop dành toàn bộ chỗ cho nội dung.
+	# The fixed race cluster is shown only on the Race page.
 	if _race_block != null:
-		_race_block.visible = i == Tab.RACE or i == Tab.BAG or i == Tab.TEAM
+		_race_block.visible = i == Tab.RACE
 	if _roster != null and i != Tab.TEAM:
 		_roster.close_sheet()
 	if i == Tab.TEAM and _roster != null:
@@ -1550,7 +1510,7 @@ func _select_tab(i: int) -> void:
 	_animate_nav(prev_tab, i)
 
 
-## Thanh điều hướng: tab chọn nở rộng, hiện chữ và nền xanh trượt tới; tab còn lại thu về chỉ còn icon.
+## Five equal tabs keep their labels visible; the orange selection slides between them.
 func _animate_nav(from_tab: int, to_tab: int) -> void:
 	if _nav_tween != null and _nav_tween.is_valid():
 		_nav_tween.kill()
@@ -1578,9 +1538,9 @@ func _nav_apply(t: float, done: bool = false) -> void:
 		var item := _nav_items[k] as Control
 		item.size_flags_stretch_ratio = 1.0 + a * (NAV_SEL_W - 1.0)
 		var icon := item.get_node("NavIcon") as Control
-		# Icon tab được chọn to lên (32 → 42) và nhô cao khỏi nút.
-		var icon_size := lerpf(32.0, NAV_ICON_SEL, a)
-		var top := lerpf(14.0, NAV_ICON_TOP, a)
+		# Keep all five labels visible; the selected icon grows slightly.
+		var icon_size := lerpf(45.0, NAV_ICON_SEL, a)
+		var top := lerpf(3.0, NAV_ICON_TOP, a)
 		icon.offset_left = -icon_size * 0.5
 		icon.offset_right = icon_size * 0.5
 		icon.offset_top = top
@@ -1593,7 +1553,9 @@ func _nav_apply(t: float, done: bool = false) -> void:
 		dot.offset_right = 28.0 + dx
 		dot.offset_top = dy
 		dot.offset_bottom = 18.0 + dy
-		(item.get_node("NavLabel") as Control).modulate.a = clampf((a - 0.35) / 0.65, 0.0, 1.0)
+		var label := item.get_node("NavLabel") as Label
+		label.modulate.a = 1.0
+		label.add_theme_color_override("font_color", Color.WHITE.lerp(HdUi.Soft.INK, a))
 	var width: float = (_nav_pill.get_parent() as Control).size.x
 	var total := 0.0
 	for k in _nav.size():
@@ -1618,10 +1580,12 @@ func _refresh_light() -> void:
 	GameState.daily_reward_refresh()
 	_refresh_locks()
 	_coin_label.text = Balance.fmt_compact(GameState.coins)
+	_fit_hud_label(_coin_label, 48)
 	var mult := GameState.income_multiplier()
-	var income_txt: String = Balance.fmt_rate(GameState.total_online_rate().multiply_ratio(mult, 1)) + "/s" + (" ×%d" % mult if mult > 1 else "")
+	var income_txt: String = I18n.t("main.revenue") + "  +" + Balance.fmt_rate(GameState.total_online_rate().multiply_ratio(mult * 60, 1)) + "/" + I18n.t("soft.minute") + (" ×%d" % mult if mult > 1 else "")
 	_income_label.text = income_txt
 	_gem_label.text = Balance.fmt_int(GameState.gems)
+	_fit_hud_label(_gem_label, 48)
 	_refresh_rows()
 	_refresh_catalog()
 	if _tab == Tab.TEAM and _team_sub == 1:
@@ -1640,6 +1604,7 @@ func _refresh() -> void:
 	else:
 		_power_banner.reset_power(GameState.team_power())
 	_progress_label.text = Balance.league_name(GameState.business_tier)
+	_race_no_label.text = I18n.t("soft.race_no") % (GameState.race_counter + 1)
 	_update_race_ui()
 	if _roster != null and _tab == Tab.TEAM:
 		_roster.refresh()
@@ -1834,11 +1799,13 @@ func _show_daily_rewards() -> void:
 	_sfx("ui_click")
 	_begin_overlay()
 	_overlay_box.get_parent().set_meta("preferred_width", 430.0)
-	_overlay_box.get_parent().set_meta("vertical_gutter", 80.0)
-	_overlay_box.get_parent().set_meta("horizontal_gutter", 0.0)
+	_overlay_box.get_parent().set_meta("vertical_gutter", 24.0)
+	_overlay_box.get_parent().set_meta("horizontal_gutter", 16.0)
 	var daily_margin := _overlay_box.get_parent().get_parent().get_parent().get_parent() as MarginContainer
-	daily_margin.add_theme_constant_override("margin_left", 0)
-	daily_margin.add_theme_constant_override("margin_right", 0)
+	daily_margin.add_theme_constant_override("margin_left", 8)
+	daily_margin.add_theme_constant_override("margin_right", 8)
+	daily_margin.add_theme_constant_override("margin_top", 12)
+	daily_margin.add_theme_constant_override("margin_bottom", 12)
 	var daily_frame := StyleBoxEmpty.new()
 	(_overlay_box.get_parent().get_parent() as PanelContainer).add_theme_stylebox_override("panel", daily_frame)
 	_daily_popup = DailyRewardsPopup.new()
@@ -1928,6 +1895,7 @@ func _sync_sim() -> void:
 		if sim != null and sim.track_id != "" and sim.track_id != _race_view_track:
 			_race_view_track = sim.track_id
 			_race_view.set_track(sim.track_id)
+			_track_caption.text = String(GameData.track(sim.track_id).get("name", sim.track_id))
 		_race_view.sim = sim
 	_race_view.alpha = GameState.render_alpha()
 
@@ -1975,6 +1943,7 @@ func _update_race_ui() -> void:
 	_race_view.power_value = gs.team_power()
 	_race_view.set_parking_level(int(gs.levels.get("parking", 0)), Balance.max_level())
 	_race_view.queue_redraw()
+	_status_label.visible = gs.phase == "save_error"
 	_save_err_box.visible = gs.phase == "save_error"
 	var differs := false
 	if gs.phase == "racing" and not gs.race_snapshot.is_empty():
@@ -2157,6 +2126,8 @@ func _begin_overlay() -> void:
 	var overlay_margin := _overlay_box.get_parent().get_parent().get_parent().get_parent() as MarginContainer
 	overlay_margin.add_theme_constant_override("margin_left", 16)
 	overlay_margin.add_theme_constant_override("margin_right", 16)
+	overlay_margin.add_theme_constant_override("margin_top", 40)
+	overlay_margin.add_theme_constant_override("margin_bottom", 40)
 	_overlay_box.add_theme_constant_override("separation", 8)
 	(_overlay_box.get_parent().get_parent() as PanelContainer).add_theme_stylebox_override("panel", HdUi.panel(6.0))
 	PopupAnim.open(_overlay, _overlay_panel())
@@ -2188,6 +2159,14 @@ func _fit_overlay() -> void:
 		return
 	var wanted := _overlay_box.get_combined_minimum_size().y
 	sc.custom_minimum_size.y = minf(wanted, maxf(200.0, size.y - float(sc.get_meta("vertical_gutter", 120.0))))
+	# Switching from a padded overlay to the wider Daily Gift frame can briefly
+	# grow this anchored MarginContainer. Refit after its minimum size settles;
+	# an unchanged viewport does not automatically shrink the old rectangle.
+	await get_tree().process_frame
+	if is_instance_valid(panel):
+		var margin := panel.get_parent().get_parent() as MarginContainer
+		margin.size = _overlay.size
+		margin.queue_sort()
 
 
 ## Ảnh minh hoạ ở đầu overlay (cúp, huy chương, túi tiền), căn giữa.
@@ -2331,7 +2310,13 @@ func _show_offline() -> void:
 
 # ---------------------------------------------------------------- hướng dẫn đầu game
 
+## Tạm tắt toàn bộ hướng dẫn (onboarding, tính năng, mẹo). Đặt true để bật lại.
+const TUTORIAL_ENABLED := false
+
+
 func _start_tutorial() -> void:
+	if not TUTORIAL_ENABLED and not _cli_tutorial:
+		return
 	if _cli_tut_done:
 		GameState.tutorial["state"] = "done"
 	if _cli_gated:
@@ -2458,6 +2443,8 @@ func _intro_tab_ok(f: Dictionary) -> bool:
 
 ## Tính năng đã mở mà chưa xem hướng dẫn: hiện khi người chơi đứng đúng tab (một cái một lúc).
 func _pump_intro() -> void:
+	if not TUTORIAL_ENABLED and not _cli_tutorial:
+		return
 	if _tutorial.running or _tutorial.intro != "" or _tutorial.nav != "":
 		return
 	if _overlay.visible or _result_panel.visible or _profile.visible or _class_page.visible:
@@ -2527,6 +2514,8 @@ func _tip_tab_ok(t: Dictionary) -> bool:
 
 ## Mẹo theo tình huống (Phần C): sau mọi hướng dẫn, tối đa một mẹo mới mỗi lượt.
 func _pump_tip() -> void:
+	if not TUTORIAL_ENABLED and not _cli_tutorial:
+		return
 	var info := Tutorial.next_tip(GameState, _tip_tab())
 	if not info.is_empty():
 		_tutorial.show_tip(String(info["id"]), info)
@@ -2688,7 +2677,7 @@ func _tutorial_reveal(step: String) -> void:
 	if step != "A4_engine":
 		return
 	var row := _row_of("engine")
-	var sc := _pages[Tab.RACE] as ScrollContainer
+	var sc := _upgrade_scroll
 	if not row.is_empty() and sc != null:
 		sc.ensure_control_visible(row["tile"])
 

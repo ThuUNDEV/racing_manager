@@ -648,5 +648,11 @@
  "tutorial.trophy.upgraded": "Berhasil! Bonus kecepatan dari peningkatan ini: +%d → +%d. Statistik baru berlaku mulai balapan berikutnya.",
  "trophy.prestige": "Prestige %d / %d",
  "shop.starter_spotlight": "BANGUN TIM PERTAMAMU",
- "shop.starter_pitch": "Permata, tiket dan uang untuk memajukan timmu."
+ "shop.starter_pitch": "Permata, tiket dan uang untuk memajukan timmu.",
+ "soft.facilities": "Facilities",
+ "soft.gear_power": "Kekuatan",
+ "soft.team_power": "Team power",
+ "soft.minute": "min",
+ "soft.bag": "Bag",
+ "soft.race_no": "Balapan %d"
 }

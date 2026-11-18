@@ -8,10 +8,10 @@ signal upgrade_requested(gear_id: String)
 ## Lối tắt sang Shop (mục Mở gói): mọi giao dịch mở gói nằm ở Shop.
 signal shop_requested
 
-const INK := Color("23394a")
-const MUTED := Color("768ca0")
-const CARD := Color("eaf2ff")
-const LINE := Color("adc9de")
+const INK := Color("0e2b5c")
+const MUTED := Color("5f7391")
+const CARD := Color("fffdf7")
+const LINE := Color("d8e2df")
 const SWORD := Color("c62828")
 const SHIELD := Color("2f6fb5")
 const RARITY_COLOR := {"rare": Color("3a78d6"), "epic": Color("8a5bd0"), "legendary": Color("d08a12")}
@@ -84,8 +84,13 @@ func _panel(parent: Node, style: StyleBoxFlat) -> VBoxContainer:
 	var p := PanelContainer.new()
 	p.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	p.mouse_filter = Control.MOUSE_FILTER_PASS  # để kéo cuộn xuyên qua thẻ
-	var skin := HdUi.card_style("locked" if style.bg_color == Color("e3e9f4") else "card").duplicate() as StyleBoxTexture
+	# Thẻ nhỏ dùng nền phẳng bo góc: texture panel_inventory chỉ hợp khung lớn, ở ô ~110px bị đứt giữa.
+	var skin := style.duplicate() as StyleBoxFlat
+	skin.set_corner_radius_all(14)
 	skin.set_content_margin_all(8)
+	skin.shadow_color = Color(0.35, 0.28, 0.12, 0.16)
+	skin.shadow_size = 3
+	skin.shadow_offset = Vector2(0, 2)
 	p.add_theme_stylebox_override("panel", skin)
 	parent.add_child(p)
 	var v := VBoxContainer.new()
@@ -110,7 +115,7 @@ func _button(value: String, tint: Color, enabled: bool) -> Button:
 	b.add_theme_stylebox_override("disabled", off)
 	for c in ["font_color", "font_hover_color", "font_pressed_color"]:
 		b.add_theme_color_override(c, Color.WHITE)
-	b.add_theme_color_override("font_disabled_color", Color("768ca0"))
+	b.add_theme_color_override("font_disabled_color", Color("788b95"))
 	HdUi.style_button(b, "upgrade")
 	return b
 
@@ -171,22 +176,28 @@ func _build_shop_shortcut() -> void:
 
 
 func _build(keep_scroll: int = 0) -> void:
-	var title := _text(I18n.t("gear.gear_bag"), 17)
-	add_child(title)
-	_build_shop_shortcut()
+	var hero := preload("res://ui/racing_section_header.gd").new()
+	hero.name = "GearBagHeader"
+	hero.title = "Túi phụ kiện" if I18n.lang() == "vi" else I18n.t("gear.gear_bag")
+	hero.icon_texture = HdUi.Soft.texture("nav_bag")
+	hero.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	add_child(hero)
+	var summary := PanelContainer.new()
+	summary.add_theme_stylebox_override("panel", HdUi.Soft.surface("panel", Vector4(7, 4, 7, 5)))
+	add_child(summary)
 	var head := HBoxContainer.new()
-	add_child(head)
-	head.add_child(_text(I18n.t("gear.gear_storage"), 15))
-	var count := _text(I18n.t("gear.owned") % [GameState.gear_owned_count(), GameState.gear_total()], 13, MUTED, false)
-	count.size_flags_horizontal = Control.SIZE_SHRINK_END
-	head.add_child(count)
+	summary.add_child(head)
+	head.add_child(HdUi.Soft.art("inventory_crate", Vector2(60, 46)))
+	var storage := VBoxContainer.new()
+	storage.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	head.add_child(storage)
+	storage.add_child(_text(I18n.t("gear.gear_storage"), 17))
+	storage.add_child(_text(I18n.t("gear.owned") % [GameState.gear_owned_count(), GameState.gear_total()], 13, MUTED))
+	var power := HdUi.Soft.pill(I18n.t("soft.gear_power") + " +" + _fmt_power(GameState.gear_power_bonus()), Color("d3f2c6"), 15)
+	power.name = "GearPowerTotal"
+	head.add_child(power)
 
-	# Chỉ kho phụ kiện cuộn; phần đầu trang (gói, sức mạnh) đứng yên.
-	if GameState.gear_owned_count() > 0:
-		var total := _text(I18n.t("gear.power_total") % _fmt_power(GameState.gear_power_bonus()), 13, SWORD, true)
-		total.name = "GearPowerTotal"
-		add_child(total)
-
+	_build_shop_shortcut()
 	_scroll = ScrollContainer.new()
 	_scroll.name = "InventoryScroll"
 	_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -230,17 +241,21 @@ func _build_item(parent: Node, item: Dictionary) -> void:
 	var rarity := String(item["rarity"])
 	var col: Color = RARITY_COLOR.get(rarity, INK)
 	if not GameState.gear_has(id):
-		var locked := _panel(parent, _style(Color("e3e9f4"), LINE, 1, 10))
-		locked.custom_minimum_size = Vector2(0, 118)
-		var silhouette := ExpansionArt.icon(id, Vector2(64, 64))
-		silhouette.modulate = Color(0.1, 0.14, 0.22, 0.35)
+		var locked := _panel(parent, _style(Color("f0eadc"), Color("d9d0b8"), 1, 14))
+		locked.custom_minimum_size = Vector2(0, 124)
+		var silhouette := ExpansionArt.icon(id, Vector2(0, 68))
+		silhouette.modulate = Color(0.65, 0.69, 0.73, 0.6)
 		locked.add_child(silhouette)
-		var q := _text(I18n.t("gear.not_owned"), 12, MUTED)
+		var q := _text(I18n.t("gear.not_owned"), 13, MUTED)
 		q.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		locked.add_child(q)
+		var stars := StarRow.new()
+		stars.level = 0
+		stars.max_level = 3
+		locked.add_child(stars)
 		return
-	var v := _panel(parent, _style(CARD, col, 2, 10))
-	v.add_child(ExpansionArt.icon(id, Vector2(64, 64)))
+	var v := _panel(parent, _style(CARD, col, 2, 14))
+	v.add_child(ExpansionArt.icon(id, Vector2(0, 68)))
 	var level := GameState.gear_level(id)
 	var max_level := GameState.gear_max_level(id)
 	if max_level <= MAX_STAR_ROW:
@@ -252,13 +267,13 @@ func _build_item(parent: Node, item: Dictionary) -> void:
 		var lv := _text("Lv. %d / %d" % [level, max_level], 11, col, false)
 		lv.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		v.add_child(lv)
-	var name := _text(String(item["name"]), 12, INK)
+	var name := _text(String(item["name"]), 14, INK)
 	name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(name)
-	var tag := _text(String(RARITY_NAME.get(rarity, rarity)), 10, col, false)
+	var tag := _text(String(RARITY_NAME.get(rarity, rarity)), 12, col, false)
 	tag.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(tag)
-	var power := _text(I18n.t("gear.power_item") % _fmt_power(GameState.gear_item_power(id, level)), 12, SWORD, true)
+	var power := _text(I18n.t("gear.power_item") % _fmt_power(GameState.gear_item_power(id, level)), 13, SWORD, true)
 	power.name = "ItemPower"
 	power.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(power)

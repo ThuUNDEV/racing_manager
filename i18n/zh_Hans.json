@@ -648,5 +648,11 @@
  "tutorial.trophy.upgraded": "完成！这项升级的速度加成：+%d → +%d。新属性将在下一场比赛生效。",
  "trophy.prestige": "Prestige %d / %d",
  "shop.starter_spotlight": "打造你的首支车队",
- "shop.starter_pitch": "宝石、招募券与现金，助力车队起步。"
+ "shop.starter_pitch": "宝石、招募券与现金，助力车队起步。",
+ "soft.facilities": "Facilities",
+ "soft.gear_power": "战力",
+ "soft.team_power": "Team power",
+ "soft.minute": "min",
+ "soft.bag": "Bag",
+ "soft.race_no": "第%d场"
 }

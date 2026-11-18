@@ -1,0 +1,564 @@
+{
+  "source_concept": "../daily_gift_concept_v1.png",
+  "skin_source": "clean_skin_atlas.png",
+  "description": "Setup-ready separate transparent sprites. Skins have reconstructed blank surfaces; localized text must be live Godot Labels.",
+  "sprites": [
+    {
+      "name": "panel_cream",
+      "file": "skins/panel_cream.png",
+      "size": [
+        219,
+        267
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "slice_margins_ltrb": [
+        34,
+        30,
+        34,
+        30
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "blank_skin": true
+    },
+    {
+      "name": "header_cyan",
+      "file": "skins/header_cyan.png",
+      "size": [
+        291,
+        93
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "slice_margins_ltrb": [
+        46,
+        31,
+        46,
+        31
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "blank_skin": true
+    },
+    {
+      "name": "card_normal",
+      "file": "skins/card_normal.png",
+      "size": [
+        257,
+        227
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "slice_margins_ltrb": [
+        34,
+        30,
+        34,
+        30
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "blank_skin": true
+    },
+    {
+      "name": "card_today",
+      "file": "skins/card_today.png",
+      "size": [
+        258,
+        227
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "slice_margins_ltrb": [
+        34,
+        30,
+        34,
+        30
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "blank_skin": true
+    },
+    {
+      "name": "card_claimed",
+      "file": "skins/card_claimed.png",
+      "size": [
+        257,
+        231
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "slice_margins_ltrb": [
+        34,
+        30,
+        34,
+        30
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "blank_skin": true
+    },
+    {
+      "name": "panel_grand",
+      "file": "skins/panel_grand.png",
+      "size": [
+        310,
+        153
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "slice_margins_ltrb": [
+        34,
+        30,
+        34,
+        30
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "blank_skin": true
+    },
+    {
+      "name": "button_claim_orange",
+      "file": "skins/button_claim_orange.png",
+      "size": [
+        289,
+        111
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "slice_margins_ltrb": [
+        55,
+        37,
+        55,
+        37
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "blank_skin": true
+    },
+    {
+      "name": "badge_claimed_green",
+      "file": "skins/badge_claimed_green.png",
+      "size": [
+        271,
+        96
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "slice_margins_ltrb": [
+        48,
+        32,
+        48,
+        32
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "blank_skin": true
+    },
+    {
+      "name": "badge_today_gold",
+      "file": "skins/badge_today_gold.png",
+      "size": [
+        261,
+        93
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "slice_margins_ltrb": [
+        46,
+        31,
+        46,
+        31
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "blank_skin": true
+    },
+    {
+      "name": "pill_counter_cyan",
+      "file": "skins/pill_counter_cyan.png",
+      "size": [
+        267,
+        86
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "slice_margins_ltrb": [
+        43,
+        28,
+        43,
+        28
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "blank_skin": true
+    },
+    {
+      "name": "pill_hint_cyan",
+      "file": "skins/pill_hint_cyan.png",
+      "size": [
+        304,
+        73
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "slice_margins_ltrb": [
+        36,
+        24,
+        36,
+        24
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "blank_skin": true
+    },
+    {
+      "name": "progress_track",
+      "file": "skins/progress_track.png",
+      "size": [
+        292,
+        57
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "slice_margins_ltrb": [
+        28,
+        19,
+        28,
+        19
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "blank_skin": true
+    },
+    {
+      "name": "progress_fill",
+      "file": "skins/progress_fill.png",
+      "size": [
+        258,
+        62
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "slice_margins_ltrb": [
+        31,
+        20,
+        31,
+        20
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "blank_skin": true
+    },
+    {
+      "name": "milestone_empty",
+      "file": "skins/milestone_empty.png",
+      "size": [
+        197,
+        201
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "slice_margins_ltrb": null,
+      "mcp_tool": "art-tools.remove_background",
+      "blank_skin": true
+    },
+    {
+      "name": "milestone_claimed",
+      "file": "skins/milestone_claimed.png",
+      "size": [
+        205,
+        207
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "slice_margins_ltrb": null,
+      "mcp_tool": "art-tools.remove_background",
+      "blank_skin": false
+    },
+    {
+      "name": "button_close",
+      "file": "skins/button_close.png",
+      "size": [
+        205,
+        194
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "slice_margins_ltrb": null,
+      "mcp_tool": "art-tools.remove_background",
+      "blank_skin": false
+    },
+    {
+      "name": "claimed_check_day01",
+      "file": "icons/claimed_check_day01.png",
+      "size": [
+        36,
+        30
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "source": "original concept sprite crop"
+    },
+    {
+      "name": "claimed_check_day02",
+      "file": "icons/claimed_check_day02.png",
+      "size": [
+        35,
+        30
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "source": "original concept sprite crop"
+    },
+    {
+      "name": "day01_driver_pro",
+      "file": "icons/day01_driver_pro.png",
+      "size": [
+        150,
+        87
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "source": "original concept sprite crop"
+    },
+    {
+      "name": "day02_gear_standard",
+      "file": "icons/day02_gear_standard.png",
+      "size": [
+        114,
+        92
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "source": "original concept sprite crop"
+    },
+    {
+      "name": "day03_gem_today",
+      "file": "icons/day03_gem_today.png",
+      "size": [
+        108,
+        88
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "source": "original concept sprite crop"
+    },
+    {
+      "name": "day04_driver_allstar",
+      "file": "icons/day04_driver_allstar.png",
+      "size": [
+        150,
+        86
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "source": "original concept sprite crop"
+    },
+    {
+      "name": "day05_gear_elite",
+      "file": "icons/day05_gear_elite.png",
+      "size": [
+        116,
+        90
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "source": "original concept sprite crop"
+    },
+    {
+      "name": "day06_gem",
+      "file": "icons/day06_gem.png",
+      "size": [
+        109,
+        91
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "source": "original concept sprite crop"
+    },
+    {
+      "name": "gift_claim",
+      "file": "icons/gift_claim.png",
+      "size": [
+        113,
+        112
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "source": "original concept sprite crop"
+    },
+    {
+      "name": "gift_grand",
+      "file": "icons/gift_grand.png",
+      "size": [
+        177,
+        177
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "source": "original concept sprite crop"
+    },
+    {
+      "name": "gift_header",
+      "file": "icons/gift_header.png",
+      "size": [
+        133,
+        147
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "source": "original concept sprite crop"
+    },
+    {
+      "name": "grand_driver_allstar",
+      "file": "icons/grand_driver_allstar.png",
+      "size": [
+        125,
+        73
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "source": "original concept sprite crop"
+    },
+    {
+      "name": "grand_gem",
+      "file": "icons/grand_gem.png",
+      "size": [
+        90,
+        75
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "source": "original concept sprite crop"
+    },
+    {
+      "name": "milestone10_gem",
+      "file": "icons/milestone10_gem.png",
+      "size": [
+        69,
+        58
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "source": "original concept sprite crop"
+    },
+    {
+      "name": "milestone20_drivers",
+      "file": "icons/milestone20_drivers.png",
+      "size": [
+        87,
+        53
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "source": "original concept sprite crop"
+    },
+    {
+      "name": "milestone30_drivers",
+      "file": "icons/milestone30_drivers.png",
+      "size": [
+        70,
+        44
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "source": "original concept sprite crop"
+    },
+    {
+      "name": "milestone30_gem",
+      "file": "icons/milestone30_gem.png",
+      "size": [
+        56,
+        49
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "source": "original concept sprite crop"
+    },
+    {
+      "name": "milestone40_gem",
+      "file": "icons/milestone40_gem.png",
+      "size": [
+        68,
+        59
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "mcp_tool": "art-tools.remove_background",
+      "source": "original concept sprite crop"
+    }
+  ]
+}

@@ -2,7 +2,15 @@ class_name RaceView
 extends Control
 const CleanArt = preload("res://ui/clean_modern_art.gd")
 const Diorama = preload("res://ui/race_diorama.gd")
-## Khung đua 2D nhìn từ trên xuống. Chỉ vẽ trạng thái của TrafficSim, không chứa logic.
+const Circuit3D = preload("res://ui/race_world_3d.gd")
+var _world_3d: RefCounted = null
+var _use_3d := false
+var _rotation_pointer := -2
+var _rotation_reset: Button
+var _rotation_hint: Label
+const Car3D = preload("res://ui/race_car_3d.gd")
+var _car_models: Dictionary = {}
+## Shared 3D circuit with an orbiting orthographic camera; TrafficSim remains authoritative.
 ## Đường vẽ dựng từ hình học track (TrackLayout) ở cùng tỉ lệ với quãng đường sim,
 ## Giữ quãng đường và hình học sim; phóng đại chiều ngang đường/làn để dễ đọc trên mobile.
 ## Xe đồ chơi quay theo tiếp tuyến đường, giữ nguyên vị trí và làn của TrafficSim.
@@ -10,22 +18,22 @@ const Diorama = preload("res://ui/race_diorama.gd")
 ## Sa bàn, cây, hồ và khu pit được cache cùng mặt đường; chỉ xe và hiệu ứng vẽ mỗi khung.
 
 ## Màu thân xe theo id (khớp ui/leaderboard.gd): người chơi cam, rồi graphite, trắng, xanh, đỏ, vàng, ngọc, tím.
-const CAR_COLORS := [Color("f47510"), Color("3b3e44"), Color("ffffff"), Color("3a78d6"), Color("d1423b"), Color("f2c230"), Color("2aa5a0"), Color("8a5bd0")]
-const C_HUD := Color("f1f7fc")
+const CAR_COLORS := [Color("ffad40"), Color("3b3e44"), Color("ffffff"), Color("3a78d6"), Color("d1423b"), Color("f2c230"), Color("2aa5a0"), Color("8a5bd0")]
+const C_HUD := Color("eff8fb")
 const C_HUD_PANEL := Color("ffffff")
 const C_HUD_TEXT := Color("23394a")
 const C_HUD_MUTED := Color("768ca0")
 const HUD_H := 44.0       # chiều cao dải HUD (px)
 const C_INCOME := Color("2e9e2e")
-const C_GROUND := Color("dce8e9")
-const C_RUNOFF := Color("b5c99a")
-const C_ASPHALT := Color("414e59")
-const C_ASPHALT2 := Color("414e59")
+const C_GROUND := Color("c6e7e7")
+const C_RUNOFF := Color("bde1af")
+const C_ASPHALT := Color("7d8b94")
+const C_ASPHALT2 := Color("7d8b94")
 const C_LINE := Color("ffffff")
-const C_KERB_A := Color("dd6857")
-const C_KERB_B := Color("f9e8ce")
+const C_KERB_A := Color("f48a78")
+const C_KERB_B := Color("fff8e9")
 const C_RING := Color("ffffff")
-const C_MARK := Color("f47510")
+const C_MARK := Color("ffad40")
 const MARGIN := 22.0       # lề quanh đường (đơn vị sim)
 const ROAD_WIDTH_SCALE := 1.55  # Presentation only: road and lateral positions scale together.
 const STEP := 2.0          # bước lấy mẫu khi vẽ (đơn vị sim)
@@ -40,8 +48,8 @@ var power_value: float = 0.0  # ĐỘI CỦA BẠN: tổng 11 chỉ số xe + ta
 var overlay_sub: String = ""
 
 # Dải khán giả ba hàng phía dưới HUD; mật độ theo Parking và phản ứng vui/buồn.
-const STAND_H := 44.0
-const STAND_ROWS := 3
+const STAND_H := 16.0
+const STAND_ROWS := 1
 const C_STAND := Color("a9b8d0")
 const C_STAND_LINE := Color("8fa0bb")
 const C_FAN := Color("3a78d6")
@@ -111,6 +119,7 @@ class TrackLayer extends Control:
 
 func _ready() -> void:
 	clip_contents = true
+	_build_rotation_controls()
 	_car_outline.bg_color = Color(1, 1, 1, 0.12)
 	_car_outline.border_color = Color("fff3d7")
 	_car_outline.set_border_width_all(1)
@@ -121,6 +130,77 @@ func _ready() -> void:
 	_W = float(sm["car_width"])
 	_ensure_track_layer()
 	resized.connect(_on_resized)
+
+
+func _build_rotation_controls() -> void:
+	_rotation_reset = Button.new()
+	_rotation_reset.name = "ResetCircuitView"
+	_rotation_reset.text = "↺"
+	_rotation_reset.tooltip_text = "Góc nhìn ban đầu" if I18n.lang() == "vi" else "Reset view"
+	_rotation_reset.position = Vector2(8, 48)
+	_rotation_reset.size = Vector2(32, 32)
+	_rotation_reset.add_theme_font_size_override("font_size", 23)
+	_rotation_reset.add_theme_stylebox_override("normal", HdUi.Soft.flat(Color("22617adf"), 0, 8))
+	_rotation_reset.pressed.connect(reset_circuit_view)
+	_rotation_reset.visible = _use_3d
+	add_child(_rotation_reset)
+	_rotation_hint = Label.new()
+	_rotation_hint.text = "Kéo để xoay" if I18n.lang() == "vi" else "Drag to rotate"
+	_rotation_hint.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_rotation_hint.add_theme_font_size_override("font_size", 10)
+	_rotation_hint.add_theme_color_override("font_color", Color("174e66"))
+	_rotation_hint.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
+	_rotation_hint.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	_rotation_hint.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	_rotation_hint.position = Vector2(size.x*0.5-45, size.y-16)
+	_rotation_hint.size = Vector2(90,16)
+	_rotation_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_rotation_hint.visible = _use_3d
+	add_child(_rotation_hint)
+
+func reset_circuit_view() -> void:
+	if _use_3d and _world_3d != null:
+		_world_3d.reset_view()
+		queue_redraw()
+
+func rotate_circuit_view(horizontal_delta: float) -> void:
+	if _use_3d and _world_3d != null:
+		_world_3d.rotate_view(-horizontal_delta / maxf(size.x,1.0) * TAU)
+		queue_redraw()
+
+func _gui_input(event: InputEvent) -> void:
+	if not _use_3d or _world_3d == null:
+		return
+	# Handle native mouse/touch once; Godot may also emit an emulated copy.
+	if event.device == InputEvent.DEVICE_ID_EMULATION:
+		return
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.pressed and _world_3d.view_rect.has_point(event.position):
+			if event.double_click:
+				reset_circuit_view()
+				_rotation_pointer = -2
+			else:
+				_rotation_pointer = -1
+			accept_event()
+		elif not event.pressed and _rotation_pointer == -1:
+			_rotation_pointer = -2
+			accept_event()
+	elif event is InputEventMouseMotion and _rotation_pointer == -1:
+		if event.button_mask & MOUSE_BUTTON_MASK_LEFT:
+			rotate_circuit_view(event.relative.x)
+			accept_event()
+		else:
+			_rotation_pointer = -2
+	elif event is InputEventScreenTouch:
+		if event.pressed and _rotation_pointer == -2 and _world_3d.view_rect.has_point(event.position):
+			_rotation_pointer = event.index
+			accept_event()
+		elif not event.pressed and _rotation_pointer == event.index:
+			_rotation_pointer = -2
+			accept_event()
+	elif event is InputEventScreenDrag and _rotation_pointer == event.index:
+		rotate_circuit_view(event.relative.x)
+		accept_event()
 
 
 func _ensure_track_layer() -> void:
@@ -136,6 +216,11 @@ func _ensure_track_layer() -> void:
 
 ## Chọn track cần vẽ (phải có hình học: mọi sector cua có "turn").
 func set_track(track_id: String) -> void:
+	_use_3d = track_id == GameData.class_track(GameData.default_class_id())
+	_rotation_pointer = -2
+	if _rotation_reset != null:
+		_rotation_reset.visible = _use_3d
+		_rotation_hint.visible = _use_3d
 	_crowd_salt = absi(track_id.hash()) & 0xffff
 	_layout = TrackLayout.build(track_id)
 	if not _layout.valid:
@@ -143,21 +228,43 @@ func set_track(track_id: String) -> void:
 	_on_resized()
 
 
+func _project(p: Vector2) -> Vector2:
+	# The same affine projection is used by the asphalt, cars, effects and tutorial markers.
+	var oriented := Vector2(p.y, -p.x) if _layout != null and _layout.bounds.size.y > _layout.bounds.size.x else p
+	return Vector2(oriented.x + oriented.y * 0.22, oriented.y * 0.48 - oriented.x * 0.08)
+
+func _projected_bounds() -> Rect2:
+	var bounds := _layout.bounds.grow(MARGIN)
+	var projected := Rect2(_project(bounds.position), Vector2.ZERO)
+	for p: Vector2 in [Vector2(bounds.end.x, bounds.position.y), bounds.end, Vector2(bounds.position.x, bounds.end.y)]:
+		projected = projected.expand(_project(p))
+	return projected
+
 func _frame_units() -> Vector2:
-	var b := _layout.bounds
-	return b.size + Vector2.ONE * MARGIN * 2.0
+	return _projected_bounds().size
 
 
 func _on_resized() -> void:
+	if _rotation_hint != null:
+		_rotation_hint.position = Vector2(size.x*0.5-45, size.y-16)
 	if _layout == null or not _layout.valid or size.x < 8.0:
 		return
+	if _use_3d:
+		if _world_3d == null:
+			_world_3d = Circuit3D.new(self)
+		_world_3d.viewport.render_target_update_mode = SubViewport.UPDATE_WHEN_VISIBLE
+		_world_3d.rebuild(_layout, size, _W)
+	elif _world_3d != null:
+		_world_3d.viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED
+	for model in _car_models.values():
+		model.viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED if _use_3d else SubViewport.UPDATE_WHEN_VISIBLE
 	var fu := _frame_units()
 	# Khung do cha cấp (co giãn theo màn): đường vừa với cả chiều rộng lẫn phần cao còn lại, căn giữa.
 	var avail := Vector2(maxf(size.x - 22.0, 8.0), maxf(size.y - _top - 23.0, 20.0))
 	_k = minf(avail.x / fu.x, avail.y / fu.y)
 	var drawn := fu * _k
 	var off := Vector2((avail.x - drawn.x) * 0.5 + 11.0, (avail.y - drawn.y) * 0.5 + 8.0)
-	_origin = Vector2(MARGIN * _k, MARGIN * _k) + off + Vector2(0.0, _top) - _layout.bounds.position * _k
+	_origin = off + Vector2(0.0, _top) - _projected_bounds().position * _k
 	_left = PackedVector2Array()
 	_right = PackedVector2Array()
 	_mid = PackedVector2Array()
@@ -203,7 +310,7 @@ func _build_crowd() -> void:
 		for i in per_row:
 			var idx := row * per_row + i
 			var x := gap * (float(i) + 0.5) + (_hash01(idx, 1) - 0.5) * gap * 0.5
-			var y := HUD_H + 9.0 + 13.0 * float(row) + (_hash01(idx, 2) - 0.5) * 3.0
+			var y := HUD_H + STAND_H * 0.5 + 13.0 * float(row) + (_hash01(idx, 2) - 0.5) * 3.0
 			_seats.append(Vector2(x, y))
 			_seat_r.append(2.6 + 0.4 * float(row))
 			_seat_cols.append(C_FAN if _hash01(idx, 3) < BLUE_SHARE else CAR_COLORS[1 + int(_hash01(idx, 5) * 7.0) % 7])
@@ -266,7 +373,7 @@ func _react(e: Dictionary) -> void:
 	elif who.is_player:
 		n = 3
 	for k in n:
-		_faces.append({"x": _rng.randf_range(size.x * 0.1, size.x * 0.9), "y": HUD_H + _rng.randf_range(FACE_R + 3.0, STAND_H - FACE_R - 3.0),
+		_faces.append({"x": _rng.randf_range(size.x * 0.1, size.x * 0.9), "y": HUD_H + STAND_H * 0.5,
 			"t": Time.get_ticks_msec(), "happy": happy})
 	while _faces.size() > FACE_MAX:
 		_faces.pop_front()
@@ -321,7 +428,9 @@ func stand_rect() -> Rect2:
 
 
 func _to_px(p: Vector2) -> Vector2:
-	return p * _k + _origin
+	if _use_3d and _world_3d != null:
+		return _world_3d.screen_point(p)
+	return _project(p) * _k + _origin
 
 
 func _road_half_at(s: float) -> float:
@@ -329,7 +438,21 @@ func _road_half_at(s: float) -> float:
 
 
 func _car_position(s: float, lateral: float) -> Vector2:
-	return _to_px(_layout.point_at(s, lateral * ROAD_WIDTH_SCALE))
+	if _use_3d:
+		return _world_3d.screen_at(s, lateral * ROAD_WIDTH_SCALE)
+	var points := PackedVector2Array([Vector2(1075,210), Vector2(1160,270), Vector2(1166,350), Vector2(1090,441), Vector2(945,510), Vector2(735,572), Vector2(535,571), Vector2(370,540), Vector2(300,477), Vector2(320,405), Vector2(439,321), Vector2(650,251), Vector2(870,206)])
+	var u := fposmod(s / _layout.lap_length, 1.0) * points.size()
+	var i := int(u)
+	var t := u - i
+	var n := points.size()
+	var a := points[(i + n - 1) % n]
+	var b := points[i % n]
+	var c := points[(i + 1) % n]
+	var d := points[(i + 2) % n]
+	var position := 0.5 * ((2.0 * b) + (-a + c) * t + (2.0 * a - 5.0 * b + 4.0 * c - d) * t * t + (-a + 3.0 * b - 3.0 * c + d) * t * t * t)
+	var tangent := (c - b).normalized()
+	position += Vector2(-tangent.y, tangent.x) * lateral * 1.4
+	return position * Vector2(size.x / 1536.0, size.y / 864.0)
 
 
 func _bend_at(s: float) -> float:
@@ -342,15 +465,12 @@ func _board_rect() -> Rect2:
 
 ## Static scenery shares the existing cached track layer, never the per-frame car draw.
 func _draw_static(ci: CanvasItem) -> void:
-	Diorama.board(ci, _board_rect())
-	_draw_stand(ci)
-	if _layout == null or not _layout.valid or _left.size() < 3 or _static_idx.is_empty():
-		return
-	RenderingServer.canvas_item_add_triangle_array(ci.get_canvas_item(), _static_idx, _static_pts, _static_cols)
-	Diorama.draw_props(ci, _scenery)
-	for side: float in [-1.0, 1.0]:
-		var post := _to_px(_layout.point_at(3.0, side * (_road_half_at(0.0) + 7.0)))
-		Diorama.start_flag(ci, post, clampf(_k, 0.7, 1.15))
+	if _use_3d and _world_3d != null:
+		ci.draw_texture_rect(_world_3d.viewport.get_texture(), _world_3d.view_rect, false)
+	else:
+		var backdrop := HdUi.Soft.texture("harbor_island")
+		if backdrop != null:
+			ci.draw_texture_rect(backdrop, Rect2(Vector2.ZERO, size), false)
 
 
 func _add_quad(a: Vector2, b: Vector2, c: Vector2, d: Vector2, col: Color) -> void:
@@ -444,7 +564,7 @@ func _draw() -> void:
 		_draw_grid()
 		_draw_overlay_text()
 		return
-	_draw_faces()
+	# Spectators are rendered in the shared 3D world.
 	if sim != _arrive_sim:
 		_arrive_sim = sim
 		_arrive_start_ms = Time.get_ticks_msec()
@@ -489,8 +609,8 @@ func hud_rank_rect() -> Rect2:
 
 ## The three HUD blocks share a 60px height and the same two text rows.
 static func hud_boost_rect_for_width(width: float) -> Rect2:
-	var button_width := (width - 24.0) * 0.32
-	return Rect2(width - button_width - 12.0, (HUD_H - 36.0) * 0.5, button_width, 36.0)
+	var button_width := (width - 24.0) * 0.23
+	return Rect2(width - button_width - 12.0, 8.0, button_width, 36.0)
 
 
 func _hud_baseline(font: Font, font_size: int, row_top: float, row_height: float) -> float:
@@ -620,16 +740,21 @@ func _draw_car(s: float, y: float, id: int, is_player: bool) -> void:
 		if not pd.is_empty():
 			col = Color(String(pd["color"]))
 	var p := _car_position(s, y)
-	var heading := _layout.heading_at(s)
+	var yaw := 0.0
 	if sim != null and id < sim.cars.size():
-		heading += sim.render_yaw(sim.cars[id])
+		yaw = sim.render_yaw(sim.cars[id])
 	var half_length := _car_half_length(is_player)
-	if is_player:
-		var ring := Rect2(p - Vector2(half_length + 2, half_length * 0.6 + 2), Vector2(half_length * 2 + 4, half_length * 1.2 + 4))
-		draw_set_transform(p, heading)
-		draw_style_box(_car_outline, Rect2(ring.position - p, ring.size))
-		draw_set_transform(Vector2.ZERO)
-	Diorama.car(self, p, heading, half_length, col, player_decal_id if is_player else "none", CarPreview.contrast_for(player_paint_id) if is_player else Color.WHITE)
+	if _use_3d:
+		_world_3d.update_car(id, s, y, yaw, col)
+	else:
+		if not _car_models.has(id):
+			_car_models[id] = Car3D.new(self)
+		var heading := (_car_position(s + 1.0, y) - p).angle() + yaw
+		var texture: Texture2D = _car_models[id].update(heading, col)
+		var extent := Vector2.ONE * size.x * 0.032 * 3.15
+		Diorama.oval(self, p + Vector2(1, 2), Vector2(half_length, half_length * 0.45), Color(0.08, 0.16, 0.20, 0.22))
+		draw_texture_rect(texture, Rect2(p - extent * 0.5, extent), false)
+
 	if is_player:
 		var mark := p + Vector2(0, -half_length - 6.0)
 		draw_colored_polygon(PackedVector2Array([mark + Vector2(-3.5, -2.0), mark + Vector2(3.5, -2.0), mark + Vector2(0, 3.0)]), C_MARK)
@@ -639,44 +764,49 @@ func _draw_car(s: float, y: float, id: int, is_player: bool) -> void:
 
 func _draw_hud() -> void:
 	var font := get_theme_default_font()
-	var w := size.x
-	draw_rect(Rect2(0, 0, w, HUD_H), C_HUD)
+	var scale_ui := size.x / 390.0
 	var rk := sim.ranking()
 	var me := sim.player_car()
-	var idx := rk.find(me)
-	# Giữa: hạng và đồng hồ.
-	var panel := hud_rank_rect()
-	var pw := panel.size.x
-	var main_top := panel.position.y + 1.0
-	var caption_top := panel.position.y + 21.0
-	draw_line(Vector2(panel.position.x - 5.0, panel.position.y + 12.0), Vector2(panel.position.x - 5.0, panel.end.y - 12.0), Color("dae5ed"), 1.0)
-	var rank_txt := "P%d" % [idx + 1]
-	var total_txt := "/%d" % rk.size()
-	var rank_width := font.get_string_size(rank_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 21).x
-	var total_width := font.get_string_size(total_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 18).x
-	var rank_x := panel.position.x + (pw - rank_width - total_width) * 0.5
-	var baseline := _hud_baseline(font, 21, main_top, 20.0)
-	draw_string(font, Vector2(rank_x, baseline), rank_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 21, C_HUD_TEXT)
-	draw_string(font, Vector2(rank_x + rank_width, baseline), total_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, C_HUD_MUTED)
-	var clock := Balance.fmt_clock(ceil(sim.time_left())) if sim.is_timed() else I18n.t("race.lap") % sim.lap_of(me)
-	draw_string(font, Vector2(panel.position.x, _hud_baseline(font, 11, caption_top, 12.0)), clock, HORIZONTAL_ALIGNMENT_CENTER, pw, 11, C_HUD_MUTED)
-	# Team power and caption use exactly the same rows as rank and boost.
-	var side := panel.position.x - 22.0
-	var team_label := I18n.t("race.team")
-	var label_size := 10
-	while label_size > 9 and font.get_string_size(team_label, HORIZONTAL_ALIGNMENT_LEFT, -1, label_size).x > side:
-		label_size -= 1
-	draw_string(font, Vector2(12.0, _hud_baseline(font, label_size, caption_top, 12.0)), team_label, HORIZONTAL_ALIGNMENT_CENTER, side, label_size, C_HUD_MUTED)
-	if power_value > 0.0:
-		var power_text := format_team_power(power_value)
-		var power_width := maxf(side - 24.0, 24.0)
-		var power_font := 18
-		while power_font > 12 and font.get_string_size(power_text, HORIZONTAL_ALIGNMENT_LEFT, -1, power_font).x > power_width:
-			power_font -= 1
-		var text_width := font.get_string_size(power_text, HORIZONTAL_ALIGNMENT_LEFT, -1, power_font).x
-		var group_x := 12.0 + (side - text_width - 24.0) * 0.5
-		_draw_team_icon(Vector2(group_x + 9.0, main_top + 8.0))
-		draw_string(font, Vector2(group_x + 24.0, _hud_baseline(font, power_font, main_top, 20.0)), power_text, HORIZONTAL_ALIGNMENT_LEFT, power_width, power_font, C_HUD_TEXT)
+	var board := Rect2(7, size.y * 0.52, 96 * scale_ui, 104 * scale_ui)
+	var skin := HdUi.Soft.flat(Color("22617adf"), 3, 10)
+	draw_style_box(skin, board)
+	# Bốn dòng: top 4; nếu người chơi ngoài top 4 thì top 3 + dòng của người chơi. "···" khi còn xe phía sau.
+	var shown: Array = []
+	var me_rank := rk.find(me)
+	for i in mini(4, rk.size()):
+		shown.append(i)
+	if me_rank >= 4:
+		shown[3] = me_rank
+	for row in shown.size():
+		var i: int = shown[row]
+		var c: TrafficSim.Car = rk[i]
+		var y := board.position.y + (row * 19 + 17) * scale_ui
+		if c.is_player:
+			draw_style_box(HdUi.Soft.flat(Color("ffd43c"), 0, 6), Rect2(board.position.x + 3, y - 14 * scale_ui, board.size.x - 6, 19 * scale_ui))
+		var txt_col := Color("123c57") if c.is_player else Color.WHITE
+		var rank_box := Rect2(board.position.x + 6 * scale_ui, y - 12 * scale_ui, 15 * scale_ui, 15 * scale_ui)
+		draw_style_box(HdUi.Soft.flat(Color("fffaf0"), 0, 4), rank_box)
+		draw_string(font, Vector2(rank_box.position.x + 4 * scale_ui, y), str(i + 1), HORIZONTAL_ALIGNMENT_LEFT, -1, int(11 * scale_ui), Color("123c57"))
+		draw_string(font, Vector2(board.position.x + 27 * scale_ui, y), "Bạn" if c.is_player else "#%d" % c.id, HORIZONTAL_ALIGNMENT_LEFT, -1, int(12 * scale_ui), txt_col)
+		var car_col: Color = CAR_COLORS[clampi(c.id, 0, CAR_COLORS.size() - 1)]
+		if c.is_player and player_paint_id != "":
+			var pd := GameData.paint(player_paint_id)
+			if not pd.is_empty():
+				car_col = Color(String(pd["color"]))
+		var car_box := Rect2(board.end.x - 25 * scale_ui, y - 9 * scale_ui, 19 * scale_ui, 9 * scale_ui)
+		draw_style_box(HdUi.Soft.flat(car_col, 0, 4), car_box)
+		draw_rect(Rect2(car_box.position + Vector2(car_box.size.x * 0.55, 1.5 * scale_ui), Vector2(car_box.size.x * 0.22, car_box.size.y - 3 * scale_ui)), Color(1, 1, 1, 0.75))
+	if rk.size() > 4:
+		var dot_y := board.position.y + (4 * 19 + 15) * scale_ui
+		for k in 3:
+			draw_circle(Vector2(board.position.x + (13 + k * 6) * scale_ui, dot_y), 1.6 * scale_ui, Color(1, 1, 1, 0.9))
+	var lap := "Vòng %d/%d" % [sim.lap_of(me), sim.laps]
+	var lap_rect := Rect2(size.x - 97 * scale_ui, size.y - 32 * scale_ui, 93 * scale_ui, 25 * scale_ui)
+	draw_style_box(skin, lap_rect)
+	draw_string(font, lap_rect.position + Vector2(6, 18) * scale_ui, lap, HORIZONTAL_ALIGNMENT_LEFT, -1, int(14 * scale_ui), Color.WHITE)
+	var marker := _car_position(sim.render_pos(me, alpha), sim.render_lat(me, alpha)) - Vector2(18, 26) * scale_ui
+	draw_style_box(skin, Rect2(marker, Vector2(48, 22) * scale_ui))
+	draw_string(font, marker + Vector2(5, 16) * scale_ui, "P%d/%d" % [rk.find(me) + 1, rk.size()], HORIZONTAL_ALIGNMENT_LEFT, -1, int(13 * scale_ui), Color("ffda36"))
 
 
 

@@ -28,6 +28,7 @@ func _initialize() -> void:
 func _run() -> void:
 	if "--daily-shots" in OS.get_cmdline_user_args():
 		PopupAnim.enabled = false
+	DirAccess.make_dir_recursive_absolute("res://output/daily_gift_runtime_v3")
 	var gs := root.get_node("GameState")
 	GameData.reload()
 	# Tắt thẻ quảng cáo miễn phí: chấm tab Shop cũng sáng khi có video sẵn, sẽ lẫn với chấm quà.
@@ -90,21 +91,22 @@ func _run() -> void:
 	var first_rect: Rect2 = c1.get_global_rect()
 	var design_origin: Vector2 = canvas.global_position
 	var design_scale: float = float(canvas.get_meta("unit"))
-	_check(first_rect.position.distance_to(design_origin + Vector2(60, 350) * design_scale) < 1.0 and absf(first_rect.size.x / design_scale - 274) < 1.0, "ô ngày giữ đúng tọa độ và kích thước ref")
+	_check(first_rect.position.distance_to(design_origin + Vector2(20, 115) * design_scale) < 1.0 and absf(first_rect.size.x / design_scale - 310.0 / 3.0) < 1.0, "ô ngày giữ đúng tọa độ và kích thước demo v3")
 	_check(main._daily_popup.find_child("DailyRow1", true, false).get_child_count() == 3 and main._daily_popup.find_child("DailyRow2", true, false).get_child_count() == 3, "ngày 1–6: bố cục 3 cột")
 	_check(main._overlay_box.find_children("Milestone*", "VBoxContainer", true, false).size() == 4, "4 mốc hiển thị")
 	var claim := main._overlay_box.find_child("ClaimDailyReward", true, false) as Button
 	_check(claim != null and not claim.disabled and _has_text(claim, "NHẬN QUÀ"), "nút NHẬN bật")
 	if "--daily-shots" in OS.get_cmdline_user_args():
 		await RenderingServer.frame_post_draw
-		root.get_texture().get_image().save_png("res://Design/Previews/daily_rewards_approved_runtime_390.png")
+		root.get_texture().get_image().save_png("res://output/daily_gift_runtime_v3/daily_rewards_approved_runtime_390.png")
 	var pro0: int = int(gs.driver_coupons["pro"])
 	claim.pressed.emit()
 	await _settle()
 	_check(int(gs.driver_coupons["pro"]) == pro0 + 2, "bấm NHẬN: +2 vé Pro (ngày 1)")
 	claim = main._overlay_box.find_child("ClaimDailyReward", true, false) as Button
 	_check(claim.disabled and claim.text.begins_with("Mở lại sau"), "sau khi nhận: nút khóa, hiện đếm ngược")
-	_check(not (btn.get_node("DailyDot") as Control).visible and not nav_dot.visible, "nhận xong: tắt hai chấm đỏ")
+	_check(not (btn.get_node("DailyDot") as Control).visible and not gs.daily_reward_available(), "nhận xong: tắt chấm nhắc quà")
+	_check(nav_dot.visible, "chấm Shop giữ sáng khi có vé vừa nhận để mở gói")
 	_check(_popup_script().reward_line(gs.last_daily_reward) == "2 vé Pro", "reward_line đúng: '%s'" % _popup_script().reward_line(gs.last_daily_reward))
 	var first_cell := main._overlay_box.find_child("DailyCell1", true, false) as PanelContainer
 	_check(first_cell != null and _has_text(first_cell, "ĐÃ NHẬN"), "ô ngày 1 có nhãn ĐÃ NHẬN")
@@ -115,9 +117,9 @@ func _run() -> void:
 	_check(is_equal_approx(claimed_icon.self_modulate.a, 0.25) and is_equal_approx(claimed_quantity.self_modulate.a, 0.30), "quà đã nhận: icon và số thưởng mờ rõ, nhãn giữ nguyên độ rõ")
 	if "--daily-shots" in OS.get_cmdline_user_args():
 		await RenderingServer.frame_post_draw
-		root.get_texture().get_image().save_png("res://Design/Previews/daily_rewards_claimed_runtime_390.png")
+		root.get_texture().get_image().save_png("res://output/daily_gift_runtime_v3/daily_rewards_claimed_runtime_390.png")
 	var second_cell := main._overlay_box.find_child("DailyCell2", true, false) as PanelContainer
-	_check(second_cell != null and _has_text(second_cell, "Ngày mai"), "ô ngày 2 là Ngày mai")
+	_check(second_cell != null and second_cell.tooltip_text == "Ngày mai", "ô ngày 2 có tooltip Ngày mai, giữ mặt thẻ gọn như demo")
 
 	print("== Qua ngày ==")
 	gs.daily_device_unix = float(D0 + 1) * 86400.0 + 5.0
@@ -161,7 +163,7 @@ func _run() -> void:
 		_check(head_ok, "%d px: nút Lịch/Class/Quà vẫn nằm trong màn hình" % w)
 		if "--daily-shots" in OS.get_cmdline_user_args():
 			await RenderingServer.frame_post_draw
-			root.get_texture().get_image().save_png("res://Design/Previews/daily_rewards_%d.png" % w)
+			root.get_texture().get_image().save_png("res://output/daily_gift_runtime_v3/daily_rewards_%d.png" % w)
 		main._overlay.hide()
 
 	print("== Mốc hỗn hợp và chu kỳ Grand ==")
@@ -184,7 +186,7 @@ func _run() -> void:
 		_check(grand_fits, "320 px: Grand vòng %d hiển thị đủ phần thưởng và nút nhận" % ordinal)
 		if ordinal == 6 and "--daily-shots" in OS.get_cmdline_user_args():
 			await RenderingServer.frame_post_draw
-			root.get_texture().get_image().save_png("res://Design/Previews/daily_rewards_grand_runtime_320.png")
+			root.get_texture().get_image().save_png("res://output/daily_gift_runtime_v3/daily_rewards_grand_runtime_320.png")
 		main._overlay.hide()
 	gs.daily_rewards["last_claim_day"] = gs.daily_reward_today()
 	gs.daily_rewards["total_days"] = 49
@@ -252,6 +254,8 @@ func _popup_script() -> GDScript:
 
 
 func _has_text(node: Node, text: String) -> bool:
+	if node is Button and (node as Button).text == text:
+		return true
 	for l in node.find_children("*", "Label", true, false):
 		if (l as Label).text == text:
 			return true

@@ -1,0 +1,24 @@
+Use case: ui-mockup / game UI sprite production sheet.
+Edit/reconstruction request: From the supplied Daily Gift concept reference, reconstruct the underlying EMPTY UI skins as separate production sprites. Preserve the exact soft miniature 3D game style, cream/beige material, cyan blues, golden highlight rim, rounded extruded orange button, soft shallow shadows. REMOVE ALL Vietnamese words, numbers, reward artwork and gift icons from these skins. Reconstruct the clean surfaces hidden behind them. These are modular parts for Godot UI, not a mockup.
+Output a SQUARE sprite sheet with exactly FOUR columns and FOUR rows, 16 equal square cells, arranged precisely in the following row-major order. Every sprite must be wholly inside its own cell with at least 10% clear padding from every cell edge. Center each sprite in its cell. No overlapping, no touching between cells. Transparent background throughout outside sprite silhouettes. No captions, no labels, no grid lines, no watermarks, no numbers. Consistent lighting from top left, crisp detailed silhouette edges, subtle attached edge shadows only. Each rectangle should be front facing, with regular straight central edges suitable for nine-slice.
+Row 1:
+1. Empty main popup panel, ivory cream with beige softly beveled rounded rim; tall rectangle aspect 0.72:1, absolutely blank interior.
+2. Empty cyan-blue title header, horizontal rounded pill rectangle aspect 2.8:1, tiny white/cyan racing checker accent confined to far right, no gift, no close icon and no title.
+3. Empty normal daily reward card, warm cream rectangular rounded corners, softly raised beige rim, near-square aspect 1.12:1, completely blank.
+4. Empty TODAY card, pale warm yellow interior, bright gold rounded raised rim, near-square aspect 1.12:1, completely blank.
+Row 2:
+5. Empty CLAIMED card, desaturated pale grey-blue interior, slightly deeper grey rounded rim, near-square aspect 1.12:1, completely blank, no check badge.
+6. Empty grand day-7 panel, light cyan blue center, slightly darker cyan soft rim and thin gold outer rim, horizontal rounded rectangle 2.6:1, no rays and no artwork, blank central surface.
+7. Empty primary orange claim button, orange upper face, deep orange lower extruded edge, soft white upper edge highlight, horizontal rounded pill 3:1, absolutely no icon or text.
+8. Empty green claimed badge, mint/green pill, gentle bevel 2.8:1, no tick or words.
+Row 3:
+9. Empty yellow TODAY badge, warm orange-gold pill, subtle bevel 2.8:1, blank.
+10. Empty light cyan counter pill, very light blue fill with cyan thin rim, 3:1, blank.
+11. Empty light cyan helper/info pill, long horizontal capsule 3.8:1, blank.
+12. Empty progress track, beige shallow recessed horizontal capsule 4.5:1, no nodes, no text.
+Row 4:
+13. Blue progress fill segment, saturated cyan capsule 4.5:1, no nodes, no text.
+14. Empty milestone circle, cream/beige softly extruded round disk, no symbols.
+15. Claimed milestone circle, cyan blue softly extruded round disk with one simple white check mark centered.
+16. Red close button, rounded square red face with deeper red lower edge and one simple white X centered. No blue header fragments.
+Critical: exactly one specified skin per cell, 16 separate silhouettes total, every skin isolated on real alpha transparency. No reward icons, no gems, no driver icons, no bags, no gifts. Do not show the complete Daily Gift screen. Do not put text inside any sprite. Maintain exact four-by-four uniform grid so it can be sliced deterministically.

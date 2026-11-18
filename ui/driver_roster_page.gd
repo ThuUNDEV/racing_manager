@@ -13,14 +13,14 @@ signal info_requested(pack_id: String)
 signal shop_requested
 
 const ROOT := "res://assets/workshop_gp/"
-const C_BG := Color("f1f7fc")
-const C_CARD := Color("eaf2ff")
-const C_LINE := Color("adc9de")
-const C_INK := Color("12294d")
-const C_TEXT := Color("23394a")
-const C_MUTED := Color("768ca0")
+const C_BG := Color("fff8ee")
+const C_CARD := Color("fffdf7")
+const C_LINE := Color("d8e2df")
+const C_INK := Color("0e2b5c")
+const C_TEXT := Color("0e2b5c")
+const C_MUTED := Color("5f7391")
 const C_ORANGE := Color("f2790a")
-const C_ORANGE_D := Color("087ee6")
+const C_ORANGE_D := Color("62b8e5")
 const C_GOLD := Color("b27300")
 const C_GOOD := Color("15803d")
 const C_BAD := Color("c62828")
@@ -289,32 +289,57 @@ func _rebuild() -> void:
 			_:
 				locked.append(d)
 	var active := GameData.driver(GameState.active_driver_id)
+	var summary := _panel(HdUi.panel())
+	summary.name = "TeamSummary"
+	var summary_box := VBoxContainer.new()
+	var summary_row := HBoxContainer.new()
+	summary.add_child(summary_row)
+	summary_row.add_child(HdUi.Soft.art("trophy_large", Vector2(67, 61)))
+	summary_row.add_child(summary_box)
+	summary_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	summary_row.add_child(HdUi.Soft.art("helmet_pit", Vector2(72, 61)))
+	summary_box.add_theme_constant_override("separation", 0)
+	summary_box.add_child(_label(I18n.t("soft.team_power"), 15, C_TEXT, true))
+	summary_box.add_child(_label(RaceView.format_team_power(GameState.team_power()), 24, Color("b64d12")))
+	summary_box.add_child(_label(String(active["name"]) + " · Lv.%d" % GameState.driver_level(GameState.active_driver_id), 12, C_MUTED))
+	add_child(summary)
 	_build_shop_shortcut()
-	for d: Dictionary in team:
-		add_child(_driver_row(d, _status(d)))
-	_build_section(I18n.t("drivers.can_recruit"), avail, "", C_MUTED)
-	_build_section(I18n.t("drivers.locked"), locked, "", C_MUTED)
-	_build_sp_card()
+	var grid := GridContainer.new()
+	grid.name = "DriverGrid"
+	grid.columns = 2
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	grid.add_theme_constant_override("h_separation", 8)
+	grid.add_theme_constant_override("v_separation", 8)
+	add_child(grid)
+	for d: Dictionary in team + avail + locked:
+		grid.add_child(_driver_row(d, _status(d)))
 
 
 func _build_shop_shortcut() -> void:
 	var coupons := 0
 	for k: String in GameState.driver_coupons:
 		coupons += int(GameState.driver_coupons[k])
-	var card := _panel(_sb(C_CARD, C_ORANGE if coupons > 0 else C_LINE, 2 if coupons > 0 else 1, 14, 8))
+	# Dải xanh theo demo: cờ + tiêu đề, nút "Mở gói" nằm bên phải.
+	var card := PanelContainer.new()
 	card.name = "ShopShortcut"
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.add_theme_stylebox_override("panel", HdUi.Soft.surface("section", Vector4(8, 3, 6, 5)))
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 8)
 	card.add_child(row)
-	row.add_child(ExpansionArt.icon("standard_driver_pack", Vector2(40, 40)))
-	var info := _label(I18n.t("shop.shortcut_driver") % coupons, 13, C_TEXT, true)
+	row.add_child(HdUi.Soft.art("nav_race", Vector2(40, 32)))
+	var info := _label("Danh sách tay đua" if I18n.lang() == "vi" else I18n.t("shop.shortcut_driver") % coupons, 20, C_TEXT)
+	info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	info.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	info.clip_text = true
+	info.add_theme_font_override("font", HdUi.font())
 	row.add_child(info)
 	var go := Button.new()
 	go.name = "OpenPacksInShop"
 	go.text = I18n.t("shop.shortcut_button")
-	go.custom_minimum_size = Vector2(96, 40)
-	go.add_theme_font_size_override("font_size", 13)
+	go.custom_minimum_size = Vector2(96, 34)
+	go.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	go.add_theme_font_size_override("font_size", 14)
 	HdUi.style_button(go, "upgrade")
 	go.pressed.connect(func() -> void: shop_requested.emit())
 	row.add_child(go)
@@ -372,95 +397,71 @@ func _build_section(title: String, list: Array, right: String, right_color: Colo
 
 
 ## Hàng gọn: vòng điểm sức mạnh (tổng 7 chỉ số) · tên + bậc · phong cách · hai chỉ số nổi bật · nút hành động.
-func _driver_row(d: Dictionary, s: String) -> Control:
+func _driver_row(d: Dictionary, state: String) -> Control:
 	var id := String(d["id"])
-	var tier := clampi(int(d["tier"]), 0, TIER_NAMES.size() - 1)
-	var tcol := Color(String(TIER_COLORS[tier]))
-	var border := C_ORANGE if s == "active" else C_LINE
-	var card := _panel(_sb(C_CARD if s != "lock" else Color("e3e9f4"), border, 2 if s == "active" else 1, 16, 6))
-	card.add_theme_stylebox_override("panel", _sb(Color("fff4e8") if s == "active" else Color("edf5fc"), Color("e3a96e") if s == "active" else C_LINE, 1, 14, 8))
-	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 6)
-	card.add_child(row)
-
-	var open := Button.new()
-	open.custom_minimum_size = Vector2(0, 72)
-	open.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	open.accessibility_name = I18n.t("drivers.view_details") % String(d["name"])
-	for st: String in ["normal", "hover", "pressed", "focus", "disabled"]:
-		open.add_theme_stylebox_override(st, StyleBoxEmpty.new())
-	open.pressed.connect(func() -> void:
-		sfx.emit("ui_click")
-		_open_sheet(id))
-	row.add_child(open)
-	var m := MarginContainer.new()
-	m.set_anchors_preset(Control.PRESET_FULL_RECT)
-	m.add_theme_constant_override("margin_left", 4)
-	open.add_child(m)
-	var h := HBoxContainer.new()
-	h.add_theme_constant_override("separation", 10)
-	m.add_child(h)
-
-	var portrait := _portrait(id, Vector2(44, 52))
-	portrait.modulate.a = 0.5 if s == "lock" else 1.0
-	h.add_child(portrait)
-
-	var v := VBoxContainer.new()
-	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	v.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	v.add_theme_constant_override("separation", 0)
-	h.add_child(v)
-	var l1 := HBoxContainer.new()
-	l1.add_theme_constant_override("separation", 6)
-	l1.add_child(_fit_name(String(d["name"]), 16, 104.0))
-	var chip := PanelContainer.new()
-	chip.add_theme_stylebox_override("panel", _sb(tcol.lightened(0.8), tcol.lightened(0.45), 1, 8, 2))
-	var cl := _label(I18n.t(String(TIER_NAMES[tier])), 11, tcol)
-	cl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	chip.add_child(cl)
-	chip.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	l1.add_child(chip)
-	if s == "owned":
-		var lv := _label("Lv.%d" % GameState.driver_level(id), 11, C_MUTED)
-		lv.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-		l1.add_child(lv)
-	v.add_child(l1)
-	v.add_child(_label(_style_name(d), 11, C_MUTED))
-	v.add_child(_row_line(d, s))
-	_ignore_mouse(m)
-
-	var act: Button
-	match s:
-		"active":
-			act = _flat_button(I18n.t("common.use"), Color("ffe8cf"), C_ORANGE_D, C_ORANGE, 1, 44.0)
-			act.disabled = true
-		"owned":
-			act = _flat_button(I18n.t("drivers.select"), C_INK, Color.WHITE, C_INK, 1, 44.0)
-			act.disabled = _blocked()
-			act.pressed.connect(_select.bind(id))
-		"avail":
-			act = _flat_button(I18n.t("drivers.recruit"), C_ORANGE, Color.WHITE, C_ORANGE_D, 1, 44.0)
-			act.icon = preload("res://assets/clean_modern/icons/recruit_person.svg")
-			act.add_theme_constant_override("icon_max_width", 16)
-			act.add_theme_constant_override("h_separation", 4)
-			act.pressed.connect(_open_sheet.bind(id))
-		_:
-			act = _flat_button(I18n.t("common.locked"), Color("e1e8f4"), C_MUTED, C_LINE, 1, 44.0)
-			act.pressed.connect(_open_sheet.bind(id))
-	act.custom_minimum_size = Vector2(82, 44)
-	# Keep recruit and locked actions on the same nine-patch geometry.
-	if s in ["avail", "lock"]:
-		for state: String in ["normal", "hover", "pressed", "disabled"]:
-			if s == "avail" and state != "disabled":
-				continue
-			var skin := HdUi.button("race", "normal" if state == "disabled" else state).duplicate() as StyleBoxTexture
-			skin.texture = preload("res://assets/clean_modern/icons/button_raised_locked.svg")
-			skin.remove_meta("rounded_button")
-			act.add_theme_stylebox_override(state, HdUi.ButtonSkin.rounded(skin))
-	act.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	act.add_theme_font_size_override("font_size", 13)
-	HdUi.text_depth(act, s in ["owned", "avail"] and not act.disabled)
-	row.add_child(act)
+	var card: PanelContainer
+	if state == "active":
+		# Thẻ đang dùng: khung vàng bóng như demo.
+		card = PanelContainer.new()
+		var gold := _sb(C_CARD, Color("f6b81c"), 4, 18, 9)
+		gold.shadow_color = Color(1.0, 0.75, 0.1, 0.45)
+		gold.shadow_size = 6
+		card.add_theme_stylebox_override("panel", gold)
+		card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	else:
+		card = _panel(HdUi.Soft.surface("panel", Vector4(10, 9, 10, 10)))
+	card.name = "Driver_" + id
+	var col := VBoxContainer.new()
+	col.add_theme_constant_override("separation", 4)
+	card.add_child(col)
+	var title := _label(String(d["name"]), 18, C_TEXT)
+	title.clip_text = true
+	col.add_child(title)
+	var status_row := HBoxContainer.new()
+	status_row.add_theme_constant_override("separation", 5)
+	col.add_child(status_row)
+	if state == "active":
+		var dot := Panel.new()
+		dot.custom_minimum_size = Vector2(10, 10)
+		dot.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		dot.add_theme_stylebox_override("panel", _sb(C_GOOD, Color.WHITE, 1, 5, 0))
+		status_row.add_child(dot)
+	elif state == "lock":
+		var lock := TextureRect.new()
+		lock.texture = CleanArt.asset(ROOT + "icons/vector/lock.svg") as Texture2D
+		lock.custom_minimum_size = Vector2(14, 14)
+		lock.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		lock.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		lock.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		lock.modulate = C_MUTED
+		status_row.add_child(lock)
+	var status_color: Color = C_GOOD if state == "active" else C_MUTED
+	var status := _label(_state_text(state) + (" · Lv.%d" % GameState.driver_level(id) if state in ["active", "owned"] else ""), 13, status_color)
+	status.clip_text = true
+	status.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	status_row.add_child(status)
+	# Ảnh đặt trong khung bo góc nền xanh nhạt (khoá: xám xanh).
+	var frame := PanelContainer.new()
+	frame.add_theme_stylebox_override("panel", _sb(Color("d3e9f8") if state != "lock" else Color("dfe4ec"), Color(1, 1, 1, 0.8), 2, 14, 0))
+	frame.clip_contents = true
+	var portrait := _portrait(id, Vector2(0, 132))
+	portrait.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	portrait.modulate.a = 0.85 if state == "lock" else 1.0
+	frame.add_child(portrait)
+	col.add_child(frame)
+	var stat_pill := HdUi.Soft.pill("SP %d" % _total(d), Color("b6e4f7"), 16)
+	stat_pill.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	stat_pill.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	col.add_child(stat_pill)
+	var details := Button.new()
+	details.name = "DriverDetails_" + id
+	details.text = I18n.t("shop.view")
+	details.custom_minimum_size = Vector2(0, 32)
+	details.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	details.add_theme_font_size_override("font_size", 16)
+	HdUi.style_button(details, "race")
+	details.pressed.connect(_open_sheet.bind(id))
+	col.add_child(details)
 	return card
 
 
@@ -768,13 +769,13 @@ class RadarChart extends Control:
 			for i in n:
 				ring.append(_pt(c, r * f, i, n))
 			ring.append(ring[0])
-			draw_polyline(ring, Color("adc9de"), 1.0)
+			draw_polyline(ring, Color("d8e2df"), 1.0)
 		var font := get_theme_default_font()
 		for i in n:
 			draw_line(c, _pt(c, r, i, n), Color("c3d6f2"), 1.0)
 			var lp := _pt(c, r + 18.0, i, n)
 			var w := font.get_string_size(I18n.t(LABELS[i]), HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
-			draw_string(font, lp + Vector2(-w * 0.5, 4), I18n.t(LABELS[i]), HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color("768ca0"))
+			draw_string(font, lp + Vector2(-w * 0.5, 4), I18n.t(LABELS[i]), HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color("788b95"))
 		if a.size() == n:
 			var pts := _poly(c, r, a, n)
 			draw_colored_polygon(pts, Color(0.93, 0.45, 0.17, 0.28))
@@ -800,5 +801,5 @@ class RadarChart extends Control:
 		var dir := (q - p) / maxf(seg, 0.001)
 		var t := 0.0
 		while t < seg:
-			draw_line(p + dir * t, p + dir * minf(t + 5.0, seg), Color("12294d"), 2.0)
+			draw_line(p + dir * t, p + dir * minf(t + 5.0, seg), Color("0e2b5c"), 2.0)
 			t += 9.0

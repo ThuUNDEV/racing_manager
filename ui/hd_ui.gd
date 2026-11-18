@@ -1,26 +1,27 @@
 class_name HdUi
 extends RefCounted
 const CleanArt = preload("res://ui/clean_modern_art.gd")
+const Soft = preload("res://ui/soft_miniature.gd")
 const ButtonSkin = preload("res://ui/button_skin.gd")
-## F Clean Modern: nền trắng xanh, nhận diện xanh dương, nút mua/nâng cấp xanh lá.
+## Soft Miniature: approved clay cutouts, warm ivory panels and orange actions.
 ## Mọi PNG gốc khá lớn (~300–700 px) nên được thu nhỏ một lần khi chạy rồi dùng làm StyleBoxTexture 9-slice
 ## (viền/bo góc giữ nguyên kích thước, phần giữa co giãn). Màn hình logic của dự án rộng ~390 đơn vị.
 
 const ROOT := "res://assets/racing_ui_hd/"
 
 # Bảng màu (chữ trên nền xanh nhạt phải đọc được; màu nhấn lấy từ art direction).
-const C_NAVY := Color("23394a")
-const C_TEXT := Color("23394a")
-const C_MUTED := Color("768ca0")
-const C_BLUE := Color("087ee6")
-const C_ORANGE := Color("087ee6")
-const C_GOLD := Color("b27300")
-const C_GREEN := Color("358a12")
-const C_RED := Color("c62828")
-const C_PANEL := Color("ffffff")
-const C_PANEL_HI := Color("e6f2fc")
-const C_LINE := Color("adc9de")
-const C_OUTLINE := Color("23394a")
+const C_NAVY := Color("0e2b5c")
+const C_TEXT := Color("0e2b5c")
+const C_MUTED := Color("5f7391")
+const C_BLUE := Color("62b8e5")
+const C_ORANGE := Color("ff913f")
+const C_GOLD := Color("aa762a")
+const C_GREEN := Color("31835d")
+const C_RED := Color("c85555")
+const C_PANEL := Color("fffdf7")
+const C_PANEL_HI := Color("ecf7fa")
+const C_LINE := Color("d8e2df")
+const C_OUTLINE := Color("0e2b5c")
 
 static var _tex_cache: Dictionary = {}
 static var _box_cache: Dictionary = {}
@@ -75,6 +76,10 @@ static func close_header(title: String, action: Callable, font_size: int = 18) -
 
 ## Texture gốc (đầy đủ độ phân giải).
 static func tex(rel: String) -> Texture2D:
+	var aliases := {"cash": "cash", "coins": "coins", "gem": "gem", "energy": "engine", "gear": "settings", "crane": "chassis", "research": "gearbox", "gift": "gift", "flag": "flag", "tools": "bag", "staff": "team", "trophy": "trophy", "crown": "trophy", "shop": "shop", "garage": "garage", "avatar": "avatar", "seats": "ticket", "car_red": "car_showroom"}
+	if rel.begins_with("icons/"):
+		var clay := Soft.icon(aliases.get(rel.get_file().get_basename(), ""))
+		if clay != null: return clay
 	return CleanArt.asset(ROOT + rel) as Texture2D
 
 
@@ -123,23 +128,16 @@ static func box(rel: String, f: float, m: Vector4, c: Vector4, tint: Color = Col
 
 ## Panel xanh nhạt có viền xanh đậm và bóng đáy (thẻ, ô nâng cấp, khung nội dung).
 static func panel(pad: float = 0.0) -> StyleBoxTexture:
-	return box("surfaces/panel_body.png", 0.34, Vector4(15, 14, 15, 17), Vector4(11 + pad, 8 + pad, 11 + pad, 12 + pad))
+	return Soft.surface("panel", Vector4(10 + pad, 8 + pad, 10 + pad, 10 + pad))
 
 
 ## Compact rows need a smaller source, not cuts through the full-size panel's corners.
 static func coupon() -> StyleBoxTexture:
-	return box("surfaces/panel_body.png", 0.20, Vector4(9, 9, 9, 10), Vector4(6, 3, 6, 5))
+	return Soft.surface("panel", Vector4(6, 3, 6, 5))
 
 
-static func pack_header(hue: float) -> StyleBoxTexture:
-	var key := "pack_header/%.2f" % hue
-	if _box_cache.has(key):
-		return _box_cache[key]
-	# Leave a real center strip between the top and bottom slices (source height = 40).
-	var skin := box("surfaces/button_amber.png", 0.055, Vector4(21, 18, 21, 20), Vector4(5, 3, 4, 5)).duplicate() as StyleBoxTexture
-	# Keep the generated cream/gold header; item rarity is conveyed by its own icon.
-	_box_cache[key] = skin
-	return skin
+static func pack_header(_hue: float) -> StyleBoxTexture:
+	return Soft.surface("section", Vector4(6, 3, 6, 5))
 
 
 ## Biến thể panel bằng cách hoán kênh màu của chính asset (không cần ảnh mới):
@@ -151,23 +149,14 @@ static func card_style(style_name: String) -> StyleBoxTexture:
 		"reward":
 			return _variant("reward")
 		"card_locked", "locked":
-			return _variant("locked")
+			return Soft.surface("inventory")
 		"modal":
 			return panel(6.0)
 	return panel()
 
 
 static func _variant(mode: String) -> StyleBoxTexture:
-	var key := "variant/" + mode
-	if _box_cache.has(key):
-		return _box_cache[key]
-	var sb := panel().duplicate() as StyleBoxTexture
-	match mode:
-		"selected": sb.modulate_color = Color("d8edff")
-		"reward": sb.modulate_color = Color("efffe4")
-		"locked": sb.modulate_color = Color("dce3eb")
-	_box_cache[key] = sb
-	return sb
+	return Soft.surface(mode)
 
 
 ## Theme dùng chung cho thẻ/dialog của gói cũ (đã gồm font đậm, nút xanh, panel xanh); tạo một lần.
@@ -180,83 +169,18 @@ static func theme() -> Theme:
 
 ## Thanh tài nguyên xanh đậm dạng viên thuốc (tiền, gem).
 static func hud_bar() -> StyleBoxTexture:
-	return box("surfaces/hud_bar.png", 0.26, Vector4(20, 20, 20, 20), Vector4(30, 4, 14, 6))
+	return Soft.surface("hud", Vector4(24, 3, 8, 5))
 
 
 ## Nút hành động. kind: upgrade (xanh), amber (nâng cấp hổ phách), race (cam/vàng), claim (xanh lá), cancel (xám), nav (xanh nghiêng), menu (vuông xanh).
 ## state: normal | hover | pressed | disabled.
 static func button(kind: String, state: String = "normal") -> StyleBoxTexture:
-	if kind == "race" and state != "disabled":
-		var raised := StyleBoxTexture.new()
-		raised.texture = load("res://assets/clean_modern/icons/button_raised_blue.svg")
-		raised.texture_margin_left = 14
-		raised.texture_margin_right = 14
-		raised.texture_margin_top = 14
-		raised.texture_margin_bottom = 14
-		raised.content_margin_left = 10
-		raised.content_margin_right = 10
-		raised.content_margin_top = 3 if state == "pressed" else 1
-		raised.content_margin_bottom = 3 if state == "pressed" else 5
-		raised.modulate_color = Color(0.84, 0.9, 1.0) if state == "pressed" else Color(1.08, 1.08, 1.08) if state == "hover" else Color.WHITE
-		return ButtonSkin.rounded(raised) as StyleBoxTexture
-	# Nút bị khóa (hết tiền, chờ lưu...) luôn dùng nền xám thay vì làm mờ nền màu.
-	var art := "cancel" if state == "disabled" and kind in ["upgrade", "amber", "race", "claim"] else kind
-	var swap := false
-	if kind in ["menu_on", "tab_on"]:
-		art = "menu"
-	if swap:
-		art = "menu"
-	elif kind == "tab":
-		art = "nav"
-	elif kind == "tab_on":
-		art = "menu"
-	elif kind == "info":
-		art = "menu"
-	var rel := "surfaces/button_%s.png" % art
-	var f := 0.23
-	var m := Vector4(22, 20, 22, 20)
-	var c := Vector4(12, 4, 12, 7)
-	match kind:
-		"info":
-			# The 28px info button must not squeeze the large menu skin's center into a sliver.
-			f = 0.10
-			m = Vector4(13, 11, 13, 12)
-			c = Vector4(3, 2, 3, 3)
-		"amber":
-			# Asset hổ phách 2172x724: thu nhỏ về chiều cao nút, giữ trọn bo góc ở hai nắp.
-			if art == "amber":
-				f = 0.08
-				m = Vector4(20, 20, 20, 20)
-		"race", "nav":
-			f = 0.2
-			m = Vector4(33, 18, 33, 18)
-			c = Vector4(14, 4, 14, 7)
-		"tab_on":
-			# A narrow navigation tab needs a square skin, not a compressed wide pill.
-			f = 0.23
-			m = Vector4(14, 14, 14, 14)
-			c = Vector4(4, 4, 4, 4)
-		"tab":
-			f = 0.25
-			m = Vector4(32, 27, 35, 28)
-			c = Vector4(8, 4, 8, 4)
-		"menu", "menu_on":
-			f = 0.22
-			m = Vector4(17, 17, 17, 17)
-			c = Vector4(4, 3, 4, 5)
-	var tint := Color.WHITE
-	match state:
-		"hover":
-			tint = Color(1.08, 1.08, 1.08)
-		"pressed":
-			tint = Color(0.84, 0.84, 0.9)
-			c.y += 2.0
-			c.w -= 2.0
-		"disabled":
-			tint = Color(1, 1, 1, 0.95)
-	if swap:
-		return ButtonSkin.rounded(_swapped_box(rel, f, m, c, tint)) as StyleBoxTexture
-	return ButtonSkin.rounded(box(rel, f, m, c, tint)) as StyleBoxTexture
+	var face := "disabled" if state == "disabled" else kind
+	if face == "nav": face = "blue"
+	var skin := Soft.surface(face, Vector4(10, 4, 10, 6))
+	if state == "hover": skin.modulate_color = Color(1.03, 1.03, 1.03)
+	elif state in ["pressed", "hover_pressed"]: skin.modulate_color = Color("e6e9e8")
+	return skin
 
 
 static func _swapped_box(rel: String, f: float, m: Vector4, c: Vector4, tint: Color) -> StyleBoxTexture:
@@ -276,55 +200,49 @@ static func _swapped_box(rel: String, f: float, m: Vector4, c: Vector4, tint: Co
 
 ## Thanh nhỏ trong ô (tiến độ): dùng lại hud_bar làm máng.
 static func trough() -> StyleBoxTexture:
-	return box("surfaces/hud_bar.png", 0.12, Vector4(10, 10, 10, 10), Vector4(0, 0, 0, 0))
+	return Soft.surface("trough", Vector4.ZERO)
 
 
 ## Bundled typography: real bold outlines and Vietnamese glyphs, independent of OS fonts.
 static func font() -> Font:
 	if _font == null:
-		_font = preload("res://assets/clean_modern/fonts/Roboto-Bold.ttf")
+		var rounded := FontVariation.new()
+		rounded.base_font = preload("res://assets/soft_miniature_ui_v1/fonts/Nunito.ttf")
+		rounded.variation_opentype = {TextServerManager.get_primary_interface().name_to_tag("wght"): 950.0}
+		_font = rounded
 	return _font
 
 
 ## Small contrasting outlines and an offset shadow keep text readable over artwork.
 static func text_depth(node: Control, light_text: bool = false) -> void:
-	node.add_theme_color_override("font_outline_color", Color("173b59dd") if light_text else Color("ffffffd9"))
-	node.add_theme_constant_override("outline_size", 2 if light_text else 1)
-	node.add_theme_color_override("font_shadow_color", Color("102e5480") if light_text else Color("203e5733"))
+	node.add_theme_color_override("font_outline_color", Color("47748d55") if light_text else Color.TRANSPARENT)
+	node.add_theme_constant_override("outline_size", 1 if light_text else 0)
+	node.add_theme_color_override("font_shadow_color", Color("36566d22") if light_text else Color.TRANSPARENT)
 	node.add_theme_constant_override("shadow_offset_x", 0)
-	node.add_theme_constant_override("shadow_offset_y", 1)
+	node.add_theme_constant_override("shadow_offset_y", 1 if light_text else 0)
 
 
 ## Đặt kiểu cho một Button theo loại (dùng cho nút dựng bằng code).
 static func style_button(b: Button, kind: String) -> void:
-	if kind == "cancel":
-		for state in ["normal", "hover", "pressed", "disabled"]:
-			var skin := StyleBoxFlat.new()
-			skin.bg_color = Color("e8f3fd") if state != "pressed" else Color("cfe6fa")
-			skin.border_color = Color("adc9de")
-			skin.set_border_width_all(1)
-			skin.set_corner_radius_all(18)
-			skin.content_margin_left = 10
-			skin.content_margin_right = 10
-			skin.shadow_color = Color("82a3bd66")
-			skin.shadow_size = 2
-			skin.shadow_offset = Vector2(0, 2)
-			b.add_theme_stylebox_override(state, skin)
-		for color in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color", "font_disabled_color"]:
-			b.add_theme_color_override(color, C_TEXT)
-		text_depth(b)
-		b.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
-		ButtonSkin.apply(b)
-		return
-	for st: String in ["normal", "hover", "pressed", "disabled"]:
-		b.add_theme_stylebox_override(st, StyleBoxEmpty.new() if kind == "tab" else button(kind, st))
-	b.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
-	var col := C_TEXT if kind in ["cancel", "tab", "nav", "amber"] else Color.WHITE
-	for k: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color"]:
-		b.add_theme_color_override(k, col)
-	b.add_theme_color_override("font_disabled_color", Color("7a8aa6") if kind != "cancel" else Color("6b7a93"))
-	b.add_theme_color_override("font_outline_color", C_OUTLINE if kind != "cancel" else Color(1, 1, 1, 0))
+	for state in ["normal", "hover", "pressed", "hover_pressed", "disabled"]:
+		b.add_theme_stylebox_override(state, StyleBoxEmpty.new() if kind == "tab" else button(kind, state))
+	var focus := Soft.flat(Color.TRANSPARENT, 0, 14)
+	focus.border_color = C_BLUE
+	focus.shadow_size = 0
+	focus.set_border_width_all(2)
+	b.add_theme_stylebox_override("focus", focus)
+	var col := C_TEXT if kind in ["cancel", "tab", "nav", "menu", "info", "claim"] else Color.WHITE
+	for key in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color"]:
+		b.add_theme_color_override(key, col)
+	b.add_theme_color_override("font_disabled_color", C_MUTED)
 	text_depth(b, col == Color.WHITE)
+	if col == Color.WHITE:
+		# Chữ nút kẹo như demo: trắng, viền đậm cùng tông nút, đổ bóng nhẹ.
+		var rim := Color("8a3a05") if kind in ["race", "orange", "upgrade", "buy", "action", "amber"] else Color("14407c")
+		b.add_theme_color_override("font_outline_color", rim)
+		b.add_theme_constant_override("outline_size", 4)
+		b.add_theme_color_override("font_shadow_color", Color(rim, 0.45))
+		b.add_theme_constant_override("shadow_offset_y", 1)
 	ButtonSkin.apply(b)
 
 
@@ -335,12 +253,12 @@ static func make_theme(base: Theme) -> Theme:
 	th.default_font_size = 14
 	th.set_color("font_color", "Label", C_TEXT)
 	th.set_color("font_outline_color", "Label", Color("ffffffd9"))
-	th.set_constant("outline_size", "Label", 1)
-	th.set_color("font_shadow_color", "Label", Color("203e5733"))
+	th.set_constant("outline_size", "Label", 0)
+	th.set_color("font_shadow_color", "Label", Color("0e2b5c33"))
 	th.set_constant("shadow_offset_x", "Label", 0)
-	th.set_constant("shadow_offset_y", "Label", 1)
+	th.set_constant("shadow_offset_y", "Label", 0)
 	th.set_color("font_outline_color", "Button", Color("173b59dd"))
-	th.set_constant("outline_size", "Button", 2)
+	th.set_constant("outline_size", "Button", 0)
 	th.set_color("font_shadow_color", "Button", Color("102e5480"))
 	th.set_constant("shadow_offset_x", "Button", 0)
 	th.set_constant("shadow_offset_y", "Button", 1)
@@ -363,6 +281,14 @@ static func make_theme(base: Theme) -> Theme:
 	th.set_icon("unchecked_disabled", "CheckButton", scaled("controls/toggle_off.png", 0.2))
 	th.set_icon("checked", "CheckBox", scaled("controls/checkbox_on.png", 0.12))
 	th.set_icon("unchecked", "CheckBox", scaled("controls/checkbox_off.png", 0.12))
+	th.set_stylebox("normal", "LineEdit", Soft.surface("cancel"))
+	th.set_color("font_color", "LineEdit", C_TEXT)
+	th.set_stylebox("background", "ProgressBar", Soft.flat(Color("e2ece8"), 0, 6))
+	th.set_stylebox("fill", "ProgressBar", Soft.flat(Color("a1d7b0"), 0, 6))
+	var scroll := Soft.flat(Color("b1d8e4"), 0, 3)
+	for state in ["grabber", "grabber_highlight", "grabber_pressed"]:
+		th.set_stylebox(state, "VScrollBar", scroll)
+	th.set_stylebox("scroll", "VScrollBar", StyleBoxEmpty.new())
 	return th
 
 

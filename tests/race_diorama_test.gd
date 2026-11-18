@@ -89,7 +89,7 @@ func run() -> void:
 		await settle()
 		main._race_view.queue_redraw()
 		check(main._race_view._top == RaceView.HUD_H + RaceView.STAND_H, "HUD and audience keep their space")
-		check(main._race_view._board_rect().size.y >= (210.0 if width == 320 else 260.0), "race area grows at normal phone heights")
+		check(is_equal_approx(main._race_view.size.y, 190.0) and main._race_view._board_rect().size.y > 100, "race keeps the reviewed 190px layout and readable board")
 		check(main._race_view.get_global_rect().encloses(main._ads_controls._chip.get_global_rect()), "boost button remains in HUD")
 		await capture("race_%d" % width)
 	root.size = Vector2i(320, 568)

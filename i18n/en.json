@@ -420,11 +420,11 @@
  "main.purchases_restored": "Purchases restored.",
  "main.race": "RACE!",
  "main.race_2": "Race",
- "main.race_car": "RACE CAR",
+ "main.race_car": "Car Upgrades",
  "main.rates": "Rates · %s",
  "main.reached_day_milestone": " · Reached the %d-day milestone!",
  "main.recruit_points_sp": "Recruit points (SP)",
- "main.revenue": "REVENUE",
+ "main.revenue": "Income",
  "main.schedule": "Schedule",
  "main.sec": "%d sec",
  "main.sec_2": "/sec",
@@ -658,5 +658,11 @@
  "tutorial.trophy.upgraded": "Done! This upgrade now adds +%d → +%d pace. The team will use the improved stats from the next race.",
  "trophy.prestige": "Prestige %d / %d",
  "shop.starter_spotlight": "BUILD YOUR FIRST TEAM",
- "shop.starter_pitch": "Gems, tickets and cash to get your team moving."
+ "shop.starter_pitch": "Gems, tickets and cash to get your team moving.",
+ "soft.facilities": "Facilities",
+ "soft.gear_power": "Power",
+ "soft.team_power": "Team power",
+ "soft.minute": "min",
+ "soft.bag": "Bag",
+ "soft.race_no": "Race %d"
 }
