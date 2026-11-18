@@ -110,9 +110,9 @@ func setup(product: Dictionary) -> void:
 	for state in ["normal", "hover", "pressed", "hover_pressed", "disabled"]:
 		var disabled: bool = state == "disabled"
 		var pressed: bool = state in ["pressed", "hover_pressed"]
-		var top := Color("ecdcc8") if disabled else Color("ff9a35" if state == "hover" else "ff8b25")
-		price.add_theme_stylebox_override(state, ButtonSkin.palette(top, Color("e6d4bc") if disabled else Color("f57612" if pressed else "ff7915"), Color("cbb79b") if disabled else Color("cb520f")))
-		price.add_theme_color_override("font_" + state + "_color" if state != "normal" else "font_color", Color("657079") if disabled else Color.WHITE)
+		var top := Color("ecdcc8") if disabled else Color("bfe8ff" if state == "hover" else ("78bde6" if pressed else "a6dbf7"))
+		price.add_theme_stylebox_override(state, ButtonSkin.palette(top, Color("e6d4bc") if disabled else Color("78bde6" if pressed else "a6dbf7"), Color("cbb79b") if disabled else Color("3b85b3" if pressed else "52a1cc")))
+		price.add_theme_color_override("font_" + state + "_color" if state != "normal" else "font_color", Color("657079") if disabled else Color("0e2b5c"))
 	var focus := Soft.flat(Color.TRANSPARENT, 0, 24)
 	focus.border_color = Color("168cc2")
 	focus.set_border_width_all(2)

@@ -103,7 +103,7 @@ static func surface(id: String, margin: float = 8.0) -> StyleBoxTexture:
 	var kind := "panel"
 	if id.begins_with("section"): kind = "section"
 	elif id.begins_with("disabled"): kind = "disabled"
-	elif id.begins_with("buy") or id.begins_with("action"): kind = "orange"
+	elif id.begins_with("buy") or id.begins_with("action"): kind = "cancel"
 	elif id.begins_with("tab"): kind = "cancel"
 	elif id == "free": kind = "reward"
 	return HdUi.Soft.surface(kind, Vector4.ONE * margin)
@@ -163,12 +163,14 @@ static func style_button(b: Button, kind: String = "buy") -> void:
 		var style := surface("disabled" if state == "disabled" else kind, 3)
 		if state in ["pressed", "hover_pressed"]:
 			style.modulate_color = Color("d0e9f7")
+		elif state == "hover":
+			style.modulate_color = Color(1.08, 1.08, 1.08)
 		b.add_theme_stylebox_override(state, HdUi.ButtonSkin.rounded(style))
 	for color in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color"]:
-		b.add_theme_color_override(color, INK if kind == "tab" else Color.WHITE)
+		b.add_theme_color_override(color, INK)
 	b.add_theme_color_override("font_disabled_color", Color("647f98"))
-	b.add_theme_color_override("font_outline_color", Color("15437a") if kind == "action" else Color("247b00"))
-	b.add_theme_constant_override("outline_size", 0 if kind == "tab" else 1)
+	b.add_theme_color_override("font_outline_color", Color.TRANSPARENT)
+	b.add_theme_constant_override("outline_size", 0)
 	b.add_theme_constant_override("shadow_offset_x", 0)
 	b.add_theme_constant_override("shadow_offset_y", 0)
 	HdUi.ButtonSkin.apply(b)
@@ -191,9 +193,9 @@ static func price_text(b: Button, preferred_size: int = 18, unit: float = 1.0) -
 			point_size -= 1
 	b.add_theme_font_size_override("font_size", roundi(point_size * unit))
 	b.set_meta("ub_font", point_size)
-	b.add_theme_color_override("font_outline_color", Color("a65f32"))
+	b.add_theme_color_override("font_outline_color", Color.TRANSPARENT)
 	var outline := 0
-	b.add_theme_constant_override("outline_size", maxi(1, roundi(outline * unit)))
+	b.add_theme_constant_override("outline_size", roundi(outline * unit))
 	b.set_meta("ub_c_outline_size", outline)
 	if b.icon != null and b.size.x > 0 and not reference:
 		# Godot centers an icon over text when icon_alignment is CENTER. Instead,

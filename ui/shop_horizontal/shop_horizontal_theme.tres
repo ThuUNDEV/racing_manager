@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=14 format=3]
+[gd_resource type="Theme" load_steps=15 format=3]
 
 [ext_resource type="FontFile" path="res://assets/soft_miniature_ui_v1/fonts/Nunito.ttf" id="1_font"]
 
@@ -22,27 +22,42 @@ shadow_size = 6
 shadow_offset = Vector2(0, 4)
 
 [sub_resource type="StyleBoxFlat" id="Orange"]
-bg_color = Color(0.98, 0.5, 0.13, 1)
+bg_color = Color(0.65, 0.86, 0.97, 1)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 5
-border_color = Color(0.86, 0.33, 0.05, 1)
+border_color = Color(0.32, 0.63, 0.8, 1)
 corner_radius_top_left = 26
 corner_radius_top_right = 26
 corner_radius_bottom_right = 26
 corner_radius_bottom_left = 26
-shadow_color = Color(0.5, 0.2, 0.05, 0.28)
+shadow_color = Color(0.12, 0.35, 0.5, 0.16)
+shadow_size = 5
+shadow_offset = Vector2(0, 4)
+
+[sub_resource type="StyleBoxFlat" id="BuyHover"]
+bg_color = Color(0.75, 0.91, 1, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 5
+border_color = Color(0.32, 0.63, 0.8, 1)
+corner_radius_top_left = 26
+corner_radius_top_right = 26
+corner_radius_bottom_right = 26
+corner_radius_bottom_left = 26
+shadow_color = Color(0.12, 0.35, 0.5, 0.16)
 shadow_size = 5
 shadow_offset = Vector2(0, 4)
 
 [sub_resource type="StyleBoxFlat" id="OrangePressed"]
-bg_color = Color(0.9, 0.42, 0.08, 1)
+bg_color = Color(0.47, 0.74, 0.9, 1)
 border_width_left = 3
 border_width_top = 5
 border_width_right = 3
 border_width_bottom = 3
-border_color = Color(0.78, 0.28, 0.03, 1)
+border_color = Color(0.23, 0.52, 0.7, 1)
 corner_radius_top_left = 26
 corner_radius_top_right = 26
 corner_radius_bottom_right = 26
@@ -160,14 +175,14 @@ HudPill/styles/panel = SubResource("HudPill")
 NavBar/base_type = &"PanelContainer"
 NavBar/styles/panel = SubResource("NavBar")
 OrangeButton/base_type = &"Button"
-OrangeButton/colors/font_color = Color(1, 1, 1, 1)
-OrangeButton/colors/font_hover_color = Color(1, 1, 1, 1)
-OrangeButton/colors/font_pressed_color = Color(1, 1, 1, 1)
-OrangeButton/colors/font_outline_color = Color(0.7, 0.28, 0.02, 1)
-OrangeButton/constants/outline_size = 6
+OrangeButton/colors/font_color = Color(0.055, 0.169, 0.361, 1)
+OrangeButton/colors/font_hover_color = Color(0.055, 0.169, 0.361, 1)
+OrangeButton/colors/font_pressed_color = Color(0.055, 0.169, 0.361, 1)
+OrangeButton/colors/font_outline_color = Color(0, 0, 0, 0)
+OrangeButton/constants/outline_size = 0
 OrangeButton/font_sizes/font_size = 38
 OrangeButton/styles/normal = SubResource("Orange")
-OrangeButton/styles/hover = SubResource("Orange")
+OrangeButton/styles/hover = SubResource("BuyHover")
 OrangeButton/styles/pressed = SubResource("OrangePressed")
 OrangeButton/styles/focus = SubResource("Orange")
 OrangeButton/styles/disabled = SubResource("OrangeDisabled")

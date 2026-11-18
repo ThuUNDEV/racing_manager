@@ -99,9 +99,9 @@ func add_open_button(count: int, currency: Texture2D, cost: String, disabled: bo
 			label.text = String(part)
 			label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			label.add_theme_font_size_override("font_size", 38)
-			label.add_theme_color_override("font_color", NAVY if disabled else Color.WHITE)
-			label.add_theme_color_override("font_outline_color", Color(0.7, 0.28, 0.02, 1))
-			label.add_theme_constant_override("outline_size", 0 if disabled else 5)
+			label.add_theme_color_override("font_color", NAVY)
+			label.add_theme_color_override("font_outline_color", Color.TRANSPARENT)
+			label.add_theme_constant_override("outline_size", 0)
 			row.add_child(label)
 	buttons_box.add_child(button)
 	return button
