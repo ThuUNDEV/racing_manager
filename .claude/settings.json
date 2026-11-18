@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tools/run_tests.sh:*)",
+      "Bash(bash tools/run_tests.sh:*)",
+      "Bash(python -X utf8 tools/i18n_check.py:*)",
+      "Bash(python3 -X utf8 tools/i18n_check.py:*)",
+      "Bash(godot --headless --path . -s res://tests/*)",
+      "Bash(RM_LANG=vi godot --headless --path . -s res://tests/*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)",
+      "Bash(git branch:*)",
+      "Bash(ls:*)",
+      "mcp__godot__project_info",
+      "mcp__godot__project_find",
+      "mcp__godot__class_info",
+      "mcp__godot__script_check",
+      "mcp__godot__project_settings_get",
+      "mcp__godot__scene_tree",
+      "mcp__godot__node_get",
+      "mcp__godot__editor_screenshot",
+      "mcp__godot__test_run"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.claude/remote.env)",
+      "Read(**/*.keystore)",
+      "Read(**/*.jks)",
+      "Bash(git push:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(git clean:*)",
+      "Bash(godot * --reset*)"
+    ]
+  }
+}
