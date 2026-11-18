@@ -1,0 +1,15 @@
+{
+  "date": "2026-11-17",
+  "tool": "built-in image_gen",
+  "direction": "Soft Miniature Review v2",
+  "assets": [
+    {
+      "file": "assets/branding/racing_tycoon_logo_soft_miniature_v2.png",
+      "prompt": "Use case: logo-brand. Create a polished production raster logo for mobile game, exact text \"RACING\" above \"TYCOON\". Soft Miniature v2 art direction: premium glossy cartoon toy, softly rounded chunky dimensional letters, ivory RACING and warm golden orange TYCOON, deep ocean ink blue thick rounded backing, soft restrained specular highlights and ambient occlusion, two small checkered flags behind upper corners, a small charming rounded orange toy sports car integrated below the lettering. Friendly bright casual racing tycoon, not esports. Compact balanced silhouette, extremely legible at 300 pixels wide, centered with modest transparent padding. Only the exact title RACING TYCOON, no other text, no UI, no background scenery, no watermark. Genuine transparent background. Reference images are style reference only; do not copy their UI."
+    },
+    {
+      "file": "assets/startup_loading/loading_garage_soft_miniature_v2.png",
+      "prompt": "Use case: stylized-concept. Asset type: portrait mobile game loading background 390:844 aspect ratio, full bleed. Primary request: Soft Miniature v2 glossy cartoon toy racing garage and racetrack illustration with the exact game logo RACING TYCOON above. Reference: use the preceding generated logo as brand reference: ivory rounded RACING over golden orange TYCOON on deep blue dimensional backing, little checkered flags. Art direction from provided miniature racing screenshot: warm friendly soft ceramic/plastic toys, rounded bevels, rich restrained highlights, soft ambient occlusion, powder sky blue, ocean blue, warm ivory, orange, mint and gold. Composition: logo centered in upper 15-32 percent, safely inset at least 12 percent horizontally and 12 percent vertically. Middle 36-73 percent features a beautiful miniature ivory garage with coral orange roof, open workshop bay, little tool trolley and spare tires, a prominent glossy orange toy sports car in front, curving race track with red/ivory curb, small blue racecar and soft green shrubs, bright coastal sky. Simplify and maintain clear visual hierarchy. Lower 24 percent smoothly opens into quiet pale warm ivory ground with very little detail and absolutely no objects at bottom, reserved for runtime UI. Important: NO progress bar, NO loading text, NO percentage, NO status, NO version, NO buttons, NO UI panels, NO other lettering except RACING TYCOON. No dark esports, no neon, no photorealism, no watermark. Cheerful premium casual tycoon game, polished 3D toy illustration. Deliver portrait."
+    }
+  ]
+}

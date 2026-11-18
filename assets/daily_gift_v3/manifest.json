@@ -1,0 +1,794 @@
+{
+  "version": 3,
+  "sprites": [
+    {
+      "name": "panel_cream",
+      "file": "skins/panel_cream.png",
+      "size": [
+        438,
+        534
+      ],
+      "origin": "v2 reconstructed skin; art-tools.upscale 2x",
+      "slice_margins_ltrb": [
+        17,
+        15,
+        17,
+        15
+      ],
+      "runtime_file": "runtime/panel_cream.png",
+      "hd_slice_margins_ltrb": [
+        68,
+        60,
+        68,
+        60
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "eb5b7355a756aa13ccf3caa393926db9cf925fae7db971c4ee078f0b008315f5",
+      "runtime_size": [
+        110,
+        134
+      ]
+    },
+    {
+      "name": "header_cyan",
+      "file": "skins/header_cyan.png",
+      "size": [
+        582,
+        186
+      ],
+      "origin": "v2 reconstructed skin; art-tools.upscale 2x",
+      "slice_margins_ltrb": [
+        22,
+        14,
+        45,
+        14
+      ],
+      "runtime_file": "runtime/header_cyan.png",
+      "hd_slice_margins_ltrb": [
+        90,
+        58,
+        180,
+        58
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "347e4e9451bd6da611fb3f0da1e233aee396adf68a80afda8c053e92df6d46d7",
+      "runtime_size": [
+        146,
+        46
+      ]
+    },
+    {
+      "name": "card_normal",
+      "file": "skins/card_normal.png",
+      "size": [
+        514,
+        454
+      ],
+      "origin": "v2 reconstructed skin; art-tools.upscale 2x",
+      "slice_margins_ltrb": [
+        17,
+        15,
+        17,
+        15
+      ],
+      "runtime_file": "runtime/card_normal.png",
+      "hd_slice_margins_ltrb": [
+        68,
+        60,
+        68,
+        60
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "995e76358a4e91e02fbbde80df4ff26c6d5611ed689ac00d152109b05798e294",
+      "runtime_size": [
+        128,
+        114
+      ]
+    },
+    {
+      "name": "card_today",
+      "file": "skins/card_today.png",
+      "size": [
+        516,
+        454
+      ],
+      "origin": "v2 reconstructed skin; art-tools.upscale 2x",
+      "slice_margins_ltrb": [
+        17,
+        15,
+        17,
+        15
+      ],
+      "runtime_file": "runtime/card_today.png",
+      "hd_slice_margins_ltrb": [
+        68,
+        60,
+        68,
+        60
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "9c5b40abd8f74b59f7dee943384f901c8cc4202b8b27ae4883153931b314739f",
+      "runtime_size": [
+        129,
+        114
+      ]
+    },
+    {
+      "name": "card_claimed",
+      "file": "skins/card_claimed.png",
+      "size": [
+        514,
+        462
+      ],
+      "origin": "v2 reconstructed skin; art-tools.upscale 2x",
+      "slice_margins_ltrb": [
+        17,
+        15,
+        17,
+        15
+      ],
+      "runtime_file": "runtime/card_claimed.png",
+      "hd_slice_margins_ltrb": [
+        68,
+        60,
+        68,
+        60
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "1aa1eb886bd8b453c0b3980e3f96c54dd2b607100dfac867781899d81074319f",
+      "runtime_size": [
+        128,
+        116
+      ]
+    },
+    {
+      "name": "panel_grand",
+      "file": "skins/panel_grand.png",
+      "size": [
+        620,
+        306
+      ],
+      "origin": "v2 reconstructed skin; art-tools.upscale 2x",
+      "slice_margins_ltrb": [
+        17,
+        15,
+        17,
+        15
+      ],
+      "runtime_file": "runtime/panel_grand.png",
+      "hd_slice_margins_ltrb": [
+        68,
+        60,
+        68,
+        60
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "070afa7375c48f0a89cd90def347985b212c0bfe5f273dbcb907a25ae66197e7",
+      "runtime_size": [
+        155,
+        76
+      ]
+    },
+    {
+      "name": "button_claim_orange",
+      "file": "skins/button_claim_orange.png",
+      "size": [
+        578,
+        222
+      ],
+      "origin": "v2 reconstructed skin; art-tools.upscale 2x",
+      "slice_margins_ltrb": [
+        28,
+        18,
+        28,
+        18
+      ],
+      "runtime_file": "runtime/button_claim_orange.png",
+      "hd_slice_margins_ltrb": [
+        110,
+        74,
+        110,
+        74
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "96674976af421f22c7fd6234199e432e72ad5545df09b8cba4467ff09411354f",
+      "runtime_size": [
+        144,
+        56
+      ]
+    },
+    {
+      "name": "badge_claimed_green",
+      "file": "skins/badge_claimed_green.png",
+      "size": [
+        542,
+        192
+      ],
+      "origin": "v2 reconstructed skin; art-tools.upscale 2x",
+      "slice_margins_ltrb": [
+        8,
+        7,
+        8,
+        7
+      ],
+      "runtime_file": "runtime/badge_claimed_green.png",
+      "hd_slice_margins_ltrb": [
+        96,
+        64,
+        96,
+        64
+      ],
+      "runtime_size": [
+        45,
+        16
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "dfde11394e72fd23771b84772294031729dc97fda610deb4974661d1f1837cc5"
+    },
+    {
+      "name": "badge_today_gold",
+      "file": "skins/badge_today_gold.png",
+      "size": [
+        522,
+        186
+      ],
+      "origin": "v2 reconstructed skin; art-tools.upscale 2x",
+      "slice_margins_ltrb": [
+        8,
+        7,
+        8,
+        7
+      ],
+      "runtime_file": "runtime/badge_today_gold.png",
+      "hd_slice_margins_ltrb": [
+        92,
+        62,
+        92,
+        62
+      ],
+      "runtime_size": [
+        45,
+        16
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "b0268b85530d0e358b8d7a7292ba1c0367117c87ffde774f1586349fbdb4d088"
+    },
+    {
+      "name": "pill_counter_cyan",
+      "file": "skins/pill_counter_cyan.png",
+      "size": [
+        534,
+        172
+      ],
+      "origin": "v2 reconstructed skin; art-tools.upscale 2x",
+      "slice_margins_ltrb": [
+        10,
+        9,
+        10,
+        9
+      ],
+      "runtime_file": "runtime/pill_counter_cyan.png",
+      "hd_slice_margins_ltrb": [
+        86,
+        56,
+        86,
+        56
+      ],
+      "runtime_size": [
+        62,
+        20
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "159b8240bb61443331e3accc215c838eba12ab26ac0ca7b61968fdab9d21054b"
+    },
+    {
+      "name": "pill_hint_cyan",
+      "file": "skins/pill_hint_cyan.png",
+      "size": [
+        608,
+        146
+      ],
+      "origin": "v2 reconstructed skin; art-tools.upscale 2x",
+      "slice_margins_ltrb": [
+        10,
+        9,
+        10,
+        9
+      ],
+      "runtime_file": "runtime/pill_hint_cyan.png",
+      "hd_slice_margins_ltrb": [
+        72,
+        48,
+        72,
+        48
+      ],
+      "runtime_size": [
+        83,
+        20
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "19c8e04f897142f8a814cf5bd35ef344fa2d2e83e30ad3dcc691a910bfc5d50f"
+    },
+    {
+      "name": "progress_track",
+      "file": "skins/progress_track.png",
+      "size": [
+        584,
+        114
+      ],
+      "origin": "v2 reconstructed skin; art-tools.upscale 2x",
+      "slice_margins_ltrb": [
+        4,
+        3,
+        4,
+        3
+      ],
+      "runtime_file": "runtime/progress_track.png",
+      "hd_slice_margins_ltrb": [
+        56,
+        38,
+        56,
+        38
+      ],
+      "runtime_size": [
+        41,
+        8
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "d3889e7044208d295e9467a363e2553a086f1ba3fb247355dd9c84ae300b68a5"
+    },
+    {
+      "name": "progress_fill",
+      "file": "skins/progress_fill.png",
+      "size": [
+        516,
+        124
+      ],
+      "origin": "v2 reconstructed skin; art-tools.upscale 2x",
+      "slice_margins_ltrb": [
+        4,
+        3,
+        4,
+        3
+      ],
+      "runtime_file": "runtime/progress_fill.png",
+      "hd_slice_margins_ltrb": [
+        62,
+        40,
+        62,
+        40
+      ],
+      "runtime_size": [
+        33,
+        8
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "76c15aab1bac0b437b1eb3bd3ddb4129765032c7da5b191bc41824b0cf9ac328"
+    },
+    {
+      "name": "milestone_empty",
+      "file": "skins/milestone_empty.png",
+      "size": [
+        394,
+        402
+      ],
+      "origin": "v2 reconstructed skin; art-tools.upscale 2x",
+      "slice_margins_ltrb": null,
+      "runtime_file": "runtime/milestone_empty.png",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "eb74d31ec4dc2c94026b1e182bc8db2777a1630f9515474e72c7e9df6156b767",
+      "runtime_size": [
+        98,
+        100
+      ]
+    },
+    {
+      "name": "milestone_claimed",
+      "file": "skins/milestone_claimed.png",
+      "size": [
+        410,
+        414
+      ],
+      "origin": "v2 reconstructed skin; art-tools.upscale 2x",
+      "slice_margins_ltrb": null,
+      "runtime_file": "runtime/milestone_claimed.png",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "168e30259736144e8f9928119a6df0b4f3721711c665b859944f3461aad6a5f0",
+      "runtime_size": [
+        102,
+        104
+      ]
+    },
+    {
+      "name": "button_close",
+      "file": "skins/button_close.png",
+      "size": [
+        410,
+        388
+      ],
+      "origin": "v2 reconstructed skin; art-tools.upscale 2x",
+      "slice_margins_ltrb": null,
+      "runtime_file": "runtime/button_close.png",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "3f1b0b964968b73e9ee55eb205eb258206969a4cc88966c8947c5e9a72606406",
+      "runtime_size": [
+        102,
+        97
+      ]
+    },
+    {
+      "name": "button_claim_orange_hover",
+      "file": "skins/button_claim_orange_hover.png",
+      "size": [
+        578,
+        222
+      ],
+      "origin": "button_claim_orange: hover state",
+      "slice_margins_ltrb": [
+        28,
+        18,
+        28,
+        18
+      ],
+      "runtime_file": "runtime/button_claim_orange_hover.png",
+      "hd_slice_margins_ltrb": [
+        110,
+        74,
+        110,
+        74
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "107e70784d849d1e342643af8bd15c17c7866148413c309837de872a4b6e504c",
+      "runtime_size": [
+        144,
+        56
+      ]
+    },
+    {
+      "name": "button_claim_orange_pressed",
+      "file": "skins/button_claim_orange_pressed.png",
+      "size": [
+        578,
+        222
+      ],
+      "origin": "button_claim_orange: pressed state",
+      "slice_margins_ltrb": [
+        28,
+        18,
+        28,
+        18
+      ],
+      "runtime_file": "runtime/button_claim_orange_pressed.png",
+      "hd_slice_margins_ltrb": [
+        110,
+        74,
+        110,
+        74
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "ca9ed6eec972c24e2d188c7d4cc2fc3bff34866f6180f81bb9387ef7fa6fece2",
+      "runtime_size": [
+        144,
+        56
+      ]
+    },
+    {
+      "name": "button_claim_orange_disabled",
+      "file": "skins/button_claim_orange_disabled.png",
+      "size": [
+        578,
+        222
+      ],
+      "origin": "button_claim_orange: disabled state",
+      "slice_margins_ltrb": [
+        28,
+        18,
+        28,
+        18
+      ],
+      "runtime_file": "runtime/button_claim_orange_disabled.png",
+      "hd_slice_margins_ltrb": [
+        110,
+        74,
+        110,
+        74
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "c85d85302b2501413f2732ddcac9659f6884dda7ef39d7e16bb29538140b7e39",
+      "runtime_size": [
+        144,
+        56
+      ]
+    },
+    {
+      "name": "button_close_hover",
+      "file": "skins/button_close_hover.png",
+      "size": [
+        410,
+        388
+      ],
+      "origin": "button_close: hover state",
+      "slice_margins_ltrb": null,
+      "runtime_file": "runtime/button_close_hover.png",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "eec09dace0e8bd6b3e29727b596e91ef6eed4d3fac5683bed7d10e243d65ca85",
+      "runtime_size": [
+        102,
+        97
+      ]
+    },
+    {
+      "name": "button_close_pressed",
+      "file": "skins/button_close_pressed.png",
+      "size": [
+        410,
+        388
+      ],
+      "origin": "button_close: pressed state",
+      "slice_margins_ltrb": null,
+      "runtime_file": "runtime/button_close_pressed.png",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "48662915d5c49f98ff06537bee8d247e81088bb07a9ba7789b3967ca05f06b6c",
+      "runtime_size": [
+        102,
+        97
+      ]
+    },
+    {
+      "name": "button_close_disabled",
+      "file": "skins/button_close_disabled.png",
+      "size": [
+        410,
+        388
+      ],
+      "origin": "button_close: disabled state",
+      "slice_margins_ltrb": null,
+      "runtime_file": "runtime/button_close_disabled.png",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "bb9a643b25357a2d7ded17f508faa6c07e7bea975dc1097c8fbea8ce9a150a50",
+      "runtime_size": [
+        102,
+        97
+      ]
+    },
+    {
+      "name": "coupon_driver_pro",
+      "file": "icons/coupon_driver_pro.png",
+      "size": [
+        768,
+        572
+      ],
+      "origin": "ImageGen reconstructed HD art + art-tools.remove_background/refine + art-tools.upscale 2x",
+      "role": "distinct coupon",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "b62d48f17d957baf9f1a71c6ad0b60e6db82f17808c1c3747cb773f75b00f189"
+    },
+    {
+      "name": "coupon_driver_allstar",
+      "file": "icons/coupon_driver_allstar.png",
+      "size": [
+        768,
+        572
+      ],
+      "origin": "ImageGen reconstructed HD art + art-tools.remove_background/refine + art-tools.upscale 2x",
+      "role": "distinct coupon",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "0120bba9046e48912bc647876f82bc8fee3eb068b9a0be7bb3938d36e7bf56be"
+    },
+    {
+      "name": "coupon_gear_standard",
+      "file": "icons/coupon_gear_standard.png",
+      "size": [
+        766,
+        572
+      ],
+      "origin": "ImageGen reconstructed HD art + art-tools.remove_background/refine + art-tools.upscale 2x",
+      "role": "distinct coupon",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "b787bcc8dd37bee7d647ab257d6e7b4718f7a5262fb8a08148a818fd02f40ed8"
+    },
+    {
+      "name": "coupon_gear_elite",
+      "file": "icons/coupon_gear_elite.png",
+      "size": [
+        768,
+        584
+      ],
+      "origin": "ImageGen reconstructed HD art + art-tools.remove_background/refine + art-tools.upscale 2x",
+      "role": "distinct coupon",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "9e95b765b32d292157cc39b99612955d43b4c813d9d55c35cf72793475b37a35"
+    },
+    {
+      "name": "gem",
+      "file": "icons/gem.png",
+      "size": [
+        668,
+        558
+      ],
+      "origin": "ImageGen reconstructed HD art + art-tools.remove_background/refine + art-tools.upscale 2x",
+      "role": "HD reward icon",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "7b1760e8599f67c60eaffaf522dc6fec6c64d7ad2872493935523043018848aa"
+    },
+    {
+      "name": "gift",
+      "file": "icons/gift.png",
+      "size": [
+        638,
+        688
+      ],
+      "origin": "ImageGen reconstructed HD art + art-tools.remove_background/refine + art-tools.upscale 2x",
+      "role": "HD reward icon",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "0d5949853533650515b52abd15ff5bda36bce0c025259479e88929fd6bddb30a"
+    },
+    {
+      "name": "gift_grand",
+      "file": "icons/gift_grand.png",
+      "size": [
+        720,
+        670
+      ],
+      "origin": "ImageGen reconstructed HD art + art-tools.remove_background/refine + art-tools.upscale 2x",
+      "role": "HD reward icon",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "2c419b11a5b6034245f9061d469d0d08b0f2a19b7ab48439b29631468c3e44b6"
+    },
+    {
+      "name": "drivers",
+      "file": "icons/drivers.png",
+      "size": [
+        802,
+        516
+      ],
+      "origin": "ImageGen reconstructed HD art + art-tools.remove_background/refine + art-tools.upscale 2x",
+      "role": "HD reward icon",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "83ed74b8f62e604d5b936942cd43a6f78c1e9ddb23ed101bc35bd61f32840c49"
+    },
+    {
+      "name": "gear_bag",
+      "file": "icons/gear_bag.png",
+      "size": [
+        690,
+        652
+      ],
+      "origin": "ImageGen reconstructed HD art + art-tools.remove_background/refine + art-tools.upscale 2x",
+      "role": "HD reward icon",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "aeceab90c9420ead3ff2454ab62a7f0531dd24ef0928a34888dcf234ef855a6c"
+    },
+    {
+      "name": "check_white",
+      "file": "icons/check_white.png",
+      "size": [
+        132,
+        112
+      ],
+      "origin": "original concept + art-tools.upscale 4x",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "775a99635b3c687797c1e6413fe6a4d9423c28ef26638783eb34bdbe543ed6e0"
+    }
+  ],
+  "logical_density_note": "skins/ contains HD sources; runtime/ contains native logical-size skins for standard Godot StyleBoxTexture. Margin units are runtime texture pixels. Icons remain HD.",
+  "button_states": {
+    "normal": "button_claim_orange",
+    "hover": "button_claim_orange_hover",
+    "pressed": "button_claim_orange_pressed",
+    "disabled": "button_claim_orange_disabled",
+    "countdown": "disabled style plus live HH:MM:SS text; no text baked in art"
+  },
+  "coupon_mapping": {
+    "driver.pro": "coupon_driver_pro",
+    "driver.allstar": "coupon_driver_allstar",
+    "gear.standard": "coupon_gear_standard",
+    "gear.elite": "coupon_gear_elite"
+  },
+  "validation": {
+    "godot": "4.7.2",
+    "widths": [
+      320,
+      390,
+      412
+    ],
+    "failures": 0,
+    "report": "output/imagegen/daily_gift/setup_v3/validation/validation_report.json"
+  }
+}

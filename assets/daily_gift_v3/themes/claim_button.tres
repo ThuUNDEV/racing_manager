@@ -1,0 +1,20 @@
+[gd_resource type="Theme" load_steps=6 format=3]
+
+[ext_resource type="StyleBox" path="res://assets/daily_gift_v3/styles/button_claim_orange.tres" id="1"]
+[ext_resource type="StyleBox" path="res://assets/daily_gift_v3/styles/button_claim_orange_hover.tres" id="2"]
+[ext_resource type="StyleBox" path="res://assets/daily_gift_v3/styles/button_claim_orange_pressed.tres" id="3"]
+[ext_resource type="StyleBox" path="res://assets/daily_gift_v3/styles/button_claim_orange_disabled.tres" id="4"]
+[ext_resource type="FontFile" path="res://assets/daily_gift_v3/fonts/Roboto-Bold.ttf" id="5"]
+
+[resource]
+Button/fonts/font = ExtResource("5")
+Button/font_sizes/font_size = 20
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/colors/font_hover_color = Color(1, 1, 1, 1)
+Button/colors/font_pressed_color = Color(1, 1, 1, 1)
+Button/colors/font_disabled_color = Color(0.12, 0.22, 0.32, 1)
+Button/styles/normal = ExtResource("1")
+Button/styles/hover = ExtResource("2")
+Button/styles/pressed = ExtResource("3")
+Button/styles/hover_pressed = ExtResource("3")
+Button/styles/disabled = ExtResource("4")
