@@ -1,0 +1,347 @@
+{
+  "date": "2026-11-17",
+  "engine": "Godot 4.7.2",
+  "passed": 42,
+  "pre_existing_failing_tests": 4,
+  "baseline_comparison": "Same four failures reproduced with the UI and i18n snapshot taken before this integration. Core game/data/test files otherwise identical.",
+  "checks": [
+    {
+      "test": "big_number",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/big_number.log"
+    },
+    {
+      "test": "economy",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/economy.log"
+    },
+    {
+      "test": "data",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/data.log"
+    },
+    {
+      "test": "sim",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/sim.log"
+    },
+    {
+      "test": "traffic",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/traffic.log"
+    },
+    {
+      "test": "garage",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/garage.log"
+    },
+    {
+      "test": "gear",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/gear.log"
+    },
+    {
+      "test": "gear_ui",
+      "result": "pre_existing_failure",
+      "failures": [
+        "  FAIL có coupon: nút hiển thị coupon và mở được"
+      ],
+      "log": "validation/gear_ui.log"
+    },
+    {
+      "test": "state",
+      "result": "pre_existing_failure",
+      "failures": [
+        "  FAIL Ticket Marketing cấp 1 => 8,25075/giây"
+      ],
+      "log": "validation/state.log"
+    },
+    {
+      "test": "class",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/class.log"
+    },
+    {
+      "test": "facility",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/facility.log"
+    },
+    {
+      "test": "class_ui",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/class_ui.log"
+    },
+    {
+      "test": "upgrade",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/upgrade.log"
+    },
+    {
+      "test": "boot",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/boot.log"
+    },
+    {
+      "test": "power_banner",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/power_banner.log"
+    },
+    {
+      "test": "trophy",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/trophy.log"
+    },
+    {
+      "test": "trophy_ui",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/trophy_ui.log"
+    },
+    {
+      "test": "tutorial",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/tutorial.log"
+    },
+    {
+      "test": "tutorial_unlock",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/tutorial_unlock.log"
+    },
+    {
+      "test": "tutorial_lessons",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/tutorial_lessons.log"
+    },
+    {
+      "test": "tutorial_income",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/tutorial_income.log"
+    },
+    {
+      "test": "tutorial_trophy_lesson",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/tutorial_trophy_lesson.log"
+    },
+    {
+      "test": "tutorial_navigation",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/tutorial_navigation.log"
+    },
+    {
+      "test": "tutorial_tips",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/tutorial_tips.log"
+    },
+    {
+      "test": "ads",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/ads.log"
+    },
+    {
+      "test": "ads_v1",
+      "result": "pre_existing_failure",
+      "failures": [
+        "  FAIL dữ liệu sai bị báo đúng chỗ (5 lỗi)"
+      ],
+      "log": "validation/ads_v1.log"
+    },
+    {
+      "test": "ads_ui",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/ads_ui.log"
+    },
+    {
+      "test": "ads_shop",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/ads_shop.log"
+    },
+    {
+      "test": "shop_packs",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/shop_packs.log"
+    },
+    {
+      "test": "horus",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/horus.log"
+    },
+    {
+      "test": "iap",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/iap.log"
+    },
+    {
+      "test": "daily_rewards",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/daily_rewards.log"
+    },
+    {
+      "test": "daily_rewards_ui",
+      "result": "pre_existing_failure",
+      "failures": [
+        "  FAIL Shop có dòng Quà mỗi ngày, nút 'Nhận quà'",
+        "  FAIL nhận xong: tắt hai chấm đỏ"
+      ],
+      "log": "validation/daily_rewards_ui.log"
+    },
+    {
+      "test": "i18n",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/i18n.log"
+    },
+    {
+      "test": "touch_scroll",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/touch_scroll.log"
+    },
+    {
+      "test": "popup_close_ui",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/popup_close_ui.log"
+    },
+    {
+      "test": "race_diorama",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/race_diorama.log"
+    },
+    {
+      "test": "loading_flow",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/loading_flow.log"
+    },
+    {
+      "test": "splash_flow",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/splash_flow.log"
+    },
+    {
+      "test": "player_profile",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/player_profile.log"
+    },
+    {
+      "test": "offline_ui",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/offline_ui.log"
+    },
+    {
+      "test": "driver_gacha",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/driver_gacha.log"
+    },
+    {
+      "test": "shop_ui",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/shop_ui.log"
+    },
+    {
+      "test": "asset_layout",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/asset_layout.log"
+    },
+    {
+      "test": "button_skin_ui",
+      "result": "pass",
+      "failures": [],
+      "log": "validation/button_skin_ui.log"
+    },
+    {
+      "test": "soft_miniature_ui",
+      "result": "pass",
+      "renderer": "OpenGL Compatibility / NVIDIA GTX 1660 SUPER",
+      "viewports": [
+        [
+          320,
+          568
+        ],
+        [
+          390,
+          778
+        ],
+        [
+          412,
+          915
+        ]
+      ],
+      "failures": [],
+      "log": "validation/soft_miniature_ui.log"
+    }
+  ],
+  "captures": [
+    "320_daily.png",
+    "320_garage_0.png",
+    "320_garage_1.png",
+    "320_garage_2.png",
+    "320_pack_detail.png",
+    "320_race_income.png",
+    "320_settings.png",
+    "320_tab_0.png",
+    "320_tab_1.png",
+    "320_tab_2.png",
+    "320_tab_3.png",
+    "320_tab_4.png",
+    "390_daily.png",
+    "390_garage_0.png",
+    "390_garage_1.png",
+    "390_garage_2.png",
+    "390_pack_detail.png",
+    "390_race_income.png",
+    "390_settings.png",
+    "390_tab_0.png",
+    "390_tab_1.png",
+    "390_tab_2.png",
+    "390_tab_3.png",
+    "390_tab_4.png",
+    "412_daily.png",
+    "412_garage_0.png",
+    "412_garage_1.png",
+    "412_garage_2.png",
+    "412_pack_detail.png",
+    "412_race_income.png",
+    "412_settings.png",
+    "412_tab_0.png",
+    "412_tab_1.png",
+    "412_tab_2.png",
+    "412_tab_3.png",
+    "412_tab_4.png"
+  ]
+}
