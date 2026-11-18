@@ -1,0 +1,8 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/soft_miniature_ui_v1/tutorial/linh.png" id="1"]
+
+[resource]
+atlas = ExtResource("1")
+region = Rect2(0, 270, 512, 610)
+filter_clip = true

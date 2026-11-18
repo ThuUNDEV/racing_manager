@@ -1,0 +1,39 @@
+{
+  "generator": "built-in image_gen",
+  "references": [
+    "assets/clean_modern/sheets/tutorial_linh.png",
+    "Design/Demos/SoftMiniature/approved/03-drivers.png"
+  ],
+  "prompt": "Three-column transparent atlas of Linh: smile, explaining with raised index finger, excited raised fist. Preserve brown ponytail, blue headset, navy mechanic jacket with orange shoulders and white piping. Match approved Soft Miniature drivers: rounded sculpted clay toy 3D, simplified hair locks, large friendly head, soft highlights. Same face, camera and scale across all poses. No text, UI or backdrop. Landscape 1536x1024 with one pose per 512px column.",
+  "cleanup_prompt": "Remove all background and brown/blue fog and glow. Preserve all three characters, expressions, positions and sizes. Alpha zero outside silhouettes. No haze or shadows.",
+  "generated_original": "/home/thupv/.codex/generated_images/01a1ef5e-f36a-7e22-875e-0ec654e011d9/exec-d82884f2-7691-471b-a169-d31bafb8809b.png",
+  "sha256": "0baba89ea1a67722a2cf58c16ad9c9ade418779acbb456c423fa78fbe6cb2918",
+  "atlas_regions": {
+    "smile": [
+      0,
+      270,
+      512,
+      610
+    ],
+    "point": [
+      512,
+      270,
+      512,
+      610
+    ],
+    "excited": [
+      1024,
+      270,
+      512,
+      610
+    ]
+  },
+  "hand": {
+    "generator": "tools/gen_image.py gpt-image-2.5-flare --quality low",
+    "reference": "crop of Linh point pose from tutorial/linh.png",
+    "prompt": "A single cartoon hand cursor for a mobile game tutorial: right hand with the index finger pointing straight up, other fingers curled, shown from the back of the hand with a short cuff of a navy mechanic jacket sleeve with orange trim at the bottom. Soft Miniature style: rounded sculpted clay toy 3D, cream-white glove-like skin with soft pastel shading, simplified chunky fingers, soft highlights, thin soft light-blue outline. Match the hand and sleeve of the reference character. Only the hand and sleeve, no face, no text, no backdrop, no shadow, centered, transparent background.",
+    "raw": "output/imagegen/tutorial_hand/tutorial_hand.png",
+    "processing": "trimmed to alpha bbox, fit within 256x256",
+    "sha256": "1cbdc05a6405d759bf522b125a46d999b087dbc675ed1a01e9c7f60b2e50c7c3"
+  }
+}

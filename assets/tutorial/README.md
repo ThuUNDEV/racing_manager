@@ -7,7 +7,7 @@ Ngày 12/11/2026. Art mới theo `Design/23_Tutorial_Script.md` §2 và style po
 - AtlasTexture giữ ảnh gốc, lấy mỗi vùng 512 × 560; dùng trực tiếp trong Godot. `manifest.json` ghi nguồn, SHA-256 và tọa độ.
 - `avatar_circle.gdshader`: mask tròn cho avatar 56 × 56 của callout. Nền xanh, tên và lời thoại là UI thật; không nằm trong ảnh.
 
-Đã tích hợp trong `ui/tutorial_overlay.gd`, thay icon staff dự phòng. Khi hỏi bỏ qua dùng biểu cảm cười. Bàn tay tiếp tục dùng `assets/workshop_gp/ui/tutorial_hand.svg`; spotlight vẫn vẽ động theo mục tiêu.
+Đã tích hợp trong `ui/tutorial_overlay.gd`, thay icon staff dự phòng. Khi hỏi bỏ qua dùng biểu cảm cười. Bàn tay dùng `assets/soft_miniature_ui_v1/tutorial/hand.png`; spotlight vẫn vẽ động theo mục tiêu.
 
 Kiểm tra: Godot 4.7.2 import thành công; `tests/tutorial_test.gd`: 0 failures. Native OpenGL render 9 ảnh ở 320/390/412 px × 3 biểu cảm bằng `tools/preview_tutorial_art.gd`, lưu `Design/Previews/tutorial_linh_*.png`. Đã xem ảnh 320 px chỉ tay và 390 px hào hứng. Có cảnh báo resource/RID leak khi đóng runner; chưa kiểm trên điện thoại thật.
 

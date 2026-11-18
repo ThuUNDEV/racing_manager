@@ -2407,6 +2407,65 @@
         444
       ],
       "transparent": true
+    },
+    "tutorial_linh_smile": {
+      "method": "imagegen_reference_edit",
+      "provenance": "built-in image_gen; prompts and references in tutorial/provenance.json",
+      "png_2x": "tutorial/linh.png",
+      "native_size": [
+        512,
+        610
+      ],
+      "visible_region_xywh": [
+        0,
+        270,
+        512,
+        610
+      ],
+      "transparent": true
+    },
+    "tutorial_linh_point": {
+      "method": "imagegen_reference_edit",
+      "provenance": "built-in image_gen; prompts and references in tutorial/provenance.json",
+      "png_2x": "tutorial/linh.png",
+      "native_size": [
+        512,
+        610
+      ],
+      "visible_region_xywh": [
+        512,
+        270,
+        512,
+        610
+      ],
+      "transparent": true
+    },
+    "tutorial_linh_excited": {
+      "method": "imagegen_reference_edit",
+      "provenance": "built-in image_gen; prompts and references in tutorial/provenance.json",
+      "png_2x": "tutorial/linh.png",
+      "native_size": [
+        512,
+        610
+      ],
+      "visible_region_xywh": [
+        1024,
+        270,
+        512,
+        610
+      ],
+      "transparent": true
+    },
+    "tutorial_hand": {
+      "method": "imagegen_reference_edit",
+      "provenance": "gen_image.py gpt-image-2.5-flare low, ref Linh point crop; prompt in tutorial/provenance.json",
+      "png_2x": "tutorial/hand.png",
+      "native_size": [
+        133,
+        256
+      ],
+      "sha256": "1cbdc05a6405d759bf522b125a46d999b087dbc675ed1a01e9c7f60b2e50c7c3",
+      "transparent": true
     }
   },
   "hd_restoration": {

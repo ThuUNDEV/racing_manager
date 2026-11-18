@@ -1,6 +1,6 @@
 class_name TutorialOverlay
 extends Control
-const CleanArt = preload("res://ui/clean_modern_art.gd")
+const Soft = preload("res://ui/soft_miniature.gd")
 ## Lớp hiển thị hướng dẫn đầu game Phần A (Design/23 §4): một callout của Linh + một spotlight + bàn tay.
 ## Không chặn vòng đua; chỉ giữ bảng kết quả hiện có ở bước A6. Lớp gốc bỏ qua chuột, chỉ callout nhận chạm.
 ## main.gd cấp vị trí mục tiêu qua `target_provider` và số liệu lời thoại qua `context_provider`.
@@ -8,14 +8,18 @@ const CleanArt = preload("res://ui/clean_modern_art.gd")
 signal result_released          # A6 xong: main ẩn bảng kết quả, vòng đua chạy tiếp
 signal reveal_requested(step: String)  # main cuộn trang tới mục tiêu (ô nâng cấp) nếu đang khuất
 
-const C_RING := Color("62b8e5")
-const C_DIM := Color(0, 0, 0, 0.6)
-const C_DIM_LIGHT := Color(0, 0, 0, 0.42)  # vòng tròn quanh xe: nền nhẹ hơn để vẫn thấy xe
-const HAND_PATH := "res://assets/workshop_gp/ui/tutorial_hand.svg"
+const C_RING := Color("ffae35")
+const C_DIM := Color(0.035, 0.09, 0.16, 0.58)
+const C_DIM_LIGHT := Color(0.035, 0.09, 0.16, 0.40)  # vòng tròn quanh xe: nền nhẹ hơn để vẫn thấy xe
+const PORTRAIT_SIZE := Vector2(112, 128)
+const PORTRAIT_RISE := 58.0  # phần Linh nhô lên trên mép khung thoại
+const HAND_PATH := "res://assets/soft_miniature_ui_v1/tutorial/hand.png"
+const HAND_SIZE := Vector2(37, 72)
+const HAND_TIP_X := 24.0  # đầu ngón trỏ cách mép trái ảnh, theo HAND_SIZE
 const LINH_PORTRAITS := {
-	"smile": preload("res://assets/clean_modern/resources/tutorial/portraits/linh_smile.tres"),
-	"point": preload("res://assets/clean_modern/resources/tutorial/portraits/linh_point.tres"),
-	"excited": preload("res://assets/clean_modern/resources/tutorial/portraits/linh_excited.tres"),
+	"smile": preload("res://assets/soft_miniature_ui_v1/tutorial/linh_smile.tres"),
+	"point": preload("res://assets/soft_miniature_ui_v1/tutorial/linh_point.tres"),
+	"excited": preload("res://assets/soft_miniature_ui_v1/tutorial/linh_excited.tres"),
 }
 
 ## (step: String, sub: int) -> {"rect": Rect2 toàn cục, "round": bool, "hand": Vector2 toàn cục (tùy chọn)}; {} = không có mục tiêu.
@@ -61,6 +65,32 @@ var _skip: Button
 var _hand: TextureRect
 var _portrait: TextureRect
 var _progress: Label
+var _badge: PanelContainer
+var _dots: StepDots
+
+## Chấm tiến độ các bước hướng dẫn: đã xong cam, bước hiện tại là viên thuốc xanh, còn lại xám.
+class StepDots extends Control:
+	var count: int = 0
+	var index: int = 0
+
+	func set_progress(current: int, total: int) -> void:
+		index = current
+		count = total
+		custom_minimum_size = Vector2(maxf(0.0, count * 14.0 + 12.0), 16)
+		queue_redraw()
+
+	func _draw() -> void:
+		var x := 0.0
+		var cy := size.y * 0.5
+		for i in count:
+			var current := i == index
+			var w := 18.0 if current else 8.0
+			var col := Color("3b9be0") if current else (Color("ffae35") if i < index else Color("d8d7ca"))
+			var box := StyleBoxFlat.new()
+			box.bg_color = col
+			box.set_corner_radius_all(4)
+			draw_style_box(box, Rect2(x, cy - 4.0, w, 8.0))
+			x += w + 6.0
 
 
 func _ready() -> void:
@@ -69,34 +99,27 @@ func _ready() -> void:
 	_panel = PanelContainer.new()
 	_panel.name = "TutorialCallout"
 	_panel.mouse_filter = Control.MOUSE_FILTER_STOP
-	var card := StyleBoxFlat.new()
-	card.bg_color = Color("ffffff")
-	card.border_color = Color("d8e2df")
-	card.set_border_width_all(2)
-	card.set_corner_radius_all(16)
-	card.content_margin_left = 18
-	card.content_margin_right = 18
-	card.content_margin_top = 14
-	card.content_margin_bottom = 12
-	card.shadow_color = Color(0.03, 0.12, 0.29, 0.23)
-	card.shadow_size = 8
-	card.shadow_offset = Vector2(0, 4)
-	_panel.add_theme_stylebox_override("panel", card)
+	_panel.add_theme_stylebox_override("panel", Soft.surface("panel", Vector4(16, 12, 16, 16)))
 	add_child(_panel)
 	var body := VBoxContainer.new()
 	body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	body.add_theme_constant_override("separation", 12)
+	body.add_theme_constant_override("separation", 10)
 	_panel.add_child(body)
+	var header := PanelContainer.new()
+	header.name = "TutorialHeader"
+	header.custom_minimum_size.y = PORTRAIT_SIZE.y - PORTRAIT_RISE - 12.0
+	header.add_theme_stylebox_override("panel", Soft.surface("section", Vector4(4, 4, 8, 4)))
+	body.add_child(header)
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 8)
-	body.add_child(row)
+	header.add_child(row)
 	var portrait_space := Control.new()
-	portrait_space.custom_minimum_size = Vector2(72, 50)
+	portrait_space.custom_minimum_size = Vector2(PORTRAIT_SIZE.x - 14.0, 0)
 	portrait_space.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	row.add_child(portrait_space)
 	_portrait = TextureRect.new()
 	_portrait.name = "LinhPortrait"
-	_portrait.size = Vector2(84, 92)
+	_portrait.size = PORTRAIT_SIZE
 	_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	_portrait.texture = LINH_PORTRAITS["smile"]
@@ -110,33 +133,29 @@ func _ready() -> void:
 	var name_l := Label.new()
 	name_l.text = Tutorial.MENTOR
 	name_l.add_theme_font_size_override("font_size", 22)
-	name_l.add_theme_color_override("font_color", Color("62b8e5"))
+	name_l.add_theme_color_override("font_color", Soft.INK)
 	who.add_child(name_l)
 	var role := Label.new()
 	role.text = I18n.t("tutorial.chief_engineer")
 	role.add_theme_font_size_override("font_size", 11)
-	role.add_theme_color_override("font_color", Color("788b95"))
+	role.add_theme_color_override("font_color", Soft.MUTED)
+	role.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	who.add_child(role)
-	_progress = Label.new()
-	_progress.name = "TutorialProgress"
-	_progress.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	_progress.add_theme_font_size_override("font_size", 11)
-	_progress.add_theme_color_override("font_color", Color("62b8e5"))
-	row.add_child(_progress)
-	var rule := HSeparator.new()
-	var rule_style := StyleBoxLine.new()
-	rule_style.color = Color("d8e2df")
-	rule_style.thickness = 1
-	rule.add_theme_stylebox_override("separator", rule_style)
-	body.add_child(rule)
+	var bubble := PanelContainer.new()
+	bubble.name = "TutorialBubble"
+	var bubble_skin := Soft.flat(Color("fffdf6"), 12, 14)
+	bubble_skin.content_margin_top = 10
+	bubble_skin.content_margin_bottom = 10
+	bubble.add_theme_stylebox_override("panel", bubble_skin)
+	body.add_child(bubble)
 	_text = Label.new()
 	_text.name = "TutorialText"
 	_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_text.add_theme_font_size_override("font_size", 15)
 	_text.add_theme_constant_override("line_spacing", 4)
-	_text.add_theme_color_override("font_color", Color("0e2b5c"))
-	body.add_child(_text)
+	_text.add_theme_color_override("font_color", Soft.INK)
+	bubble.add_child(_text)
 	var buttons := HBoxContainer.new()
 	buttons.add_theme_constant_override("separation", 8)
 	body.add_child(buttons)
@@ -152,10 +171,24 @@ func _ready() -> void:
 	HdUi.style_button(_skip, "cancel")
 	_skip.pressed.connect(_on_skip)
 	buttons.add_child(_skip)
-	var gap := Control.new()
-	gap.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	gap.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	buttons.add_child(gap)
+	var status := HBoxContainer.new()
+	status.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	status.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	status.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	buttons.add_child(status)
+	_dots = StepDots.new()
+	_dots.name = "TutorialDots"
+	status.add_child(_dots)
+	_badge = PanelContainer.new()
+	_badge.name = "TutorialBadge"
+	_badge.add_theme_stylebox_override("panel", Soft.flat(Color("ffe3a8"), 3, 9))
+	status.add_child(_badge)
+	_progress = Label.new()
+	_progress.name = "TutorialProgress"
+	_progress.add_theme_font_size_override("font_size", 12)
+	_progress.add_theme_color_override("font_color", Color("8a3a05"))
+	_progress.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_badge.add_child(_progress)
 	_primary = Button.new()
 	_primary.name = "TutorialNext"
 	_primary.custom_minimum_size = Vector2(108, 44)
@@ -165,11 +198,11 @@ func _ready() -> void:
 	buttons.add_child(_primary)
 	_hand = TextureRect.new()
 	_hand.name = "TutorialHand"
-	_hand.texture = CleanArt.asset(HAND_PATH) as Texture2D
+	_hand.texture = load(HAND_PATH) as Texture2D
 	_hand.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_hand.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	_hand.custom_minimum_size = Vector2(56, 56)
-	_hand.size = Vector2(56, 56)
+	_hand.custom_minimum_size = HAND_SIZE
+	_hand.size = HAND_SIZE
 	_hand.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_hand)
 	# Bốn tấm chặn chạm nằm dưới callout/bàn tay: chừa một lỗ đúng vùng mục tiêu, hoặc phủ kín ở bước chỉ đọc.
@@ -694,7 +727,13 @@ func _update_view() -> void:
 
 ## Đặt callout cạnh mục tiêu (trên hoặc dưới) và bàn tay nếu có.
 func _place_panel() -> void:
-	_progress.text = I18n.t("tutorial.tip") if tip_mode else (I18n.t("tutorial.unlocked") if (intro != "" or nav != "") else "%d / %d" % [maxi(1, Tutorial.step_ids().find(step) + 1), Tutorial.step_ids().size()])
+	var lesson_step := intro == "" and nav == ""
+	_dots.visible = lesson_step
+	_badge.visible = not lesson_step
+	if lesson_step:
+		_dots.set_progress(maxi(0, Tutorial.step_ids().find(step)), Tutorial.step_ids().size())
+	else:
+		_progress.text = I18n.t("tutorial.tip") if tip_mode else I18n.t("tutorial.unlocked")
 	var w := minf(size.x - 32.0, 380.0)
 	_panel.custom_minimum_size = Vector2(w, 0)
 	_panel.size = Vector2(w, 0)
@@ -703,14 +742,14 @@ func _place_panel() -> void:
 	if _target.has("rect"):
 		var r := _local(_target["rect"])
 		if r.get_center().y < size.y * 0.5:
-			pos.y = r.end.y + 40.0
+			pos.y = r.end.y + PORTRAIT_RISE + 12.0
 		else:
 			pos.y = r.position.y - h - 14.0
 			if bool(_target.get("hand_down", false)):
-				pos.y -= 56.0  # chừa chỗ cho bàn tay chỉ xuống tab
-	pos.y = clampf(pos.y, 34.0, maxf(34.0, size.y - h - 8.0))
+				pos.y -= HAND_SIZE.y + 8.0  # chừa chỗ cho bàn tay chỉ xuống tab
+	pos.y = clampf(pos.y, PORTRAIT_RISE + 12.0, maxf(PORTRAIT_RISE + 12.0, size.y - h - 8.0))
 	_panel.position = pos
-	_portrait.position = pos + Vector2(12, -26)
+	_portrait.position = pos + Vector2(2, -PORTRAIT_RISE)
 	var has_hand := _target.has("hand")
 	_hand.visible = has_hand
 	_hand.pivot_offset = _hand.size * 0.5
@@ -719,9 +758,9 @@ func _place_panel() -> void:
 		var bob := sin(_pulse / 1.2 * TAU) * 6.0
 		if bool(_target.get("hand_down", false)):
 			_hand.rotation = PI  # tab nằm ở đáy màn: bàn tay đứng phía trên, chỉ xuống
-			_hand.position = _local_point(_target["hand"]) + Vector2(-28.0, -62.0 - bob)
+			_hand.position = _local_point(_target["hand"]) + Vector2(HAND_TIP_X - HAND_SIZE.x, -HAND_SIZE.y - 6.0 - bob)
 		else:
-			_hand.position = _local_point(_target["hand"]) + Vector2(-8.0, 6.0 + bob)
+			_hand.position = _local_point(_target["hand"]) + Vector2(-HAND_TIP_X, 4.0 + bob)
 
 
 ## Chế độ chặn chạm của lời dẫn đang hiện (Design/31 §3.1): "" không chặn, "all" chặn cả màn, "hole" chừa vùng mục tiêu.
@@ -854,6 +893,13 @@ func _draw() -> void:
 		sb.set_corner_radius_all(16)
 		sb.corner_detail = 16
 		draw_style_box(sb, r)
+		var halo := StyleBoxFlat.new()
+		halo.draw_center = false
+		halo.border_color = Color(1, 1, 1, 0.9)
+		halo.set_border_width_all(2)
+		halo.set_corner_radius_all(20)
+		halo.corner_detail = 16
+		draw_style_box(halo, r.grow(3.0))
 
 
 func _record_progress() -> void:
