@@ -109,7 +109,7 @@ static func surface(id: String, margin: float = 8.0) -> StyleBoxTexture:
 	return HdUi.Soft.surface(kind, Vector4.ONE * margin)
 
 static func picture(id: String, extent: Vector2) -> TextureRect:
-	var key: String = {"gem_single": "currency_gem", "cash_small": "currency_cash", "cash_medium": "currency_cash", "cash_large": "currency_cash", "gift": "gift_red", "income": "currency_coins", "no_ads": "shop_no_ads", "offline": "garage_with_car"}.get(id, "")
+	var key: String = {"gem_single": "currency_gem", "cash_small": "currency_cash", "cash_medium": "currency_cash", "cash_large": "currency_cash", "gift": "gift_red", "income": "currency_cash", "no_ads": "shop_no_ads", "offline": "garage_with_car"}.get(id, "")
 	var texture: Texture2D = HdUi.Soft.texture(key) if key != "" else load(ROOT + "sprites/" + id + ".tres") as Texture2D
 	return _texture_rect(texture, extent)
 

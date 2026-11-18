@@ -79,9 +79,9 @@ func set_button_parts(button: Button, parts: Array, font_size: int = 30) -> void
 			label.text = String(part)
 			label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			label.add_theme_font_size_override("font_size", font_size)
-			label.add_theme_color_override("font_color", Color.WHITE)
+			label.add_theme_color_override("font_color", Color(0.05, 0.14, 0.38, 1) if button.disabled else Color.WHITE)
 			label.add_theme_color_override("font_outline_color", Color(0.7, 0.28, 0.02, 1))
-			label.add_theme_constant_override("outline_size", 5)
+			label.add_theme_constant_override("outline_size", 0 if button.disabled else 5)
 			row.add_child(label)
 	button.add_child(row)
 

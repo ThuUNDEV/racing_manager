@@ -329,21 +329,21 @@ const H_ART_ID := {"starter_1": "starter", "starter_2": "starter", "starter_3": 
 
 
 ## Wraps a design-size control in a slot that scales it to the page width.
-func _h_slot(parent: Node, content: Control, design_h: float) -> Control:
+func _h_slot(parent: Node, content: Control, design_h: float, design_w: float = H_DESIGN_W) -> Control:
 	var slot := Control.new()
 	slot.theme = H_THEME
 	slot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	slot.mouse_filter = Control.MOUSE_FILTER_PASS
 	parent.add_child(slot)
 	slot.add_child(content)
-	content.size = Vector2(H_DESIGN_W, design_h)
+	content.size = Vector2(design_w, design_h)
 	slot.resized.connect(func() -> void:
-		var k := slot.size.x / H_DESIGN_W
+		var k := slot.size.x / design_w
 		if k <= 0.0:
 			return
 		slot.custom_minimum_size.y = design_h * k
 		content.scale = Vector2(k, k)
-		content.size = Vector2(H_DESIGN_W, design_h))
+		content.size = Vector2(design_w, design_h))
 	return slot
 
 
@@ -382,7 +382,6 @@ func _h_card(parent: Node, design_h: float, art_id: String, card_title: String, 
 	card.title = card_title
 	card.title_size = title_size
 	card.show_detail = false
-	(card.get_node("%Detail") as LinkButton).text = I18n.t("shop.view")
 	return card
 
 
@@ -414,7 +413,6 @@ func _h_offer_card(parent: Node, p: Dictionary, row_h: float) -> void:
 	var card_title := String(_offer_title(p)[0]) if kind == "character" else PackUi.title(p)
 	var card := _h_card(parent, row_h, "", card_title, 38)
 	card.art = _h_art(sku)
-	card.show_detail = kind != "daily"
 	card.price_text = String(p.get("price_fallback", ""))
 	card.set_rewards(_h_rewards(p, verbose), 26 if verbose else 32, not verbose)
 	if kind == "character":
@@ -428,7 +426,6 @@ func _h_offer_card(parent: Node, p: Dictionary, row_h: float) -> void:
 	var button := card.get_node("%Price") as Button
 	button.name = "Iap_" + sku
 	card.buy_pressed.connect(func() -> void: iap_requested.emit(sku))
-	card.detail_pressed.connect(func() -> void: details_requested.emit(sku))
 	var status := _text("", 10, MUTED)
 	status.hide()
 	slot.add_child(status)
@@ -731,7 +728,8 @@ func update_packs() -> void:
 		_pack_box.remove_child(c)
 		c.queue_free()
 	var grid := GridContainer.new()
-	grid.columns = 1
+	grid.columns = 2
+	grid.name = "PackGrid"
 	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	grid.add_theme_constant_override("h_separation", 8)
 	grid.add_theme_constant_override("v_separation", 8)
@@ -745,13 +743,12 @@ func update_packs() -> void:
 func _pack_card(parent: Node, kind: String, pack: Dictionary) -> void:
 	var id := String(pack["id"])
 	var art_id := ("pack_driver_pro" if id == "pro" else "pack_driver_allstar") if kind == "driver" else "pack_gear_" + id
-	var card := _h_card(parent, 215.0, art_id, String(pack["name"]), 30)
-	card.badge_text = _t("shop.pack_sub_" + id, "")
-	card.show_info = true
-	var info := card.get_node("%InfoButton") as Button
-	info.name = "ShopPackInfo_%s_%s" % [kind, id]
-	info.accessibility_name = I18n.t("shop.view_2") + String(pack["name"])
-	info.tooltip_text = info.accessibility_name
+	var card := ShopPackGridCard.new()
+	_h_slot(parent, card, ShopPackGridCard.DESIGN_SIZE.y, ShopPackGridCard.DESIGN_SIZE.x)
+	card.setup(_h_tex(art_id), String(pack["name"]), _t("shop.pack_sub_" + id, ""))
+	card.info.name = "ShopPackInfo_%s_%s" % [kind, id]
+	card.info.accessibility_name = I18n.t("shop.view_2") + String(pack["name"])
+	card.info.tooltip_text = card.info.accessibility_name
 	card.info_pressed.connect(func() -> void: pack_info_requested.emit(kind, id))
 	for n in [1, 10]:
 		var pay: Dictionary = GameState.driver_payment(id, n) if kind == "driver" else GameState.gear_payment(id, n)
@@ -759,15 +756,11 @@ func _pack_card(parent: Node, kind: String, pack: Dictionary) -> void:
 		var cost := "—"
 		if not pay.is_empty():
 			cost = ("%d coupon" if pay["method"] == "coupon" else "%d gem") % int(pay["amount"])
-		var b := card.get_node("%Price" if n == 1 else "%Price2") as Button
-		b.visible = true
-		b.custom_minimum_size.y = 64
+		var currency: Texture2D = ShopOfferCard.TICKET_ICON if pay.get("method", "") == "coupon" else ShopOfferCard.GEM_ICON
+		var b := card.add_open_button(n, currency, str(int(pay.get("amount", 0))) if not pay.is_empty() else "—", not affordable)
 		b.name = "ShopOpen_%s_%s_x%d" % [kind, id, n]
-		b.disabled = not affordable
 		b.accessibility_name = I18n.t("drivers.open_x") % [n, cost]
 		b.tooltip_text = b.accessibility_name
-		var currency: Texture2D = ShopOfferCard.TICKET_ICON if pay.get("method", "") == "coupon" else ShopOfferCard.GEM_ICON
-		card.set_button_parts(b, [I18n.t("shop.open_x") % n, currency, str(int(pay.get("amount", 0))) if not pay.is_empty() else "—"], 22)
 		b.pressed.connect(func() -> void: pack_open_requested.emit(kind, id, n))
 
 
@@ -857,64 +850,42 @@ func update_ads(view: Dictionary) -> void:
 			ShopSkin.price_text(button, int(_ad_buttons[pl].get("price_font", 34)), UnitScale.unit_of(button))
 
 
+func _g_card(parent: Node, art_id: String) -> ShopGridCard:
+	var card := ShopGridCard.new()
+	_h_slot(parent, card, ShopGridCard.DESIGN_SIZE.y, ShopGridCard.DESIGN_SIZE.x)
+	card.art_rect.texture = _h_tex(art_id)
+	return card
+
+
 func _currency_card(parent: Node, icon: String, amount: String, price: String, category: String) -> void:
-	var canvas := _reference_canvas(parent, Vector2(175, 170))
-	var art := ShopSkin.match_picture(icon)
-	canvas.add_child(art)
-	var art_size: Vector2 = {"cash_small": Vector2(81, 59), "cash_medium": Vector2(116, 66), "cash_large": Vector2(138, 70)}[icon]
-	UnitScale.place(art, Vector2((175 - art_size.x) / 2, 14), art_size)
-	var count := _text(amount.replace(".", ","), 31, ShopSkin.INK)
-	count.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	canvas.add_child(count)
-	UnitScale.place(count, Vector2(0, 75), Vector2(175, 37))
-	var button := _reference_button(price, 30, "action")
-	button.pressed.connect(func() -> void: offer_requested.emit(amount + " " + category, I18n.t("shop.coming_soon_exchange_gems_cash")))
-	ShopSkin.style_button(button, "action")
-	button.icon = load(ShopSkin.ROOT + "sprites/gem_single.tres")
-	button.expand_icon = true
-	button.add_theme_constant_override("icon_max_width", 34)
-	button.add_theme_constant_override("h_separation", 8)
-	button.add_theme_font_size_override("font_size", 30)
-	canvas.add_child(button)
-	UnitScale.place(button, Vector2(11, 113), Vector2(153, 46))
+	var card := _g_card(parent, icon)
+	card.setup(_h_tex(icon), amount.replace(".", ","), price, ShopOfferCard.GEM_ICON)
+	card.buy_pressed.connect(func() -> void: offer_requested.emit(amount + " " + category, I18n.t("shop.coming_soon_exchange_gems_cash")))
 
 
 func _free_gem_card(parent: Node) -> void:
-	var canvas := _reference_canvas(parent, Vector2(175, 164))
-	var art := ShopSkin.match_picture("gem_2")
-	art.name = "GemArt_free"
-	canvas.add_child(art)
-	UnitScale.place(art, Vector2(26, 23), Vector2(123, 66))
-	var amount := _reference_label(canvas, str(int(GameData.ads().get("placements", {}).get("free_gems", {}).get("amount", 0))), Vector2(0, 64), Vector2(175, 36), 30)
-	amount.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	ShopSkin.outlined_number(amount)
-	_reference_ad(canvas, "free_gems", Vector2(11, 113), Vector2(153, 44), 22)
+	var card := _g_card(parent, "free_gems")
+	card.setup(_h_tex("free_gems"), str(int(GameData.ads().get("placements", {}).get("free_gems", {}).get("amount", 0))), "")
+	card.get_parent().name = "FreeGemCard"
+	card.art_rect.name = "GemArt_free"
+	card.price.name = "Ad_free_gems"
+	card.buy_pressed.connect(func() -> void: ad_requested.emit("free_gems"))
+	var status := _text("", 11, MUTED)
+	status.hide()
+	card.get_parent().add_child(status)
+	_ad_buttons["free_gems"] = {"button": card.price, "status": status, "reference": true, "price_font": 30}
 
 
 func _gem_card(parent: Node, sku: String, amount: int, price: String) -> void:
-	var index := int(sku.right(1)) - 1
-	var tall := index >= 3
-	var canvas := _reference_canvas(parent, Vector2(175, 164 if tall else 148))
+	var card := _g_card(parent, "gems_%d" % amount)
+	card.setup(_h_tex("gems_%d" % amount), "%d.%03d" % [amount / 1000, amount % 1000] if amount >= 1000 else str(amount), price, null, I18n.t("shop.first_time_x_2"))
+	card.art_rect.name = "GemArt_" + sku
+	card.price.name = "Iap_" + sku
+	card.buy_pressed.connect(func() -> void: iap_requested.emit(sku))
 	var status := _text("", 16, Color.WHITE)
 	status.hide()
-	canvas.add_child(status)
-	var ribbon := _reference_picture(canvas, "first_bonus", Vector2(0, -7), Vector2(126, 47))
-	var art := ShopSkin.match_picture("gem_%d" % (index + 1))
-	art.name = "GemArt_" + sku
-	canvas.add_child(art)
-	var art_boxes := [Rect2(36,25,107,62), Rect2(29,25,122,65), Rect2(34,23,113,77), Rect2(34,22,122,79), Rect2(18,20,147,83)]
-	UnitScale.place(art, art_boxes[index].position, art_boxes[index].size)
-	# Ribbon remains above the illustration, matching the slanted top-left reference tag.
-	canvas.move_child(ribbon, canvas.get_child_count() - 1)
-	var count := _reference_label(canvas, "%d.%03d" % [amount / 1000, amount % 1000] if amount >= 1000 else str(amount), Vector2(0, 58 + (12 if tall else 0)), Vector2(175, 36), 30)
-	count.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	ShopSkin.outlined_number(count)
-	var button := _reference_button(price, 27)
-	button.name = "Iap_" + sku
-	button.pressed.connect(func() -> void: iap_requested.emit(sku))
-	canvas.add_child(button)
-	UnitScale.place(button, Vector2(11, 100 + (13 if tall else 0)), Vector2(153, 40))
-	_iap_buttons[sku] = {"button": button, "status": status, "reference": true, "ribbon": ribbon, "price_font": 27}
+	card.get_parent().add_child(status)
+	_iap_buttons[sku] = {"button": card.price, "status": status, "reference": true, "ribbon": card.bonus, "price_font": 34}
 
 
 func _resource_art(parent: Control, id: String, amount: String) -> void:
