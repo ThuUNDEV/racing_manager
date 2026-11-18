@@ -248,6 +248,53 @@ Tỉ lệ gói · Điều khoản · Chính sách riêng tư
 - Lá cờ khán đài không tạo khi có popup bán hàng đang mở (26 đã chặn "popup khác"); Ads Break không hiện khi có popup đang mở (26 §7).
 - Analytics: `popup_skip` ghi lý do chặn (§7.4).
 
+### 5c. Vòng đời popup, điều kiện vào/ra hàng đợi và ưu tiên *(đề xuất 17/11/2026, chờ duyệt)*
+
+Bổ sung §5b, tham chiếu cách `PromptConfig` của Race Star tách điều kiện mở (`unlock`) và điều kiện dừng (`dismiss`) (`Design/References/RaceStar_APK_1.9.0/race_star_iap_design.md` §6). Không đổi luật "mỗi offer tự hiện một lần" và giới hạn §5b.
+
+**1. Một nguồn sự thật cho "được hiện".** Popup tự hiện và thẻ trong Shop dùng chung `Iap.block_reason(sku)`. Chưa đủ điều kiện (`locked`, `flag`, `requires`, `hidden`, `maxed`) thì **không có thẻ trong Shop và không vào hàng đợi popup**. Thẻ `once`, `owned`, `daily`, `weekly` không bao giờ tự bật popup.
+
+**2. Trạng thái của một offer** (lưu trong `iap.offers[sku]`):
+
+| Trạng thái | Nghĩa | Chuyển khi |
+|---|---|---|
+| `locked` | Chưa đạt mốc `unlock` | Đạt mốc → `queued`, ghi `open_t` |
+| `queued` | Đủ điều kiện, chờ lượt hiện | Hiện popup → `shown`; hết điều kiện (dưới) → `dropped` |
+| `shown` | Đã tự hiện một lần (`popup_count` = 1) | Từ đây chỉ còn thẻ và chấm đỏ trong Shop |
+| `dropped` | Bị gỡ khỏi hàng đợi | Thẻ Shop vẫn theo `block_reason` |
+
+**3. Gỡ khỏi hàng đợi (dismiss).** Kiểm tra lại `block_reason(sku)` ngay trước khi hiện, không dùng trạng thái cũ. Gỡ khi:
+- Đã mua gói đó (`once`), hoặc quyền lợi đã có (`owned`).
+- Có gói thay thế: mua `no_ads` thì gỡ `offer_noads_bundle`, và ngược lại; mua `starter_2` hoặc `starter_3` trực tiếp thì gỡ các bước trước chưa hiện (chuỗi chỉ bán bước đang mở).
+- Hết lý do bán: `flag` tắt, tay đua đã `maxed`, `requires` không còn thỏa.
+- Gỡ ghi `popup_skip` với `why: "dropped"` kèm `reason`.
+
+**4. Điểm ưu tiên khi nhiều popup cùng chờ** (cao hiện trước; hòa thì mốc đạt trước, `open_t` nhỏ hơn):
+
+| SKU | Điểm | Lý do |
+|---|---:|---|
+| `starter_1` | 300 | Giá trị cao nhất, gói chuyển người chơi miễn phí thành người mua |
+| `starter_2` | 250 | |
+| `starter_3` | 250 | |
+| `offer_combo_2` | 200 | |
+| `offer_combo_1` | 150 | |
+| `offer_noads_bundle` | 100 | Gắn với Ads Break, dễ gây cảm giác bị ép nếu hiện trước |
+
+Điểm nằm trong `data/iap.json → products[].auto_popup.priority`. Chỉ phân xử giữa các popup đang chờ; giới hạn §5b (cách nhau ≥ `popup.gap_sec`, tối đa `popup.per_day`) vẫn áp trước.
+
+**5. Cooldown.** Giữ một lần tự hiện mỗi offer (§4.4) và khoảng cách chung §5b; **không** lặp lại theo chu kỳ 24 giờ như Race Star (xem câu hỏi 12). Riêng `starter_2/3` giữ `next_session` và `after_hours: 24`.
+
+**6. Tương tác với Shop.** Popup đang hiện mà người chơi mua xong thì đóng popup và gỡ offer. Bấm "Để sau" hoặc đóng chỉ chuyển sang `shown`, không mất thẻ trong Shop.
+
+**7. Dữ liệu và kiểm tra.**
+- `auto_popup` thêm khóa `priority` (số nguyên ≥ 0); `GameData.validate()` kiểm khóa này có mặt với mọi SKU có `auto_popup`, và mọi SKU tự hiện có điểm riêng hoặc quy tắc hòa (§5c.4).
+- `iap.offers[sku]` thêm trường `state`; save cũ không có thì suy từ `popup_count` (0 → tính lại theo điều kiện, ≥ 1 → `shown`).
+- Analytics: `popup_skip.why` thêm `dropped` (kèm `reason`); `offer_show.why` giữ `milestone`.
+
+**8. Kiểm thử cần có** (`tests/iap_test.gd` hoặc file mới): chưa đủ mốc không vào hàng đợi; đủ mốc vào hàng đợi đúng thứ tự điểm; hiện đúng một lần; bị chặn thì giữ trong hàng đợi; mua gói thay thế thì bị gỡ; vượt `per_day` thì sang ngày sau; save cũ nạp đúng.
+
+**Câu hỏi cần duyệt:** xem §10 mục 12–14.
+
 ---
 
 ## 6. Dữ liệu: `data/iap.json`
@@ -392,6 +439,10 @@ bấm giá → can_buy? → khóa nút IAP, chốt pending_ctx (income) và LƯU
 6. **Công bố tỉ lệ và cờ ẩn gói theo quốc gia** (§8): đồng ý sửa 05/D1 để ghi nhận gacha đã có?
 7. **Gói nhân vật** (§4.5): bán đích danh 6 tay đua Elite/Legend, mở sớm hơn 1 bậc so với điều kiện tuyển, đã có thì đổi thành 40 mảnh. Muốn bán cả Rookie/Pro, hay cho mua lặp lại để lấy mảnh tới cấp tối đa?
 8. **Tay đua tặng trong Starter** (§4.3): Hà ở `starter_2`, My ở `starter_3` — giữ hay chọn người khác?
+
+12. **Lặp popup** (§5c.5): giữ "một lần mỗi offer" (đúng 05 §1.4), hay cho lặp lại mỗi 24 giờ tới khi mua như Race Star (nhưng vẫn trong giới hạn `per_day`)?
+13. **Điểm ưu tiên** (§5c.4): ổn như bảng, hay muốn `offer_noads_bundle` cao hơn combo?
+14. **Mua bậc sau thì gỡ bậc trước** (§5c.3): có gỡ `starter_1` chưa hiện khi người chơi đã mua thẳng `starter_2`, hay vẫn cho hiện?
 
 **Đã chốt 13/11/2026**
 9. Popup `starter_1` dời sang sau `U5_drivers` (khoảng lượt 6); `starter_2/3` tự hiện ở phiên kế tiếp, cách ≥ 24 giờ (§4.3, §5b).

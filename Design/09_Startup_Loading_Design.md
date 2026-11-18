@@ -197,3 +197,18 @@ Bộ art nằm ở [Assets/StartupLoading](Assets/StartupLoading/README.md):
 - [Concept màn hoàn chỉnh](Assets/StartupLoading/loading_screen_concept.png): ảnh tham khảo bố cục, có tên game, xe, thanh tiến độ và chữ; không dùng ảnh concept làm UI runtime.
 
 Concept là bố cục đề xuất để xem, chưa phải screenshot game đang chạy. Khi dùng art đã tạo, cho garage chiếm khoảng 32–68% chiều cao thay cho minh họa nhỏ ban đầu; giữ khu vực tiêu đề phía trên và trạng thái/thanh/mẹo ở phía dưới. Vị trí xe và typography cần căn lại theo safe area; thông số bố trí ban đầu nằm trong README của bộ asset. Logo/tên, trạng thái, %, thanh tiến độ, mẹo và phiên bản vẫn là lớp UI riêng khi triển khai.
+
+
+## Cập nhật Flare — 17/11/2026
+
+Tạo hai asset mới qua OpenAI Images API bằng đúng `gpt-image-2.5-flare`, quality high, sử dụng imagegen skill CLI. Phong cách Soft Miniature v2: logo kem/cam nổi trên nền xanh, garage ven biển và xe cam mô hình.
+
+- Splash: `assets/branding/racing_tycoon_logo_flare_v1.png`, alpha trong suốt.
+- Loading: `assets/startup_loading/loading_garage_flare_v1.png`, kéo dài vùng trời và nền trống từ ảnh gốc thành 1024×2216 để giữ logo ở màn dọc.
+- Ảnh gốc và prompt đầy đủ: `output/imagegen/flare_startup/`, metadata `prompts.json`.
+- Đã nối vào splash, loading và cấu hình boot. Thanh tiến độ/trạng thái do runtime vẽ; ảnh không chứa phần trăm hay thanh tải. Footer phiên bản ẩn khi lỗi để tránh đè nút Retry ở 320×568.
+- Kiểm tra: import Godot 4.7.2, boot_test, splash_flow_test đạt; chụp màn thực tế ở 390×844 và 320×568, gồm bình thường/tải chậm/lỗi. Ảnh: `Design/Previews/Startup_Flare_v1/`. Có cảnh báo ObjectDB leak khi thoát kiểm thử; chưa kiểm tra trên thiết bị di động.
+
+Điều chỉnh sau duyệt: phóng nền loading lên 120% chiều cao, đưa thanh tải từ 83% lên 77% để thu hẹp khoảng trống giữa xe và tiến độ. Đã chụp và kiểm tra lại 390×844, 320×568.
+
+Bản Flare v2 sau phản hồi khoảng trống: tạo lại ảnh bằng `gpt-image-2.5-flare` edit, xe cam lớn ở tiền cảnh, vạch pit và đường đua lấp vùng nền trống. Runtime dùng `assets/startup_loading/loading_garage_flare_v2.png`, không phóng 120% nữa. Thanh tải ở 87% chiều cao, 83% trên màn thấp hơn 650px để tránh chạm footer. Prompt trong `output/imagegen/flare_startup/loading_dense.txt`; ảnh kiểm tra tại `Design/Previews/Startup_Flare_v2/`.
