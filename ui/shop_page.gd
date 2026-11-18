@@ -1,8 +1,7 @@
 extends VBoxContainer
 const CleanArt = preload("res://ui/clean_modern_art.gd")
 ## Illustrated Shop. Catalog, eligibility, prices and purchases come from the IAP view/service.
-## Thưởng đăng nhập hằng ngày (Design/30): mở popup Quà mỗi ngày.
-signal daily_rewards_requested
+signal daily_requested
 signal offer_requested(title: String, description: String)
 ## IAP: người chơi bấm mua một SKU (data/iap.json). Logic mua nằm ở autoload Iap; trang này chỉ vẽ và phát tín hiệu.
 signal iap_requested(sku: String)
@@ -32,9 +31,9 @@ const HD_ICONS := {
 	"driver_helmet": "icons/avatar.png", "cash_small": "icons/cash.png", "cash_medium": "icons/cash.png",
 	"cash_large": "icons/cash.png", "offer_combo": "icons/gift.png", "offer_starter": "icons/crown.png",
 }
-var _login_row: HBoxContainer
-var _login_button: Button
-var _login_description: Label
+var _daily_button: Button
+var _daily_description: Label
+var _daily_status: Label
 var _gem_grid: GridContainer
 var _cash_grid: GridContainer
 var _gem_heading: Control
@@ -214,14 +213,12 @@ func _build() -> void:
 	_offer_section(I18n.t("shop.breakthrough_combo"), ["offer"], ["offer_combo_1", "offer_combo_2"], 210.0)
 	_offer_section(I18n.t("shop.weekly_packs"), ["weekly"], [], 225.0)
 	_offer_section(I18n.t("shop.recruit_drivers"), ["character"], ["char_my", "char_lam", "char_nhan", "char_phuong", "char_quang", "char_son"], 185.0)
-	_offer_section(_t("shop.special_cards", "Special passes"), ["pass_month", "pass_growth"], ["pass_month", "pass_growth"], 150.0)
 	_restore_button = _button(I18n.t("shop.restore_purchases"))
 	_restore_button.name = "RestorePurchases"
 	_restore_button.visible = false
 	ShopSkin.style_button(_restore_button, "tab")
 	_restore_button.pressed.connect(func() -> void: restore_requested.emit())
 	add_child(_restore_button)
-	add_child(_login_row)
 	_sync_sections()
 
 ## Fixed-ratio card built in design units; UnitScale writes real pixel sizes on every resize.
@@ -249,20 +246,25 @@ func _reference_canvas(parent: Node, design_size: Vector2) -> Control:
 	)
 	return canvas
 
+var _daily_card: ShopOfferCard
+
+
 func _build_daily_banner() -> void:
 	var section := _h_section(_t("shop.daily_gifts", "Daily gifts"), "gift_red", "featured", "Section_DailyGifts")
 	var grid: GridContainer = section["grid"]
+	var card := _h_card(grid, 228.0, "daily_gift", _sentence(I18n.t("shop.today_gift")), 38)
+	_daily_card = card
+	card.get_parent().name = "DailyGiftBanner"
+	card.badge_icon = ShopOfferCard.GEM_ICON
+	_daily_description = card.get_node("%BadgeLabel") as Label
+	_daily_button = card.get_node("%Price") as Button
+	_daily_button.name = "ClaimDaily"
+	card.buy_pressed.connect(func() -> void: daily_requested.emit())
+	_daily_status = _text("", 12, MUTED)
+	_daily_status.hide()
+	card.get_parent().add_child(_daily_status)
 	_free_card(grid, "free_gems", _sentence(I18n.t("shop.free_gems")), "free_gems_banner", 190.0)
 	_sections.append({"heading": section["heading"], "content": grid, "group": "featured"})
-	_login_row = HBoxContainer.new()
-	_login_row.name = "DailyLoginRow"
-	_login_row.hide()
-	_login_description = _text("", 12, MUTED)
-	_login_row.add_child(_login_description)
-	_login_button = _button(I18n.t("shop.view"))
-	_login_button.name = "OpenDailyRewards"
-	_login_button.pressed.connect(func() -> void: daily_rewards_requested.emit())
-	_login_row.add_child(_login_button)
 
 
 const OFFER_TEXT := {
@@ -724,6 +726,13 @@ func _grid(columns: int) -> GridContainer:
 
 
 ## Dựng lại bốn thẻ gói (2 tay đua + 2 phụ kiện) khi coupon/gem/bảo đảm/khóa tính năng đổi.
+func update_daily(amount: String, gems: int, available: bool, blocked: bool) -> void:
+	_daily_card.badge_text = "+%d" % gems
+	_daily_button.disabled = not available or blocked
+	_daily_button.text = I18n.t("shop.claimed") if not available else (I18n.t("common.saving") if blocked else I18n.t("shop.claim"))
+	_daily_status.text = I18n.t("shop.free_refreshes_every_day")
+
+
 func update_packs() -> void:
 	if _pack_box == null:
 		return
@@ -997,15 +1006,6 @@ func _adapt_grids() -> void:
 		var portrait = _iap_buttons[sku].get("portrait")
 		if is_instance_valid(portrait):
 			portrait.custom_minimum_size.x = 66 if size.x < 335 else 82
-
-
-## Dòng thưởng đăng nhập: ẩn khi chưa mở khóa; có thể nhận thì nút "Nhận quà", đã nhận thì "Xem".
-func update_login_rewards(unlocked: bool, available: bool, total_days: int, preview: String) -> void:
-	_login_row.visible = unlocked
-	if not unlocked:
-		return
-	_login_description.text = (I18n.t("shop.today") + preview) if available else (I18n.tn("shop.claimed_days_come_back_tomorrow", total_days) % total_days)
-	_login_button.text = I18n.t("common.claim_reward") if available else "Xem"
 
 
 func _link(text: String) -> Button:
