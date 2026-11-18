@@ -71,9 +71,7 @@ func _run() -> void:
 	_check(nav_dot.visible, "chấm đỏ tab Shop khi nhận được")
 	main._select_tab(main.Tab.SHOP)
 	await _settle()
-	var row := main.find_child("DailyLoginRow", true, false) as Control
-	var open_btn := main.find_child("OpenDailyRewards", true, false) as Button
-	_check(row != null and row.visible and open_btn.text == "Nhận quà", "Shop có dòng Quà mỗi ngày, nút 'Nhận quà'")
+	_check(main.find_child("OpenDailyRewards", true, false) == null, "Shop không còn nút mở Quà mỗi ngày")
 	main._select_tab(main.Tab.RACE)
 	await _settle()
 
@@ -133,14 +131,6 @@ func _run() -> void:
 	await create_timer(PopupAnim.CLOSE_SEC + 0.05).timeout
 	await _settle()
 	_check(not main._overlay.visible, "nút đóng tắt popup")
-
-	print("== Dòng Shop mở popup ==")
-	main._select_tab(main.Tab.SHOP)
-	await _settle()
-	open_btn.pressed.emit()
-	await _settle()
-	_check(main._overlay.visible and main._overlay_box.find_child("DailyCell1", true, false) != null, "nút trong Shop mở cùng popup")
-	main._overlay.hide()
 
 	print("== Bề rộng điện thoại ==")
 	for w in [320, 390, 412]:
