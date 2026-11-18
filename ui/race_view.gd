@@ -4,6 +4,7 @@ const RaceArt = preload("res://ui/race_hud_art.gd")
 const CleanArt = preload("res://ui/clean_modern_art.gd")
 const Diorama = preload("res://ui/race_diorama.gd")
 const Circuit3D = preload("res://ui/race_world_3d.gd")
+signal view_rotated
 var _world_3d: RefCounted = null
 var _use_3d := false
 var _rotation_pointer := -2
@@ -148,11 +149,22 @@ func reset_circuit_view() -> void:
 	if _use_3d and _world_3d != null:
 		_world_3d.reset_view()
 		queue_redraw()
+		view_rotated.emit()
 
 func rotate_circuit_view(horizontal_delta: float) -> void:
 	if _use_3d and _world_3d != null:
 		_world_3d.rotate_view(-horizontal_delta / maxf(size.x,1.0) * TAU)
 		queue_redraw()
+		view_rotated.emit()
+
+## Vị trí màn hình của mái khán đài 3D, hoặc null khi đang ở chế độ 2D / track không có khán đài.
+func grandstand_screen_point() -> Variant:
+	if _use_3d and _world_3d != null and _world_3d.has_grandstand:
+		return _world_3d.screen_anchor()
+	return null
+
+func grandstand_view_rect() -> Rect2:
+	return _world_3d.view_rect if _world_3d != null else Rect2()
 
 func _gui_input(event: InputEvent) -> void:
 	if not _use_3d or _world_3d == null:

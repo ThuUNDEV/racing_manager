@@ -8,6 +8,14 @@ const CleanArt = preload("res://ui/clean_modern_art.gd")
 
 const FLAG_W := 44.0
 const CHIP_SIZE := Vector2(100, 36)
+const BUBBLE_HIT := 56.0
+const BUBBLE_R := 22.0
+const BUBBLE_TIP := 4.0            # đuôi bong bóng chạm cách mái khán đài 4 px
+const BUBBLE_INSET := 28.0
+const BUBBLE_POP_SEC := 0.28
+const BUBBLE_BREAK_SEC := 0.18
+const BUBBLE_BLINK_SEC := 4.0
+const BUBBLE_DRAG_PX := 8.0
 const BOOST := "income_boost"
 const FLAG := "flag_cash"
 
@@ -20,6 +28,7 @@ var _gs: Node
 var _chip: Button
 var _chip_host: Control
 var _chip_title: Label
+var _chip_mult: Label
 var _chip_time: Label
 var _chip_video: TextureRect
 var _chip_cash: TextureRect
@@ -31,6 +40,19 @@ var _flag: Button
 var _flag_art: TextureRect
 var _flag_x := 0.0
 var _flag_on := false
+# Bong bóng thưởng bám theo mái khán đài 3D (Design/26 §4); chế độ 2D vẫn dùng lá cờ chạy ở trên.
+var _bubble: Button
+var _bubble_face: Control
+var _bubble_on := false           # còn "chờ kết cục" (chưa gọi flag_end)
+var _bubble_tapped := false
+var _bubble_age := 0.0
+var _bubble_t := 0.0              # thời gian từ lúc pop-in, cho hiệu ứng
+var _bubble_break := -1.0         # >= 0: đang vỡ
+var _bubble_tail := true
+var _bubble_down := Vector2.ZERO
+var _bubble_dragging := false
+var _bubble_rv: RaceView
+var _reduce_motion := false
 var _chip_offered := false
 var _popup: Control
 var _popup_pl := ""
@@ -103,6 +125,13 @@ func _ready() -> void:
 	_chip_time.position = Vector2(13, 30)
 	_chip_time.size = Vector2(72, 16)
 	_chip.add_child(_chip_time)
+	_chip_mult = _lbl(36, Color.WHITE)
+	_chip_mult.name = "BoostMultiplier"
+	_chip_mult.add_theme_font_override("font", HdUi.font())
+	_chip_mult.add_theme_color_override("font_outline_color", Color("0452b8"))
+	_chip_mult.add_theme_constant_override("outline_size", 6)
+	_chip_mult.clip_text = true
+	_chip.add_child(_chip_mult)
 	_chip_progress = ProgressBar.new()
 	_chip_progress.name = "BoostTimeRemaining"
 	_chip_progress.show_percentage = false
@@ -132,6 +161,8 @@ func _ready() -> void:
 	_flag.pressed.connect(_on_flag_pressed)
 	_flag.hide()
 	add_child(_flag)
+	_build_bubble()
+	_reduce_motion = OS.get_cmdline_args().has("--reduce-motion")
 	_build_popup()
 
 
@@ -394,6 +425,10 @@ func _layout_chip() -> void:
 	_chip_video.size = Vector2(83, 70) * k
 	_chip_title.hide()
 	_chip_time.hide()
+	_chip_mult.position = Vector2(140, 0) * k
+	_chip_mult.size = Vector2(114, 84) * k
+	_chip_mult.add_theme_font_size_override("font_size", maxi(12, roundi(74 * k)))
+	_chip_mult.add_theme_constant_override("outline_size", maxi(3, roundi(12 * k)))
 	_chip_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_chip_title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_chip_title.clip_text = true
@@ -417,6 +452,7 @@ func _layout_chip() -> void:
 func _refresh_chip() -> void:
 	var mult := GameData.ads_boost_multiplier()
 	var left: float = _gs.income_boost_left
+	_chip_mult.text = "×%d" % mult
 	if left > 0.0:
 		_set_chip_state("active")
 		_chip.show()
@@ -463,8 +499,18 @@ func _refresh_chip() -> void:
 func _tick_flag(delta: float) -> void:
 	if not is_visible_in_tree():
 		return
+	var rv := get_parent() as RaceView
+	var anchored := rv != null and rv.grandstand_screen_point() != null
+	if _bubble_break >= 0.0:
+		_tick_bubble_break(delta, rv)
+	if _bubble_on:
+		_tick_bubble(delta, rv, anchored)
+		return
 	if not _flag_on:
 		if not _popup.visible and _ads.flag_due(blocked) and _ads.flag_begin():
+			if anchored:
+				_begin_bubble(rv)
+				return
 			_flag_on = true
 			_flag_x = -FLAG_W
 			_flag.show()
@@ -481,6 +527,12 @@ func _tick_flag(delta: float) -> void:
 
 
 func _end_flag(tapped: bool) -> void:
+	if _bubble_on:
+		_bubble_on = false
+		if not tapped and _bubble_break < 0.0:
+			_start_bubble_break()
+		_ads.flag_end(tapped)
+		return
 	if not _flag_on:
 		return
 	_flag_on = false
@@ -491,6 +543,179 @@ func _end_flag(tapped: bool) -> void:
 func _on_flag_pressed() -> void:
 	_ads.flag_mark_intro_seen()
 	_open(FLAG)
+
+
+# ---------------------------------------------------------------- bong bóng khán đài
+
+func _build_bubble() -> void:
+	_bubble = Button.new()
+	_bubble.name = "CashBubble"
+	_bubble.accessibility_name = I18n.t("ads.bonus_cash")
+	_bubble.size = Vector2(BUBBLE_HIT, BUBBLE_HIT)
+	_bubble.pivot_offset = _bubble.size * 0.5
+	_bubble.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	for st in ["normal", "hover", "pressed", "focus", "disabled"]:
+		_bubble.add_theme_stylebox_override(st, StyleBoxEmpty.new())
+	_bubble.pressed.connect(_on_bubble_pressed)
+	_bubble.gui_input.connect(_on_bubble_gui_input)
+	_bubble_face = Control.new()
+	_bubble_face.name = "BubbleFace"
+	_bubble_face.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_bubble_face.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_bubble_face.draw.connect(_draw_bubble)
+	_bubble.add_child(_bubble_face)
+	var icon := HdUi.icon("icons/cash.png", Vector2(30, 30))
+	icon.name = "BubbleCash"
+	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_bubble.add_child(icon)
+	icon.position = Vector2(13, 13)
+	icon.size = Vector2(30, 30)
+	_bubble.hide()
+	add_child(_bubble)
+
+
+func _begin_bubble(rv: RaceView) -> void:
+	_bubble_on = true
+	_bubble_tapped = false
+	_bubble_age = 0.0
+	_bubble_t = 0.0
+	_bubble_break = -1.0
+	_bubble_dragging = false
+	_bubble.disabled = false
+	_bubble.modulate = Color.WHITE
+	_bubble.scale = Vector2.ONE * (1.0 if _reduce_motion else 0.0)
+	if _bubble_rv != rv:
+		_bubble_rv = rv
+		rv.view_rotated.connect(func() -> void: _place_bubble(_bubble_rv))
+	_bubble.show()
+	_place_bubble(rv)
+
+
+func _tick_bubble(delta: float, rv: RaceView, anchored: bool) -> void:
+	if not anchored:
+		_bubble.hide()
+		_bubble_break = -1.0
+		_end_flag(false)
+		return
+	_bubble_t += delta
+	var paused: bool = _popup.visible or blocked or _ads.is_busy()
+	if not paused and not _bubble_tapped:
+		_bubble_age += delta
+	var stay := maxf(float(GameData.ads().get("placements", {}).get(FLAG, {}).get("stay_sec", 20)), 1.0)
+	if _bubble_age >= stay:
+		_end_flag(false)
+		return
+	if _bubble_break >= 0.0 or _bubble_tapped:
+		return
+	var left := stay - _bubble_age
+	var alpha := 1.0
+	if not _reduce_motion and left < BUBBLE_BLINK_SEC:
+		alpha = 1.0 if int(left / 0.4) % 2 == 0 else 0.6
+	_bubble.modulate.a = alpha
+	_bubble.scale = Vector2.ONE * (1.0 if _reduce_motion else _pop_scale(_bubble_t / BUBBLE_POP_SEC))
+	_place_bubble(rv)
+
+
+## 0 → 1,15 → 1 (ease back).
+func _pop_scale(t: float) -> float:
+	if t >= 1.0:
+		return 1.0
+	if t < 0.65:
+		return 1.15 * sin(t / 0.65 * PI * 0.5)
+	return lerpf(1.15, 1.0, (t - 0.65) / 0.35)
+
+
+func _start_bubble_break() -> void:
+	_bubble_break = 0.0
+	_bubble.disabled = true
+	if _reduce_motion:
+		_bubble.hide()
+		_bubble_break = -1.0
+
+
+func _tick_bubble_break(delta: float, rv: RaceView) -> void:
+	_bubble_break += delta
+	var u := clampf(_bubble_break / BUBBLE_BREAK_SEC, 0.0, 1.0)
+	_bubble.scale = Vector2.ONE * lerpf(1.0, 1.3, u)
+	_bubble.modulate.a = 1.0 - u
+	_bubble_face.queue_redraw()
+	if rv != null:
+		_place_bubble(rv)
+	if u >= 1.0:
+		_bubble_break = -1.0
+		_bubble.hide()
+
+
+## Đặt bong bóng lên mái khán đài theo góc xoay hiện tại; kẹp trong khung bản đồ.
+func _place_bubble(rv: RaceView) -> void:
+	if rv == null or _bubble == null or not _bubble.visible:
+		return
+	var anchor: Variant = rv.grandstand_screen_point()
+	if anchor == null:
+		return
+	var target: Vector2 = (anchor as Vector2) + Vector2(0.0, -(BUBBLE_TIP + 8.0 + BUBBLE_R))
+	var area := rv.grandstand_view_rect().grow(-BUBBLE_INSET)
+	var center := Vector2(clampf(target.x, area.position.x, maxf(area.end.x, area.position.x)), clampf(target.y, area.position.y, maxf(area.end.y, area.position.y)))
+	_bubble_tail = center.is_equal_approx(target)
+	if not _reduce_motion and _bubble_break < 0.0:
+		center.y += sin(_bubble_t * TAU / 1.2) * 3.0
+	_bubble.position = center - _bubble.size * 0.5
+	_bubble_face.queue_redraw()
+
+
+func _draw_bubble() -> void:
+	var c := _bubble_face.size * 0.5
+	var white := Color("ffffff")
+	var rim := Color("27a7e8")
+	if _bubble_tail:
+		_bubble_face.draw_colored_polygon(PackedVector2Array([c + Vector2(-7, BUBBLE_R - 3), c + Vector2(7, BUBBLE_R - 3), c + Vector2(0, BUBBLE_R + 8)]), white)
+		_bubble_face.draw_polyline(PackedVector2Array([c + Vector2(-7, BUBBLE_R - 3), c + Vector2(0, BUBBLE_R + 8), c + Vector2(7, BUBBLE_R - 3)]), rim, 2.5)
+	_bubble_face.draw_circle(c, BUBBLE_R, white)
+	_bubble_face.draw_arc(c, BUBBLE_R - 1.5, 0.0, TAU, 40, rim, 3.0, true)
+	if _bubble_break >= 0.0:
+		var u := clampf(_bubble_break / BUBBLE_BREAK_SEC, 0.0, 1.0)
+		for i in 4:
+			var dir := Vector2.from_angle(float(i) * TAU / 4.0 + 0.6)
+			_bubble_face.draw_line(c + dir * (BUBBLE_R + 2.0 + 10.0 * u), c + dir * (BUBBLE_R + 8.0 + 14.0 * u), rim, 2.0)
+		return
+	var stay := maxf(float(GameData.ads().get("placements", {}).get(FLAG, {}).get("stay_sec", 20)), 1.0)
+	var fraction := clampf(1.0 - _bubble_age / stay, 0.0, 1.0)
+	if fraction > 0.0:
+		_bubble_face.draw_arc(c, BUBBLE_R + 4.0, -PI * 0.5, -PI * 0.5 + TAU * fraction, 48, Color("57dc8a"), 3.0, true)
+	if not _reduce_motion:
+		for i in 3:
+			var u := (_bubble_t - float(i) * 0.06) / 0.4
+			if u > 0.0 and u < 1.0:
+				var from := c + Vector2(0.0, BUBBLE_R + 10.0)
+				var to := c + Vector2(float(i - 1) * 14.0, BUBBLE_R - 2.0 - 16.0)
+				_bubble_face.draw_circle(from.lerp(to, u), lerpf(3.0, 5.0, float(i) / 2.0), Color(0.15, 0.65, 0.92, 1.0 - u))
+
+
+func _on_bubble_gui_input(event: InputEvent) -> void:
+	if event.device == InputEvent.DEVICE_ID_EMULATION:
+		return
+	if (event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed) or (event is InputEventScreenTouch and event.pressed):
+		_bubble_down = event.position
+		_bubble_dragging = false
+	elif event is InputEventMouseMotion and (event.button_mask & MOUSE_BUTTON_MASK_LEFT) != 0 or event is InputEventScreenDrag:
+		# Vuốt bắt đầu trên bong bóng: huỷ chạm và xoay bản đồ (Design/26 §4.3).
+		if not _bubble_dragging and event.position.distance_to(_bubble_down) > BUBBLE_DRAG_PX:
+			_bubble_dragging = true
+		if _bubble_dragging and _bubble_rv != null:
+			_bubble_rv.rotate_circuit_view(event.relative.x)
+
+
+func _on_bubble_pressed() -> void:
+	if _bubble_dragging:
+		_bubble_dragging = false
+		return
+	if not _bubble_on or _bubble_tapped:
+		return
+	_bubble_tapped = true
+	_start_bubble_break()
+	_on_flag_pressed()
 
 
 # ---------------------------------------------------------------- popup

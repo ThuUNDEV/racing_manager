@@ -1010,7 +1010,7 @@ static func _validate_ads() -> Array:
 				if not _is_num(p.get("count")) or int(p["count"]) < 1:
 					errs.append(where + "count must be >= 1")
 		if p.has("first_after_sec"):  # lịch lá cờ (Design/26 §4)
-			for key in ["first_after_sec", "gap_sec", "cross_sec", "miss_limit", "miss_gap_max_sec"]:
+			for key in ["first_after_sec", "gap_sec", "cross_sec", "stay_sec", "miss_limit", "miss_gap_max_sec"]:
 				if not _is_num(p.get(key)) or float(p[key]) <= 0.0 and key != "first_after_sec":
 					errs.append(where + "%s must be a number > 0" % key)
 			if _is_num(p.get("gap_sec")) and _is_num(p.get("miss_gap_max_sec")) and float(p["miss_gap_max_sec"]) < float(p["gap_sec"]):

@@ -10,7 +10,7 @@
     "flag_cash": {
       "reward": "income_seconds", "seconds": 600,
       "daily_limit": 5, "cooldown_sec": 0, "unlock": "U4_shop",
-      "first_after_sec": 60, "gap_sec": 120, "cross_sec": 14, "miss_limit": 3, "miss_gap_max_sec": 480
+      "first_after_sec": 60, "gap_sec": 120, "cross_sec": 14, "stay_sec": 20, "miss_limit": 3, "miss_gap_max_sec": 480
     },
     "free_gems": {
       "reward": "gems", "amount": 5,

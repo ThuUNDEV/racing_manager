@@ -36,7 +36,7 @@ static func build(parent: Control, group: String, on_group: Callable, on_buy: Ca
 	box.add_child(_filter(group, on_group))
 	box.add_child(HdUi.Soft.heading(I18n.t("trophy.upgrade_with_trophies"), "nav_race", 44))
 	for u: Dictionary in GameData.trophy_upgrades():
-		if u["group"] == group:
+		if u["group"] == group and GameState.trophy_unlocked(String(u["id"])):
 			box.add_child(_card(u, on_buy))
 
 
@@ -185,7 +185,7 @@ static func _banner() -> PanelContainer:
 	v.add_child(rewards_title)
 	rewards_title.hide()
 	for p in 3:
-		var pill := _art_surface("reward_pill", 5)
+		var pill := _surface(Color("fff1c9"), Color("e2bd63"), 12, 5)
 		var reward_row := HBoxContainer.new()
 		reward_row.add_theme_constant_override("separation", 3)
 		pill.add_child(reward_row)
@@ -225,7 +225,7 @@ static func _filter(group: String, on_group: Callable) -> PanelContainer:
 		b.text = String(g["name"])
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		b.custom_minimum_size = Vector2(0, 66)
-		b.add_theme_font_size_override("font_size", 13)
+		b.add_theme_font_size_override("font_size", 17 if b.text.length() <= 9 else 14)
 		b.icon = _texture("icons", id)
 		b.expand_icon = true
 		b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -400,6 +400,7 @@ static func _buy_button(u: Dictionary, maxed: bool, on_buy: Callable) -> Button:
 		return b
 	var cost := GameState.trophy_cost(id)
 	b.text = str(cost)
+	b.add_theme_font_size_override("font_size", 22 if b.text.length() <= 2 else (18 if b.text.length() == 3 else 15))
 	b.icon = _texture("icons", "trophy")
 	b.expand_icon = true
 	b.add_theme_constant_override("icon_max_width", 22)

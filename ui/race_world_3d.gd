@@ -19,6 +19,9 @@ var host: Control
 var view_rect := Rect2()
 const DEFAULT_YAW := PI * 0.25
 var camera_yaw := DEFAULT_YAW
+## Mỏ neo 3D ngay trên mái khán đài, nơi bong bóng thưởng quảng cáo bám vào (Design/26 §4.1).
+var grandstand_anchor := Vector3.ZERO
+var has_grandstand := false
 var _frame_corners := PackedVector3Array()
 
 func _init(control: Control) -> void:
@@ -291,7 +294,8 @@ func build_props(bounds: Rect2) -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = int(layout.lap_length*100)
 	var occupied: Array[Vector2] = []
-	var building_count := 0
+	var garage_built := false
+	has_grandstand = false
 	for attempt in 260:
 		var p := bounds.position + Vector2(rng.randf(),rng.randf())*bounds.size
 		var room := clearance(p)
@@ -305,12 +309,14 @@ func build_props(bounds: Rect2) -> void:
 			continue
 		occupied.append(p)
 		var pos := point(p)
-		if room > 25 and building_count < 2:
-			if building_count == 0:
-				garage(pos)
-			else:
-				grandstand(pos)
-			building_count += 1
+		if room > 25 and not garage_built:
+			garage(pos)
+			garage_built = true
+		elif room >= 15 and not has_grandstand:
+			# Luôn cố dựng khán đài: bong bóng thưởng bám vào đây (Design/26 §4.0).
+			grandstand(pos)
+			grandstand_anchor = pos + Vector3(0, 2.7, -0.45)
+			has_grandstand = true
 		else:
 			tree(pos,rng.randf_range(0.8,1.35))
 		if occupied.size() >= 32:
@@ -370,6 +376,10 @@ func update_car(id: int, s: float, lateral: float, yaw: float, color: Color) -> 
 
 func screen_point(p: Vector2, height: float = 0.0) -> Vector2:
 	return view_rect.position + camera.unproject_position(point(p,height))*0.5
+
+## Toạ độ màn hình (cục bộ RaceView) của mái khán đài; đổi theo góc xoay camera.
+func screen_anchor() -> Vector2:
+	return view_rect.position + camera.unproject_position(grandstand_anchor)*0.5
 
 func screen_at(s: float, lateral: float) -> Vector2:
 	return view_rect.position + camera.unproject_position(at(s,lateral,0.11))*0.5

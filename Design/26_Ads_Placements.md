@@ -62,32 +62,74 @@ Dấu chấm đỏ trên tab **Shop** và **Túi/Đội** khi có mục miễn p
 
 ---
 
-## 4. Thưởng income: lá cờ chạy trên khán đài (`flag_cash`)
+## 4. Thưởng income: bong bóng trên khán đài 3D (`flag_cash`)
 
-> **Đã chốt 12/11/2026 (theo mô tả của người thiết kế):** sau một thời gian, một **lá cờ chạy từ trái qua phải** trên dải khán đài ([27](27_Spectators.md)). Chạm vào lá cờ mở popup: người chơi **chọn xem quảng cáo để nhận thưởng, hoặc tắt đi**. Xem xong hay tắt đi thì **lá cờ mất**. Không làm "gấp đôi offline" ở v1.
+> **Cập nhật 18/11/2026 (theo mô tả của người thiết kế), thay cách xuất hiện của lá cờ chạy ngang HUD (chốt 12/11/2026):** thưởng income hiện là **một bong bóng nổi lên trên khán đài của khán giả trong bản đồ 3D**. Người chơi xoay bản đồ thì bong bóng **đi theo khán đài** trên màn hình. Chạm bong bóng mở popup: **xem quảng cáo để nhận thưởng, hoặc tắt đi**. Xem xong hay tắt đi thì **bong bóng vỡ và mất**. Luật thưởng, lịch, giới hạn ngày, popup, lỗi giữ nguyên bên dưới. Tên placement `flag_cash` giữ để không đổi save/SDK; chỉ đổi hình thức.
+>
+> Trạng thái: **đã duyệt và code (18/11/2026)**: `ui/ads_race_controls.gd`, `ui/race_world_3d.gd` (mỏ neo `grandstand_anchor`, `screen_anchor()`), `ui/race_view.gd` (signal `view_rotated`), `data/ads.json` (`stay_sec`), test `tests/ads_bubble_test.gd`. Chưa làm: dòng gợi ý lần đầu (API `flag_intro_seen` đã có, UI chưa).
 
-**Hình thức.** Một khán giả cầm cờ (hoặc chỉ lá cờ có sóng, tuỳ art) chạy dọc dải khán đài, từ mép trái đến mép phải trong khoảng **14 giây**, tốc độ đều. Vùng chạm lớn hơn hình vẽ (≥ 48 × 44 px, phủ hết chiều cao dải) để dễ bấm khi đang chạy. Lá cờ là **một control riêng** nằm trên dải, không vẽ trong `_draw` của `RaceView` (giữ ngân sách hiệu năng của 25 §7.5); chuyển động bằng một tween vị trí, không dùng `_process`.
+### 4.0 Quyết định (người thiết kế duyệt đề xuất)
+1. **Track không có khán đài.** `race_world_3d.gd` chỉ dựng khán đài khi tìm được chỗ trống (`clearance > 25`, tối đa 1 khán đài/track), nên có track không có. Đề xuất: **luôn dựng khán đài** (nới điều kiện, hoặc dành sẵn một vị trí cho khán đài trước cây cối). Nếu không muốn đổi map, phương án phụ là bong bóng đứng cố định giữa mép trên khung bản đồ, không đi theo.
+2. **Thời gian tồn tại.** Hiện cờ chạy 14 giây vì phải băng qua màn hình. Bong bóng đứng yên nên đề xuất **20 giây** (có vòng đếm ngược mảnh quanh bong bóng, §4.2). Đồng ý hay muốn ngắn/dài hơn?
+3. **Chế độ 2D** (`_use_3d == false`, các track không phải track 3D mặc định): giữ **lá cờ chạy cũ** (`cross_sec`). Cũng dùng lá cờ nếu track 3D không dựng được khán đài.
 
-**Luồng**
+### 4.1 Vị trí và bám theo camera
+
 ```
-lá cờ xuất hiện ở mép trái, chạy sang phải
-   ├ không chạm → ra khỏi mép phải, mất (không phạt, không tính lượt)
-   └ chạm → lá cờ biến mất ngay, mở popup
-        ┌──────────────────────────────┐
-        │ 🚩 CỜ KHÁN GIẢ               │
-        │ Khán giả tặng bạn            │
-        │ 💵 +4,8K tiền                │
-        │ [▶ Xem video nhận +4,8K]     │
-        │ [ Tắt ]                      │
-        └──────────────────────────────┘
+HUD (44 px)  [chip ×2]                                  <- ngoài khung bản đồ, không bị che
+┌──────── view_rect: bản đồ 3D (SubViewport) ────────┐
+│                       ◔ ← bong bóng 56×56 (vùng chạm) │
+│                       ▾  đuôi chỉ xuống khán đài    │
+│            ┌────mái khán đài────┐                   │
+│            │ ● ● ● ● ● ● ● ● ●  │  khán giả         │
+│        ~~~~~~~~~ đường đua ~~~~~~~~~~               │
+└──────────────────────────────────────────────────────┘
+```
+
+- **Mỏ neo (anchor) 3D.** `RaceWorld3D` lưu `grandstand_anchor: Vector3` khi dựng khán đài: `pos + Vector3(0, 2.7, -0.45)`, tức ngay trên mái (mái ở `y = 2.55`, cao 0.16). Thêm hàm `screen_anchor() -> Vector2 = screen_point` của mỏ neo, dùng cùng công thức hiện có: `view_rect.position + camera.unproject_position(anchor) * 0.5` (toạ độ cục bộ của `RaceView`).
+- **Tâm bong bóng đặt tại `screen_anchor() + Vector2(0, -34)`** (đuôi bong bóng cách mỏ neo 4 px). Camera là **trực giao** nên kích thước bong bóng **không đổi theo góc xoay**, chỉ vị trí đổi.
+- **Đi theo ngay khung hình.** Cập nhật vị trí ở `_process` của `AdsRaceControls` và **gọi lại ngay trong `rotate_circuit_view` / `reset_circuit_view`**, để bong bóng và mái khán đài không lệch nhau 1 khung khi vuốt. Chỉ tính khi bong bóng đang hiện (1 lần `unproject_position`/khung, không ảnh hưởng ngân sách 25 §7.5).
+- **Giữ trong khung.** Camera đã luôn đóng khung cả bản đồ nên mỏ neo gần như luôn trong màn hình; vẫn **kẹp** vị trí vào `view_rect.grow(-28)` để bong bóng không bị cắt ở mép. Khi bị kẹp thì **ẩn đuôi**.
+- **Bong bóng nằm trên khán đài**, không bị mái che (vẽ ở lớp UI phía trên SubViewport). Khi xoay làm khán đài ra sau cây/toà nhà thì vẫn thấy bong bóng, đó là chủ ý (thưởng không được bị che mất).
+- Khán giả trong khán đài **không đổi** ([27](27_Spectators.md)): bong bóng là control riêng, không phải khán giả, không vẽ trong `_draw` của `RaceView`.
+
+### 4.2 Hình dạng và chuyển động
+
+| Thành phần | Giá trị |
+|---|---|
+| Vùng chạm | **56 × 56 px** (≥ 48 × 44), tâm trùng tâm bong bóng |
+| Hình vẽ | bong bóng tròn trắng viền xanh, đường kính **44 px**, đuôi nhọn 8 px; trong đó icon tiền (tái dùng art lá cờ hiện tại) 28 px |
+| Xuất hiện | **pop-in 0,28 giây**: scale 0 → 1,15 → 1 (ease back), kèm 3 bong bóng nhỏ (đường kính 6–10 px) nổi từ mái lên 0,4 giây rồi tan |
+| Chờ | **lơ lửng**: lên xuống ±3 px, chu kỳ 1,2 giây |
+| Đếm ngược | vòng cung mảnh 3 px quanh bong bóng, hết dần theo thời gian tồn tại |
+| 4 giây cuối | bong bóng nhấp nháy nhẹ (alpha 1 ↔ 0,6, 0,4 giây) |
+| Kết thúc | **vỡ**: scale 1 → 1,3 và mờ dần trong 0,18 giây, 4 hạt lấp lánh |
+| Màu khung | đổi khung xanh (cyan) hiện tại thành viền bong bóng; **bỏ khung vuông** |
+
+### 4.3 Chạm và vuốt
+
+- Bong bóng là `Button` con của `RaceView`, `mouse_filter = STOP`, nằm trên SubViewport; **chạm bong bóng không xoay bản đồ**. Vuốt bắt đầu ở chỗ khác vẫn xoay bình thường (`RaceView._gui_input`), kể cả khi ngón tay trượt qua bong bóng.
+- Vuốt bắt đầu **trên bong bóng** và di chuyển > 8 px thì **huỷ chạm** và chuyển cho `rotate_circuit_view`, để người chơi không bị "kẹt" khi vô tình bấm trúng.
+- Nhấp đúp để về góc nhìn mặc định vẫn hoạt động ngoài bong bóng; bong bóng không phản ứng nhấp đúp.
+
+### 4.4 Luồng
+
+```
+đến lượt → bong bóng pop-in trên khán đài, bám theo khi xoay
+   ├ không chạm trong 20 giây → vỡ, mất (không phạt, không tính lượt)
+   └ chạm → bong bóng vỡ, mở popup (giữ nguyên nội dung cũ)
         ├ Xem hết quảng cáo → cộng thưởng, hiệu ứng tiền bay, đóng popup
-        ├ Đóng quảng cáo sớm → không thưởng, đóng popup (lá cờ đã mất)
-        └ Tắt → đóng popup (lá cờ đã mất)
+        ├ Đóng quảng cáo sớm → không thưởng, đóng popup (bong bóng đã mất)
+        └ Tắt → đóng popup (bong bóng đã mất)
 ```
+
+- **Đồng hồ 20 giây** chỉ chạy khi `not blocked`, không có popup và `not _ads.is_busy()` (giống `_tick_flag` hiện tại). Xoay bản đồ **không** tạm dừng đồng hồ.
+- **`data/ads.json`:** đổi `cross_sec: 14` thành `stay_sec: 20` ở `flag_cash`; `GameData.validate()` kiểm `stay_sec` > 0. Giữ `first_after_sec`, `gap_sec`, `miss_limit`, `miss_gap_max_sec`.
+- **API `Ads`** (`flag_due`, `flag_begin`, `flag_end(tapped)`, `flag_mark_intro_seen`) **không đổi**: chỉ UI đổi.
 
 **Luật**
 - **Chỉ có hai kết cục**: nhận thưởng hoặc mất. Không có lần thứ hai cho cùng một lá cờ.
-- **Lịch xuất hiện:** lần đầu sau **60 giây** chơi; sau khi lá cờ mất (chạm hay ra mép) thì **chờ 120 giây** mới có lá kế. Tối đa **5 lần nhận/ngày**. Bỏ lỡ liên tiếp: từ lá thứ 3 trở đi khoảng chờ nhân đôi mỗi lá (lá 3 chờ 240 giây, lá 4 trở đi chờ 480 giây là trần), về 120 giây ngay khi người chơi chạm lại.
+- **Lịch xuất hiện:** lần đầu sau **60 giây** chơi; sau khi lá cờ mất (chạm hay hết 20 giây) thì **chờ 120 giây** mới có lá kế. Tối đa **5 lần nhận/ngày**. Bỏ lỡ liên tiếp: từ lá thứ 3 trở đi khoảng chờ nhân đôi mỗi lá (lá 3 chờ 240 giây, lá 4 trở đi chờ 480 giây là trần), về 120 giây ngay khi người chơi chạm lại.
 - **Thưởng = 10 phút thu nhập hiệu lực** (cùng thang với quà hằng ngày 600 giây): `+4,8K` ở 8 tiền/giây, tự lớn theo tiến trình. **Không nhân ×2 khi boost đang chạy**: đây là một lượng cash cố định tính theo thu nhập gốc. Số tiền hiện sẵn trên popup.
 - **Chỉ tạo lá cờ khi quảng cáo dùng được** (đã tải sẵn, hoặc người chơi có "Đội tự do"), để không bao giờ mời người chơi vào một popup không có quảng cáo.
 - **Không tạo khi:** tính năng chưa mở (`U4_shop`), đã đủ 5 lần hôm nay, đang hiện bảng kết quả/offline/popup khác, tutorial đang giữ màn hình, đang Ads Break, app `suspended`.
@@ -95,10 +137,11 @@ lá cờ xuất hiện ở mép trái, chạy sang phải
   - Chưa có quảng cáo / mất mạng: popup hiện `Chưa có quảng cáo` hoặc `Cần Internet`; người chơi bấm Tắt thì lá cờ mất, không tính lượt.
   - Xem xong nhưng **lưu lỗi** (`failed`): giữ popup, nút đổi thành `Thử nhận lại`; bấm thì nhận lại thưởng **không phải xem lại quảng cáo** (AdsService giữ "thưởng chờ nhận" trong bộ nhớ tới khi popup đóng).
 - **Đội tự do:** nút đổi thành `Nhận +4,8K`, không mở quảng cáo, vẫn tính 5 lần/ngày.
-- **Tương tác với dải khán đài:** chạm đúng vùng lá cờ thì lá cờ ăn chạm; chạm chỗ khác trên dải vẫn là chú thích sức chứa ([27 §5](27_Spectators.md)). Phản ứng mặt vui/buồn của khán giả vẫn vẽ bình thường bên dưới.
-- **Màn thấp (dải 2 hàng):** lá cờ giữ nguyên, vùng chạm cao tối đa bằng dải cộng 8 px để không đè lên đường đua.
-- **`--reduce-motion`:** lá cờ không chạy; hiện **đứng yên giữa dải trong 8 giây** (chớp nhẹ) rồi mất.
-- **Lần đầu xuất hiện:** một dòng gợi ý nhỏ `Chạm vào cờ để nhận thưởng` (một lần duy nhất, lưu cờ trong save).
+- **Tương tác với khán đài/bản đồ:** xem §4.3. Chạm đúng bong bóng thì bong bóng ăn chạm; chạm chỗ khác vẫn xoay bản đồ.
+- **Màn nhỏ (320 px):** bong bóng giữ nguyên kích thước; chỉ kẹp trong `view_rect` như §4.1.
+- **`--reduce-motion`:** bỏ pop-in, bong bóng nổi, nhấp nháy và hạt; bong bóng hiện/mất tức thì. **Vẫn bám theo khi xoay** (do người chơi điều khiển).
+- **Lần đầu xuất hiện:** một dòng gợi ý nhỏ `Chạm vào bong bóng để nhận thưởng` (một lần duy nhất, lưu cờ trong save). Cần cập nhật khoá i18n `ads.*` tương ứng (8 ngôn ngữ).
+- **Kiểm thử:** cập nhật `tests/ads_ui_test.gd` (bong bóng xuất hiện/ẩn theo `blocked`, đứng yên theo thời gian, **vị trí đổi khi `rotate_view` và khớp `screen_anchor()`**, chạm mở popup, hết `stay_sec` thì mất) và chụp 320/390/412 ở 3 góc xoay (0°, 90°, 180°).
 
 ---
 
