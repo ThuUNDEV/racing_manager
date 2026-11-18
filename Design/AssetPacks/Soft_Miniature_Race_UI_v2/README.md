@@ -1,3 +1,5 @@
+> Superseded: these are composite reference crops, not a reusable layered asset kit. Do not use the complete controls as production UI sprites. See Soft_Miniature_Race_UI_v3 for separate icons and empty skins.
+
 # Soft Miniature Race UI v2 sprites
 
 Source: `Design/Demos/SoftMiniature/race_rewards_v1/race-daily-gift-x2-v2.png`.

@@ -60,11 +60,10 @@ func run() -> void:
 		root.size = Vector2i(width, 844)
 		await settle()
 		check(ctl.get_global_rect().encloses(ctl._chip.get_global_rect()), "boost ticket fits race %d" % width)
-		var rank := race.hud_rank_rect()
-		check(is_equal_approx(rank.position.y, ctl._chip.position.y) and is_equal_approx(rank.size.y, ctl._chip.size.y), "rank and boost align %d" % width)
-		check(rank.end.x + 7.9 <= ctl._chip.position.x, "rank and boost have gap %d" % width)
-		check(ctl._chip.position.y + ctl._chip.size.y <= RaceView.HUD_H - 3.9, "boost stays above spectators")
-		check(ctl._chip_time.text == "Xem quảng cáo" and "×2" in ctl._chip_title.text, "orange ticket CTA and multiplier")
+		check(ctl._chip.position.x > race.size.x * 0.75, "reward tile sits in right rail %d" % width)
+		if not "--ticket-component" in OS.get_cmdline_user_args():
+			check(not main._daily_btn.get_global_rect().intersects(ctl._chip.get_global_rect()), "Daily Gift and ads have separate targets %d" % width)
+		check(ctl._chip_time.text == "Xem quảng cáo" and "×2" in ctl._chip_title.text, "reward tile CTA and multiplier")
 		if "--ticket-shots" in OS.get_cmdline_user_args():
 			await RenderingServer.frame_post_draw
 			root.get_texture().get_image().save_png("res://Design/Previews/ads_boost_entry_%d.png" % width)
@@ -84,7 +83,7 @@ func run() -> void:
 			root.get_texture().get_image().get_region(Rect2i(race.get_global_rect())).save_png("res://Design/Previews/ads_boost_active_race_%d.png" % width)
 		gs.income_boost_left = 0.0
 		ctl._refresh_chip()
-		check(ctl._chip_state == "offer" and not ctl._chip_progress.visible and ctl._chip_time.text == "Xem quảng cáo", "expiry restores orange offer")
+		check(ctl._chip_state == "offer" and not ctl._chip_progress.visible and ctl._chip_time.text == "Xem quảng cáo", "expiry restores blue offer")
 		ctl._chip.pressed.emit()
 		await settle()
 		var screen := Rect2(Vector2.ZERO, Vector2(root.size))
@@ -92,7 +91,7 @@ func run() -> void:
 		check(ctl._popup_layer.layer > 0, "escapes race clipping")
 		for control in [ctl._card, ctl._title, ctl._watch, ctl._later, ctl._close_button]:
 			check(screen.encloses(control.get_global_rect()), "fits screen %d: %s" % [width, control.name])
-		check(ctl._title.get_global_rect().end.x <= ctl._close_button.get_global_rect().position.x + 1, "title clears close")
+		check(not ctl._title.get_global_rect().intersects(ctl._close_button.get_global_rect()), "title does not overlap close")
 		check(ctl._watch.size.y >= 44 and ctl._close_button.size.y >= 48, "touch target sizes")
 		check(ctl._watch.get_global_rect().end.y <= ctl._later.get_global_rect().position.y + 0.1, "actions do not overlap")
 		check(ctl._multiplier.text == "×2" and "30 phút" in ctl._duration.text, "configured reward labels")

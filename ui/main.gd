@@ -1,4 +1,5 @@
 extends Control
+const RaceArt = preload("res://ui/race_hud_art.gd")
 const CleanArt = preload("res://ui/clean_modern_art.gd")
 
 const BigNumber = preload("res://core/math/big_number.gd")
@@ -23,6 +24,8 @@ const C_RED := HdUi.C_RED
 const C_GREEN := HdUi.C_GREEN
 
 enum Tab { RACE, BAG, TEAM, LEAGUE, SHOP }
+## Thứ tự hiển thị trên thanh dưới (trái → phải).
+const NAV_ORDER := [Tab.SHOP, Tab.BAG, Tab.RACE, Tab.TEAM, Tab.LEAGUE]
 const TAB_NAMES := ["main.race_2", "soft.bag", "main.team", "main.leagues", "main.shop"]
 ## Icon thanh dưới (gói racing_ui_hd/icons): Đua = cờ, Túi = dụng cụ, Đội = nhóm, Giải = cúp, Shop = cửa hàng.
 const TAB_ICONS := ["flag", "tools", "staff", "trophy", "shop"]
@@ -385,23 +388,6 @@ func _build_ui() -> void:
 	_header_avatar.add_child(avatar_icon)
 	avatar_icon.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	avatar_icon.stretch_mode = TextureRect.STRETCH_SCALE
-	var lv_badge := Panel.new()
-	lv_badge.add_theme_stylebox_override("panel", HdUi.Soft.flat(Color("226bb1"), 0, 15))
-	_header_place(top, lv_badge, Rect2(128, 19, 107, 44))
-	var lv_label := _label("Lv.%d" % GameState.driver_level(GameState.active_driver_id), 42, Color.WHITE)
-	lv_label.name = "HudLevel"
-	lv_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	lv_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	HdUi.text_depth(lv_label, true)
-	_header_place(top, lv_label, Rect2(128, 7, 107, 54))
-	var xp := ProgressBar.new()
-	xp.name = "HudExperience"
-	xp.show_percentage = false
-	xp.max_value = maxi(1, GameState.driver_upgrade_cost(GameState.active_driver_id))
-	xp.value = GameState.driver_shards(GameState.active_driver_id)
-	xp.add_theme_stylebox_override("background", HdUi.Soft.gloss("xp_track", Vector4.ZERO))
-	xp.add_theme_stylebox_override("fill", HdUi.Soft.gloss("xp_fill", Vector4.ZERO))
-	_header_place(top, xp, Rect2(128, 65, 112, 24))
 	for x in [264, 530, 782]:
 		var divider := _hud_divider()
 		divider.custom_minimum_size = Vector2.ZERO
@@ -528,6 +514,9 @@ func _build_ui() -> void:
 		_nav_items.append(item)
 		_nav.append(b)
 		_nav_amt.append(0.0)
+
+	for slot in NAV_ORDER.size():
+		nav.move_child(_nav_items[NAV_ORDER[slot]], slot)
 
 	_profile = preload("res://ui/player_profile.gd").new()
 	_profile.name = "PlayerProfile"
@@ -725,105 +714,93 @@ func _build_race_page() -> void:
 func _fit_race_view() -> void:
 	if _race_view == null:
 		return
-	_race_view.custom_minimum_size.y = size.x * 550.0 / 887.0
+	_race_view.custom_minimum_size.y = (size.x - 8.0) * 0.75
 
 
 
 func _build_race_block(v: VBoxContainer) -> void:
-	var head := _header_canvas(v, 78)
-	head.name = "RaceStageRow"
+	_race_view = RaceView.new()
+	_race_view.name = "FixedRaceCluster"
+	_race_view.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_race_view.custom_minimum_size = Vector2(0, RACE_HEIGHT)
+	v.add_child(_race_view)
+	var canvas := Control.new()
+	canvas.name = "RaceHudCanvas"
+	canvas.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	canvas.size = Vector2(1448, 1086)
+	_race_view.add_child(canvas)
+	var fit := func() -> void: canvas.scale = Vector2.ONE * _race_view.size.x / 1448.0
+	_race_view.resized.connect(fit)
+	fit.call()
 	var stage := Panel.new()
-	var stage_skin := HdUi.Soft.flat(Color("fff6e9"), 0, 34)
-	stage_skin.border_color = Color.WHITE
-	stage_skin.set_border_width_all(2)
-	stage_skin.shadow_color = Color("76624b55")
-	stage_skin.shadow_size = 3
-	stage_skin.shadow_offset = Vector2(0, 2)
-	stage.add_theme_stylebox_override("panel", stage_skin)
-	_header_place(head, stage, Rect2(16, 0, 551, 68))
-	var rank_shield := _header_icon("icons/trophy.png")
-	rank_shield.texture = HdUi.Soft.texture("rank_shield")
-	_header_place(head, rank_shield, Rect2(39, 3, 89, 60))
-	_progress_label = _label("", 46)
+	stage.name = "RaceStageRow"
+	stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stage.add_theme_stylebox_override("panel", RaceArt.skin("rank_cream"))
+	canvas.add_child(stage)
+	RaceArt.place(stage, Rect2(38, 54, 365, 111))
+	RaceArt.image(stage, "icons/trophy", Rect2(22, 7, 128, 97))
+	_progress_label = _label("", 48)
+	_progress_label.name = "RaceRankLabel"
 	_progress_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_progress_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	_progress_label.clip_text = true
-	_header_place(head, _progress_label, Rect2(143, 0, 145, 68))
-	var divider := ColorRect.new()
-	divider.color = Color("a6a4a0")
-	_header_place(head, divider, Rect2(296, 14, 2, 40))
-	_race_no_label = _label("", 46)
+	stage.add_child(_progress_label)
+	RaceArt.place(_progress_label, Rect2(164, 7, 183, 96))
+	# Race count remains internal; the reviewed HUD shows only the rank.
+	_race_no_label = Label.new()
 	_race_no_label.name = "RaceNumberLabel"
-	_race_no_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_race_no_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	_race_no_label.clip_text = true
-	_header_place(head, _race_no_label, Rect2(310, 0, 244, 68))
+	_race_no_label.hide()
+	canvas.add_child(_race_no_label)
 	var facilities := Button.new()
 	facilities.name = "FacilitiesButton"
 	facilities.accessibility_name = I18n.t("soft.facilities")
-	for state in ["normal", "hover", "pressed", "focus", "disabled"]:
-		facilities.add_theme_stylebox_override(state, HdUi.Soft.fit_button(HdUi.Soft.surface("orange", Vector4.ZERO), Vector2(290, 70)))
+	RaceArt.button_skin(facilities, "facilities_orange")
 	facilities.pressed.connect(_show_classes)
-	_header_place(head, facilities, Rect2(585, 0, 290, 70))
-	var facility_icon := _header_icon("icons/garage.png")
-	facility_icon.texture = HdUi.Soft.texture("facility_base")
-	_header_place(facilities, facility_icon, Rect2(19, 5, 100, 58))
-	var facility_label := _label(I18n.t("soft.facilities"), 42, Color.WHITE)
+	canvas.add_child(facilities)
+	RaceArt.place(facilities, Rect2(933, 54, 480, 111))
+	RaceArt.image(facilities, "icons/facility", Rect2(30, 8, 148, 94))
+	var facility_label := _label(I18n.t("soft.facilities"), 57, Color.WHITE)
 	facility_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	facility_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	facility_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	HdUi.text_depth(facility_label, true)
-	_header_place(facilities, facility_label, Rect2(124, 0, 151, 68))
-	var income_row := HBoxContainer.new()
-	income_row.name = "IncomePill"
-	income_row.add_theme_constant_override("separation", 6)
-	income_row.add_child(HdUi.icon("icons/coins.png", Vector2(20, 20)))
-	_income_label = _label("", 17, C_GREEN)
+	facility_label.clip_text = true
+	facilities.add_child(facility_label)
+	RaceArt.place(facility_label, Rect2(188, 4, 272, 100))
+	var chip := Panel.new()
+	chip.name = "IncomePill"
+	chip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	chip.add_theme_stylebox_override("panel", RaceArt.skin("income_green"))
+	canvas.add_child(chip)
+	RaceArt.place(chip, Rect2(40, 194, 330, 80))
+	RaceArt.image(chip, "icons/coin", Rect2(12, 10, 60, 60))
+	_income_label = _label("", 43, Color.WHITE)
 	_income_label.name = "IncomeLabel"
-	_income_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	income_row.add_child(_income_label)
-	_daily_btn = _button("", false, 44, "cancel")
+	_income_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_income_label.clip_text = true
+	chip.add_child(_income_label)
+	RaceArt.place(_income_label, Rect2(84, 2, 232, 76))
+	_daily_btn = Button.new()
 	_daily_btn.name = "DailyRewardsButton"
-	_daily_btn.custom_minimum_size = Vector2(44, 44)
-	_daily_btn.icon = HdUi.tex("icons/gift.png")
-	_daily_btn.expand_icon = true
-	_daily_btn.add_theme_constant_override("icon_max_width", 27)
 	_daily_btn.accessibility_name = I18n.t("main.daily_rewards")
+	RaceArt.button_skin(_daily_btn, "reward_cream")
 	_daily_btn.pressed.connect(_show_daily_rewards)
-	_daily_btn.hide()
+	canvas.add_child(_daily_btn)
+	RaceArt.place(_daily_btn, Rect2(1150, 228, 243, 205))
+	RaceArt.image(_daily_btn, "icons/gift", Rect2(48, 10, 148, 116))
+	var gift_label := _label("Quà ngày" if I18n.lang() == "vi" else "Daily Gift", 35)
+	gift_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	gift_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	gift_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_daily_btn.add_child(gift_label)
+	RaceArt.place(gift_label, Rect2(8, 139, 227, 48))
 	_daily_dot = Panel.new()
 	_daily_dot.name = "DailyDot"
 	_daily_dot.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_daily_dot.add_theme_stylebox_override("panel", HdUi.Soft.flat(C_RED, 0, 5))
-	_daily_dot.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	_daily_dot.offset_left = -11
-	_daily_dot.offset_right = -1
-	_daily_dot.offset_top = 1
-	_daily_dot.offset_bottom = 11
+	var dot_skin := StyleBoxTexture.new()
+	dot_skin.texture = RaceArt.texture("icons/notification")
+	_daily_dot.add_theme_stylebox_override("panel", dot_skin)
 	_daily_btn.add_child(_daily_dot)
-	# Nút quà ngày không nằm trong dải thu nhập (demo không có). Giữ node ẩn trong
-	# "DailyRewardsSlot" cho tới khi đặt sang vị trí mới; chỉ cần đổi parent của _daily_btn.
-	var daily_slot := Control.new()
-	daily_slot.name = "DailyRewardsSlot"
-	daily_slot.hide()
-	daily_slot.add_child(_daily_btn)
-	add_child(daily_slot)
-	_daily_btn.custom_minimum_size = Vector2(30, 30)
-	_daily_btn.add_theme_constant_override("icon_max_width", 22)
-	# Income chip overlays the sea instead of adding a separate vertical row.
-
-	_race_view = RaceView.new()
-	_race_view.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_race_view.custom_minimum_size = Vector2(0, RACE_HEIGHT)
-	_race_view.clip_contents = true
-	v.add_child(_race_view)
-	var chip := PanelContainer.new()
-	chip.position = Vector2(5, 3)
-	chip.add_theme_stylebox_override("panel", HdUi.Soft.gloss("income", Vector4(5, 2, 8, 2)))
-	_race_view.add_child(chip)
-	_income_label.add_theme_color_override("font_color", Color.WHITE)
-	HdUi.text_depth(_income_label, true)
-	chip.add_child(income_row)
+	RaceArt.place(_daily_dot, Rect2(190, 9, 40, 40))
 	_race_view_track = GameData.class_track(GameState.race_class_id)
 	_race_view.set_track(_race_view_track)
 	_ads_controls = AdsRaceControls.new()
@@ -1360,6 +1337,8 @@ func _add_tile(parent: Control, kind: String) -> void:
 	btn.name = "Buy_" + kind
 	btn.custom_minimum_size = Vector2(82, 34)
 	HdUi.style_button(btn, "upgrade")
+	for state in ["normal", "hover", "pressed", "hover_pressed", "disabled"]:
+		btn.add_theme_stylebox_override(state, _upgrade_buy_skin(state))
 	action.add_child(btn)
 	var price_center := CenterContainer.new()
 	price_center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -1391,7 +1370,17 @@ func _add_tile(parent: Control, kind: String) -> void:
 
 
 func _upgrade_buy_skin(state: String) -> StyleBoxTexture:
-	return HdUi.button("upgrade", state)
+	if state == "disabled":
+		return HdUi.button("upgrade", state)
+	var skin := StyleBoxTexture.new()
+	skin.texture = preload("res://assets/soft_miniature_ui_v1/custom/cash_upgrade_button_v1.png")
+	skin.set_content_margin_all(0)
+	skin.set_meta("rounded_button", true)
+	if state in ["pressed", "hover_pressed"]:
+		skin.modulate_color = Color(0.78, 0.88, 0.85)
+	elif state == "hover":
+		skin.modulate_color = Color(1.08, 1.08, 1.08)
+	return skin
 
 
 ## Rounded gradient surfaces sized for the compact upgrade cards.
@@ -1570,7 +1559,9 @@ func _nav_apply(t: float, done: bool = false) -> void:
 
 func _nav_slot(k: int, width: float, total: float) -> Rect2:
 	var before := 0.0
-	for j in k:
+	for j in NAV_ORDER:
+		if j == k:
+			break
 		before += float((_nav_items[j] as Control).size_flags_stretch_ratio)
 	var w := float((_nav_items[k] as Control).size_flags_stretch_ratio)
 	return Rect2(width * before / total, 0.0, width * w / total, _nav_pill.get_parent().size.y)
@@ -1582,8 +1573,12 @@ func _refresh_light() -> void:
 	_coin_label.text = Balance.fmt_compact(GameState.coins)
 	_fit_hud_label(_coin_label, 48)
 	var mult := GameState.income_multiplier()
-	var income_txt: String = I18n.t("main.revenue") + "  +" + Balance.fmt_rate(GameState.total_online_rate().multiply_ratio(mult * 60, 1)) + "/" + I18n.t("soft.minute") + (" ×%d" % mult if mult > 1 else "")
+	var income_txt: String = "+" + Balance.fmt_rate(GameState.total_online_rate().multiply_ratio(mult * 60, 1)) + "/" + I18n.t("soft.minute")
 	_income_label.text = income_txt
+	var income_font := 43
+	while income_font > 24 and _income_label.get_theme_font("font").get_string_size(_income_label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, income_font).x > 232:
+		income_font -= 1
+	_income_label.add_theme_font_size_override("font_size", income_font)
 	_gem_label.text = Balance.fmt_int(GameState.gems)
 	_fit_hud_label(_gem_label, 48)
 	_refresh_rows()
@@ -1604,6 +1599,10 @@ func _refresh() -> void:
 	else:
 		_power_banner.reset_power(GameState.team_power())
 	_progress_label.text = Balance.league_name(GameState.business_tier)
+	var rank_font := 48
+	while rank_font > 30 and _progress_label.get_theme_font("font").get_string_size(_progress_label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, rank_font).x > 183:
+		rank_font -= 1
+	_progress_label.add_theme_font_size_override("font_size", rank_font)
 	_race_no_label.text = I18n.t("soft.race_no") % (GameState.race_counter + 1)
 	_update_race_ui()
 	if _roster != null and _tab == Tab.TEAM:

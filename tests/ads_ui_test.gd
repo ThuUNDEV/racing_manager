@@ -56,7 +56,7 @@ func _initialize() -> void:
 
 	print("== Chip ×2 ==")
 	_check(chip.visible and not chip.disabled and "×2" in chip.text, "chip hiện, bấm được: '%s'" % chip.text.replace("\n", " "))
-	_check(chip.position.x > host.size.x * 0.6 and chip.position.y < RaceView.HUD_H, "chip nằm góc phải trên (trong HUD)")
+	_check(chip.position.x > host.size.x * 0.6 and chip.position.y > RaceView.HUD_H, "chip nằm bên phải dưới Daily Gift")
 	_mock.ready = false
 	await _frames(2)
 	_check(chip.visible and chip.disabled, "quảng cáo chưa tải: chip xám, không bấm được")

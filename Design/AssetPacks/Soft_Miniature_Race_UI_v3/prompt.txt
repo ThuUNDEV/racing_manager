@@ -1,0 +1,20 @@
+Use case: ui-mockup asset decomposition. Supporting style/reference image: racing UI screenshot. Create a production UI SPRITE SHEET of SEPARATE COMPONENTS, not a screenshot and not assembled controls. True transparent background. Square image 2048x2048 if possible, strictly uniform 4 columns x 4 rows grid. Each cell has ONE isolated item centered within its cell with at least 50 pixels empty padding on every side; do not overlap adjacent cells. No grid lines or captions. Match the reference soft miniature clay aesthetic and exact palette.
+Crucial: separate decorative icons from button skins. Every button skin is COMPLETELY EMPTY: NO icon, NO text, NO number, NO symbol, NO dot on its face. Every icon floats alone without ANY button, plaque, backdrop, floor, plate or halo. No text anywhere.
+Cells row-major:
+row1 col1: golden trophy shield with star and gold laurel leaves, icon only.
+row1 col2: gold coin with embossed five-point star, icon only.
+row1 col3: miniature cream garage with red tile roof and grey door and tiny shrubs, icon only.
+row1 col4: orange wrapped gift box with yellow bow, icon only.
+row2 col1: green banknote bundle with yellow band, icon only; no play icon attached.
+row2 col2: navy video film tile with cream film perforations and triangular navy play glyph as in reference, icon only, no surrounding button.
+row2 col3: small red notification sphere with thin cream edge, by itself.
+row2 col4: plain empty cream horizontal rank capsule skin, front-facing, width:height 3:1, no trophy/text.
+row3 col1: plain empty leaf-green income capsule skin, front-facing, width:height 3:1, no coin/text.
+row3 col2: plain empty orange Facilities capsule skin, front-facing, width:height 3:1, no garage/text.
+row3 col3: plain empty rounded-square cream Daily Gift button skin, no gift/dot/text.
+row3 col4: plain empty rounded-square pale-blue ads button skin, no banknotes/play/text.
+row4 col1: plain empty dark-teal vertical leaderboard panel skin with thin cream border, width:height .9:1, no rows/chips/text.
+row4 col2: plain empty dark-teal horizontal lap capsule skin with thin cream border, width:height 3:1, no text.
+row4 col3: plain empty dark-teal player speech-bubble skin with cream border and small downward pointer, width:height 1.8:1, no text.
+row4 col4: plain empty golden-yellow player highlighted leaderboard row capsule skin, width:height 4:1, no text/chips.
+Soft matte modeled clay, gentle lighting and clean anti-aliased silhouettes, restrained inset shading; front-facing skins with undistorted straight-on geometry. No cyan screenshot background, no race track, no cars, no clouds, no outer screen frame, no baked drop shadow on the background.

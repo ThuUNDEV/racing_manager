@@ -1,5 +1,6 @@
 class_name AdsRaceControls
 extends Control
+const RaceArt = preload("res://ui/race_hud_art.gd")
 const CleanArt = preload("res://ui/clean_modern_art.gd")
 ## Điều khiển quảng cáo trên khung đua (Design/26 §3–§4): chip tăng tốc ×2 ở góc phải HUD, lá cờ thưởng income chạy
 ## trên dải khán đài, và popup xác nhận xem video. Chỉ là lớp UI: mọi luật (lượt/ngày, thời gian chờ, thưởng) nằm trong Ads.
@@ -19,6 +20,7 @@ var _gs: Node
 var _chip: Button
 var _chip_title: Label
 var _chip_time: Label
+var _chip_video: TextureRect
 var _chip_cash: TextureRect
 var _chip_progress: ProgressBar
 var _chip_state := ""
@@ -70,32 +72,24 @@ func _ready() -> void:
 	_chip.add_theme_font_size_override("font_size", 1)
 	_chip.add_theme_color_override("font_shadow_color", Color.TRANSPARENT)
 	for state in ["normal", "hover", "pressed", "disabled"]:
-		var ticket := StyleBoxFlat.new()
-		ticket.bg_color = Color("d4e9fc") if state == "pressed" else Color("e3f1ff")
-		ticket.border_color = Color("c0dcf6")
-		ticket.set_border_width_all(1)
-		ticket.set_corner_radius_all(11)
-		# Preserve the compact HUD face instead of converting it to a pill.
-		ticket.set_meta("rounded_button", true)
+		var ticket := RaceArt.skin("reward_blue")
+		# This tile uses a uniform scale, keeping all four rounded corners intact.
+		ticket.texture_margin_left = 0
+		ticket.texture_margin_right = 0
+		ticket.texture_margin_top = 0
+		ticket.texture_margin_bottom = 0
 		_chip.add_theme_stylebox_override(state, ticket)
 		_chip_idle_styles[state] = ticket
-	var active_style := StyleBoxFlat.new()
-	active_style.bg_color = Color("62b8e5")
-	active_style.border_color = Color("d8e2df")
-	active_style.set_border_width_all(2)
-	_chip_active_style = HdUi.ButtonSkin.rounded(active_style) as StyleBoxTexture
-	var focus := StyleBoxFlat.new()
-	focus.bg_color = Color.TRANSPARENT
-	focus.border_color = Color.WHITE
-	focus.set_border_width_all(2)
-	focus.set_corner_radius_all(8)
-	_chip.add_theme_stylebox_override("focus", focus)
-	HdUi.ButtonSkin.apply(_chip)
+	_chip_active_style = (_chip_idle_styles["normal"] as StyleBoxTexture).duplicate()
+	_chip_active_style.modulate_color = Color("c8edf7")
+	_chip.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
 	_chip.pressed.connect(func() -> void: _open(BOOST))
 	_chip.hide()
 	add_child(_chip)
-	_chip_cash = _art("res://assets/racing_ui_hd/icons/cash.png")
+	_chip_cash = _art(RaceArt.ROOT + "icons/cash.png")
 	_chip.add_child(_chip_cash)
+	_chip_video = _art(RaceArt.ROOT + "icons/video.png")
+	_chip.add_child(_chip_video)
 	_chip_title = _lbl(23, Color.WHITE)
 	_chip_title.add_theme_font_override("font", HdUi.font())
 	_chip_title.add_theme_color_override("font_outline_color", Color("0452b8"))
@@ -364,45 +358,45 @@ func _set_chip_state(state: String) -> void:
 	var running := state == "active"
 	for style in ["normal", "hover", "pressed", "disabled"]:
 		_chip.add_theme_stylebox_override(style, _chip_active_style if running else _chip_idle_styles[style])
-	HdUi.ButtonSkin.apply(_chip)
 	_chip_progress.visible = running
-	_chip_cash.visible = not running
-	_chip_title.add_theme_font_size_override("font_size", 11 if running else 18)
-	_chip_title.add_theme_color_override("font_color", Color.WHITE if running else Color("0877d2"))
+	_chip_cash.visible = true
+	_chip_video.visible = not running
+	_chip_title.add_theme_color_override("font_color", HdUi.C_NAVY)
 	_chip_title.add_theme_constant_override("outline_size", 0)
 	_chip_title.add_theme_constant_override("shadow_offset_x", 0)
 	_chip_title.add_theme_constant_override("shadow_offset_y", 0)
 	_chip_title.add_theme_color_override("font_shadow_color", Color.TRANSPARENT)
-	_chip_time.add_theme_font_size_override("font_size", 14 if running else 11)
-	_chip_time.add_theme_color_override("font_color", Color("d9f4ff") if running else Color("0877d2"))
+	_chip_time.add_theme_color_override("font_color", Color("0877d2"))
 	_chip.mouse_default_cursor_shape = Control.CURSOR_ARROW if running else Control.CURSOR_POINTING_HAND
 
 
 func _layout_chip() -> void:
+	var k := size.x / 1448.0
 	var rect := RaceView.hud_boost_rect_for_width(size.x)
-	_chip.custom_minimum_size = rect.size
+	_chip.custom_minimum_size = Vector2.ZERO
 	_chip.size = rect.size
 	_chip.position = rect.position
-	var w := rect.size.x
+	_chip_cash.position = Vector2(22, 12) * k
+	_chip_cash.size = Vector2(125, 85) * k
+	_chip_video.position = Vector2(149, 38) * k
+	_chip_video.size = Vector2(69, 58) * k
+	_chip_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_chip_title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_chip_title.clip_text = true
+	_chip_title.position = Vector2(6, 103) * k
+	_chip_title.size = Vector2(248, 47) * k
+	_chip_title.add_theme_font_size_override("font_size", maxi(9, roundi(36 * k)))
+	_chip_time.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_chip_time.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_chip_time.clip_text = true
-	var caption_font := 11 if _chip_state == "active" else 10
-	while caption_font > 9 and _chip_time.get_theme_font("font").get_string_size(_chip_time.text, HORIZONTAL_ALIGNMENT_LEFT, -1, caption_font).x > w - 12.0:
+	_chip_time.position = Vector2(6, 150) * k
+	_chip_time.size = Vector2(248, 40) * k
+	var caption_font := maxi(8, roundi(30 * k))
+	while caption_font > 7 and _chip_time.get_theme_font("font").get_string_size(_chip_time.text, HORIZONTAL_ALIGNMENT_LEFT, -1, caption_font).x > rect.size.x - 4:
 		caption_font -= 1
 	_chip_time.add_theme_font_size_override("font_size", caption_font)
-	_chip_time.position = Vector2(4, 21)
-	_chip_time.size = Vector2(w - 8, 12)
-	if _chip_state == "active":
-		_chip_title.position = Vector2(4, 1)
-		_chip_title.size = Vector2(w - 8, 20)
-	else:
-		var title_width := 34.0
-		var group_x := (w - 27.0 - 4.0 - title_width) * 0.5
-		_chip_cash.position = Vector2(group_x, 1)
-		_chip_cash.size = Vector2(27, 20)
-		_chip_title.position = Vector2(group_x + 31.0, 1)
-		_chip_title.size = Vector2(title_width, 20)
-	_chip_progress.position = Vector2(w * 0.12, 34)
-	_chip_progress.size = Vector2(w * 0.76, 2)
+	_chip_progress.position = Vector2(27, 192) * k
+	_chip_progress.size = Vector2(206, 3) * k
 
 
 
@@ -426,7 +420,7 @@ func _refresh_chip() -> void:
 		if _ads.can_offer(BOOST):
 			_chip.disabled = false
 			_chip.text = I18n.t("ads.x_min") % [mult, int(_ads.offer_amount(BOOST)["seconds"]) / 60]
-			_chip_title.text = "×%d" % mult
+			_chip_title.text = ("×%d Thưởng" if I18n.lang() == "vi" else "×%d Reward") % mult
 			_chip_time.text = I18n.t("ads.watch_ad").replace("▶", "").strip_edges()
 			if not _chip_offered:
 				_chip_offered = true
@@ -434,13 +428,13 @@ func _refresh_chip() -> void:
 		else:
 			_chip.disabled = true
 			_chip.text = I18n.t("common.loading")
-			_chip_title.text = "×%d" % mult
+			_chip_title.text = ("×%d Thưởng" if I18n.lang() == "vi" else "×%d Reward") % mult
 			_chip_time.text = I18n.t("common.loading")
 	else:
 		_set_chip_state("offer")
 		_chip.show()
 		_chip.disabled = true
-		_chip_title.text = "×%d" % mult
+		_chip_title.text = ("×%d Thưởng" if I18n.lang() == "vi" else "×%d Reward") % mult
 		var reason := String(_ads.block_reason(BOOST))
 		var explanation := {"locked": I18n.t("ads.open_shop"), "capped": I18n.t("ads.daily_limit_reached"), "cooldown": I18n.t("ads.waiting"), "save": I18n.t("common.saving")}
 		_chip_time.text = I18n.t("ads.owned_x") % _gs.purchased_mult() if _gs.purchased_mult() >= mult else String(explanation.get(reason, I18n.t("ads.not_ready")))

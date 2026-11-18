@@ -1,12 +1,12 @@
 class_name RaceView
 extends Control
+const RaceArt = preload("res://ui/race_hud_art.gd")
 const CleanArt = preload("res://ui/clean_modern_art.gd")
 const Diorama = preload("res://ui/race_diorama.gd")
 const Circuit3D = preload("res://ui/race_world_3d.gd")
 var _world_3d: RefCounted = null
 var _use_3d := false
 var _rotation_pointer := -2
-var _rotation_reset: Button
 var _rotation_hint: Label
 const Car3D = preload("res://ui/race_car_3d.gd")
 var _car_models: Dictionary = {}
@@ -133,17 +133,6 @@ func _ready() -> void:
 
 
 func _build_rotation_controls() -> void:
-	_rotation_reset = Button.new()
-	_rotation_reset.name = "ResetCircuitView"
-	_rotation_reset.text = "↺"
-	_rotation_reset.tooltip_text = "Góc nhìn ban đầu" if I18n.lang() == "vi" else "Reset view"
-	_rotation_reset.position = Vector2(8, 48)
-	_rotation_reset.size = Vector2(32, 32)
-	_rotation_reset.add_theme_font_size_override("font_size", 23)
-	_rotation_reset.add_theme_stylebox_override("normal", HdUi.Soft.flat(Color("22617adf"), 0, 8))
-	_rotation_reset.pressed.connect(reset_circuit_view)
-	_rotation_reset.visible = _use_3d
-	add_child(_rotation_reset)
 	_rotation_hint = Label.new()
 	_rotation_hint.text = "Kéo để xoay" if I18n.lang() == "vi" else "Drag to rotate"
 	_rotation_hint.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -152,7 +141,7 @@ func _build_rotation_controls() -> void:
 	_rotation_hint.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
 	_rotation_hint.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	_rotation_hint.grow_vertical = Control.GROW_DIRECTION_BEGIN
-	_rotation_hint.position = Vector2(size.x*0.5-45, size.y-16)
+	_rotation_hint.position = Vector2(size.x*0.44-45, size.y-18)
 	_rotation_hint.size = Vector2(90,16)
 	_rotation_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_rotation_hint.visible = _use_3d
@@ -218,8 +207,7 @@ func _ensure_track_layer() -> void:
 func set_track(track_id: String) -> void:
 	_use_3d = track_id == GameData.class_track(GameData.default_class_id())
 	_rotation_pointer = -2
-	if _rotation_reset != null:
-		_rotation_reset.visible = _use_3d
+	if _rotation_hint != null:
 		_rotation_hint.visible = _use_3d
 	_crowd_salt = absi(track_id.hash()) & 0xffff
 	_layout = TrackLayout.build(track_id)
@@ -246,7 +234,7 @@ func _frame_units() -> Vector2:
 
 func _on_resized() -> void:
 	if _rotation_hint != null:
-		_rotation_hint.position = Vector2(size.x*0.5-45, size.y-16)
+		_rotation_hint.position = Vector2(size.x*0.44-45, size.y-18)
 	if _layout == null or not _layout.valid or size.x < 8.0:
 		return
 	if _use_3d:
@@ -465,6 +453,19 @@ func _board_rect() -> Rect2:
 
 ## Static scenery shares the existing cached track layer, never the per-frame car draw.
 func _draw_static(ci: CanvasItem) -> void:
+	var sea := HdUi.Soft.flat(Color("47bfd4"), 0, 14)
+	sea.border_color = Color("fff8e9")
+	sea.set_border_width_all(2)
+	ci.draw_style_box(sea, Rect2(Vector2.ZERO, size))
+	# Small sky accents share the continuous sea, behind live controls and the 3D circuit.
+	for cloud: Vector3 in [Vector3(0.61, 0.18, 1.0), Vector3(0.73, 0.25, 0.7), Vector3(0.93, 0.17, 0.55)]:
+		var center := Vector2(size.x * cloud.x, size.y * cloud.y)
+		var r := size.x * 0.018 * cloud.z
+		var white := Color("e9f8f8")
+		ci.draw_circle(center, r, white)
+		ci.draw_circle(center + Vector2(r * 0.8, -r * 0.6), r * 1.15, white)
+		ci.draw_circle(center + Vector2(r * 1.8, 0), r * 0.9, white)
+		ci.draw_style_box(HdUi.Soft.flat(white, 0, 4), Rect2(center + Vector2(-r, 0), Vector2(r * 3.7, r * 0.8)))
 	if _use_3d and _world_3d != null:
 		ci.draw_texture_rect(_world_3d.viewport.get_texture(), _world_3d.view_rect, false)
 	else:
@@ -607,10 +608,9 @@ func hud_rank_rect() -> Rect2:
 	return Rect2(12.0 + team_width, (HUD_H - 36.0) * 0.5, rank_width - 10.0, 36.0)
 
 
-## The three HUD blocks share a 60px height and the same two text rows.
+## The reward tile sits below Daily Gift on the right of the fixed cluster.
 static func hud_boost_rect_for_width(width: float) -> Rect2:
-	var button_width := (width - 24.0) * 0.23
-	return Rect2(width - button_width - 12.0, 8.0, button_width, 36.0)
+	return Rect2(Vector2(1145, 450) * width / 1448.0, Vector2(260, 205) * width / 1448.0)
 
 
 func _hud_baseline(font: Font, font_size: int, row_top: float, row_height: float) -> float:
@@ -768,8 +768,7 @@ func _draw_hud() -> void:
 	var rk := sim.ranking()
 	var me := sim.player_car()
 	var board := Rect2(7, size.y * 0.52, 96 * scale_ui, 104 * scale_ui)
-	var skin := HdUi.Soft.flat(Color("22617adf"), 3, 10)
-	draw_style_box(skin, board)
+	draw_texture_rect(RaceArt.texture("skins/leaderboard_teal"), board, false)
 	# Bốn dòng: top 4; nếu người chơi ngoài top 4 thì top 3 + dòng của người chơi. "···" khi còn xe phía sau.
 	var shown: Array = []
 	var me_rank := rk.find(me)
@@ -782,12 +781,12 @@ func _draw_hud() -> void:
 		var c: TrafficSim.Car = rk[i]
 		var y := board.position.y + (row * 19 + 17) * scale_ui
 		if c.is_player:
-			draw_style_box(HdUi.Soft.flat(Color("ffd43c"), 0, 6), Rect2(board.position.x + 3, y - 14 * scale_ui, board.size.x - 6, 19 * scale_ui))
+			draw_texture_rect(RaceArt.texture("skins/selected_row_gold"), Rect2(board.position.x + 3, y - 14 * scale_ui, board.size.x - 6, 19 * scale_ui), false)
 		var txt_col := Color("123c57") if c.is_player else Color.WHITE
 		var rank_box := Rect2(board.position.x + 6 * scale_ui, y - 12 * scale_ui, 15 * scale_ui, 15 * scale_ui)
 		draw_style_box(HdUi.Soft.flat(Color("fffaf0"), 0, 4), rank_box)
 		draw_string(font, Vector2(rank_box.position.x + 4 * scale_ui, y), str(i + 1), HORIZONTAL_ALIGNMENT_LEFT, -1, int(11 * scale_ui), Color("123c57"))
-		draw_string(font, Vector2(board.position.x + 27 * scale_ui, y), "Bạn" if c.is_player else "#%d" % c.id, HORIZONTAL_ALIGNMENT_LEFT, -1, int(12 * scale_ui), txt_col)
+		draw_string(font, Vector2(board.position.x + 27 * scale_ui, y), ("Bạn" if I18n.lang() == "vi" else "You") if c.is_player else "#%d" % c.id, HORIZONTAL_ALIGNMENT_LEFT, -1, int(12 * scale_ui), txt_col)
 		var car_col: Color = CAR_COLORS[clampi(c.id, 0, CAR_COLORS.size() - 1)]
 		if c.is_player and player_paint_id != "":
 			var pd := GameData.paint(player_paint_id)
@@ -800,12 +799,12 @@ func _draw_hud() -> void:
 		var dot_y := board.position.y + (4 * 19 + 15) * scale_ui
 		for k in 3:
 			draw_circle(Vector2(board.position.x + (13 + k * 6) * scale_ui, dot_y), 1.6 * scale_ui, Color(1, 1, 1, 0.9))
-	var lap := "Vòng %d/%d" % [sim.lap_of(me), sim.laps]
+	var lap := ("Vòng %d/%d" if I18n.lang() == "vi" else "Lap %d/%d") % [sim.lap_of(me), sim.laps]
 	var lap_rect := Rect2(size.x - 97 * scale_ui, size.y - 32 * scale_ui, 93 * scale_ui, 25 * scale_ui)
-	draw_style_box(skin, lap_rect)
+	draw_texture_rect(RaceArt.texture("skins/lap_teal"), lap_rect, false)
 	draw_string(font, lap_rect.position + Vector2(6, 18) * scale_ui, lap, HORIZONTAL_ALIGNMENT_LEFT, -1, int(14 * scale_ui), Color.WHITE)
-	var marker := _car_position(sim.render_pos(me, alpha), sim.render_lat(me, alpha)) - Vector2(18, 26) * scale_ui
-	draw_style_box(skin, Rect2(marker, Vector2(48, 22) * scale_ui))
+	var marker := _car_position(sim.render_pos(me, alpha), sim.render_lat(me, alpha)) - Vector2(24, 33) * scale_ui
+	draw_texture_rect(RaceArt.texture("skins/position_teal"), Rect2(marker, Vector2(48, 29) * scale_ui), false)
 	draw_string(font, marker + Vector2(5, 16) * scale_ui, "P%d/%d" % [rk.find(me) + 1, rk.size()], HORIZONTAL_ALIGNMENT_LEFT, -1, int(13 * scale_ui), Color("ffda36"))
 
 

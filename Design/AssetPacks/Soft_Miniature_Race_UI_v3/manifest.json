@@ -1,0 +1,362 @@
+{
+  "source": "source-sheet.png",
+  "source_size": [
+    1254,
+    1254
+  ],
+  "method": "ImageGen layer reconstruction from approved demo; art-tools MCP alpha refinement",
+  "sprites": {
+    "trophy": {
+      "file": "sprites/icons/trophy.png",
+      "size": [
+        242,
+        185
+      ],
+      "source_cell": [
+        0,
+        0,
+        314,
+        314
+      ],
+      "trim_rect": [
+        50,
+        79,
+        292,
+        264
+      ],
+      "alpha_method": "MCP refine intersected with source alpha",
+      "text": false,
+      "icon_embedded": null
+    },
+    "coin": {
+      "file": "sprites/icons/coin.png",
+      "size": [
+        184,
+        189
+      ],
+      "source_cell": [
+        314,
+        0,
+        627,
+        314
+      ],
+      "trim_rect": [
+        64,
+        80,
+        248,
+        269
+      ],
+      "alpha_method": "MCP refine intersected with source alpha",
+      "text": false,
+      "icon_embedded": null
+    },
+    "facility": {
+      "file": "sprites/icons/facility.png",
+      "size": [
+        237,
+        185
+      ],
+      "source_cell": [
+        627,
+        0,
+        940,
+        314
+      ],
+      "trim_rect": [
+        34,
+        81,
+        271,
+        266
+      ],
+      "alpha_method": "MCP refine intersected with source alpha",
+      "text": false,
+      "icon_embedded": null
+    },
+    "gift": {
+      "file": "sprites/icons/gift.png",
+      "size": [
+        207,
+        198
+      ],
+      "source_cell": [
+        940,
+        0,
+        1254,
+        314
+      ],
+      "trim_rect": [
+        51,
+        76,
+        258,
+        274
+      ],
+      "alpha_method": "MCP refine intersected with source alpha",
+      "text": false,
+      "icon_embedded": null
+    },
+    "cash": {
+      "file": "sprites/icons/cash.png",
+      "size": [
+        216,
+        187
+      ],
+      "source_cell": [
+        0,
+        314,
+        314,
+        627
+      ],
+      "trim_rect": [
+        53,
+        76,
+        269,
+        263
+      ],
+      "alpha_method": "MCP refine intersected with source alpha",
+      "text": false,
+      "icon_embedded": null
+    },
+    "video": {
+      "file": "sprites/icons/video.png",
+      "size": [
+        204,
+        151
+      ],
+      "source_cell": [
+        314,
+        314,
+        627,
+        627
+      ],
+      "trim_rect": [
+        55,
+        88,
+        259,
+        239
+      ],
+      "alpha_method": "MCP refine intersected with source alpha",
+      "text": false,
+      "icon_embedded": null
+    },
+    "notification": {
+      "file": "sprites/icons/notification.png",
+      "size": [
+        126,
+        127
+      ],
+      "source_cell": [
+        627,
+        314,
+        940,
+        627
+      ],
+      "trim_rect": [
+        83,
+        102,
+        209,
+        229
+      ],
+      "alpha_method": "MCP refine intersected with source alpha",
+      "text": false,
+      "icon_embedded": null
+    },
+    "rank_cream": {
+      "file": "sprites/skins/rank_cream.png",
+      "size": [
+        280,
+        115
+      ],
+      "source_cell": [
+        940,
+        314,
+        1254,
+        627
+      ],
+      "trim_rect": [
+        7,
+        108,
+        287,
+        223
+      ],
+      "alpha_method": "MCP refine intersected with source alpha",
+      "text": false,
+      "icon_embedded": false
+    },
+    "income_green": {
+      "file": "sprites/skins/income_green.png",
+      "size": [
+        274,
+        107
+      ],
+      "source_cell": [
+        0,
+        627,
+        314,
+        940
+      ],
+      "trim_rect": [
+        23,
+        105,
+        297,
+        212
+      ],
+      "alpha_method": "MCP refine intersected with source alpha",
+      "text": false,
+      "icon_embedded": false
+    },
+    "facilities_orange": {
+      "file": "sprites/skins/facilities_orange.png",
+      "size": [
+        276,
+        107
+      ],
+      "source_cell": [
+        314,
+        627,
+        627,
+        940
+      ],
+      "trim_rect": [
+        18,
+        105,
+        294,
+        212
+      ],
+      "alpha_method": "MCP refine intersected with source alpha",
+      "text": false,
+      "icon_embedded": false
+    },
+    "reward_cream": {
+      "file": "sprites/skins/reward_cream.png",
+      "size": [
+        228,
+        222
+      ],
+      "source_cell": [
+        627,
+        627,
+        940,
+        940
+      ],
+      "trim_rect": [
+        40,
+        46,
+        268,
+        268
+      ],
+      "alpha_method": "MCP refine intersected with source alpha",
+      "text": false,
+      "icon_embedded": false
+    },
+    "reward_blue": {
+      "file": "sprites/skins/reward_blue.png",
+      "size": [
+        244,
+        222
+      ],
+      "source_cell": [
+        940,
+        627,
+        1254,
+        940
+      ],
+      "trim_rect": [
+        31,
+        46,
+        275,
+        268
+      ],
+      "alpha_method": "MCP refine intersected with source alpha",
+      "text": false,
+      "icon_embedded": false
+    },
+    "leaderboard_teal": {
+      "file": "sprites/skins/leaderboard_teal.png",
+      "size": [
+        226,
+        244
+      ],
+      "source_cell": [
+        0,
+        940,
+        314,
+        1254
+      ],
+      "trim_rect": [
+        44,
+        27,
+        270,
+        271
+      ],
+      "alpha_method": "MCP refine intersected with source alpha",
+      "text": false,
+      "icon_embedded": false
+    },
+    "lap_teal": {
+      "file": "sprites/skins/lap_teal.png",
+      "size": [
+        285,
+        101
+      ],
+      "source_cell": [
+        314,
+        940,
+        627,
+        1254
+      ],
+      "trim_rect": [
+        13,
+        104,
+        298,
+        205
+      ],
+      "alpha_method": "MCP refine intersected with source alpha",
+      "text": false,
+      "icon_embedded": false
+    },
+    "position_teal": {
+      "file": "sprites/skins/position_teal.png",
+      "size": [
+        257,
+        154
+      ],
+      "source_cell": [
+        627,
+        940,
+        940,
+        1254
+      ],
+      "trim_rect": [
+        25,
+        88,
+        282,
+        242
+      ],
+      "alpha_method": "MCP refine intersected with source alpha",
+      "text": false,
+      "icon_embedded": false
+    },
+    "selected_row_gold": {
+      "file": "sprites/skins/selected_row_gold.png",
+      "size": [
+        280,
+        83
+      ],
+      "source_cell": [
+        940,
+        940,
+        1254,
+        1254
+      ],
+      "trim_rect": [
+        7,
+        114,
+        287,
+        197
+      ],
+      "alpha_method": "MCP refine intersected with source alpha",
+      "text": false,
+      "icon_embedded": false
+    }
+  }
+}

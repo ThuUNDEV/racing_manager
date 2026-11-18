@@ -26,6 +26,7 @@ func _init(control: Control) -> void:
 	viewport = SubViewport.new()
 	viewport.name = "Circuit3DViewport"
 	viewport.own_world_3d = true
+	viewport.transparent_bg = true
 	viewport.render_target_update_mode = SubViewport.UPDATE_WHEN_VISIBLE
 	viewport.msaa_3d = Viewport.MSAA_2X
 	host.add_child(viewport)
@@ -36,7 +37,7 @@ func _init(control: Control) -> void:
 	viewport.add_child(camera)
 	var env := WorldEnvironment.new()
 	env.environment = Environment.new()
-	env.environment.background_mode = Environment.BG_COLOR
+	env.environment.background_mode = Environment.BG_CLEAR_COLOR
 	env.environment.background_color = Color("47bfd4")
 	env.environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	env.environment.ambient_light_color = Color("d8ecff")
@@ -118,7 +119,7 @@ func rebuild(track: TrackLayout, size: Vector2, width: float) -> void:
 	road_width = width
 	center = layout.bounds.get_center()
 	portrait = layout.bounds.size.y > layout.bounds.size.x
-	view_rect = Rect2(0, 30, maxf(size.x,8), maxf(size.y-30,8))
+	view_rect = Rect2(size.x * 0.035, size.y * 0.22, maxf(size.x * 0.86, 8), maxf(size.y * 0.72, 8))
 	viewport.size = Vector2i(view_rect.size * 2.0)
 	if same_track:
 		var dimensions := layout.bounds.grow(28.0).size * SCALE
@@ -143,7 +144,7 @@ func rebuild(track: TrackLayout, size: Vector2, width: float) -> void:
 	island("IslandRock",dims+Vector2.ONE,-1.6,-0.1,"d5b786")
 	island("IslandSand",dims+Vector2.ONE*0.35,-0.35,0.005,"f5dc9c")
 	island("IslandGrass",dims,-0.12,0.045,"86c76a")
-	box("Ocean",Vector3(0,-1.1,0),Vector3(dims.x*5,0.1,dims.y*5),"3bb6d3")
+	# The transparent 3D scene shares the HUD sea instead of a separate ocean rectangle.
 	var s := 0.0
 	while s < layout.lap_length:
 		var end := minf(s+sample_step,layout.lap_length)
