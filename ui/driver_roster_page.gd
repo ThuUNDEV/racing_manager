@@ -294,7 +294,7 @@ func _rebuild() -> void:
 	var summary_box := VBoxContainer.new()
 	var summary_row := HBoxContainer.new()
 	summary.add_child(summary_row)
-	summary_row.add_child(HdUi.Soft.art("trophy_large", Vector2(67, 61)))
+	summary_row.add_child(HdUi.Soft.art("speedometer", Vector2(61, 61)))
 	summary_row.add_child(summary_box)
 	summary_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	summary_row.add_child(HdUi.Soft.art("helmet_pit", Vector2(72, 61)))
