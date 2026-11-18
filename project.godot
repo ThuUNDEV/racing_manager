@@ -25,6 +25,7 @@ GameState="*res://game/game_state.gd"
 Ads="*res://game/ads_service.gd"
 Iap="*res://game/iap_service.gd"
 Horus="*res://game/horus_platform.gd"
+NoHover="*res://game/no_hover.gd"
 
 [display]
 
