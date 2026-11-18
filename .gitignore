@@ -33,3 +33,6 @@ Design/AssetPacks/*.zip
 __pycache__/
 
 .claude/remote.env
+
+# Ảnh chụp/log do test và công cụ sinh ra
+output/
