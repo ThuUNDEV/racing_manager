@@ -593,6 +593,7 @@
  "shop.view_2": "查看 ",
  "shop.view_details": "查看详情 ",
  "shop.view_rates": "查看概率",
+ "shop.value_badge": "超值",
  "shop.waiting_save": "等待保存",
  "shop.watch_video": "▶ 观看视频",
  "shop.watched_but_reward_could_not": "已观看，但奖励保存失败",
@@ -663,5 +664,10 @@
  "soft.team_power": "Team power",
  "soft.minute": "min",
  "soft.bag": "Bag",
- "soft.race_no": "第%d场"
+ "soft.race_no": "第%d场",
+ "shop.perk_income_title": "收入 ×%d",
+ "shop.perk_upgrade_title": "升级至 ×3",
+ "shop.perk_offline_title": "离线+",
+ "shop.perk_income_benefit": "在线收入和比赛奖励永久×%d",
+ "shop.perk_offline_benefit": "离线收入×3，最多累积24小时"
 }

@@ -141,6 +141,7 @@
   },
   {
    "sku": "starter_1",
+   "value_x": 4.4,
    "kind": "starter",
    "usd": 0.99,
    "price_fallback": "$0.99",
@@ -164,6 +165,7 @@
   },
   {
    "sku": "starter_2",
+   "value_x": 3.6,
    "kind": "starter",
    "usd": 4.99,
    "price_fallback": "$4.99",
@@ -195,6 +197,7 @@
   },
   {
    "sku": "starter_3",
+   "value_x": 3.2,
    "kind": "starter",
    "usd": 9.99,
    "price_fallback": "$9.99",
@@ -226,6 +229,7 @@
   },
   {
    "sku": "offer_combo_1",
+   "value_x": 3.4,
    "kind": "offer",
    "usd": 4.99,
    "price_fallback": "$4.99",
@@ -487,6 +491,7 @@
   },
   {
    "sku": "weekly_s",
+   "value_x": 2.6,
    "kind": "weekly",
    "usd": 4.99,
    "price_fallback": "$4.99",
@@ -508,6 +513,7 @@
   },
   {
    "sku": "weekly_m",
+   "value_x": 2.7,
    "kind": "weekly",
    "usd": 9.99,
    "price_fallback": "$9.99",
@@ -529,6 +535,7 @@
   },
   {
    "sku": "weekly_l",
+   "value_x": 2.7,
    "kind": "weekly",
    "usd": 19.99,
    "price_fallback": "$19.99",
@@ -550,6 +557,7 @@
   },
   {
    "sku": "weekly_xl",
+   "value_x": 2.8,
    "kind": "weekly",
    "usd": 49.99,
    "price_fallback": "$49.99",

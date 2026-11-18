@@ -601,6 +601,7 @@
  "shop.view_2": "View ",
  "shop.view_details": "View details ",
  "shop.view_rates": "View rates",
+ "shop.value_badge": "VALUE",
  "shop.waiting_save": "Waiting to save",
  "shop.watch_video": "▶ Watch video",
  "shop.watched_but_reward_could_not": "Watched, but the reward could not be saved",
@@ -673,5 +674,10 @@
  "soft.team_power": "Team power",
  "soft.minute": "min",
  "soft.bag": "Bag",
- "soft.race_no": "Race %d"
+ "soft.race_no": "Race %d",
+ "shop.perk_income_title": "Income ×%d",
+ "shop.perk_upgrade_title": "Upgrade to ×3",
+ "shop.perk_offline_title": "Offline+",
+ "shop.perk_income_benefit": "Online income & race rewards ×%d, forever",
+ "shop.perk_offline_benefit": "Offline income ×3, up to 24h"
 }

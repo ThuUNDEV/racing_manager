@@ -51,8 +51,15 @@ var _nav_old := 0
 var _nav_new := 0
 var _nav_tween: Tween
 const NAV_SEL_W := 1.0
-const NAV_ICON_SEL := 49.0
-const NAV_ICON_TOP := 0.0
+const NAV_ICON_SEL := 54.0
+const NAV_ICON_TOP := -3.0
+## Tab Race là tab chính nên luôn rộng hơn và icon to hơn các tab khác.
+const NAV_RACE_W := 1.3
+const NAV_RACE_ICON := 66.0
+const NAV_RACE_ICON_IDLE := 50.0
+const NAV_RACE_RAISE := 14.0
+const NAV_RACE_TOP := -15.0
+const NAV_RACE_TOP_IDLE := 1.0
 var _rows: Array = []
 var _tab: int = Tab.RACE
 
@@ -63,6 +70,14 @@ var _profile: Control
 var _class_page: Control
 var _daily_btn: Button  # nút quà mỗi ngày ở dải chặng (Design/30 §5.1)
 var _daily_dot: Panel
+## Icon quảng cáo pack ở dải chặng: kind -> {button, dot, skus}; _promo_seen đánh dấu pack đã bấm trong phiên (tắt chấm đỏ).
+const PACK_PROMOS := [
+	{"kind": "starter", "icon": "icons/pack_starter", "skus": ["starter_1", "starter_2", "starter_3"], "name": "shop.special_packs"},
+	{"kind": "offer", "icon": "icons/pack_offer", "skus": ["offer_noads_bundle", "offer_combo_1", "offer_combo_2"], "name": "shop.special_packs"},
+	{"kind": "weekly", "icon": "icons/pack_weekly", "skus": ["weekly_s", "weekly_m", "weekly_l", "weekly_xl"], "name": "shop.weekly_packs"},
+]
+var _promo_ui: Dictionary = {}
+var _promo_seen: Dictionary = {}
 var _daily_popup: Control
 var _daily_auto_hold := 0.0  # giây liên tục đủ điều kiện tự bật popup quà ngày (Design/30 R4)
 const DAILY_AUTO_DELAY := 1.2
@@ -455,7 +470,7 @@ func _build_ui() -> void:
 		nav.add_child(item)
 		var b := _button("", false, 44.0, "tab")
 		b.set_anchors_preset(Control.PRESET_FULL_RECT)
-		b.offset_top = 0.0
+		b.offset_top = -NAV_RACE_RAISE if i == Tab.RACE else 0.0
 		b.offset_left = 0.0
 		b.offset_right = 0.0
 		b.accessibility_name = I18n.t(TAB_NAMES[i])
@@ -479,6 +494,7 @@ func _build_ui() -> void:
 		lab.offset_bottom = -3.0
 		lab.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		item.add_child(lab)
+		item.resized.connect(_fit_nav_label.bind(lab, item))
 		var lock := TextureRect.new()
 		lock.name = "NavLock"
 		lock.texture = _tex("icons/vector/lock.svg")
@@ -794,7 +810,7 @@ func _build_race_block(v: VBoxContainer) -> void:
 	strip_row.name = "ActionStripRow"
 	strip_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	strip_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	strip_row.add_theme_constant_override("separation", 60)
+	strip_row.add_theme_constant_override("separation", 36)
 	strip_canvas.add_child(strip_row)
 	RaceArt.place(strip_row, Rect2(0, 10, 1448, 205))
 	_daily_btn = Button.new()
@@ -802,14 +818,14 @@ func _build_race_block(v: VBoxContainer) -> void:
 	_daily_btn.accessibility_name = I18n.t("main.daily_rewards")
 	RaceArt.button_skin(_daily_btn, "reward_cream")
 	_daily_btn.pressed.connect(_show_daily_rewards)
-	_daily_btn.custom_minimum_size = Vector2(243, 205)
+	_daily_btn.custom_minimum_size = Vector2(260, 205)
 	strip_row.add_child(_daily_btn)
 	var boost_slot := Control.new()
 	boost_slot.name = "BoostSlot"
 	boost_slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	boost_slot.custom_minimum_size = Vector2(260, 205)
 	strip_row.add_child(boost_slot)
-	RaceArt.image(_daily_btn, "icons/gift", Rect2(26, 28, 190, 149))
+	RaceArt.image(_daily_btn, "icons/gift", Rect2(35, 28, 190, 149))
 	_daily_dot = Panel.new()
 	_daily_dot.name = "DailyDot"
 	_daily_dot.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -817,7 +833,8 @@ func _build_race_block(v: VBoxContainer) -> void:
 	dot_skin.texture = RaceArt.texture("icons/notification")
 	_daily_dot.add_theme_stylebox_override("panel", dot_skin)
 	_daily_btn.add_child(_daily_dot)
-	RaceArt.place(_daily_dot, Rect2(190, 9, 40, 40))
+	RaceArt.place(_daily_dot, Rect2(207, 9, 40, 40))
+	_build_pack_promos(strip_row)
 	_race_view_track = GameData.class_track(GameState.race_class_id)
 	_race_view.set_track(_race_view_track)
 	_ads_controls = AdsRaceControls.new()
@@ -855,6 +872,55 @@ func _build_race_block(v: VBoxContainer) -> void:
 	eh.add_child(retry)
 	_save_err_box.hide()
 	v.add_child(_save_err_box)
+
+
+func _build_pack_promos(strip_row: HBoxContainer) -> void:
+	for promo: Dictionary in PACK_PROMOS:
+		var kind := String(promo["kind"])
+		var button := Button.new()
+		button.name = "PackPromo_" + kind
+		button.accessibility_name = I18n.t(String(promo["name"]))
+		RaceArt.button_skin(button, "reward_cream")
+		button.custom_minimum_size = Vector2(260, 205)
+		button.pressed.connect(_open_pack_promo.bind(kind))
+		strip_row.add_child(button)
+		RaceArt.image(button, String(promo["icon"]), Rect2(35, 28, 190, 149))
+		var dot := Panel.new()
+		dot.name = "Dot"
+		dot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var dot_skin := StyleBoxTexture.new()
+		dot_skin.texture = RaceArt.texture("icons/notification")
+		dot.add_theme_stylebox_override("panel", dot_skin)
+		button.add_child(dot)
+		RaceArt.place(dot, Rect2(207, 9, 40, 40))
+		_promo_ui[kind] = {"button": button, "dot": dot, "skus": promo["skus"], "sku": ""}
+	_refresh_pack_promos()
+
+
+## Pack đầu tiên của nhóm còn mua được (cùng nguồn sự thật với thẻ trong Shop: Iap.block_reason).
+func _pack_promo_sku(skus: Array) -> String:
+	for sku: String in skus:
+		if Iap.block_reason(sku) in ["", "busy"]:
+			return sku
+	return ""
+
+
+func _refresh_pack_promos() -> void:
+	for kind: String in _promo_ui:
+		var entry: Dictionary = _promo_ui[kind]
+		var sku := _pack_promo_sku(entry["skus"])
+		entry["sku"] = sku
+		(entry["button"] as Button).visible = sku != ""
+		(entry["dot"] as Control).visible = sku != "" and not _promo_seen.has(sku)
+
+
+func _open_pack_promo(kind: String) -> void:
+	var sku := String((_promo_ui[kind] as Dictionary)["sku"])
+	if sku == "":
+		return
+	_promo_seen[sku] = true
+	_refresh_pack_promos()
+	_show_iap_detail(sku)
 
 
 func _build_upgrade_grid(v: VBoxContainer) -> void:
@@ -1327,8 +1393,12 @@ func _add_tile(parent: Control, kind: String) -> void:
 	values.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	values.size_flags_stretch_ratio = 1.15
 	values.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	values.add_theme_constant_override("separation", 4)
+	values.add_theme_constant_override("separation", 1)
 	row.add_child(values)
+	var values_gap := Control.new()
+	values_gap.custom_minimum_size.x = 4
+	values_gap.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_child(values_gap)
 	var level_l := _label("", 15, C_TEXT)
 	level_l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	values.add_child(level_l)
@@ -1372,13 +1442,33 @@ func _add_tile(parent: Control, kind: String) -> void:
 	btn.button_up.connect(_stop_hold_buy)
 	pc.resized.connect(func() -> void:
 		var narrow := pc.size.x < 330
+		pc.custom_minimum_size.y = 55.0 if narrow else 59.0
 		art.custom_minimum_size.x = 42 if narrow else 56
 		row.add_theme_constant_override("separation", 4 if narrow else 7)
-		name_l.add_theme_font_size_override("font_size", 14 if narrow else 17)
+		_fit_tile_name(name_l, pc)
 		level_l.add_theme_font_size_override("font_size", 13 if narrow else 15)
 		eff_l.add_theme_font_size_override("font_size", 13 if narrow else 15)
 		next_l.add_theme_font_size_override("font_size", 13 if narrow else 15))
+	name_l.resized.connect(func() -> void: _fit_tile_name(name_l, pc))
 	_rows.append({"kind": kind, "name": name_l, "level": level_l, "eff": eff_l, "next": next_l,"btn": btn, "price": price_label, "cash_icon": cash_icon, "tile": pc})
+
+
+## Tên nâng cấp tự xuống dòng giữa các từ; giảm cỡ chữ nếu một từ đơn rộng hơn cột tên.
+func _fit_tile_name(name_l: Label, tile: Control) -> void:
+	var avail := name_l.size.x
+	if avail < 8.0:
+		return
+	var font := name_l.get_theme_font("font")
+	var font_size := 14 if tile.size.x < 330 else 17
+	while font_size > 11:
+		var widest := 0.0
+		for word in name_l.text.split(" "):
+			widest = maxf(widest, font.get_string_size(word, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x)
+		if widest <= avail:
+			break
+		font_size -= 1
+	if name_l.get_theme_font_size("font_size") != font_size:
+		name_l.add_theme_font_size_override("font_size", font_size)
 
 
 func _upgrade_buy_skin(state: String) -> StyleBoxTexture:
@@ -1459,6 +1549,7 @@ func _refresh_rows() -> void:
 			(r["name"] as Label).text = String(GameData.economy()["revenue_upgrades"][kind]["name"])
 		else:
 			(r["name"] as Label).text = I18n.t(Balance.PART_NAMES[kind])
+		_fit_tile_name(r["name"], r["tile"])
 		(r["level"] as Label).text = I18n.t("main.level") % lv
 		# Dòng ngắn trên ô: xe "Speed 46 → 48"; doanh thu "+x/giây" (hết cấp thì giá trị hiện tại).
 		var short_eff := ""
@@ -1561,6 +1652,18 @@ func _animate_nav(from_tab: int, to_tab: int) -> void:
 	_nav_tween.tween_method(_nav_apply, 0.0, 1.0, 0.36).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 
+func _fit_nav_label(lab: Label, item: Control) -> void:
+	var avail := item.size.x - 4.0
+	if avail < 8.0:
+		return
+	var font := lab.get_theme_font("font")
+	var font_size := 17
+	while font_size > 11 and font.get_string_size(lab.text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x > avail:
+		font_size -= 1
+	if lab.get_theme_font_size("font_size") != font_size:
+		lab.add_theme_font_size_override("font_size", font_size)
+
+
 ## `t` là tiến độ (có thể vượt 1 nhẹ do đường cong nảy); `done` bỏ qua nội suy.
 func _nav_apply(t: float, done: bool = false) -> void:
 	if _nav_to.is_empty():
@@ -1570,11 +1673,12 @@ func _nav_apply(t: float, done: bool = false) -> void:
 		var a := lerpf(float(_nav_from[k]), float(_nav_to[k]), tc)
 		_nav_amt[k] = a
 		var item := _nav_items[k] as Control
-		item.size_flags_stretch_ratio = 1.0 + a * (NAV_SEL_W - 1.0)
+		var is_race := k == Tab.RACE
+		item.size_flags_stretch_ratio = (NAV_RACE_W if is_race else 1.0) + a * (NAV_SEL_W - 1.0)
 		var icon := item.get_node("NavIcon") as Control
 		# Keep all five labels visible; the selected icon grows slightly.
-		var icon_size := lerpf(45.0, NAV_ICON_SEL, a)
-		var top := lerpf(3.0, NAV_ICON_TOP, a)
+		var icon_size := lerpf(NAV_RACE_ICON_IDLE if is_race else 45.0, NAV_RACE_ICON if is_race else NAV_ICON_SEL, a)
+		var top := lerpf(NAV_RACE_TOP_IDLE if is_race else 3.0, NAV_RACE_TOP if is_race else NAV_ICON_TOP, a)
 		icon.offset_left = -icon_size * 0.5
 		icon.offset_right = icon_size * 0.5
 		icon.offset_top = top
@@ -1609,7 +1713,8 @@ func _nav_slot(k: int, width: float, total: float) -> Rect2:
 			break
 		before += float((_nav_items[j] as Control).size_flags_stretch_ratio)
 	var w := float((_nav_items[k] as Control).size_flags_stretch_ratio)
-	return Rect2(width * before / total, 0.0, width * w / total, _nav_pill.get_parent().size.y)
+	var raise := NAV_RACE_RAISE if k == Tab.RACE else 0.0
+	return Rect2(width * before / total, -raise, width * w / total, _nav_pill.get_parent().size.y + raise)
 
 
 func _refresh_light() -> void:
@@ -1718,6 +1823,7 @@ func _rebuild_shop() -> void:
 		_shop_ads_sig = ads_sig
 		_shop_content.update_ads(ads_view)
 	_shop_content.update_packs()
+	_refresh_pack_promos()
 
 
 ## Dữ liệu IAP cho trang Shop (view không gọi autoload): {sku: {price, reason, first_bonus}} + trạng thái chung.
@@ -1739,15 +1845,9 @@ func _show_iap_detail(sku: String) -> void:
 	_sfx("ui_click")
 	_begin_overlay()
 	var panel := _overlay_box.get_parent().get_parent() as PanelContainer
-	var skin: StyleBoxFlat = _shop_content.PackUi.panel()
-	skin.set_border_width_all(2)
-	skin.set_corner_radius_all(22)
-	skin.set_content_margin_all(12)
-	panel.add_theme_stylebox_override("panel", skin)
+	panel.add_theme_stylebox_override("panel", _shop_content.PromoUi.shell_style())
 	_overlay_box.get_parent().set_meta("preferred_width", 366.0)
-	var heading := HdUi.close_header(I18n.t("main.my_joins_team") if sku == "char_my" else _shop_content.PackUi.title(product), _close_overlay, 22)
-	(heading.get_child(0) as Label).add_theme_color_override("font_color", Color("102d60"))
-	_overlay_box.add_child(heading)
+	_overlay_box.add_child(_shop_content.PromoUi.header(I18n.t("main.my_joins_team") if sku == "char_my" else _shop_content.PackUi.title(product), _close_overlay))
 	_overlay_box.add_child(_shop_content.build_detail(sku))
 	_fit_overlay()
 
@@ -2425,6 +2525,7 @@ func _show_feedback(title: String, content: String, icon_path: String = "") -> v
 
 ## Cập nhật ổ khóa/chấm trên thanh điều hướng, nút Lịch/Class, avatar, nút Garage và dòng "Sắp mở".
 func _refresh_locks() -> void:
+	_refresh_pack_promos()
 	var shop_ad: bool = Ads.shop_ready()
 	var login_open: bool = DailyRewards.is_unlocked(GameState.daily_rewards)
 	var login_can: bool = login_open and GameState.daily_reward_available()

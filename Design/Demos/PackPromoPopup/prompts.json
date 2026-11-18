@@ -1,0 +1,127 @@
+{
+  "mode": "built-in image_gen",
+  "use_case": "ui-mockup",
+  "target_size": [
+    886,
+    1920
+  ],
+  "logical_viewport": [
+    390,
+    845
+  ],
+  "references": [
+    {
+      "path": "/home/thupv/Desktop/DataSSD/racing_manager/Design/Demos/SoftMiniature/approved/06-shop.png",
+      "role": "approved Soft Miniature material / color / typography reference only; ignore reference prices"
+    },
+    {
+      "path": "/home/thupv/Desktop/DataSSD/racing_manager/Design/Demos/SoftMiniature/approved/01-race.png",
+      "role": "approved Race tab background composition reference"
+    },
+    {
+      "path": "/home/thupv/.t3/userdata/attachments/95495287-5b30-405e-a242-3ca56785abcb-384a989d-9322-4ed0-a528-cb8b8f311293.png",
+      "role": "existing popup content context and comparison; redesign hierarchy"
+    }
+  ],
+  "sources": [
+    "CLAUDE.md",
+    "Design/28_IAP_Packs.md",
+    "Design/34_Layer_Layout_Spec.md",
+    "data/iap.json"
+  ],
+  "concepts": [
+    {
+      "sku": "starter_1",
+      "filename": "pack_promo_starter1.png",
+      "prompt": "Use case: ui-mockup. Create ONE finished full-screen portrait concept image for Racing Tycoon mobile idle racing manager. Output portrait 886x1920 pixels or closest exact 443:960 aspect ratio. It is a popup OVERLAY on the Race tab, NOT a shop page. Reference image 1 approved shop is style only; reference image 2 approved race is background composition/style; reference image 3 existing popup is content context only, dramatically improve visual hierarchy. Soft Miniature art: miniature clay toy objects, warm ivory cream, chunky rounded edges, soft diffuse lighting, restrained highlights, navy chunky readable type, orange raised CTA, blue checkered ribbon. Avoid glossy hard plastic casino style, old blue-white shop, busy unreadable text, invented items, countdowns, sale percentages, and fake prices. Background: approved harbor toy race circuit with HUD and five-tab navigation faintly visible through heavy dark navy translucent scrim and blur. Race selected. Popup horizontal outer margin 12 logical pixels on a 390x845 logical viewport, cream thick rounded shell at x12..378 y85..773 with soft shadow. One clear 48x48 logical red rounded X close button on upper right fully visible, with no art overlapping. Large curved ribbon header with navy/white readable title; reserve width for translations. Main hero is a deep miniature diorama with cheerful brown-haired racing mascot wearing goggles and yellow/blue checkered racing suit, alongside a pile of purple gems and correct tickets on a tiny pedestal, golden radial rays and sparse four-point sparkles. Mascot is illustration only, not a driver reward; do not place character reward card. Reward cards should have large dimensional icon, large quantity, 2-line label and colored thick border, enough whitespace for Vietnamese/Indonesian localization. Do NOT use a cramped row of four tiny reward boxes. All text English, render exact supplied copy with spelling and quantities correct. Footer CTA has real price as biggest text, single broad raised orange button approximately 326x58 logical. Under CTA a quiet purchase limit label and small understated text-link \"View rates\", never a blue competing primary button. No other offers. Concept 1 ROOKIE: title \"Rookie Pack\"; below header subtitle \"Ready for your first race!\" in roomy cream space. Small gold seal \"4.4x VALUE\" at hero right, accurate document-defined value. Hero about 25% of popup height, mascot cheering with one fist, purple gems, coral star tickets, blue/gold crate-like gear coupon, warm sunshine. Reward section about 31% height, four large cards in 2x2 grid: top left purple gem icon, \"150\", \"Gem\"; top right coral driver ticket, \"3\", \"Pro ticket\"; bottom left blue/gold gear coupon, \"3\", \"Standard ticket\"; bottom right green cash stack with tiny clock, \"1 h\", \"Income\". Ticket borders signal tiers, neutral gem/income borders. Readable note below cards over 2-3 lines verbatim \"Cash is based on the team's income at the time of purchase.\" CTA \"$0.99\"; limit label \"Buy once\". No other quantities."
+    },
+    {
+      "sku": "offer_noads_bundle",
+      "filename": "pack_promo_offer_noads.png",
+      "prompt": "Use case: ui-mockup. Create ONE finished full-screen portrait concept image for Racing Tycoon mobile idle racing manager. Output portrait 886x1920 pixels or closest exact 443:960 aspect ratio. It is a popup OVERLAY on the Race tab, NOT a shop page. Reference image 1 approved shop is style only; reference image 2 approved race is background composition/style; reference image 3 existing popup is content context only, dramatically improve visual hierarchy. Soft Miniature art: miniature clay toy objects, warm ivory cream, chunky rounded edges, soft diffuse lighting, restrained highlights, navy chunky readable type, orange raised CTA, blue checkered ribbon. Avoid glossy hard plastic casino style, old blue-white shop, busy unreadable text, invented items, countdowns, sale percentages, and fake prices. Background: approved harbor toy race circuit with HUD and five-tab navigation faintly visible through heavy dark navy translucent scrim and blur. Race selected. Popup horizontal outer margin 12 logical pixels on a 390x845 logical viewport, cream thick rounded shell at x12..378 y85..773 with soft shadow. One clear 48x48 logical red rounded X close button on upper right fully visible, with no art overlapping. Large curved ribbon header with navy/white readable title; reserve width for translations. Main hero is a deep miniature diorama with cheerful brown-haired racing mascot wearing goggles and yellow/blue checkered racing suit, alongside a pile of purple gems and correct tickets on a tiny pedestal, golden radial rays and sparse four-point sparkles. Mascot is illustration only, not a driver reward; do not place character reward card. Reward cards should have large dimensional icon, large quantity, 2-line label and colored thick border, enough whitespace for Vietnamese/Indonesian localization. Do NOT use a cramped row of four tiny reward boxes. All text English, render exact supplied copy with spelling and quantities correct. Footer CTA has real price as biggest text, single broad raised orange button approximately 326x58 logical. Under CTA a quiet purchase limit label and small understated text-link \"View rates\", never a blue competing primary button. No other offers. Concept 2 NO ADS: title \"No Ads Bundle\" on large blue checkered ribbon; no invented slogan. Hero about 29% height, confident cheerful mascot beside a miniature cream TV with coral red crossed-out AD symbol, purple gems and gold premium star tickets, mint-blue backdrop, golden rays. Badge \"PERMANENT\" with infinity icon, no numerical value multiplier. Reward section has one broad elevated gold/cream perk card \"No Ads\" with second line \"Permanent\", large crossed-ad toy TV icon; below it two equal large reward cards side by side: purple gem icon \"300\" \"Gem\", gold premium ticket icon \"3\" \"Allstar driver ticket\" on two lines. No cash reward and no income card. CTA \"$9.99\"; limit label \"Buy once\". The permanent removal perk is the primary benefit. No extra 100 gems, no subscriptions, no ad rewards multipliers, no discount claim."
+    },
+    {
+      "sku": "weekly_s",
+      "filename": "pack_promo_weekly_s.png",
+      "prompt": "Use case: ui-mockup. Create ONE finished full-screen portrait concept image for Racing Tycoon mobile idle racing manager. Output portrait 886x1920 pixels or closest exact 443:960 aspect ratio. It is a popup OVERLAY on the Race tab, NOT a shop page. Reference image 1 approved shop is style only; reference image 2 approved race is background composition/style; reference image 3 existing popup is content context only, dramatically improve visual hierarchy. Soft Miniature art: miniature clay toy objects, warm ivory cream, chunky rounded edges, soft diffuse lighting, restrained highlights, navy chunky readable type, orange raised CTA, blue checkered ribbon. Avoid glossy hard plastic casino style, old blue-white shop, busy unreadable text, invented items, countdowns, sale percentages, and fake prices. Background: approved harbor toy race circuit with HUD and five-tab navigation faintly visible through heavy dark navy translucent scrim and blur. Race selected. Popup horizontal outer margin 12 logical pixels on a 390x845 logical viewport, cream thick rounded shell at x12..378 y85..773 with soft shadow. One clear 48x48 logical red rounded X close button on upper right fully visible, with no art overlapping. Large curved ribbon header with navy/white readable title; reserve width for translations. Main hero is a deep miniature diorama with cheerful brown-haired racing mascot wearing goggles and yellow/blue checkered racing suit, alongside a pile of purple gems and correct tickets on a tiny pedestal, golden radial rays and sparse four-point sparkles. Mascot is illustration only, not a driver reward; do not place character reward card. Reward cards should have large dimensional icon, large quantity, 2-line label and colored thick border, enough whitespace for Vietnamese/Indonesian localization. Do NOT use a cramped row of four tiny reward boxes. All text English, render exact supplied copy with spelling and quantities correct. Footer CTA has real price as biggest text, single broad raised orange button approximately 326x58 logical. Under CTA a quiet purchase limit label and small understated text-link \"View rates\", never a blue competing primary button. No other offers. Concept 3 WEEKLY: title \"Weekly Pack\" on blue checkered ribbon; a small calendar emblem integrated into ribbon. Hero about 25% popup height, cheerful mascot in racing suit next to generous purple gem and gold ticket mound on a cream miniature podium, a couple of purple gear coupons with embossed gear, amber light rays and sparse sparkles. Gold seal \"2.6x VALUE\" at hero right, accurate rounded document-defined ratio. Four large reward cards in 2x2 grid: purple gem icon \"300\" \"Gem\"; gold premium driver ticket \"6\" \"Allstar driver ticket\"; purple premium gear ticket \"4\" \"Elite gear ticket\"; green cash stack with clock \"4 h\" \"Income\". Premium ticket cards have gold/purple tier borders. Readable note below cards over 2-3 lines verbatim \"Cash is based on the team's income at the time of purchase.\" CTA \"$4.99\"; limit label \"Limit: 1 per week\". Not Buy once, no fake countdown, not a subscription. No other quantities."
+    }
+  ],
+  "value_badges": {
+    "starter_1": {
+      "label": "4.4x VALUE",
+      "basis": "Design/28 section 4.3: 150 + 3*10 + 3*10 + 10 = 220 gem equivalent; document tier T1 baseline 50 gives 4.4."
+    },
+    "weekly_s": {
+      "label": "2.6x VALUE",
+      "basis": "Design/28 section 4.9: 300 + 6*30 + 4*30 + 40 = 640 gem equivalent; tier T5 baseline 250 gives 2.56 rounded to 2.6, matching source."
+    },
+    "offer_noads_bundle": {
+      "label": "PERMANENT",
+      "basis": "No numeric multiplier: permanent perk not assigned a gem-equivalent value."
+    }
+  },
+  "notes": [
+    "All input image paths are references, not edit targets.",
+    "Runtime icon families inspected separately; these were not passed as image inputs.",
+    "No keys or secret data included."
+  ],
+  "exports": [
+    {
+      "file": "pack_promo_starter1.png",
+      "raw_file": "output/imagegen/pack_promo_popup/pack_promo_starter1.png",
+      "raw_size": [
+        916,
+        1717
+      ],
+      "export_size": [
+        886,
+        1920
+      ],
+      "artwork_export_rect": [
+        0,
+        129,
+        886,
+        1661
+      ],
+      "export_operation": "Aspect-preserving fit, centered on dark navy canvas; no crop or UI distortion."
+    },
+    {
+      "file": "pack_promo_offer_noads.png",
+      "raw_file": "output/imagegen/pack_promo_popup/pack_promo_offer_noads.png",
+      "raw_size": [
+        916,
+        1717
+      ],
+      "export_size": [
+        886,
+        1920
+      ],
+      "artwork_export_rect": [
+        0,
+        129,
+        886,
+        1661
+      ],
+      "export_operation": "Aspect-preserving fit, centered on dark navy canvas; no crop or UI distortion."
+    },
+    {
+      "file": "pack_promo_weekly_s.png",
+      "raw_file": "output/imagegen/pack_promo_popup/pack_promo_weekly_s.png",
+      "raw_size": [
+        916,
+        1717
+      ],
+      "export_size": [
+        886,
+        1920
+      ],
+      "artwork_export_rect": [
+        0,
+        129,
+        886,
+        1661
+      ],
+      "export_operation": "Aspect-preserving fit, centered on dark navy canvas; no crop or UI distortion."
+    }
+  ]
+}

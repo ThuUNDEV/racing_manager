@@ -593,6 +593,7 @@
  "shop.view_2": "見る ",
  "shop.view_details": "詳細を見る ",
  "shop.view_rates": "排出率を見る",
+ "shop.value_badge": "お得",
  "shop.waiting_save": "保存待ち",
  "shop.watch_video": "▶ 動画を見る",
  "shop.watched_but_reward_could_not": "視聴しましたが、報酬を保存できませんでした",
@@ -663,5 +664,10 @@
  "soft.team_power": "Team power",
  "soft.minute": "min",
  "soft.bag": "Bag",
- "soft.race_no": "レース %d"
+ "soft.race_no": "レース %d",
+ "shop.perk_income_title": "収入 ×%d",
+ "shop.perk_upgrade_title": "×3にアップグレード",
+ "shop.perk_offline_title": "オフライン+",
+ "shop.perk_income_benefit": "オンライン収入とレース報酬が永久に×%d",
+ "shop.perk_offline_benefit": "オフライン収入×3、最大24時間"
 }

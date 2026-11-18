@@ -593,6 +593,7 @@
  "shop.view_2": "Lihat ",
  "shop.view_details": "Lihat butiran ",
  "shop.view_rates": "Lihat peluang",
+ "shop.value_badge": "NILAI",
  "shop.waiting_save": "Menunggu simpanan",
  "shop.watch_video": "▶ Tonton video",
  "shop.watched_but_reward_could_not": "Sudah ditonton, tetapi ganjaran tidak dapat disimpan",
@@ -663,5 +664,10 @@
  "soft.team_power": "Team power",
  "soft.minute": "min",
  "soft.bag": "Bag",
- "soft.race_no": "Lumba %d"
+ "soft.race_no": "Lumba %d",
+ "shop.perk_income_title": "Pendapatan ×%d",
+ "shop.perk_upgrade_title": "Naik taraf ×3",
+ "shop.perk_offline_title": "Luar talian+",
+ "shop.perk_income_benefit": "Pendapatan online & ganjaran lumba ×%d selamanya",
+ "shop.perk_offline_benefit": "Pendapatan luar talian ×3, sehingga 24 jam"
 }

@@ -1,0 +1,60 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "mode": "generate",
+  "use_case": "ui-mockup",
+  "created": "2026-11-18",
+  "sources": [
+    "Design/28_IAP_Packs.md §4.2, §5",
+    "Design/34_Layer_Layout_Spec.md §0, §3.6, §8",
+    "data/iap.json"
+  ],
+  "reference_images": [
+    {
+      "path": "/home/thupv/Desktop/DataSSD/racing_manager/Design/Demos/SoftMiniature/approved/06-shop.png",
+      "role": "approved Shop style only; layout and old copy excluded"
+    },
+    {
+      "path": "/home/thupv/Desktop/DataSSD/racing_manager/Design/Demos/PackPromoPopup/pack_promo_starter1.png",
+      "role": "popup clay material, depth and CTA reference only"
+    },
+    {
+      "path": "/home/thupv/Desktop/DataSSD/racing_manager/assets/soft_miniature_race_ui_v3/icons/facility.png",
+      "role": "garage miniature shape"
+    },
+    {
+      "path": "/home/thupv/Desktop/DataSSD/racing_manager/assets/soft_miniature_race_ui_v3/icons/cash.png",
+      "role": "cash bundle shape"
+    },
+    {
+      "path": "/home/thupv/Desktop/DataSSD/racing_manager/assets/soft_miniature_ui_v1/custom/offline_income_art.png",
+      "role": "offline garage and clock language"
+    }
+  ],
+  "inspected_problem_image": {
+    "path": "/home/thupv/.t3/userdata/attachments/95495287-5b30-405e-a242-3ca56785abcb-dbabbea4-539c-4614-9cfc-438749fc64c4.png",
+    "used_as_generation_reference": false
+  },
+  "outputs": [
+    {
+      "file": "perk_cards_section.png",
+      "target_size": [
+        886,
+        1920
+      ],
+      "prompt": "Use case: ui-mockup. Generate a polished raster concept, exactly 886x1920 portrait (390x845 logical), Racing Tycoon mobile game's scrolled Shop section. Reference 1 is approved Soft Miniature Shop STYLE ONLY; do NOT copy its two-column layout, Vietnamese copy or prices. Reference 2 supplies clay depth, warm cream cards and orange CTA language, NOT popup layout or rewards. References 3/4 supply miniature garage and bundled banknote design; reference 5 supplies offline garage/clock language.\nShow ONLY section header \"More perks\" and four full-width horizontal cards in one vertical column. No HUD, bottom navigation, device frame, extra products, footer or surrounding annotations. This is a concept catalog showing mutually exclusive states for review, not a live simultaneous availability claim.\nComposition: warm cream Shop background #F4E7D8. Side margins exactly about 12 logical (27 image px). A compact cyan-blue section ribbon with small checkered flag ends, header More perks, from logical y18 to64. Four equal horizontal cards, logical x12 w366 h174, at y82,266,450,634, gap10. Leave bottom breathing room. Rounded thick cream clay edges, understated tan contact shadow, navy chunky rounded Nunito-like type. Each card: substantial isometric miniature hero LEFT 35% width, and generous text/CTA RIGHT 59% width. Large hero 125x125 logical. Hero has sculpted garage workshop, bundled green cash and gold coin piles, rising arrow, gentle golden rays and a few sparkles. Soft toy/clay, diffuse warm studio light, thick rounded edges, matte/satin not chrome or hard gloss. Pale cream and pale sage backing, no blue-white legacy panel. Restrict decorative gold so saturated ORANGE price buttons are strongest actionable elements.\nEach right text region: bold title at top, a short benefit statement below with deliberate 2 or 3 readable lines (one semantic sentence), then orange price CTA at bottom right, about 144x48 logical, white bold price, dark orange raised lower edge. Never put benefit behind hero. Small mint pill \"Permanent\" lower-left under hero on EVERY card. Plenty of whitespace for longer translations, no microscopic text. Titles 23 logical, benefit 15-16 logical, price 25 logical. Never duplicate a title or price.\nCARD 1: title \"Income ×2\". Benefit EXACT \"Online income & race rewards ×2, forever\". Hero red-roof workshop + cash stacks, upward arrow and large cobalt clay medallion \"×2\", no VALUE text. CTA \"$4.99\".\nCARD 2: title \"Income ×3\". Benefit EXACT \"Online income & race rewards ×3, forever\". Hero larger cash pile + workshop, large gold medallion \"×3\". CTA \"$9.99\".\nCARD 3: title \"Upgrade to ×3\". Benefit EXACT \"Online income & race rewards ×3, forever\". Hero workshop + cash and a clearly legible sculpted progression \"×2 → ×3\", blue ×2 smaller transitioning to prominent gold ×3; keep this entirely LEFT, not over copy. CTA \"$4.99\". No discount claims.\nCARD 4: title \"Offline+\". Benefit EXACT \"Offline income ×3, up to 24h\". Hero blue-roof workshop + cash stacks + chunky clock + small moon motif, large gold \"×3\" and readable tiny ribbon \"2h → 24h\" below illustration. CTA \"$4.99\".\nAll labels English verbatim. Four Permanent labels, four buttons in specified order. No invented gem or coupon rewards, no time pressure, no \"best value\", no claimed percentage discounts, no ad-stack multiplier. Render a premium but practical production UI concept readable at phone size."
+    },
+    {
+      "file": "perk_card_income_x2_variants.png",
+      "target_size": [
+        886,
+        1920
+      ],
+      "prompt": "Use case: ui-mockup. Create ONE supplementary portrait concept comparison image, exactly 886x1920, for Racing Tycoon permanent Income ×2 Shop card. Same approved Soft Miniature warm clay, thick rounded cream panel borders, miniature toy garage, bundled green banknotes/gold coin piles, diffuse warm shadows and sparing golden rays as references. Reference 1 approved Shop is STYLE ONLY (never its two-column layout or Vietnamese prices), reference 2 popup is depth/material reference only. Reference 3 garage shape, reference 4 cash shape, reference 5 offline art material reference only.\nComparison board warm cream, two generously enlarged full-width cards stacked vertically, equal width, no device frame, no HUD/nav. Board English heading \"Income ×2\" with small subheading \"Card layout comparison\". Small outside labels \"A · Hero left\" above first card, \"B · Hero above\" above second card. ONLY two product cards, same benefit and price. They represent horizontal full-width Shop cards at logical 366 width; A logical height190, B height228; enlarge both equally on board and leave breathing room, no cramped tiny typography. Both title \"Income ×2\", benefit EXACT \"Online income & race rewards ×2, forever\", mint pill \"Permanent\", strong orange price button \"$4.99\". Orange CTA with white price must be strongest actionable color. No other copy, no value/discount claims, no gem rewards.\nA: big sculpted isometric red-roof garage workshop, thick green money stacks and gold coins LEFT third of card, golden upward arrow, prominent blue medallion \"×2\" overlapping art. Right two-thirds have title, benefit sentence wrapping two/three lines, then large orange CTA bottom right, 144x48 logical; Permanent lower left below hero. Light sage backdrop behind hero fades into cream; all text on clean cream.\nB: big miniature garage + cash, rising arrow and large blue \"×2\" ABOVE text, spanning wide upper hero band about 100 logical tall, warm subtle sun rays and oval platform depth. Lower band about128 logical high: title left, full-width benefit sentence wrapping naturally, Permanent bottom left, large orange CTA bottom right, 144x48 logical. Clear vertical arrangement hero above then readable copy; preserve horizontal full-width card shape, NEVER narrow portrait tile. B taller than A but not more than228 logical.\nLarge rounded navy Nunito-like title, legible navy benefit15-16logical minimum, airy translation-safe gaps and clean separation. No decorative text in illustration. No glossy chrome, no old blue-white panels. This is a detailed production concept comparison, not a wireframe."
+    }
+  ],
+  "notes": [
+    "Four mutually exclusive SKU states shown together for concept review only; preserve runtime visibility rules.",
+    "No gem-equivalent value multiplier is defined for permanent income perks, so none claimed.",
+    "No code, catalog or runtime asset edits; no commit."
+  ]
+}

@@ -593,6 +593,7 @@
  "shop.view_2": "Lihat ",
  "shop.view_details": "Lihat detail ",
  "shop.view_rates": "Lihat peluang",
+ "shop.value_badge": "NILAI",
  "shop.waiting_save": "Menunggu simpan",
  "shop.watch_video": "▶ Tonton video",
  "shop.watched_but_reward_could_not": "Sudah ditonton, tetapi hadiah gagal disimpan",
@@ -663,5 +664,10 @@
  "soft.team_power": "Team power",
  "soft.minute": "min",
  "soft.bag": "Bag",
- "soft.race_no": "Balapan %d"
+ "soft.race_no": "Balapan %d",
+ "shop.perk_income_title": "Pendapatan ×%d",
+ "shop.perk_upgrade_title": "Tingkatkan ke ×3",
+ "shop.perk_offline_title": "Offline+",
+ "shop.perk_income_benefit": "Pendapatan online & hadiah balapan ×%d selamanya",
+ "shop.perk_offline_benefit": "Pendapatan offline ×3, hingga 24 jam"
 }

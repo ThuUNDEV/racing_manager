@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "atlas": "heroes.png",
+  "size": [1254, 1254],
+  "mode": "RGBA",
+  "assets": {
+    "income_x2": [0, 0, 627, 627],
+    "income_x3": [627, 0, 627, 627],
+    "income_x3_up": [0, 627, 627, 627],
+    "offline_plus": [627, 627, 627, 627]
+  },
+  "provenance": {
+    "tool": "built-in image_gen.imagegen",
+    "reference": "Design/Demos/PerkCards/perk_cards_section.png",
+    "prompt": "output/imagegen/perk_cards_runtime/prompts.json",
+    "transforms": "none; original generated RGBA copied unchanged",
+    "created": "2026-11-18"
+  }
+}

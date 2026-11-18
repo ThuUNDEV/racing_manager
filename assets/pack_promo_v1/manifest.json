@@ -1,0 +1,19 @@
+{
+  "pack": "pack_promo_v1",
+  "provenance": {
+    "tool": "tools/gen_image.py",
+    "model": "gpt-image-2.5-flare",
+    "quality": "low",
+    "raw": "output/imagegen/pack_promo_art_v1/",
+    "refs": "crops of Design/Demos/SoftMiniature/approved/pack_promo_*.png and perk_cards_section.png (output/imagegen/pack_promo_art_v1/refs/)"
+  },
+  "files": {
+    "ribbon.png": "RGBA, trimmed, empty title ribbon with checkered flags",
+    "badge.png": "256x256 RGBA, empty gold rosette (number drawn by Label)",
+    "perk_income.png": "256x256 RGBA garage + cash + arrow, no badge",
+    "perk_offline.png": "256x256 RGBA blue garage + clock + moon, no badge",
+    "hero_starter.webp": "1024x683 RGB opaque banner, WebP q85",
+    "hero_noads.webp": "1024x683 RGB opaque banner, WebP q85",
+    "hero_weekly.webp": "1024x683 RGB opaque banner, WebP q85"
+  }
+}

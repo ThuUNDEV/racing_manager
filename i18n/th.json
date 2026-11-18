@@ -593,6 +593,7 @@
  "shop.view_2": "ดู ",
  "shop.view_details": "ดูรายละเอียด ",
  "shop.view_rates": "ดูอัตราการออก",
+ "shop.value_badge": "คุ้มค่า",
  "shop.waiting_save": "รอบันทึก",
  "shop.watch_video": "▶ ดูวิดีโอ",
  "shop.watched_but_reward_could_not": "ดูแล้ว แต่บันทึกรางวัลไม่สำเร็จ",
@@ -663,5 +664,10 @@
  "soft.team_power": "Team power",
  "soft.minute": "min",
  "soft.bag": "Bag",
- "soft.race_no": "การแข่ง %d"
+ "soft.race_no": "การแข่ง %d",
+ "shop.perk_income_title": "รายได้ ×%d",
+ "shop.perk_upgrade_title": "อัปเกรดเป็น ×3",
+ "shop.perk_offline_title": "ออฟไลน์+",
+ "shop.perk_income_benefit": "รายได้ออนไลน์และรางวัลแข่ง ×%d ถาวร",
+ "shop.perk_offline_benefit": "รายได้ออฟไลน์ ×3 สะสมสูงสุด 24 ชม."
 }

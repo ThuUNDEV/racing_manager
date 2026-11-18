@@ -21,7 +21,9 @@ const ShopSkin = preload("res://ui/shop_demo_skin.gd")
 const INK := ShopSkin.LEGACY_INK
 const MUTED := ShopSkin.MUTED
 const PackUi = preload("res://ui/shop_pack_ui.gd")
+const PromoUi = preload("res://ui/pack_promo_ui.gd")
 const UnitScale = preload("res://ui/unit_scale.gd")
+const PerkCard = preload("res://ui/shop_perk_card.gd")
 ## Icon gói cũ -> icon gói racing_ui_hd (đường dẫn trong assets/racing_ui_hd/).
 const HD_ICONS := {
 	"daily_reward": "icons/gift.png", "season_pass": "icons/trophy.png", "monthly_pass": "icons/event.png",
@@ -408,17 +410,20 @@ func _h_art(sku: String) -> Texture2D:
 
 func _h_offer_card(parent: Node, p: Dictionary, row_h: float) -> void:
 	var sku := String(p["sku"])
+	if sku in PerkCard.SKUS:
+		_perk_card(parent, p)
+		return
 	var kind := String(p.get("kind", ""))
 	var verbose := kind in ["offer", "daily", "weekly", "character"]
 	var card_title := String(_offer_title(p)[0]) if kind == "character" else PackUi.title(p)
 	var card := _h_card(parent, row_h, "", card_title, 38)
 	card.art = _h_art(sku)
 	card.price_text = String(p.get("price_fallback", ""))
-	card.set_rewards(_h_rewards(p, verbose), 26 if verbose else 32, not verbose)
+	card.set_rewards(_h_rewards(p, verbose), 32 if verbose else 42, not verbose)
 	if kind == "character":
 		card.badge_text = I18n.t("shop.guaranteed")
 		card.badge_first = true
-	else:
+	elif not (bool(p.get("once", false)) or kind in ["perk", "pass_growth"]):
 		card.badge_text = PackUi.limit(p)
 	var slot := card.get_parent()
 	slot.name = "Offer_" + sku
@@ -434,6 +439,29 @@ func _h_offer_card(parent: Node, p: Dictionary, row_h: float) -> void:
 	slot.add_child(rewards)
 	_iap_buttons[sku] = {"button": button, "status": status, "rewards": rewards, "full": false, "owned": false, "reference": true, "price_font": 38}
 	_offer_cards[sku] = slot
+
+
+func _perk_card(parent: Node, product: Dictionary) -> void:
+	var sku := String(product["sku"])
+	# The existing Shop list has a 4px inset; perk cards keep the approved 12px gutter.
+	var inset := MarginContainer.new()
+	inset.name = "Offer_" + sku
+	inset.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	inset.add_theme_constant_override("margin_left", 8)
+	inset.add_theme_constant_override("margin_right", 8)
+	parent.add_child(inset)
+	var card := PerkCard.new()
+	inset.add_child(card)
+	card.setup(product)
+	card.buy_pressed.connect(func() -> void: iap_requested.emit(sku))
+	var status := _text("", 10, MUTED)
+	status.hide()
+	card.add_child(status)
+	var rewards := VBoxContainer.new()
+	rewards.hide()
+	card.add_child(rewards)
+	_iap_buttons[sku] = {"button": card.price, "status": status, "rewards": rewards, "full": false, "owned": false, "reference": true, "perk_card": card}
+	_offer_cards[sku] = inset
 
 
 func _offer_section(title: String, kinds: Array, only_skus: Array = [], row_h: float = 200.0) -> void:
@@ -920,7 +948,10 @@ func update_iap(view: Dictionary) -> void:
 		if price.is_empty():
 			price = String(GameData.iap_product(sku).get("price_fallback", ""))
 		button.text = I18n.t("shop.processing") if busy else price
-		ShopSkin.price_text(button, int(_iap_buttons[sku].get("price_font", 18)), UnitScale.unit_of(button))
+		if _iap_buttons[sku].has("perk_card"):
+			_iap_buttons[sku]["perk_card"].update_price(price, busy, reason)
+		else:
+			ShopSkin.price_text(button, int(_iap_buttons[sku].get("price_font", 18)), UnitScale.unit_of(button))
 		button.disabled = busy or reason != ""
 		status.text = I18n.t("shop.first_time_x_2") if bool(entry.get("first_bonus", false)) and reason == "" else _reason_text(reason)
 		status.visible = not status.text.is_empty() and not bool(_iap_buttons[sku].get("reference", false))
@@ -1248,7 +1279,8 @@ func build_detail(sku: String) -> VBoxContainer:
 	banner.add_child(subtitle_label)
 	column.add_child(banner)
 	# Fixed layout height avoids resize/minimum-size feedback inside the modal.
-	column.add_child(PackUi.art(sku, clampf((get_viewport_rect().size.x - 64) * 2.0 / 3.0, 168, 232), true))
+	var promo_hero := PromoUi.hero(sku, p, clampf((get_viewport_rect().size.x - 64) * 0.5, 144, 176))
+	column.add_child(promo_hero if promo_hero != null else PackUi.art(sku, clampf((get_viewport_rect().size.x - 64) * 2.0 / 3.0, 168, 232), true))
 	var entry: Dictionary = (_last_iap_view.get("items", {}) as Dictionary).get(sku, {})
 	if sku in ["income_x2", "income_x3", "income_x3_up"]:
 		var benefit := PanelContainer.new()
@@ -1264,7 +1296,7 @@ func build_detail(sku: String) -> VBoxContainer:
 		benefit.add_child(row)
 		column.add_child(benefit)
 	else:
-		column.add_child(PackUi.reward_strip(p, bool(entry.get("driver_owned", false))))
+		column.add_child(PromoUi.reward_cards(PackUi.rewards(p, bool(entry.get("driver_owned", false))), get_viewport_rect().size.x < 340.0))
 	if String(p.get("kind", "")) == "character" and bool(entry.get("driver_owned", false)):
 		var conversion := _text(I18n.t("shop.you_already_own_this_driver"), 12, ShopSkin.CONVERSION_INK)
 		conversion.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -1277,8 +1309,8 @@ func build_detail(sku: String) -> VBoxContainer:
 	_detail_sku = sku
 	_detail_buy = _button("")
 	_detail_buy.name = "DetailBuy_" + sku
-	_detail_buy.custom_minimum_size.y = 48
-	_detail_buy.add_theme_font_size_override("font_size", 23)
+	_detail_buy.custom_minimum_size.y = 58
+	_detail_buy.add_theme_font_size_override("font_size", 28)
 	_detail_buy.pressed.connect(func() -> void: iap_requested.emit(sku))
 	column.add_child(_detail_buy)
 	_detail_status = _text("", 12, MUTED)

@@ -593,6 +593,7 @@
  "shop.view_2": "보기 ",
  "shop.view_details": "상세 보기 ",
  "shop.view_rates": "확률 보기",
+ "shop.value_badge": "혜택",
  "shop.waiting_save": "저장 대기 중",
  "shop.watch_video": "▶ 영상 보기",
  "shop.watched_but_reward_could_not": "시청했지만 보상을 저장하지 못했습니다",
@@ -663,5 +664,10 @@
  "soft.team_power": "Team power",
  "soft.minute": "min",
  "soft.bag": "Bag",
- "soft.race_no": "레이스 %d"
+ "soft.race_no": "레이스 %d",
+ "shop.perk_income_title": "수입 ×%d",
+ "shop.perk_upgrade_title": "×3으로 업그레이드",
+ "shop.perk_offline_title": "오프라인+",
+ "shop.perk_income_benefit": "온라인 수입과 레이스 보상 영구 ×%d",
+ "shop.perk_offline_benefit": "오프라인 수입 ×3, 최대 24시간"
 }

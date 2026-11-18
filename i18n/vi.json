@@ -593,6 +593,7 @@
  "shop.view_2": "Xem ",
  "shop.view_details": "Xem chi tiết ",
  "shop.view_rates": "Xem tỉ lệ",
+ "shop.value_badge": "GIÁ TRỊ",
  "shop.waiting_save": "Chờ lưu lại",
  "shop.watch_video": "▶ Xem video",
  "shop.watched_but_reward_could_not": "Đã xem, chưa lưu được thưởng",
@@ -663,5 +664,10 @@
  "soft.team_power": "Sức mạnh đội",
  "soft.minute": "phút",
  "soft.bag": "Túi",
- "soft.race_no": "Lượt %d"
+ "soft.race_no": "Lượt %d",
+ "shop.perk_income_title": "Thu nhập ×%d",
+ "shop.perk_upgrade_title": "Nâng lên ×3",
+ "shop.perk_offline_title": "Offline+",
+ "shop.perk_income_benefit": "Thu nhập online và thưởng đua ×%d vĩnh viễn",
+ "shop.perk_offline_benefit": "Thu nhập offline ×3, tích lũy tối đa 24 giờ"
 }
