@@ -1,0 +1,326 @@
+[gd_scene load_steps=35 format=3]
+
+[ext_resource type="Script" path="res://ui/shop_horizontal/shop_horizontal.gd" id="22_fit"]
+[ext_resource type="Theme" path="res://ui/shop_horizontal/shop_horizontal_theme.tres" id="1_theme"]
+[ext_resource type="PackedScene" path="res://ui/shop_horizontal/shop_offer_card.tscn" id="2_card"]
+[ext_resource type="PackedScene" path="res://ui/shop_horizontal/shop_section_ribbon.tscn" id="3_ribbon"]
+[ext_resource type="PackedScene" path="res://ui/shop_horizontal/shop_currency_pill.tscn" id="4_pill"]
+[ext_resource type="PackedScene" path="res://ui/shop_horizontal/shop_recruit_card.tscn" id="5_recruit"]
+[ext_resource type="Texture2D" path="res://assets/soft_miniature_ui_v1/runtime_flare/avatar_frame.png" id="6_frame"]
+[ext_resource type="Texture2D" path="res://assets/soft_miniature_ui_v1/runtime_flare/avatar_portrait.png" id="7_portrait"]
+[ext_resource type="Texture2D" path="res://assets/soft_miniature_ui_v1/runtime_flare/currency_cash.png" id="8_cash"]
+[ext_resource type="Texture2D" path="res://assets/soft_miniature_ui_v1/runtime_flare/currency_gem.png" id="9_gem"]
+[ext_resource type="Texture2D" path="res://assets/soft_miniature_ui_v1/png_2x/icons/settings.png" id="10_settings"]
+[ext_resource type="Texture2D" path="res://assets/soft_miniature_ui_v1/runtime_flare/nav_shop.png" id="11_nav_shop"]
+[ext_resource type="Texture2D" path="res://assets/soft_miniature_ui_v1/runtime_flare/nav_race.png" id="12_nav_race"]
+[ext_resource type="Texture2D" path="res://assets/soft_miniature_ui_v1/runtime_flare/nav_bag.png" id="13_nav_bag"]
+[ext_resource type="Texture2D" path="res://assets/soft_miniature_ui_v1/runtime_flare/nav_team.png" id="14_nav_team"]
+[ext_resource type="Texture2D" path="res://assets/soft_miniature_ui_v1/runtime_flare/nav_league.png" id="15_nav_league"]
+[ext_resource type="Texture2D" path="res://assets/soft_miniature_ui_v1/runtime_flare/trophy_large.png" id="16_trophy"]
+[ext_resource type="Texture2D" path="res://assets/soft_miniature_ui_v1/runtime_flare/helmet_pit.png" id="17_helmet"]
+[ext_resource type="Texture2D" path="res://Design/AssetPacks/Soft_Miniature_Shop_Horizontal_v1/sprites/illustrations/starter.png" id="18_starter"]
+[ext_resource type="Texture2D" path="res://Design/AssetPacks/Soft_Miniature_Shop_Horizontal_v1/sprites/illustrations/income_x2.png" id="19_income"]
+[ext_resource type="Texture2D" path="res://Design/AssetPacks/Soft_Miniature_Shop_Horizontal_v1/sprites/illustrations/no_ads.png" id="20_noads"]
+[ext_resource type="Texture2D" path="res://Design/AssetPacks/Soft_Miniature_Shop_Horizontal_v1/sprites/illustrations/combo.png" id="21_combo"]
+
+[sub_resource type="Gradient" id="SkyGradient"]
+offsets = PackedFloat32Array(0, 0.16, 1)
+colors = PackedColorArray(0.33, 0.62, 0.92, 1, 0.74, 0.88, 0.98, 1, 0.74, 0.88, 0.98, 1)
+
+[sub_resource type="GradientTexture2D" id="SkyTexture"]
+gradient = SubResource("SkyGradient")
+fill_to = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="Sheet"]
+bg_color = Color(0.945, 0.9, 0.84, 1)
+border_width_top = 3
+border_color = Color(1, 1, 1, 0.8)
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="HeaderPill"]
+bg_color = Color(0.97, 0.94, 0.9, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 48
+corner_radius_top_right = 48
+corner_radius_bottom_right = 48
+corner_radius_bottom_left = 48
+shadow_color = Color(0.1, 0.25, 0.5, 0.25)
+shadow_size = 6
+shadow_offset = Vector2(0, 4)
+
+[sub_resource type="StyleBoxFlat" id="XpFill"]
+bg_color = Color(1, 0.72, 0.15, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="XpBg"]
+bg_color = Color(0.06, 0.25, 0.55, 0.7)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxEmpty" id="Empty"]
+
+
+[node name="ShopHorizontal" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_theme")
+script = ExtResource("22_fit")
+
+[node name="Stage" type="Control" parent="."]
+layout_mode = 0
+offset_right = 886.0
+offset_bottom = 1920.0
+
+[node name="Sky" type="TextureRect" parent="Stage"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("SkyTexture")
+expand_mode = 1
+
+[node name="Main" type="VBoxContainer" parent="Stage"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="TopBar" type="MarginContainer" parent="Stage/Main"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 4
+
+[node name="Row" type="HBoxContainer" parent="Stage/Main/TopBar"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Avatar" type="Control" parent="Stage/Main/TopBar/Row"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+
+[node name="Portrait" type="TextureRect" parent="Stage/Main/TopBar/Row/Avatar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("7_portrait")
+expand_mode = 1
+stretch_mode = 5
+
+
+[node name="Level" type="VBoxContainer" parent="Stage/Main/TopBar/Row"]
+custom_minimum_size = Vector2(112, 0)
+layout_mode = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="LevelLabel" type="Label" parent="Stage/Main/TopBar/Row/Level"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.04, 0.2, 0.5, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 36
+text = "Lv.12"
+
+[node name="Xp" type="ProgressBar" parent="Stage/Main/TopBar/Row/Level"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+theme_override_styles/background = SubResource("XpBg")
+theme_override_styles/fill = SubResource("XpFill")
+value = 35.0
+show_percentage = false
+
+[node name="Cash" parent="Stage/Main/TopBar/Row" instance=ExtResource("4_pill")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+icon = ExtResource("8_cash")
+value_text = "12.5K"
+
+[node name="Gems" parent="Stage/Main/TopBar/Row" instance=ExtResource("4_pill")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+icon = ExtResource("9_gem")
+value_text = "240"
+
+[node name="Settings" type="TextureRect" parent="Stage/Main/TopBar/Row"]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("10_settings")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HeaderMargin" type="MarginContainer" parent="Stage/Main"]
+layout_mode = 2
+theme_override_constants/margin_left = 230
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 230
+theme_override_constants/margin_bottom = 0
+
+[node name="HeaderPill" type="PanelContainer" parent="Stage/Main/HeaderMargin"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("HeaderPill")
+
+[node name="Row" type="HBoxContainer" parent="Stage/Main/HeaderMargin/HeaderPill"]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="Icon" type="TextureRect" parent="Stage/Main/HeaderMargin/HeaderPill/Row"]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+texture = ExtResource("11_nav_shop")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="Stage/Main/HeaderMargin/HeaderPill/Row"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.04, 0.12, 0.4, 1)
+theme_override_font_sizes/font_size = 72
+text = "Shop"
+vertical_alignment = 1
+
+[node name="Sheet" type="PanelContainer" parent="Stage/Main"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("Sheet")
+
+[node name="Scroll" type="ScrollContainer" parent="Stage/Main/Sheet"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="List" type="VBoxContainer" parent="Stage/Main/Sheet/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 20
+
+[node name="SpecialRibbon" parent="Stage/Main/Sheet/Scroll/List" instance=ExtResource("3_ribbon")]
+layout_mode = 2
+title = "Gói đặc biệt"
+icon = ExtResource("16_trophy")
+
+[node name="Starter" parent="Stage/Main/Sheet/Scroll/List" instance=ExtResource("2_card")]
+layout_mode = 2
+art = ExtResource("18_starter")
+title = "Gói khởi đầu"
+gem_text = "150"
+ticket_text = "×3"
+badge_text = "Mua 1 lần"
+price_text = "24.000đ"
+
+[node name="Income" parent="Stage/Main/Sheet/Scroll/List" instance=ExtResource("2_card")]
+layout_mode = 2
+art = ExtResource("19_income")
+title = "Thu nhập ×2"
+badge_text = "Vĩnh viễn"
+price_text = "99.000đ"
+
+[node name="NoAds" parent="Stage/Main/Sheet/Scroll/List" instance=ExtResource("2_card")]
+layout_mode = 2
+art = ExtResource("20_noads")
+title = "Bỏ quảng cáo"
+badge_text = "Chơi liền mạch"
+price_text = "199.000đ"
+
+[node name="Combo" parent="Stage/Main/Sheet/Scroll/List" instance=ExtResource("2_card")]
+layout_mode = 2
+art = ExtResource("21_combo")
+title = "Gói kết hợp"
+gem_text = "500"
+ticket_text = "×6"
+price_text = "249.000đ"
+
+[node name="DriversRibbon" parent="Stage/Main/Sheet/Scroll/List" instance=ExtResource("3_ribbon")]
+layout_mode = 2
+title = "Tuyển tay đua"
+icon = ExtResource("17_helmet")
+
+[node name="Recruit" parent="Stage/Main/Sheet/Scroll/List" instance=ExtResource("5_recruit")]
+layout_mode = 2
+
+[node name="NavBar" type="PanelContainer" parent="Stage/Main"]
+custom_minimum_size = Vector2(0, 154)
+layout_mode = 2
+theme_type_variation = &"NavBar"
+
+[node name="Tabs" type="HBoxContainer" parent="Stage/Main/NavBar"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Race" type="Button" parent="Stage/Main/NavBar/Tabs"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"NavTabButton"
+text = "Đua"
+icon = ExtResource("12_nav_race")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Bag" type="Button" parent="Stage/Main/NavBar/Tabs"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"NavTabButton"
+text = "Túi"
+icon = ExtResource("13_nav_bag")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Team" type="Button" parent="Stage/Main/NavBar/Tabs"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"NavTabButton"
+text = "Đội"
+icon = ExtResource("14_nav_team")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="League" type="Button" parent="Stage/Main/NavBar/Tabs"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"NavTabButton"
+text = "Giải"
+icon = ExtResource("15_nav_league")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Shop" type="Button" parent="Stage/Main/NavBar/Tabs"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"NavTabSelected"
+text = "Shop"
+icon = ExtResource("11_nav_shop")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true

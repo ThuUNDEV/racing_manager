@@ -1,0 +1,17 @@
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"file_id\": \"ac4840cd16424a5faf70459f8c1e6acf\", \"filename\": \"image_nobg.png\", \"width\": 480, \"height\": 334, \"bytes\": 215409, \"download_url\": \"http://192.168.11.181:8790/files/ac4840cd16424a5faf70459f8c1e6acf\", \"expires_in_hours\": 24.0}"
+      },
+      {
+        "type": "image",
+        "mimeType": "image/png"
+      }
+    ],
+    "isError": false
+  }
+}

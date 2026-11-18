@@ -1,0 +1,109 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Texture2D" path="res://Design/AssetPacks/Soft_Miniature_Shop_Horizontal_v1/sprites/illustrations/driver_my.png" id="1_art"]
+[ext_resource type="Texture2D" path="res://assets/soft_miniature_ui_v1/runtime_flare/star_gold.png" id="2_star"]
+[ext_resource type="Texture2D" path="res://assets/soft_miniature_ui_v1/runtime_flare/star_locked.png" id="3_star_off"]
+[ext_resource type="Texture2D" path="res://assets/soft_miniature_ui_v1/runtime_flare/currency_coin.png" id="4_coin"]
+
+[sub_resource type="StyleBoxFlat" id="Divider"]
+bg_color = Color(0.86, 0.79, 0.69, 0.9)
+
+[node name="ShopRecruitCard" type="PanelContainer"]
+custom_minimum_size = Vector2(0, 224)
+theme_type_variation = &"ShopCard"
+
+[node name="Row" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="ArtMargin" type="MarginContainer" parent="Row"]
+custom_minimum_size = Vector2(290, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 8
+
+[node name="Art" type="TextureRect" parent="Row/ArtMargin"]
+layout_mode = 2
+texture = ExtResource("1_art")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DividerA" type="MarginContainer" parent="Row"]
+layout_mode = 2
+theme_override_constants/margin_top = 36
+theme_override_constants/margin_bottom = 36
+
+[node name="Line" type="Panel" parent="Row/DividerA"]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("Divider")
+
+[node name="Center" type="VBoxContainer" parent="Row"]
+custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Name" type="Label" parent="Row/Center"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 52
+text = "Mỹ"
+
+[node name="Stars" type="HBoxContainer" parent="Row/Center"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Star1" type="TextureRect" parent="Row/Center/Stars"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("2_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Star2" type="TextureRect" parent="Row/Center/Stars"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("2_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Star3" type="TextureRect" parent="Row/Center/Stars"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("3_star_off")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Perk" type="Label" parent="Row/Center"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.4, 0.42, 1)
+theme_override_font_sizes/font_size = 30
+text = "Tốc độ +4%"
+
+[node name="DividerB" type="MarginContainer" parent="Row"]
+layout_mode = 2
+theme_override_constants/margin_top = 36
+theme_override_constants/margin_bottom = 36
+
+[node name="Line" type="Panel" parent="Row/DividerB"]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("Divider")
+
+[node name="Right" type="MarginContainer" parent="Row"]
+custom_minimum_size = Vector2(270, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 12
+
+[node name="Price" type="Button" parent="Row/Right"]
+custom_minimum_size = Vector2(0, 86)
+layout_mode = 2
+size_flags_vertical = 4
+theme_type_variation = &"OrangeButton"
+text = "3.2K"
+icon = ExtResource("4_coin")
+expand_icon = true

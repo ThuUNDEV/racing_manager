@@ -1,0 +1,864 @@
+{
+  "source_directory": "Design/Demos/SoftMiniature/shop_horizontal_v1",
+  "tool": "http://192.168.11.181:8790/mcp",
+  "sprites": {
+    "starter": {
+      "file": "sprites/illustrations/starter.png",
+      "source": "shop-horizontal-v1.png",
+      "source_rect": [
+        24,
+        311,
+        290,
+        545
+      ],
+      "trim_rect": [
+        0,
+        9,
+        266,
+        219
+      ],
+      "size": [
+        266,
+        210
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "daily_gear": {
+      "file": "sprites/illustrations/daily_gear.png",
+      "source": "02-daily.png",
+      "source_rect": [
+        24,
+        966,
+        290,
+        1192
+      ],
+      "trim_rect": [
+        7,
+        10,
+        264,
+        209
+      ],
+      "size": [
+        257,
+        199
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "pack_driver_pro": {
+      "file": "sprites/illustrations/pack_driver_pro.png",
+      "source": "04-packs.png",
+      "source_rect": [
+        24,
+        321,
+        267,
+        509
+      ],
+      "trim_rect": [
+        4,
+        9,
+        227,
+        177
+      ],
+      "size": [
+        223,
+        168
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "driver_lam": {
+      "file": "sprites/illustrations/driver_lam.png",
+      "source": "06-drivers-passes.png",
+      "source_rect": [
+        24,
+        282,
+        264,
+        446
+      ],
+      "trim_rect": [
+        9,
+        3,
+        228,
+        162
+      ],
+      "size": [
+        219,
+        159
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "income_x2": {
+      "file": "sprites/illustrations/income_x2.png",
+      "source": "shop-horizontal-v1.png",
+      "source_rect": [
+        24,
+        565,
+        290,
+        789
+      ],
+      "trim_rect": [
+        0,
+        0,
+        266,
+        224
+      ],
+      "size": [
+        266,
+        224
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "no_ads": {
+      "file": "sprites/illustrations/no_ads.png",
+      "source": "shop-horizontal-v1.png",
+      "source_rect": [
+        24,
+        808,
+        290,
+        1019
+      ],
+      "trim_rect": [
+        3,
+        13,
+        266,
+        199
+      ],
+      "size": [
+        263,
+        186
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "combo": {
+      "file": "sprites/illustrations/combo.png",
+      "source": "shop-horizontal-v1.png",
+      "source_rect": [
+        24,
+        1036,
+        290,
+        1245
+      ],
+      "trim_rect": [
+        6,
+        7,
+        266,
+        196
+      ],
+      "size": [
+        260,
+        189
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "driver_my": {
+      "file": "sprites/illustrations/driver_my.png",
+      "source": "shop-horizontal-v1.png",
+      "source_rect": [
+        24,
+        1356,
+        290,
+        1583
+      ],
+      "trim_rect": [
+        10,
+        3,
+        259,
+        220
+      ],
+      "size": [
+        249,
+        217
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "daily_gift": {
+      "file": "sprites/illustrations/daily_gift.png",
+      "source": "02-daily.png",
+      "source_rect": [
+        24,
+        346,
+        290,
+        583
+      ],
+      "trim_rect": [
+        0,
+        14,
+        266,
+        221
+      ],
+      "size": [
+        266,
+        207
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "free_gems": {
+      "file": "sprites/illustrations/free_gems.png",
+      "source": "02-daily.png",
+      "source_rect": [
+        24,
+        606,
+        290,
+        813
+      ],
+      "trim_rect": [
+        6,
+        3,
+        266,
+        192
+      ],
+      "size": [
+        260,
+        189
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "daily_driver": {
+      "file": "sprites/illustrations/daily_driver.png",
+      "source": "02-daily.png",
+      "source_rect": [
+        24,
+        1218,
+        290,
+        1453
+      ],
+      "trim_rect": [
+        4,
+        24,
+        266,
+        218
+      ],
+      "size": [
+        262,
+        194
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "gems_50": {
+      "file": "sprites/illustrations/gems_50.png",
+      "source": "03-currency.png",
+      "source_rect": [
+        24,
+        291,
+        290,
+        427
+      ],
+      "trim_rect": [
+        61,
+        0,
+        225,
+        120
+      ],
+      "size": [
+        164,
+        120
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "gems_275": {
+      "file": "sprites/illustrations/gems_275.png",
+      "source": "03-currency.png",
+      "source_rect": [
+        24,
+        440,
+        290,
+        578
+      ],
+      "trim_rect": [
+        38,
+        2,
+        232,
+        124
+      ],
+      "size": [
+        194,
+        122
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "gems_600": {
+      "file": "sprites/illustrations/gems_600.png",
+      "source": "03-currency.png",
+      "source_rect": [
+        24,
+        593,
+        290,
+        734
+      ],
+      "trim_rect": [
+        27,
+        2,
+        240,
+        132
+      ],
+      "size": [
+        213,
+        130
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "gems_1300": {
+      "file": "sprites/illustrations/gems_1300.png",
+      "source": "03-currency.png",
+      "source_rect": [
+        24,
+        743,
+        290,
+        886
+      ],
+      "trim_rect": [
+        24,
+        6,
+        251,
+        139
+      ],
+      "size": [
+        227,
+        133
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "gems_3500": {
+      "file": "sprites/illustrations/gems_3500.png",
+      "source": "03-currency.png",
+      "source_rect": [
+        24,
+        897,
+        290,
+        1049
+      ],
+      "trim_rect": [
+        3,
+        7,
+        266,
+        143
+      ],
+      "size": [
+        263,
+        136
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "cash_small": {
+      "file": "sprites/illustrations/cash_small.png",
+      "source": "03-currency.png",
+      "source_rect": [
+        24,
+        1154,
+        290,
+        1285
+      ],
+      "trim_rect": [
+        66,
+        0,
+        228,
+        112
+      ],
+      "size": [
+        162,
+        112
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "cash_medium": {
+      "file": "sprites/illustrations/cash_medium.png",
+      "source": "03-currency.png",
+      "source_rect": [
+        24,
+        1298,
+        290,
+        1428
+      ],
+      "trim_rect": [
+        37,
+        0,
+        249,
+        117
+      ],
+      "size": [
+        212,
+        117
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "cash_large": {
+      "file": "sprites/illustrations/cash_large.png",
+      "source": "03-currency.png",
+      "source_rect": [
+        24,
+        1443,
+        290,
+        1587
+      ],
+      "trim_rect": [
+        19,
+        0,
+        266,
+        142
+      ],
+      "size": [
+        247,
+        142
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "pack_driver_allstar": {
+      "file": "sprites/illustrations/pack_driver_allstar.png",
+      "source": "04-packs.png",
+      "source_rect": [
+        24,
+        534,
+        267,
+        722
+      ],
+      "trim_rect": [
+        0,
+        0,
+        233,
+        186
+      ],
+      "size": [
+        233,
+        186
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "pack_gear_standard": {
+      "file": "sprites/illustrations/pack_gear_standard.png",
+      "source": "04-packs.png",
+      "source_rect": [
+        24,
+        746,
+        267,
+        944
+      ],
+      "trim_rect": [
+        0,
+        6,
+        232,
+        190
+      ],
+      "size": [
+        232,
+        184
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "pack_gear_elite": {
+      "file": "sprites/illustrations/pack_gear_elite.png",
+      "source": "04-packs.png",
+      "source_rect": [
+        24,
+        963,
+        267,
+        1163
+      ],
+      "trim_rect": [
+        4,
+        5,
+        237,
+        194
+      ],
+      "size": [
+        233,
+        189
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "free_gear_ticket": {
+      "file": "sprites/illustrations/free_gear_ticket.png",
+      "source": "04-packs.png",
+      "source_rect": [
+        24,
+        1276,
+        267,
+        1426
+      ],
+      "trim_rect": [
+        2,
+        4,
+        239,
+        142
+      ],
+      "size": [
+        237,
+        138
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "free_driver_ticket": {
+      "file": "sprites/illustrations/free_driver_ticket.png",
+      "source": "04-packs.png",
+      "source_rect": [
+        24,
+        1440,
+        267,
+        1590
+      ],
+      "trim_rect": [
+        3,
+        16,
+        240,
+        147
+      ],
+      "size": [
+        237,
+        131
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "income_x3": {
+      "file": "sprites/illustrations/income_x3.png",
+      "source": "05-perks-weekly.png",
+      "source_rect": [
+        24,
+        237,
+        283,
+        389
+      ],
+      "trim_rect": [
+        0,
+        11,
+        259,
+        152
+      ],
+      "size": [
+        259,
+        141
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "income_upgrade": {
+      "file": "sprites/illustrations/income_upgrade.png",
+      "source": "05-perks-weekly.png",
+      "source_rect": [
+        24,
+        403,
+        283,
+        540
+      ],
+      "trim_rect": [
+        2,
+        0,
+        259,
+        132
+      ],
+      "size": [
+        257,
+        132
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "offline_plus": {
+      "file": "sprites/illustrations/offline_plus.png",
+      "source": "05-perks-weekly.png",
+      "source_rect": [
+        24,
+        559,
+        283,
+        692
+      ],
+      "trim_rect": [
+        24,
+        3,
+        242,
+        133
+      ],
+      "size": [
+        218,
+        130
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "combo_1": {
+      "file": "sprites/illustrations/combo_1.png",
+      "source": "05-perks-weekly.png",
+      "source_rect": [
+        24,
+        783,
+        277,
+        905
+      ],
+      "trim_rect": [
+        10,
+        0,
+        219,
+        113
+      ],
+      "size": [
+        209,
+        113
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "combo_2": {
+      "file": "sprites/illustrations/combo_2.png",
+      "source": "05-perks-weekly.png",
+      "source_rect": [
+        24,
+        913,
+        277,
+        1039
+      ],
+      "trim_rect": [
+        3,
+        0,
+        229,
+        123
+      ],
+      "size": [
+        226,
+        123
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "weekly_s": {
+      "file": "sprites/illustrations/weekly_s.png",
+      "source": "05-perks-weekly.png",
+      "source_rect": [
+        24,
+        1133,
+        274,
+        1235
+      ],
+      "trim_rect": [
+        22,
+        0,
+        213,
+        96
+      ],
+      "size": [
+        191,
+        96
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "weekly_m": {
+      "file": "sprites/illustrations/weekly_m.png",
+      "source": "05-perks-weekly.png",
+      "source_rect": [
+        24,
+        1248,
+        274,
+        1346
+      ],
+      "trim_rect": [
+        11,
+        0,
+        215,
+        98
+      ],
+      "size": [
+        204,
+        98
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "weekly_l": {
+      "file": "sprites/illustrations/weekly_l.png",
+      "source": "05-perks-weekly.png",
+      "source_rect": [
+        24,
+        1368,
+        274,
+        1465
+      ],
+      "trim_rect": [
+        3,
+        0,
+        221,
+        97
+      ],
+      "size": [
+        218,
+        97
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "weekly_xl": {
+      "file": "sprites/illustrations/weekly_xl.png",
+      "source": "05-perks-weekly.png",
+      "source_rect": [
+        24,
+        1482,
+        274,
+        1580
+      ],
+      "trim_rect": [
+        0,
+        0,
+        228,
+        98
+      ],
+      "size": [
+        228,
+        98
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "driver_nhan": {
+      "file": "sprites/illustrations/driver_nhan.png",
+      "source": "06-drivers-passes.png",
+      "source_rect": [
+        24,
+        456,
+        264,
+        621
+      ],
+      "trim_rect": [
+        11,
+        0,
+        225,
+        165
+      ],
+      "size": [
+        214,
+        165
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "driver_phuong": {
+      "file": "sprites/illustrations/driver_phuong.png",
+      "source": "06-drivers-passes.png",
+      "source_rect": [
+        24,
+        632,
+        264,
+        799
+      ],
+      "trim_rect": [
+        0,
+        4,
+        223,
+        165
+      ],
+      "size": [
+        223,
+        161
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "driver_quang": {
+      "file": "sprites/illustrations/driver_quang.png",
+      "source": "06-drivers-passes.png",
+      "source_rect": [
+        24,
+        806,
+        264,
+        975
+      ],
+      "trim_rect": [
+        0,
+        4,
+        225,
+        169
+      ],
+      "size": [
+        225,
+        165
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "driver_son": {
+      "file": "sprites/illustrations/driver_son.png",
+      "source": "06-drivers-passes.png",
+      "source_rect": [
+        24,
+        983,
+        264,
+        1150
+      ],
+      "trim_rect": [
+        13,
+        0,
+        207,
+        167
+      ],
+      "size": [
+        194,
+        167
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "pass_month": {
+      "file": "sprites/illustrations/pass_month.png",
+      "source": "06-drivers-passes.png",
+      "source_rect": [
+        24,
+        1256,
+        267,
+        1400
+      ],
+      "trim_rect": [
+        17,
+        2,
+        229,
+        133
+      ],
+      "size": [
+        212,
+        131
+      ],
+      "type": "illustration",
+      "contains_text": false
+    },
+    "pass_growth": {
+      "file": "sprites/illustrations/pass_growth.png",
+      "source": "06-drivers-passes.png",
+      "source_rect": [
+        24,
+        1417,
+        267,
+        1564
+      ],
+      "trim_rect": [
+        18,
+        1,
+        226,
+        136
+      ],
+      "size": [
+        208,
+        135
+      ],
+      "type": "illustration",
+      "contains_text": false
+    }
+  }
+}

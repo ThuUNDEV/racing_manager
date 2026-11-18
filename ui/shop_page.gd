@@ -184,43 +184,40 @@ func _build() -> void:
 			flag.custom_minimum_size = Vector2(34, 32)
 			flag.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			header.add_child(flag)
-	_offer_section(I18n.t("shop.special_packs"), ["starter", "perk", "offer"], ["starter_1", "income_x2", "no_ads", "offer_noads_bundle", "starter_2", "starter_3"])
-	_offer_section(I18n.t("shop.recruit_drivers"), ["character"], ["char_my", "char_lam"])
+	_offer_section(I18n.t("shop.special_packs"), ["starter", "perk", "offer"], ["starter_1", "income_x2", "no_ads", "offer_noads_bundle", "starter_2", "starter_3"], 228.0)
 	_build_daily_banner()
-	_build_free_gem_banner()
-	_offer_section(I18n.t("shop.daily_packs"), ["daily"])
-	var gem_heading := _heading("GEM")
-	_gem_heading = gem_heading
+	_offer_section(I18n.t("shop.daily_packs"), ["daily"], [], 220.0)
+	var gems := _h_section("GEM", "currency_gem", "resources", "Section_GEM", false)
+	_gem_heading = gems["heading"]
 	_gem_grid = _grid(3)
 	_gem_grid.name = "GemGrid"
 	for product: Dictionary in GameData.iap_products():
 		if String(product.get("kind", "")) == "gems":
 			_gem_card(_gem_grid, String(product["sku"]), int(product["grant"]["gems"]), String(product.get("price_fallback", "")))
 	_free_gem_card(_gem_grid)
-	_sections.append({"heading": gem_heading, "content": _gem_grid, "group": "resources"})
-	var cash_heading := _heading(I18n.t("shop.exchange_cash"))
-	_cash_heading = cash_heading
+	_sections.append({"heading": _gem_heading, "content": _gem_grid, "group": "resources"})
+	var cash := _h_section(I18n.t("shop.exchange_cash"), "currency_cash", "resources", "", false)
+	_cash_heading = cash["heading"]
 	_cash_grid = _grid(3)
 	_cash_grid.name = "CashGrid"
 	for entry in [["cash_small", "4.08B", "10"], ["cash_medium", "16.3B", "30"], ["cash_large", "32.6B", "50"]]:
 		_currency_card(_cash_grid, entry[0], entry[1], entry[2], I18n.t("shop.cash"))
-	_sections.append({"heading": cash_heading, "content": _cash_grid, "group": "resources"})
-	_pack_heading = _heading(I18n.t("shop.open_packs"))
-	_pack_heading.name = "OpenPacksHeading"
+	_sections.append({"heading": _cash_heading, "content": _cash_grid, "group": "resources"})
+	_pack_heading = _h_section(I18n.t("shop.open_packs"), "inventory_crate", "resources", "OpenPacksHeading", false)["heading"]
 	_pack_box = VBoxContainer.new()
 	_pack_box.name = "OpenPacks"
 	_pack_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	add_child(_pack_box)
 	update_packs()
-	var free_heading := _heading(I18n.t("shop.free_tickets"))
-	var free := _grid(2)
-	_free_card(free, "gear_crate", I18n.t("shop.gear_tickets"), "free_gear_coupon")
-	_free_card(free, "driver_helmet", I18n.t("shop.driver_tickets"), "free_driver_coupon")
-	_sections.append({"heading": free_heading, "content": free, "group": "resources"})
-	_offer_section(I18n.t("shop.more_perks"), ["perk"], ["income_x3", "income_x3_up", "offline_plus"])
-	_offer_section(I18n.t("shop.breakthrough_combo"), ["offer"], ["offer_combo_1", "offer_combo_2"])
-	_offer_section(I18n.t("shop.weekly_packs"), ["weekly"])
-	_offer_section(I18n.t("shop.other_drivers"), ["character"], ["char_nhan", "char_phuong", "char_quang", "char_son"])
+	var free := _h_section(I18n.t("shop.free_tickets"), "ticket", "resources")
+	_free_card(free["grid"], "free_gear_ticket", _sentence(I18n.t("shop.gear_tickets")), "free_gear_coupon")
+	_free_card(free["grid"], "free_driver_ticket", _sentence(I18n.t("shop.driver_tickets")), "free_driver_coupon")
+	_sections.append({"heading": free["heading"], "content": free["grid"], "group": "resources"})
+	_offer_section(I18n.t("shop.more_perks"), ["perk"], ["income_x3", "income_x3_up", "offline_plus"], 165.0)
+	_offer_section(I18n.t("shop.breakthrough_combo"), ["offer"], ["offer_combo_1", "offer_combo_2"], 210.0)
+	_offer_section(I18n.t("shop.weekly_packs"), ["weekly"], [], 225.0)
+	_offer_section(I18n.t("shop.recruit_drivers"), ["character"], ["char_my", "char_lam", "char_nhan", "char_phuong", "char_quang", "char_son"], 185.0)
+	_offer_section(_t("shop.special_cards", "Special passes"), ["pass_month", "pass_growth"], ["pass_month", "pass_growth"], 150.0)
 	_restore_button = _button(I18n.t("shop.restore_purchases"))
 	_restore_button.name = "RestorePurchases"
 	_restore_button.visible = false
@@ -255,29 +252,25 @@ func _reference_canvas(parent: Node, design_size: Vector2) -> Control:
 	)
 	return canvas
 
+var _daily_card: ShopOfferCard
+
+
 func _build_daily_banner() -> void:
-	var canvas := _reference_canvas(self, Vector2(550, 94))
-	canvas.get_parent().name = "DailyGiftBanner"
-	_reference_picture(canvas, "gift", Vector2(32, -3), Vector2(112, 94))
-	_reference_label(canvas, I18n.t("shop.today_gift"), Vector2(180, 0), Vector2(280, 38), 29)
-	var cash := ShopSkin.picture("cash_small", Vector2.ZERO)
-	canvas.add_child(cash)
-	UnitScale.place(cash, Vector2(180, 45), Vector2(50, 39))
-	_reference_label(canvas, I18n.t("common.cash"), Vector2(234, 47), Vector2(44, 30), 20)
-	var gem := ShopSkin.picture("gem_single", Vector2.ZERO)
-	canvas.add_child(gem)
-	UnitScale.place(gem, Vector2(279, 45), Vector2(38, 34))
-	_daily_description = _reference_label(canvas, "", Vector2(318, 47), Vector2(75, 30), 20)
-	_daily_button = _reference_button(I18n.t("shop.claim"), 30)
+	var section := _h_section(_t("shop.daily_gifts", "Daily gifts"), "gift_red", "featured", "Section_DailyGifts")
+	var grid: GridContainer = section["grid"]
+	var card := _h_card(grid, 228.0, "daily_gift", _sentence(I18n.t("shop.today_gift")), 38)
+	_daily_card = card
+	card.get_parent().name = "DailyGiftBanner"
+	card.badge_icon = ShopOfferCard.GEM_ICON
+	_daily_description = card.get_node("%BadgeLabel") as Label
+	_daily_button = card.get_node("%Price") as Button
 	_daily_button.name = "ClaimDaily"
-	_daily_button.pressed.connect(func() -> void: daily_requested.emit())
-	canvas.add_child(_daily_button)
-	UnitScale.place(_daily_button, Vector2(398, 30), Vector2(138, 55))
+	card.buy_pressed.connect(func() -> void: daily_requested.emit())
 	_daily_status = _text("", 12, MUTED)
 	_daily_status.hide()
-	canvas.add_child(_daily_status)
-	_sections.append({"heading": canvas.get_parent(), "content": canvas, "group": "featured"})
-	# Keep the separate login reward entry available after the reference catalog.
+	card.get_parent().add_child(_daily_status)
+	_free_card(grid, "free_gems", _sentence(I18n.t("shop.free_gems")), "free_gems_banner", 190.0)
+	_sections.append({"heading": section["heading"], "content": grid, "group": "featured"})
 	_login_row = HBoxContainer.new()
 	_login_row.name = "DailyLoginRow"
 	_login_row.hide()
@@ -325,18 +318,149 @@ func _offer_title(p: Dictionary) -> Array:
 	return text
 
 
-func _offer_section(title: String, kinds: Array, only_skus: Array = []) -> void:
-	var heading := _heading(title)
+## Horizontal-card layout (Soft Miniature shop_horizontal_v1): one full-width row per offer.
+const H_CARD := preload("res://ui/shop_horizontal/shop_offer_card.tscn")
+const H_RIBBON := preload("res://ui/shop_horizontal/shop_section_ribbon.tscn")
+const H_THEME := preload("res://ui/shop_horizontal/shop_horizontal_theme.tres")
+const H_ART_DIR := "res://assets/shop_horizontal_v1/"
+const H_DESIGN_W := 860.0
+const H_ART_ID := {"starter_1": "starter", "starter_2": "starter", "starter_3": "starter", "offer_noads_bundle": "no_ads",
+	"income_x3_up": "income_upgrade", "offer_combo_1": "combo_1", "offer_combo_2": "combo_2"}
+
+
+## Wraps a design-size control in a slot that scales it to the page width.
+func _h_slot(parent: Node, content: Control, design_h: float) -> Control:
+	var slot := Control.new()
+	slot.theme = H_THEME
+	slot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	slot.mouse_filter = Control.MOUSE_FILTER_PASS
+	parent.add_child(slot)
+	slot.add_child(content)
+	content.size = Vector2(H_DESIGN_W, design_h)
+	slot.resized.connect(func() -> void:
+		var k := slot.size.x / H_DESIGN_W
+		if k <= 0.0:
+			return
+		slot.custom_minimum_size.y = design_h * k
+		content.scale = Vector2(k, k)
+		content.size = Vector2(H_DESIGN_W, design_h))
+	return slot
+
+
+func _h_section(title: String, icon: String, group: String, heading_name: String = "", with_grid: bool = true) -> Dictionary:
+	var ribbon := H_RIBBON.instantiate() as Control
+	ribbon.set("title", _sentence(title))
+	ribbon.set("icon", _ui_icon(icon))
+	var heading := _h_slot(self, ribbon, 68.0)
+	heading.name = heading_name if heading_name != "" else "Section_" + title
+	var grid: GridContainer = _grid(1) if with_grid else null
+	return {"heading": heading, "grid": grid}
+
+
+func _t(key: String, fallback: String) -> String:
+	return I18n.t(key) if I18n.has(key) else fallback
+
+
+func _sentence(text: String) -> String:
+	var lower := text.to_lower()
+	return lower.left(1).to_upper() + lower.substr(1)
+
+
+func _h_tex(id: String) -> Texture2D:
+	var path := H_ART_DIR + id + ".png"
+	return load(path) as Texture2D if ResourceLoader.exists(path) else null
+
+
+func _ui_icon(id: String) -> Texture2D:
+	return load("res://assets/soft_miniature_ui_v1/runtime_flare/%s.png" % id) as Texture2D
+
+
+func _h_card(parent: Node, design_h: float, art_id: String, card_title: String, title_size: int = 42) -> ShopOfferCard:
+	var card := H_CARD.instantiate() as ShopOfferCard
+	_h_slot(parent, card, design_h)
+	card.art = _h_tex(art_id)
+	card.title = card_title
+	card.title_size = title_size
+	card.show_detail = false
+	(card.get_node("%Detail") as LinkButton).text = I18n.t("shop.view")
+	return card
+
+
+func _h_rewards(p: Dictionary, verbose: bool) -> Array:
+	var items: Array = []
+	for row: Dictionary in PackUi.rewards(p):
+		if bool(row.get("shards", false)):
+			continue
+		var icon := String(row["icon"])
+		var text := String(row["value"])
+		if verbose:
+			text += " " + String(row["label"])
+		if icon == "gem":
+			items.append({"icon": ShopOfferCard.GEM_ICON, "text": text})
+		elif icon.ends_with("_pack") and (verbose or not items.any(func(i: Dictionary) -> bool: return i["icon"] == ShopOfferCard.TICKET_ICON)):
+			items.append({"icon": ShopOfferCard.TICKET_ICON, "text": text, "tint": Color(1, 0.82, 0.3) if icon.contains("gear") else Color.WHITE})
+	return items
+
+
+func _h_art(sku: String) -> Texture2D:
+	var id := "driver_" + sku.trim_prefix("char_") if sku.begins_with("char_") else String(H_ART_ID.get(sku, sku))
+	return _h_tex(id)
+
+
+func _h_offer_card(parent: Node, p: Dictionary, row_h: float) -> void:
+	var sku := String(p["sku"])
+	var kind := String(p.get("kind", ""))
+	var verbose := kind in ["offer", "daily", "weekly", "character"]
+	var card_title := String(_offer_title(p)[0]) if kind == "character" else PackUi.title(p)
+	var card := _h_card(parent, row_h, "", card_title, 38)
+	card.art = _h_art(sku)
+	card.show_detail = kind != "daily"
+	card.price_text = String(p.get("price_fallback", ""))
+	card.set_rewards(_h_rewards(p, verbose), 26 if verbose else 32, not verbose)
+	if kind == "character":
+		card.badge_text = I18n.t("shop.guaranteed")
+		card.badge_first = true
+	else:
+		card.badge_text = PackUi.limit(p)
+	var slot := card.get_parent()
+	slot.name = "Offer_" + sku
+	(card.get_node("%Art") as Control).name = "OfferArt_" + sku
+	var button := card.get_node("%Price") as Button
+	button.name = "Iap_" + sku
+	card.buy_pressed.connect(func() -> void: iap_requested.emit(sku))
+	card.detail_pressed.connect(func() -> void: details_requested.emit(sku))
+	var status := _text("", 10, MUTED)
+	status.hide()
+	slot.add_child(status)
+	var rewards := VBoxContainer.new()
+	rewards.hide()
+	slot.add_child(rewards)
+	_iap_buttons[sku] = {"button": button, "status": status, "rewards": rewards, "full": false, "owned": false, "reference": true, "price_font": 38}
+	_offer_cards[sku] = slot
+
+
+func _offer_section(title: String, kinds: Array, only_skus: Array = [], row_h: float = 200.0) -> void:
+	var icon := "trophy_large"
+	if "character" in kinds:
+		icon = "helmet_pit"
+	elif "daily" in kinds or kinds == ["offer"]:
+		icon = "gift_red"
+	elif "weekly" in kinds:
+		icon = "inventory_crate"
+	elif "pass_month" in kinds:
+		icon = "ticket"
 	var group := "drivers" if "character" in kinds else ("perks" if "perk" in kinds or "pass_month" in kinds else "resources")
 	var mixed := "starter" in kinds
 	if mixed or "offer" in kinds:
 		group = "featured"
+	var section := _h_section(title, icon, group)
+	var heading: Control = section["heading"]
+	var grid: GridContainer = section["grid"]
 	var steps: HBoxContainer
 	if "starter" in kinds:
 		steps = HBoxContainer.new()
 		steps.add_theme_constant_override("separation", 4)
 		add_child(steps)
-	var grid := _grid(2)
 	var candidates: Array = []
 	if only_skus.is_empty():
 		candidates = GameData.iap_products()
@@ -346,7 +470,7 @@ func _offer_section(title: String, kinds: Array, only_skus: Array = []) -> void:
 	for product: Dictionary in candidates:
 		if not String(product.get("kind", "")) in kinds:
 			continue
-		_offer_card(grid, product)
+		_h_offer_card(grid, product, row_h)
 		if steps != null and String(product.get("kind", "")) == "starter":
 			var sku := String(product["sku"])
 			var step := _button({"starter_1": I18n.t("common.rookie"), "starter_2": I18n.t("shop.starter"), "starter_3": I18n.t("common.professional")}[sku])
@@ -519,25 +643,6 @@ func _demo_badge(color: Color) -> StyleBoxFlat:
 	return style
 
 
-func _build_free_gem_banner() -> void:
-	var canvas := _reference_canvas(self, Vector2(550, 110))
-	canvas.get_parent().name = "FreeGemBanner"
-	canvas.get_child(0).add_theme_stylebox_override("panel", ShopSkin.reference_surface(Vector2(550, 110), true))
-	var gem_slot := Panel.new()
-	gem_slot.add_theme_stylebox_override("panel", ShopSkin.gem_slot())
-	canvas.add_child(gem_slot)
-	UnitScale.place(gem_slot, Vector2(72, 22), Vector2(103, 75))
-	_reference_picture(canvas, "free_ribbon", Vector2(-4, -9), Vector2(129, 85))
-	var gem := ShopSkin.picture("gem_single", Vector2.ZERO)
-	canvas.add_child(gem)
-	UnitScale.place(gem, Vector2(91, 29), Vector2(64, 45))
-	var amount := _reference_label(canvas, str(int(GameData.ads().get("placements", {}).get("free_gems", {}).get("amount", 0))), Vector2(82, 55), Vector2(82, 34), 30)
-	amount.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	ShopSkin.outlined_number(amount)
-	_reference_label(canvas, I18n.t("shop.free_gems"), Vector2(188, 35), Vector2(180, 40), 26)
-	_reference_ad(canvas, "free_gems_banner", Vector2(366, 35), Vector2(170, 54), 23)
-	_sections.append({"heading": canvas.get_parent(), "content": canvas, "group": "resources"})
-
 func _reference_ad(canvas: Control, placement: String, at: Vector2, extent: Vector2, font_size: int = 23) -> void:
 	var button := _reference_button(I18n.t("common.watch_video"), font_size, "action")
 	button.name = "Ad_" + placement
@@ -639,93 +744,31 @@ func update_packs() -> void:
 
 func _pack_card(parent: Node, kind: String, pack: Dictionary) -> void:
 	var id := String(pack["id"])
-	var panel := _panel(parent)
-	var column := _column(panel)
-	var title_margin := MarginContainer.new()
-	title_margin.add_theme_constant_override("margin_right", 30)
-	column.add_child(title_margin)
-	var title := _text(String(pack["name"]), 13)
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title_margin.add_child(title)
-	var icon_id := ("standard_driver_pack" if id == "pro" else "elite_driver_pack") if kind == "driver" else id + "_gear_pack"
-	var art := ExpansionArt.icon(icon_id, Vector2(0, 64))
-	column.add_child(art)
-	var coupons: Dictionary = GameState.driver_coupons if kind == "driver" else GameState.gear_coupons
-	var coupon_kind := String(pack["coupon"])
-	var coupon := _text("Coupon: %d" % int(coupons.get(coupon_kind, 0)), 12, MUTED)
-	coupon.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	column.add_child(coupon)
-	# Details sit in the card's top-right corner as a rounded square, not as a full-width row.
-	var info_layer := Control.new()
-	info_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	panel.add_child(info_layer)
-	var info := ShopSkin.info_button(id, true)
+	var art_id := ("pack_driver_pro" if id == "pro" else "pack_driver_allstar") if kind == "driver" else "pack_gear_" + id
+	var card := _h_card(parent, 215.0, art_id, String(pack["name"]), 30)
+	card.badge_text = _t("shop.pack_sub_" + id, "")
+	card.show_info = true
+	var info := card.get_node("%InfoButton") as Button
 	info.name = "ShopPackInfo_%s_%s" % [kind, id]
 	info.accessibility_name = I18n.t("shop.view_2") + String(pack["name"])
 	info.tooltip_text = info.accessibility_name
-	info.focus_mode = Control.FOCUS_ALL
-	info.custom_minimum_size = Vector2(44, 44)
-	info.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
-	UnitScale.offsets(info, -38, -6, 6, 38)
-	UnitScale.offsets(info.get_child(0), -10, -10, 10, 10)
-	info.pressed.connect(func() -> void: pack_info_requested.emit(kind, id))
-	info_layer.add_child(info)
-	var actions := HBoxContainer.new()
-	actions.add_theme_constant_override("separation", 6)
-	column.add_child(actions)
+	card.info_pressed.connect(func() -> void: pack_info_requested.emit(kind, id))
 	for n in [1, 10]:
 		var pay: Dictionary = GameState.driver_payment(id, n) if kind == "driver" else GameState.gear_payment(id, n)
 		var affordable: bool = GameState.driver_can_afford(id, n) if kind == "driver" else GameState.gear_can_afford(id, n)
 		var cost := "—"
 		if not pay.is_empty():
 			cost = ("%d coupon" if pay["method"] == "coupon" else "%d gem") % int(pay["amount"])
-		var b := Button.new()
-		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var b := card.get_node("%Price" if n == 1 else "%Price2") as Button
+		b.visible = true
+		b.custom_minimum_size.y = 64
 		b.name = "ShopOpen_%s_%s_x%d" % [kind, id, n]
-		b.custom_minimum_size.y = 54
 		b.disabled = not affordable
 		b.accessibility_name = I18n.t("drivers.open_x") % [n, cost]
 		b.tooltip_text = b.accessibility_name
-		ShopSkin.style_button(b, "action" if n == 10 else "tab")
-		var margin := MarginContainer.new()
-		margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-		margin.add_theme_constant_override("margin_left", 4)
-		margin.add_theme_constant_override("margin_right", 4)
-		margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		var row := VBoxContainer.new()
-		row.alignment = BoxContainer.ALIGNMENT_CENTER
-		row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		row.add_theme_constant_override("separation", 4)
-		var ink := Color.WHITE if n == 10 else ShopSkin.PACK_INK
-		if not affordable:
-			ink = ShopSkin.DISABLED_INK
-		var count := _text("×%d" % n, 16, ink)
-		count.autowrap_mode = TextServer.AUTOWRAP_OFF
-		count.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		count.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		count.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		row.add_child(count)
-		var price_row := HBoxContainer.new()
-		price_row.alignment = BoxContainer.ALIGNMENT_CENTER
-		price_row.add_theme_constant_override("separation", 3)
-		price_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		row.add_child(price_row)
-		var currency := ShopSkin.picture("gem_single", Vector2(18, 18)) if pay.get("method", "") != "coupon" else ShopSkin.demo_picture("driver_coupon" if kind == "driver" else "gear_coupon", Vector2(18, 18))
-		currency.name = "PaymentIcon"
-		currency.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-		currency.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		price_row.add_child(currency)
-		var price := _text(str(int(pay.get("amount", 0))) if not pay.is_empty() else "—", 14, ink)
-		price.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-		price.autowrap_mode = TextServer.AUTOWRAP_OFF
-		price.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		price.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		price_row.add_child(price)
-		margin.add_child(row)
-		b.add_child(margin)
+		var currency: Texture2D = ShopOfferCard.TICKET_ICON if pay.get("method", "") == "coupon" else ShopOfferCard.GEM_ICON
+		card.set_button_parts(b, [I18n.t("shop.open_x") % n, currency, str(int(pay.get("amount", 0))) if not pay.is_empty() else "—"], 22)
 		b.pressed.connect(func() -> void: pack_open_requested.emit(kind, id, n))
-		actions.add_child(b)
-
 
 
 func _bundle(parent: Node, icon: String, title: String) -> void:
@@ -743,24 +786,17 @@ func _bundle(parent: Node, icon: String, title: String) -> void:
 	column.add_child(_text(I18n.t("shop.coming_soon"), 11, MUTED))
 
 
-func _free_card(parent: Node, icon: String, title: String, placement: String) -> void:
-	var column := _column(_panel(parent))
-	column.add_child(_text(title, 13))
-	column.add_child(_icon(icon, 70))
-	_ad_button(column, placement)
-
-
-## Thẻ đầu tiên của mục GEM: gem miễn phí mỗi ngày (xem video).
-func _free_gem_card(parent: Node) -> void:
-	var canvas := _reference_canvas(parent, Vector2(175, 164))
-	var art := ShopSkin.match_picture("gem_2")
-	art.name = "GemArt_free"
-	canvas.add_child(art)
-	UnitScale.place(art, Vector2(26, 23), Vector2(123, 66))
-	var amount := _reference_label(canvas, str(int(GameData.ads().get("placements", {}).get("free_gems", {}).get("amount", 0))), Vector2(0, 64), Vector2(175, 36), 30)
-	amount.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	ShopSkin.outlined_number(amount)
-	_reference_ad(canvas, "free_gems", Vector2(11, 113), Vector2(153, 44), 22)
+func _free_card(parent: Node, art_id: String, card_title: String, placement: String, row_h: float = 150.0) -> void:
+	var card := _h_card(parent, row_h, art_id, card_title, 38)
+	var button := card.get_node("%Price") as Button
+	button.name = "Ad_" + placement
+	if placement == "free_gems_banner":
+		card.get_parent().name = "FreeGemBanner"
+	card.buy_pressed.connect(func() -> void: ad_requested.emit("free_gems" if placement == "free_gems_banner" else placement))
+	var status := _text("", 11, MUTED)
+	status.hide()
+	card.get_parent().add_child(status)
+	_ad_buttons[placement] = {"button": button, "status": status, "reference": true}
 
 
 func _ad_button(column: VBoxContainer, placement: String) -> void:
@@ -792,7 +828,7 @@ func update_ads(view: Dictionary) -> void:
 		match String(entry.get("state", "none")):
 			"ready":
 				button.disabled = false
-				button.text = I18n.t("common.claimed") + reward if free else (I18n.t("shop.watch_video") if pl.begins_with("free_gems") else "▶ " + reward)
+				button.text = I18n.t("common.claimed") + reward if free else (I18n.t("shop.watch_video") if pl.begins_with("free_gems") or bool(_ad_buttons[pl].get("reference", false)) else "▶ " + reward)
 			"pending":
 				button.disabled = false
 				button.text = I18n.t("common.try_claiming_again")
@@ -818,7 +854,7 @@ func update_ads(view: Dictionary) -> void:
 		status.visible = not status.text.is_empty() and not bool(_ad_buttons[pl].get("reference", false))
 		button.tooltip_text = status.text
 		if bool(_ad_buttons[pl].get("reference", false)):
-			ShopSkin.price_text(button, 23, UnitScale.unit_of(button))
+			ShopSkin.price_text(button, int(_ad_buttons[pl].get("price_font", 34)), UnitScale.unit_of(button))
 
 
 func _currency_card(parent: Node, icon: String, amount: String, price: String, category: String) -> void:
@@ -841,6 +877,18 @@ func _currency_card(parent: Node, icon: String, amount: String, price: String, c
 	button.add_theme_font_size_override("font_size", 30)
 	canvas.add_child(button)
 	UnitScale.place(button, Vector2(11, 113), Vector2(153, 46))
+
+
+func _free_gem_card(parent: Node) -> void:
+	var canvas := _reference_canvas(parent, Vector2(175, 164))
+	var art := ShopSkin.match_picture("gem_2")
+	art.name = "GemArt_free"
+	canvas.add_child(art)
+	UnitScale.place(art, Vector2(26, 23), Vector2(123, 66))
+	var amount := _reference_label(canvas, str(int(GameData.ads().get("placements", {}).get("free_gems", {}).get("amount", 0))), Vector2(0, 64), Vector2(175, 36), 30)
+	amount.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	ShopSkin.outlined_number(amount)
+	_reference_ad(canvas, "free_gems", Vector2(11, 113), Vector2(153, 44), 22)
 
 
 func _gem_card(parent: Node, sku: String, amount: int, price: String) -> void:
@@ -968,7 +1016,7 @@ func _adapt_grids() -> void:
 
 
 func update_daily(amount: String, gems: int, available: bool, blocked: bool) -> void:
-	_daily_description.text = I18n.t("shop.gem_bonus") % gems
+	_daily_card.badge_text = "+%d" % gems
 	_daily_button.disabled = not available or blocked
 	_daily_button.text = I18n.t("shop.claimed") if not available else (I18n.t("common.saving") if blocked else I18n.t("shop.claim"))
 	_daily_status.text = I18n.t("shop.free_refreshes_every_day")

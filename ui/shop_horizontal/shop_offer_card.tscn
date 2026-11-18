@@ -1,0 +1,192 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://ui/shop_horizontal/shop_offer_card.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="Divider"]
+bg_color = Color(0.86, 0.79, 0.69, 0.9)
+
+[sub_resource type="StyleBoxFlat" id="InfoDot"]
+bg_color = Color(0.07, 0.2, 0.48, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="FirstBonusStyle"]
+bg_color = Color(0.1, 0.45, 0.82, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+content_margin_left = 12.0
+content_margin_top = 2.0
+content_margin_right = 12.0
+content_margin_bottom = 2.0
+
+[node name="ShopOfferCard" type="PanelContainer"]
+custom_minimum_size = Vector2(0, 100)
+theme_type_variation = &"ShopCard"
+script = ExtResource("1_script")
+
+[node name="Row" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="ArtMargin" type="MarginContainer" parent="Row"]
+custom_minimum_size = Vector2(290, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 8
+
+[node name="Art" type="TextureRect" parent="Row/ArtMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DividerA" type="MarginContainer" parent="Row"]
+layout_mode = 2
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="Line" type="Panel" parent="Row/DividerA"]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("Divider")
+
+[node name="Center" type="VBoxContainer" parent="Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(290, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="TitleRow" type="HBoxContainer" parent="Row/Center"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Title" type="Label" parent="Row/Center/TitleRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 38
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="InfoButton" type="Button" parent="Row/Center/TitleRow"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("InfoDot")
+theme_override_styles/hover = SubResource("InfoDot")
+theme_override_styles/pressed = SubResource("InfoDot")
+theme_override_styles/focus = SubResource("InfoDot")
+text = "i"
+
+[node name="Rewards" type="HFlowContainer" parent="Row/Center"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 2
+alignment = 1
+
+[node name="Badge" type="PanelContainer" parent="Row/Center"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_type_variation = &"Pill"
+
+[node name="BadgeRow" type="HBoxContainer" parent="Row/Center/Badge"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BadgeIcon" type="TextureRect" parent="Row/Center/Badge/BadgeRow"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(52, 44)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BadgeLabel" type="Label" parent="Row/Center/Badge/BadgeRow"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.33, 0.38, 0.47, 1)
+theme_override_font_sizes/font_size = 28
+horizontal_alignment = 1
+
+[node name="DividerB" type="MarginContainer" parent="Row"]
+layout_mode = 2
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="Line" type="Panel" parent="Row/DividerB"]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("Divider")
+
+[node name="Right" type="MarginContainer" parent="Row"]
+custom_minimum_size = Vector2(236, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 12
+
+[node name="Box" type="VBoxContainer" parent="Row/Right"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Price" type="Button" parent="Row/Right/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme_type_variation = &"OrangeButton"
+expand_icon = true
+
+[node name="Price2" type="Button" parent="Row/Right/Box"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme_type_variation = &"OrangeButton"
+
+[node name="Detail" type="LinkButton" parent="Row/Right/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Chi tiết"
+underline = 1
+
+[node name="Overlay" type="Control" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="FirstBonus" type="PanelContainer" parent="Overlay"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 14.0
+offset_top = 10.0
+offset_right = 170.0
+offset_bottom = 48.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("FirstBonusStyle")
+
+[node name="Label" type="Label" parent="Overlay/FirstBonus"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 22
+text = "×2"
+horizontal_alignment = 1
