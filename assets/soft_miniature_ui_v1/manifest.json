@@ -1,0 +1,2410 @@
+{
+  "version": 1,
+  "source_demo": "Soft_Miniature_Review_v2",
+  "upscale": "2x Lanczos in premultiplied alpha; RGB unsharp mask radius1.15 amount115 threshold3; alpha not sharpened",
+  "assets": {
+    "currency_cash": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference: crops_original/currency_cash.png (tools/gen_image.py)",
+      "source": "flare/currency_cash.png",
+      "source_sha256": "41296306dacd0b7f0bd468482cc17b65467bb9a21bd3b65a22b9b85c555efb43",
+      "png_2x": "runtime_flare/currency_cash.png",
+      "native_size": [
+        512,
+        496
+      ],
+      "sha256": "075fc1704ce71b4aa4984802e95747a91e6bc34a67e5dc6cf8bcd0322b3a4922",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/01-race.png",
+        "source_rect_xywh": [
+          279,
+          10,
+          86,
+          71
+        ],
+        "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+        "raw_crop": "crops_original/currency_cash.png",
+        "category": "icons",
+        "native": "native/icons/currency_cash.png",
+        "png_2x": "png_2x/icons/currency_cash.png",
+        "native_size": [
+          89,
+          79
+        ],
+        "size_2x": [
+          178,
+          158
+        ],
+        "transparent": true,
+        "sha256": "06439f14c147f82388b4307c2d9b0e2183685d82c1f998ee910225fba16a16c8"
+      },
+      "transparent": true
+    },
+    "currency_gem": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference: crops_original/currency_gem.png (tools/gen_image.py)",
+      "source": "flare/currency_gem.png",
+      "source_sha256": "96d99e68537f87dc7c978d402a0d28ad71f8e1e9d4f85f69c203ecfcdacda1e0",
+      "png_2x": "runtime_flare/currency_gem.png",
+      "native_size": [
+        512,
+        505
+      ],
+      "sha256": "01a9897bae9d12aaa14db2d0e9b33e9dab11db1dcd2b28f944e74f80f7a5e77f",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/01-race.png",
+        "source_rect_xywh": [
+          541,
+          12,
+          82,
+          67
+        ],
+        "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+        "raw_crop": "crops_original/currency_gem.png",
+        "category": "icons",
+        "native": "native/icons/currency_gem.png",
+        "png_2x": "png_2x/icons/currency_gem.png",
+        "native_size": [
+          83,
+          76
+        ],
+        "size_2x": [
+          166,
+          152
+        ],
+        "transparent": true,
+        "sha256": "0f613beefd59924759002bb9e1230d641010cdb5fa9ff65fdbe1af8e46caecb2"
+      },
+      "transparent": true
+    },
+    "settings": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference: crops_original/settings.png (tools/gen_image.py)",
+      "source": "flare/settings.png",
+      "source_sha256": "10ec89e9c816ad301f48bd13eeb78b205a33375e070fb7e329db6e6886955ba3",
+      "png_2x": "runtime_flare/settings.png",
+      "native_size": [
+        512,
+        502
+      ],
+      "sha256": "abf695c8da8b6b50730f1c17be25808239f664d517d686bfae424f19eaec74ce",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/01-race.png",
+        "source_rect_xywh": [
+          800,
+          5,
+          80,
+          83
+        ],
+        "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+        "raw_crop": "crops_original/settings.png",
+        "category": "icons",
+        "native": "native/icons/settings.png",
+        "png_2x": "png_2x/icons/settings.png",
+        "native_size": [
+          78,
+          75
+        ],
+        "size_2x": [
+          156,
+          150
+        ],
+        "transparent": true,
+        "sha256": "c276609bf30510a4baa232653efc3e94f689cb1c21867cca8f1702822d9ad4e1"
+      },
+      "transparent": true
+    },
+    "nav_race": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference: crops_original/nav_race.png (tools/gen_image.py)",
+      "source": "flare/nav_race.png",
+      "source_sha256": "e1ac824ef6c8b17b14fb313eacf75b72aa979a471e3fb5b6bd536c1a51729d00",
+      "png_2x": "runtime_flare/nav_race.png",
+      "native_size": [
+        512,
+        512
+      ],
+      "sha256": "957f6309e1633783442d8ed29ff62e086ce963ce9588e5ea58d35c56c6c45cc9",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/06-shop.png",
+        "source_rect_xywh": [
+          37,
+          1614,
+          128,
+          109
+        ],
+        "source_sha256": "911e6b8d9257470ce8e7bd5db15f494ef534075783787a45bf87bbf0202f0dd8",
+        "raw_crop": "crops_original/nav_race.png",
+        "category": "icons",
+        "native": "native/icons/nav_race.png",
+        "png_2x": "png_2x/icons/nav_race.png",
+        "native_size": [
+          118,
+          98
+        ],
+        "size_2x": [
+          236,
+          196
+        ],
+        "transparent": true,
+        "sha256": "df09c2a6d99681ece8924d686fe9462f0baed9e39721e29ce5a45b12d7205f6c"
+      },
+      "transparent": true
+    },
+    "nav_bag": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference: crops_original/nav_bag.png (tools/gen_image.py)",
+      "source": "flare/nav_bag.png",
+      "source_sha256": "d9887be1b0b4b3d6218939711da59b9a14cc25001d77d71b2008d5d881efdbd2",
+      "png_2x": "runtime_flare/nav_bag.png",
+      "native_size": [
+        512,
+        500
+      ],
+      "sha256": "89beedb33ecfbbf17df0b22fe7caa0ed2946777b60f77ba7035e4f9874849391",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/01-race.png",
+        "source_rect_xywh": [
+          218,
+          1609,
+          100,
+          108
+        ],
+        "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+        "raw_crop": "crops_original/nav_bag.png",
+        "category": "icons",
+        "native": "native/icons/nav_bag.png",
+        "png_2x": "png_2x/icons/nav_bag.png",
+        "native_size": [
+          93,
+          102
+        ],
+        "size_2x": [
+          186,
+          204
+        ],
+        "transparent": true,
+        "sha256": "3eb6d4c42578e3b6c08f14fd37c785c22e82ddccccf57f65e61e287a1b95e416"
+      },
+      "transparent": true
+    },
+    "nav_team": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference: crops_original/nav_team.png (tools/gen_image.py)",
+      "source": "flare/nav_team.png",
+      "source_sha256": "97ae9a6771d4b05a3d8889da4184d9bceb55f1bb9fa3919b8119a33c0b8043f9",
+      "png_2x": "runtime_flare/nav_team.png",
+      "native_size": [
+        512,
+        496
+      ],
+      "sha256": "6df479d545456a6391f3d59c78345f01aa318b6a48a04b47ce4c92dab4e1a713",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/01-race.png",
+        "source_rect_xywh": [
+          370,
+          1609,
+          140,
+          87
+        ],
+        "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+        "raw_crop": "crops_original/nav_team.png",
+        "category": "icons",
+        "native": "native/icons/nav_team.png",
+        "png_2x": "png_2x/icons/nav_team.png",
+        "native_size": [
+          142,
+          98
+        ],
+        "size_2x": [
+          284,
+          196
+        ],
+        "transparent": true,
+        "sha256": "ecf1edd5df6563b05b3224465cc9dc5f89f43a4352598ab0eb602c1021940b93"
+      },
+      "transparent": true
+    },
+    "nav_league": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference: crops_original/nav_league.png (tools/gen_image.py)",
+      "source": "flare/nav_league.png",
+      "source_sha256": "5df0347413a20b3c5a23f882c096e26d35b629e4b7da09473453905a0cb4607b",
+      "png_2x": "runtime_flare/nav_league.png",
+      "native_size": [
+        512,
+        506
+      ],
+      "sha256": "3f1d41385b4eb3307ebee211d1e314dcfc0263a0734925b7c28bcacbe10e88a0",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/01-race.png",
+        "source_rect_xywh": [
+          565,
+          1608,
+          119,
+          106
+        ],
+        "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+        "raw_crop": "crops_original/nav_league.png",
+        "category": "icons",
+        "native": "native/icons/nav_league.png",
+        "png_2x": "png_2x/icons/nav_league.png",
+        "native_size": [
+          133,
+          101
+        ],
+        "size_2x": [
+          266,
+          202
+        ],
+        "transparent": true,
+        "sha256": "c14b59aacd1610006b0a2589b5818f7c54c2217cd26841c48b472260cebbdf7d"
+      },
+      "transparent": true
+    },
+    "nav_shop": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference: crops_original/nav_shop.png (tools/gen_image.py)",
+      "source": "flare/nav_shop.png",
+      "source_sha256": "8456c43c440e96261d71b882b01b4607a97fb52d549179fab555e371d218ce20",
+      "png_2x": "runtime_flare/nav_shop.png",
+      "native_size": [
+        512,
+        487
+      ],
+      "sha256": "3f906793b6d733c16e8c572c00bfe1c4c695dcde78ba4b5e9a05d005cbd77a9e",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/01-race.png",
+        "source_rect_xywh": [
+          744,
+          1608,
+          116,
+          103
+        ],
+        "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+        "raw_crop": "crops_original/nav_shop.png",
+        "category": "icons",
+        "native": "native/icons/nav_shop.png",
+        "png_2x": "png_2x/icons/nav_shop.png",
+        "native_size": [
+          127,
+          98
+        ],
+        "size_2x": [
+          254,
+          196
+        ],
+        "transparent": true,
+        "sha256": "eda716a83ec312b73e067356987ff161abcf97e663a030802198abe6c53f1623"
+      },
+      "transparent": true
+    },
+    "engine": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference: crops_original/engine.png (tools/gen_image.py)",
+      "source": "flare/engine.png",
+      "source_sha256": "8d767902a43871a8fb2f5dc8473f8e4ecaa470350171d3a972ef4be255d2eb76",
+      "png_2x": "runtime_flare/engine.png",
+      "native_size": [
+        512,
+        512
+      ],
+      "sha256": "e048f4ad6a5bc6a8ce0e6acf4bb5d22a2bf57dadc8eece9ca532d66dc0a58e3d",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/02-bag.png",
+        "source_rect_xywh": [
+          30,
+          455,
+          255,
+          188
+        ],
+        "source_sha256": "427d93fc63da899cadfdaa7ed09d6db57324febc0f39b396c858e51dd1427b26",
+        "raw_crop": "crops_original/engine.png",
+        "category": "equipment",
+        "native": "native/equipment/engine.png",
+        "png_2x": "png_2x/equipment/engine.png",
+        "native_size": [
+          240,
+          193
+        ],
+        "size_2x": [
+          480,
+          386
+        ],
+        "transparent": true,
+        "sha256": "5c27f5a3458154bebee60b16231d1cb539d6207ed52c354231dc3efa2dbb5491"
+      },
+      "transparent": true
+    },
+    "tyre": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference: crops_original/tyre.png (tools/gen_image.py)",
+      "source": "flare/tyre.png",
+      "source_sha256": "535e5c3c8834decd7774695dbb68f1decfe348dcdeedd3337f13158b914443e2",
+      "png_2x": "runtime_flare/tyre.png",
+      "native_size": [
+        489,
+        512
+      ],
+      "sha256": "b321cbcfaf11ce28a5827dc34c60c9ec0d5d51b3a4f0a951a58f568294f5d988",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/02-bag.png",
+        "source_rect_xywh": [
+          326,
+          467,
+          245,
+          193
+        ],
+        "source_sha256": "427d93fc63da899cadfdaa7ed09d6db57324febc0f39b396c858e51dd1427b26",
+        "raw_crop": "crops_original/tyre.png",
+        "category": "equipment",
+        "native": "native/equipment/tyre.png",
+        "png_2x": "png_2x/equipment/tyre.png",
+        "native_size": [
+          207,
+          196
+        ],
+        "size_2x": [
+          414,
+          392
+        ],
+        "transparent": true,
+        "sha256": "8d832fc0fb1d3f95db902413df85f38ccb7e0244ada352fcf484a960aea7de38"
+      },
+      "transparent": true
+    },
+    "spoiler": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference: crops_original/spoiler.png (tools/gen_image.py)",
+      "source": "flare/spoiler.png",
+      "source_sha256": "c7e344abaf5da7e2b5a330b4eb42fc9281ab911703ba2ce730890945e35b6f7b",
+      "png_2x": "runtime_flare/spoiler.png",
+      "native_size": [
+        512,
+        474
+      ],
+      "sha256": "e995ef76d794218033145769ab0a5ddbe6df2eb78b9fb0cac9ad79c61a8282a9",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/02-bag.png",
+        "source_rect_xywh": [
+          615,
+          473,
+          248,
+          185
+        ],
+        "source_sha256": "427d93fc63da899cadfdaa7ed09d6db57324febc0f39b396c858e51dd1427b26",
+        "raw_crop": "crops_original/spoiler.png",
+        "category": "equipment",
+        "native": "native/equipment/spoiler.png",
+        "png_2x": "png_2x/equipment/spoiler.png",
+        "native_size": [
+          255,
+          180
+        ],
+        "size_2x": [
+          510,
+          360
+        ],
+        "transparent": true,
+        "sha256": "8fb02457bdb101d26eb041dcd5ca496ea3e523b36cad482393d2a484c151307e"
+      },
+      "transparent": true
+    },
+    "gearbox": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference: crops_original/gearbox.png (tools/gen_image.py)",
+      "source": "flare/gearbox.png",
+      "source_sha256": "975b756ca42f3f2dc3059adae65ea08b6db2ad91e19fbf4fc3bebd018c9a3609",
+      "png_2x": "runtime_flare/gearbox.png",
+      "native_size": [
+        512,
+        508
+      ],
+      "sha256": "12d0d7516eeedaf675fe5eb3464951e0fd618801a001fd14eec82c69bf83e857",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/02-bag.png",
+        "source_rect_xywh": [
+          32,
+          899,
+          246,
+          168
+        ],
+        "source_sha256": "427d93fc63da899cadfdaa7ed09d6db57324febc0f39b396c858e51dd1427b26",
+        "raw_crop": "crops_original/gearbox.png",
+        "category": "equipment",
+        "native": "native/equipment/gearbox.png",
+        "png_2x": "png_2x/equipment/gearbox.png",
+        "native_size": [
+          226,
+          157
+        ],
+        "size_2x": [
+          452,
+          314
+        ],
+        "transparent": true,
+        "sha256": "204379fce2aff66ed5b6fa1555155ea18fb66d4bd667b9c6e9abb990a272a040"
+      },
+      "transparent": true
+    },
+    "brake": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference: crops_original/brake.png (tools/gen_image.py)",
+      "source": "flare/brake.png",
+      "source_sha256": "688653693b785001f39fdf61b99e05806b11cc3156da43633453a709297620b7",
+      "png_2x": "runtime_flare/brake.png",
+      "native_size": [
+        512,
+        487
+      ],
+      "sha256": "426f66ed5ce1181583f73af3aa6cd1b7cc729d39e379924521f27b68854c98e3",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/02-bag.png",
+        "source_rect_xywh": [
+          327,
+          898,
+          247,
+          174
+        ],
+        "source_sha256": "427d93fc63da899cadfdaa7ed09d6db57324febc0f39b396c858e51dd1427b26",
+        "raw_crop": "crops_original/brake.png",
+        "category": "equipment",
+        "native": "native/equipment/brake.png",
+        "png_2x": "png_2x/equipment/brake.png",
+        "native_size": [
+          203,
+          172
+        ],
+        "size_2x": [
+          406,
+          344
+        ],
+        "transparent": true,
+        "sha256": "8c930e122bb85a3d13e04a83af3bc85f2ef4f118df1e825336daa4f0f06b26e9"
+      },
+      "transparent": true
+    },
+    "chassis": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference: crops_original/chassis.png (tools/gen_image.py)",
+      "source": "flare/chassis.png",
+      "source_sha256": "ee1a69baced6995c0d326d577fa9e1455aae1a4e22612ff8a0c728011077e509",
+      "png_2x": "runtime_flare/chassis.png",
+      "native_size": [
+        512,
+        474
+      ],
+      "sha256": "5edc56d5889c4780184c629075a60f28826e067fc99d1d725de37986e318fe53",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/02-bag.png",
+        "source_rect_xywh": [
+          613,
+          897,
+          249,
+          178
+        ],
+        "source_sha256": "427d93fc63da899cadfdaa7ed09d6db57324febc0f39b396c858e51dd1427b26",
+        "raw_crop": "crops_original/chassis.png",
+        "category": "equipment",
+        "native": "native/equipment/chassis.png",
+        "png_2x": "png_2x/equipment/chassis.png",
+        "native_size": [
+          254,
+          176
+        ],
+        "size_2x": [
+          508,
+          352
+        ],
+        "transparent": true,
+        "sha256": "15239df76f0a632aa7372bd84957a037cfd7dde565a29d09f45481b2b07db1a9"
+      },
+      "transparent": true
+    },
+    "star_gold": {
+      "method": "approved_flare_mobile_export",
+      "provenance": "gpt-image-2.5-flare via Figma generate_image",
+      "source": "assets/soft_miniature_ui_v1/flare/star_gold.png",
+      "source_sha256": "91a42d553e8cdc512fb138237880ea4e49dd0dde301459d0afe5056f65aafb1a",
+      "png_2x": "runtime_flare/star_gold.png",
+      "native_size": [
+        512,
+        505
+      ],
+      "sha256": "00e56c7ff7d79d35651f9d2924336e21379c55937f53b19f3005f42e061d5fbd",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/02-bag.png",
+        "source_rect_xywh": [
+          142,
+          680,
+          43,
+          42
+        ],
+        "source_sha256": "427d93fc63da899cadfdaa7ed09d6db57324febc0f39b396c858e51dd1427b26",
+        "raw_crop": "crops_original/star_gold.png",
+        "category": "icons",
+        "native": "native/icons/star_gold.png",
+        "png_2x": "png_2x/icons/star_gold.png",
+        "native_size": [
+          47,
+          47
+        ],
+        "size_2x": [
+          94,
+          94
+        ],
+        "transparent": true,
+        "sha256": "06a982721f8b419ffc08fda9e3ad9783b81e38c83dc4353339261b109c75e498"
+      },
+      "transparent": true
+    },
+    "star_locked": {
+      "method": "approved_flare_mobile_export",
+      "provenance": "gpt-image-2.5-flare via Figma generate_image",
+      "source": "assets/soft_miniature_ui_v1/flare/star_locked.png",
+      "source_sha256": "ca4e25cfcde861b2f7760bb5c0f7ecc22e98dd4103c705b962830d2f0da7f70f",
+      "png_2x": "runtime_flare/star_locked.png",
+      "native_size": [
+        512,
+        505
+      ],
+      "sha256": "9bee44e7167616e86f212c9519ba87f8743134e449e7259d899c7fa64b2e4659",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/02-bag.png",
+        "source_rect_xywh": [
+          140,
+          1440,
+          36,
+          38
+        ],
+        "source_sha256": "427d93fc63da899cadfdaa7ed09d6db57324febc0f39b396c858e51dd1427b26",
+        "raw_crop": "crops_original/star_locked.png",
+        "category": "icons",
+        "native": "native/icons/star_locked.png",
+        "png_2x": "png_2x/icons/star_locked.png",
+        "native_size": [
+          48,
+          47
+        ],
+        "size_2x": [
+          96,
+          94
+        ],
+        "transparent": true,
+        "sha256": "b5c48d9a4432548a07f32fb20c9c38debb727eaa9388e5141cb1bd570c3c1c7d"
+      },
+      "transparent": true
+    },
+    "ticket": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference: crops_original/ticket.png (tools/gen_image.py)",
+      "source": "flare/ticket.png",
+      "source_sha256": "070b051c1d64f82665d4fdeff9d1e6e741a7a567b4677a3fdfce9a9ecf231948",
+      "png_2x": "runtime_flare/ticket.png",
+      "native_size": [
+        512,
+        495
+      ],
+      "sha256": "35f4279dc574414b811bb7d7a47fb8ff2e87252412e330c8016f5291ecc6c921",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/01-race.png",
+        "source_rect_xywh": [
+          40,
+          1402,
+          137,
+          111
+        ],
+        "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+        "raw_crop": "crops_original/ticket.png",
+        "category": "icons",
+        "native": "native/icons/ticket.png",
+        "png_2x": "png_2x/icons/ticket.png",
+        "native_size": [
+          142,
+          118
+        ],
+        "size_2x": [
+          284,
+          236
+        ],
+        "transparent": true,
+        "sha256": "3912d0fca60bcdd6a3855c416f76bb75003a2d547df3f127f1a409f17c958faa"
+      },
+      "transparent": true
+    },
+    "currency_coins": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference: crops_original/currency_coins.png (tools/gen_image.py)",
+      "source": "flare/currency_coins.png",
+      "source_sha256": "1d9c462b3cb167abaddc7eb32f6764f33990bdce1b37f2d12af5bf61a2ed3b69",
+      "png_2x": "runtime_flare/currency_coins.png",
+      "native_size": [
+        512,
+        474
+      ],
+      "sha256": "1f4287385f14faa8c2bfffe94a758dfd794901e7ba8ac375b7a3e902acdc5073",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/05-league.png",
+        "source_rect_xywh": [
+          486,
+          588,
+          115,
+          91
+        ],
+        "source_sha256": "3dd846fdc0580d5df9c70250fa298878378a1edb3b39a63e2a3a7d09792f581e",
+        "raw_crop": "crops_original/currency_coins.png",
+        "category": "icons",
+        "native": "native/icons/currency_coins.png",
+        "png_2x": "png_2x/icons/currency_coins.png",
+        "native_size": [
+          112,
+          90
+        ],
+        "size_2x": [
+          224,
+          180
+        ],
+        "transparent": true,
+        "sha256": "eb508cec60aaaac95275991918e752de8805e37a0aebe1b83264633e75b29d3d"
+      },
+      "transparent": true
+    },
+    "inventory_crate": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference: crops_original/inventory_crate.png (tools/gen_image.py)",
+      "source": "flare/inventory_crate.png",
+      "source_sha256": "a043e19ba437aa392d1e5c9fa26716e58bbe9547076808c43d729bd2e221c8d4",
+      "png_2x": "runtime_flare/inventory_crate.png",
+      "native_size": [
+        512,
+        508
+      ],
+      "sha256": "49907a6b7ad993b2f11b20a87e25319e85db4d1bec7069ab181df5e335be2edc",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/02-bag.png",
+        "source_rect_xywh": [
+          26,
+          325,
+          155,
+          120
+        ],
+        "source_sha256": "427d93fc63da899cadfdaa7ed09d6db57324febc0f39b396c858e51dd1427b26",
+        "raw_crop": "crops_original/inventory_crate.png",
+        "category": "icons",
+        "native": "native/icons/inventory_crate.png",
+        "png_2x": "png_2x/icons/inventory_crate.png",
+        "native_size": [
+          137,
+          121
+        ],
+        "size_2x": [
+          274,
+          242
+        ],
+        "transparent": true,
+        "sha256": "863e2ba0b654c44b297ead4f80023e46941cf3926c5fc8ecf28ce08e3cd64e0f"
+      },
+      "transparent": true
+    },
+    "driver_an": {
+      "method": "approved_flare_mobile_export",
+      "provenance": "gpt-image-2.5-flare via Figma generate_image",
+      "source": "assets/soft_miniature_ui_v1/flare/driver_an.png",
+      "source_sha256": "d068115890e71dc1711115547519793acf3832ea6557d586a633081e276243e7",
+      "png_2x": "runtime_flare/driver_an.png",
+      "native_size": [
+        510,
+        512
+      ],
+      "sha256": "4a9591c57906207e24dac21fedf3cd59b7a8ae569431dc80a95ff10e12fded82",
+      "previous_revision": {
+        "method": "direct_crop_u2net_mask_refined",
+        "source": "sources/03-drivers.png",
+        "source_rect_xywh": [
+          72,
+          649,
+          343,
+          321
+        ],
+        "source_sha256": "d6d5f4cbe96a3e9aa6cea243a2916ad8d4604fcbc67590febf2180b71362c750",
+        "raw_crop": "crops_original/driver_an.png",
+        "category": "portraits",
+        "native": "native/portraits/driver_an.png",
+        "png_2x": "png_2x/portraits/driver_an.png",
+        "native_size": [
+          308,
+          327
+        ],
+        "size_2x": [
+          616,
+          654
+        ],
+        "transparent": true,
+        "sha256": "2984235bf0d0694719d8366e6acab25741632f51a504bbc10297eb1deee06978"
+      },
+      "transparent": true
+    },
+    "driver_binh": {
+      "method": "approved_flare_mobile_export",
+      "provenance": "gpt-image-2.5-flare via Figma generate_image",
+      "source": "assets/soft_miniature_ui_v1/flare/driver_binh.png",
+      "source_sha256": "af457e2f68b6d2c07f116d98c93bf967a54c3fed6c527ae2ace23f869a6d08a2",
+      "png_2x": "runtime_flare/driver_binh.png",
+      "native_size": [
+        504,
+        512
+      ],
+      "sha256": "9be3cfbf9727a509b89af311445d6358f6f9674e9b1cb34957f3751eadd8b544",
+      "previous_revision": {
+        "method": "direct_crop_u2net_mask_refined",
+        "source": "sources/03-drivers.png",
+        "source_rect_xywh": [
+          502,
+          653,
+          330,
+          317
+        ],
+        "source_sha256": "d6d5f4cbe96a3e9aa6cea243a2916ad8d4604fcbc67590febf2180b71362c750",
+        "raw_crop": "crops_original/driver_binh.png",
+        "category": "portraits",
+        "native": "native/portraits/driver_binh.png",
+        "png_2x": "png_2x/portraits/driver_binh.png",
+        "native_size": [
+          288,
+          326
+        ],
+        "size_2x": [
+          576,
+          652
+        ],
+        "transparent": true,
+        "sha256": "75efc372a12f7523beb719b5fa69308e5b97c30f876ea17fb09bbe69eea7a830"
+      },
+      "transparent": true
+    },
+    "driver_chi": {
+      "method": "approved_flare_mobile_export",
+      "provenance": "gpt-image-2.5-flare via Figma generate_image",
+      "source": "assets/soft_miniature_ui_v1/flare/driver_chi.png",
+      "source_sha256": "4fd03a7f9f36ed32094f806815958fb7563e6c10443bfa74cd9faa4b4a651068",
+      "png_2x": "runtime_flare/driver_chi.png",
+      "native_size": [
+        472,
+        512
+      ],
+      "sha256": "7a01a29d6e05b10cdd5dbc2a9365b7e5ab3a5f66bc7c99fd8e0c250e0e23bd23",
+      "previous_revision": {
+        "method": "direct_crop_u2net_mask_refined",
+        "source": "sources/03-drivers.png",
+        "source_rect_xywh": [
+          66,
+          1190,
+          352,
+          296
+        ],
+        "source_sha256": "d6d5f4cbe96a3e9aa6cea243a2916ad8d4604fcbc67590febf2180b71362c750",
+        "raw_crop": "crops_original/driver_chi.png",
+        "category": "portraits",
+        "native": "native/portraits/driver_chi.png",
+        "png_2x": "png_2x/portraits/driver_chi.png",
+        "native_size": [
+          309,
+          306
+        ],
+        "size_2x": [
+          618,
+          612
+        ],
+        "transparent": true,
+        "sha256": "12fbe9d3807dfaa3e171cef5085c5d50aff38db012fd9c356654876de62e99d6"
+      },
+      "transparent": true
+    },
+    "driver_lam": {
+      "method": "approved_flare_mobile_export",
+      "provenance": "gpt-image-2.5-flare via Figma generate_image",
+      "source": "assets/soft_miniature_ui_v1/flare/driver_lam.png",
+      "source_sha256": "9f81c008947683a85a55cc458720523d29946ad67b749db33f93dad58799454a",
+      "png_2x": "runtime_flare/driver_lam.png",
+      "native_size": [
+        492,
+        512
+      ],
+      "sha256": "f0f4ac0caf763728c12a0cba01e798bba8d859901544e9c89d3eb030c7c8deac",
+      "previous_revision": {
+        "method": "direct_crop_u2net_mask_refined",
+        "source": "sources/03-drivers.png",
+        "source_rect_xywh": [
+          502,
+          1196,
+          337,
+          290
+        ],
+        "source_sha256": "d6d5f4cbe96a3e9aa6cea243a2916ad8d4604fcbc67590febf2180b71362c750",
+        "raw_crop": "crops_original/driver_lam.png",
+        "category": "portraits",
+        "native": "native/portraits/driver_lam.png",
+        "png_2x": "png_2x/portraits/driver_lam.png",
+        "native_size": [
+          301,
+          301
+        ],
+        "size_2x": [
+          602,
+          602
+        ],
+        "transparent": true,
+        "sha256": "2bddddd559bc0bafc530eca6a2a8d4412746438be1c0b62edf7f9ba7b36eba3e"
+      },
+      "transparent": true
+    },
+    "driver_my": {
+      "method": "approved_flare_mobile_export",
+      "provenance": "gpt-image-2.5-flare via Figma generate_image",
+      "source": "assets/soft_miniature_ui_v1/flare/driver_my.png",
+      "source_sha256": "e9560383779346c43529ebe9d4f5b9924d4cd79c73b82544b91780e3f024f9ab",
+      "png_2x": "runtime_flare/driver_my.png",
+      "native_size": [
+        440,
+        512
+      ],
+      "sha256": "ded3ea38e1de011522a10ac7402ec5d0af551c24323ff6fc1d162aa0d74a42c6",
+      "previous_revision": {
+        "method": "direct_crop_u2net_mask_refined",
+        "source": "sources/06-shop.png",
+        "source_rect_xywh": [
+          30,
+          1292,
+          185,
+          303
+        ],
+        "source_sha256": "911e6b8d9257470ce8e7bd5db15f494ef534075783787a45bf87bbf0202f0dd8",
+        "raw_crop": "crops_original/driver_my.png",
+        "category": "portraits",
+        "native": "native/portraits/driver_my.png",
+        "png_2x": "png_2x/portraits/driver_my.png",
+        "native_size": [
+          201,
+          273
+        ],
+        "size_2x": [
+          402,
+          546
+        ],
+        "transparent": true,
+        "sha256": "3788d6b8bfc1eea1a4d9ebca7cc8850b7b96d885959808765f55cc50cf304630"
+      },
+      "transparent": true
+    },
+    "driver_lam_shop": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/06-shop.png",
+      "source_sha256": "911e6b8d9257470ce8e7bd5db15f494ef534075783787a45bf87bbf0202f0dd8",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: identity-preserve / precise-object-edit. Production high-resolution game character or car cutout. From the approved reference recreate ONLY Lâm, the lower-right blue-suited young boy portrait in recruit section, brown hair, blue goggles on forehead, blue-white suit and folded arms; preserve face identity and pose. Exact approved friendly rounded 3D clay miniature rendering, warm soft studio lighting, saturated colors, smooth bevels and clear detail. Keep reference proportions, costume design, pose and identity. Render at 1024x1024 or higher, object at least 850px along long edge with safe 8% transparent margin; chest/arms fully present as in reference. Actual clean alpha background, empty holes transparent; smooth antialiased edges on light AND dark backgrounds. No white halo, colored fringe, specks, cut-off hair, extra fingers, ground plane, UI, labels, nameplates, status badges, circles, buttons or text (except the car's 03). Not a sprite sheet.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-577c6543-ad97-4815-9218-a482c1c01eb2.png",
+      "png_2x": "restored_hd/driver_lam_shop.png",
+      "native": "restored_hd/driver_lam_shop.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "size_2x": [
+        1254,
+        1254
+      ],
+      "transparent": true,
+      "sha256": "b17c55bb552f6ca948846b3b1de1891838d4d0eab590460e01d531fe77c8ac65",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_u2net_mask_refined",
+        "source": "sources/06-shop.png",
+        "source_rect_xywh": [
+          465,
+          1309,
+          192,
+          284
+        ],
+        "source_sha256": "911e6b8d9257470ce8e7bd5db15f494ef534075783787a45bf87bbf0202f0dd8",
+        "raw_crop": "crops_original/driver_lam_shop.png",
+        "category": "portraits",
+        "native": "native/portraits/driver_lam_shop.png",
+        "png_2x": "png_2x/portraits/driver_lam_shop.png",
+        "native_size": [
+          204,
+          279
+        ],
+        "size_2x": [
+          408,
+          558
+        ],
+        "transparent": true,
+        "sha256": "9fc08f5671a476358c13ed2ffcdea943195612d31e55b795b74bed030e864431"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        167,
+        6,
+        894,
+        1248
+      ]
+    },
+    "gift_red": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference: crops_original/gift_red.png (tools/gen_image.py)",
+      "source": "flare/gift_red.png",
+      "source_sha256": "ff261451f7f70ff257c60a30260afcf879ad3a21492794978184b25c87617eec",
+      "png_2x": "runtime_flare/gift_red.png",
+      "native_size": [
+        507,
+        512
+      ],
+      "sha256": "b3af14ab23cebc74d946965d5130f1fd76f6e7cbf5827f3b1038caafc43a7a95",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/03-drivers.png",
+        "source_rect_xywh": [
+          570,
+          476,
+          110,
+          100
+        ],
+        "source_sha256": "d6d5f4cbe96a3e9aa6cea243a2916ad8d4604fcbc67590febf2180b71362c750",
+        "raw_crop": "crops_original/gift_red.png",
+        "category": "icons",
+        "native": "native/icons/gift_red.png",
+        "png_2x": "png_2x/icons/gift_red.png",
+        "native_size": [
+          116,
+          106
+        ],
+        "size_2x": [
+          232,
+          212
+        ],
+        "transparent": true,
+        "sha256": "c6336db353946450874c32a550f6de5f41dcb0113367adb653069cda023dba70"
+      },
+      "transparent": true
+    },
+    "helmet_pit": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference: crops_original/helmet_pit.png (tools/gen_image.py)",
+      "source": "flare/helmet_pit.png",
+      "source_sha256": "3ecb58f879a0fb51cb6b0b1a352d441321ef10403f33d76b68a4a6ce6d0f954b",
+      "png_2x": "runtime_flare/helmet_pit.png",
+      "native_size": [
+        512,
+        492
+      ],
+      "sha256": "6470a30854796a418f7c21c29d5be0130d473d07a362f3116ff9dc5e493d115a",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/03-drivers.png",
+        "source_rect_xywh": [
+          626,
+          293,
+          246,
+          178
+        ],
+        "source_sha256": "d6d5f4cbe96a3e9aa6cea243a2916ad8d4604fcbc67590febf2180b71362c750",
+        "raw_crop": "crops_original/helmet_pit.png",
+        "category": "icons",
+        "native": "native/icons/helmet_pit.png",
+        "png_2x": "png_2x/icons/helmet_pit.png",
+        "native_size": [
+          247,
+          177
+        ],
+        "size_2x": [
+          494,
+          354
+        ],
+        "transparent": true,
+        "sha256": "3e422b7eb9895a59e6b41ff8f4ac50424e8995b41c9f022cee1394f7580e46c0"
+      },
+      "transparent": true
+    },
+    "trophy_large": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference: crops_original/trophy_large.png (tools/gen_image.py)",
+      "source": "flare/trophy_large.png",
+      "source_sha256": "b2a2b90e3a8d98af1b170053f2464f3a8ecc6275373d22c5659c91494b5139d6",
+      "png_2x": "runtime_flare/trophy_large.png",
+      "native_size": [
+        500,
+        512
+      ],
+      "sha256": "0b26186a7be47d51cc81ead3742e79eb73cec614933ef1cb58d26f4886ec7b1f",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/05-league.png",
+        "source_rect_xywh": [
+          17,
+          360,
+          224,
+          180
+        ],
+        "source_sha256": "3dd846fdc0580d5df9c70250fa298878378a1edb3b39a63e2a3a7d09792f581e",
+        "raw_crop": "crops_original/trophy_large.png",
+        "category": "icons",
+        "native": "native/icons/trophy_large.png",
+        "png_2x": "png_2x/icons/trophy_large.png",
+        "native_size": [
+          208,
+          181
+        ],
+        "size_2x": [
+          416,
+          362
+        ],
+        "transparent": true,
+        "sha256": "3d9430bf7a4f9ad690f3df3deafe265dbb82c8a33ee75bcd5aba56a77e202294"
+      },
+      "transparent": true
+    },
+    "speedometer": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference: crops_original/speedometer.png (tools/gen_image.py)",
+      "source": "flare/speedometer.png",
+      "source_sha256": "d97878b875dfdfa42fa5576579b9a41ffe20c8f1775906198300f58171e22964",
+      "png_2x": "runtime_flare/speedometer.png",
+      "native_size": [
+        512,
+        477
+      ],
+      "sha256": "be78600e14b5f465031170c0f564cbd086a622566359edaceb5670c695301d87",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/04-garage.png",
+        "source_rect_xywh": [
+          45,
+          1033,
+          164,
+          125
+        ],
+        "source_sha256": "509e62804d22f8439daebd65eb4d47a33b200a1900cf47fd2d24e9ff06480b9b",
+        "raw_crop": "crops_original/speedometer.png",
+        "category": "icons",
+        "native": "native/icons/speedometer.png",
+        "png_2x": "png_2x/icons/speedometer.png",
+        "native_size": [
+          166,
+          127
+        ],
+        "size_2x": [
+          332,
+          254
+        ],
+        "transparent": true,
+        "sha256": "8da8c623af6d4ccf5328557105bbf38a7b39c8384aebc8da3ed5d8695c86d25e"
+      },
+      "transparent": true
+    },
+    "rocket_acceleration": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference: crops_original/rocket_acceleration.png (tools/gen_image.py)",
+      "source": "flare/rocket_acceleration.png",
+      "source_sha256": "cc13c4f54d3f12b3e66b0cc641064db81858223788940dcd206d4c60c4d768ff",
+      "png_2x": "runtime_flare/rocket_acceleration.png",
+      "native_size": [
+        511,
+        512
+      ],
+      "sha256": "85a1623803718eb931b59a3acf7bc62aa69bf22051e1df50ce7530dd6a18a656",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/04-garage.png",
+        "source_rect_xywh": [
+          480,
+          1034,
+          137,
+          126
+        ],
+        "source_sha256": "509e62804d22f8439daebd65eb4d47a33b200a1900cf47fd2d24e9ff06480b9b",
+        "raw_crop": "crops_original/rocket_acceleration.png",
+        "category": "icons",
+        "native": "native/icons/rocket_acceleration.png",
+        "png_2x": "png_2x/icons/rocket_acceleration.png",
+        "native_size": [
+          132,
+          129
+        ],
+        "size_2x": [
+          264,
+          258
+        ],
+        "transparent": true,
+        "sha256": "b200bc937a4351f94dd94431d42a47d66e492704e44e95a1feb8c3b73b671328"
+      },
+      "transparent": true
+    },
+    "stability_scales": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference: crops_original/stability_scales.png (tools/gen_image.py)",
+      "source": "flare/stability_scales.png",
+      "source_sha256": "e8802e571a7353be1d78020d24bda22b1668d588963406be13f332f9b93ddd88",
+      "png_2x": "runtime_flare/stability_scales.png",
+      "native_size": [
+        512,
+        503
+      ],
+      "sha256": "072a09d8df445142e32fc764d37b2edc77430f40b06fc1400284fca3347249cf",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/04-garage.png",
+        "source_rect_xywh": [
+          480,
+          1187,
+          155,
+          137
+        ],
+        "source_sha256": "509e62804d22f8439daebd65eb4d47a33b200a1900cf47fd2d24e9ff06480b9b",
+        "raw_crop": "crops_original/stability_scales.png",
+        "category": "icons",
+        "native": "native/icons/stability_scales.png",
+        "png_2x": "png_2x/icons/stability_scales.png",
+        "native_size": [
+          162,
+          134
+        ],
+        "size_2x": [
+          324,
+          268
+        ],
+        "transparent": true,
+        "sha256": "47bb3f7c1fe9cbfe4524387431d546058db3dcc493c2c6b5b62b1e8acc2c25eb"
+      },
+      "transparent": true
+    },
+    "car_showroom": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference: crops_original/car_showroom.png (tools/gen_image.py)",
+      "source": "flare/car_showroom.png",
+      "source_sha256": "05edab12627c1202cc2e21217daf28485ca9bb5641936fd36dcc18f3d24c4caa",
+      "png_2x": "runtime_flare/car_showroom.png",
+      "native_size": [
+        512,
+        508
+      ],
+      "sha256": "7f988d3930170d2d84177d4d1e904816d3b9cc10fdf174b6fc4f79d5884d587f",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/04-garage.png",
+        "source_rect_xywh": [
+          172,
+          463,
+          574,
+          304
+        ],
+        "source_sha256": "509e62804d22f8439daebd65eb4d47a33b200a1900cf47fd2d24e9ff06480b9b",
+        "raw_crop": "crops_original/car_showroom.png",
+        "category": "cars",
+        "native": "native/cars/car_showroom.png",
+        "png_2x": "png_2x/cars/car_showroom.png",
+        "native_size": [
+          566,
+          307
+        ],
+        "size_2x": [
+          1132,
+          614
+        ],
+        "transparent": true,
+        "sha256": "afd9171c15331538b3dfd1496c58323cd70bc84588c2843a6974de2541117ed7"
+      },
+      "transparent": true
+    },
+    "shop_starter": {
+      "method": "approved_flare_mobile_export",
+      "provenance": "gpt-image-2.5-flare via Figma generate_image",
+      "source": "assets/soft_miniature_ui_v1/flare/shop_starter.png",
+      "source_sha256": "facc671775cfef749ce60c2b3752bf9eb8fd1c5ecdf8875b7b332f52190c3c66",
+      "png_2x": "runtime_flare/shop_starter.png",
+      "native_size": [
+        512,
+        341
+      ],
+      "sha256": "5f5fcad13976d04677d7683ab474ee40651263bcc484d61f372884a2dff80393",
+      "previous_revision": {
+        "method": "direct_crop",
+        "source": "sources/06-shop.png",
+        "source_rect_xywh": [
+          34,
+          384,
+          386,
+          222
+        ],
+        "source_sha256": "911e6b8d9257470ce8e7bd5db15f494ef534075783787a45bf87bbf0202f0dd8",
+        "raw_crop": "crops_original/shop_starter.png",
+        "category": "illustrations",
+        "native": "native/illustrations/shop_starter.png",
+        "png_2x": "png_2x/illustrations/shop_starter.png",
+        "native_size": [
+          386,
+          222
+        ],
+        "size_2x": [
+          772,
+          444
+        ],
+        "transparent": false,
+        "sha256": "bb130b2bcfc9cd8fba7c5d1a365de44419c236acdb6662ba23fa6e4441da933c"
+      },
+      "transparent": false
+    },
+    "shop_income_x2": {
+      "method": "approved_flare_mobile_export",
+      "provenance": "gpt-image-2.5-flare via Figma generate_image",
+      "source": "assets/soft_miniature_ui_v1/flare/shop_income_x2.png",
+      "source_sha256": "0ccb0fee42fc2b04e2c5ffa214972ff3f92be9038c6630b8c365ec5055a60d8b",
+      "png_2x": "runtime_flare/shop_income_x2.png",
+      "native_size": [
+        512,
+        341
+      ],
+      "sha256": "4c361db65404e594cdef299dc3ccdbd5a0a1588f7025b1882b0e5bff1fff38e8",
+      "previous_revision": {
+        "method": "direct_crop",
+        "source": "sources/06-shop.png",
+        "source_rect_xywh": [
+          470,
+          385,
+          385,
+          222
+        ],
+        "source_sha256": "911e6b8d9257470ce8e7bd5db15f494ef534075783787a45bf87bbf0202f0dd8",
+        "raw_crop": "crops_original/shop_income_x2.png",
+        "category": "illustrations",
+        "native": "native/illustrations/shop_income_x2.png",
+        "png_2x": "png_2x/illustrations/shop_income_x2.png",
+        "native_size": [
+          385,
+          222
+        ],
+        "size_2x": [
+          770,
+          444
+        ],
+        "transparent": false,
+        "sha256": "8e2454f552480b5ae693a6884ab74a0747c62875c685798e71269b91cc90b2ad"
+      },
+      "transparent": false
+    },
+    "shop_no_ads": {
+      "method": "approved_flare_mobile_export",
+      "provenance": "gpt-image-2.5-flare via Figma generate_image",
+      "source": "assets/soft_miniature_ui_v1/flare/shop_no_ads.png",
+      "source_sha256": "fc6a651b168dda2a2c10832f543b4b42ff449880bedd891000b1ad94cd7c5ce9",
+      "png_2x": "runtime_flare/shop_no_ads.png",
+      "native_size": [
+        512,
+        341
+      ],
+      "sha256": "eb2108a3cacd4ce8dafb1ac8fb0b337863ab570e3c05cb16fa0da654d6034c07",
+      "previous_revision": {
+        "method": "direct_crop",
+        "source": "sources/06-shop.png",
+        "source_rect_xywh": [
+          35,
+          834,
+          386,
+          230
+        ],
+        "source_sha256": "911e6b8d9257470ce8e7bd5db15f494ef534075783787a45bf87bbf0202f0dd8",
+        "raw_crop": "crops_original/shop_no_ads.png",
+        "category": "illustrations",
+        "native": "native/illustrations/shop_no_ads.png",
+        "png_2x": "png_2x/illustrations/shop_no_ads.png",
+        "native_size": [
+          386,
+          230
+        ],
+        "size_2x": [
+          772,
+          460
+        ],
+        "transparent": false,
+        "sha256": "e3b0a05ec3b6633cb9161805fffb0a313b67fd4719f46cc6ad710e49a7b35190"
+      },
+      "transparent": false
+    },
+    "shop_combo": {
+      "method": "approved_flare_mobile_export",
+      "provenance": "gpt-image-2.5-flare via Figma generate_image",
+      "source": "assets/soft_miniature_ui_v1/flare/shop_combo.png",
+      "source_sha256": "c8bbe905aabc84cada1b9acaa3e54f50be2af5dc09b1ed39770c5bce8f9f985d",
+      "png_2x": "runtime_flare/shop_combo.png",
+      "native_size": [
+        512,
+        341
+      ],
+      "sha256": "8b266fc405135e5911de65b0d2a5adef1155f3231f3aad392850781a1b31069e",
+      "previous_revision": {
+        "method": "direct_crop",
+        "source": "sources/06-shop.png",
+        "source_rect_xywh": [
+          470,
+          834,
+          385,
+          230
+        ],
+        "source_sha256": "911e6b8d9257470ce8e7bd5db15f494ef534075783787a45bf87bbf0202f0dd8",
+        "raw_crop": "crops_original/shop_combo.png",
+        "category": "illustrations",
+        "native": "native/illustrations/shop_combo.png",
+        "png_2x": "png_2x/illustrations/shop_combo.png",
+        "native_size": [
+          385,
+          230
+        ],
+        "size_2x": [
+          770,
+          460
+        ],
+        "transparent": false,
+        "sha256": "34872718acc4507d5c81d5f6c11c2c4bbfdf63234aa8d8f51d58c8117904cf16"
+      },
+      "transparent": false
+    },
+    "garage_with_car": {
+      "method": "approved_flare_mobile_export",
+      "provenance": "gpt-image-2.5-flare via Figma generate_image",
+      "source": "assets/soft_miniature_ui_v1/flare/garage_with_car.png",
+      "source_sha256": "4b0476da85c82d1da8129dd5c4d4160ec8fcf2a31d2dcd197fab83b7ab2ff5bf",
+      "png_2x": "runtime_flare/garage_with_car.png",
+      "native_size": [
+        512,
+        341
+      ],
+      "sha256": "7201873d9835ae29d5ca502cf02a163600ab2f60510c0023576e91f31b591387",
+      "previous_revision": {
+        "method": "direct_crop",
+        "source": "sources/04-garage.png",
+        "source_rect_xywh": [
+          0,
+          342,
+          888,
+          487
+        ],
+        "source_sha256": "509e62804d22f8439daebd65eb4d47a33b200a1900cf47fd2d24e9ff06480b9b",
+        "raw_crop": "crops_original/garage_with_car.png",
+        "category": "scenes",
+        "native": "native/scenes/garage_with_car.png",
+        "png_2x": "png_2x/scenes/garage_with_car.png",
+        "native_size": [
+          888,
+          487
+        ],
+        "size_2x": [
+          1776,
+          974
+        ],
+        "transparent": false,
+        "sha256": "4342ab546f7e9de1a684598f08337cd84ec6f27dfa8468efa95f62ed432a9fc0"
+      },
+      "transparent": false
+    },
+    "avatar_frame": {
+      "method": "approved_flare_mobile_export",
+      "provenance": "gpt-image-2.5-flare via Figma generate_image",
+      "source": "assets/soft_miniature_ui_v1/flare/avatar_frame.png",
+      "source_sha256": "87b875d739fb1c6fb9c7abbd5b40f5d7f0a28f3429f7937dffc64b2f18ddc882",
+      "png_2x": "runtime_flare/avatar_frame.png",
+      "native_size": [
+        494,
+        512
+      ],
+      "sha256": "e9d9209a84105c65c2fe7360168db7f2d24970bfe6b3537af0539965c8420af8",
+      "previous_revision": {
+        "method": "direct_crop",
+        "source": "sources/01-race.png",
+        "source_rect_xywh": [
+          18,
+          4,
+          109,
+          99
+        ],
+        "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+        "raw_crop": "crops_original/avatar_frame.png",
+        "category": "hud",
+        "native": "native/hud/avatar_frame.png",
+        "png_2x": "png_2x/hud/avatar_frame.png",
+        "native_size": [
+          109,
+          99
+        ],
+        "size_2x": [
+          218,
+          198
+        ],
+        "transparent": false,
+        "sha256": "8bb3b8fd62c8d7bcdb1234b6712f96bc3b4a33d68198d7f01ef7bf7627b9bcde"
+      },
+      "transparent": true
+    },
+    "button_orange": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference cropped from Soft_Miniature_Review_v2/01-race.png (tools/gen_image.py)",
+      "source": "flare/button_orange.png",
+      "source_sha256": "26a3d6acf10c22523afc96d7314f7fbdcecd7837137e73e4721afa7dffd5aded",
+      "png_2x": "runtime_flare/button_orange.png",
+      "native_size": [
+        512,
+        175
+      ],
+      "sha256": "3df19e7bb4dd06c6926822de5fefa9a376754059b0f98d4ff64faf459a14b604",
+      "previous_revision": {
+        "method": "imagegen_restored_from_demo_masked",
+        "source": "sources/ui_skins_restored.png",
+        "source_rect_xywh": [
+          17,
+          137,
+          327,
+          109
+        ],
+        "source_sha256": "95e4ef579cf209aa8607cf706e3ff943112d429cd8619ec7d61f68b5c5d124af",
+        "nine_slice_radius_native": 52,
+        "category": "skins",
+        "native": "native/skins/button_orange.png",
+        "png_2x": "png_2x/skins/button_orange.png",
+        "native_size": [
+          343,
+          124
+        ],
+        "size_2x": [
+          686,
+          248
+        ],
+        "transparent": true,
+        "sha256": "0fdbbdce3aadca59e4858836e4d430f0d742577f07b3d0d7cd8a1a0f317af097",
+        "godot_texture": "godot_textures/skins/button_orange.png",
+        "godot_style": "godot_styles/button_orange.tres",
+        "nine_patch_ltrb_logical": [
+          23,
+          23,
+          23,
+          23
+        ]
+      },
+      "transparent": true
+    },
+    "button_blue": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference cropped from Soft_Miniature_Review_v2/01-race.png (tools/gen_image.py)",
+      "source": "flare/button_blue.png",
+      "source_sha256": "f68b5018f8a8f1e6ea8c8a0130c9e8cb89a6c706c7dc9c96e65945c74099bdb4",
+      "png_2x": "runtime_flare/button_blue.png",
+      "native_size": [
+        512,
+        168
+      ],
+      "sha256": "3029087695a56114dd748f184fa01e926ea3adff0d8e26289a42459c4c5580d6",
+      "previous_revision": {
+        "method": "imagegen_restored_from_demo_masked",
+        "source": "sources/ui_skins_restored.png",
+        "source_rect_xywh": [
+          380,
+          138,
+          329,
+          108
+        ],
+        "source_sha256": "95e4ef579cf209aa8607cf706e3ff943112d429cd8619ec7d61f68b5c5d124af",
+        "nine_slice_radius_native": 52,
+        "category": "skins",
+        "native": "native/skins/button_blue.png",
+        "png_2x": "png_2x/skins/button_blue.png",
+        "native_size": [
+          345,
+          123
+        ],
+        "size_2x": [
+          690,
+          246
+        ],
+        "transparent": true,
+        "sha256": "8571cdb832319910908f41938f008dc13fa30d68d784f45efbf2137a3e3dfef5",
+        "godot_texture": "godot_textures/skins/button_blue.png",
+        "godot_style": "godot_styles/button_blue.tres",
+        "nine_patch_ltrb_logical": [
+          23,
+          23,
+          23,
+          23
+        ]
+      },
+      "transparent": true
+    },
+    "button_disabled": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference cropped from Soft_Miniature_Review_v2/01-race.png (tools/gen_image.py)",
+      "source": "flare/button_disabled.png",
+      "source_sha256": "65dde53f7b885779da7c82a0c0517f5a84c4a6eb788522ab5372d972a4a3602c",
+      "png_2x": "runtime_flare/button_disabled.png",
+      "native_size": [
+        512,
+        146
+      ],
+      "sha256": "fae84ae4d3aad404e40de2706f0963418c3c7301dc1768887aa3902c0a3fef9f",
+      "previous_revision": {
+        "method": "imagegen_restored_from_demo_masked",
+        "source": "sources/ui_skins_restored.png",
+        "source_rect_xywh": [
+          746,
+          137,
+          323,
+          109
+        ],
+        "source_sha256": "95e4ef579cf209aa8607cf706e3ff943112d429cd8619ec7d61f68b5c5d124af",
+        "nine_slice_radius_native": 52,
+        "category": "skins",
+        "native": "native/skins/button_disabled.png",
+        "png_2x": "png_2x/skins/button_disabled.png",
+        "native_size": [
+          339,
+          124
+        ],
+        "size_2x": [
+          678,
+          248
+        ],
+        "transparent": true,
+        "sha256": "7d04d9b2e471b4786011d2461cc81dbc5e50a12d6d791e54dfb0e73768d7e2c0",
+        "godot_texture": "godot_textures/skins/button_disabled.png",
+        "godot_style": "godot_styles/button_disabled.tres",
+        "nine_patch_ltrb_logical": [
+          23,
+          23,
+          23,
+          23
+        ]
+      },
+      "transparent": true
+    },
+    "panel_upgrade": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference cropped from Soft_Miniature_Review_v2/01-race.png (tools/gen_image.py)",
+      "source": "flare/panel_upgrade.png",
+      "source_sha256": "9e1f2e1992b71d5a98e21f55a48617ab0c66b578c8e425612a30db0e4d9d9a5b",
+      "png_2x": "runtime_flare/panel_upgrade.png",
+      "native_size": [
+        480,
+        64
+      ],
+      "sha256": "a514e5bd49b4dd39bf76e8f2daaf4974cc00f349ef9a8df9259217e71b3d7b6c",
+      "previous_revision": {
+        "method": "imagegen_restored_from_demo_masked",
+        "source": "sources/ui_skins_restored.png",
+        "source_rect_xywh": [
+          15,
+          481,
+          334,
+          157
+        ],
+        "source_sha256": "95e4ef579cf209aa8607cf706e3ff943112d429cd8619ec7d61f68b5c5d124af",
+        "nine_slice_radius_native": 40,
+        "category": "skins",
+        "native": "native/skins/panel_upgrade.png",
+        "png_2x": "png_2x/skins/panel_upgrade.png",
+        "native_size": [
+          350,
+          172
+        ],
+        "size_2x": [
+          700,
+          344
+        ],
+        "transparent": true,
+        "sha256": "e057b3c06fbd1b4e1192f3a28f33f7f3247463b18b06593ce3a6df58977ac577",
+        "godot_texture": "godot_textures/skins/panel_upgrade.png",
+        "godot_style": "godot_styles/panel_upgrade.tres",
+        "nine_patch_ltrb_logical": [
+          25,
+          25,
+          25,
+          25
+        ]
+      },
+      "transparent": true
+    },
+    "panel_inventory": {
+      "method": "approved_flare_mobile_export",
+      "provenance": "gpt-image-2.5-flare via Figma generate_image",
+      "source": "assets/soft_miniature_ui_v1/flare/panel_inventory.png",
+      "source_sha256": "1629b56ae9205d6ac4c7a74d45e2471d9152bc4fd9eed6701855aaa53fd049a9",
+      "png_2x": "runtime_flare/panel_inventory.png",
+      "native_size": [
+        512,
+        338
+      ],
+      "sha256": "73878a7b53a3261fb20154aebdf90ee073dc933fce983d19ecf4d376a673aa6a",
+      "previous_revision": {
+        "method": "imagegen_restored_from_demo_masked",
+        "source": "sources/ui_skins_restored.png",
+        "source_rect_xywh": [
+          409,
+          395,
+          270,
+          305
+        ],
+        "source_sha256": "95e4ef579cf209aa8607cf706e3ff943112d429cd8619ec7d61f68b5c5d124af",
+        "nine_slice_radius_native": 43,
+        "category": "skins",
+        "native": "native/skins/panel_inventory.png",
+        "png_2x": "png_2x/skins/panel_inventory.png",
+        "native_size": [
+          286,
+          320
+        ],
+        "size_2x": [
+          572,
+          640
+        ],
+        "transparent": true,
+        "sha256": "9f3f50bf289a8df7822f2f66ac8715237c6ee7b8ebdabb053136c3eee4fca862",
+        "godot_texture": "godot_textures/skins/panel_inventory.png",
+        "godot_style": "godot_styles/panel_inventory.tres",
+        "nine_patch_ltrb_logical": [
+          22,
+          22,
+          22,
+          22
+        ]
+      },
+      "transparent": true
+    },
+    "panel_inventory_selected": {
+      "method": "approved_flare_mobile_export",
+      "provenance": "gpt-image-2.5-flare via Figma generate_image",
+      "source": "assets/soft_miniature_ui_v1/flare/panel_inventory_selected.png",
+      "source_sha256": "ddc04f163b803906c8fba064f507bcde8afc3b03460a2fcc7a41b8bfe5c9848a",
+      "png_2x": "runtime_flare/panel_inventory_selected.png",
+      "native_size": [
+        512,
+        312
+      ],
+      "sha256": "75b931a1f2eab4254ab1fde844b1e9be15d40daeb5c7eb8228e6907a5c0b33c1",
+      "previous_revision": {
+        "method": "imagegen_restored_from_demo_masked",
+        "source": "sources/ui_skins_restored.png",
+        "source_rect_xywh": [
+          771,
+          396,
+          274,
+          305
+        ],
+        "source_sha256": "95e4ef579cf209aa8607cf706e3ff943112d429cd8619ec7d61f68b5c5d124af",
+        "nine_slice_radius_native": 43,
+        "category": "skins",
+        "native": "native/skins/panel_inventory_selected.png",
+        "png_2x": "png_2x/skins/panel_inventory_selected.png",
+        "native_size": [
+          290,
+          320
+        ],
+        "size_2x": [
+          580,
+          640
+        ],
+        "transparent": true,
+        "sha256": "7484b46b966b792ca014642ffa7d4a4f8a8ee9a6072758c2393747b17bb40531",
+        "godot_texture": "godot_textures/skins/panel_inventory_selected.png",
+        "godot_style": "godot_styles/panel_inventory_selected.tres",
+        "nine_patch_ltrb_logical": [
+          22,
+          22,
+          22,
+          22
+        ]
+      },
+      "transparent": true
+    },
+    "section_blue": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference cropped from Soft_Miniature_Review_v2/01-race.png (tools/gen_image.py)",
+      "source": "flare/section_blue.png",
+      "source_sha256": "ff60cfb0e026226ef77855fd01dc864b1415d0e2864a878cc73a13eeef1cb4fc",
+      "png_2x": "runtime_flare/section_blue.png",
+      "native_size": [
+        540,
+        44
+      ],
+      "sha256": "cb0da0d2fcd7f609d74314042c36ea64aa1c09a84ee43aa016caa48dff86c62a",
+      "previous_revision": {
+        "method": "imagegen_restored_from_demo_masked",
+        "source": "sources/ui_skins_restored.png",
+        "source_rect_xywh": [
+          15,
+          859,
+          333,
+          94
+        ],
+        "source_sha256": "95e4ef579cf209aa8607cf706e3ff943112d429cd8619ec7d61f68b5c5d124af",
+        "nine_slice_radius_native": 44,
+        "category": "skins",
+        "native": "native/skins/section_blue.png",
+        "png_2x": "png_2x/skins/section_blue.png",
+        "native_size": [
+          349,
+          109
+        ],
+        "size_2x": [
+          698,
+          218
+        ],
+        "transparent": true,
+        "sha256": "a31da9d18240d14edf52f3b24e81daf1ee14ff49108e923a99766c03740e34b0",
+        "godot_texture": "godot_textures/skins/section_blue.png",
+        "godot_style": "godot_styles/section_blue.tres",
+        "nine_patch_ltrb_logical": [
+          17,
+          17,
+          17,
+          17
+        ]
+      },
+      "transparent": true
+    },
+    "navigation_tray": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference cropped from Soft_Miniature_Review_v2/01-race.png (tools/gen_image.py)",
+      "source": "flare/navigation_tray.png",
+      "source_sha256": "88db512ffbf4d12a8761341e916c92761c661b93fc4d7288391ee6b3b528a07c",
+      "png_2x": "runtime_flare/navigation_tray.png",
+      "native_size": [
+        300,
+        63
+      ],
+      "sha256": "0aa900d4e62e7504a79bf20e45a05a12ff9a59ac5b91b90a44ebbc2fc0049948",
+      "previous_revision": {
+        "method": "imagegen_restored_from_demo_masked",
+        "source": "sources/ui_skins_restored.png",
+        "source_rect_xywh": [
+          376,
+          837,
+          338,
+          139
+        ],
+        "source_sha256": "95e4ef579cf209aa8607cf706e3ff943112d429cd8619ec7d61f68b5c5d124af",
+        "nine_slice_radius_native": 33,
+        "category": "skins",
+        "native": "native/skins/navigation_tray.png",
+        "png_2x": "png_2x/skins/navigation_tray.png",
+        "native_size": [
+          354,
+          154
+        ],
+        "size_2x": [
+          708,
+          308
+        ],
+        "transparent": true,
+        "sha256": "0293c71c1ae83261bef0b066b787dd7b02c1937c8d1acc7a2e8e11b67024b315",
+        "godot_texture": "godot_textures/skins/navigation_tray.png",
+        "godot_style": "godot_styles/navigation_tray.tres",
+        "nine_patch_ltrb_logical": [
+          16,
+          16,
+          16,
+          16
+        ]
+      },
+      "transparent": true
+    },
+    "hud_resource": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference cropped from Soft_Miniature_Review_v2/01-race.png (tools/gen_image.py)",
+      "source": "flare/hud_resource.png",
+      "source_sha256": "86665a567565b2115cec4dd124e447514d8a1a360ac8b9077b0e1e916f3ea8bd",
+      "png_2x": "runtime_flare/hud_resource.png",
+      "native_size": [
+        140,
+        41
+      ],
+      "sha256": "d134ae5458664819332fbc88d4c025fa2f73153c69f2d809c3395dbedfb1c980",
+      "previous_revision": {
+        "method": "imagegen_restored_from_demo_masked",
+        "source": "sources/ui_skins_restored.png",
+        "source_rect_xywh": [
+          746,
+          852,
+          324,
+          111
+        ],
+        "source_sha256": "95e4ef579cf209aa8607cf706e3ff943112d429cd8619ec7d61f68b5c5d124af",
+        "nine_slice_radius_native": 53,
+        "category": "skins",
+        "native": "native/skins/hud_resource.png",
+        "png_2x": "png_2x/skins/hud_resource.png",
+        "native_size": [
+          340,
+          126
+        ],
+        "size_2x": [
+          680,
+          252
+        ],
+        "transparent": true,
+        "sha256": "22fd84eedabcd914211909f91496eafc14043c5b7040dffcf5d0158dbb4a3f56",
+        "godot_texture": "godot_textures/skins/hud_resource.png",
+        "godot_style": "godot_styles/hud_resource.tres",
+        "nine_patch_ltrb_logical": [
+          18,
+          18,
+          18,
+          18
+        ]
+      },
+      "transparent": true
+    },
+    "badge_mint": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference cropped from Soft_Miniature_Review_v2/01-race.png (tools/gen_image.py)",
+      "source": "flare/badge_mint.png",
+      "source_sha256": "e9d3b15da177dee7c0cc55e196d4ee4889dbba22b4121d290a02a07325ee3c17",
+      "png_2x": "runtime_flare/badge_mint.png",
+      "native_size": [
+        512,
+        92
+      ],
+      "sha256": "5bb0e8beb4c207fd59546cc334555f10e0f032a9b76e40cfe73fb487b38ebc18",
+      "previous_revision": {
+        "method": "imagegen_restored_from_demo_masked",
+        "source": "sources/ui_skins_restored.png",
+        "source_rect_xywh": [
+          18,
+          1223,
+          326,
+          105
+        ],
+        "source_sha256": "95e4ef579cf209aa8607cf706e3ff943112d429cd8619ec7d61f68b5c5d124af",
+        "nine_slice_radius_native": 50,
+        "category": "skins",
+        "native": "native/skins/badge_mint.png",
+        "png_2x": "png_2x/skins/badge_mint.png",
+        "native_size": [
+          342,
+          120
+        ],
+        "size_2x": [
+          684,
+          240
+        ],
+        "transparent": true,
+        "sha256": "30785b5b79b1ccfbd97aac54762e49c754ff3208cbb47e8eb11abfe6a7e02ded",
+        "godot_texture": "godot_textures/skins/badge_mint.png",
+        "godot_style": "godot_styles/badge_mint.tres",
+        "nine_patch_ltrb_logical": [
+          13,
+          13,
+          13,
+          13
+        ]
+      },
+      "transparent": true
+    },
+    "badge_blue": {
+      "method": "approved_flare_mobile_export",
+      "provenance": "gpt-image-2.5-flare via Figma generate_image",
+      "source": "assets/soft_miniature_ui_v1/flare/badge_blue.png",
+      "source_sha256": "ab3782d6f60c73947030a9f60eaf46d8174207b054af9ed68568784fc6347ef1",
+      "png_2x": "runtime_flare/badge_blue.png",
+      "native_size": [
+        512,
+        315
+      ],
+      "sha256": "d57cf5c5e60c127c78d41b02d8dcd5ef1cbc3f01b91b5096e17da31d17e0bd06",
+      "previous_revision": {
+        "method": "imagegen_restored_from_demo_masked",
+        "source": "sources/ui_skins_restored.png",
+        "source_rect_xywh": [
+          380,
+          1223,
+          328,
+          104
+        ],
+        "source_sha256": "95e4ef579cf209aa8607cf706e3ff943112d429cd8619ec7d61f68b5c5d124af",
+        "nine_slice_radius_native": 50,
+        "category": "skins",
+        "native": "native/skins/badge_blue.png",
+        "png_2x": "png_2x/skins/badge_blue.png",
+        "native_size": [
+          344,
+          119
+        ],
+        "size_2x": [
+          688,
+          238
+        ],
+        "transparent": true,
+        "sha256": "fa8538de2e28838898d1779d1915b7b4030fb3acf1701c87f5d3ce0f66240abb",
+        "godot_texture": "godot_textures/skins/badge_blue.png",
+        "godot_style": "godot_styles/badge_blue.tres",
+        "nine_patch_ltrb_logical": [
+          13,
+          13,
+          13,
+          13
+        ]
+      },
+      "transparent": true
+    },
+    "segmented_tray": {
+      "method": "approved_flare_mobile_export",
+      "provenance": "gpt-image-2.5-flare via Figma generate_image",
+      "source": "assets/soft_miniature_ui_v1/flare/segmented_tray.png",
+      "source_sha256": "97acb7a6bbe05aa9cfafc1ded2aa4a243a34b35a5d21b5c97c2ee8895e7604ba",
+      "png_2x": "runtime_flare/segmented_tray.png",
+      "native_size": [
+        512,
+        121
+      ],
+      "sha256": "fdf0f9ce5ba3ffd6a3e3bfa578cb64018f3b729afc1db46c572db0ac15549b1f",
+      "previous_revision": {
+        "method": "imagegen_restored_from_demo_masked",
+        "source": "sources/ui_skins_restored.png",
+        "source_rect_xywh": [
+          743,
+          1223,
+          332,
+          104
+        ],
+        "source_sha256": "95e4ef579cf209aa8607cf706e3ff943112d429cd8619ec7d61f68b5c5d124af",
+        "nine_slice_radius_native": 50,
+        "category": "skins",
+        "native": "native/skins/segmented_tray.png",
+        "png_2x": "png_2x/skins/segmented_tray.png",
+        "native_size": [
+          348,
+          119
+        ],
+        "size_2x": [
+          696,
+          238
+        ],
+        "transparent": true,
+        "sha256": "9af0204220d90e13693e6d1c8aa67d51fed606624f1b32f69486b5b06ecbdbc8",
+        "godot_texture": "godot_textures/skins/segmented_tray.png",
+        "godot_style": "godot_styles/segmented_tray.tres",
+        "nine_patch_ltrb_logical": [
+          21,
+          21,
+          21,
+          21
+        ]
+      },
+      "transparent": true
+    },
+    "harbor_background_clean": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference: sources/harbor_background_clean.png (tools/gen_image.py)",
+      "source": "flare/harbor_background.png",
+      "source_sha256": "66f5c5bc928253b165e130f46033faac3d6035cff72da240092429f10ec0b355",
+      "png_2x": "runtime_flare/harbor_background.png",
+      "native_size": [
+        1536,
+        864
+      ],
+      "sha256": "d3c7797cc859fcb61e5b405b4d76c74316d635c28e73bad58a02b0fc45f57311",
+      "previous_revision": {
+        "method": "imagegen_restored_from_demo",
+        "source": "sources/harbor_background_clean.png",
+        "source_sha256": "c8b045b9d915eed595da8f40cffe9c3d6449500fbd60359465ecd49b675797aa",
+        "note": "Restored high-resolution 2D artwork; generated detail may differ slightly from crop.",
+        "category": "scenes",
+        "native": "native/scenes/harbor_background_clean.png",
+        "png_2x": "png_2x/scenes/harbor_background_clean.png",
+        "native_size": [
+          887,
+          490
+        ],
+        "size_2x": [
+          1774,
+          980
+        ],
+        "transparent": false,
+        "sha256": "e32030a7dae322dd8750f31ca6e28e09f279a4ff4203ebfc2fe53156eed0a8e6"
+      },
+      "transparent": false
+    },
+    "garage_background_empty": {
+      "method": "approved_flare_mobile_export",
+      "provenance": "gpt-image-2.5-flare via Figma generate_image",
+      "source": "assets/soft_miniature_ui_v1/flare/garage_background_empty.png",
+      "source_sha256": "384203f98752455e0c60259cbb40356b5214fbed627949b6547b60089f832325",
+      "png_2x": "runtime_flare/garage_background_empty.png",
+      "native_size": [
+        512,
+        341
+      ],
+      "sha256": "c040011a61566ed8c02c2ea22754b12d1ed14cea3c3636e90a108d2e71cb07a1",
+      "previous_revision": {
+        "method": "imagegen_restored_from_demo",
+        "source": "sources/garage_background_empty.png",
+        "source_sha256": "6f39d9de1717d0c458463a86c3a22dcd5c1373e125e615237846541c5ee4643b",
+        "note": "Restored high-resolution 2D artwork; generated detail may differ slightly from crop.",
+        "category": "scenes",
+        "native": "native/scenes/garage_background_empty.png",
+        "png_2x": "png_2x/scenes/garage_background_empty.png",
+        "native_size": [
+          888,
+          488
+        ],
+        "size_2x": [
+          1776,
+          976
+        ],
+        "transparent": false,
+        "sha256": "933c2eebbe9d48ab892e35a06eea35ee215b04be8e8cf63b35d67fd40c4686a4"
+      },
+      "transparent": false
+    },
+    "facility_garage": {
+      "method": "approved_flare_mobile_export",
+      "provenance": "gpt-image-2.5-flare via Figma generate_image",
+      "source": "assets/soft_miniature_ui_v1/flare/facility_garage.png",
+      "source_sha256": "65fb017bf824f45c132ab7c4e8ccba469f8587fa02b19665b7e70d283e5b2ca7",
+      "png_2x": "runtime_flare/facility_garage.png",
+      "native_size": [
+        512,
+        503
+      ],
+      "sha256": "d2b98e7fef229dcc1406352da7681777df4929aefdeffebc3a1bdf964ff33ab1",
+      "previous_revision": {
+        "method": "approved_v1_atlas_crop_alpha_component_cleanup",
+        "source": "Design/Demos/SoftMiniature/asset_sources/assets/clay_icons.png",
+        "source_rect_xywh": [
+          627,
+          940,
+          313,
+          314
+        ],
+        "category": "icons",
+        "png_2x": "png_2x/icons/facility_garage.png",
+        "size_2x": [
+          284,
+          201
+        ],
+        "transparent": true,
+        "sha256": "d150ec3e6ffefb147dbc6dace8730ac4b087da647d6c158f35e813c8c0a65979"
+      },
+      "transparent": true
+    },
+    "harbor_island": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference: sources/harbor_background_clean.png (tools/gen_image.py)",
+      "source": "flare/harbor_background.png",
+      "source_sha256": "66f5c5bc928253b165e130f46033faac3d6035cff72da240092429f10ec0b355",
+      "png_2x": "runtime_flare/harbor_background.png",
+      "native_size": [
+        1536,
+        864
+      ],
+      "sha256": "d3c7797cc859fcb61e5b405b4d76c74316d635c28e73bad58a02b0fc45f57311",
+      "previous_revision": {
+        "method": "imagegen_restored_from_demo",
+        "source": "sources/harbor_background_clean.png",
+        "source_sha256": "c8b045b9d915eed595da8f40cffe9c3d6449500fbd60359465ecd49b675797aa",
+        "note": "Restored high-resolution 2D artwork; generated detail may differ slightly from crop.",
+        "category": "scenes",
+        "native": "native/scenes/harbor_background_clean.png",
+        "png_2x": "png_2x/scenes/harbor_background_clean.png",
+        "native_size": [
+          887,
+          490
+        ],
+        "size_2x": [
+          1774,
+          980
+        ],
+        "transparent": false,
+        "sha256": "e32030a7dae322dd8750f31ca6e28e09f279a4ff4203ebfc2fe53156eed0a8e6"
+      },
+      "transparent": false
+    },
+    "garage_scene": {
+      "method": "direct_crop",
+      "source": "Design/Demos/SoftMiniature/approved/04-garage.png",
+      "source_rect_xywh": [
+        0,
+        341,
+        887,
+        489
+      ],
+      "source_sha256": "509e62804d22f8439daebd65eb4d47a33b200a1900cf47fd2d24e9ff06480b9b",
+      "png_2x": "png_2x/scenes/garage_scene.png",
+      "sha256": "10ab122968ba4b1ee0879375c3076c9b27ca2f96dd4a1b2e72580b7321b7cf43",
+      "transparent": false
+    },
+    "race_car_blue": {
+      "method": "approved_flare_mobile_export",
+      "provenance": "gpt-image-2.5-flare via Figma generate_image",
+      "source": "assets/soft_miniature_ui_v1/flare/race_car_blue.png",
+      "source_sha256": "e91439badce99c250a38b0fb01aa120b504266474a7ab9c7d59df6f8f9e7f8c3",
+      "png_2x": "runtime_flare/race_car_blue.png",
+      "native_size": [
+        512,
+        337
+      ],
+      "sha256": "e036577a5f87019f6d1e1c644aea329e22b3ade452c69100e0dd0cd7a6503f0c",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "Design/Demos/SoftMiniature/approved/01-race.png",
+        "source_rect_xywh": [
+          265,
+          458,
+          86,
+          61
+        ],
+        "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+        "png_2x": "png_2x/scenes/race_car_blue.png",
+        "sha256": "4ef7663581cced0b7275cdafde0b40024a008a19605b6277df2207b9ab74e679",
+        "transparent": true
+      },
+      "transparent": true
+    },
+    "race_car_red": {
+      "method": "approved_flare_mobile_export",
+      "provenance": "gpt-image-2.5-flare via Figma generate_image",
+      "source": "assets/soft_miniature_ui_v1/flare/race_car_red.png",
+      "source_sha256": "afde57ff68d27587934754deab41c001ce0a6ff1ceda66c246175deedde98364",
+      "png_2x": "runtime_flare/race_car_red.png",
+      "native_size": [
+        512,
+        339
+      ],
+      "sha256": "9c39ff111ab99559b2b64981afd64f84e985924e4d8f65e0f01aadc5402efc57",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "Design/Demos/SoftMiniature/approved/01-race.png",
+        "source_rect_xywh": [
+          258,
+          552,
+          108,
+          72
+        ],
+        "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+        "png_2x": "png_2x/scenes/race_car_red.png",
+        "sha256": "86eb29831de99e14eb5763dcf51f1a42cfc475109385cdd325af854977b9957c",
+        "transparent": true
+      },
+      "transparent": true
+    },
+    "race_car_yellow": {
+      "method": "approved_flare_mobile_export",
+      "provenance": "gpt-image-2.5-flare via Figma generate_image",
+      "source": "assets/soft_miniature_ui_v1/flare/race_car_yellow.png",
+      "source_sha256": "3e3296eb6abd466f9a2a83406b5933a1e6ba356668da2ffa8d5b857624bd86c8",
+      "png_2x": "runtime_flare/race_car_yellow.png",
+      "native_size": [
+        512,
+        339
+      ],
+      "sha256": "0e53f8d3a6298f8c1405675eed290504d90bba84e20569259047920fab6be392",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "Design/Demos/SoftMiniature/approved/01-race.png",
+        "source_rect_xywh": [
+          439,
+          535,
+          106,
+          67
+        ],
+        "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+        "png_2x": "png_2x/scenes/race_car_yellow.png",
+        "sha256": "a60b9343241fa4f3c2e8e3c12ac482da224e983ae876d41fa2c437ac19e6ec10",
+        "transparent": true
+      },
+      "transparent": true
+    },
+    "race_car_green": {
+      "method": "approved_flare_mobile_export",
+      "provenance": "gpt-image-2.5-flare via Figma generate_image",
+      "source": "assets/soft_miniature_ui_v1/flare/race_car_green.png",
+      "source_sha256": "7bc7754e51bbc8bc75e3fca24056ffca36f152ce24b8182c47df3a26d58f53a6",
+      "png_2x": "runtime_flare/race_car_green.png",
+      "native_size": [
+        512,
+        339
+      ],
+      "sha256": "992401f7c9a4bc69cbb68cd091c5aea95bc08a854a0844e7a0eeb56fbbd01023",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "Design/Demos/SoftMiniature/approved/01-race.png",
+        "source_rect_xywh": [
+          651,
+          450,
+          79,
+          63
+        ],
+        "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+        "png_2x": "png_2x/scenes/race_car_green.png",
+        "sha256": "e5e10af5c4c22fd7b9d2cc844ff6d5b505d6c3f10405eccac6f7fae7d2ff03d7",
+        "transparent": true
+      },
+      "transparent": true
+    },
+    "race_car_purple": {
+      "method": "approved_flare_mobile_export",
+      "provenance": "gpt-image-2.5-flare via Figma generate_image",
+      "source": "assets/soft_miniature_ui_v1/flare/race_car_purple.png",
+      "source_sha256": "e5dcf30248ea7e601c82c45361d11fb64df706e972c683b06a7ef0ca83196190",
+      "png_2x": "runtime_flare/race_car_purple.png",
+      "native_size": [
+        512,
+        339
+      ],
+      "sha256": "3d6a60bfd34ff786aed6d01eb7a7b5ad2f59fb328fd062187953f35475bcc090",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "Design/Demos/SoftMiniature/approved/01-race.png",
+        "source_rect_xywh": [
+          707,
+          397,
+          62,
+          53
+        ],
+        "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+        "png_2x": "png_2x/scenes/race_car_purple.png",
+        "sha256": "ed9f176178f7d6059cafd0db38523174c24b446adb8a76999ec44cb7391b3b5d",
+        "transparent": true
+      },
+      "transparent": true
+    },
+    "upgrade_gearbox": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference: crops_original/gearbox.png (tools/gen_image.py)",
+      "source": "flare/gearbox.png",
+      "source_sha256": "975b756ca42f3f2dc3059adae65ea08b6db2ad91e19fbf4fc3bebd018c9a3609",
+      "png_2x": "runtime_flare/gearbox.png",
+      "native_size": [
+        512,
+        508
+      ],
+      "sha256": "12d0d7516eeedaf675fe5eb3464951e0fd618801a001fd14eec82c69bf83e857",
+      "transparent": true,
+      "note": "dùng cùng ảnh gearbox"
+    },
+    "bag_hero": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/AssetPacks/Soft_Miniature_UI_v1/restoration_references/bag_hero.png",
+      "source_sha256": "d9e456077fdac3fa3dec86767b437f5f945de3cdc5242856ee1908c15c780f63",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit high fidelity restoration. Reference is the EXACT APPROVED target crop, not inspiration. Recreate EXACT reference large blue BACKPACK from bag page header. Blue top flap with FOUR white square checker marks in a diagonal checker pattern, ONE large gold square latch centered on lower pocket, YELLOW side pocket/strap at left, golden top handle. Keep reference camera, shapes, seams, pocket layout, thick shoulder straps. Not the smaller bottom navigation backpack. Restore original rounded clay toy 3D design with crisp clean high-resolution detail. Render one isolated asset at 1536x1536 or larger (long edge >=1024), 8% safe padding, genuine transparent background and clean smooth antialiased alpha including interior empty holes. No halo, white fringe, colored specks, shadow fog, vignette, backdrop, labels, extra parts or text. Preserve original design over novelty. Improve resolution ONLY.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-8f675911-8729-4304-a6b6-01c1901dd9bc.png",
+      "png_2x": "restored_hd/bag_hero.png",
+      "native": "restored_hd/bag_hero.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "size_2x": [
+        1254,
+        1254
+      ],
+      "transparent": true,
+      "sha256": "5ee24f66c314ec676d4085d885cbf3a5d60a28a8013a1105d988771a27f3b1c1",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {},
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        21,
+        24,
+        1215,
+        1191
+      ]
+    },
+    "currency_coin": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, reference cropped from 01-race.png (tools/gen_image.py)",
+      "source": "flare/currency_coin.png",
+      "source_sha256": "892e3078f5232064777077e2845eb29a9c5c04a474d19bbe2f172cb48370a84f",
+      "png_2x": "runtime_flare/currency_coin.png",
+      "native_size": [
+        256,
+        263
+      ],
+      "sha256": "1b682a73efc3eca38ae900cad8ec2d83d3e3f4addc98d17269934f214578ddf0",
+      "transparent": true
+    },
+    "avatar_portrait": {
+      "method": "composite_flare",
+      "provenance": "avatar_frame (flare) + driver_an (flare, edits từ crops_original/driver_an.png)",
+      "source": "flare/avatar_portrait.png",
+      "source_sha256": "e9b6906bd2f93efd4d9cb9e605511ca9aba46634aec866b2d3333efccd85c6ce",
+      "png_2x": "runtime_flare/avatar_portrait.png",
+      "native_size": [
+        160,
+        166
+      ],
+      "sha256": "d399ee2c14b0012131cc0e5236b0cd519a23fa1934de086f4ad2ed601a1abb89",
+      "transparent": true
+    },
+    "facility_base": {
+      "method": "approved_flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, quality=low, reference cut from approved/01-race.png 'Cơ sở' icon (tools/gen_image.py)",
+      "source": "flare/facility_base.png",
+      "source_sha256": "81eff41f4d1245f043826352c8795ccf076c7f417ebb546a7bc839cebed53910",
+      "png_2x": "runtime_flare/facility_base.png",
+      "native_size": [
+        512,
+        357
+      ],
+      "sha256": "affc181dcfda578e53d2bef7c4451bbdaf33cd56cb17571f244beacf9e4565cc",
+      "transparent": true
+    },
+    "rank_shield": {
+      "method": "demo_cutout_art_tools",
+      "provenance": "cut from approved/01-race.png rank strip; upscaled 4x + background removed with art-tools (upscale, remove_background)",
+      "source": "flare/rank_shield.png",
+      "source_sha256": "13a17be634720dcbcec5d37dc4b130efd483cdf8b0a8046f6278481bd60d3134",
+      "png_2x": "runtime_flare/rank_shield.png",
+      "native_size": [
+        331,
+        236
+      ],
+      "sha256": "727b35cfe705231c7302e19c608a78f99481da1a344534e73c9fb0424076134c",
+      "transparent": true
+    },
+    "plus_button": {
+      "method": "demo_cutout_art_tools",
+      "provenance": "cut from approved/01-race.png HUD plus button; background removed with art-tools remove_background",
+      "source": "flare/plus_button.png",
+      "source_sha256": "0767ce06705021571175fd5546919c7340a2988d4cee85cab240e7462d03c723",
+      "png_2x": "runtime_flare/plus_button.png",
+      "native_size": [
+        203,
+        194
+      ],
+      "sha256": "0045c8e254c778a049ed82b60e3e9b58c1abf0b514a8be713ec6d81a5ebff15c",
+      "transparent": true
+    }
+  },
+  "hd_restoration": {
+    "generator": "built-in image_gen",
+    "generation_manifest": "restored_hd/generation.json",
+    "minimum_icon_long_edge": 512,
+    "minimum_island_width": 1536,
+    "runtime_filter": "linear_with_mipmaps",
+    "qa": "Design/Previews/Soft_Miniature_Integrated/compare/asset_qa_200/"
+  }
+}
