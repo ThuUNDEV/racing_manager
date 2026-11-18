@@ -49,6 +49,7 @@ var _bubble_age := 0.0
 var _bubble_t := 0.0              # thời gian từ lúc pop-in, cho hiệu ứng
 var _bubble_break := -1.0         # >= 0: đang vỡ
 var _bubble_tail := true
+var _bubble_tether := Vector2.ZERO
 var _bubble_down := Vector2.ZERO
 var _bubble_dragging := false
 var _bubble_rv: RaceView
@@ -655,12 +656,16 @@ func _place_bubble(rv: RaceView) -> void:
 	var anchor: Variant = rv.grandstand_screen_point()
 	if anchor == null:
 		return
-	var target: Vector2 = (anchor as Vector2) + Vector2(0.0, -(BUBBLE_TIP + 8.0 + BUBBLE_R))
 	var area := rv.grandstand_view_rect().grow(-BUBBLE_INSET)
-	var center := Vector2(clampf(target.x, area.position.x, maxf(area.end.x, area.position.x)), clampf(target.y, area.position.y, maxf(area.end.y, area.position.y)))
-	_bubble_tail = center.is_equal_approx(target)
+	var center := Vector2(clampf((anchor as Vector2).x, area.position.x, maxf(area.end.x, area.position.x)), area.position.y)
+	_bubble_tail = is_equal_approx(center.x, (anchor as Vector2).x)
+	if _chip != null and _chip.is_visible_in_tree():
+		var chip := Rect2(get_global_transform().affine_inverse() * _chip.get_global_rect().position, _chip.size).grow(BUBBLE_R + 4.0)
+		if chip.has_point(center):
+			center.x = chip.position.x
 	if not _reduce_motion and _bubble_break < 0.0:
 		center.y += sin(_bubble_t * TAU / 1.2) * 3.0
+	_bubble_tether = (anchor as Vector2) - center
 	_bubble.position = center - _bubble.size * 0.5
 	_bubble_face.queue_redraw()
 
@@ -669,9 +674,13 @@ func _draw_bubble() -> void:
 	var c := _bubble_face.size * 0.5
 	var white := Color("ffffff")
 	var rim := Color("27a7e8")
-	if _bubble_tail:
-		_bubble_face.draw_colored_polygon(PackedVector2Array([c + Vector2(-7, BUBBLE_R - 3), c + Vector2(7, BUBBLE_R - 3), c + Vector2(0, BUBBLE_R + 8)]), white)
-		_bubble_face.draw_polyline(PackedVector2Array([c + Vector2(-7, BUBBLE_R - 3), c + Vector2(0, BUBBLE_R + 8), c + Vector2(7, BUBBLE_R - 3)]), rim, 2.5)
+	if _bubble_tether.length() > BUBBLE_R + 6.0:
+		var end := c + _bubble_tether
+		var start := c + _bubble_tether.normalized() * BUBBLE_R
+		_bubble_face.draw_line(start, end, rim, 4.0, true)
+		_bubble_face.draw_line(start, end, white, 2.0, true)
+		_bubble_face.draw_circle(end, 4.5, rim)
+		_bubble_face.draw_circle(end, 2.5, white)
 	_bubble_face.draw_circle(c, BUBBLE_R, white)
 	_bubble_face.draw_arc(c, BUBBLE_R - 1.5, 0.0, TAU, 40, rim, 3.0, true)
 	if _bubble_break >= 0.0:

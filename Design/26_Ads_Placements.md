@@ -87,7 +87,7 @@ HUD (44 px)  [chip ×2]                                  <- ngoài khung bản �
 ```
 
 - **Mỏ neo (anchor) 3D.** `RaceWorld3D` lưu `grandstand_anchor: Vector3` khi dựng khán đài: `pos + Vector3(0, 2.7, -0.45)`, tức ngay trên mái (mái ở `y = 2.55`, cao 0.16). Thêm hàm `screen_anchor() -> Vector2 = screen_point` của mỏ neo, dùng cùng công thức hiện có: `view_rect.position + camera.unproject_position(anchor) * 0.5` (toạ độ cục bộ của `RaceView`).
-- **Tâm bong bóng đặt tại `screen_anchor() + Vector2(0, -34)`** (đuôi bong bóng cách mỏ neo 4 px). Camera là **trực giao** nên kích thước bong bóng **không đổi theo góc xoay**, chỉ vị trí đổi.
+- **Bong bóng nằm ở mép trên khung bản đồ, cùng x với `screen_anchor()`, nối xuống mái khán đài bằng một sợi dây mảnh** (cập nhật 18/11/2026: đặt ngay trên mái thì che đường đua vì khán đài nằm giữa lòng đường). Tránh chip ×2 nếu trùng. Camera là **trực giao** nên kích thước bong bóng **không đổi theo góc xoay**, chỉ vị trí đổi.
 - **Đi theo ngay khung hình.** Cập nhật vị trí ở `_process` của `AdsRaceControls` và **gọi lại ngay trong `rotate_circuit_view` / `reset_circuit_view`**, để bong bóng và mái khán đài không lệch nhau 1 khung khi vuốt. Chỉ tính khi bong bóng đang hiện (1 lần `unproject_position`/khung, không ảnh hưởng ngân sách 25 §7.5).
 - **Giữ trong khung.** Camera đã luôn đóng khung cả bản đồ nên mỏ neo gần như luôn trong màn hình; vẫn **kẹp** vị trí vào `view_rect.grow(-28)` để bong bóng không bị cắt ở mép. Khi bị kẹp thì **ẩn đuôi**.
 - **Bong bóng nằm trên khán đài**, không bị mái che (vẽ ở lớp UI phía trên SubViewport). Khi xoay làm khán đài ra sau cây/toà nhà thì vẫn thấy bong bóng, đó là chủ ý (thưởng không được bị che mất).
