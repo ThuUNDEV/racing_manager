@@ -1,0 +1,310 @@
+{
+  "source": "Design/Demos/SoftMiniature/race_rewards_v1/race-daily-gift-x2-v2.png",
+  "source_size": [
+    1448,
+    1086
+  ],
+  "tool": "art-tools MCP remove_background (refine=true)",
+  "sprites": {
+    "rank_badge": {
+      "source_rect": [
+        30,
+        45,
+        412,
+        180
+      ],
+      "crop": "crops/rank_badge.png",
+      "file": "sprites/rank_badge.png",
+      "size": [
+        359,
+        113
+      ],
+      "trim_offset": [
+        9,
+        8
+      ],
+      "alpha": true,
+      "contains_baked_text": true
+    },
+    "income_chip": {
+      "source_rect": [
+        30,
+        182,
+        350,
+        290
+      ],
+      "crop": "crops/income_chip.png",
+      "file": "sprites/income_chip.png",
+      "size": [
+        296,
+        80
+      ],
+      "trim_offset": [
+        11,
+        10
+      ],
+      "alpha": true,
+      "contains_baked_text": true
+    },
+    "facilities_button": {
+      "source_rect": [
+        920,
+        43,
+        1425,
+        183
+      ],
+      "crop": "crops/facilities_button.png",
+      "file": "sprites/facilities_button.png",
+      "size": [
+        482,
+        116
+      ],
+      "trim_offset": [
+        12,
+        9
+      ],
+      "alpha": true,
+      "contains_baked_text": true
+    },
+    "daily_gift_button": {
+      "source_rect": [
+        1135,
+        215,
+        1410,
+        424
+      ],
+      "crop": "crops/daily_gift_button.png",
+      "file": "sprites/daily_gift_button.png",
+      "size": [
+        243,
+        184
+      ],
+      "trim_offset": [
+        15,
+        12
+      ],
+      "alpha": true,
+      "contains_baked_text": true
+    },
+    "ads_x2_button": {
+      "source_rect": [
+        1132,
+        416,
+        1414,
+        650
+      ],
+      "crop": "crops/ads_x2_button.png",
+      "file": "sprites/ads_x2_button.png",
+      "size": [
+        260,
+        205
+      ],
+      "trim_offset": [
+        11,
+        10
+      ],
+      "alpha": true,
+      "contains_baked_text": true
+    },
+    "leaderboard": {
+      "source_rect": [
+        24,
+        647,
+        387,
+        1018
+      ],
+      "crop": "crops/leaderboard.png",
+      "file": "sprites/leaderboard.png",
+      "size": [
+        345,
+        350
+      ],
+      "trim_offset": [
+        7,
+        10
+      ],
+      "alpha": true,
+      "contains_baked_text": true
+    },
+    "lap_badge": {
+      "source_rect": [
+        1050,
+        907,
+        1417,
+        1030
+      ],
+      "crop": "crops/lap_badge.png",
+      "file": "sprites/lap_badge.png",
+      "size": [
+        343,
+        101
+      ],
+      "trim_offset": [
+        13,
+        8
+      ],
+      "alpha": true,
+      "contains_baked_text": true
+    },
+    "player_position": {
+      "source_rect": [
+        866,
+        716,
+        1038,
+        822
+      ],
+      "crop": "crops/player_position.png",
+      "file": "sprites/player_position.png",
+      "size": [
+        163,
+        99
+      ],
+      "trim_offset": [
+        5,
+        4
+      ],
+      "alpha": true,
+      "contains_baked_text": true
+    },
+    "trophy_icon": {
+      "source_rect": [
+        67,
+        58,
+        196,
+        155
+      ],
+      "crop": "crops/trophy_icon.png",
+      "file": "sprites/trophy_icon.png",
+      "size": [
+        129,
+        97
+      ],
+      "trim_offset": [
+        0,
+        0
+      ],
+      "alpha": true,
+      "contains_baked_text": false
+    },
+    "coin_icon": {
+      "source_rect": [
+        52,
+        202,
+        124,
+        263
+      ],
+      "crop": "crops/coin_icon.png",
+      "file": "sprites/coin_icon.png",
+      "size": [
+        65,
+        61
+      ],
+      "trim_offset": [
+        6,
+        0
+      ],
+      "alpha": true,
+      "contains_baked_text": false
+    },
+    "facility_icon": {
+      "source_rect": [
+        974,
+        64,
+        1128,
+        153
+      ],
+      "crop": "crops/facility_icon.png",
+      "file": "sprites/facility_icon.png",
+      "size": [
+        130,
+        87
+      ],
+      "trim_offset": [
+        4,
+        1
+      ],
+      "alpha": true,
+      "contains_baked_text": false
+    },
+    "gift_icon": {
+      "source_rect": [
+        1199,
+        239,
+        1338,
+        353
+      ],
+      "crop": "crops/gift_icon.png",
+      "file": "sprites/gift_icon.png",
+      "size": [
+        131,
+        113
+      ],
+      "trim_offset": [
+        5,
+        0
+      ],
+      "alpha": true,
+      "contains_baked_text": false
+    },
+    "cash_icon": {
+      "source_rect": [
+        1173,
+        436,
+        1313,
+        541
+      ],
+      "crop": "crops/cash_icon.png",
+      "file": "sprites/cash_icon.png",
+      "size": [
+        109,
+        92
+      ],
+      "trim_offset": [
+        9,
+        0
+      ],
+      "alpha": true,
+      "contains_baked_text": false
+    },
+    "video_icon": {
+      "source_rect": [
+        1280,
+        473,
+        1367,
+        537
+      ],
+      "crop": "crops/video_icon.png",
+      "file": "sprites/video_icon.png",
+      "size": [
+        84,
+        64
+      ],
+      "trim_offset": [
+        0,
+        0
+      ],
+      "alpha": true,
+      "contains_baked_text": false
+    },
+    "notification_dot": {
+      "source_rect": [
+        1337,
+        233,
+        1380,
+        277
+      ],
+      "crop": "crops/notification_dot.png",
+      "file": "sprites/notification_dot.png",
+      "size": [
+        43,
+        44
+      ],
+      "trim_offset": [
+        0,
+        0
+      ],
+      "alpha": true,
+      "contains_baked_text": false
+    }
+  }
+}

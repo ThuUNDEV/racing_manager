@@ -1,0 +1,2493 @@
+{
+  "version": 1,
+  "source_demo": "Soft_Miniature_Review_v2",
+  "upscale": "2x Lanczos in premultiplied alpha; RGB unsharp mask radius1.15 amount115 threshold3; alpha not sharpened",
+  "assets": {
+    "currency_cash": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/01-race.png",
+      "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Production single UI game icon, high-resolution reconstruction from the approved reference. Recreate ONLY the green stack of paper BANKNOTES with lime banknote on top from top HUD, wrapped with golden band, same exact silhouette and angle. Preserve the approved rounded 3D clay miniature style, proportions, camera, color placement, forms and soft lighting. Reconstruct genuinely crisp detail at 1024x1024, object at least 800px long, 8% empty margin, no cut-off. Actual transparent background with a smooth CLOSED clean silhouette and antialiased alpha; all interior empty holes transparent. Absolutely no white/blue color fringe, halo, colored specks, isolated pixels, glow, ragged edges, ground, text, numbers, buttons, panels, or baked background/checkerboard. One isolated icon only. Clean professionally masked edge suitable on BOTH white and dark navy.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-3d6d4742-9a75-44b5-b32c-be93230633b6.png",
+      "png_2x": "restored_hd/currency_cash.png",
+      "native": "restored_hd/currency_cash.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "size_2x": [
+        1254,
+        1254
+      ],
+      "transparent": true,
+      "sha256": "d8e0ed5bfe169df1d5b0fd958f5d9deee23d2ae2beeef1b9d6c5e19cec68aaac",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/01-race.png",
+        "source_rect_xywh": [
+          279,
+          10,
+          86,
+          71
+        ],
+        "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+        "raw_crop": "crops_original/currency_cash.png",
+        "category": "icons",
+        "native": "native/icons/currency_cash.png",
+        "png_2x": "png_2x/icons/currency_cash.png",
+        "native_size": [
+          89,
+          79
+        ],
+        "size_2x": [
+          178,
+          158
+        ],
+        "transparent": true,
+        "sha256": "06439f14c147f82388b4307c2d9b0e2183685d82c1f998ee910225fba16a16c8"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        111,
+        165,
+        1033,
+        958
+      ]
+    },
+    "currency_gem": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/01-race.png",
+      "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Production single UI game icon, high-resolution reconstruction from the approved reference. Recreate ONLY the magenta PURPLE DIAMOND GEM from top HUD, large flat polygon facets with bright pink top facet, exact reference shape. Preserve the approved rounded 3D clay miniature style, proportions, camera, color placement, forms and soft lighting. Reconstruct genuinely crisp detail at 1024x1024, object at least 800px long, 8% empty margin, no cut-off. Actual transparent background with a smooth CLOSED clean silhouette and antialiased alpha; all interior empty holes transparent. Absolutely no white/blue color fringe, halo, colored specks, isolated pixels, glow, ragged edges, ground, text, numbers, buttons, panels, or baked background/checkerboard. One isolated icon only. Clean professionally masked edge suitable on BOTH white and dark navy.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-7cf030a7-890c-4999-bc9c-0cc22aa2a67f.png",
+      "png_2x": "restored_hd/currency_gem.png",
+      "native": "restored_hd/currency_gem.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "size_2x": [
+        1254,
+        1254
+      ],
+      "transparent": true,
+      "sha256": "e45fc448a5b42fd603922661515fda30877846207a6a593c9bce62464e7acd96",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/01-race.png",
+        "source_rect_xywh": [
+          541,
+          12,
+          82,
+          67
+        ],
+        "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+        "raw_crop": "crops_original/currency_gem.png",
+        "category": "icons",
+        "native": "native/icons/currency_gem.png",
+        "png_2x": "png_2x/icons/currency_gem.png",
+        "native_size": [
+          83,
+          76
+        ],
+        "size_2x": [
+          166,
+          152
+        ],
+        "transparent": true,
+        "sha256": "0f613beefd59924759002bb9e1230d641010cdb5fa9ff65fdbe1af8e46caecb2"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        53,
+        115,
+        1145,
+        1050
+      ]
+    },
+    "settings": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/01-race.png",
+      "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Production single UI game icon, high-resolution reconstruction from the approved reference. Recreate ONLY the light icy-blue metallic SETTINGS GEAR at top right HUD, six thick rounded teeth and one perfectly round central hole, no blue backdrop inside the hole, hole MUST be alpha transparent. Preserve the approved rounded 3D clay miniature style, proportions, camera, color placement, forms and soft lighting. Reconstruct genuinely crisp detail at 1024x1024, object at least 800px long, 8% empty margin, no cut-off. Actual transparent background with a smooth CLOSED clean silhouette and antialiased alpha; all interior empty holes transparent. Absolutely no white/blue color fringe, halo, colored specks, isolated pixels, glow, ragged edges, ground, text, numbers, buttons, panels, or baked background/checkerboard. One isolated icon only. Clean professionally masked edge suitable on BOTH white and dark navy.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-3765cf2c-78dc-4241-8224-2ece99e78427.png",
+      "png_2x": "restored_hd/settings.png",
+      "native": "restored_hd/settings.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "size_2x": [
+        1254,
+        1254
+      ],
+      "transparent": true,
+      "sha256": "da3437f50fae9d0c40cdcde6c7da05e9da9d183dcedb95c9cf659486c1e93648",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/01-race.png",
+        "source_rect_xywh": [
+          800,
+          5,
+          80,
+          83
+        ],
+        "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+        "raw_crop": "crops_original/settings.png",
+        "category": "icons",
+        "native": "native/icons/settings.png",
+        "png_2x": "png_2x/icons/settings.png",
+        "native_size": [
+          78,
+          75
+        ],
+        "size_2x": [
+          156,
+          150
+        ],
+        "transparent": true,
+        "sha256": "c276609bf30510a4baa232653efc3e94f689cb1c21867cca8f1702822d9ad4e1"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        86,
+        95,
+        1073,
+        1078
+      ]
+    },
+    "nav_race": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/01-race.png",
+      "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit / high resolution restoration. Asset type: ONE transparent-background production mobile game UI icon. Reference is the approved Soft Miniature screenshot. Restore ONLY the large black-and-white CHECKERED RACING FLAG icon from the bottom left of reference, two waving flags / dark rounded pole, preserve its exact toy shape and slant. Match reference closely: same 3D clay miniature style, saturated friendly colors, softly rounded bevels, polished soft studio highlights, camera angle and proportions. Render the icon itself 850 pixels across within a 1024x1024 transparent canvas, with 8% clear padding and no cropping. Actual alpha transparency, smooth clean antialiased contours; holes must be truly transparent, no background-color contamination, no white fringe/halo, no jagged edges, no baked checkerboard. No text, letters, numbers, buttons, UI panels or background. ONE icon only, not a sheet. Reconstruct genuine sharp detail, do not merely upscale the screenshot.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-739ee177-b139-4caf-8d90-2159f63366b6.png",
+      "png_2x": "restored_hd/nav_race.png",
+      "native": "restored_hd/nav_race.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "size_2x": [
+        1254,
+        1254
+      ],
+      "transparent": true,
+      "sha256": "603f46a31ebd5faf643ce1660434f73f13b6f704481376bad7a4f8e948d6ed36",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/06-shop.png",
+        "source_rect_xywh": [
+          37,
+          1614,
+          128,
+          109
+        ],
+        "source_sha256": "911e6b8d9257470ce8e7bd5db15f494ef534075783787a45bf87bbf0202f0dd8",
+        "raw_crop": "crops_original/nav_race.png",
+        "category": "icons",
+        "native": "native/icons/nav_race.png",
+        "png_2x": "png_2x/icons/nav_race.png",
+        "native_size": [
+          118,
+          98
+        ],
+        "size_2x": [
+          236,
+          196
+        ],
+        "transparent": true,
+        "sha256": "df09c2a6d99681ece8924d686fe9462f0baed9e39721e29ce5a45b12d7205f6c"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        103,
+        145,
+        1034,
+        973
+      ]
+    },
+    "nav_bag": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/AssetPacks/Soft_Miniature_UI_v1/restoration_references/nav_bag.png",
+      "source_sha256": "ed8e3a23aa0d80e24ae5f6afa1e32795bef27e6fc39c8e855936ed8980ab6000",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit high fidelity restoration. Reference is the EXACT APPROVED target crop, not inspiration. Recreate EXACT reference BLUE NAVIGATION BACKPACK. One YELLOW carry handle, shaped blue top flap with a single small golden fastening tab, lower front blue pocket with a horizontal GOLDEN YELLOW rounded bar/strap across its top and ONE small central square blue buckle. Blue oval side pockets left and right. Preserve the exact flap seams, zip ridges, pocket bulges, one broad horizontal yellow strap (NOT two vertical yellow straps), camera and proportions. Restore original rounded clay toy 3D design with crisp clean high-resolution detail. Render one isolated asset at 1536x1536 or larger (long edge >=1024), 8% safe padding, genuine transparent background and clean smooth antialiased alpha including interior empty holes. No halo, white fringe, colored specks, shadow fog, vignette, backdrop, labels, extra parts or text. Preserve original design over novelty. Improve resolution ONLY.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-6ca944a3-893a-400e-a3ae-8143512dc631.png",
+      "png_2x": "restored_hd/nav_bag.png",
+      "native": "restored_hd/nav_bag.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "size_2x": [
+        1254,
+        1254
+      ],
+      "transparent": true,
+      "sha256": "2939b1d45abe893093e4c3bcd49433d3a849925c483cd0abdd39ef8f335c6b71",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/01-race.png",
+        "source_rect_xywh": [
+          218,
+          1609,
+          100,
+          108
+        ],
+        "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+        "raw_crop": "crops_original/nav_bag.png",
+        "category": "icons",
+        "native": "native/icons/nav_bag.png",
+        "png_2x": "png_2x/icons/nav_bag.png",
+        "native_size": [
+          93,
+          102
+        ],
+        "size_2x": [
+          186,
+          204
+        ],
+        "transparent": true,
+        "sha256": "3eb6d4c42578e3b6c08f14fd37c785c22e82ddccccf57f65e61e287a1b95e416"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        80,
+        78,
+        1093,
+        1042
+      ]
+    },
+    "nav_team": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/01-race.png",
+      "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit / high resolution restoration. Asset type: ONE transparent-background production mobile game UI icon. Reference is the approved Soft Miniature screenshot. Restore ONLY the bottom navigation TEAM icon: three rounded toy racing drivers' busts, blue helmet central, red left, yellow right, preserve exact arrangement. Match reference closely: same 3D clay miniature style, saturated friendly colors, softly rounded bevels, polished soft studio highlights, camera angle and proportions. Render the icon itself 850 pixels across within a 1024x1024 transparent canvas, with 8% clear padding and no cropping. Actual alpha transparency, smooth clean antialiased contours; holes must be truly transparent, no background-color contamination, no white fringe/halo, no jagged edges, no baked checkerboard. No text, letters, numbers, buttons, UI panels or background. ONE icon only, not a sheet. Reconstruct genuine sharp detail, do not merely upscale the screenshot.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-d5c32ff7-921e-4f62-b288-216b61b857e6.png",
+      "png_2x": "restored_hd/nav_team.png",
+      "native": "restored_hd/nav_team.png",
+      "native_size": [
+        1312,
+        1199
+      ],
+      "size_2x": [
+        1312,
+        1199
+      ],
+      "transparent": true,
+      "sha256": "448417b8413be72dca6b3ed3c8297ba8643ec02828e3467e8002525ea8aa1120",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/01-race.png",
+        "source_rect_xywh": [
+          370,
+          1609,
+          140,
+          87
+        ],
+        "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+        "raw_crop": "crops_original/nav_team.png",
+        "category": "icons",
+        "native": "native/icons/nav_team.png",
+        "png_2x": "png_2x/icons/nav_team.png",
+        "native_size": [
+          142,
+          98
+        ],
+        "size_2x": [
+          284,
+          196
+        ],
+        "transparent": true,
+        "sha256": "ecf1edd5df6563b05b3224465cc9dc5f89f43a4352598ab0eb602c1021940b93"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        63,
+        223,
+        1180,
+        794
+      ]
+    },
+    "nav_league": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/01-race.png",
+      "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit / high resolution restoration. Asset type: ONE transparent-background production mobile game UI icon. Reference is the approved Soft Miniature screenshot. Restore ONLY the bottom navigation golden TROPHY with central embossed star and curved golden laurel leaves, preserve its exact trophy shape. Match reference closely: same 3D clay miniature style, saturated friendly colors, softly rounded bevels, polished soft studio highlights, camera angle and proportions. Render the icon itself 850 pixels across within a 1024x1024 transparent canvas, with 8% clear padding and no cropping. Actual alpha transparency, smooth clean antialiased contours; holes must be truly transparent, no background-color contamination, no white fringe/halo, no jagged edges, no baked checkerboard. No text, letters, numbers, buttons, UI panels or background. ONE icon only, not a sheet. Reconstruct genuine sharp detail, do not merely upscale the screenshot.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-b8464f8b-efcd-4cd3-aad2-f2f12c6c698b.png",
+      "png_2x": "restored_hd/nav_league.png",
+      "native": "restored_hd/nav_league.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "size_2x": [
+        1254,
+        1254
+      ],
+      "transparent": true,
+      "sha256": "f0b9b1e002aa35766508e8e4adc9f9a528c3430e621520e5ad4e57c2e2615e94",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/01-race.png",
+        "source_rect_xywh": [
+          565,
+          1608,
+          119,
+          106
+        ],
+        "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+        "raw_crop": "crops_original/nav_league.png",
+        "category": "icons",
+        "native": "native/icons/nav_league.png",
+        "png_2x": "png_2x/icons/nav_league.png",
+        "native_size": [
+          133,
+          101
+        ],
+        "size_2x": [
+          266,
+          202
+        ],
+        "transparent": true,
+        "sha256": "c14b59aacd1610006b0a2589b5818f7c54c2217cd26841c48b472260cebbdf7d"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        19,
+        190,
+        1216,
+        906
+      ]
+    },
+    "nav_shop": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/01-race.png",
+      "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit / high resolution restoration. Asset type: ONE transparent-background production mobile game UI icon. Reference is the approved Soft Miniature screenshot. Restore ONLY the bottom navigation SHOP storefront: white and coral red striped canopy, cream storefront, blue display window and brown door, preserve exact silhouette. Match reference closely: same 3D clay miniature style, saturated friendly colors, softly rounded bevels, polished soft studio highlights, camera angle and proportions. Render the icon itself 850 pixels across within a 1024x1024 transparent canvas, with 8% clear padding and no cropping. Actual alpha transparency, smooth clean antialiased contours; holes must be truly transparent, no background-color contamination, no white fringe/halo, no jagged edges, no baked checkerboard. No text, letters, numbers, buttons, UI panels or background. ONE icon only, not a sheet. Reconstruct genuine sharp detail, do not merely upscale the screenshot.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-cd89aed8-8577-4330-b171-f1b3ada7e1eb.png",
+      "png_2x": "restored_hd/nav_shop.png",
+      "native": "restored_hd/nav_shop.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "size_2x": [
+        1254,
+        1254
+      ],
+      "transparent": true,
+      "sha256": "887a60e834555737c3b65c547b494a2f9563dfa3dfb015f49cc79c57e2f7e123",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/01-race.png",
+        "source_rect_xywh": [
+          744,
+          1608,
+          116,
+          103
+        ],
+        "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+        "raw_crop": "crops_original/nav_shop.png",
+        "category": "icons",
+        "native": "native/icons/nav_shop.png",
+        "png_2x": "png_2x/icons/nav_shop.png",
+        "native_size": [
+          127,
+          98
+        ],
+        "size_2x": [
+          254,
+          196
+        ],
+        "transparent": true,
+        "sha256": "eda716a83ec312b73e067356987ff161abcf97e663a030802198abe6c53f1623"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        79,
+        184,
+        1089,
+        873
+      ]
+    },
+    "engine": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/02-bag.png",
+      "source_sha256": "427d93fc63da899cadfdaa7ed09d6db57324febc0f39b396c858e51dd1427b26",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Production single UI game icon, high-resolution reconstruction from the approved reference. Recreate ONLY the red compact miniature car ENGINE at top-left inventory, three gray cylinder openings above red valve cover and curved dark steel exhaust pipes, EXACT reference shape, NOT a racing helmet. Preserve the approved rounded 3D clay miniature style, proportions, camera, color placement, forms and soft lighting. Reconstruct genuinely crisp detail at 1024x1024, object at least 800px long, 8% empty margin, no cut-off. Actual transparent background with a smooth CLOSED clean silhouette and antialiased alpha; all interior empty holes transparent. Absolutely no white/blue color fringe, halo, colored specks, isolated pixels, glow, ragged edges, ground, text, numbers, buttons, panels, or baked background/checkerboard. One isolated icon only. Clean professionally masked edge suitable on BOTH white and dark navy.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-93139ff6-d2c7-4a90-bad5-4ec600c26a38.png",
+      "png_2x": "restored_hd/engine.png",
+      "native": "restored_hd/engine.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "size_2x": [
+        1254,
+        1254
+      ],
+      "transparent": true,
+      "sha256": "9e59fcc058ce8514dd8184e9d117d53cca2dc64c2885090916ef785853ec36b0",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/02-bag.png",
+        "source_rect_xywh": [
+          30,
+          455,
+          255,
+          188
+        ],
+        "source_sha256": "427d93fc63da899cadfdaa7ed09d6db57324febc0f39b396c858e51dd1427b26",
+        "raw_crop": "crops_original/engine.png",
+        "category": "equipment",
+        "native": "native/equipment/engine.png",
+        "png_2x": "png_2x/equipment/engine.png",
+        "native_size": [
+          240,
+          193
+        ],
+        "size_2x": [
+          480,
+          386
+        ],
+        "transparent": true,
+        "sha256": "5c27f5a3458154bebee60b16231d1cb539d6207ed52c354231dc3efa2dbb5491"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        27,
+        107,
+        1199,
+        1036
+      ]
+    },
+    "tyre": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/02-bag.png",
+      "source_sha256": "427d93fc63da899cadfdaa7ed09d6db57324febc0f39b396c858e51dd1427b26",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Production single UI game icon, high-resolution reconstruction from the approved reference. Recreate ONLY the black rubber TYRE from center top inventory, chunky tread and ivory five-spoke rim, exact same three-quarter view. Preserve the approved rounded 3D clay miniature style, proportions, camera, color placement, forms and soft lighting. Reconstruct genuinely crisp detail at 1024x1024, object at least 800px long, 8% empty margin, no cut-off. Actual transparent background with a smooth CLOSED clean silhouette and antialiased alpha; all interior empty holes transparent. Absolutely no white/blue color fringe, halo, colored specks, isolated pixels, glow, ragged edges, ground, text, numbers, buttons, panels, or baked background/checkerboard. One isolated icon only. Clean professionally masked edge suitable on BOTH white and dark navy.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-ee1f2dd9-0dce-4ecb-8ed4-1426b19878d6.png",
+      "png_2x": "restored_hd/tyre.png",
+      "native": "restored_hd/tyre.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "size_2x": [
+        1254,
+        1254
+      ],
+      "transparent": true,
+      "sha256": "8edbb6fdeb355901bf330b3ea67324b16dc9ad7bef33a0a2b8981f7a90754cfb",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/02-bag.png",
+        "source_rect_xywh": [
+          326,
+          467,
+          245,
+          193
+        ],
+        "source_sha256": "427d93fc63da899cadfdaa7ed09d6db57324febc0f39b396c858e51dd1427b26",
+        "raw_crop": "crops_original/tyre.png",
+        "category": "equipment",
+        "native": "native/equipment/tyre.png",
+        "png_2x": "png_2x/equipment/tyre.png",
+        "native_size": [
+          207,
+          196
+        ],
+        "size_2x": [
+          414,
+          392
+        ],
+        "transparent": true,
+        "sha256": "8d832fc0fb1d3f95db902413df85f38ccb7e0244ada352fcf484a960aea7de38"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        110,
+        85,
+        1033,
+        1107
+      ]
+    },
+    "spoiler": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/02-bag.png",
+      "source_sha256": "427d93fc63da899cadfdaa7ed09d6db57324febc0f39b396c858e51dd1427b26",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Asset type: ONE production 3D clay miniature UI icon, high-resolution recreation from approved screenshot. Recreate ONLY the red-and-white rear spoiler in the top right inventory cell, two chunky grey supports and red endplates, exact reference camera and silhouette. Preserve camera, design, proportions, soft clay/plastic materials, rich friendly colors and lighting exactly. Genuine clean 1024x1024 detail, subject at least 850 pixels long with 7% transparent padding. Actual alpha transparency, antialiased closed clean silhouette, fully transparent holes, clean over dark and light backgrounds; no white halo, colored fringe, speckle, jagged contours, floor/background, UI, panels, labels, numbers or extra items. Do not just upscale reference pixels.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-def60f8e-ff71-4f2f-9046-2ec059780d88.png",
+      "png_2x": "restored_hd/spoiler.png",
+      "native": "restored_hd/spoiler.png",
+      "native_size": [
+        1536,
+        1024
+      ],
+      "size_2x": [
+        1536,
+        1024
+      ],
+      "transparent": true,
+      "sha256": "3614c8679b2bea913f833d4a8114c6ab47db80b8207c153a093bd8486419686b",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/02-bag.png",
+        "source_rect_xywh": [
+          615,
+          473,
+          248,
+          185
+        ],
+        "source_sha256": "427d93fc63da899cadfdaa7ed09d6db57324febc0f39b396c858e51dd1427b26",
+        "raw_crop": "crops_original/spoiler.png",
+        "category": "equipment",
+        "native": "native/equipment/spoiler.png",
+        "png_2x": "png_2x/equipment/spoiler.png",
+        "native_size": [
+          255,
+          180
+        ],
+        "size_2x": [
+          510,
+          360
+        ],
+        "transparent": true,
+        "sha256": "8fb02457bdb101d26eb041dcd5ca496ea3e523b36cad482393d2a484c151307e"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        72,
+        44,
+        1384,
+        975
+      ]
+    },
+    "gearbox": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/AssetPacks/Soft_Miniature_UI_v1/restoration_references/gearbox_inventory.png",
+      "source_sha256": "88dfcf0c839695336065ec68b44c0759984adc9cc7942b099baf0a0e1b92f0e8",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit high fidelity restoration. Reference is the EXACT APPROVED target crop, not inspiration. Recreate the EXACT horizontal gearbox in reference: steel-gray rectangular transmission HOUSING on the right, large yellow toothed GEAR mounted vertically on left/front face, short steel shaft protruding toward lower-left, circular steel flange with visible bolts. EXACT same parts, relative sizes, view, silhouette and mechanical structure. Do NOT replace with two free-standing gears. Restore original rounded clay toy 3D design with crisp clean high-resolution detail. Render one isolated asset at 1536x1536 or larger (long edge >=1024), 8% safe padding, genuine transparent background and clean smooth antialiased alpha including interior empty holes. No halo, white fringe, colored specks, shadow fog, vignette, backdrop, labels, extra parts or text. Preserve original design over novelty. Improve resolution ONLY.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-9731b07f-3fbc-47fe-b12a-26f2372a4a3b.png",
+      "png_2x": "restored_hd/gearbox.png",
+      "native": "restored_hd/gearbox.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "size_2x": [
+        1254,
+        1254
+      ],
+      "transparent": true,
+      "sha256": "107cfc0caadf24a1f867bdfafe4d00f106eaace24cb7fb8a8c9ca5d05c1cfde6",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/02-bag.png",
+        "source_rect_xywh": [
+          32,
+          899,
+          246,
+          168
+        ],
+        "source_sha256": "427d93fc63da899cadfdaa7ed09d6db57324febc0f39b396c858e51dd1427b26",
+        "raw_crop": "crops_original/gearbox.png",
+        "category": "equipment",
+        "native": "native/equipment/gearbox.png",
+        "png_2x": "png_2x/equipment/gearbox.png",
+        "native_size": [
+          226,
+          157
+        ],
+        "size_2x": [
+          452,
+          314
+        ],
+        "transparent": true,
+        "sha256": "204379fce2aff66ed5b6fa1555155ea18fb66d4bd667b9c6e9abb990a272a040"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        26,
+        157,
+        1214,
+        923
+      ]
+    },
+    "brake": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/02-bag.png",
+      "source_sha256": "427d93fc63da899cadfdaa7ed09d6db57324febc0f39b396c858e51dd1427b26",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Asset type: ONE production 3D clay miniature UI icon, high-resolution recreation from approved screenshot. Recreate ONLY the round dark perforated brake disk with bright red brake caliper, second inventory row center, exact reference view. Preserve camera, design, proportions, soft clay/plastic materials, rich friendly colors and lighting exactly. Genuine clean 1024x1024 detail, subject at least 850 pixels long with 7% transparent padding. Actual alpha transparency, antialiased closed clean silhouette, fully transparent holes, clean over dark and light backgrounds; no white halo, colored fringe, speckle, jagged contours, floor/background, UI, panels, labels, numbers or extra items. Do not just upscale reference pixels.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-72bc18f0-2426-47fd-b79d-7a5b9bdd76b2.png",
+      "png_2x": "restored_hd/brake.png",
+      "native": "restored_hd/brake.png",
+      "native_size": [
+        1312,
+        1199
+      ],
+      "size_2x": [
+        1312,
+        1199
+      ],
+      "transparent": true,
+      "sha256": "ff1d8a691561b45d09352907655b87a100f7c459ceea8e2cd3b867baa9f1ea87",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/02-bag.png",
+        "source_rect_xywh": [
+          327,
+          898,
+          247,
+          174
+        ],
+        "source_sha256": "427d93fc63da899cadfdaa7ed09d6db57324febc0f39b396c858e51dd1427b26",
+        "raw_crop": "crops_original/brake.png",
+        "category": "equipment",
+        "native": "native/equipment/brake.png",
+        "png_2x": "png_2x/equipment/brake.png",
+        "native_size": [
+          203,
+          172
+        ],
+        "size_2x": [
+          406,
+          344
+        ],
+        "transparent": true,
+        "sha256": "8c930e122bb85a3d13e04a83af3bc85f2ef4f118df1e825336daa4f0f06b26e9"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        85,
+        65,
+        1142,
+        1072
+      ]
+    },
+    "chassis": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/AssetPacks/Soft_Miniature_UI_v1/restoration_references/chassis.png",
+      "source_sha256": "3e462cf7117820a0b1aa31b01d752e661c8c84145c76da7275db4128f523777b",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit high fidelity restoration. Reference is the EXACT APPROVED target crop, not inspiration. Recreate the EXACT empty rectangular tubular car chassis reference. KEEP the precise count, placement and topology of every silver rail and RED diagonal interior brace. Low silver front bumper on lower left with two horizontal crossbars, long silver side rails, raised silver rear hoop upper right, four rounded mounting tabs, RED triangulated roll-cage struts with the SAME junctions. No extra bracing, no removed bracing, no new holes or chassis shape. Restore original rounded clay toy 3D design with crisp clean high-resolution detail. Render one isolated asset at 1536x1536 or larger (long edge >=1024), 8% safe padding, genuine transparent background and clean smooth antialiased alpha including interior empty holes. No halo, white fringe, colored specks, shadow fog, vignette, backdrop, labels, extra parts or text. Preserve original design over novelty. Improve resolution ONLY.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-51444b46-ca9c-4dac-bebc-42aad7babd66.png",
+      "png_2x": "restored_hd/chassis.png",
+      "native": "restored_hd/chassis.png",
+      "native_size": [
+        1536,
+        1024
+      ],
+      "size_2x": [
+        1536,
+        1024
+      ],
+      "transparent": true,
+      "sha256": "0c4bba1546a03248fe06ebab19790f9d884b1df1e30b1b0d714907d47994d68b",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/02-bag.png",
+        "source_rect_xywh": [
+          613,
+          897,
+          249,
+          178
+        ],
+        "source_sha256": "427d93fc63da899cadfdaa7ed09d6db57324febc0f39b396c858e51dd1427b26",
+        "raw_crop": "crops_original/chassis.png",
+        "category": "equipment",
+        "native": "native/equipment/chassis.png",
+        "png_2x": "png_2x/equipment/chassis.png",
+        "native_size": [
+          254,
+          176
+        ],
+        "size_2x": [
+          508,
+          352
+        ],
+        "transparent": true,
+        "sha256": "15239df76f0a632aa7372bd84957a037cfd7dde565a29d09f45481b2b07db1a9"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        15,
+        6,
+        1482,
+        1018
+      ]
+    },
+    "star_gold": {
+      "method": "direct_crop_grabcut",
+      "source": "sources/02-bag.png",
+      "source_rect_xywh": [
+        142,
+        680,
+        43,
+        42
+      ],
+      "source_sha256": "427d93fc63da899cadfdaa7ed09d6db57324febc0f39b396c858e51dd1427b26",
+      "raw_crop": "crops_original/star_gold.png",
+      "category": "icons",
+      "native": "native/icons/star_gold.png",
+      "png_2x": "png_2x/icons/star_gold.png",
+      "native_size": [
+        47,
+        47
+      ],
+      "size_2x": [
+        94,
+        94
+      ],
+      "transparent": true,
+      "sha256": "06a982721f8b419ffc08fda9e3ad9783b81e38c83dc4353339261b109c75e498"
+    },
+    "star_locked": {
+      "method": "direct_crop_grabcut",
+      "source": "sources/02-bag.png",
+      "source_rect_xywh": [
+        140,
+        1440,
+        36,
+        38
+      ],
+      "source_sha256": "427d93fc63da899cadfdaa7ed09d6db57324febc0f39b396c858e51dd1427b26",
+      "raw_crop": "crops_original/star_locked.png",
+      "category": "icons",
+      "native": "native/icons/star_locked.png",
+      "png_2x": "png_2x/icons/star_locked.png",
+      "native_size": [
+        48,
+        47
+      ],
+      "size_2x": [
+        96,
+        94
+      ],
+      "transparent": true,
+      "sha256": "b5c48d9a4432548a07f32fb20c9c38debb727eaa9388e5141cb1bd570c3c1c7d"
+    },
+    "ticket": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/01-race.png",
+      "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Production single UI game icon, high-resolution reconstruction from the approved reference. Recreate ONLY the coral red-orange RACING TICKET with embossed cream white five-pointed star, tilted diagonally, as income upgrade icon. Preserve the approved rounded 3D clay miniature style, proportions, camera, color placement, forms and soft lighting. Reconstruct genuinely crisp detail at 1024x1024, object at least 800px long, 8% empty margin, no cut-off. Actual transparent background with a smooth CLOSED clean silhouette and antialiased alpha; all interior empty holes transparent. Absolutely no white/blue color fringe, halo, colored specks, isolated pixels, glow, ragged edges, ground, text, numbers, buttons, panels, or baked background/checkerboard. One isolated icon only. Clean professionally masked edge suitable on BOTH white and dark navy.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-004ad004-4781-4722-8cdb-948e731e1c2e.png",
+      "png_2x": "restored_hd/ticket.png",
+      "native": "restored_hd/ticket.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "size_2x": [
+        1254,
+        1254
+      ],
+      "transparent": true,
+      "sha256": "0d7cb1526699997538a961a57a13b800515868ccf304f7f3a5e076d34c7f33fb",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/01-race.png",
+        "source_rect_xywh": [
+          40,
+          1402,
+          137,
+          111
+        ],
+        "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+        "raw_crop": "crops_original/ticket.png",
+        "category": "icons",
+        "native": "native/icons/ticket.png",
+        "png_2x": "png_2x/icons/ticket.png",
+        "native_size": [
+          142,
+          118
+        ],
+        "size_2x": [
+          284,
+          236
+        ],
+        "transparent": true,
+        "sha256": "3912d0fca60bcdd6a3855c416f76bb75003a2d547df3f127f1a409f17c958faa"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        72,
+        139,
+        1119,
+        996
+      ]
+    },
+    "currency_coins": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/05-league.png",
+      "source_sha256": "3dd846fdc0580d5df9c70250fa298878378a1edb3b39a63e2a3a7d09792f581e",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Asset type: ONE production 3D clay miniature UI icon, high-resolution recreation from approved screenshot. Recreate ONLY the small pile of bright golden coins in the Thu nhập selector, rounded rims with embossed five-pointed star on front coins, exact approved miniature clay look. Preserve camera, design, proportions, soft clay/plastic materials, rich friendly colors and lighting exactly. Genuine clean 1024x1024 detail, subject at least 850 pixels long with 7% transparent padding. Actual alpha transparency, antialiased closed clean silhouette, fully transparent holes, clean over dark and light backgrounds; no white halo, colored fringe, speckle, jagged contours, floor/background, UI, panels, labels, numbers or extra items. Do not just upscale reference pixels.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-beb9abe0-3c76-49e3-960a-04e99829d4ad.png",
+      "png_2x": "restored_hd/currency_coins.png",
+      "native": "restored_hd/currency_coins.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "size_2x": [
+        1254,
+        1254
+      ],
+      "transparent": true,
+      "sha256": "b6201875152b31e2178ddaf5d0e09d3d0a5a8e5a8a1eebaef5798ef558a54fad",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/05-league.png",
+        "source_rect_xywh": [
+          486,
+          588,
+          115,
+          91
+        ],
+        "source_sha256": "3dd846fdc0580d5df9c70250fa298878378a1edb3b39a63e2a3a7d09792f581e",
+        "raw_crop": "crops_original/currency_coins.png",
+        "category": "icons",
+        "native": "native/icons/currency_coins.png",
+        "png_2x": "png_2x/icons/currency_coins.png",
+        "native_size": [
+          112,
+          90
+        ],
+        "size_2x": [
+          224,
+          180
+        ],
+        "transparent": true,
+        "sha256": "eb508cec60aaaac95275991918e752de8805e37a0aebe1b83264633e75b29d3d"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        100,
+        171,
+        1055,
+        935
+      ]
+    },
+    "inventory_crate": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/02-bag.png",
+      "source_sha256": "427d93fc63da899cadfdaa7ed09d6db57324febc0f39b396c858e51dd1427b26",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Asset type: ONE production 3D clay miniature UI icon, high-resolution recreation from approved screenshot. Recreate ONLY the yellow wooden inventory crate with blue-white checkerboard sides and two blue cushion-like parts inside, from the storage summary strip. Preserve camera, design, proportions, soft clay/plastic materials, rich friendly colors and lighting exactly. Genuine clean 1024x1024 detail, subject at least 850 pixels long with 7% transparent padding. Actual alpha transparency, antialiased closed clean silhouette, fully transparent holes, clean over dark and light backgrounds; no white halo, colored fringe, speckle, jagged contours, floor/background, UI, panels, labels, numbers or extra items. Do not just upscale reference pixels.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-54f6490c-6124-4a0e-86c9-0e56544479e1.png",
+      "png_2x": "restored_hd/inventory_crate.png",
+      "native": "restored_hd/inventory_crate.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "size_2x": [
+        1254,
+        1254
+      ],
+      "transparent": true,
+      "sha256": "d02679cf0eb5a507a02442cc6ea901fbec0371551e2a7afd7f10ca86e88e588d",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/02-bag.png",
+        "source_rect_xywh": [
+          26,
+          325,
+          155,
+          120
+        ],
+        "source_sha256": "427d93fc63da899cadfdaa7ed09d6db57324febc0f39b396c858e51dd1427b26",
+        "raw_crop": "crops_original/inventory_crate.png",
+        "category": "icons",
+        "native": "native/icons/inventory_crate.png",
+        "png_2x": "png_2x/icons/inventory_crate.png",
+        "native_size": [
+          137,
+          121
+        ],
+        "size_2x": [
+          274,
+          242
+        ],
+        "transparent": true,
+        "sha256": "863e2ba0b654c44b297ead4f80023e46941cf3926c5fc8ecf28ce08e3cd64e0f"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        98,
+        164,
+        1058,
+        942
+      ]
+    },
+    "driver_an": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/03-drivers.png",
+      "source_sha256": "d6d5f4cbe96a3e9aa6cea243a2916ad8d4604fcbc67590febf2180b71362c750",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: identity-preserve / precise-object-edit. Production high-resolution game character or car cutout. From the approved reference recreate ONLY An, the top-left orange-suited young boy racing driver, brown hair with golden goggles on forehead, cheerful wide smile, bust with folded arms; preserve face identity, goggles, orange-white suit and exact pose. Exact approved friendly rounded 3D clay miniature rendering, warm soft studio lighting, saturated colors, smooth bevels and clear detail. Keep reference proportions, costume design, pose and identity. Render at 1024x1024 or higher, object at least 850px along long edge with safe 8% transparent margin; chest/arms fully present as in reference. Actual clean alpha background, empty holes transparent; smooth antialiased edges on light AND dark backgrounds. No white halo, colored fringe, specks, cut-off hair, extra fingers, ground plane, UI, labels, nameplates, status badges, circles, buttons or text (except the car's 03). Not a sprite sheet.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-e16085a9-6a2f-40b1-9ded-c08d78c9cf22.png",
+      "png_2x": "restored_hd/driver_an.png",
+      "native": "restored_hd/driver_an.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "size_2x": [
+        1254,
+        1254
+      ],
+      "transparent": true,
+      "sha256": "5733c3b2cf2cc886c7951fe6b1520d8bedad616fac24fd34871d6b520b851f37",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_u2net_mask_refined",
+        "source": "sources/03-drivers.png",
+        "source_rect_xywh": [
+          72,
+          649,
+          343,
+          321
+        ],
+        "source_sha256": "d6d5f4cbe96a3e9aa6cea243a2916ad8d4604fcbc67590febf2180b71362c750",
+        "raw_crop": "crops_original/driver_an.png",
+        "category": "portraits",
+        "native": "native/portraits/driver_an.png",
+        "png_2x": "png_2x/portraits/driver_an.png",
+        "native_size": [
+          308,
+          327
+        ],
+        "size_2x": [
+          616,
+          654
+        ],
+        "transparent": true,
+        "sha256": "2984235bf0d0694719d8366e6acab25741632f51a504bbc10297eb1deee06978"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        194,
+        8,
+        947,
+        1246
+      ]
+    },
+    "driver_binh": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/03-drivers.png",
+      "source_sha256": "d6d5f4cbe96a3e9aa6cea243a2916ad8d4604fcbc67590febf2180b71362c750",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: identity-preserve / precise-object-edit. Production high-resolution game character or car cutout. From the approved reference recreate ONLY Bình, the top-right teal-suited young man racing driver, black wavy hair, confident smiling expression, bust with folded arms, teal-white suit; preserve face identity and exact pose. Exact approved friendly rounded 3D clay miniature rendering, warm soft studio lighting, saturated colors, smooth bevels and clear detail. Keep reference proportions, costume design, pose and identity. Render at 1024x1024 or higher, object at least 850px along long edge with safe 8% transparent margin; chest/arms fully present as in reference. Actual clean alpha background, empty holes transparent; smooth antialiased edges on light AND dark backgrounds. No white halo, colored fringe, specks, cut-off hair, extra fingers, ground plane, UI, labels, nameplates, status badges, circles, buttons or text (except the car's 03). Not a sprite sheet.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-23404d73-654d-4161-b51e-c02c7063df6e.png",
+      "png_2x": "restored_hd/driver_binh.png",
+      "native": "restored_hd/driver_binh.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "size_2x": [
+        1254,
+        1254
+      ],
+      "transparent": true,
+      "sha256": "8e23d6ca0b961c6c0267a86b54c5a00e602a4ee0633caf629964b608829ddd09",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_u2net_mask_refined",
+        "source": "sources/03-drivers.png",
+        "source_rect_xywh": [
+          502,
+          653,
+          330,
+          317
+        ],
+        "source_sha256": "d6d5f4cbe96a3e9aa6cea243a2916ad8d4604fcbc67590febf2180b71362c750",
+        "raw_crop": "crops_original/driver_binh.png",
+        "category": "portraits",
+        "native": "native/portraits/driver_binh.png",
+        "png_2x": "png_2x/portraits/driver_binh.png",
+        "native_size": [
+          288,
+          326
+        ],
+        "size_2x": [
+          576,
+          652
+        ],
+        "transparent": true,
+        "sha256": "75efc372a12f7523beb719b5fa69308e5b97c30f876ea17fb09bbe69eea7a830"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        156,
+        0,
+        965,
+        1254
+      ]
+    },
+    "driver_chi": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/03-drivers.png",
+      "source_sha256": "d6d5f4cbe96a3e9aa6cea243a2916ad8d4604fcbc67590febf2180b71362c750",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: identity-preserve / precise-object-edit. Production high-resolution game character or car cutout. From the approved reference recreate ONLY Chi, the bottom-left red-suited young woman racing driver, short asymmetrical dark brown bob, gold hoop earrings, gently smiling expression, bust with folded arms; preserve face identity, hair and exact pose. Exact approved friendly rounded 3D clay miniature rendering, warm soft studio lighting, saturated colors, smooth bevels and clear detail. Keep reference proportions, costume design, pose and identity. Render at 1024x1024 or higher, object at least 850px along long edge with safe 8% transparent margin; chest/arms fully present as in reference. Actual clean alpha background, empty holes transparent; smooth antialiased edges on light AND dark backgrounds. No white halo, colored fringe, specks, cut-off hair, extra fingers, ground plane, UI, labels, nameplates, status badges, circles, buttons or text (except the car's 03). Not a sprite sheet.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-f229d472-6b2b-482b-8af4-c3242be32f30.png",
+      "png_2x": "restored_hd/driver_chi.png",
+      "native": "restored_hd/driver_chi.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "size_2x": [
+        1254,
+        1254
+      ],
+      "transparent": true,
+      "sha256": "09bf39aea029173f9c05c9a60e353a00e9264dc7e2f84f3dd60d89992e33e54f",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_u2net_mask_refined",
+        "source": "sources/03-drivers.png",
+        "source_rect_xywh": [
+          66,
+          1190,
+          352,
+          296
+        ],
+        "source_sha256": "d6d5f4cbe96a3e9aa6cea243a2916ad8d4604fcbc67590febf2180b71362c750",
+        "raw_crop": "crops_original/driver_chi.png",
+        "category": "portraits",
+        "native": "native/portraits/driver_chi.png",
+        "png_2x": "png_2x/portraits/driver_chi.png",
+        "native_size": [
+          309,
+          306
+        ],
+        "size_2x": [
+          618,
+          612
+        ],
+        "transparent": true,
+        "sha256": "12fbe9d3807dfaa3e171cef5085c5d50aff38db012fd9c356654876de62e99d6"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        121,
+        11,
+        1021,
+        1233
+      ]
+    },
+    "driver_lam": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/03-drivers.png",
+      "source_sha256": "d6d5f4cbe96a3e9aa6cea243a2916ad8d4604fcbc67590febf2180b71362c750",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: identity-preserve / precise-object-edit. Production high-resolution game character or car cutout. From the approved reference recreate ONLY Lâm, bottom-right olive-suited young man racing driver, dark wavy hair and light stubble, friendly confident expression, bust with folded arms; preserve face identity and pose. Exact approved friendly rounded 3D clay miniature rendering, warm soft studio lighting, saturated colors, smooth bevels and clear detail. Keep reference proportions, costume design, pose and identity. Render at 1024x1024 or higher, object at least 850px along long edge with safe 8% transparent margin; chest/arms fully present as in reference. Actual clean alpha background, empty holes transparent; smooth antialiased edges on light AND dark backgrounds. No white halo, colored fringe, specks, cut-off hair, extra fingers, ground plane, UI, labels, nameplates, status badges, circles, buttons or text (except the car's 03). Not a sprite sheet.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-a5a45433-0c70-4a91-85ec-d6521b32e7a1.png",
+      "png_2x": "restored_hd/driver_lam.png",
+      "native": "restored_hd/driver_lam.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "size_2x": [
+        1254,
+        1254
+      ],
+      "transparent": true,
+      "sha256": "f4e349de618b1b509530281edb1df2cda7d25e751173965956d56af671fcfb63",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_u2net_mask_refined",
+        "source": "sources/03-drivers.png",
+        "source_rect_xywh": [
+          502,
+          1196,
+          337,
+          290
+        ],
+        "source_sha256": "d6d5f4cbe96a3e9aa6cea243a2916ad8d4604fcbc67590febf2180b71362c750",
+        "raw_crop": "crops_original/driver_lam.png",
+        "category": "portraits",
+        "native": "native/portraits/driver_lam.png",
+        "png_2x": "png_2x/portraits/driver_lam.png",
+        "native_size": [
+          301,
+          301
+        ],
+        "size_2x": [
+          602,
+          602
+        ],
+        "transparent": true,
+        "sha256": "2bddddd559bc0bafc530eca6a2a8d4412746438be1c0b62edf7f9ba7b36eba3e"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        133,
+        25,
+        989,
+        1226
+      ]
+    },
+    "driver_my": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/06-shop.png",
+      "source_sha256": "911e6b8d9257470ce8e7bd5db15f494ef534075783787a45bf87bbf0202f0dd8",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: identity-preserve / precise-object-edit. Production high-resolution game character or car cutout. From the approved reference recreate ONLY Mỹ, the lower-left female driver portrait in recruit section, red-white racing cap and red-white suit, brown hair, large bright eyes, friendly open smile, right hand thumbs-up; preserve face identity and pose. Exact approved friendly rounded 3D clay miniature rendering, warm soft studio lighting, saturated colors, smooth bevels and clear detail. Keep reference proportions, costume design, pose and identity. Render at 1024x1024 or higher, object at least 850px along long edge with safe 8% transparent margin; chest/arms fully present as in reference. Actual clean alpha background, empty holes transparent; smooth antialiased edges on light AND dark backgrounds. No white halo, colored fringe, specks, cut-off hair, extra fingers, ground plane, UI, labels, nameplates, status badges, circles, buttons or text (except the car's 03). Not a sprite sheet.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-eddb11ee-7dcb-4235-af35-70cc4d8c8d60.png",
+      "png_2x": "restored_hd/driver_my.png",
+      "native": "restored_hd/driver_my.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "size_2x": [
+        1254,
+        1254
+      ],
+      "transparent": true,
+      "sha256": "7772ead8901d5b9789bd4f575c014f65ead0ed482d3e2de5830d2139b9870cc3",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_u2net_mask_refined",
+        "source": "sources/06-shop.png",
+        "source_rect_xywh": [
+          30,
+          1292,
+          185,
+          303
+        ],
+        "source_sha256": "911e6b8d9257470ce8e7bd5db15f494ef534075783787a45bf87bbf0202f0dd8",
+        "raw_crop": "crops_original/driver_my.png",
+        "category": "portraits",
+        "native": "native/portraits/driver_my.png",
+        "png_2x": "png_2x/portraits/driver_my.png",
+        "native_size": [
+          201,
+          273
+        ],
+        "size_2x": [
+          402,
+          546
+        ],
+        "transparent": true,
+        "sha256": "3788d6b8bfc1eea1a4d9ebca7cc8850b7b96d885959808765f55cc50cf304630"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        115,
+        0,
+        971,
+        1254
+      ]
+    },
+    "driver_lam_shop": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/06-shop.png",
+      "source_sha256": "911e6b8d9257470ce8e7bd5db15f494ef534075783787a45bf87bbf0202f0dd8",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: identity-preserve / precise-object-edit. Production high-resolution game character or car cutout. From the approved reference recreate ONLY Lâm, the lower-right blue-suited young boy portrait in recruit section, brown hair, blue goggles on forehead, blue-white suit and folded arms; preserve face identity and pose. Exact approved friendly rounded 3D clay miniature rendering, warm soft studio lighting, saturated colors, smooth bevels and clear detail. Keep reference proportions, costume design, pose and identity. Render at 1024x1024 or higher, object at least 850px along long edge with safe 8% transparent margin; chest/arms fully present as in reference. Actual clean alpha background, empty holes transparent; smooth antialiased edges on light AND dark backgrounds. No white halo, colored fringe, specks, cut-off hair, extra fingers, ground plane, UI, labels, nameplates, status badges, circles, buttons or text (except the car's 03). Not a sprite sheet.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-577c6543-ad97-4815-9218-a482c1c01eb2.png",
+      "png_2x": "restored_hd/driver_lam_shop.png",
+      "native": "restored_hd/driver_lam_shop.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "size_2x": [
+        1254,
+        1254
+      ],
+      "transparent": true,
+      "sha256": "b17c55bb552f6ca948846b3b1de1891838d4d0eab590460e01d531fe77c8ac65",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_u2net_mask_refined",
+        "source": "sources/06-shop.png",
+        "source_rect_xywh": [
+          465,
+          1309,
+          192,
+          284
+        ],
+        "source_sha256": "911e6b8d9257470ce8e7bd5db15f494ef534075783787a45bf87bbf0202f0dd8",
+        "raw_crop": "crops_original/driver_lam_shop.png",
+        "category": "portraits",
+        "native": "native/portraits/driver_lam_shop.png",
+        "png_2x": "png_2x/portraits/driver_lam_shop.png",
+        "native_size": [
+          204,
+          279
+        ],
+        "size_2x": [
+          408,
+          558
+        ],
+        "transparent": true,
+        "sha256": "9fc08f5671a476358c13ed2ffcdea943195612d31e55b795b74bed030e864431"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        167,
+        6,
+        894,
+        1248
+      ]
+    },
+    "gift_red": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/03-drivers.png",
+      "source_sha256": "d6d5f4cbe96a3e9aa6cea243a2916ad8d4604fcbc67590febf2180b71362c750",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Production single UI game icon, high-resolution reconstruction from the approved reference. Recreate ONLY the cream and red PRESENT BOX with broad red wrap and golden yellow ribbon bow, from Mở gói button, same exact silhouette. Preserve the approved rounded 3D clay miniature style, proportions, camera, color placement, forms and soft lighting. Reconstruct genuinely crisp detail at 1024x1024, object at least 800px long, 8% empty margin, no cut-off. Actual transparent background with a smooth CLOSED clean silhouette and antialiased alpha; all interior empty holes transparent. Absolutely no white/blue color fringe, halo, colored specks, isolated pixels, glow, ragged edges, ground, text, numbers, buttons, panels, or baked background/checkerboard. One isolated icon only. Clean professionally masked edge suitable on BOTH white and dark navy.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-73c718ae-e18a-4899-8ea1-dfd7bb735c90.png",
+      "png_2x": "restored_hd/gift_red.png",
+      "native": "restored_hd/gift_red.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "size_2x": [
+        1254,
+        1254
+      ],
+      "transparent": true,
+      "sha256": "920ea963e8f431e490d73a107dd381e03bab72bd82b754b9384186e629c6a18d",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/03-drivers.png",
+        "source_rect_xywh": [
+          570,
+          476,
+          110,
+          100
+        ],
+        "source_sha256": "d6d5f4cbe96a3e9aa6cea243a2916ad8d4604fcbc67590febf2180b71362c750",
+        "raw_crop": "crops_original/gift_red.png",
+        "category": "icons",
+        "native": "native/icons/gift_red.png",
+        "png_2x": "png_2x/icons/gift_red.png",
+        "native_size": [
+          116,
+          106
+        ],
+        "size_2x": [
+          232,
+          212
+        ],
+        "transparent": true,
+        "sha256": "c6336db353946450874c32a550f6de5f41dcb0113367adb653069cda023dba70"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        127,
+        78,
+        988,
+        1077
+      ]
+    },
+    "helmet_pit": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/03-drivers.png",
+      "source_sha256": "d6d5f4cbe96a3e9aa6cea243a2916ad8d4604fcbc67590febf2180b71362c750",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Asset type: ONE production 3D clay miniature UI icon, high-resolution recreation from approved screenshot. Recreate ONLY the orange and white racing helmet with blue-grey visor, two black tires and waving checkered flag behind it, from team power summary right, same arrangement. Preserve camera, design, proportions, soft clay/plastic materials, rich friendly colors and lighting exactly. Genuine clean 1024x1024 detail, subject at least 850 pixels long with 7% transparent padding. Actual alpha transparency, antialiased closed clean silhouette, fully transparent holes, clean over dark and light backgrounds; no white halo, colored fringe, speckle, jagged contours, floor/background, UI, panels, labels, numbers or extra items. Do not just upscale reference pixels.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-8a65b76a-96bf-46d4-a341-dd93e38ad6d9.png",
+      "png_2x": "restored_hd/helmet_pit.png",
+      "native": "restored_hd/helmet_pit.png",
+      "native_size": [
+        1536,
+        1024
+      ],
+      "size_2x": [
+        1536,
+        1024
+      ],
+      "transparent": true,
+      "sha256": "9a96cd2c616f192115ed5ee235a960b7a8d917c476abcd8352b5e60f07354c47",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/03-drivers.png",
+        "source_rect_xywh": [
+          626,
+          293,
+          246,
+          178
+        ],
+        "source_sha256": "d6d5f4cbe96a3e9aa6cea243a2916ad8d4604fcbc67590febf2180b71362c750",
+        "raw_crop": "crops_original/helmet_pit.png",
+        "category": "icons",
+        "native": "native/icons/helmet_pit.png",
+        "png_2x": "png_2x/icons/helmet_pit.png",
+        "native_size": [
+          247,
+          177
+        ],
+        "size_2x": [
+          494,
+          354
+        ],
+        "transparent": true,
+        "sha256": "3e422b7eb9895a59e6b41ff8f4ac50424e8995b41c9f022cee1394f7580e46c0"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        143,
+        1,
+        1289,
+        1019
+      ]
+    },
+    "trophy_large": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/05-league.png",
+      "source_sha256": "3dd846fdc0580d5df9c70250fa298878378a1edb3b39a63e2a3a7d09792f581e",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Asset type: ONE production 3D clay miniature UI icon, high-resolution recreation from approved screenshot. Recreate ONLY the large golden trophy and two small golden stars floating near its lower sides, from Cúp hiện có summary panel; exact reference, rounded double handles, no laurels. Preserve camera, design, proportions, soft clay/plastic materials, rich friendly colors and lighting exactly. Genuine clean 1024x1024 detail, subject at least 850 pixels long with 7% transparent padding. Actual alpha transparency, antialiased closed clean silhouette, fully transparent holes, clean over dark and light backgrounds; no white halo, colored fringe, speckle, jagged contours, floor/background, UI, panels, labels, numbers or extra items. Do not just upscale reference pixels.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-5592c4a0-7f4f-439e-a213-138dd2a44be6.png",
+      "png_2x": "restored_hd/trophy_large.png",
+      "native": "restored_hd/trophy_large.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "size_2x": [
+        1254,
+        1254
+      ],
+      "transparent": true,
+      "sha256": "9c879c0e625b3b0b3ad85989efce0af1315182004e0e12d44f7711a41ec98793",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/05-league.png",
+        "source_rect_xywh": [
+          17,
+          360,
+          224,
+          180
+        ],
+        "source_sha256": "3dd846fdc0580d5df9c70250fa298878378a1edb3b39a63e2a3a7d09792f581e",
+        "raw_crop": "crops_original/trophy_large.png",
+        "category": "icons",
+        "native": "native/icons/trophy_large.png",
+        "png_2x": "png_2x/icons/trophy_large.png",
+        "native_size": [
+          208,
+          181
+        ],
+        "size_2x": [
+          416,
+          362
+        ],
+        "transparent": true,
+        "sha256": "3d9430bf7a4f9ad690f3df3deafe265dbb82c8a33ee75bcd5aba56a77e202294"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        48,
+        121,
+        1146,
+        1027
+      ]
+    },
+    "speedometer": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/04-garage.png",
+      "source_sha256": "509e62804d22f8439daebd65eb4d47a33b200a1900cf47fd2d24e9ff06480b9b",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Asset type: ONE production 3D clay miniature UI icon, high-resolution recreation from approved screenshot. Recreate ONLY the speedometer gauge icon from lower left stat tile, cream arch housing, blue gauge segments and coral red needle, exact reference. Preserve camera, design, proportions, soft clay/plastic materials, rich friendly colors and lighting exactly. Genuine clean 1024x1024 detail, subject at least 850 pixels long with 7% transparent padding. Actual alpha transparency, antialiased closed clean silhouette, fully transparent holes, clean over dark and light backgrounds; no white halo, colored fringe, speckle, jagged contours, floor/background, UI, panels, labels, numbers or extra items. Do not just upscale reference pixels.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-ce72d073-b152-4392-968b-4457d88718ce.png",
+      "png_2x": "restored_hd/speedometer.png",
+      "native": "restored_hd/speedometer.png",
+      "native_size": [
+        1312,
+        1199
+      ],
+      "size_2x": [
+        1312,
+        1199
+      ],
+      "transparent": true,
+      "sha256": "b1b438b603d9c5d8f8c9b828381ebb2f8c0b15c0a0f8cabdcd7219435ec0e399",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/04-garage.png",
+        "source_rect_xywh": [
+          45,
+          1033,
+          164,
+          125
+        ],
+        "source_sha256": "509e62804d22f8439daebd65eb4d47a33b200a1900cf47fd2d24e9ff06480b9b",
+        "raw_crop": "crops_original/speedometer.png",
+        "category": "icons",
+        "native": "native/icons/speedometer.png",
+        "png_2x": "png_2x/icons/speedometer.png",
+        "native_size": [
+          166,
+          127
+        ],
+        "size_2x": [
+          332,
+          254
+        ],
+        "transparent": true,
+        "sha256": "8da8c623af6d4ccf5328557105bbf38a7b39c8384aebc8da3ed5d8695c86d25e"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        117,
+        201,
+        1046,
+        803
+      ]
+    },
+    "rocket_acceleration": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/04-garage.png",
+      "source_sha256": "509e62804d22f8439daebd65eb4d47a33b200a1900cf47fd2d24e9ff06480b9b",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Asset type: ONE production 3D clay miniature UI icon, high-resolution recreation from approved screenshot. Recreate ONLY the red-and-cream toy rocket acceleration icon from upper right stat tile, shiny round blue porthole and yellow flame, exact reference. Preserve camera, design, proportions, soft clay/plastic materials, rich friendly colors and lighting exactly. Genuine clean 1024x1024 detail, subject at least 850 pixels long with 7% transparent padding. Actual alpha transparency, antialiased closed clean silhouette, fully transparent holes, clean over dark and light backgrounds; no white halo, colored fringe, speckle, jagged contours, floor/background, UI, panels, labels, numbers or extra items. Do not just upscale reference pixels.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-66258aa3-f7ef-4fb5-abcf-6faac0dd2ab9.png",
+      "png_2x": "restored_hd/rocket_acceleration.png",
+      "native": "restored_hd/rocket_acceleration.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "size_2x": [
+        1254,
+        1254
+      ],
+      "transparent": true,
+      "sha256": "8af1df08c0415f29d7ee43af33c7b580f5c6661038c3d1ee20f3ad28b1459b42",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/04-garage.png",
+        "source_rect_xywh": [
+          480,
+          1034,
+          137,
+          126
+        ],
+        "source_sha256": "509e62804d22f8439daebd65eb4d47a33b200a1900cf47fd2d24e9ff06480b9b",
+        "raw_crop": "crops_original/rocket_acceleration.png",
+        "category": "icons",
+        "native": "native/icons/rocket_acceleration.png",
+        "png_2x": "png_2x/icons/rocket_acceleration.png",
+        "native_size": [
+          132,
+          129
+        ],
+        "size_2x": [
+          264,
+          258
+        ],
+        "transparent": true,
+        "sha256": "b200bc937a4351f94dd94431d42a47d66e492704e44e95a1feb8c3b73b671328"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        142,
+        108,
+        1003,
+        1035
+      ]
+    },
+    "stability_scales": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/04-garage.png",
+      "source_sha256": "509e62804d22f8439daebd65eb4d47a33b200a1900cf47fd2d24e9ff06480b9b",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Asset type: ONE production 3D clay miniature UI icon, high-resolution recreation from approved screenshot. Recreate ONLY the blue balance scales with golden yellow pans from lower right stat tile, exact reference. Preserve camera, design, proportions, soft clay/plastic materials, rich friendly colors and lighting exactly. Genuine clean 1024x1024 detail, subject at least 850 pixels long with 7% transparent padding. Actual alpha transparency, antialiased closed clean silhouette, fully transparent holes, clean over dark and light backgrounds; no white halo, colored fringe, speckle, jagged contours, floor/background, UI, panels, labels, numbers or extra items. Do not just upscale reference pixels.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-ed61ec05-9969-4c00-a195-de1c0058a2e8.png",
+      "png_2x": "restored_hd/stability_scales.png",
+      "native": "restored_hd/stability_scales.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "size_2x": [
+        1254,
+        1254
+      ],
+      "transparent": true,
+      "sha256": "f53c78e4e78f82b36ac0ec3e414efd0a8cc025c3edea8497fe470353f267911a",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/04-garage.png",
+        "source_rect_xywh": [
+          480,
+          1187,
+          155,
+          137
+        ],
+        "source_sha256": "509e62804d22f8439daebd65eb4d47a33b200a1900cf47fd2d24e9ff06480b9b",
+        "raw_crop": "crops_original/stability_scales.png",
+        "category": "icons",
+        "native": "native/icons/stability_scales.png",
+        "png_2x": "png_2x/icons/stability_scales.png",
+        "native_size": [
+          162,
+          134
+        ],
+        "size_2x": [
+          324,
+          268
+        ],
+        "transparent": true,
+        "sha256": "47bb3f7c1fe9cbfe4524387431d546058db3dcc493c2c6b5b62b1e8acc2c25eb"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        21,
+        77,
+        1213,
+        1113
+      ]
+    },
+    "car_showroom": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/04-garage.png",
+      "source_sha256": "509e62804d22f8439daebd65eb4d47a33b200a1900cf47fd2d24e9ff06480b9b",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: identity-preserve / precise-object-edit. Production high-resolution game character or car cutout. From the approved reference recreate ONLY the central large cream-white compact toy RACING CAR, coral-red double racing stripes and bumpers, rear red spoiler, glossy blue windows, round headlights, chunky black tires and ivory wheels, front-left three-quarter view, black 03 number on circular side plate; preserve exact car identity, shape and camera. Isolate only the car, no platform, floor, scenery or shadows beyond close contact shadow. Exact approved friendly rounded 3D clay miniature rendering, warm soft studio lighting, saturated colors, smooth bevels and clear detail. Keep reference proportions, costume design, pose and identity. Render at 1024x1024 or higher, object at least 850px along long edge with safe 8% transparent margin; chest/arms fully present as in reference. Actual clean alpha background, empty holes transparent; smooth antialiased edges on light AND dark backgrounds. No white halo, colored fringe, specks, cut-off hair, extra fingers, ground plane, UI, labels, nameplates, status badges, circles, buttons or text (except the car's 03). Not a sprite sheet.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-931f140a-c635-42f8-bc6c-7c15cb3637fa.png",
+      "png_2x": "restored_hd/car_showroom.png",
+      "native": "restored_hd/car_showroom.png",
+      "native_size": [
+        1536,
+        1024
+      ],
+      "size_2x": [
+        1536,
+        1024
+      ],
+      "transparent": true,
+      "sha256": "3af0b4b9c50c75054b6d33ad87ca36be8bdf5d4902c13dd985b2c4a9e07ab738",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop_grabcut",
+        "source": "sources/04-garage.png",
+        "source_rect_xywh": [
+          172,
+          463,
+          574,
+          304
+        ],
+        "source_sha256": "509e62804d22f8439daebd65eb4d47a33b200a1900cf47fd2d24e9ff06480b9b",
+        "raw_crop": "crops_original/car_showroom.png",
+        "category": "cars",
+        "native": "native/cars/car_showroom.png",
+        "png_2x": "png_2x/cars/car_showroom.png",
+        "native_size": [
+          566,
+          307
+        ],
+        "size_2x": [
+          1132,
+          614
+        ],
+        "transparent": true,
+        "sha256": "afd9171c15331538b3dfd1496c58323cd70bc84588c2843a6974de2541117ed7"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        19,
+        66,
+        1479,
+        907
+      ]
+    },
+    "shop_starter": {
+      "method": "direct_crop",
+      "source": "sources/06-shop.png",
+      "source_rect_xywh": [
+        34,
+        384,
+        386,
+        222
+      ],
+      "source_sha256": "911e6b8d9257470ce8e7bd5db15f494ef534075783787a45bf87bbf0202f0dd8",
+      "raw_crop": "crops_original/shop_starter.png",
+      "category": "illustrations",
+      "native": "native/illustrations/shop_starter.png",
+      "png_2x": "png_2x/illustrations/shop_starter.png",
+      "native_size": [
+        386,
+        222
+      ],
+      "size_2x": [
+        772,
+        444
+      ],
+      "transparent": false,
+      "sha256": "bb130b2bcfc9cd8fba7c5d1a365de44419c236acdb6662ba23fa6e4441da933c"
+    },
+    "shop_income_x2": {
+      "method": "direct_crop",
+      "source": "sources/06-shop.png",
+      "source_rect_xywh": [
+        470,
+        385,
+        385,
+        222
+      ],
+      "source_sha256": "911e6b8d9257470ce8e7bd5db15f494ef534075783787a45bf87bbf0202f0dd8",
+      "raw_crop": "crops_original/shop_income_x2.png",
+      "category": "illustrations",
+      "native": "native/illustrations/shop_income_x2.png",
+      "png_2x": "png_2x/illustrations/shop_income_x2.png",
+      "native_size": [
+        385,
+        222
+      ],
+      "size_2x": [
+        770,
+        444
+      ],
+      "transparent": false,
+      "sha256": "8e2454f552480b5ae693a6884ab74a0747c62875c685798e71269b91cc90b2ad"
+    },
+    "shop_no_ads": {
+      "method": "direct_crop",
+      "source": "sources/06-shop.png",
+      "source_rect_xywh": [
+        35,
+        834,
+        386,
+        230
+      ],
+      "source_sha256": "911e6b8d9257470ce8e7bd5db15f494ef534075783787a45bf87bbf0202f0dd8",
+      "raw_crop": "crops_original/shop_no_ads.png",
+      "category": "illustrations",
+      "native": "native/illustrations/shop_no_ads.png",
+      "png_2x": "png_2x/illustrations/shop_no_ads.png",
+      "native_size": [
+        386,
+        230
+      ],
+      "size_2x": [
+        772,
+        460
+      ],
+      "transparent": false,
+      "sha256": "e3b0a05ec3b6633cb9161805fffb0a313b67fd4719f46cc6ad710e49a7b35190"
+    },
+    "shop_combo": {
+      "method": "direct_crop",
+      "source": "sources/06-shop.png",
+      "source_rect_xywh": [
+        470,
+        834,
+        385,
+        230
+      ],
+      "source_sha256": "911e6b8d9257470ce8e7bd5db15f494ef534075783787a45bf87bbf0202f0dd8",
+      "raw_crop": "crops_original/shop_combo.png",
+      "category": "illustrations",
+      "native": "native/illustrations/shop_combo.png",
+      "png_2x": "png_2x/illustrations/shop_combo.png",
+      "native_size": [
+        385,
+        230
+      ],
+      "size_2x": [
+        770,
+        460
+      ],
+      "transparent": false,
+      "sha256": "34872718acc4507d5c81d5f6c11c2c4bbfdf63234aa8d8f51d58c8117904cf16"
+    },
+    "garage_with_car": {
+      "method": "direct_crop",
+      "source": "sources/04-garage.png",
+      "source_rect_xywh": [
+        0,
+        342,
+        888,
+        487
+      ],
+      "source_sha256": "509e62804d22f8439daebd65eb4d47a33b200a1900cf47fd2d24e9ff06480b9b",
+      "raw_crop": "crops_original/garage_with_car.png",
+      "category": "scenes",
+      "native": "native/scenes/garage_with_car.png",
+      "png_2x": "png_2x/scenes/garage_with_car.png",
+      "native_size": [
+        888,
+        487
+      ],
+      "size_2x": [
+        1776,
+        974
+      ],
+      "transparent": false,
+      "sha256": "4342ab546f7e9de1a684598f08337cd84ec6f27dfa8468efa95f62ed432a9fc0"
+    },
+    "avatar_frame": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/01-race.png",
+      "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: identity-preserve / precise-object-edit. Production high-resolution game character or car cutout. From the approved reference recreate ONLY the top-left profile AVATAR of the happy orange-suited brown-haired boy with golden goggles and a cream-white rounded square frame and soft blue interior. Preserve exact face identity, smile, pose and rounded frame; only outside rounded frame is transparent. Exact approved friendly rounded 3D clay miniature rendering, warm soft studio lighting, saturated colors, smooth bevels and clear detail. Keep reference proportions, costume design, pose and identity. Render at 1024x1024 or higher, object at least 850px along long edge with safe 8% transparent margin; chest/arms fully present as in reference. Actual clean alpha background, empty holes transparent; smooth antialiased edges on light AND dark backgrounds. No white halo, colored fringe, specks, cut-off hair, extra fingers, ground plane, UI, labels, nameplates, status badges, circles, buttons or text (except the car's 03). Not a sprite sheet.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-b1edd40c-d0ab-4eb2-9768-d05cacf67265.png",
+      "png_2x": "restored_hd/avatar_frame.png",
+      "native": "restored_hd/avatar_frame.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "size_2x": [
+        1254,
+        1254
+      ],
+      "transparent": true,
+      "sha256": "9aaa99157bb81bf66f74d9d8c89720d2579a33fbbc5ca5020db1234e9fd5ad06",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "direct_crop",
+        "source": "sources/01-race.png",
+        "source_rect_xywh": [
+          18,
+          4,
+          109,
+          99
+        ],
+        "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+        "raw_crop": "crops_original/avatar_frame.png",
+        "category": "hud",
+        "native": "native/hud/avatar_frame.png",
+        "png_2x": "png_2x/hud/avatar_frame.png",
+        "native_size": [
+          109,
+          99
+        ],
+        "size_2x": [
+          218,
+          198
+        ],
+        "transparent": false,
+        "sha256": "8bb3b8fd62c8d7bcdb1234b6712f96bc3b4a33d68198d7f01ef7bf7627b9bcde"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        39,
+        43,
+        1156,
+        1195
+      ]
+    },
+    "button_orange": {
+      "method": "imagegen_restored_from_demo_masked",
+      "source": "sources/ui_skins_restored.png",
+      "source_rect_xywh": [
+        17,
+        137,
+        327,
+        109
+      ],
+      "source_sha256": "95e4ef579cf209aa8607cf706e3ff943112d429cd8619ec7d61f68b5c5d124af",
+      "nine_slice_radius_native": 52,
+      "category": "skins",
+      "native": "native/skins/button_orange.png",
+      "png_2x": "png_2x/skins/button_orange.png",
+      "native_size": [
+        343,
+        124
+      ],
+      "size_2x": [
+        686,
+        248
+      ],
+      "transparent": true,
+      "sha256": "0fdbbdce3aadca59e4858836e4d430f0d742577f07b3d0d7cd8a1a0f317af097",
+      "godot_texture": "godot_textures/skins/button_orange.png",
+      "godot_style": "godot_styles/button_orange.tres",
+      "nine_patch_ltrb_logical": [
+        23,
+        23,
+        23,
+        23
+      ]
+    },
+    "button_blue": {
+      "method": "imagegen_restored_from_demo_masked",
+      "source": "sources/ui_skins_restored.png",
+      "source_rect_xywh": [
+        380,
+        138,
+        329,
+        108
+      ],
+      "source_sha256": "95e4ef579cf209aa8607cf706e3ff943112d429cd8619ec7d61f68b5c5d124af",
+      "nine_slice_radius_native": 52,
+      "category": "skins",
+      "native": "native/skins/button_blue.png",
+      "png_2x": "png_2x/skins/button_blue.png",
+      "native_size": [
+        345,
+        123
+      ],
+      "size_2x": [
+        690,
+        246
+      ],
+      "transparent": true,
+      "sha256": "8571cdb832319910908f41938f008dc13fa30d68d784f45efbf2137a3e3dfef5",
+      "godot_texture": "godot_textures/skins/button_blue.png",
+      "godot_style": "godot_styles/button_blue.tres",
+      "nine_patch_ltrb_logical": [
+        23,
+        23,
+        23,
+        23
+      ]
+    },
+    "button_disabled": {
+      "method": "imagegen_restored_from_demo_masked",
+      "source": "sources/ui_skins_restored.png",
+      "source_rect_xywh": [
+        746,
+        137,
+        323,
+        109
+      ],
+      "source_sha256": "95e4ef579cf209aa8607cf706e3ff943112d429cd8619ec7d61f68b5c5d124af",
+      "nine_slice_radius_native": 52,
+      "category": "skins",
+      "native": "native/skins/button_disabled.png",
+      "png_2x": "png_2x/skins/button_disabled.png",
+      "native_size": [
+        339,
+        124
+      ],
+      "size_2x": [
+        678,
+        248
+      ],
+      "transparent": true,
+      "sha256": "7d04d9b2e471b4786011d2461cc81dbc5e50a12d6d791e54dfb0e73768d7e2c0",
+      "godot_texture": "godot_textures/skins/button_disabled.png",
+      "godot_style": "godot_styles/button_disabled.tres",
+      "nine_patch_ltrb_logical": [
+        23,
+        23,
+        23,
+        23
+      ]
+    },
+    "panel_upgrade": {
+      "method": "imagegen_restored_from_demo_masked",
+      "source": "sources/ui_skins_restored.png",
+      "source_rect_xywh": [
+        15,
+        481,
+        334,
+        157
+      ],
+      "source_sha256": "95e4ef579cf209aa8607cf706e3ff943112d429cd8619ec7d61f68b5c5d124af",
+      "nine_slice_radius_native": 40,
+      "category": "skins",
+      "native": "native/skins/panel_upgrade.png",
+      "png_2x": "png_2x/skins/panel_upgrade.png",
+      "native_size": [
+        350,
+        172
+      ],
+      "size_2x": [
+        700,
+        344
+      ],
+      "transparent": true,
+      "sha256": "e057b3c06fbd1b4e1192f3a28f33f7f3247463b18b06593ce3a6df58977ac577",
+      "godot_texture": "godot_textures/skins/panel_upgrade.png",
+      "godot_style": "godot_styles/panel_upgrade.tres",
+      "nine_patch_ltrb_logical": [
+        25,
+        25,
+        25,
+        25
+      ]
+    },
+    "panel_inventory": {
+      "method": "imagegen_restored_from_demo_masked",
+      "source": "sources/ui_skins_restored.png",
+      "source_rect_xywh": [
+        409,
+        395,
+        270,
+        305
+      ],
+      "source_sha256": "95e4ef579cf209aa8607cf706e3ff943112d429cd8619ec7d61f68b5c5d124af",
+      "nine_slice_radius_native": 43,
+      "category": "skins",
+      "native": "native/skins/panel_inventory.png",
+      "png_2x": "png_2x/skins/panel_inventory.png",
+      "native_size": [
+        286,
+        320
+      ],
+      "size_2x": [
+        572,
+        640
+      ],
+      "transparent": true,
+      "sha256": "9f3f50bf289a8df7822f2f66ac8715237c6ee7b8ebdabb053136c3eee4fca862",
+      "godot_texture": "godot_textures/skins/panel_inventory.png",
+      "godot_style": "godot_styles/panel_inventory.tres",
+      "nine_patch_ltrb_logical": [
+        22,
+        22,
+        22,
+        22
+      ]
+    },
+    "panel_inventory_selected": {
+      "method": "imagegen_restored_from_demo_masked",
+      "source": "sources/ui_skins_restored.png",
+      "source_rect_xywh": [
+        771,
+        396,
+        274,
+        305
+      ],
+      "source_sha256": "95e4ef579cf209aa8607cf706e3ff943112d429cd8619ec7d61f68b5c5d124af",
+      "nine_slice_radius_native": 43,
+      "category": "skins",
+      "native": "native/skins/panel_inventory_selected.png",
+      "png_2x": "png_2x/skins/panel_inventory_selected.png",
+      "native_size": [
+        290,
+        320
+      ],
+      "size_2x": [
+        580,
+        640
+      ],
+      "transparent": true,
+      "sha256": "7484b46b966b792ca014642ffa7d4a4f8a8ee9a6072758c2393747b17bb40531",
+      "godot_texture": "godot_textures/skins/panel_inventory_selected.png",
+      "godot_style": "godot_styles/panel_inventory_selected.tres",
+      "nine_patch_ltrb_logical": [
+        22,
+        22,
+        22,
+        22
+      ]
+    },
+    "section_blue": {
+      "method": "imagegen_restored_from_demo_masked",
+      "source": "sources/ui_skins_restored.png",
+      "source_rect_xywh": [
+        15,
+        859,
+        333,
+        94
+      ],
+      "source_sha256": "95e4ef579cf209aa8607cf706e3ff943112d429cd8619ec7d61f68b5c5d124af",
+      "nine_slice_radius_native": 44,
+      "category": "skins",
+      "native": "native/skins/section_blue.png",
+      "png_2x": "png_2x/skins/section_blue.png",
+      "native_size": [
+        349,
+        109
+      ],
+      "size_2x": [
+        698,
+        218
+      ],
+      "transparent": true,
+      "sha256": "a31da9d18240d14edf52f3b24e81daf1ee14ff49108e923a99766c03740e34b0",
+      "godot_texture": "godot_textures/skins/section_blue.png",
+      "godot_style": "godot_styles/section_blue.tres",
+      "nine_patch_ltrb_logical": [
+        17,
+        17,
+        17,
+        17
+      ]
+    },
+    "navigation_tray": {
+      "method": "imagegen_restored_from_demo_masked",
+      "source": "sources/ui_skins_restored.png",
+      "source_rect_xywh": [
+        376,
+        837,
+        338,
+        139
+      ],
+      "source_sha256": "95e4ef579cf209aa8607cf706e3ff943112d429cd8619ec7d61f68b5c5d124af",
+      "nine_slice_radius_native": 33,
+      "category": "skins",
+      "native": "native/skins/navigation_tray.png",
+      "png_2x": "png_2x/skins/navigation_tray.png",
+      "native_size": [
+        354,
+        154
+      ],
+      "size_2x": [
+        708,
+        308
+      ],
+      "transparent": true,
+      "sha256": "0293c71c1ae83261bef0b066b787dd7b02c1937c8d1acc7a2e8e11b67024b315",
+      "godot_texture": "godot_textures/skins/navigation_tray.png",
+      "godot_style": "godot_styles/navigation_tray.tres",
+      "nine_patch_ltrb_logical": [
+        16,
+        16,
+        16,
+        16
+      ]
+    },
+    "hud_resource": {
+      "method": "imagegen_restored_from_demo_masked",
+      "source": "sources/ui_skins_restored.png",
+      "source_rect_xywh": [
+        746,
+        852,
+        324,
+        111
+      ],
+      "source_sha256": "95e4ef579cf209aa8607cf706e3ff943112d429cd8619ec7d61f68b5c5d124af",
+      "nine_slice_radius_native": 53,
+      "category": "skins",
+      "native": "native/skins/hud_resource.png",
+      "png_2x": "png_2x/skins/hud_resource.png",
+      "native_size": [
+        340,
+        126
+      ],
+      "size_2x": [
+        680,
+        252
+      ],
+      "transparent": true,
+      "sha256": "22fd84eedabcd914211909f91496eafc14043c5b7040dffcf5d0158dbb4a3f56",
+      "godot_texture": "godot_textures/skins/hud_resource.png",
+      "godot_style": "godot_styles/hud_resource.tres",
+      "nine_patch_ltrb_logical": [
+        18,
+        18,
+        18,
+        18
+      ]
+    },
+    "badge_mint": {
+      "method": "imagegen_restored_from_demo_masked",
+      "source": "sources/ui_skins_restored.png",
+      "source_rect_xywh": [
+        18,
+        1223,
+        326,
+        105
+      ],
+      "source_sha256": "95e4ef579cf209aa8607cf706e3ff943112d429cd8619ec7d61f68b5c5d124af",
+      "nine_slice_radius_native": 50,
+      "category": "skins",
+      "native": "native/skins/badge_mint.png",
+      "png_2x": "png_2x/skins/badge_mint.png",
+      "native_size": [
+        342,
+        120
+      ],
+      "size_2x": [
+        684,
+        240
+      ],
+      "transparent": true,
+      "sha256": "30785b5b79b1ccfbd97aac54762e49c754ff3208cbb47e8eb11abfe6a7e02ded",
+      "godot_texture": "godot_textures/skins/badge_mint.png",
+      "godot_style": "godot_styles/badge_mint.tres",
+      "nine_patch_ltrb_logical": [
+        13,
+        13,
+        13,
+        13
+      ]
+    },
+    "badge_blue": {
+      "method": "imagegen_restored_from_demo_masked",
+      "source": "sources/ui_skins_restored.png",
+      "source_rect_xywh": [
+        380,
+        1223,
+        328,
+        104
+      ],
+      "source_sha256": "95e4ef579cf209aa8607cf706e3ff943112d429cd8619ec7d61f68b5c5d124af",
+      "nine_slice_radius_native": 50,
+      "category": "skins",
+      "native": "native/skins/badge_blue.png",
+      "png_2x": "png_2x/skins/badge_blue.png",
+      "native_size": [
+        344,
+        119
+      ],
+      "size_2x": [
+        688,
+        238
+      ],
+      "transparent": true,
+      "sha256": "fa8538de2e28838898d1779d1915b7b4030fb3acf1701c87f5d3ce0f66240abb",
+      "godot_texture": "godot_textures/skins/badge_blue.png",
+      "godot_style": "godot_styles/badge_blue.tres",
+      "nine_patch_ltrb_logical": [
+        13,
+        13,
+        13,
+        13
+      ]
+    },
+    "segmented_tray": {
+      "method": "imagegen_restored_from_demo_masked",
+      "source": "sources/ui_skins_restored.png",
+      "source_rect_xywh": [
+        743,
+        1223,
+        332,
+        104
+      ],
+      "source_sha256": "95e4ef579cf209aa8607cf706e3ff943112d429cd8619ec7d61f68b5c5d124af",
+      "nine_slice_radius_native": 50,
+      "category": "skins",
+      "native": "native/skins/segmented_tray.png",
+      "png_2x": "png_2x/skins/segmented_tray.png",
+      "native_size": [
+        348,
+        119
+      ],
+      "size_2x": [
+        696,
+        238
+      ],
+      "transparent": true,
+      "sha256": "9af0204220d90e13693e6d1c8aa67d51fed606624f1b32f69486b5b06ecbdbc8",
+      "godot_texture": "godot_textures/skins/segmented_tray.png",
+      "godot_style": "godot_styles/segmented_tray.tres",
+      "nine_patch_ltrb_logical": [
+        21,
+        21,
+        21,
+        21
+      ]
+    },
+    "harbor_background_clean": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/01-race.png",
+      "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit high-resolution background restoration. Reference image is the exact approved harbor miniature track background. Produce an ULTRA SHARP 4K LANDSCAPE master, target 3840 pixels wide by 2120 high. Preserve EXACT camera, composition, road curve, track footprint and framing. Improve real small-detail definition: smooth clean bold edges, tiny readable miniature grandstand spectators, crisp red-white curb blocks, detailed asphalt with sharp white lane dashes, well defined garage doors and clean stone blocks, clear foliage. Style must stay SOFT MINIATURE rounded 3D clay toy, saturated clean blue ocean and green foliage, NOT photoreal, NOT blurry or watercolor. Remove nothing and add nothing: keep sailboat left, canopy grandstand upper left, garage upper center, BLANK checkered arch upper right, lighthouse top-right (partially clipped as reference), two parked cars lower right, yellow container crane far right. No racing cars on asphalt, no UI, no labels, no money bubbles, no HUD. Improve sharpness instead of merely upscaling; don't downsize reference. Geometry must stay identical for live car overlay. Opaque full scene, NO depth-of-field blur anywhere.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-db7a670c-98ac-4d07-9938-9ecd9de45b86.png",
+      "png_2x": "restored_hd/harbor_background_clean.png",
+      "native": "restored_hd/harbor_background_clean.png",
+      "native_size": [
+        1688,
+        932
+      ],
+      "size_2x": [
+        1688,
+        932
+      ],
+      "transparent": false,
+      "sha256": "287973b681b722dcb0d6d986036ad34a2b6e11e16af8946bcbc03b86639a9164",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "imagegen_restored_from_demo",
+        "source": "sources/harbor_background_clean.png",
+        "source_sha256": "c8b045b9d915eed595da8f40cffe9c3d6449500fbd60359465ecd49b675797aa",
+        "note": "Restored high-resolution 2D artwork; generated detail may differ slightly from crop.",
+        "category": "scenes",
+        "native": "native/scenes/harbor_background_clean.png",
+        "png_2x": "png_2x/scenes/harbor_background_clean.png",
+        "native_size": [
+          887,
+          490
+        ],
+        "size_2x": [
+          1774,
+          980
+        ],
+        "transparent": false,
+        "sha256": "e32030a7dae322dd8750f31ca6e28e09f279a4ff4203ebfc2fe53156eed0a8e6"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration."
+    },
+    "garage_background_empty": {
+      "method": "imagegen_restored_from_demo",
+      "source": "sources/garage_background_empty.png",
+      "source_sha256": "6f39d9de1717d0c458463a86c3a22dcd5c1373e125e615237846541c5ee4643b",
+      "note": "Restored high-resolution 2D artwork; generated detail may differ slightly from crop.",
+      "category": "scenes",
+      "native": "native/scenes/garage_background_empty.png",
+      "png_2x": "png_2x/scenes/garage_background_empty.png",
+      "native_size": [
+        888,
+        488
+      ],
+      "size_2x": [
+        1776,
+        976
+      ],
+      "transparent": false,
+      "sha256": "933c2eebbe9d48ab892e35a06eea35ee215b04be8e8cf63b35d67fd40c4686a4"
+    },
+    "facility_garage": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/01-race.png",
+      "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Asset type: ONE production 3D clay miniature UI icon, high-resolution recreation from approved screenshot. Recreate ONLY the small cream garage building with red roof, grey roller door and blue wrench sign from Cơ sở button, same miniature shape. Preserve camera, design, proportions, soft clay/plastic materials, rich friendly colors and lighting exactly. Genuine clean 1024x1024 detail, subject at least 850 pixels long with 7% transparent padding. Actual alpha transparency, antialiased closed clean silhouette, fully transparent holes, clean over dark and light backgrounds; no white halo, colored fringe, speckle, jagged contours, floor/background, UI, panels, labels, numbers or extra items. Do not just upscale reference pixels.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-3f80c05c-1153-4970-ab3e-9b2af4a3d06d.png",
+      "png_2x": "restored_hd/facility_garage.png",
+      "native": "restored_hd/facility_garage.png",
+      "native_size": [
+        1536,
+        1024
+      ],
+      "size_2x": [
+        1536,
+        1024
+      ],
+      "transparent": true,
+      "sha256": "f937e66f568764c8942ac67842031113b92e11f095b69e3f2e0715fcbe32a909",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {
+        "method": "approved_v1_atlas_crop_alpha_component_cleanup",
+        "source": "Design/Demos/SoftMiniature/asset_sources/assets/clay_icons.png",
+        "source_rect_xywh": [
+          627,
+          940,
+          313,
+          314
+        ],
+        "category": "icons",
+        "png_2x": "png_2x/icons/facility_garage.png",
+        "size_2x": [
+          284,
+          201
+        ],
+        "transparent": true,
+        "sha256": "d150ec3e6ffefb147dbc6dace8730ac4b087da647d6c158f35e813c8c0a65979"
+      },
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        234,
+        113,
+        1069,
+        768
+      ]
+    },
+    "harbor_island": {
+      "method": "composite_original_sky_and_supplied_restored_island",
+      "source": "Design/Demos/SoftMiniature/approved/01-race.png",
+      "source_rect_xywh": [
+        0,
+        180,
+        887,
+        550
+      ],
+      "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+      "png_2x": "png_2x/scenes/harbor_island.png",
+      "sha256": "5b37cf5c5df4a0f45500f3a8a1c8bbcfafb5caaf9d04ec4438ca925eb73672f6",
+      "transparent": false,
+      "restored_asset": "harbor_background_clean",
+      "note": "Original sky 0,180,887,60; supplied restored island resized 887x490 below. HUD and vehicles rendered live."
+    },
+    "garage_scene": {
+      "method": "direct_crop",
+      "source": "Design/Demos/SoftMiniature/approved/04-garage.png",
+      "source_rect_xywh": [
+        0,
+        341,
+        887,
+        489
+      ],
+      "source_sha256": "509e62804d22f8439daebd65eb4d47a33b200a1900cf47fd2d24e9ff06480b9b",
+      "png_2x": "png_2x/scenes/garage_scene.png",
+      "sha256": "10ab122968ba4b1ee0879375c3076c9b27ca2f96dd4a1b2e72580b7321b7cf43",
+      "transparent": false
+    },
+    "race_car_blue": {
+      "method": "direct_crop_grabcut",
+      "source": "Design/Demos/SoftMiniature/approved/01-race.png",
+      "source_rect_xywh": [
+        265,
+        458,
+        86,
+        61
+      ],
+      "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+      "png_2x": "png_2x/scenes/race_car_blue.png",
+      "sha256": "4ef7663581cced0b7275cdafde0b40024a008a19605b6277df2207b9ab74e679",
+      "transparent": true
+    },
+    "race_car_red": {
+      "method": "direct_crop_grabcut",
+      "source": "Design/Demos/SoftMiniature/approved/01-race.png",
+      "source_rect_xywh": [
+        258,
+        552,
+        108,
+        72
+      ],
+      "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+      "png_2x": "png_2x/scenes/race_car_red.png",
+      "sha256": "86eb29831de99e14eb5763dcf51f1a42cfc475109385cdd325af854977b9957c",
+      "transparent": true
+    },
+    "race_car_yellow": {
+      "method": "direct_crop_grabcut",
+      "source": "Design/Demos/SoftMiniature/approved/01-race.png",
+      "source_rect_xywh": [
+        439,
+        535,
+        106,
+        67
+      ],
+      "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+      "png_2x": "png_2x/scenes/race_car_yellow.png",
+      "sha256": "a60b9343241fa4f3c2e8e3c12ac482da224e983ae876d41fa2c437ac19e6ec10",
+      "transparent": true
+    },
+    "race_car_green": {
+      "method": "direct_crop_grabcut",
+      "source": "Design/Demos/SoftMiniature/approved/01-race.png",
+      "source_rect_xywh": [
+        651,
+        450,
+        79,
+        63
+      ],
+      "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+      "png_2x": "png_2x/scenes/race_car_green.png",
+      "sha256": "e5e10af5c4c22fd7b9d2cc844ff6d5b505d6c3f10405eccac6f7fae7d2ff03d7",
+      "transparent": true
+    },
+    "race_car_purple": {
+      "method": "direct_crop_grabcut",
+      "source": "Design/Demos/SoftMiniature/approved/01-race.png",
+      "source_rect_xywh": [
+        707,
+        397,
+        62,
+        53
+      ],
+      "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+      "png_2x": "png_2x/scenes/race_car_purple.png",
+      "sha256": "ed9f176178f7d6059cafd0db38523174c24b446adb8a76999ec44cb7391b3b5d",
+      "transparent": true
+    },
+    "upgrade_gearbox": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/Demos/SoftMiniature/approved/01-race.png",
+      "source_sha256": "c896d50971588a23704293a0757ea84c1bb6295659bfec8195297ffbf8006dca",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit. Production single UI game icon, high-resolution reconstruction from the approved reference. Recreate ONLY the two interlocking chunky silver and yellow GEARS from the fourth vehicle upgrade row, same exact shape and view. Preserve the approved rounded 3D clay miniature style, proportions, camera, color placement, forms and soft lighting. Reconstruct genuinely crisp detail at 1024x1024, object at least 800px long, 8% empty margin, no cut-off. Actual transparent background with a smooth CLOSED clean silhouette and antialiased alpha; all interior empty holes transparent. Absolutely no white/blue color fringe, halo, colored specks, isolated pixels, glow, ragged edges, ground, text, numbers, buttons, panels, or baked background/checkerboard. One isolated icon only. Clean professionally masked edge suitable on BOTH white and dark navy.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-bd59cbb2-e0bf-4af1-a7b2-13c9c2a148c0.png",
+      "png_2x": "restored_hd/upgrade_gearbox.png",
+      "native": "restored_hd/upgrade_gearbox.png",
+      "native_size": [
+        1312,
+        1199
+      ],
+      "size_2x": [
+        1312,
+        1199
+      ],
+      "transparent": true,
+      "sha256": "8cac3fe899c123ab6311daed998e14a1c67f73cfe86960f3e1a30f6e3bb3dea6",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {},
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        69,
+        95,
+        1195,
+        1025
+      ]
+    },
+    "bag_hero": {
+      "method": "imagegen_hd_restoration",
+      "source": "Design/AssetPacks/Soft_Miniature_UI_v1/restoration_references/bag_hero.png",
+      "source_sha256": "d9e456077fdac3fa3dec86767b437f5f945de3cdc5242856ee1908c15c780f63",
+      "generator": "built-in image_gen",
+      "prompt": "Use case: precise-object-edit high fidelity restoration. Reference is the EXACT APPROVED target crop, not inspiration. Recreate EXACT reference large blue BACKPACK from bag page header. Blue top flap with FOUR white square checker marks in a diagonal checker pattern, ONE large gold square latch centered on lower pocket, YELLOW side pocket/strap at left, golden top handle. Keep reference camera, shapes, seams, pocket layout, thick shoulder straps. Not the smaller bottom navigation backpack. Restore original rounded clay toy 3D design with crisp clean high-resolution detail. Render one isolated asset at 1536x1536 or larger (long edge >=1024), 8% safe padding, genuine transparent background and clean smooth antialiased alpha including interior empty holes. No halo, white fringe, colored specks, shadow fog, vignette, backdrop, labels, extra parts or text. Preserve original design over novelty. Improve resolution ONLY.",
+      "generated_original": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-8f675911-8729-4304-a6b6-01c1901dd9bc.png",
+      "png_2x": "restored_hd/bag_hero.png",
+      "native": "restored_hd/bag_hero.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "size_2x": [
+        1254,
+        1254
+      ],
+      "transparent": true,
+      "sha256": "5ee24f66c314ec676d4085d885cbf3a5d60a28a8013a1105d988771a27f3b1c1",
+      "alpha_processing": "Preserved image_gen alpha, no thresholding, resampling or rembg.",
+      "previous_revision": {},
+      "note": "Reconstructed illustration; minor generated shape differences remain. No claim of pixel-identical restoration.",
+      "visible_region_xywh": [
+        21,
+        24,
+        1215,
+        1191
+      ]
+    }
+  },
+  "hd_restoration": {
+    "generator": "built-in image_gen",
+    "generation_manifest": "restored_hd/generation.json",
+    "minimum_icon_long_edge": 512,
+    "minimum_island_width": 1536,
+    "runtime_filter": "linear_with_mipmaps",
+    "qa": "Design/Previews/Soft_Miniature_Integrated/compare/asset_qa_200/"
+  }
+}

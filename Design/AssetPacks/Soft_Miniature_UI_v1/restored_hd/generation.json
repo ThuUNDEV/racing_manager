@@ -1,0 +1,219 @@
+{
+  "tool": "built-in image_gen",
+  "assets": [
+    {
+      "id": "nav_race",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-739ee177-b139-4caf-8d90-2159f63366b6.png",
+      "prompt": "Use case: precise-object-edit / high resolution restoration. Asset type: ONE transparent-background production mobile game UI icon. Reference is the approved Soft Miniature screenshot. Restore ONLY the large black-and-white CHECKERED RACING FLAG icon from the bottom left of reference, two waving flags / dark rounded pole, preserve its exact toy shape and slant. Match reference closely: same 3D clay miniature style, saturated friendly colors, softly rounded bevels, polished soft studio highlights, camera angle and proportions. Render the icon itself 850 pixels across within a 1024x1024 transparent canvas, with 8% clear padding and no cropping. Actual alpha transparency, smooth clean antialiased contours; holes must be truly transparent, no background-color contamination, no white fringe/halo, no jagged edges, no baked checkerboard. No text, letters, numbers, buttons, UI panels or background. ONE icon only, not a sheet. Reconstruct genuine sharp detail, do not merely upscale the screenshot.",
+      "reference": "Design/Demos/SoftMiniature/approved/01-race.png"
+    },
+    {
+      "id": "nav_team",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-d5c32ff7-921e-4f62-b288-216b61b857e6.png",
+      "prompt": "Use case: precise-object-edit / high resolution restoration. Asset type: ONE transparent-background production mobile game UI icon. Reference is the approved Soft Miniature screenshot. Restore ONLY the bottom navigation TEAM icon: three rounded toy racing drivers' busts, blue helmet central, red left, yellow right, preserve exact arrangement. Match reference closely: same 3D clay miniature style, saturated friendly colors, softly rounded bevels, polished soft studio highlights, camera angle and proportions. Render the icon itself 850 pixels across within a 1024x1024 transparent canvas, with 8% clear padding and no cropping. Actual alpha transparency, smooth clean antialiased contours; holes must be truly transparent, no background-color contamination, no white fringe/halo, no jagged edges, no baked checkerboard. No text, letters, numbers, buttons, UI panels or background. ONE icon only, not a sheet. Reconstruct genuine sharp detail, do not merely upscale the screenshot.",
+      "reference": "Design/Demos/SoftMiniature/approved/01-race.png"
+    },
+    {
+      "id": "nav_league",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-b8464f8b-efcd-4cd3-aad2-f2f12c6c698b.png",
+      "prompt": "Use case: precise-object-edit / high resolution restoration. Asset type: ONE transparent-background production mobile game UI icon. Reference is the approved Soft Miniature screenshot. Restore ONLY the bottom navigation golden TROPHY with central embossed star and curved golden laurel leaves, preserve its exact trophy shape. Match reference closely: same 3D clay miniature style, saturated friendly colors, softly rounded bevels, polished soft studio highlights, camera angle and proportions. Render the icon itself 850 pixels across within a 1024x1024 transparent canvas, with 8% clear padding and no cropping. Actual alpha transparency, smooth clean antialiased contours; holes must be truly transparent, no background-color contamination, no white fringe/halo, no jagged edges, no baked checkerboard. No text, letters, numbers, buttons, UI panels or background. ONE icon only, not a sheet. Reconstruct genuine sharp detail, do not merely upscale the screenshot.",
+      "reference": "Design/Demos/SoftMiniature/approved/01-race.png"
+    },
+    {
+      "id": "nav_shop",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-cd89aed8-8577-4330-b171-f1b3ada7e1eb.png",
+      "prompt": "Use case: precise-object-edit / high resolution restoration. Asset type: ONE transparent-background production mobile game UI icon. Reference is the approved Soft Miniature screenshot. Restore ONLY the bottom navigation SHOP storefront: white and coral red striped canopy, cream storefront, blue display window and brown door, preserve exact silhouette. Match reference closely: same 3D clay miniature style, saturated friendly colors, softly rounded bevels, polished soft studio highlights, camera angle and proportions. Render the icon itself 850 pixels across within a 1024x1024 transparent canvas, with 8% clear padding and no cropping. Actual alpha transparency, smooth clean antialiased contours; holes must be truly transparent, no background-color contamination, no white fringe/halo, no jagged edges, no baked checkerboard. No text, letters, numbers, buttons, UI panels or background. ONE icon only, not a sheet. Reconstruct genuine sharp detail, do not merely upscale the screenshot.",
+      "reference": "Design/Demos/SoftMiniature/approved/01-race.png"
+    },
+    {
+      "id": "engine",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-93139ff6-d2c7-4a90-bad5-4ec600c26a38.png",
+      "prompt": "Use case: precise-object-edit. Production single UI game icon, high-resolution reconstruction from the approved reference. Recreate ONLY the red compact miniature car ENGINE at top-left inventory, three gray cylinder openings above red valve cover and curved dark steel exhaust pipes, EXACT reference shape, NOT a racing helmet. Preserve the approved rounded 3D clay miniature style, proportions, camera, color placement, forms and soft lighting. Reconstruct genuinely crisp detail at 1024x1024, object at least 800px long, 8% empty margin, no cut-off. Actual transparent background with a smooth CLOSED clean silhouette and antialiased alpha; all interior empty holes transparent. Absolutely no white/blue color fringe, halo, colored specks, isolated pixels, glow, ragged edges, ground, text, numbers, buttons, panels, or baked background/checkerboard. One isolated icon only. Clean professionally masked edge suitable on BOTH white and dark navy.",
+      "reference": "Design/Demos/SoftMiniature/approved/02-bag.png"
+    },
+    {
+      "id": "tyre",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-ee1f2dd9-0dce-4ecb-8ed4-1426b19878d6.png",
+      "prompt": "Use case: precise-object-edit. Production single UI game icon, high-resolution reconstruction from the approved reference. Recreate ONLY the black rubber TYRE from center top inventory, chunky tread and ivory five-spoke rim, exact same three-quarter view. Preserve the approved rounded 3D clay miniature style, proportions, camera, color placement, forms and soft lighting. Reconstruct genuinely crisp detail at 1024x1024, object at least 800px long, 8% empty margin, no cut-off. Actual transparent background with a smooth CLOSED clean silhouette and antialiased alpha; all interior empty holes transparent. Absolutely no white/blue color fringe, halo, colored specks, isolated pixels, glow, ragged edges, ground, text, numbers, buttons, panels, or baked background/checkerboard. One isolated icon only. Clean professionally masked edge suitable on BOTH white and dark navy.",
+      "reference": "Design/Demos/SoftMiniature/approved/02-bag.png"
+    },
+    {
+      "id": "ticket",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-004ad004-4781-4722-8cdb-948e731e1c2e.png",
+      "prompt": "Use case: precise-object-edit. Production single UI game icon, high-resolution reconstruction from the approved reference. Recreate ONLY the coral red-orange RACING TICKET with embossed cream white five-pointed star, tilted diagonally, as income upgrade icon. Preserve the approved rounded 3D clay miniature style, proportions, camera, color placement, forms and soft lighting. Reconstruct genuinely crisp detail at 1024x1024, object at least 800px long, 8% empty margin, no cut-off. Actual transparent background with a smooth CLOSED clean silhouette and antialiased alpha; all interior empty holes transparent. Absolutely no white/blue color fringe, halo, colored specks, isolated pixels, glow, ragged edges, ground, text, numbers, buttons, panels, or baked background/checkerboard. One isolated icon only. Clean professionally masked edge suitable on BOTH white and dark navy.",
+      "reference": "Design/Demos/SoftMiniature/approved/01-race.png"
+    },
+    {
+      "id": "currency_cash",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-3d6d4742-9a75-44b5-b32c-be93230633b6.png",
+      "prompt": "Use case: precise-object-edit. Production single UI game icon, high-resolution reconstruction from the approved reference. Recreate ONLY the green stack of paper BANKNOTES with lime banknote on top from top HUD, wrapped with golden band, same exact silhouette and angle. Preserve the approved rounded 3D clay miniature style, proportions, camera, color placement, forms and soft lighting. Reconstruct genuinely crisp detail at 1024x1024, object at least 800px long, 8% empty margin, no cut-off. Actual transparent background with a smooth CLOSED clean silhouette and antialiased alpha; all interior empty holes transparent. Absolutely no white/blue color fringe, halo, colored specks, isolated pixels, glow, ragged edges, ground, text, numbers, buttons, panels, or baked background/checkerboard. One isolated icon only. Clean professionally masked edge suitable on BOTH white and dark navy.",
+      "reference": "Design/Demos/SoftMiniature/approved/01-race.png"
+    },
+    {
+      "id": "currency_gem",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-7cf030a7-890c-4999-bc9c-0cc22aa2a67f.png",
+      "prompt": "Use case: precise-object-edit. Production single UI game icon, high-resolution reconstruction from the approved reference. Recreate ONLY the magenta PURPLE DIAMOND GEM from top HUD, large flat polygon facets with bright pink top facet, exact reference shape. Preserve the approved rounded 3D clay miniature style, proportions, camera, color placement, forms and soft lighting. Reconstruct genuinely crisp detail at 1024x1024, object at least 800px long, 8% empty margin, no cut-off. Actual transparent background with a smooth CLOSED clean silhouette and antialiased alpha; all interior empty holes transparent. Absolutely no white/blue color fringe, halo, colored specks, isolated pixels, glow, ragged edges, ground, text, numbers, buttons, panels, or baked background/checkerboard. One isolated icon only. Clean professionally masked edge suitable on BOTH white and dark navy.",
+      "reference": "Design/Demos/SoftMiniature/approved/01-race.png"
+    },
+    {
+      "id": "settings",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-3765cf2c-78dc-4241-8224-2ece99e78427.png",
+      "prompt": "Use case: precise-object-edit. Production single UI game icon, high-resolution reconstruction from the approved reference. Recreate ONLY the light icy-blue metallic SETTINGS GEAR at top right HUD, six thick rounded teeth and one perfectly round central hole, no blue backdrop inside the hole, hole MUST be alpha transparent. Preserve the approved rounded 3D clay miniature style, proportions, camera, color placement, forms and soft lighting. Reconstruct genuinely crisp detail at 1024x1024, object at least 800px long, 8% empty margin, no cut-off. Actual transparent background with a smooth CLOSED clean silhouette and antialiased alpha; all interior empty holes transparent. Absolutely no white/blue color fringe, halo, colored specks, isolated pixels, glow, ragged edges, ground, text, numbers, buttons, panels, or baked background/checkerboard. One isolated icon only. Clean professionally masked edge suitable on BOTH white and dark navy.",
+      "reference": "Design/Demos/SoftMiniature/approved/01-race.png"
+    },
+    {
+      "id": "gift_red",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-73c718ae-e18a-4899-8ea1-dfd7bb735c90.png",
+      "prompt": "Use case: precise-object-edit. Production single UI game icon, high-resolution reconstruction from the approved reference. Recreate ONLY the cream and red PRESENT BOX with broad red wrap and golden yellow ribbon bow, from Mở gói button, same exact silhouette. Preserve the approved rounded 3D clay miniature style, proportions, camera, color placement, forms and soft lighting. Reconstruct genuinely crisp detail at 1024x1024, object at least 800px long, 8% empty margin, no cut-off. Actual transparent background with a smooth CLOSED clean silhouette and antialiased alpha; all interior empty holes transparent. Absolutely no white/blue color fringe, halo, colored specks, isolated pixels, glow, ragged edges, ground, text, numbers, buttons, panels, or baked background/checkerboard. One isolated icon only. Clean professionally masked edge suitable on BOTH white and dark navy.",
+      "reference": "Design/Demos/SoftMiniature/approved/03-drivers.png"
+    },
+    {
+      "id": "driver_an",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-e16085a9-6a2f-40b1-9ded-c08d78c9cf22.png",
+      "prompt": "Use case: identity-preserve / precise-object-edit. Production high-resolution game character or car cutout. From the approved reference recreate ONLY An, the top-left orange-suited young boy racing driver, brown hair with golden goggles on forehead, cheerful wide smile, bust with folded arms; preserve face identity, goggles, orange-white suit and exact pose. Exact approved friendly rounded 3D clay miniature rendering, warm soft studio lighting, saturated colors, smooth bevels and clear detail. Keep reference proportions, costume design, pose and identity. Render at 1024x1024 or higher, object at least 850px along long edge with safe 8% transparent margin; chest/arms fully present as in reference. Actual clean alpha background, empty holes transparent; smooth antialiased edges on light AND dark backgrounds. No white halo, colored fringe, specks, cut-off hair, extra fingers, ground plane, UI, labels, nameplates, status badges, circles, buttons or text (except the car's 03). Not a sprite sheet.",
+      "reference": "Design/Demos/SoftMiniature/approved/03-drivers.png"
+    },
+    {
+      "id": "driver_binh",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-23404d73-654d-4161-b51e-c02c7063df6e.png",
+      "prompt": "Use case: identity-preserve / precise-object-edit. Production high-resolution game character or car cutout. From the approved reference recreate ONLY Bình, the top-right teal-suited young man racing driver, black wavy hair, confident smiling expression, bust with folded arms, teal-white suit; preserve face identity and exact pose. Exact approved friendly rounded 3D clay miniature rendering, warm soft studio lighting, saturated colors, smooth bevels and clear detail. Keep reference proportions, costume design, pose and identity. Render at 1024x1024 or higher, object at least 850px along long edge with safe 8% transparent margin; chest/arms fully present as in reference. Actual clean alpha background, empty holes transparent; smooth antialiased edges on light AND dark backgrounds. No white halo, colored fringe, specks, cut-off hair, extra fingers, ground plane, UI, labels, nameplates, status badges, circles, buttons or text (except the car's 03). Not a sprite sheet.",
+      "reference": "Design/Demos/SoftMiniature/approved/03-drivers.png"
+    },
+    {
+      "id": "driver_chi",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-f229d472-6b2b-482b-8af4-c3242be32f30.png",
+      "prompt": "Use case: identity-preserve / precise-object-edit. Production high-resolution game character or car cutout. From the approved reference recreate ONLY Chi, the bottom-left red-suited young woman racing driver, short asymmetrical dark brown bob, gold hoop earrings, gently smiling expression, bust with folded arms; preserve face identity, hair and exact pose. Exact approved friendly rounded 3D clay miniature rendering, warm soft studio lighting, saturated colors, smooth bevels and clear detail. Keep reference proportions, costume design, pose and identity. Render at 1024x1024 or higher, object at least 850px along long edge with safe 8% transparent margin; chest/arms fully present as in reference. Actual clean alpha background, empty holes transparent; smooth antialiased edges on light AND dark backgrounds. No white halo, colored fringe, specks, cut-off hair, extra fingers, ground plane, UI, labels, nameplates, status badges, circles, buttons or text (except the car's 03). Not a sprite sheet.",
+      "reference": "Design/Demos/SoftMiniature/approved/03-drivers.png"
+    },
+    {
+      "id": "driver_lam",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-a5a45433-0c70-4a91-85ec-d6521b32e7a1.png",
+      "prompt": "Use case: identity-preserve / precise-object-edit. Production high-resolution game character or car cutout. From the approved reference recreate ONLY Lâm, bottom-right olive-suited young man racing driver, dark wavy hair and light stubble, friendly confident expression, bust with folded arms; preserve face identity and pose. Exact approved friendly rounded 3D clay miniature rendering, warm soft studio lighting, saturated colors, smooth bevels and clear detail. Keep reference proportions, costume design, pose and identity. Render at 1024x1024 or higher, object at least 850px along long edge with safe 8% transparent margin; chest/arms fully present as in reference. Actual clean alpha background, empty holes transparent; smooth antialiased edges on light AND dark backgrounds. No white halo, colored fringe, specks, cut-off hair, extra fingers, ground plane, UI, labels, nameplates, status badges, circles, buttons or text (except the car's 03). Not a sprite sheet.",
+      "reference": "Design/Demos/SoftMiniature/approved/03-drivers.png"
+    },
+    {
+      "id": "driver_my",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-eddb11ee-7dcb-4235-af35-70cc4d8c8d60.png",
+      "prompt": "Use case: identity-preserve / precise-object-edit. Production high-resolution game character or car cutout. From the approved reference recreate ONLY Mỹ, the lower-left female driver portrait in recruit section, red-white racing cap and red-white suit, brown hair, large bright eyes, friendly open smile, right hand thumbs-up; preserve face identity and pose. Exact approved friendly rounded 3D clay miniature rendering, warm soft studio lighting, saturated colors, smooth bevels and clear detail. Keep reference proportions, costume design, pose and identity. Render at 1024x1024 or higher, object at least 850px along long edge with safe 8% transparent margin; chest/arms fully present as in reference. Actual clean alpha background, empty holes transparent; smooth antialiased edges on light AND dark backgrounds. No white halo, colored fringe, specks, cut-off hair, extra fingers, ground plane, UI, labels, nameplates, status badges, circles, buttons or text (except the car's 03). Not a sprite sheet.",
+      "reference": "Design/Demos/SoftMiniature/approved/06-shop.png"
+    },
+    {
+      "id": "driver_lam_shop",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-577c6543-ad97-4815-9218-a482c1c01eb2.png",
+      "prompt": "Use case: identity-preserve / precise-object-edit. Production high-resolution game character or car cutout. From the approved reference recreate ONLY Lâm, the lower-right blue-suited young boy portrait in recruit section, brown hair, blue goggles on forehead, blue-white suit and folded arms; preserve face identity and pose. Exact approved friendly rounded 3D clay miniature rendering, warm soft studio lighting, saturated colors, smooth bevels and clear detail. Keep reference proportions, costume design, pose and identity. Render at 1024x1024 or higher, object at least 850px along long edge with safe 8% transparent margin; chest/arms fully present as in reference. Actual clean alpha background, empty holes transparent; smooth antialiased edges on light AND dark backgrounds. No white halo, colored fringe, specks, cut-off hair, extra fingers, ground plane, UI, labels, nameplates, status badges, circles, buttons or text (except the car's 03). Not a sprite sheet.",
+      "reference": "Design/Demos/SoftMiniature/approved/06-shop.png"
+    },
+    {
+      "id": "avatar_frame",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-b1edd40c-d0ab-4eb2-9768-d05cacf67265.png",
+      "prompt": "Use case: identity-preserve / precise-object-edit. Production high-resolution game character or car cutout. From the approved reference recreate ONLY the top-left profile AVATAR of the happy orange-suited brown-haired boy with golden goggles and a cream-white rounded square frame and soft blue interior. Preserve exact face identity, smile, pose and rounded frame; only outside rounded frame is transparent. Exact approved friendly rounded 3D clay miniature rendering, warm soft studio lighting, saturated colors, smooth bevels and clear detail. Keep reference proportions, costume design, pose and identity. Render at 1024x1024 or higher, object at least 850px along long edge with safe 8% transparent margin; chest/arms fully present as in reference. Actual clean alpha background, empty holes transparent; smooth antialiased edges on light AND dark backgrounds. No white halo, colored fringe, specks, cut-off hair, extra fingers, ground plane, UI, labels, nameplates, status badges, circles, buttons or text (except the car's 03). Not a sprite sheet.",
+      "reference": "Design/Demos/SoftMiniature/approved/01-race.png"
+    },
+    {
+      "id": "car_showroom",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-931f140a-c635-42f8-bc6c-7c15cb3637fa.png",
+      "prompt": "Use case: identity-preserve / precise-object-edit. Production high-resolution game character or car cutout. From the approved reference recreate ONLY the central large cream-white compact toy RACING CAR, coral-red double racing stripes and bumpers, rear red spoiler, glossy blue windows, round headlights, chunky black tires and ivory wheels, front-left three-quarter view, black 03 number on circular side plate; preserve exact car identity, shape and camera. Isolate only the car, no platform, floor, scenery or shadows beyond close contact shadow. Exact approved friendly rounded 3D clay miniature rendering, warm soft studio lighting, saturated colors, smooth bevels and clear detail. Keep reference proportions, costume design, pose and identity. Render at 1024x1024 or higher, object at least 850px along long edge with safe 8% transparent margin; chest/arms fully present as in reference. Actual clean alpha background, empty holes transparent; smooth antialiased edges on light AND dark backgrounds. No white halo, colored fringe, specks, cut-off hair, extra fingers, ground plane, UI, labels, nameplates, status badges, circles, buttons or text (except the car's 03). Not a sprite sheet.",
+      "reference": "Design/Demos/SoftMiniature/approved/04-garage.png"
+    },
+    {
+      "id": "spoiler",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-def60f8e-ff71-4f2f-9046-2ec059780d88.png",
+      "prompt": "Use case: precise-object-edit. Asset type: ONE production 3D clay miniature UI icon, high-resolution recreation from approved screenshot. Recreate ONLY the red-and-white rear spoiler in the top right inventory cell, two chunky grey supports and red endplates, exact reference camera and silhouette. Preserve camera, design, proportions, soft clay/plastic materials, rich friendly colors and lighting exactly. Genuine clean 1024x1024 detail, subject at least 850 pixels long with 7% transparent padding. Actual alpha transparency, antialiased closed clean silhouette, fully transparent holes, clean over dark and light backgrounds; no white halo, colored fringe, speckle, jagged contours, floor/background, UI, panels, labels, numbers or extra items. Do not just upscale reference pixels.",
+      "reference": "Design/Demos/SoftMiniature/approved/02-bag.png"
+    },
+    {
+      "id": "brake",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-72bc18f0-2426-47fd-b79d-7a5b9bdd76b2.png",
+      "prompt": "Use case: precise-object-edit. Asset type: ONE production 3D clay miniature UI icon, high-resolution recreation from approved screenshot. Recreate ONLY the round dark perforated brake disk with bright red brake caliper, second inventory row center, exact reference view. Preserve camera, design, proportions, soft clay/plastic materials, rich friendly colors and lighting exactly. Genuine clean 1024x1024 detail, subject at least 850 pixels long with 7% transparent padding. Actual alpha transparency, antialiased closed clean silhouette, fully transparent holes, clean over dark and light backgrounds; no white halo, colored fringe, speckle, jagged contours, floor/background, UI, panels, labels, numbers or extra items. Do not just upscale reference pixels.",
+      "reference": "Design/Demos/SoftMiniature/approved/02-bag.png"
+    },
+    {
+      "id": "inventory_crate",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-54f6490c-6124-4a0e-86c9-0e56544479e1.png",
+      "prompt": "Use case: precise-object-edit. Asset type: ONE production 3D clay miniature UI icon, high-resolution recreation from approved screenshot. Recreate ONLY the yellow wooden inventory crate with blue-white checkerboard sides and two blue cushion-like parts inside, from the storage summary strip. Preserve camera, design, proportions, soft clay/plastic materials, rich friendly colors and lighting exactly. Genuine clean 1024x1024 detail, subject at least 850 pixels long with 7% transparent padding. Actual alpha transparency, antialiased closed clean silhouette, fully transparent holes, clean over dark and light backgrounds; no white halo, colored fringe, speckle, jagged contours, floor/background, UI, panels, labels, numbers or extra items. Do not just upscale reference pixels.",
+      "reference": "Design/Demos/SoftMiniature/approved/02-bag.png"
+    },
+    {
+      "id": "currency_coins",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-beb9abe0-3c76-49e3-960a-04e99829d4ad.png",
+      "prompt": "Use case: precise-object-edit. Asset type: ONE production 3D clay miniature UI icon, high-resolution recreation from approved screenshot. Recreate ONLY the small pile of bright golden coins in the Thu nhập selector, rounded rims with embossed five-pointed star on front coins, exact approved miniature clay look. Preserve camera, design, proportions, soft clay/plastic materials, rich friendly colors and lighting exactly. Genuine clean 1024x1024 detail, subject at least 850 pixels long with 7% transparent padding. Actual alpha transparency, antialiased closed clean silhouette, fully transparent holes, clean over dark and light backgrounds; no white halo, colored fringe, speckle, jagged contours, floor/background, UI, panels, labels, numbers or extra items. Do not just upscale reference pixels.",
+      "reference": "Design/Demos/SoftMiniature/approved/05-league.png"
+    },
+    {
+      "id": "speedometer",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-ce72d073-b152-4392-968b-4457d88718ce.png",
+      "prompt": "Use case: precise-object-edit. Asset type: ONE production 3D clay miniature UI icon, high-resolution recreation from approved screenshot. Recreate ONLY the speedometer gauge icon from lower left stat tile, cream arch housing, blue gauge segments and coral red needle, exact reference. Preserve camera, design, proportions, soft clay/plastic materials, rich friendly colors and lighting exactly. Genuine clean 1024x1024 detail, subject at least 850 pixels long with 7% transparent padding. Actual alpha transparency, antialiased closed clean silhouette, fully transparent holes, clean over dark and light backgrounds; no white halo, colored fringe, speckle, jagged contours, floor/background, UI, panels, labels, numbers or extra items. Do not just upscale reference pixels.",
+      "reference": "Design/Demos/SoftMiniature/approved/04-garage.png"
+    },
+    {
+      "id": "rocket_acceleration",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-66258aa3-f7ef-4fb5-abcf-6faac0dd2ab9.png",
+      "prompt": "Use case: precise-object-edit. Asset type: ONE production 3D clay miniature UI icon, high-resolution recreation from approved screenshot. Recreate ONLY the red-and-cream toy rocket acceleration icon from upper right stat tile, shiny round blue porthole and yellow flame, exact reference. Preserve camera, design, proportions, soft clay/plastic materials, rich friendly colors and lighting exactly. Genuine clean 1024x1024 detail, subject at least 850 pixels long with 7% transparent padding. Actual alpha transparency, antialiased closed clean silhouette, fully transparent holes, clean over dark and light backgrounds; no white halo, colored fringe, speckle, jagged contours, floor/background, UI, panels, labels, numbers or extra items. Do not just upscale reference pixels.",
+      "reference": "Design/Demos/SoftMiniature/approved/04-garage.png"
+    },
+    {
+      "id": "stability_scales",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-ed61ec05-9969-4c00-a195-de1c0058a2e8.png",
+      "prompt": "Use case: precise-object-edit. Asset type: ONE production 3D clay miniature UI icon, high-resolution recreation from approved screenshot. Recreate ONLY the blue balance scales with golden yellow pans from lower right stat tile, exact reference. Preserve camera, design, proportions, soft clay/plastic materials, rich friendly colors and lighting exactly. Genuine clean 1024x1024 detail, subject at least 850 pixels long with 7% transparent padding. Actual alpha transparency, antialiased closed clean silhouette, fully transparent holes, clean over dark and light backgrounds; no white halo, colored fringe, speckle, jagged contours, floor/background, UI, panels, labels, numbers or extra items. Do not just upscale reference pixels.",
+      "reference": "Design/Demos/SoftMiniature/approved/04-garage.png"
+    },
+    {
+      "id": "helmet_pit",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-8a65b76a-96bf-46d4-a341-dd93e38ad6d9.png",
+      "prompt": "Use case: precise-object-edit. Asset type: ONE production 3D clay miniature UI icon, high-resolution recreation from approved screenshot. Recreate ONLY the orange and white racing helmet with blue-grey visor, two black tires and waving checkered flag behind it, from team power summary right, same arrangement. Preserve camera, design, proportions, soft clay/plastic materials, rich friendly colors and lighting exactly. Genuine clean 1024x1024 detail, subject at least 850 pixels long with 7% transparent padding. Actual alpha transparency, antialiased closed clean silhouette, fully transparent holes, clean over dark and light backgrounds; no white halo, colored fringe, speckle, jagged contours, floor/background, UI, panels, labels, numbers or extra items. Do not just upscale reference pixels.",
+      "reference": "Design/Demos/SoftMiniature/approved/03-drivers.png"
+    },
+    {
+      "id": "facility_garage",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-3f80c05c-1153-4970-ab3e-9b2af4a3d06d.png",
+      "prompt": "Use case: precise-object-edit. Asset type: ONE production 3D clay miniature UI icon, high-resolution recreation from approved screenshot. Recreate ONLY the small cream garage building with red roof, grey roller door and blue wrench sign from Cơ sở button, same miniature shape. Preserve camera, design, proportions, soft clay/plastic materials, rich friendly colors and lighting exactly. Genuine clean 1024x1024 detail, subject at least 850 pixels long with 7% transparent padding. Actual alpha transparency, antialiased closed clean silhouette, fully transparent holes, clean over dark and light backgrounds; no white halo, colored fringe, speckle, jagged contours, floor/background, UI, panels, labels, numbers or extra items. Do not just upscale reference pixels.",
+      "reference": "Design/Demos/SoftMiniature/approved/01-race.png"
+    },
+    {
+      "id": "trophy_large",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-5592c4a0-7f4f-439e-a213-138dd2a44be6.png",
+      "prompt": "Use case: precise-object-edit. Asset type: ONE production 3D clay miniature UI icon, high-resolution recreation from approved screenshot. Recreate ONLY the large golden trophy and two small golden stars floating near its lower sides, from Cúp hiện có summary panel; exact reference, rounded double handles, no laurels. Preserve camera, design, proportions, soft clay/plastic materials, rich friendly colors and lighting exactly. Genuine clean 1024x1024 detail, subject at least 850 pixels long with 7% transparent padding. Actual alpha transparency, antialiased closed clean silhouette, fully transparent holes, clean over dark and light backgrounds; no white halo, colored fringe, speckle, jagged contours, floor/background, UI, panels, labels, numbers or extra items. Do not just upscale reference pixels.",
+      "reference": "Design/Demos/SoftMiniature/approved/05-league.png"
+    },
+    {
+      "id": "upgrade_gearbox",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-bd59cbb2-e0bf-4af1-a7b2-13c9c2a148c0.png",
+      "prompt": "Use case: precise-object-edit. Production single UI game icon, high-resolution reconstruction from the approved reference. Recreate ONLY the two interlocking chunky silver and yellow GEARS from the fourth vehicle upgrade row, same exact shape and view. Preserve the approved rounded 3D clay miniature style, proportions, camera, color placement, forms and soft lighting. Reconstruct genuinely crisp detail at 1024x1024, object at least 800px long, 8% empty margin, no cut-off. Actual transparent background with a smooth CLOSED clean silhouette and antialiased alpha; all interior empty holes transparent. Absolutely no white/blue color fringe, halo, colored specks, isolated pixels, glow, ragged edges, ground, text, numbers, buttons, panels, or baked background/checkerboard. One isolated icon only. Clean professionally masked edge suitable on BOTH white and dark navy.",
+      "reference": "Design/Demos/SoftMiniature/approved/01-race.png"
+    },
+    {
+      "id": "gearbox",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-9731b07f-3fbc-47fe-b12a-26f2372a4a3b.png",
+      "prompt": "Use case: precise-object-edit high fidelity restoration. Reference is the EXACT APPROVED target crop, not inspiration. Recreate the EXACT horizontal gearbox in reference: steel-gray rectangular transmission HOUSING on the right, large yellow toothed GEAR mounted vertically on left/front face, short steel shaft protruding toward lower-left, circular steel flange with visible bolts. EXACT same parts, relative sizes, view, silhouette and mechanical structure. Do NOT replace with two free-standing gears. Restore original rounded clay toy 3D design with crisp clean high-resolution detail. Render one isolated asset at 1536x1536 or larger (long edge >=1024), 8% safe padding, genuine transparent background and clean smooth antialiased alpha including interior empty holes. No halo, white fringe, colored specks, shadow fog, vignette, backdrop, labels, extra parts or text. Preserve original design over novelty. Improve resolution ONLY.",
+      "reference": "Design/AssetPacks/Soft_Miniature_UI_v1/restoration_references/gearbox_inventory.png",
+      "rejected_previous": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-bd59cbb2-e0bf-4af1-a7b2-13c9c2a148c0.png"
+    },
+    {
+      "id": "chassis",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-51444b46-ca9c-4dac-bebc-42aad7babd66.png",
+      "prompt": "Use case: precise-object-edit high fidelity restoration. Reference is the EXACT APPROVED target crop, not inspiration. Recreate the EXACT empty rectangular tubular car chassis reference. KEEP the precise count, placement and topology of every silver rail and RED diagonal interior brace. Low silver front bumper on lower left with two horizontal crossbars, long silver side rails, raised silver rear hoop upper right, four rounded mounting tabs, RED triangulated roll-cage struts with the SAME junctions. No extra bracing, no removed bracing, no new holes or chassis shape. Restore original rounded clay toy 3D design with crisp clean high-resolution detail. Render one isolated asset at 1536x1536 or larger (long edge >=1024), 8% safe padding, genuine transparent background and clean smooth antialiased alpha including interior empty holes. No halo, white fringe, colored specks, shadow fog, vignette, backdrop, labels, extra parts or text. Preserve original design over novelty. Improve resolution ONLY.",
+      "reference": "Design/AssetPacks/Soft_Miniature_UI_v1/restoration_references/chassis.png",
+      "rejected_previous": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-1552ca4e-cdaf-44ac-80e6-b8fc4b91a58d.png"
+    },
+    {
+      "id": "nav_bag",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-6ca944a3-893a-400e-a3ae-8143512dc631.png",
+      "prompt": "Use case: precise-object-edit high fidelity restoration. Reference is the EXACT APPROVED target crop, not inspiration. Recreate EXACT reference BLUE NAVIGATION BACKPACK. One YELLOW carry handle, shaped blue top flap with a single small golden fastening tab, lower front blue pocket with a horizontal GOLDEN YELLOW rounded bar/strap across its top and ONE small central square blue buckle. Blue oval side pockets left and right. Preserve the exact flap seams, zip ridges, pocket bulges, one broad horizontal yellow strap (NOT two vertical yellow straps), camera and proportions. Restore original rounded clay toy 3D design with crisp clean high-resolution detail. Render one isolated asset at 1536x1536 or larger (long edge >=1024), 8% safe padding, genuine transparent background and clean smooth antialiased alpha including interior empty holes. No halo, white fringe, colored specks, shadow fog, vignette, backdrop, labels, extra parts or text. Preserve original design over novelty. Improve resolution ONLY.",
+      "reference": "Design/AssetPacks/Soft_Miniature_UI_v1/restoration_references/nav_bag.png",
+      "rejected_previous": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-35e9146e-9130-4e7b-b4a1-97a02e8005bf.png"
+    },
+    {
+      "id": "bag_hero",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-8f675911-8729-4304-a6b6-01c1901dd9bc.png",
+      "prompt": "Use case: precise-object-edit high fidelity restoration. Reference is the EXACT APPROVED target crop, not inspiration. Recreate EXACT reference large blue BACKPACK from bag page header. Blue top flap with FOUR white square checker marks in a diagonal checker pattern, ONE large gold square latch centered on lower pocket, YELLOW side pocket/strap at left, golden top handle. Keep reference camera, shapes, seams, pocket layout, thick shoulder straps. Not the smaller bottom navigation backpack. Restore original rounded clay toy 3D design with crisp clean high-resolution detail. Render one isolated asset at 1536x1536 or larger (long edge >=1024), 8% safe padding, genuine transparent background and clean smooth antialiased alpha including interior empty holes. No halo, white fringe, colored specks, shadow fog, vignette, backdrop, labels, extra parts or text. Preserve original design over novelty. Improve resolution ONLY.",
+      "reference": "Design/AssetPacks/Soft_Miniature_UI_v1/restoration_references/bag_hero.png"
+    },
+    {
+      "id": "harbor_background_clean",
+      "generated_path": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-db7a670c-98ac-4d07-9938-9ecd9de45b86.png",
+      "prompt": "Use case: precise-object-edit high-resolution background restoration. Reference image is the exact approved harbor miniature track background. Produce an ULTRA SHARP 4K LANDSCAPE master, target 3840 pixels wide by 2120 high. Preserve EXACT camera, composition, road curve, track footprint and framing. Improve real small-detail definition: smooth clean bold edges, tiny readable miniature grandstand spectators, crisp red-white curb blocks, detailed asphalt with sharp white lane dashes, well defined garage doors and clean stone blocks, clear foliage. Style must stay SOFT MINIATURE rounded 3D clay toy, saturated clean blue ocean and green foliage, NOT photoreal, NOT blurry or watercolor. Remove nothing and add nothing: keep sailboat left, canopy grandstand upper left, garage upper center, BLANK checkered arch upper right, lighthouse top-right (partially clipped as reference), two parked cars lower right, yellow container crane far right. No racing cars on asphalt, no UI, no labels, no money bubbles, no HUD. Improve sharpness instead of merely upscaling; don't downsize reference. Geometry must stay identical for live car overlay. Opaque full scene, NO depth-of-field blur anywhere.",
+      "reference": "Design/Demos/SoftMiniature/approved/01-race.png",
+      "rejected_previous": "/home/thupv/.codex/generated_images/01a1e8a1-26e2-7f52-9c3e-fca936b6b974/exec-b13b3e9f-8d36-49a2-8892-a11313439197.png"
+    }
+  ]
+}

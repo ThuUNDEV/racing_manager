@@ -1,0 +1,5 @@
+Pillow==13.0.0
+numpy==2.5.5
+opencv-python-headless==5.0.0.93
+rembg[cpu]
+scipy
