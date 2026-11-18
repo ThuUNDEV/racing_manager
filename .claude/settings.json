@@ -23,12 +23,14 @@
       "mcp__godot__editor_screenshot",
       "mcp__godot__test_run"
     ],
+    "ask": [
+      "Bash(git push:*)"
+    ],
     "deny": [
       "Read(./.env)",
       "Read(./.claude/remote.env)",
       "Read(**/*.keystore)",
       "Read(**/*.jks)",
-      "Bash(git push:*)",
       "Bash(git reset --hard:*)",
       "Bash(git clean:*)",
       "Bash(godot * --reset*)"
