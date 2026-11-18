@@ -110,9 +110,10 @@ func setup(product: Dictionary) -> void:
 	for state in ["normal", "hover", "pressed", "hover_pressed", "disabled"]:
 		var disabled: bool = state == "disabled"
 		var pressed: bool = state in ["pressed", "hover_pressed"]
-		var top := Color("ecdcc8") if disabled else Color("bfe8ff" if state == "hover" else ("78bde6" if pressed else "a6dbf7"))
-		price.add_theme_stylebox_override(state, ButtonSkin.palette(top, Color("e6d4bc") if disabled else Color("78bde6" if pressed else "a6dbf7"), Color("cbb79b") if disabled else Color("3b85b3" if pressed else "52a1cc")))
-		price.add_theme_color_override("font_" + state + "_color" if state != "normal" else "font_color", Color("657079") if disabled else Color("0e2b5c"))
+		var top := Color("ecdcc8") if disabled else Color("62d95a" if state == "hover" else ("3cb034" if pressed else "4cc844"))
+		price.add_theme_stylebox_override(state, ButtonSkin.palette(top, Color("e6d4bc") if disabled else Color("3cb034" if pressed else "34a82c"), Color("cbb79b") if disabled else Color("1f7a1a" if pressed else "238a1e")))
+		price.add_theme_color_override("font_" + state + "_color" if state != "normal" else "font_color", Color("657079") if disabled else Color.WHITE)
+	price.add_theme_color_override("font_outline_color", Color("1a6a16"))
 	var focus := Soft.flat(Color.TRANSPARENT, 0, 24)
 	focus.border_color = Color("168cc2")
 	focus.set_border_width_all(2)
@@ -153,4 +154,5 @@ func _fit_price() -> void:
 func update_price(value: String, busy: bool, reason: String) -> void:
 	price.text = I18n.t("shop.processing") if busy else (I18n.t("common.owned_2") if reason == "owned" else value)
 	price.disabled = busy or reason != ""
+	price.add_theme_constant_override("outline_size", 0 if price.disabled else 4)
 	_fit_price()

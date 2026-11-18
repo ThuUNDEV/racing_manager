@@ -414,6 +414,7 @@ func _h_offer_card(parent: Node, p: Dictionary, row_h: float) -> void:
 	(card.get_node("%Art") as Control).name = "OfferArt_" + sku
 	var button := card.get_node("%Price") as Button
 	button.name = "Iap_" + sku
+	button.theme_type_variation = &"BuyButton"
 	card.buy_pressed.connect(func() -> void: iap_requested.emit(sku))
 	var status := _text("", 10, MUTED)
 	status.hide()
@@ -900,6 +901,7 @@ func _gem_card(parent: Node, sku: String, amount: int, price: String) -> void:
 	card.setup(_h_tex("gems_%d" % amount), "%d.%03d" % [amount / 1000, amount % 1000] if amount >= 1000 else str(amount), price, null, I18n.t("shop.first_time_x_2"))
 	card.art_rect.name = "GemArt_" + sku
 	card.price.name = "Iap_" + sku
+	card.price.theme_type_variation = &"BuyButton"
 	card.buy_pressed.connect(func() -> void: iap_requested.emit(sku))
 	var status := _text("", 16, Color.WHITE)
 	status.hide()
@@ -939,6 +941,7 @@ func update_iap(view: Dictionary) -> void:
 		if price.is_empty():
 			price = String(GameData.iap_product(sku).get("price_fallback", ""))
 		button.text = I18n.t("shop.processing") if busy else price
+		button.disabled = busy or reason != ""
 		if _iap_buttons[sku].has("perk_card"):
 			_iap_buttons[sku]["perk_card"].update_price(price, busy, reason)
 		else:

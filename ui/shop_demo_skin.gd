@@ -193,8 +193,9 @@ static func price_text(b: Button, preferred_size: int = 18, unit: float = 1.0) -
 			point_size -= 1
 	b.add_theme_font_size_override("font_size", roundi(point_size * unit))
 	b.set_meta("ub_font", point_size)
-	b.add_theme_color_override("font_outline_color", Color.TRANSPARENT)
-	var outline := 0
+	var buy := b.theme_type_variation == &"BuyButton" and not b.disabled
+	b.add_theme_color_override("font_outline_color", Color(0.1, 0.4, 0.1) if buy else Color.TRANSPARENT)
+	var outline := 4 if buy else 0
 	b.add_theme_constant_override("outline_size", roundi(outline * unit))
 	b.set_meta("ub_c_outline_size", outline)
 	if b.icon != null and b.size.x > 0 and not reference:
