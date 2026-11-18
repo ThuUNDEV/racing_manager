@@ -79,3 +79,23 @@ Quy tắc chung:
 - `horus-game.json`: `appId` và `repo` còn trống, `languages` mới có `vi`.
 - Chưa kiểm tra loading/splash trên thiết bị di động thật (xem `Design/09_Startup_Loading_Design.md`).
 - Daily Gift v3 và Race UI v3 đang sửa dở (nhiều file đang thay đổi chưa commit): hỏi người dùng trước khi động vào `ui/daily_rewards_popup.gd`, `ui/race_view.gd`, `ui/race_world_3d.gd`.
+
+## Setup và dựng UI
+
+- UI dựng **bằng code GDScript**, không phải nhiều scene `.tscn`. `scenes/main.tscn` chỉ có một `Control` gắn `ui/main.gd`; các trang (`ui/*_page.gd`, popup) tự tạo node trong `_ready()`/`build_*`. Khi sửa UI, sửa code trong `ui/`, không tạo scene mới nếu không được yêu cầu. Khi làm UI từ concept/ảnh tham chiếu, gọi skill `godot-ui` để phân tích layout và lặp so sánh, nhưng phần "tạo scene tái dùng" của skill chỉ áp dụng khi người dùng yêu cầu; mặc định đưa kết quả vào code trong `ui/`.
+- Kích thước: viewport 886x1920, stretch `canvas_items`, scale 2.2718, nên đơn vị logical là 390x845. Lề ngang 12, khoảng cách khối 6-8, vùng chạm tối thiểu 44x44. Chi tiết toạ độ và cây node: `Design/34_Layer_Layout_Spec.md`.
+- Dùng container, anchor và size flags. Không đặt toạ độ tuyệt đối trừ khi layout đã chốt trong `Design/34_Layer_Layout_Spec.md`.
+- Tài nguyên giao diện:
+  - `ui/soft_miniature.gd` (`Soft`): màu, icon cut-out, panel; lấy texture theo id trong `assets/soft_miniature_ui_v1/manifest.json`.
+  - `ui/hd_ui.gd` (`HdUi`): bảng màu và StyleBox 9-slice.
+  - `ui/button_skin.gd`: nút bo tròn một mặt cho mọi palette.
+  - Tái dùng những helper này trước khi tự vẽ StyleBox mới. Thiếu asset thì báo, không bịa.
+- Nút, tab, chữ phải hiển thị tốt ở cả 8 ngôn ngữ (chữ Việt/Indonesia dài hơn, chữ Thái/CJK cao hơn). Bắt chữ tràn bằng `tests/league_redesign_preview_test.gd`.
+- Kiểm tra bằng Godot MCP trước: `game_run` rồi `game_scene_tree`/`game_node_get` để xem cây node và kích thước thật, `game_screenshot` để chụp, `game_input` để bấm tab/nút, `game_stop` khi xong. `editor_screenshot` chỉ chụp editor. `game_run` không có tham số biến môi trường, nên không đặt được `XDG_DATA_HOME`. Luôn chạy với `args: ["--economy-test"]`: cờ này chuyển save sang `user://tests/economy_preview/` (đã kiểm ngày 18/11/2026: `save.json` thật không đổi). Chạy `game_run` không có cờ này sẽ ghi vào save thật. Các cờ như `--races=N`, `--gated`, `--tutorial-done` vẫn ghi vào save thật nếu không đi kèm `--economy-test`.
+- Khi cần ảnh nhiều độ rộng cố định hoặc chạy headless: viết script test headless `root.get_texture().get_image().save_png(...)` ở các rộng 320, 390, 412 như `tests/ads_ticket_ui_test.gd`, lưu vào `Design/Previews/<tên>/`. Với ảnh chụp thật cửa sổ game, dùng `--screen 1`, `--audio-driver Dummy` và `XDG_DATA_HOME` tạm.
+- Quy trình sửa UI theo concept:
+  1. Đối chiếu concept đã duyệt (`Design/Demos/SoftMiniature/approved/`) và `Design/34_Layer_Layout_Spec.md`.
+  2. Sprite thiếu thì làm theo mục "Tạo ảnh demo / asset", rồi thêm vào manifest của pack.
+  3. Sửa code trong `ui/`, chạy `script_check`, rồi chạy test UI liên quan (`*_ui_test`).
+  4. Chụp ở 320/390/412, so với concept, sửa lặp đến khi khớp.
+  5. Thêm chuỗi mới qua i18n (xem Quy ước code).
