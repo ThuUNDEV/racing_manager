@@ -1,11 +1,7 @@
 {
   "mcpServers": {
     "godot": {
-      "args": [
-        "--project",
-        "/home/thupv/Desktop/DataSSD/racing_manager"
-      ],
-      "command": "/home/thupv/.local/bin/godot-mcp"
+      "command": "${HOME}/.local/bin/godot-mcp"
     }
   }
 }

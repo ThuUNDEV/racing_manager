@@ -47,7 +47,7 @@ Game idle/manager đua xe, Godot 4.7 (GDScript, Forward Plus), màn dọc 886x19
 
 ## Công cụ MCP
 
-- `godot` (`.mcp.json`): gọi `project_info` trước; viết `.gd` rồi `script_check`; dùng `class_info` thay vì đoán API. Đường dẫn `godot-mcp` trong `.mcp.json` là của máy dev, cần sửa khi đổi máy.
+- `godot` (`.mcp.json`): gọi `project_info` trước; viết `.gd` rồi `script_check`; dùng `class_info` thay vì đoán API. `.mcp.json` dùng `${HOME}`, nên mỗi máy chỉ cần cài `godot-mcp` vào `~/.local/bin/`. `godot-mcp` tự tìm `project.godot` từ thư mục làm việc (hoặc `GODOT_PROJECT`), và tìm Godot qua `GODOT_PATH` hoặc PATH.
 - `art-tools`: tách nền, viền, phóng to ảnh.
 
 ## Tạo ảnh demo / asset
