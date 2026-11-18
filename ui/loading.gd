@@ -5,7 +5,7 @@ const CleanArt = preload("res://ui/clean_modern_art.gd")
 ## 100% và đã vẽ ít nhất một khung hình, loading bàn giao, mờ dần rồi tự giải phóng.
 
 const ART := "res://assets/startup_loading/"
-const BG_FILE := "loading_garage_flare_v2.png"  # art đã gồm logo, không chứa UI tiến độ
+const BG_FILE := "loading_race_flare_v1.png"  # art đã gồm logo, không chứa UI tiến độ
 const GAME_TITLE := "RACING TYCOON"
 const C_BG := Color("fff3e2")
 const C_TEXT := Color("173f60")
