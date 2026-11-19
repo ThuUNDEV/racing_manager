@@ -49,6 +49,7 @@ const LEGACY_CFG := {
 		"offline_double": {"reward": "offline_double", "daily_limit": 0, "cooldown_sec": 0, "unlock": ""},
 		"race_bonus": {"reward": "race_bonus", "daily_limit": 0, "cooldown_sec": 0, "unlock": ""},
 		"daily_double": {"reward": "daily_double", "daily_limit": 1, "cooldown_sec": 0, "unlock": "U4_shop"},
+		"daily_x2": {"reward": "daily_gift_x2", "daily_limit": 1, "cooldown_sec": 0, "unlock": ""},
 		"free_gems": {"reward": "gems", "amount": 5, "daily_limit": 2, "cooldown_sec": 43200, "unlock": "U4_shop"},
 	},
 }
@@ -169,6 +170,24 @@ func _initialize() -> void:
 	r = await _show("daily_double")
 	_check(r["last"]["status"] == "rewarded" and _gs.coins.equals(c0.add(gift)), "cộng thêm đúng một phần quà ngày")
 	_check(_ads.block_reason("daily_double") == "claimed", "mỗi ngày một lần")
+
+	print("== Quà đăng nhập x2 (xem trước khi nhận) ==")
+	_fresh()
+	var day0 := 21000
+	_gs.daily_device_unix = float(day0) * 86400.0 + 3600.0
+	_gs.daily_rewards = DailyRewards.unlock(DailyRewards.default_state(), day0)
+	_check(_ads.block_reason("daily_x2") == "none", "ngày 1 chỉ có vé, không có gem: không mời x2")
+	_gs.daily_rewards["cycle_day"] = 2
+	_check(_ads.can_offer("daily_x2") and int(_ads.offer_amount("daily_x2")) == 15, "ngày 3 có 15 gem: mời x2")
+	var g0x: int = _gs.gems
+	_gs.simulate_write_failure = true
+	r = await _show("daily_x2")
+	_check(r["last"]["status"] == "failed" and _gs.gems == g0x and int(_gs.daily_rewards["total_days"]) == 0, "lưu lỗi: không cấp gem, không tính ngày")
+	_gs.simulate_write_failure = false
+	r = await _show("daily_x2")
+	_check(r["last"]["status"] == "rewarded" and _gs.gems == g0x + 30, "xem xong: nhận 30 gem (gấp đôi)")
+	_check(int(_gs.daily_rewards["total_days"]) == 1 and bool(_gs.last_daily_reward["x2"]) and int(_gs.last_daily_reward["gems"]) == 30, "một giao dịch: tính ngày và ghi last_daily_reward")
+	_check(not _gs.daily_reward_available() and _ads.block_reason("daily_x2") == "none", "nhận rồi: không mời lại, không nhận lần hai")
 
 	print("== Gem miễn phí: cooldown, giới hạn, trần ngày ==")
 	_fresh()

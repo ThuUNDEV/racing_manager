@@ -70,7 +70,7 @@ func _initialize() -> void:
 	await _frames(25)
 	var anchor: Vector2 = view.grandstand_screen_point()
 	var center := bubble.position + bubble.size * 0.5
-	_check(center.y < anchor.y and absf(center.x - anchor.x) < 2.0, "bong bóng nằm ngay trên mái khán đài")
+	_check(center.y < anchor.y and absf(center.x - anchor.x) <= bubble.size.x * 0.5, "bảng nằm ngay trên mái nhà để xe, đuôi chỉ xuống mái")
 
 	print("== Xoay bản đồ: bong bóng đi theo ==")
 	var p0 := bubble.position

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "_doc": "Rewarded ads v1 (Design/26). daily_cap: shared daily cap on rewarded ads, UTC day (Ads Break not counted). Each placement: reward = reward type (boost | income_seconds | gems | driver_coupon | gear_coupon; offline_double | race_bonus | daily_double are for tests only and v1 does not declare them); daily_limit 0 = only the shared cap applies; cooldown_sec between two claims; unlock = feature id in tutorial.json (empty = always open). Numbers are starting values and must be rebalanced after soft launch (Design/26 §5).",
+  "_doc": "Rewarded ads v1 (Design/26). daily_cap: shared daily cap on rewarded ads, UTC day (Ads Break not counted). Each placement: reward = reward type (boost | income_seconds | gems | driver_coupon | gear_coupon; offline_double | race_bonus | daily_double are for tests only and v1 does not declare them; daily_gift_x2 = watch before claiming the daily login gift, doubles its gems, Design/30 §6); daily_limit 0 = only the shared cap applies; cooldown_sec between two claims; unlock = feature id in tutorial.json (empty = always open). Numbers are starting values and must be rebalanced after soft launch (Design/26 §5).",
   "daily_cap": 12,
   "placements": {
     "income_boost": {
@@ -23,6 +23,10 @@
     "free_gear_coupon": {
       "reward": "gear_coupon", "kind": "standard", "count": 1,
       "daily_limit": 1, "cooldown_sec": 0, "unlock": "U3_bag"
+    },
+    "daily_x2": {
+      "reward": "daily_gift_x2",
+      "daily_limit": 1, "cooldown_sec": 0, "unlock": "U5_drivers"
     }
   },
   "break": {

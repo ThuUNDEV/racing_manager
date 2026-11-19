@@ -8,9 +8,17 @@ const CleanArt = preload("res://ui/clean_modern_art.gd")
 
 const FLAG_W := 44.0
 const CHIP_SIZE := Vector2(100, 36)
-const BUBBLE_HIT := 56.0
-const BUBBLE_R := 22.0
-const BUBBLE_TIP := 4.0            # đuôi bong bóng chạm cách mái khán đài 4 px
+const BOARD_H := 32.0
+const BOARD_HIT_H := 44.0           # vùng chạm tối thiểu; bảng vẽ nằm ở đáy vùng này
+const BOARD_TOP := BOARD_HIT_H - BOARD_H
+const BOARD_MIN_W := 74.0
+const BOARD_GAP := 14.0            # khoảng hở giữa đáy bảng và mái nhà (gồm cả đuôi)
+const BOARD_PAD := 8.0
+const BOARD_ICON := 20.0
+const BOARD_VIDEO := 16.0
+const BOARD_TAIL_W := 8.0          # nửa bề ngang chân đuôi
+const BOARD_TAIL_H := 7.0
+const BOARD_FONT := 13
 const BUBBLE_INSET := 28.0
 const BUBBLE_POP_SEC := 0.28
 const BUBBLE_BREAK_SEC := 0.18
@@ -49,7 +57,9 @@ var _bubble_age := 0.0
 var _bubble_t := 0.0              # thời gian từ lúc pop-in, cho hiệu ứng
 var _bubble_break := -1.0         # >= 0: đang vỡ
 var _bubble_tail := true
-var _bubble_tether := Vector2.ZERO
+var _bubble_tail_dx := 0.0        # lệch ngang của đuôi so với tâm bảng, kẹp trong bề ngang bảng
+var _bubble_amount: Label
+var _bubble_video: TextureRect
 var _bubble_down := Vector2.ZERO
 var _bubble_dragging := false
 var _bubble_rv: RaceView
@@ -552,7 +562,7 @@ func _build_bubble() -> void:
 	_bubble = Button.new()
 	_bubble.name = "CashBubble"
 	_bubble.accessibility_name = I18n.t("ads.bonus_cash")
-	_bubble.size = Vector2(BUBBLE_HIT, BUBBLE_HIT)
+	_bubble.size = Vector2(BOARD_MIN_W, BOARD_HIT_H)
 	_bubble.pivot_offset = _bubble.size * 0.5
 	_bubble.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	for st in ["normal", "hover", "pressed", "focus", "disabled"]:
@@ -565,14 +575,23 @@ func _build_bubble() -> void:
 	_bubble_face.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_bubble_face.draw.connect(_draw_bubble)
 	_bubble.add_child(_bubble_face)
-	var icon := HdUi.icon("icons/cash.png", Vector2(30, 30))
+	var icon := HdUi.icon("icons/cash.png", Vector2(BOARD_ICON, BOARD_ICON))
 	icon.name = "BubbleCash"
 	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	_bubble.add_child(icon)
-	icon.position = Vector2(13, 13)
-	icon.size = Vector2(30, 30)
+	icon.position = Vector2(BOARD_PAD, BOARD_TOP + (BOARD_H - BOARD_ICON) * 0.5 - 1.0)
+	icon.size = Vector2(BOARD_ICON, BOARD_ICON)
+	_bubble_amount = _lbl(BOARD_FONT, Color("ffffff"))
+	_bubble_amount.name = "BubbleAmount"
+	_bubble_amount.add_theme_font_override("font", HdUi.font())
+	_bubble_amount.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	_bubble_amount.clip_text = true
+	_bubble.add_child(_bubble_amount)
+	_bubble_video = _art(RaceArt.ROOT + "icons/video.png")
+	_bubble_video.name = "BubbleVideo"
+	_bubble.add_child(_bubble_video)
 	_bubble.hide()
 	add_child(_bubble)
 
@@ -587,6 +606,7 @@ func _begin_bubble(rv: RaceView) -> void:
 	_bubble.disabled = false
 	_bubble.modulate = Color.WHITE
 	_bubble.scale = Vector2.ONE * (1.0 if _reduce_motion else 0.0)
+	_layout_board()
 	if _bubble_rv != rv:
 		_bubble_rv = rv
 		rv.view_rotated.connect(func() -> void: _place_bubble(_bubble_rv))
@@ -649,57 +669,75 @@ func _tick_bubble_break(delta: float, rv: RaceView) -> void:
 		_bubble.hide()
 
 
-## Đặt bong bóng lên mái khán đài theo góc xoay hiện tại; kẹp trong khung bản đồ.
+## Chữ số tiền + độ rộng bảng; gọi lúc bảng hiện ra.
+func _layout_board() -> void:
+	var amount: Variant = _ads.offer_amount(FLAG)
+	var text := "+" + Balance.fmt_money(amount) if amount is BigNumber else ""
+	_bubble_amount.text = text
+	var font := HdUi.font()
+	var text_w := ceilf(font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, BOARD_FONT).x)
+	var video := BOARD_VIDEO
+	var w := maxf(BOARD_MIN_W, BOARD_PAD * 2.0 + BOARD_ICON + 4.0 + text_w + 6.0 + video)
+	_bubble.size = Vector2(w, BOARD_HIT_H)
+	_bubble.pivot_offset = _bubble.size * 0.5
+	var text_x := BOARD_PAD + BOARD_ICON + 4.0
+	_bubble_amount.position = Vector2(text_x, BOARD_TOP)
+	_bubble_amount.size = Vector2(text_w + 4.0, BOARD_H - 2.0)
+	_bubble_video.position = Vector2(w - BOARD_PAD - video, BOARD_TOP + (BOARD_H - video) * 0.5 - 1.0)
+	_bubble_video.size = Vector2(video, video)
+
+
+## Đặt bảng lên mái khán đài theo góc xoay hiện tại; kẹp trong khung bản đồ.
 func _place_bubble(rv: RaceView) -> void:
 	if rv == null or _bubble == null or not _bubble.visible:
 		return
 	var anchor: Variant = rv.grandstand_screen_point()
 	if anchor == null:
 		return
-	var area := rv.grandstand_view_rect().grow(-BUBBLE_INSET)
-	var center := Vector2(clampf((anchor as Vector2).x, area.position.x, maxf(area.end.x, area.position.x)), area.position.y)
-	_bubble_tail = is_equal_approx(center.x, (anchor as Vector2).x)
+	var half := _bubble.size * 0.5
+	var area := rv.grandstand_view_rect().grow(-maxf(BUBBLE_INSET, half.x))
+	var want := Vector2((anchor as Vector2).x, (anchor as Vector2).y - half.y - BOARD_GAP)
+	var center := Vector2(clampf(want.x, area.position.x, maxf(area.end.x, area.position.x)),
+		clampf(want.y, area.position.y, maxf(area.end.y, area.position.y)))
+	_bubble_tail = is_equal_approx(center.x, want.x) and is_equal_approx(center.y, want.y)
 	if _chip != null and _chip.is_visible_in_tree():
-		var chip := Rect2(get_global_transform().affine_inverse() * _chip.get_global_rect().position, _chip.size).grow(BUBBLE_R + 4.0)
+		var chip := Rect2(get_global_transform().affine_inverse() * _chip.get_global_rect().position, _chip.size).grow(half.x + 4.0)
 		if chip.has_point(center):
 			center.x = chip.position.x
+			_bubble_tail = false
+	_bubble_tail_dx = clampf(want.x - center.x, -(half.x - 14.0), half.x - 14.0)
 	if not _reduce_motion and _bubble_break < 0.0:
-		center.y += sin(_bubble_t * TAU / 1.2) * 3.0
-	_bubble_tether = (anchor as Vector2) - center
-	_bubble.position = center - _bubble.size * 0.5
+		center.y += sin(_bubble_t * TAU / 1.2) * 2.0
+	_bubble.position = center - half
 	_bubble_face.queue_redraw()
 
 
 func _draw_bubble() -> void:
-	var c := _bubble_face.size * 0.5
-	var white := Color("ffffff")
-	var rim := Color("27a7e8")
-	if _bubble_tether.length() > BUBBLE_R + 6.0:
-		var end := c + _bubble_tether
-		var start := c + _bubble_tether.normalized() * BUBBLE_R
-		_bubble_face.draw_line(start, end, rim, 4.0, true)
-		_bubble_face.draw_line(start, end, white, 2.0, true)
-		_bubble_face.draw_circle(end, 4.5, rim)
-		_bubble_face.draw_circle(end, 2.5, white)
-	_bubble_face.draw_circle(c, BUBBLE_R, white)
-	_bubble_face.draw_arc(c, BUBBLE_R - 1.5, 0.0, TAU, 40, rim, 3.0, true)
+	var rect := Rect2(0.0, BOARD_TOP, _bubble_face.size.x, BOARD_H)
+	var tail_x := rect.size.x * 0.5 + _bubble_tail_dx
+	var rim := Color("f3e3b8")
+	_bubble_face.draw_colored_polygon(PackedVector2Array([Vector2(tail_x - BOARD_TAIL_W, rect.end.y - 3.0),
+		Vector2(tail_x + BOARD_TAIL_W, rect.end.y - 3.0), Vector2(tail_x, rect.end.y + BOARD_TAIL_H + 1.5)]), rim)
+	var shadow := StyleBoxFlat.new()
+	shadow.bg_color = Color(0, 0, 0, 0.22)
+	shadow.set_corner_radius_all(11)
+	_bubble_face.draw_style_box(shadow, Rect2(rect.position + Vector2(0, 3), rect.size))
+	var panel := StyleBoxFlat.new()
+	panel.bg_color = Color("1f4b5a")
+	panel.border_color = Color("f3e3b8")
+	panel.set_border_width_all(2)
+	panel.set_corner_radius_all(11)
+	_bubble_face.draw_style_box(panel, rect)
+	_bubble_face.draw_colored_polygon(PackedVector2Array([Vector2(tail_x - BOARD_TAIL_W + 2.5, rect.end.y - 2.0),
+		Vector2(tail_x + BOARD_TAIL_W - 2.5, rect.end.y - 2.0), Vector2(tail_x, rect.end.y + BOARD_TAIL_H - 1.5)]), panel.bg_color)
 	if _bubble_break >= 0.0:
-		var u := clampf(_bubble_break / BUBBLE_BREAK_SEC, 0.0, 1.0)
-		for i in 4:
-			var dir := Vector2.from_angle(float(i) * TAU / 4.0 + 0.6)
-			_bubble_face.draw_line(c + dir * (BUBBLE_R + 2.0 + 10.0 * u), c + dir * (BUBBLE_R + 8.0 + 14.0 * u), rim, 2.0)
 		return
 	var stay := maxf(float(GameData.ads().get("placements", {}).get(FLAG, {}).get("stay_sec", 20)), 1.0)
 	var fraction := clampf(1.0 - _bubble_age / stay, 0.0, 1.0)
 	if fraction > 0.0:
-		_bubble_face.draw_arc(c, BUBBLE_R + 4.0, -PI * 0.5, -PI * 0.5 + TAU * fraction, 48, Color("57dc8a"), 3.0, true)
-	if not _reduce_motion:
-		for i in 3:
-			var u := (_bubble_t - float(i) * 0.06) / 0.4
-			if u > 0.0 and u < 1.0:
-				var from := c + Vector2(0.0, BUBBLE_R + 10.0)
-				var to := c + Vector2(float(i - 1) * 14.0, BUBBLE_R - 2.0 - 16.0)
-				_bubble_face.draw_circle(from.lerp(to, u), lerpf(3.0, 5.0, float(i) / 2.0), Color(0.15, 0.65, 0.92, 1.0 - u))
+		var track := Rect2(BOARD_PAD, rect.end.y - 6.0, rect.size.x - BOARD_PAD * 2.0, 2.0)
+		_bubble_face.draw_rect(track, Color(1, 1, 1, 0.18))
+		_bubble_face.draw_rect(Rect2(track.position, Vector2(track.size.x * fraction, track.size.y)), Color("57dc8a"))
 
 
 func _on_bubble_gui_input(event: InputEvent) -> void:

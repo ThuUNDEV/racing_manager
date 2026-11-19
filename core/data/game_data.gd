@@ -767,7 +767,7 @@ static func trophy_reward(position: int, league: int) -> int:
 	return int(by_pos[position - 1]) * int(mult[league])
 
 
-const AD_REWARD_KINDS := ["", "boost", "income_seconds", "gems", "driver_coupon", "gear_coupon", "offline_double", "race_bonus", "daily_double"]
+const AD_REWARD_KINDS := ["", "boost", "income_seconds", "gems", "driver_coupon", "gear_coupon", "offline_double", "race_bonus", "daily_double", "daily_gift_x2"]
 
 
 ## data/ads.json: loại thưởng hợp lệ, số dương, coupon/tính năng mở khóa phải tồn tại (Design/26).

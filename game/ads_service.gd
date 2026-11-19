@@ -144,6 +144,12 @@ func _offer(placement: String) -> Dictionary:
 			if GameState.daily_available():  # chưa nhận quà ngày: phải nhận phần cơ bản trước
 				return none
 			return {"ok": true, "occasion": "d%d" % _today(), "amount": GameState.daily_gift_amount()}
+		"daily_gift_x2":
+			# Xem video trước khi nhận quà đăng nhập: nhận quà và nhân đôi gem trong một giao dịch save.
+			var reward := DailyRewards.next_reward(GameState.daily_rewards)
+			if not GameState.daily_reward_available() or not DailyRewards.x2_enabled() or not DailyRewards.has_gems(reward):
+				return none
+			return {"ok": true, "occasion": "dx%d" % GameState.daily_reward_today(), "amount": int(reward["gems"])}
 		"gems":
 			return {"ok": true, "occasion": "g%d" % (int(GameState.ad_state.get("seq", 0)) + 1), "amount": int(cfg.get("amount", 0))}
 		"boost":
@@ -411,9 +417,15 @@ func _claim(placement: String, occasion: String) -> bool:
 		_trace("claim %s: blocked (claimed=%s, save_blocked=%s, phase=%s)" % [placement, GameState.processed_rewards.has(rid), GameState.save_blocked, GameState.phase])
 		return false
 	var before: Dictionary = GameState._save_data()
+	var daily_reward := {}
 	match String(_cfg(placement).get("reward", "")):
 		"offline_double", "race_bonus", "daily_double":
 			GameState.coins = GameState.coins.add(o["amount"] as BigNumber)
+		"daily_gift_x2":
+			daily_reward = GameState.apply_daily_reward_unsaved(true)
+			if daily_reward.is_empty():
+				GameState._restore_transaction(before)
+				return false
 		"gems":
 			GameState.gems += int(o["amount"])
 		"income_seconds":
@@ -438,6 +450,8 @@ func _claim(placement: String, occasion: String) -> bool:
 		_trace("claim %s: save_game failed, rolled back (revision=%d)" % [placement, GameState.save_revision])
 		GameState._restore_transaction(before)
 		return false
+	if not daily_reward.is_empty():
+		GameState.last_daily_reward = daily_reward
 	GameState.changed.emit()
 	if String(_cfg(placement).get("reward", "")) == "boost":
 		_boost_was = true
