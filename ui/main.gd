@@ -399,8 +399,8 @@ func _build_ui() -> void:
 	_header_avatar.name = "PlayerProfileButton"
 	for state in ["normal", "hover", "pressed", "focus", "disabled"]:
 		_header_avatar.add_theme_stylebox_override(state, StyleBoxEmpty.new())
-	_header_avatar.accessibility_name = I18n.t("promotion.title")
-	_header_avatar.pressed.connect(_show_promotion)
+	_header_avatar.accessibility_name = I18n.t("common.player_profile")
+	_header_avatar.pressed.connect(_show_profile)
 	_header_place(top, _header_avatar, Rect2(18, 2, 106, 94))
 	var avatar_icon := _header_icon("icons/avatar.png")
 	avatar_icon.name = "PlayerAvatarIcon"
@@ -760,10 +760,15 @@ func _build_race_block(v: VBoxContainer) -> void:
 	var fit := func() -> void: canvas.scale = Vector2.ONE * _race_view.size.x / 1448.0
 	_race_view.resized.connect(fit)
 	fit.call()
-	var stage := Panel.new()
+	# Huy hiệu hạng góc trái: bấm để mở bảng thăng hạng.
+	var stage := Button.new()
 	stage.name = "RaceStageRow"
-	stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	stage.add_theme_stylebox_override("panel", RaceArt.hud_skin("rank_cream"))
+	stage.accessibility_name = I18n.t("promotion.title")
+	for state in ["normal", "hover", "pressed", "disabled"]:
+		stage.add_theme_stylebox_override(state, RaceArt.hud_skin("rank_cream"))
+	stage.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
+	stage.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	stage.pressed.connect(_show_promotion)
 	canvas.add_child(stage)
 	RaceArt.place(stage, Rect2(30, 20, 172, 111))
 	RaceArt.image(stage, "icons/trophy", Rect2(22, 7, 128, 97))

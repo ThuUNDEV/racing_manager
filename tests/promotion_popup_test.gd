@@ -23,10 +23,19 @@ func run() -> void:
 	root.add_child(main)
 	main.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	await settle()
-	main._header_avatar.pressed.emit()
+	var badge := main.find_child("RaceStageRow", true, false) as Button
+	var pos := badge.get_global_rect().get_center()
+	for pressed in [true, false]:
+		var ev := InputEventMouseButton.new()
+		ev.button_index = MOUSE_BUTTON_LEFT
+		ev.pressed = pressed
+		ev.position = pos
+		ev.global_position = pos
+		root.push_input(ev)
+		await process_frame
 	await settle()
 	var pop = main._promotion
-	check(pop.visible or not state.feature_unlocked("U2_league"), "Huy hiệu mở bảng thăng hạng (hoặc báo khóa)")
+	check(pop.visible or not state.feature_unlocked("U2_league"), "Huy hiệu hạng mở bảng thăng hạng (hoặc báo khóa)")
 	if pop.visible:
 		for dims in [Vector2i(320, 568), Vector2i(390, 844), Vector2i(412, 915)]:
 			root.size = dims
