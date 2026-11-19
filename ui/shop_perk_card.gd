@@ -1,6 +1,7 @@
 extends PanelContainer
 ## Approved Soft Miniature A layout. Containers grow for translations; no scaled text.
 signal buy_pressed
+const ShopSkin = preload("res://ui/shop_demo_skin.gd")
 const Soft = preload("res://ui/soft_miniature.gd")
 const ButtonSkin = preload("res://ui/button_skin.gd")
 const RewardItems = preload("res://core/data/reward_items.gd")
@@ -104,12 +105,7 @@ func build(product: Dictionary, opts: Dictionary) -> void:
 	name = "Offer_" + sku
 	size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	custom_minimum_size.y = CARD_HEIGHT
-	var surface := Soft.flat(CREAM, 2, 20)
-	surface.border_color = Color("e8d5bc")
-	surface.set_border_width_all(2)
-	surface.shadow_color = Color("79593633")
-	surface.shadow_size = 4
-	surface.shadow_offset = Vector2(0, 3)
+	var surface := ShopSkin.card_surface(2.0)
 	add_theme_stylebox_override("panel", surface)
 	# Nền: cảnh đua phủ kín thẻ, bo theo góc thẻ.
 	var scene := Panel.new()
@@ -117,7 +113,7 @@ func build(product: Dictionary, opts: Dictionary) -> void:
 	scene.clip_children = CanvasItem.CLIP_CHILDREN_AND_DRAW
 	scene.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var scene_skin := StyleBoxFlat.new()
-	scene_skin.bg_color = Color("c6ebff")
+	scene_skin.bg_color = Color("fff7eb")
 	scene_skin.set_corner_radius_all(18)
 	scene.add_theme_stylebox_override("panel", scene_skin)
 	add_child(scene)
@@ -126,6 +122,7 @@ func build(product: Dictionary, opts: Dictionary) -> void:
 	if not SCENES.has(kind):
 		kind = "starter"
 	backdrop.texture = _svg_texture("scene_" + kind, SCENE_SVG.format(SCENES[kind]), 2.0)
+	backdrop.modulate.a = 0.18
 	backdrop.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	backdrop.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -215,7 +212,7 @@ func build(product: Dictionary, opts: Dictionary) -> void:
 	plate.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	var plate_skin := Soft.flat(Color(1.0, 0.973, 0.925, 0.94), 6, 16)
 	plate_skin.shadow_color = Color("79593622")
-	plate_skin.shadow_size = 3
+	plate_skin.shadow_size = 0
 	plate.add_theme_stylebox_override("panel", plate_skin)
 	plate.clip_contents = true
 	copy.add_child(plate)
@@ -240,7 +237,7 @@ func build(product: Dictionary, opts: Dictionary) -> void:
 	pill_skin.content_margin_left = 10
 	pill_skin.content_margin_right = 10
 	pill_skin.shadow_color = Color("79593622")
-	pill_skin.shadow_size = 3
+	pill_skin.shadow_size = 0
 	title_pill.add_theme_stylebox_override("panel", pill_skin)
 	title_pill.add_child(title)
 	column.add_child(title_pill)
