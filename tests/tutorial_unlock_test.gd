@@ -52,7 +52,7 @@ func run() -> void:
 	var order: Array = []
 	for f: Dictionary in Tutorial.features():
 		order.append(int(f["races"]))
-	check(order == [2, 3, 4, 5, 7, 10], "lịch mở: lượt 2/3/4/5/7/10 (%s)" % str(order))
+	check(order == [2, 3, 4, 5, 10], "lịch mở: lượt 2/3/4/5/10 (%s)" % str(order))
 	check(Tutorial.next_feature(0)["id"] == "U2_league" and Tutorial.next_feature(10).is_empty(), "tính năng sắp mở")
 
 	print("== Không gated (save cũ/test): mở hết ==")
@@ -67,7 +67,7 @@ func run() -> void:
 	check(state.upgrade_state("tyre") != "locked" and state.upgrade_state("grandstands") != "locked", "lượt 0: mọi ô nâng cấp đều mua được")
 	check(state.open_gear_pack("standard", 1).is_empty() and state.gems == 1000, "Túi khóa: không mở gói, không trừ gem")
 	check(state.open_driver_pack("pro", 1).is_empty() and state.gems == 1000, "Tay đua khóa: không mở gói")
-	check(not state.claim_daily() and not state.buy_car(GameData.cars()[1]["id"]), "Shop/Garage khóa")
+	check(not state.claim_daily(), "Shop khóa (Garage tạm ẩn khỏi bản này)")
 	check(not state.set_player_team_name("Đội thử") and not state.select_class("racing"), "Hồ sơ/Class khóa")
 	check(state.buy("engine") and state.buy("tyre") and state.buy("parking"), "mua nâng cấp ngay từ đầu")
 
@@ -92,13 +92,9 @@ func run() -> void:
 			check(state.feature_unlocked("U3_bag") and int(state.gear_coupons["standard"]) == 0, "lượt 4: Túi mở, không tặng quà")
 		if n == 5:
 			check(int(state.driver_coupons["pro"]) == 1, "lượt 5: tặng 1 coupon Pro Pack")
-		if n == 6:
-			check(not state.feature_unlocked("U6_garage"), "lượt 6: Garage còn khóa")
-		if n == 7:
-			check(state.feature_unlocked("U6_garage"), "lượt 7: Garage mở")
 		if n == 9:
 			check(not state.feature_unlocked("U7_class"), "lượt 9: Class còn khóa")
-	check(seen == ["U2_league", "U4_shop", "U3_bag", "U5_drivers", "U6_garage", "U7_class"], "đủ sáu lần mở khóa theo thứ tự")
+	check(seen == ["U2_league", "U4_shop", "U3_bag", "U5_drivers", "U7_class"], "đủ năm lần mở khóa theo thứ tự")
 	check(state.feature_unlocked("U7_class") and state.processed_rewards.has("unlock/U4_shop"), "lượt 10: Class mở, đã ghi reward id")
 	check(Tutorial.next_feature(state.completed_races).is_empty(), "hết tính năng sắp mở")
 
