@@ -543,10 +543,6 @@
  "shop.online_income_race_rewards": "รายได้ออนไลน์และรางวัลการแข่ง",
  "shop.other_drivers": "นักแข่งคนอื่น",
  "shop.pack_includes_2_tickets_50": "แพ็กนี้มีตั๋ว 2 ใบและ 50 เพชร",
- "shop.pack_sub_allstar": "Elite drivers",
- "shop.pack_sub_elite": "Premium parts",
- "shop.pack_sub_pro": "Recruit drivers",
- "shop.pack_sub_standard": "Car upgrades",
  "shop.pass_still_active": "พาสยังใช้งานอยู่",
  "shop.permanent": "ถาวร",
  "shop.permanent_doubling": "สองเท่าถาวร",
@@ -673,5 +669,12 @@
  "daily.x2_claim": "ดู x2",
  "daily.x2_note": " (x2 gem)",
  "daily.x_gem": "%d gem",
- "drivers.shards_short": "%d/%d"
+ "drivers.shards_short": "%d/%d",
+ "shop.double_earnings": "รายได้เป็นสองเท่า ตลอดไป!",
+ "shop.triple_earnings": "รายได้เป็นสามเท่า ตลอดไป!",
+ "shop.online_income": "รายได้ออนไลน์",
+ "shop.race_rewards": "รางวัลการแข่ง",
+ "shop.income_perk_note": "ใช้กับรายได้ออนไลน์และรางวัลการแข่ง ไม่ใช้กับออฟไลน์ ไม่ซ้อนกับบูสต์โฆษณา (ใช้ค่าที่สูงกว่า)",
+ "common.gem": "เจม",
+ "shop.free_gifts": "ของขวัญฟรี"
 }

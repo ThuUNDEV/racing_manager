@@ -63,7 +63,8 @@ func run() -> void:
 	await settle()
 	main.set_process(false)
 
-	check(main._promo_ui.size() == 3, "ba icon pack: starter, offer, weekly")
+	check(main._promo_ui.size() == 4, "bốn icon pack: starter, offer, weekly, perk")
+	check(shown("perk") and main._promo_ui["perk"]["sku"] == "income_x2", "perk hiện income_x2 khi chưa sở hữu")
 	check(shown("starter") and main._promo_ui["starter"]["sku"] == "starter_1", "starter_1 hiện đầu tiên")
 	check(not shown("offer"), "offer_noads_bundle ẩn khi chưa đủ 3 lần Ads Break")
 	check((main._promo_ui["starter"]["dot"] as Control).visible, "chấm đỏ hiện khi chưa bấm")

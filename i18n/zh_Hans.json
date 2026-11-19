@@ -543,10 +543,6 @@
  "shop.online_income_race_rewards": "在线收入和比赛奖励",
  "shop.other_drivers": "其他车手",
  "shop.pack_includes_2_tickets_50": "礼包包含2张券和50宝石。",
- "shop.pack_sub_allstar": "Elite drivers",
- "shop.pack_sub_elite": "Premium parts",
- "shop.pack_sub_pro": "Recruit drivers",
- "shop.pack_sub_standard": "Car upgrades",
  "shop.pass_still_active": "月卡仍在有效期内",
  "shop.permanent": "永久",
  "shop.permanent_doubling": "永久翻倍",
@@ -673,5 +669,12 @@
  "daily.x2_claim": "看广告×2",
  "daily.x2_note": " (x2 gem)",
  "daily.x_gem": "%d gem",
- "drivers.shards_short": "%d/%d"
+ "drivers.shards_short": "%d/%d",
+ "shop.double_earnings": "收入永久翻倍!",
+ "shop.triple_earnings": "收入永久三倍!",
+ "shop.online_income": "在线收入",
+ "shop.race_rewards": "比赛奖励",
+ "shop.income_perk_note": "适用于在线收入和比赛奖励,不适用于离线收入。不与广告加成叠加(取较高者)。",
+ "common.gem": "宝石",
+ "shop.free_gifts": "免费礼物"
 }

@@ -83,7 +83,7 @@ static func header(title: String, on_close: Callable) -> Control:
 	text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	text.clip_text = true
 	text.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var title_size := 22 if title.length() <= 12 else (18 if title.length() <= 17 else (15 if title.length() <= 22 else 13))
+	var title_size := 22 if title.length() <= 9 else (19 if title.length() <= 12 else (18 if title.length() <= 17 else (15 if title.length() <= 22 else 13)))
 	_outlined(text, title_size, Color.WHITE, Color("0f4f78"), 5)
 	text.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	text.anchor_left = 0.2
@@ -197,10 +197,58 @@ static func hero(sku: String, product: Dictionary, height: float) -> Control:
 		rosette.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
 		rosette.offset_left = -92
 		rosette.offset_right = -6
-		rosette.offset_top = 6
-		rosette.offset_bottom = 90
+		var perk := String(product.get("kind", "")) == "perk"
+		rosette.offset_top = 34 if perk else 6
+		rosette.offset_bottom = rosette.offset_top + 84
 		frame.add_child(rosette)
+		if perk:
+			frame.add_child(_permanent_chip())
 	return frame
+
+
+## CTA cam nổi khối (Design/Demos/PackPromoPopup): nền #FF831E, cạnh dưới #D5570E dày 4, chữ trắng.
+static func style_cta(button: Button) -> void:
+	for state in ["normal", "hover", "pressed", "hover_pressed", "disabled", "focus"]:
+		var style := StyleBoxFlat.new()
+		var disabled: bool = state == "disabled"
+		style.bg_color = Color("c9c2b8") if disabled else (Color("ff9438") if state == "hover" else Color("ff831e"))
+		style.border_color = Color("a89f94") if disabled else Color("d5570e")
+		style.border_width_bottom = 2 if state in ["pressed", "hover_pressed"] else 4
+		style.set_corner_radius_all(22)
+		style.content_margin_top = 4 if state in ["pressed", "hover_pressed"] else 2
+		button.add_theme_stylebox_override(state, style)
+	for color in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color", "font_disabled_color"]:
+		button.add_theme_color_override(color, Color.WHITE)
+	button.add_theme_color_override("font_outline_color", Color("a2420a"))
+	button.add_theme_constant_override("outline_size", 4)
+
+
+## Pill vàng "PERMANENT" ở góc phải hero của perk vĩnh viễn.
+static func _permanent_chip() -> Control:
+	var chip := PanelContainer.new()
+	chip.name = "PermanentChip"
+	chip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color("f5bd42")
+	style.border_color = Color("d99a1f")
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(12)
+	style.content_margin_left = 10
+	style.content_margin_right = 10
+	style.content_margin_top = 2
+	style.content_margin_bottom = 2
+	chip.add_theme_stylebox_override("panel", style)
+	var label := Label.new()
+	label.text = I18n.t("shop.permanent").to_upper()
+	label.add_theme_font_size_override("font_size", 12)
+	label.add_theme_color_override("font_color", INK)
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	chip.add_child(label)
+	chip.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT, Control.PRESET_MODE_MINSIZE)
+	chip.offset_right = -8
+	chip.offset_left = chip.offset_right - 110
+	chip.offset_top = 6
+	return chip
 
 
 static func _card(row: Dictionary) -> PanelContainer:

@@ -549,10 +549,6 @@
  "shop.online_income_race_rewards": "Online income & race rewards",
  "shop.other_drivers": "OTHER DRIVERS",
  "shop.pack_includes_2_tickets_50": "The pack includes 2 tickets and 50 gems.",
- "shop.pack_sub_allstar": "Elite drivers",
- "shop.pack_sub_elite": "Premium parts",
- "shop.pack_sub_pro": "Recruit drivers",
- "shop.pack_sub_standard": "Car upgrades",
  "shop.pass_still_active": "Pass still active",
  "shop.permanent": "Permanent",
  "shop.permanent_doubling": "Permanent doubling",
@@ -682,5 +678,12 @@
  "daily.x2_claim": "WATCH ×2",
  "daily.x2_note": " (x2 gem)",
  "daily.x_gem": "%d gem",
- "drivers.shards_short": "%d/%d"
+ "drivers.shards_short": "%d/%d",
+ "shop.double_earnings": "Double your earnings, forever!",
+ "shop.triple_earnings": "Triple your earnings, forever!",
+ "shop.online_income": "Online income",
+ "shop.race_rewards": "Race rewards",
+ "shop.income_perk_note": "Applies to online income and race rewards, not offline income. Does not stack with ad boost (the higher one applies).",
+ "common.gem": "Gem",
+ "shop.free_gifts": "Free gifts"
 }

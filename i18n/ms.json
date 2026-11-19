@@ -543,10 +543,6 @@
  "shop.online_income_race_rewards": "Pendapatan dalam talian & ganjaran lumba",
  "shop.other_drivers": "PELUMBA LAIN",
  "shop.pack_includes_2_tickets_50": "Pek mengandungi 2 tiket dan 50 permata.",
- "shop.pack_sub_allstar": "Elite drivers",
- "shop.pack_sub_elite": "Premium parts",
- "shop.pack_sub_pro": "Recruit drivers",
- "shop.pack_sub_standard": "Car upgrades",
  "shop.pass_still_active": "Pas masih aktif",
  "shop.permanent": "Kekal",
  "shop.permanent_doubling": "Gandaan kekal",
@@ -673,5 +669,12 @@
  "daily.x2_claim": "TONTON x2",
  "daily.x2_note": " (x2 gem)",
  "daily.x_gem": "%d gem",
- "drivers.shards_short": "%d/%d"
+ "drivers.shards_short": "%d/%d",
+ "shop.double_earnings": "Gandakan pendapatan anda, selama-lamanya!",
+ "shop.triple_earnings": "Gandakan tiga pendapatan anda, selama-lamanya!",
+ "shop.online_income": "Pendapatan dalam talian",
+ "shop.race_rewards": "Ganjaran lumba",
+ "shop.income_perk_note": "Terpakai untuk pendapatan dalam talian dan ganjaran lumba, bukan luar talian. Tidak bertindan dengan dorongan iklan (yang lebih tinggi digunakan).",
+ "common.gem": "Gem",
+ "shop.free_gifts": "Hadiah percuma"
 }

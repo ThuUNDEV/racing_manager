@@ -543,10 +543,6 @@
  "shop.online_income_race_rewards": "Thu nhập online & thưởng đua",
  "shop.other_drivers": "TAY ĐUA KHÁC",
  "shop.pack_includes_2_tickets_50": "Gói gồm 2 thẻ và 50 gem.",
- "shop.pack_sub_allstar": "Tay đua cao cấp",
- "shop.pack_sub_elite": "Phụ kiện cao cấp",
- "shop.pack_sub_pro": "Tuyển tay đua",
- "shop.pack_sub_standard": "Trang bị cho xe",
  "shop.pass_still_active": "Pass đang còn hạn",
  "shop.permanent": "Vĩnh viễn",
  "shop.permanent_doubling": "Nhân đôi vĩnh viễn",
@@ -673,5 +669,12 @@
  "daily.x2_claim": "XEM x2",
  "daily.x2_note": " (x2 gem)",
  "daily.x_gem": "%d gem",
- "drivers.shards_short": "%d/%d"
+ "drivers.shards_short": "%d/%d",
+ "shop.double_earnings": "Nhân đôi thu nhập, mãi mãi!",
+ "shop.triple_earnings": "Nhân ba thu nhập, mãi mãi!",
+ "shop.online_income": "Thu nhập online",
+ "shop.race_rewards": "Thưởng đua",
+ "shop.income_perk_note": "Áp dụng thu nhập online và thưởng đua, không áp dụng thu nhập offline. Không cộng dồn với boost quảng cáo (lấy mức cao hơn).",
+ "common.gem": "Gem",
+ "shop.free_gifts": "Quà miễn phí"
 }

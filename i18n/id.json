@@ -543,10 +543,6 @@
  "shop.online_income_race_rewards": "Pendapatan online & hadiah balapan",
  "shop.other_drivers": "PEMBALAP LAIN",
  "shop.pack_includes_2_tickets_50": "Paket berisi 2 tiket dan 50 permata.",
- "shop.pack_sub_allstar": "Elite drivers",
- "shop.pack_sub_elite": "Premium parts",
- "shop.pack_sub_pro": "Recruit drivers",
- "shop.pack_sub_standard": "Car upgrades",
  "shop.pass_still_active": "Pass masih aktif",
  "shop.permanent": "Permanen",
  "shop.permanent_doubling": "Ganda permanen",
@@ -673,5 +669,12 @@
  "daily.x2_claim": "TONTON x2",
  "daily.x2_note": " (x2 gem)",
  "daily.x_gem": "%d gem",
- "drivers.shards_short": "%d/%d"
+ "drivers.shards_short": "%d/%d",
+ "shop.double_earnings": "Gandakan penghasilanmu, selamanya!",
+ "shop.triple_earnings": "Tigakan penghasilanmu, selamanya!",
+ "shop.online_income": "Pendapatan online",
+ "shop.race_rewards": "Hadiah balapan",
+ "shop.income_perk_note": "Berlaku untuk pendapatan online dan hadiah balapan, bukan offline. Tidak menumpuk dengan boost iklan (yang lebih tinggi berlaku).",
+ "common.gem": "Gem",
+ "shop.free_gifts": "Hadiah gratis"
 }

@@ -44,6 +44,38 @@
       "sku": "weekly_s",
       "filename": "pack_promo_weekly_s.png",
       "prompt": "Use case: ui-mockup. Create ONE finished full-screen portrait concept image for Racing Tycoon mobile idle racing manager. Output portrait 886x1920 pixels or closest exact 443:960 aspect ratio. It is a popup OVERLAY on the Race tab, NOT a shop page. Reference image 1 approved shop is style only; reference image 2 approved race is background composition/style; reference image 3 existing popup is content context only, dramatically improve visual hierarchy. Soft Miniature art: miniature clay toy objects, warm ivory cream, chunky rounded edges, soft diffuse lighting, restrained highlights, navy chunky readable type, orange raised CTA, blue checkered ribbon. Avoid glossy hard plastic casino style, old blue-white shop, busy unreadable text, invented items, countdowns, sale percentages, and fake prices. Background: approved harbor toy race circuit with HUD and five-tab navigation faintly visible through heavy dark navy translucent scrim and blur. Race selected. Popup horizontal outer margin 12 logical pixels on a 390x845 logical viewport, cream thick rounded shell at x12..378 y85..773 with soft shadow. One clear 48x48 logical red rounded X close button on upper right fully visible, with no art overlapping. Large curved ribbon header with navy/white readable title; reserve width for translations. Main hero is a deep miniature diorama with cheerful brown-haired racing mascot wearing goggles and yellow/blue checkered racing suit, alongside a pile of purple gems and correct tickets on a tiny pedestal, golden radial rays and sparse four-point sparkles. Mascot is illustration only, not a driver reward; do not place character reward card. Reward cards should have large dimensional icon, large quantity, 2-line label and colored thick border, enough whitespace for Vietnamese/Indonesian localization. Do NOT use a cramped row of four tiny reward boxes. All text English, render exact supplied copy with spelling and quantities correct. Footer CTA has real price as biggest text, single broad raised orange button approximately 326x58 logical. Under CTA a quiet purchase limit label and small understated text-link \"View rates\", never a blue competing primary button. No other offers. Concept 3 WEEKLY: title \"Weekly Pack\" on blue checkered ribbon; a small calendar emblem integrated into ribbon. Hero about 25% popup height, cheerful mascot in racing suit next to generous purple gem and gold ticket mound on a cream miniature podium, a couple of purple gear coupons with embossed gear, amber light rays and sparse sparkles. Gold seal \"2.6x VALUE\" at hero right, accurate rounded document-defined ratio. Four large reward cards in 2x2 grid: purple gem icon \"300\" \"Gem\"; gold premium driver ticket \"6\" \"Allstar driver ticket\"; purple premium gear ticket \"4\" \"Elite gear ticket\"; green cash stack with clock \"4 h\" \"Income\". Premium ticket cards have gold/purple tier borders. Readable note below cards over 2-3 lines verbatim \"Cash is based on the team's income at the time of purchase.\" CTA \"$4.99\"; limit label \"Limit: 1 per week\". Not Buy once, no fake countdown, not a subscription. No other quantities."
+    },
+    {
+      "sku": "income_x2",
+      "filename": "pack_promo_income_x2.png",
+      "prompt": "Use case: ui-mockup.\nCreate ONE finished portrait full-screen concept for Racing Tycoon, the Income ×2 IAP details popup. Requested canvas 886x1920 pixels (logical 390x845), or the closest possible portrait ratio 443:960. This is a popup OVERLAY on the Race tab.\n\nREFERENCE ROLES: Image 1 pack_promo_starter1.png is the PRIMARY APPROVED composition and Soft Miniature materials reference: follow the same broad cream rounded shell, cyan blue curved checkered ribbon, warm clay diorama hero, chunky reward cards, large raised orange price CTA and separate quiet footer, same spacing rhythm and typography. Match its screen framing, including navy canvas top/bottom if appropriate. Image 2 01-race.png is ONLY the Race background: miniature harbor circuit, resource HUD and five-tab navigation visible dimly through strong navy #102D43 scrim and blur. Race selected. Image 3 old income popup supplies ONLY subject identity (red roof miniature garage, cash stacks, gold ×2 medallion), NOT its old pale blue card skin or weak hierarchy. Completely redesign that old skin using Image 1's approved system.\n\nLAYOUT: popup about 366 logical px wide on a 390 logical screen, equal 12 logical side margins. Rounded warm ivory shell #FFF4E4 with soft contact shadow and subtle rim; cyan ribbon #168CC2 with cream checkered tails; navy chunky readable rounded lettering #12334C. Red rounded Close button with a white X at top right, a visibly generous 48x48 logical square, completely unobstructed and separate from hero/badge. Shell and ribbon must not be cropped. Same proportions and polish as Image 1. Consistent vertical gaps, no accidental empty gaps. No old flat pale blue panels.\n\nTOP: title on ribbon exactly \"Income ×2\". Subtitle below on cream exactly \"Double your earnings, forever!\" (can wrap naturally if necessary). No other repeated benefit slogan.\n\nHERO: deep soft miniature clay diorama, about 25% of popup height. A charming small red-roof cream garage with gray roll-up door and blue wrench emblem, green cash bundles and a few gold coins on cream podium, soft gold sunrays and sparse sparkles. Redesign it richly in the SAME materials as approved Image 1. NO mascot or extra rewards. Gold ×2 medallion integrated near garage/cash conveys multiplier without cash amount. At the upper right of the HERO place a warm gold rounded badge with the exact single readable word \"PERMANENT\" in navy, wide enough to fit the word, kept well BELOW and CLEAR OF the Close button. PERMANENT belongs to the hero, never floats at the footer. Do not add any VALUE seal.\n\nREWARDS: exactly two generous cream dimensional benefit cards, each full-row width, vertically stacked with equal gap. Main card: large miniature cash icon at left, large navy \"×2\", label \"Online income\". Second card: miniature checkered flag/cash reward icon at left, large navy \"×2\", label \"Race rewards\". Clear written labels, not color alone. Warm green/gold rim accents from approved card system, no blue flat old skin. No gems, coupons, cash quantities, bonus item counts or offline benefit. Reward numbers smaller than the CTA price.\n\nNOTE: below rewards, on an uncluttered cream area, render this exact copy, small but crisp navy-gray, in TWO lines, each sentence on one line, with enough full width to read:\n\"Applies to online income and race rewards, not offline income.\"\n\"Does not stack with ad boost (the higher one applies).\"\nDo not omit or paraphrase either sentence. No decorative art behind note.\n\nPURCHASE: below note, one broad raised ORANGE #FF831E CTA approximately 326x60 logical, thick darker orange lower edge #D5570E. Center exact \"$4.99\" in white, the MOST PROMINENT numerical text and strongest action on the entire screen. This is a fallback store price for the concept, do not print fallback explanations in UI. Distinct cream FOOTER below CTA with exact \"Buy once\" left aligned, quiet navy-gray. Leave remaining footer empty. No View rates, divider for a missing link, no other action.\n\nTEXT IS ENGLISH and must be spelled exactly as supplied. Keep multiplication glyph ×, not the letter x. Do not print prompt labels. No countdown, fake urgency, sale percentages, BEST VALUE, ×N VALUE, subscription, extra benefits, upgrade to ×3, ad boost stacking, offline boost, or invented quantities. No extra Permanent label at bottom. No screenshot frame, device bezel, watermark. Full final concept in one image, not a comparison board.",
+      "references": [
+        {
+          "path": "/home/thupv/Desktop/DataSSD/racing_manager/Design/Demos/SoftMiniature/approved/pack_promo_starter1.png",
+          "role": "primary approved composition, Soft Miniature materials, ribbon, reward cards, orange CTA and footer reference"
+        },
+        {
+          "path": "/home/thupv/Desktop/DataSSD/racing_manager/Design/Demos/SoftMiniature/approved/01-race.png",
+          "role": "Race tab background under navy scrim"
+        },
+        {
+          "path": "/home/thupv/.t3/userdata/attachments/a03c3d0f-2001-4a24-9b14-a7b260ec682b-66ce0df5-e73d-4d68-8ccf-e4b0755404a3.png",
+          "role": "old popup content and garage/cash/gold multiplier hero subject only; redesign skin and hierarchy"
+        }
+      ],
+      "mode": "built-in image_gen",
+      "sources": [
+        "Design/28_IAP_Packs.md §4.2",
+        "Design/Demos/PerkCards/README.md",
+        "Design/Demos/PackPromoPopup/README.md"
+      ],
+      "content_review": {
+        "incorrect_text_or_invented_numbers": [],
+        "notes": [
+          "Two exact benefit labels and two note sentences verified visually. Price is fallback; runtime uses store price.",
+          "Close button bitmap does not establish runtime hit rect; use at least 48x48 logical when implementing."
+        ]
+      }
     }
   ],
   "value_badges": {
@@ -58,6 +90,10 @@
     "offer_noads_bundle": {
       "label": "PERMANENT",
       "basis": "No numeric multiplier: permanent perk not assigned a gem-equivalent value."
+    },
+    "income_x2": {
+      "label": "PERMANENT",
+      "basis": "Permanent online income and race rewards multiplier; no gem-equivalent perk valuation or VALUE claim."
     }
   },
   "notes": [
@@ -122,6 +158,25 @@
         1661
       ],
       "export_operation": "Aspect-preserving fit, centered on dark navy canvas; no crop or UI distortion."
+    },
+    {
+      "file": "pack_promo_income_x2.png",
+      "raw_file": "output/imagegen/pack_promo_popup/pack_promo_income_x2_raw.png",
+      "raw_size": [
+        916,
+        1717
+      ],
+      "export_size": [
+        886,
+        1920
+      ],
+      "artwork_export_rect": [
+        0,
+        129,
+        886,
+        1661
+      ],
+      "export_operation": "Aspect-preserving fit, centered on dark navy canvas; no crop, no text edits, no UI distortion."
     }
   ]
 }

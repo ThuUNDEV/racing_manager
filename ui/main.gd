@@ -75,6 +75,8 @@ const PACK_PROMOS := [
 	{"kind": "starter", "icon": "icons/pack_starter", "skus": ["starter_1", "starter_2", "starter_3"], "name": "shop.special_packs"},
 	{"kind": "offer", "icon": "icons/pack_offer", "skus": ["offer_noads_bundle", "offer_combo_1", "offer_combo_2"], "name": "shop.special_packs"},
 	{"kind": "weekly", "icon": "icons/pack_weekly", "skus": ["weekly_s", "weekly_m", "weekly_l", "weekly_xl"], "name": "shop.weekly_packs"},
+	# Tiện ích vĩnh viễn (Design/28 §4.2). Icon tạm dùng icons/coin cho tới khi có icons/pack_perk.
+	{"kind": "perk", "icon": "icons/coin", "skus": ["income_x2", "no_ads"], "name": "shop.more_perks"},
 ]
 var _promo_ui: Dictionary = {}
 var _promo_seen: Dictionary = {}
@@ -902,6 +904,9 @@ func _build_pack_promos(strip_row: HBoxContainer) -> void:
 ## Pack đầu tiên của nhóm còn mua được (cùng nguồn sự thật với thẻ trong Shop: Iap.block_reason).
 func _pack_promo_sku(skus: Array) -> String:
 	for sku: String in skus:
+		# Đã có thẻ "Đội tự do + quà" (cùng quyền lợi, nhiều quà hơn) thì không quảng cáo no_ads đơn lẻ.
+		if sku == "no_ads" and Iap.block_reason("offer_noads_bundle") in ["", "busy"]:
+			continue
 		if Iap.block_reason(sku) in ["", "busy"]:
 			return sku
 	return ""

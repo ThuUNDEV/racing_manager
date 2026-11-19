@@ -1,5 +1,6 @@
 extends RefCounted
 const CleanArt = preload("res://ui/clean_modern_art.gd")
+const RewardItems = preload("res://core/data/reward_items.gd")
 ## Presentation helpers only. Prices, eligibility and grants remain owned by the IAP service.
 const IapSkin = preload("res://assets/iap_offers/iap_skin.gd")
 const INK := Color("23394a")
@@ -123,6 +124,17 @@ static func art(sku: String, minimum_height: float = 144, approved_hero: bool = 
 
 
 static func icon(id: String, extent: float = 30) -> TextureRect:
+	# Vật phẩm thưởng có trong danh mục (data/reward_items) thì luôn dùng icon duy nhất của nó.
+	if RewardItems.has(id):
+		var item := TextureRect.new()
+		item.texture = RewardItems.icon(id)
+		item.custom_minimum_size = Vector2(extent, extent)
+		item.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		item.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		item.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		item.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		item.size_flags_horizontal = Control.SIZE_EXPAND_FILL if extent <= 0 else Control.SIZE_SHRINK_CENTER
+		return item
 	if id.begins_with("driver_") or id.ends_with("_pack"):
 		return ExpansionArt.icon(id, Vector2(extent, extent))
 	return HdUi.icon("icons/%s.png" % id, Vector2(extent, extent))

@@ -73,7 +73,11 @@ func run() -> void:
 			if rewards_box != null:
 				for line in rewards_box.get_children():
 					cards.append_array(line.get_children())
-			if sku != "income_x2":
+			if sku == "income_x2":
+				check(cards.size() == 2, "income_x2 có 2 thẻ: Online income + Race rewards: " + tag)
+				check(main.find_child("PermanentChip", true, false) != null, "income_x2 có chip PERMANENT: " + tag)
+				check(main.find_child("PermanentIncomeBenefit", true, false) == null, "income_x2 không còn khối benefit cũ: " + tag)
+			else:
 				check(cards.size() == PackUi.rewards(product).size(), "đủ thẻ thưởng (%d): %s" % [PackUi.rewards(product).size(), tag])
 			var buy: Button = main.find_child("DetailBuy_" + sku, true, false)
 			check(buy != null and buy.size.y >= 44.0 and buy.is_visible_in_tree(), "nút mua hiện >= 44: " + tag)
@@ -84,7 +88,7 @@ func run() -> void:
 				var pr := panel.get_global_rect()
 				check(cr.position.x >= pr.position.x - 1.0 and cr.end.x <= pr.end.x + 1.0, "thẻ thưởng không tràn ngang: %s card=%s panel=%s" % [tag, cr, pr])
 				check(cr.size.y <= 110.0, "thẻ thưởng không quá cao (%s): %s" % [cr.size.y, tag])
-			if sku in ["starter_1", "offer_noads_bundle"] or dimensions.x == 320:
+			if sku in ["starter_1", "offer_noads_bundle", "income_x2"] or dimensions.x == 320:
 				await capture("%s_%d" % [sku, dimensions.x])
 			main._close_overlay()
 			await settle()

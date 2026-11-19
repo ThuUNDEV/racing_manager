@@ -248,6 +248,10 @@ Tỉ lệ gói · Điều khoản · Chính sách riêng tư
 - Lá cờ khán đài không tạo khi có popup bán hàng đang mở (26 đã chặn "popup khác"); Ads Break không hiện khi có popup đang mở (26 §7).
 - Analytics: `popup_skip` ghi lý do chặn (§7.4).
 
+### 5b-2. Dải icon gói ở tab Đua *(19/11/2026)*
+
+Dải chặng ở tab Đua có icon lối tắt (không phải popup tự hiện, không qua hàng đợi §5b): `starter`, `offer`, `weekly` và **`perk`** (tiện ích: `income_x2`, `no_ads`). Mỗi icon chỉ hiện khi gói đầu tiên của nhóm có `Iap.block_reason` ∈ {"", "busy"}, giống thẻ Shop; bấm mở chi tiết gói đó, chấm đỏ tắt sau khi bấm trong phiên. Khi `offer_noads_bundle` đang bán thì `perk` bỏ qua `no_ads` đơn lẻ (§4.4). Chưa có icon cho tay đua, gói ngày và pass. Icon `perk` đang dùng tạm `icons/coin`, cần `icons/pack_perk` cùng bộ `assets/soft_miniature_race_ui_v3/icons/`.
+
 ### 5c. Vòng đời popup, điều kiện vào/ra hàng đợi và ưu tiên *(đề xuất 17/11/2026, chờ duyệt)*
 
 Bổ sung §5b, tham chiếu cách `PromptConfig` của Race Star tách điều kiện mở (`unlock`) và điều kiện dừng (`dismiss`) (`Design/References/RaceStar_APK_1.9.0/race_star_iap_design.md` §6). Không đổi luật "mỗi offer tự hiện một lần" và giới hạn §5b.

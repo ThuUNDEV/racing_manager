@@ -543,10 +543,6 @@
  "shop.online_income_race_rewards": "オンライン収入とレース報酬",
  "shop.other_drivers": "その他のドライバー",
  "shop.pack_includes_2_tickets_50": "チケット2枚と50ジェムのパックです。",
- "shop.pack_sub_allstar": "Elite drivers",
- "shop.pack_sub_elite": "Premium parts",
- "shop.pack_sub_pro": "Recruit drivers",
- "shop.pack_sub_standard": "Car upgrades",
  "shop.pass_still_active": "パスは有効期間中です",
  "shop.permanent": "永久",
  "shop.permanent_doubling": "永久2倍",
@@ -673,5 +669,12 @@
  "daily.x2_claim": "動画で×2",
  "daily.x2_note": " (x2 gem)",
  "daily.x_gem": "%d gem",
- "drivers.shards_short": "%d/%d"
+ "drivers.shards_short": "%d/%d",
+ "shop.double_earnings": "収入が永久に2倍!",
+ "shop.triple_earnings": "収入が永久に3倍!",
+ "shop.online_income": "オンライン収入",
+ "shop.race_rewards": "レース報酬",
+ "shop.income_perk_note": "オンライン収入とレース報酬に適用(オフラインは対象外)。広告ブーストとは重複せず、高い方が適用されます。",
+ "common.gem": "ジェム",
+ "shop.free_gifts": "無料ギフト"
 }

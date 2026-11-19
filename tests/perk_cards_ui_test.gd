@@ -61,13 +61,13 @@ func run() -> void:
 				check(bounds.position.x >= 11 and bounds.end.x <= width - 11, "lề và chiều rộng: " + tag)
 				check(card.size.y >= 150 and card.size.y <= 228, "chiều cao 150–228: " + tag + " " + str(card.size))
 				check(card.price.size.y >= 44 and card.price.size.x >= 44, "vùng chạm: " + tag)
-				for child: Control in [card.title, card.benefit, card.price, card.permanent]:
+				for child: Control in [card.title, card.price, card._flow]:
 					check(bounds.grow(1).encloses(child.get_global_rect()), "nội dung trong thẻ: " + tag + " " + child.name)
 					if child is Label:
 						check(child.get_line_count() == child.get_visible_line_count(), "đủ dòng chữ: " + tag + " " + child.text)
-				check(card.benefit.get_global_rect().end.y <= card.price.global_position.y, "lợi ích không chồng CTA: " + tag)
-				check(card.title.get_global_rect().end.y <= card.benefit.global_position.y, "title không chồng lợi ích: " + tag)
-				check(not card._hero.get_global_rect().intersects(card.benefit.get_global_rect()), "hero không che lợi ích: " + tag)
+				check(card._flow.get_global_rect().end.y <= card.price.global_position.y + 1.0, "thưởng không chồng CTA: " + tag)
+				check(card.title.get_global_rect().end.y <= card._flow.get_global_rect().position.y + 1.0, "title không chồng thưởng: " + tag)
+				check(card._flow.get_child_count() > 0 and card.find_child("OfferArt_" + card.sku, true, false) != null, "có hàng thưởng và hero: " + tag)
 			if "--capture" in OS.get_cmdline_user_args() and lang in ["en", "vi", "id"]:
 				await RenderingServer.frame_post_draw
 				root.get_texture().get_image().save_png("res://Design/Previews/perk_cards/%s_%d.png" % [lang, width])

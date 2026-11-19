@@ -543,10 +543,6 @@
  "shop.online_income_race_rewards": "온라인 수입 및 레이스 보상",
  "shop.other_drivers": "다른 드라이버",
  "shop.pack_includes_2_tickets_50": "티켓 2장과 보석 50개가 들어 있습니다.",
- "shop.pack_sub_allstar": "Elite drivers",
- "shop.pack_sub_elite": "Premium parts",
- "shop.pack_sub_pro": "Recruit drivers",
- "shop.pack_sub_standard": "Car upgrades",
  "shop.pass_still_active": "패스 사용 기간 중",
  "shop.permanent": "영구",
  "shop.permanent_doubling": "영구 2배",
@@ -673,5 +669,12 @@
  "daily.x2_claim": "광고 ×2",
  "daily.x2_note": " (x2 gem)",
  "daily.x_gem": "%d gem",
- "drivers.shards_short": "%d/%d"
+ "drivers.shards_short": "%d/%d",
+ "shop.double_earnings": "수입이 영구적으로 2배!",
+ "shop.triple_earnings": "수입이 영구적으로 3배!",
+ "shop.online_income": "온라인 수입",
+ "shop.race_rewards": "레이스 보상",
+ "shop.income_perk_note": "온라인 수입과 레이스 보상에 적용되며 오프라인에는 적용되지 않습니다. 광고 부스트와 중복되지 않고 더 높은 쪽이 적용됩니다.",
+ "common.gem": "젬",
+ "shop.free_gifts": "무료 선물"
 }
