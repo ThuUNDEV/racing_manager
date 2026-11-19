@@ -550,7 +550,6 @@ func _build_ui() -> void:
 	add_child(_promotion)
 	_promotion.hide()
 	_promotion.closed.connect(func() -> void: _header_avatar.grab_focus())
-	_promotion.profile_requested.connect(_show_profile)
 	_promotion.notice.connect(_show_toast)
 	_class_page = preload("res://ui/class_page.gd").new()
 	_class_page.name = "ClassPage"

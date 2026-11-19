@@ -53,9 +53,5 @@ func run() -> void:
 		if "--shots" in OS.get_cmdline_user_args():
 			await RenderingServer.frame_post_draw
 			root.get_texture().get_image().save_png("res://Design/Previews/promotion_popup_390.png")
-		pop.find_child("PromotionProfile", true, false).pressed.emit()
-		for i in 40:
-			await process_frame
-		check(main._profile.visible and not pop.visible, "Nút Hồ sơ chuyển sang hồ sơ")
 	print("failures=", failures)
 	quit(1 if failures else 0)

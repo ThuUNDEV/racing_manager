@@ -2,7 +2,6 @@ extends Control
 const PopupAnim = preload("res://ui/popup_anim.gd")
 ## Bảng thăng hạng (thăng giải): mở từ huy hiệu góc trái khung đua. Logic ở GameState.expansion_state()/request_expansion().
 signal closed
-signal profile_requested
 signal notice(text: String)
 
 const INK := Color("0e2b5c")
@@ -69,17 +68,15 @@ func _ready() -> void:
 	var lrow := HBoxContainer.new()
 	lrow.add_theme_constant_override("separation", 10)
 	leagues.add_child(lrow)
-	_current = _league_box(lrow, I18n.t("promotion.current_league"), "PromotionCurrent")
+	_current = _league_box(lrow, "PromotionCurrent")
 	var arrow := _label("›", 30, Color.WHITE)
 	lrow.add_child(arrow)
-	_next = _league_box(lrow, I18n.t("promotion.next_league"), "PromotionNext")
-	_heading(content, I18n.t("promotion.requirements"))
+	_next = _league_box(lrow, "PromotionNext")
 	var req_panel := _panel(content, Color("f8fbff"), 14, 12)
 	_reqs = VBoxContainer.new()
 	_reqs.name = "PromotionRequirements"
 	_reqs.add_theme_constant_override("separation", 8)
 	req_panel.add_child(_reqs)
-	_heading(content, I18n.t("promotion.rewards"))
 	var reward_panel := _panel(content, Color("f8fbff"), 14, 12)
 	_rewards = VBoxContainer.new()
 	_rewards.name = "PromotionRewards"
@@ -98,9 +95,6 @@ func _ready() -> void:
 	_action = _button(I18n.t("promotion.action"), _promote, true)
 	_action.name = "PromotionAction"
 	fcol.add_child(_action)
-	var profile := _button(I18n.t("promotion.profile"), _open_profile, false)
-	profile.name = "PromotionProfile"
-	fcol.add_child(profile)
 	PopupAnim.close_on_outside_click(self, _popup, _close)
 	GameState.changed.connect(_refresh_if_visible)
 	visibility_changed.connect(_refresh_if_visible)
@@ -121,16 +115,10 @@ func _close() -> void:
 	PopupAnim.close(self, _popup, closed.emit)
 
 
-func _open_profile() -> void:
-	PopupAnim.close(self, _popup, func() -> void:
-		closed.emit()
-		profile_requested.emit())
-
-
 func _fit_popup() -> void:
 	if not is_instance_valid(_popup):
 		return
-	_popup.size = Vector2(minf(390, maxf(0, size.x - 32)), minf(720, maxf(0, size.y - 64)))
+	_popup.size = Vector2(minf(390, maxf(0, size.x - 32)), minf(440, maxf(0, size.y - 64)))
 	_popup.position = (size - _popup.size) * 0.5
 
 
@@ -162,26 +150,26 @@ func refresh() -> void:
 	if tier >= top:
 		_next.text = "-"
 		_reqs.add_child(_label(I18n.t("promotion.max_league"), 14, INK, true))
-		_rewards.add_child(_label("-", 14, MUTED))
+		_rewards.get_parent().hide()
 		_note.text = ""
 		_action.disabled = true
 		return
+	_rewards.get_parent().show()
 	var nxt := tier + 1
 	_next.text = Balance.league_name(nxt)
 	var min_rev := int(GameData.economy()["business"]["expansion_min_revenue_level"])
 	var low_rev := min_rev
 	for kind in Balance.REVENUE:
 		low_rev = mini(low_rev, GameState.level_of(kind))
-	_req_row(I18n.t("promotion.req_revenue") % min_rev, "%d / %d" % [low_rev, min_rev], low_rev >= min_rev)
+	_req_row(I18n.t("promotion.req_revenue"), "%d / %d" % [low_rev, min_rev], low_rev >= min_rev)
 	var need_class := int(GameData.league(nxt)["min_car_class"])
 	var have_class := int(GameData.car(GameState.active_car_id)["class"])
-	_req_row(I18n.t("promotion.req_car") % need_class, "%d / %d" % [have_class, need_class], have_class >= need_class)
+	_req_row(I18n.t("promotion.req_car"), "%d / %d" % [have_class, need_class], have_class >= need_class)
 	var cost := Pricing.expansion_cost(tier)
 	_req_row(I18n.t("promotion.req_fee"), "%s / %s" % [Balance.fmt_money(GameState.coins), Balance.fmt_money(cost)], GameState.coins.compare(cost) >= 0)
 	var first := not GameState.processed_rewards.has("business_open/%d" % nxt)
 	if first:
-		_rewards.add_child(_label(I18n.t("promotion.reward_cash") % Balance.fmt_money(Pricing.opening_reserve(nxt)), 14, INK, true))
-		_rewards.add_child(_label(I18n.t("promotion.reward_gems") % int(GameData.economy()["rewards"]["first_league_gems"]), 14, INK, true))
+		_rewards.add_child(_label(I18n.t("promotion.reward_line") % [Balance.fmt_money(Pricing.opening_reserve(nxt)), int(GameData.economy()["rewards"]["first_league_gems"])], 14, INK, true))
 	else:
 		_rewards.add_child(_label(I18n.t("promotion.reward_none"), 14, MUTED, true))
 	var state := GameState.expansion_state()
@@ -192,7 +180,7 @@ func refresh() -> void:
 		"ok":
 			_note.text = I18n.t("promotion.queued") if queued else I18n.t("promotion.reset_warning")
 		_:
-			_note.text = I18n.t("promotion.not_ready")
+			_note.text = ""
 	_action.disabled = state != "ok" or queued
 
 
@@ -207,23 +195,17 @@ func _req_row(text: String, value: String, done: bool) -> void:
 	row.add_child(v)
 
 
-func _league_box(parent: Control, caption: String, node_name: String) -> Label:
+func _league_box(parent: Control, node_name: String) -> Label:
 	var box := VBoxContainer.new()
 	box.size_flags_horizontal = SIZE_EXPAND_FILL
 	box.add_theme_constant_override("separation", 2)
+	box.size_flags_vertical = SIZE_SHRINK_CENTER
 	parent.add_child(box)
-	var cap := _label(caption, 11, Color("d2e6ff"), true)
-	cap.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	box.add_child(cap)
 	var name_label := _label("", 18, Color.WHITE, true)
 	name_label.name = node_name
 	name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(name_label)
 	return name_label
-
-
-func _heading(parent: Control, title: String) -> void:
-	parent.add_child(_label(title, 17))
 
 
 func _clear(node: Node) -> void:
