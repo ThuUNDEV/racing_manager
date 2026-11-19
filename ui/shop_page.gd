@@ -261,7 +261,15 @@ func _free_tile(parent: Node, title: String, item_id: String, amount: String, sc
 	var card := PanelContainer.new()
 	card.theme = H_THEME
 	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var skin := ShopSkin.card_surface()
+	var skin := StyleBoxFlat.new()
+	skin.bg_color = Color("fff4e4")
+	skin.border_color = Color("e8d5bc")
+	skin.set_border_width_all(2)
+	skin.set_corner_radius_all(20)
+	skin.set_content_margin_all(3)
+	skin.shadow_color = Color("79593633")
+	skin.shadow_size = 4
+	skin.shadow_offset = Vector2(0, 3)
 	card.add_theme_stylebox_override("panel", skin)
 	parent.add_child(card)
 	var box := VBoxContainer.new()
@@ -273,13 +281,12 @@ func _free_tile(parent: Node, title: String, item_id: String, amount: String, sc
 	stage.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var stage_skin := StyleBoxFlat.new()
-	stage_skin.bg_color = Color("fff7eb")
+	stage_skin.bg_color = Color("c6ebff")
 	stage_skin.set_corner_radius_all(17)
 	stage.add_theme_stylebox_override("panel", stage_skin)
 	box.add_child(stage)
 	var scene := TextureRect.new()
 	scene.texture = PerkCard.scene_texture(scene_kind)
-	scene.modulate.a = 0.18
 	scene.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	scene.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	scene.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -291,7 +298,7 @@ func _free_tile(parent: Node, title: String, item_id: String, amount: String, sc
 	pill_skin.content_margin_left = 8
 	pill_skin.content_margin_right = 8
 	pill_skin.shadow_color = Color("79593622")
-	pill_skin.shadow_size = 0
+	pill_skin.shadow_size = 2
 	pill.add_theme_stylebox_override("panel", pill_skin)
 	var pill_label := Label.new()
 	pill_label.text = title
@@ -307,8 +314,8 @@ func _free_tile(parent: Node, title: String, item_id: String, amount: String, sc
 	tile.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	stage.add_child(tile)
 	tile.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
-	tile.offset_left = -28
-	tile.offset_right = 28
+	tile.offset_left = -18
+	tile.offset_right = 38
 	tile.offset_top = -18
 	tile.offset_bottom = 38
 	var icon := TextureRect.new()
@@ -549,12 +556,12 @@ func _h_offer_card(parent: Node, p: Dictionary, _row_h: float) -> void:
 
 func _perk_card(parent: Node, product: Dictionary, opts: Dictionary = {}) -> void:
 	var sku := String(product["sku"])
-	# Align offers with the free gifts and pack grids.
+	# The existing Shop list has a 4px inset; perk cards keep the approved 12px gutter.
 	var inset := MarginContainer.new()
 	inset.name = "Offer_" + sku
 	inset.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	inset.add_theme_constant_override("margin_left", 0)
-	inset.add_theme_constant_override("margin_right", 0)
+	inset.add_theme_constant_override("margin_left", 8)
+	inset.add_theme_constant_override("margin_right", 8)
 	parent.add_child(inset)
 	var card := PerkCard.new()
 	inset.add_child(card)
@@ -845,7 +852,7 @@ func _grid(columns: int) -> GridContainer:
 	grid.columns = columns
 	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	grid.add_theme_constant_override("h_separation", 8)
-	grid.add_theme_constant_override("v_separation", 12)
+	grid.add_theme_constant_override("v_separation", 8)
 	add_child(grid)
 	return grid
 
@@ -878,7 +885,7 @@ func update_packs() -> void:
 	grid.name = "PackGrid"
 	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	grid.add_theme_constant_override("h_separation", 8)
-	grid.add_theme_constant_override("v_separation", 12)
+	grid.add_theme_constant_override("v_separation", 8)
 	_pack_box.add_child(grid)
 	for pack: Dictionary in GameData.driver_packs():
 		_pack_card(grid, "driver", pack)
@@ -1120,7 +1127,7 @@ func _adapt_grids() -> void:
 		var grid = entry["content"]
 		if grid is GridContainer:
 			grid.add_theme_constant_override("h_separation", roundi(12 * factor))
-			grid.add_theme_constant_override("v_separation", maxi(12, roundi(12 * factor)))
+			grid.add_theme_constant_override("v_separation", roundi(12 * factor))
 	for grid in [_gem_grid, _cash_grid]:
 		if is_instance_valid(grid):
 			grid.columns = 3

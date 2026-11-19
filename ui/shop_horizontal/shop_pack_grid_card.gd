@@ -24,7 +24,15 @@ var _stage: Panel
 
 func _init() -> void:
 	size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var skin := ShopSkin.card_surface()
+	var skin := StyleBoxFlat.new()
+	skin.bg_color = Color("fff4e4")
+	skin.border_color = Color("e8d5bc")
+	skin.set_border_width_all(2)
+	skin.set_corner_radius_all(20)
+	skin.set_content_margin_all(3)
+	skin.shadow_color = Color("79593633")
+	skin.shadow_size = 4
+	skin.shadow_offset = Vector2(0, 3)
 	add_theme_stylebox_override("panel", skin)
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 5)
@@ -36,12 +44,11 @@ func _init() -> void:
 	_stage.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var stage_skin := StyleBoxFlat.new()
-	stage_skin.bg_color = Color("fff7eb")
+	stage_skin.bg_color = Color("ffd1c4")
 	stage_skin.set_corner_radius_all(17)
 	_stage.add_theme_stylebox_override("panel", stage_skin)
 	box.add_child(_stage)
 	_scene = TextureRect.new()
-	_scene.modulate.a = 0.22
 	_scene.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_scene.stretch_mode = TextureRect.STRETCH_SCALE
 	_scene.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -63,7 +70,7 @@ func _init() -> void:
 	pill_skin.content_margin_left = 8
 	pill_skin.content_margin_right = 3
 	pill_skin.shadow_color = Color("79593622")
-	pill_skin.shadow_size = 0
+	pill_skin.shadow_size = 2
 	pill.add_theme_stylebox_override("panel", pill_skin)
 	_stage.add_child(pill)
 	pill.position = Vector2(6, 6)

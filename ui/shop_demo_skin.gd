@@ -28,20 +28,6 @@ const SECTION_OUTLINE := Color("0751a7")
 const NUMBER_OUTLINE := Color("091326")
 static var _surfaces: Dictionary = {}
 
-## Shared quiet frame: artwork and actions provide the color, not the border.
-static func card_surface(margin: float = 3.0) -> StyleBoxFlat:
-	var skin := StyleBoxFlat.new()
-	skin.bg_color = Color("fff7eb")
-	skin.border_color = Color("dfd6c6")
-	skin.set_border_width_all(1)
-	skin.set_corner_radius_all(18)
-	skin.set_content_margin_all(margin)
-	skin.shadow_color = Color("79593618")
-	skin.shadow_size = 2
-	skin.shadow_offset = Vector2(0, 2)
-	return skin
-
-
 static func match_picture(id: String) -> TextureRect:
 	var t := TextureRect.new()
 	t.texture = load(ROOT + "match/" + id + ".png")
