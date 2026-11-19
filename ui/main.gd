@@ -1590,8 +1590,7 @@ func _refresh_rows() -> void:
 			"maxed":
 				(r["price"] as Label).text = I18n.t("main.max")
 				btn.disabled = true
-		btn.tooltip_text = (r["name"] as Label).text + " · " + (r["level"] as Label).text + " · " + (r["price"] as Label).text
-		btn.accessibility_name = btn.tooltip_text
+		btn.accessibility_name = (r["name"] as Label).text + " · " + (r["level"] as Label).text + " · " + (r["price"] as Label).text
 		_set_font_color(r, "price", Color("7a8aa6") if btn.disabled else Color.WHITE)
 		(r["cash_icon"] as TextureRect).modulate.a = 0.5 if btn.disabled else 1.0
 
