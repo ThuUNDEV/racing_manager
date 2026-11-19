@@ -672,5 +672,6 @@
  "daily.tier_elite": "Elite",
  "daily.x2_claim": "XEM x2",
  "daily.x2_note": " (x2 gem)",
- "daily.x_gem": "%d gem"
+ "daily.x_gem": "%d gem",
+ "drivers.shards_short": "%d/%d"
 }

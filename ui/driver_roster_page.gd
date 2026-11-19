@@ -311,7 +311,7 @@ func _rebuild() -> void:
 	grid.add_theme_constant_override("h_separation", 8)
 	grid.add_theme_constant_override("v_separation", 8)
 	add_child(grid)
-	for d: Dictionary in team + avail + locked:
+	for d: Dictionary in team + avail:
 		grid.add_child(_driver_row(d, _status(d)))
 
 
@@ -414,9 +414,26 @@ func _driver_row(d: Dictionary, state: String) -> Control:
 	var col := VBoxContainer.new()
 	col.add_theme_constant_override("separation", 4)
 	card.add_child(col)
+	var title_row := HBoxContainer.new()
+	title_row.add_theme_constant_override("separation", 4)
+	col.add_child(title_row)
 	var title := _label(String(d["name"]), 18, C_TEXT)
 	title.clip_text = true
-	col.add_child(title)
+	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title_row.add_child(title)
+	var details := Button.new()
+	details.name = "DriverDetails_" + id
+	details.text = "i"
+	details.custom_minimum_size = Vector2(30, 30)
+	details.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	details.add_theme_font_size_override("font_size", 16)
+	var info_bg := _sb(C_ORANGE_D, Color.WHITE, 2, 15, 0)
+	for st: String in ["normal", "hover", "pressed", "focus"]:
+		details.add_theme_stylebox_override(st, info_bg)
+	for c: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color"]:
+		details.add_theme_color_override(c, Color.WHITE)
+	details.pressed.connect(_open_sheet.bind(id))
+	title_row.add_child(details)
 	var status_row := HBoxContainer.new()
 	status_row.add_theme_constant_override("separation", 5)
 	col.add_child(status_row)
@@ -440,6 +457,7 @@ func _driver_row(d: Dictionary, state: String) -> Control:
 	status.clip_text = true
 	status.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	status_row.add_child(status)
+	col.add_child(_tier_chip(d))
 	# Ảnh đặt trong khung bo góc nền xanh nhạt (khoá: xám xanh).
 	var frame := PanelContainer.new()
 	frame.add_theme_stylebox_override("panel", _sb(Color("d3e9f8") if state != "lock" else Color("dfe4ec"), Color(1, 1, 1, 0.8), 2, 14, 0))
@@ -453,16 +471,59 @@ func _driver_row(d: Dictionary, state: String) -> Control:
 	stat_pill.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	stat_pill.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	col.add_child(stat_pill)
-	var details := Button.new()
-	details.name = "DriverDetails_" + id
-	details.text = I18n.t("shop.view")
-	details.custom_minimum_size = Vector2(0, 32)
-	details.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	details.add_theme_font_size_override("font_size", 16)
-	HdUi.style_button(details, "race")
-	details.pressed.connect(_open_sheet.bind(id))
-	col.add_child(details)
+	if state in ["active", "owned"]:
+		col.add_child(_shard_bar(id))
 	return card
+
+
+## Chip phẩm (Rookie/Pro/Elite/Legend), màu theo TIER_COLORS.
+func _tier_chip(d: Dictionary) -> Control:
+	var t := clampi(int(d["tier"]), 0, TIER_NAMES.size() - 1)
+	var chip := PanelContainer.new()
+	chip.name = "TierChip"
+	chip.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	chip.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	chip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var box := _sb(Color(String(TIER_COLORS[t])), Color(1, 1, 1, 0.85), 1, 9, 0)
+	box.content_margin_left = 7
+	box.content_margin_right = 7
+	box.content_margin_top = 1
+	box.content_margin_bottom = 1
+	chip.add_theme_stylebox_override("panel", box)
+	var l := _label(I18n.t(String(TIER_NAMES[t])), 11, Color.WHITE)
+	l.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	chip.add_child(l)
+	return chip
+
+
+## Thanh mảnh trên thẻ: mảnh đang có / mảnh cần để nâng cấp tiếp. Đạt cấp tối đa thì đầy và ghi "Cấp tối đa".
+func _shard_bar(id: String) -> Control:
+	var need := GameState.driver_upgrade_cost(id)
+	var shards := GameState.driver_shards(id)
+	var ready := need >= 0 and shards >= need
+	var bar := ProgressBar.new()
+	bar.name = "ShardBar"
+	bar.show_percentage = false
+	bar.max_value = maxi(need, 1)
+	bar.value = 1.0 if need < 0 else float(mini(shards, need))
+	bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	bar.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	bar.custom_minimum_size = Vector2(24, 20)
+	bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bar.add_theme_stylebox_override("background", _sb(Color("c3d6f2"), Color(0, 0, 0, 0), 0, 10, 0))
+	bar.add_theme_stylebox_override("fill", _sb(C_GOOD if ready else C_ORANGE, Color(0, 0, 0, 0), 0, 10, 0))
+	# Chữ nằm trong thanh: trắng viền tối để đọc được cả trên nền nhạt lẫn phần đã đầy.
+	var text := I18n.t("common.max_level") if need < 0 else I18n.t("drivers.shards_short") % [shards, need]
+	var l := _label(text, 12, Color.WHITE)
+	l.name = "ShardText"
+	l.add_theme_color_override("font_outline_color", Color("0e2b5c"))
+	l.add_theme_constant_override("outline_size", 4)
+	l.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	l.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bar.add_child(l)
+	return bar
 
 
 ## Dòng thứ ba: hai chỉ số cao nhất (người đã có) · chi phí tuyển · điều kiện mở.
@@ -536,9 +597,7 @@ func _rebuild_sheet() -> void:
 	if d.is_empty():
 		close_sheet()
 		return
-	var act := GameData.driver(GameState.active_driver_id)
 	var s := _status(d)
-	var cmp := s != "active"
 
 	var head := HBoxContainer.new()
 	head.add_theme_constant_override("separation", 10)
@@ -549,36 +608,16 @@ func _rebuild_sheet() -> void:
 	hv.add_theme_constant_override("separation", 0)
 	hv.add_child(_fit_name(String(d["name"]), 20, 150.0, 13))
 	hv.add_child(_label(_style_name(d), 12, C_MUTED))
+	hv.add_child(_tier_chip(d))
 	hv.add_child(_label(_state_text(s), 12, _state_color(s)))
 	head.add_child(hv)
 	var x := HdUi.close_button(close_sheet, "DriverDetailClose")
 	head.add_child(x)
 	_sheet_box.add_child(head)
 
-	var note := I18n.t("drivers.compared_with_current_driver") % String(act["name"]) if cmp else I18n.t("drivers.current_driver_stats")
-	_sheet_box.add_child(_label(note, 12, C_MUTED, true))
-	var radar := RadarChart.new()
-	radar.a = _values(d)
-	radar.b = _values(act) if cmp else []
-	radar.custom_minimum_size = Vector2(0, 230)
-	_sheet_box.add_child(radar)
-	if cmp:
-		var lg := HBoxContainer.new()
-		lg.alignment = BoxContainer.ALIGNMENT_CENTER
-		lg.add_theme_constant_override("separation", 16)
-		lg.add_child(_label("■ %s" % String(d["name"]), 12, C_ORANGE))
-		lg.add_child(_label(I18n.t("drivers.dashed_line") % String(act["name"]), 12, C_INK))
-		_sheet_box.add_child(lg)
-
-	for st: Array in STATS:
-		_sheet_box.add_child(_stat_row(I18n.t(String(st[1])), _stat(d, st[0]), _stat(act, st[0]), cmp))
-	var tot := _total(d)
-	var tot_txt := I18n.t("drivers.total_stats") % tot
-	if cmp:
-		var dt := tot - _total(act)
-		tot_txt += " (%s%d)" % ["+" if dt >= 0 else "−", absi(dt)]
+	_sheet_box.add_child(_radar(d))
 	var tp := _panel(_sb(Color("e2f2ef"), Color("b7ddd8"), 1, 12, 10))
-	tp.add_child(_label(I18n.t("drivers.trait") % [I18n.t(String(TRAITS.get(String(d["trait"]), TRAITS[""]))), tot_txt], 12, Color("1e5f59"), true))
+	tp.add_child(_label(I18n.t("drivers.trait") % [I18n.t(String(TRAITS.get(String(d["trait"]), TRAITS[""]))), I18n.t("drivers.total_stats") % _total(d)], 12, Color("1e5f59"), true))
 	_sheet_box.add_child(tp)
 
 	if s == "active" or s == "owned":
@@ -587,7 +626,6 @@ func _rebuild_sheet() -> void:
 	var cta := Button.new()
 	cta.custom_minimum_size = Vector2(0, 52)
 	cta.add_theme_font_size_override("font_size", 16)
-	var hint := ""
 	match s:
 		"avail":
 			var price := Pricing.scout_coin_cost(_viewed)
@@ -613,27 +651,23 @@ func _rebuild_sheet() -> void:
 			cta.add_theme_constant_override("icon_max_width", 18)
 			cta.disabled = not (ok_c and ok_s) or _blocked()
 			cta.pressed.connect(_recruit.bind(_viewed))
-			hint = I18n.t("drivers.recruiting_not_pick_not_random")
 		"lock":
 			var req2 := _panel(_sb(C_CARD, C_LINE, 1, 14, 10))
 			req2.add_child(_req_row(I18n.t("drivers.unlock_requirement"), _unlock_text(d), false))
 			_sheet_box.add_child(req2)
 			cta.text = I18n.t("drivers.cannot_recruit_yet")
+			HdUi.style_button(cta, "cancel")
 			cta.disabled = true
-			hint = I18n.t("drivers.you_can_still_view_stats")
 		"owned":
 			cta.text = I18n.t("drivers.select_next_race") % String(d["name"])
+			HdUi.style_button(cta, "race")
 			cta.disabled = _blocked()
 			cta.pressed.connect(_select.bind(_viewed))
-			hint = I18n.t("drivers.applies_from_next_race_current")
 		_:
 			cta.text = I18n.t("common.use")
+			HdUi.style_button(cta, "cancel")
 			cta.disabled = true
 	_sheet_box.add_child(cta)
-	if hint != "":
-		var hl := _label(hint, 12, C_MUTED, true)
-		hl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		_sheet_box.add_child(hl)
 
 
 ## Cấp độ của tay đua: sao/Lv, thanh mảnh riêng, nút Nâng cấp khi đủ mảnh. Thưởng level cộng vào mọi chỉ số.
@@ -680,13 +714,6 @@ func _upgrade(id: String) -> void:
 		_rebuild_sheet()
 
 
-func _values(d: Dictionary) -> Array:
-	var out: Array = []
-	for s: Array in STATS:
-		out.append(float(_stat(d, s[0])))
-	return out
-
-
 func _req_row(left: String, right: String, ok: bool) -> Control:
 	var h := HBoxContainer.new()
 	h.add_child(_label(left, 13))
@@ -696,35 +723,25 @@ func _req_row(left: String, right: String, ok: bool) -> Control:
 	return h
 
 
-func _stat_row(label: String, value: int, ref: int, cmp: bool) -> Control:
-	var h := HBoxContainer.new()
-	h.add_theme_constant_override("separation", 8)
-	var l := _label(label, 12)
-	l.custom_minimum_size = Vector2(72, 0)
-	h.add_child(l)
-	var bar := ProgressBar.new()
-	bar.show_percentage = false
-	bar.max_value = STAT_MAX
-	bar.value = value
-	bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	bar.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	bar.custom_minimum_size = Vector2(0, 8)
-	bar.add_theme_stylebox_override("background", _sb(Color("c3d6f2"), Color(0, 0, 0, 0), 0, 5, 0))
-	bar.add_theme_stylebox_override("fill", _sb(C_ORANGE, Color(0, 0, 0, 0), 0, 5, 0))
-	h.add_child(bar)
-	var v := _label(str(value), 12)
-	v.custom_minimum_size = Vector2(26, 0)
-	v.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	h.add_child(v)
-	var dl := _label("", 12)
-	dl.custom_minimum_size = Vector2(36, 0)
-	dl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	if cmp:
-		var diff := value - ref
-		dl.text = "=" if diff == 0 else "%s%d" % ["+" if diff > 0 else "−", absi(diff)]
-		dl.add_theme_color_override("font_color", C_MUTED if diff == 0 else (C_GOOD if diff > 0 else C_BAD))
-	h.add_child(dl)
-	return h
+## Biểu đồ mạng nhện 7 chỉ số; đang xem người khác với tay đua đang dùng thì vẽ thêm đường nét của người đang dùng để so sánh.
+func _radar(d: Dictionary) -> Control:
+	var r := DriverRadar.new()
+	r.name = "DriverRadar"
+	r.max_value = STAT_MAX
+	var names := PackedStringArray()
+	var vals: Array = []
+	for st: Array in STATS:
+		names.append(I18n.t(String(st[1])))
+		vals.append(_stat(d, st[0]))
+	r.labels = names
+	r.values = vals
+	var active := GameData.driver(GameState.active_driver_id)
+	if not active.is_empty() and String(active["id"]) != String(d["id"]):
+		var ref: Array = []
+		for st: Array in STATS:
+			ref.append(_stat(active, st[0]))
+		r.ref_values = ref
+	return r
 
 
 func _recruit(id: String) -> void:
@@ -748,58 +765,3 @@ func _select(id: String) -> void:
 		notice.emit(I18n.t("drivers.could_not_select") % dname)
 	_sig = ""
 	refresh()
-
-
-# ---------------------------------------------------------------- radar
-
-## Biểu đồ mạng nhện 7 chỉ số: `a` tô cam, `b` (nếu có) vẽ nét đứt đen để so sánh.
-class RadarChart extends Control:
-	const LABELS := ["drivers.launch", "common.pace", "drivers.braking", "drivers.cornering", "drivers.racecraft", "drivers.composure", "drivers.endurance"]
-	var a: Array = []
-	var b: Array = []
-
-	func _draw() -> void:
-		var n := LABELS.size()
-		var c := size * 0.5
-		var r := minf(size.x * 0.5 - 48.0, size.y * 0.5 - 20.0)
-		if r <= 10.0:
-			return
-		for f in [0.25, 0.5, 0.75, 1.0]:
-			var ring := PackedVector2Array()
-			for i in n:
-				ring.append(_pt(c, r * f, i, n))
-			ring.append(ring[0])
-			draw_polyline(ring, Color("d8e2df"), 1.0)
-		var font := get_theme_default_font()
-		for i in n:
-			draw_line(c, _pt(c, r, i, n), Color("c3d6f2"), 1.0)
-			var lp := _pt(c, r + 18.0, i, n)
-			var w := font.get_string_size(I18n.t(LABELS[i]), HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
-			draw_string(font, lp + Vector2(-w * 0.5, 4), I18n.t(LABELS[i]), HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color("788b95"))
-		if a.size() == n:
-			var pts := _poly(c, r, a, n)
-			draw_colored_polygon(pts, Color(0.93, 0.45, 0.17, 0.28))
-			draw_polyline(pts, Color("f2790a"), 2.0)
-		if b.size() == n:
-			var pb := _poly(c, r, b, n)
-			for i in pb.size() - 1:
-				_dash(pb[i], pb[i + 1])
-
-	func _poly(c: Vector2, r: float, vals: Array, n: int) -> PackedVector2Array:
-		var pts := PackedVector2Array()
-		for i in n:
-			pts.append(_pt(c, r * clampf(float(vals[i]) / 70.0, 0.0, 1.0), i, n))
-		pts.append(pts[0])
-		return pts
-
-	func _pt(c: Vector2, rad: float, i: int, n: int) -> Vector2:
-		var ang := -PI * 0.5 + TAU * float(i) / float(n)
-		return c + Vector2(cos(ang), sin(ang)) * rad
-
-	func _dash(p: Vector2, q: Vector2) -> void:
-		var seg := p.distance_to(q)
-		var dir := (q - p) / maxf(seg, 0.001)
-		var t := 0.0
-		while t < seg:
-			draw_line(p + dir * t, p + dir * minf(t + 5.0, seg), Color("0e2b5c"), 2.0)
-			t += 9.0
