@@ -13,6 +13,11 @@ var _popup: PanelContainer
 var _scroll: ScrollContainer
 var _current: Label
 var _next: Label
+var _current_icon: TextureRect
+var _next_icon: TextureRect
+# Khiên rank_shield gốc màu cam; xoay hue theo màu giải trong data/leagues.json (tính một lần, lưu cache).
+static var _tint_cache: Dictionary = {}
+const HUE_SHIFT := {"green": 0.28, "blue": 0.52, "purple": 0.68, "orange": 0.0, "red": -0.08, "gold": 0.03}
 var _reqs: VBoxContainer
 var _rewards: VBoxContainer
 var _note: Label
@@ -69,9 +74,11 @@ func _ready() -> void:
 	lrow.add_theme_constant_override("separation", 10)
 	leagues.add_child(lrow)
 	_current = _league_box(lrow, "PromotionCurrent")
+	_current_icon = _current.get_parent().get_child(0) as TextureRect
 	var arrow := _label("›", 30, Color.WHITE)
 	lrow.add_child(arrow)
 	_next = _league_box(lrow, "PromotionNext")
+	_next_icon = _next.get_parent().get_child(0) as TextureRect
 	var req_panel := _panel(content, Color("f8fbff"), 14, 12)
 	_reqs = VBoxContainer.new()
 	_reqs.name = "PromotionRequirements"
@@ -118,7 +125,7 @@ func _close() -> void:
 func _fit_popup() -> void:
 	if not is_instance_valid(_popup):
 		return
-	_popup.size = Vector2(minf(390, maxf(0, size.x - 32)), minf(440, maxf(0, size.y - 64)))
+	_popup.size = Vector2(minf(390, maxf(0, size.x - 32)), minf(520, maxf(0, size.y - 64)))
 	_popup.position = (size - _popup.size) * 0.5
 
 
@@ -145,10 +152,12 @@ func refresh() -> void:
 	var top := GameData.leagues().size() - 1
 	var tier := GameState.business_tier
 	_current.text = Balance.league_name(tier)
+	_set_icon(_current_icon, tier)
 	_clear(_reqs)
 	_clear(_rewards)
 	if tier >= top:
 		_next.text = "-"
+		_next_icon.modulate = Color(1, 1, 1, 0.25)
 		_reqs.add_child(_label(I18n.t("promotion.max_league"), 14, INK, true))
 		_rewards.get_parent().hide()
 		_note.text = ""
@@ -157,6 +166,8 @@ func refresh() -> void:
 	_rewards.get_parent().show()
 	var nxt := tier + 1
 	_next.text = Balance.league_name(nxt)
+	_set_icon(_next_icon, nxt)
+	_next_icon.modulate = Color.WHITE
 	var min_rev := int(GameData.economy()["business"]["expansion_min_revenue_level"])
 	var low_rev := min_rev
 	for kind in Balance.REVENUE:
@@ -184,6 +195,33 @@ func refresh() -> void:
 	_action.disabled = state != "ok" or queued
 
 
+func _set_icon(icon: TextureRect, tier: int) -> void:
+	var color := String(GameData.league(tier).get("color", "orange"))
+	icon.texture = _tinted(color)
+
+
+static func _tinted(color: String) -> Texture2D:
+	if _tint_cache.has(color):
+		return _tint_cache[color]
+	var src := HdUi.Soft.texture("rank_shield")
+	var shift := float(HUE_SHIFT.get(color, 0.0))
+	if shift == 0.0 or src == null:
+		_tint_cache[color] = src
+		return src
+	var img := src.get_image()
+	img.convert(Image.FORMAT_RGBA8)
+	img.resize(img.get_width() / 2, img.get_height() / 2, Image.INTERPOLATE_LANCZOS)
+	for y in img.get_height():
+		for x in img.get_width():
+			var c := img.get_pixel(x, y)
+			if c.a > 0.0:
+				c.h = fposmod(c.h + shift, 1.0)
+				img.set_pixel(x, y, c)
+	var tex := ImageTexture.create_from_image(img)
+	_tint_cache[color] = tex
+	return tex
+
+
 func _req_row(text: String, value: String, done: bool) -> void:
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 8)
@@ -199,8 +237,11 @@ func _league_box(parent: Control, node_name: String) -> Label:
 	var box := VBoxContainer.new()
 	box.size_flags_horizontal = SIZE_EXPAND_FILL
 	box.add_theme_constant_override("separation", 2)
-	box.size_flags_vertical = SIZE_SHRINK_CENTER
+	box.size_flags_vertical = SIZE_SHRINK_BEGIN
 	parent.add_child(box)
+	var icon := HdUi.Soft.art("rank_shield", Vector2(0, 64))
+	icon.name = node_name + "Icon"
+	box.add_child(icon)
 	var name_label := _label("", 18, Color.WHITE, true)
 	name_label.name = node_name
 	name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
