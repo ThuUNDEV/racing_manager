@@ -74,10 +74,10 @@ func run() -> void:
 	if "--profile-shots" in OS.get_cmdline_user_args():
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("res://Design/Previews/main_avatar_fixed.png")
-	main._header_avatar.pressed.emit()
+	main._show_profile()
 	await settle()
 	var profile = main._profile
-	check(profile.visible, "Avatar opens profile")
+	check(profile.visible, "Profile opens")
 	for dimensions in [Vector2i(320, 568), Vector2i(360, 800), Vector2i(390, 844), Vector2i(412, 915)]:
 		root.size = dimensions
 		await settle()

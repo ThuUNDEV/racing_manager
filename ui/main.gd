@@ -67,6 +67,7 @@ var _pages_root: Control
 var _coin_label: Label
 var _gem_label: Label
 var _profile: Control
+var _promotion: Control
 var _class_page: Control
 var _daily_btn: Button  # nút quà mỗi ngày ở dải chặng (Design/30 §5.1)
 var _daily_dot: Panel
@@ -398,8 +399,8 @@ func _build_ui() -> void:
 	_header_avatar.name = "PlayerProfileButton"
 	for state in ["normal", "hover", "pressed", "focus", "disabled"]:
 		_header_avatar.add_theme_stylebox_override(state, StyleBoxEmpty.new())
-	_header_avatar.accessibility_name = I18n.t("common.player_profile")
-	_header_avatar.pressed.connect(_show_profile)
+	_header_avatar.accessibility_name = I18n.t("promotion.title")
+	_header_avatar.pressed.connect(_show_promotion)
 	_header_place(top, _header_avatar, Rect2(18, 2, 106, 94))
 	var avatar_icon := _header_icon("icons/avatar.png")
 	avatar_icon.name = "PlayerAvatarIcon"
@@ -543,6 +544,14 @@ func _build_ui() -> void:
 	add_child(_profile)
 	_profile.hide()
 	_profile.closed.connect(func() -> void: _header_avatar.grab_focus())
+	_promotion = preload("res://ui/promotion_popup.gd").new()
+	_promotion.name = "PromotionPopup"
+	_promotion.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	add_child(_promotion)
+	_promotion.hide()
+	_promotion.closed.connect(func() -> void: _header_avatar.grab_focus())
+	_promotion.profile_requested.connect(_show_profile)
+	_promotion.notice.connect(_show_toast)
 	_class_page = preload("res://ui/class_page.gd").new()
 	_class_page.name = "ClassPage"
 	_class_page.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -1232,6 +1241,13 @@ func _restore_iap() -> void:
 func _on_iap_restored(r: Dictionary) -> void:
 	_show_toast(I18n.t("main.purchases_restored") if String(r.get("status", "")) == "ok" else I18n.t("main.could_not_restore_purchases_try"))
 	_refresh()
+
+
+func _show_promotion() -> void:
+	if not GameState.feature_unlocked("U2_league"):
+		_toast_lock("U2_league")
+		return
+	_promotion.open()
 
 
 func _show_profile() -> void:
@@ -1994,9 +2010,10 @@ func _process(delta: float) -> void:
 	if not _active:
 		GameState.tutorial_pause = false
 		return
-	_power_banner.set_suspended(not _race_block.visible or _overlay.visible or _result_panel.visible or (is_instance_valid(_profile) and _profile.visible))
+	_power_banner.set_suspended(not _race_block.visible or _overlay.visible or _result_panel.visible or (is_instance_valid(_profile) and _profile.visible) or (is_instance_valid(_promotion) and _promotion.visible))
 	# Bảng tổng kết tự tắt sau RESULT_SHOW_SEC giây (thời gian thật) rồi thả đua tiếp.
 	var modal_open: bool = _overlay.visible or (is_instance_valid(_profile) and _profile.visible) \
+		or (is_instance_valid(_promotion) and _promotion.visible) \
 		or (is_instance_valid(_class_page) and _class_page.visible)
 	_ads_controls.blocked = modal_open or _result_panel.visible or _tab != Tab.RACE or _tutorial.running \
 		or _tutorial.intro != "" or _tutorial.nav != "" or GameState.phase != "racing"
@@ -2590,7 +2607,7 @@ func _pump_intro() -> void:
 		return
 	if _tutorial.running or _tutorial.intro != "" or _tutorial.nav != "":
 		return
-	if _overlay.visible or _result_panel.visible or _profile.visible or _class_page.visible:
+	if _overlay.visible or _result_panel.visible or _profile.visible or _promotion.visible or _class_page.visible:
 		return
 	if GameState.gating_on():
 		# Earliest eligible lesson owns its entire route, from any current tab.
