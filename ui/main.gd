@@ -1957,6 +1957,7 @@ func _show_daily_rewards() -> void:
 	_daily_popup.minimum_size_changed.connect(_fit_overlay.call_deferred)
 	_daily_popup.closed.connect(func() -> void: _close_overlay())
 	_daily_popup.claimed.connect(_on_daily_reward_claimed)
+	_daily_popup.notice.connect(_show_toast)
 
 
 func _on_daily_reward_claimed(reward: Dictionary) -> void:
@@ -1966,7 +1967,7 @@ func _on_daily_reward_claimed(reward: Dictionary) -> void:
 		extra = I18n.t("main.reached_day_milestone") % (int(reward["milestone"]) * int(GameData.daily_rewards().get("milestone_interval", 10)))
 	elif bool(reward.get("grand", false)):
 		extra = I18n.t("main.day_7")
-	_show_toast(I18n.t("common.claimed") + DailyRewardsPopup.reward_line(reward) + (" (x2 gem)" if bool(reward.get("x2", false)) else "") + extra)
+	_show_toast(I18n.t("common.claimed") + DailyRewardsPopup.reward_line(reward) + (I18n.t("daily.x2_note") if bool(reward.get("x2", false)) else "") + extra)
 	_lock_sig = ""
 	_refresh_locks()
 	_rebuild_shop()

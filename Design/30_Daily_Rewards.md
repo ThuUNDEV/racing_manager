@@ -116,7 +116,7 @@ Mẫu đã được người dùng duyệt và yêu cầu thay vào game ngày 1
 - Ngày 7: thẻ xanh đậm viền vàng trọn hàng, rương bên trái, các phần thưởng tách thành ô icon và số lượng. Đọc đúng cả bảy vòng Grand; khi có ba loại quà thì dùng số lượng gọn dưới mỗi icon.
 - Mốc tích lũy giữ thanh ngang nối bốn biểu tượng quà. Mốc có nhiều loại quà (ví dụ ngày 30) đặt icon cạnh nhau phía trên và số lượng tương ứng phía dưới, **không có đường kẻ dọc** giữa các loại quà.
 - Bỏ các họa tiết caro nhỏ lặp lại ở góc thẻ và cạnh chú thích. Bề mặt ít bóng, màu xanh/vàng và chữ xanh đậm.
-- Nút “NHẬN QUÀ” xanh lá, icon quà cạnh chữ; sau khi nhận đổi sang đếm ngược. Không thêm quảng cáo x2 trong pha này.
+- Nút “NHẬN QUÀ” xanh lá, icon quà cạnh chữ; sau khi nhận đổi sang đếm ngược. Quảng cáo x2 thêm ở mục 5.4 (P3).
 - Dữ liệu thưởng, lịch mở khóa, chu kỳ, mốc, quyền nhận, lưu tiến trình và popup tự bật giữ qua GameState/DailyRewards hiện có.
 
 Ảnh chạy trong game: `Design/Previews/daily_rewards_approved_runtime_390.png`, `daily_rewards_320.png`, `daily_rewards_390.png`, `daily_rewards_412.png`, `daily_rewards_grand_runtime_320.png`.
@@ -129,12 +129,19 @@ Kiểm tra bằng `tests/daily_rewards_ui_test.gd`: bố cục và chữ ở 320
 
 Popup runtime dùng bộ `assets/daily_gift_v3` và bám ảnh concept `output/imagegen/daily_gift/daily_gift_concept_v1.png`: nền kem, header cyan có hộp quà và họa tiết cờ caro, 6 thẻ 3×2, ô Ngày 7 xanh viền vàng, 4 mốc nối bằng thanh tiến trình và nút nhận cam. Bố cục tham chiếu 360×588 design units; `UnitScale` ghi kích thước/font thật, không scale canvas. Popup có lề ngang 8px, dọc 12px và co vừa viewport; nút nhận/đóng ≥48px.
 
-- **Icon thưởng khớp concept:** vé tay đua (Pro/All-Star) dùng `drivers.png`, vé trang bị (Standard/Elite) dùng `gear_bag.png`, gem dùng `gem.png`. Hạng vé hiển thị bằng chữ I18n và nằm trong `meta("tier")` của icon, không phân tích câu đã dịch. Bộ icon "coupon" tem vé vẫn nằm trong asset nhưng popup không dùng.
+- **Icon thưởng khớp vật phẩm nhận (sửa 19/11/2026):** mỗi vé dùng đúng tem vé của nó (`coupon_driver_pro/allstar`, `coupon_gear_standard/elite`: mũ bảo hiểm cho tay đua, cờ lê cho phụ kiện, xanh bạc và tím vàng theo hạng), gem dùng `gem.png`. Concept cũ vẽ cả đội đua/túi nên không phân biệt được hạng. Hạng vé hiển thị bằng chữ I18n và nằm trong `meta("tier")` của icon, không phân tích câu đã dịch. Bộ icon "coupon" tem vé vẫn nằm trong asset nhưng popup không dùng.
 - **Ô Ngày 7:** hộp quà đỏ `gift.png` với quầng sáng `glow_soft.png`, vạch chia dọc và cờ caro mờ ở hai góc dưới. Header dùng `checker_flag.png`.
 - **Thẻ ngày:** chữ ngày 15, icon cao 30–33, số/nhãn 13. Badge "ĐÃ NHẬN" / "HÔM NAY" là viên thuốc thụt vào trong thẻ. Thẻ đã nhận nền xám, icon alpha 0.8, chữ alpha 0.75. Thẻ tương lai giữ mặt gọn, Ngày mai nằm trong tooltip.
 - **Hàng mốc:** một hàng icon `gem + vé` kèm dòng chữ có đơn vị ("40 gem", "2 vé All-Star", "80 gem + 2 vé"), 3 vạch chia dọc. Thanh mốc chỉ tick các mốc đã nhận; 2/10 không đánh dấu mốc 10 (demo vẽ tick ở mốc đầu nhưng logic game không cho phép).
 - **Nút nhận:** cao 52 units, icon quà 40, chữ 27. Sau nhận dùng nút xám với đếm ngược I18n, tự mở lại khi qua ngày UTC. Khi save bị khóa hiện trạng thái chờ lưu và thông báo lỗi, không báo đếm ngược giả.
 - Overlay khác được khôi phục lề riêng khi đóng/chuyển popup.
+
+### 5.4. Chỉnh popup Daily Gift v3 — 19/11/2026
+
+- **Bố cục:** khung tham chiếu 360×628 (cao hơn 40 units để chữ và icon lớn hơn). Header: hộp quà không sát mép, cờ caro lộ rõ, tiêu đề giữa khoảng trống. Thẻ ngày chữ 16/14, badge 12. Ô Ngày 7 icon cao 33. Mốc: nút 26, icon 26–30, chữ 13; thanh tiến độ bắt đầu x=4 nên fill luôn thấy khi đã có ngày nhận; hint cách nút Nhận 8 units.
+- **Ngày mai:** thẻ ngày kế có pill "Ngày mai" (`NextBadge`), không chỉ tooltip.
+- **i18n:** tên hạng vé (`daily.tier_*`), `daily.x_gem`, `daily.x2_claim`, `daily.x2_note` đủ 8 ngôn ngữ. Nhãn quá dài ở cỡ chữ đọc được (9 units) thì bỏ dấu tick của badge, hoặc chú thích mốc rút về số ("80 + 2"). Test chặn cỡ chữ dưới 9.
+- **Video x2 (P3, mục 6):** nút `Nhận x2` cạnh nút Nhận, chỉ hiện ở ngày có gem khi quảng cáo sẵn sàng. Placement `daily_x2` (`reward: daily_gift_x2`, unlock `U5_drivers`, 1 lần/ngày, chung trần ngày). Xem xong thì nhận quà và nhân đôi gem trong một giao dịch save (`GameState.apply_daily_reward_unsaved`), lỗi lưu thì hoàn tác và giữ thưởng chờ để thử lại. Chưa có analytics `daily_x2_watch`.
 
 Ảnh runtime: `output/daily_gift_runtime_v3/`. Kiểm thử: `tests/daily_gift_v3_ui_test.gd` (pointer input thật, 320×568/390×778/412×915, 7 Grand, 8 ngôn ngữ, save blocked/recovery, icon/badge theo demo), `daily_rewards_ui_test.gd`, `daily_rewards_test.gd`, `popup_close_ui_test.gd`. Thêm `-- --capture` vào test v3 để lưu ảnh. Chưa kiểm tra trên điện thoại thật.
 

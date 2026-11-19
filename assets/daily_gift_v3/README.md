@@ -19,10 +19,12 @@ Theo concept demo, popup dùng chung icon cho mọi hạng; hạng vé hiển th
 
 | Reward kind / tier | PNG dùng trong popup |
 |---|---|
-| driver / pro, allstar | `drivers.png` (3 tay đua) |
-| gear / standard, elite | `gear_bag.png` (túi gear xanh vàng) |
+| driver / pro | `coupon_driver_pro.png` (tem xanh bạc, mũ bảo hiểm) |
+| driver / allstar | `coupon_driver_allstar.png` (tem tím vàng, mũ bảo hiểm) |
+| gear / standard | `coupon_gear_standard.png` (tem xanh bạc, bánh răng cờ lê) |
+| gear / elite | `coupon_gear_elite.png` (tem tím vàng, bánh răng cờ lê) |
 
-`coupon_*.png` (tem vé xanh bạc/tím vàng) vẫn nằm trong `icons/` làm art dự phòng, không được popup tham chiếu. Ô Ngày 7 dùng `gift.png` kèm `glow_soft.png`; `checker_flag.png` là họa tiết cờ caro ở header và góc ô Ngày 7.
+`drivers.png` và `gear_bag.png` không còn dùng cho vé (giữ làm art dự phòng). Ô Ngày 7 dùng `gift.png` kèm `glow_soft.png`; `checker_flag.png` là họa tiết cờ caro ở header và góc ô Ngày 7.
 
 ## Dùng trong Godot
 

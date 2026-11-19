@@ -665,5 +665,12 @@
  "shop.perk_upgrade_title": "อัปเกรดเป็น ×3",
  "shop.perk_offline_title": "ออฟไลน์+",
  "shop.perk_income_benefit": "รายได้ออนไลน์และรางวัลแข่ง ×%d ถาวร",
- "shop.perk_offline_benefit": "รายได้ออฟไลน์ ×3 สะสมสูงสุด 24 ชม."
+ "shop.perk_offline_benefit": "รายได้ออฟไลน์ ×3 สะสมสูงสุด 24 ชม.",
+ "daily.tier_pro": "Pro",
+ "daily.tier_allstar": "All-Star",
+ "daily.tier_standard": "Standard",
+ "daily.tier_elite": "Elite",
+ "daily.x2_claim": "ดู x2",
+ "daily.x2_note": " (x2 gem)",
+ "daily.x_gem": "%d gem"
 }

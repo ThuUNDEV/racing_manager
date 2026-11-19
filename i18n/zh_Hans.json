@@ -665,5 +665,12 @@
  "shop.perk_upgrade_title": "升级至 ×3",
  "shop.perk_offline_title": "离线+",
  "shop.perk_income_benefit": "在线收入和比赛奖励永久×%d",
- "shop.perk_offline_benefit": "离线收入×3，最多累积24小时"
+ "shop.perk_offline_benefit": "离线收入×3，最多累积24小时",
+ "daily.tier_pro": "Pro",
+ "daily.tier_allstar": "All-Star",
+ "daily.tier_standard": "Standard",
+ "daily.tier_elite": "Elite",
+ "daily.x2_claim": "看广告×2",
+ "daily.x2_note": " (x2 gem)",
+ "daily.x_gem": "%d gem"
 }

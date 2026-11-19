@@ -665,5 +665,12 @@
  "shop.perk_upgrade_title": "×3にアップグレード",
  "shop.perk_offline_title": "オフライン+",
  "shop.perk_income_benefit": "オンライン収入とレース報酬が永久に×%d",
- "shop.perk_offline_benefit": "オフライン収入×3、最大24時間"
+ "shop.perk_offline_benefit": "オフライン収入×3、最大24時間",
+ "daily.tier_pro": "Pro",
+ "daily.tier_allstar": "All-Star",
+ "daily.tier_standard": "Standard",
+ "daily.tier_elite": "Elite",
+ "daily.x2_claim": "動画で×2",
+ "daily.x2_note": " (x2 gem)",
+ "daily.x_gem": "%d gem"
 }

@@ -54,6 +54,7 @@ func assert_layout(width: int) -> void:
 	for label: Label in popup.find_children("*", "Label", true, false):
 		check(bounds.encloses(label.get_global_rect()), "%d label fits popup: %s" % [width, label.text])
 		check(label.get_minimum_size().x <= label.size.x + .5, "%d text width: %s" % [width, label.text])
+		check(int(label.get_meta("ub_font", 99)) >= 9, "%d font stays readable (%d design units): %s" % [width, int(label.get_meta("ub_font", 99)), label.text])
 	for i in 7:
 		var cell: Control = popup.find_child("DailyCell%d" % (i+1),true,false)
 		for label: Label in cell.find_children("*", "Label", true, false):
@@ -96,8 +97,8 @@ func run() -> void:
 		main._show_daily_rewards();await settle()
 		assert_layout(dims.x)
 		var popup: Control=main._daily_popup
-		# Demo parity: driver tickets show the racers icon, gear tickets the bag; the tier is data on the node.
-		for triple in [[1,"drivers","pro"],[2,"gear_bag","standard"],[4,"drivers","allstar"],[5,"gear_bag","elite"]]:
+		# Each received coupon shows its own ticket (driver helmet / gear wrench, colour by tier); the tier is also data on the node.
+		for triple in [[1,"coupon_driver_pro","pro"],[2,"coupon_gear_standard","standard"],[4,"coupon_driver_allstar","allstar"],[5,"coupon_gear_elite","elite"]]:
 			var cell=popup.find_child("DailyCell%d"%triple[0],true,false)
 			var icon: TextureRect=cell.find_child("RewardIcon",true,false)
 			check(icon.texture.resource_path.ends_with("/%s.png"%triple[1]) and icon.get_meta("tier")==triple[2],"ticket icon/tier %s"%triple[2])
@@ -123,6 +124,20 @@ func run() -> void:
 		var close: TextureButton=popup.find_child("PopupClose",true,false)
 		await click(close)
 		check(not main._overlay.visible,"real pointer close dismisses popup")
+	# Watch-first x2: one video, then the day is claimed with doubled gems in a single save.
+	root.size=Vector2i(390,778);await settle()
+	demo_state();main._show_daily_rewards();await settle()
+	var x2: Button=main._daily_popup.find_child("ClaimDailyRewardX2",true,false)
+	check(x2!=null and not x2.disabled and x2.size.y>=48,"x2 button offered on a gem day")
+	var gems_x2: int=gs.gems
+	await click(x2)
+	await create_timer(1.6).timeout;await settle()
+	check(gs.gems==gems_x2+30 and gs.daily_rewards.total_days==3 and bool(gs.last_daily_reward["x2"]),"x2 grants doubled gems once")
+	check(main._daily_popup.find_child("ClaimDailyRewardX2",true,false)==null,"x2 button gone after claim")
+	demo_state();gs.daily_rewards["cycle_day"]=0;gs.daily_rewards["total_days"]=0
+	main._daily_popup.refresh();await settle()
+	check(main._daily_popup.find_child("ClaimDailyRewardX2",true,false)==null,"no x2 offer on a ticket-only day")
+	main._close_overlay();await settle()
 	# Grand can contain one, two or three reward types; keep every caption inside the card.
 	root.size=Vector2i(320,568);await settle()
 	for ordinal in 7:
@@ -135,7 +150,7 @@ func run() -> void:
 		I18n.set_lang(language);demo_state()
 		main._show_daily_rewards();await settle();assert_layout(320)
 		var icon: TextureRect=main._daily_popup.find_child("DailyCell4",true,false).find_child("RewardIcon",true,false)
-		check(icon.texture.resource_path.ends_with("/drivers.png") and icon.get_meta("tier")=="allstar","tier independent of language "+language)
+		check(icon.texture.resource_path.ends_with("/coupon_driver_allstar.png") and icon.get_meta("tier")=="allstar","tier independent of language "+language)
 		if language=="en":await capture("demo_en_320")
 	I18n.set_lang("vi")
 	demo_state();main._show_daily_rewards();await settle()

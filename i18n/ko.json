@@ -665,5 +665,12 @@
  "shop.perk_upgrade_title": "×3으로 업그레이드",
  "shop.perk_offline_title": "오프라인+",
  "shop.perk_income_benefit": "온라인 수입과 레이스 보상 영구 ×%d",
- "shop.perk_offline_benefit": "오프라인 수입 ×3, 최대 24시간"
+ "shop.perk_offline_benefit": "오프라인 수입 ×3, 최대 24시간",
+ "daily.tier_pro": "Pro",
+ "daily.tier_allstar": "All-Star",
+ "daily.tier_standard": "Standard",
+ "daily.tier_elite": "Elite",
+ "daily.x2_claim": "광고 ×2",
+ "daily.x2_note": " (x2 gem)",
+ "daily.x_gem": "%d gem"
 }

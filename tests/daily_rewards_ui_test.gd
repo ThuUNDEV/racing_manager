@@ -89,7 +89,7 @@ func _run() -> void:
 	var first_rect: Rect2 = c1.get_global_rect()
 	var design_origin: Vector2 = canvas.global_position
 	var design_scale: float = float(canvas.get_meta("unit"))
-	_check(first_rect.position.distance_to(design_origin + Vector2(20, 108) * design_scale) < 1.0 and absf(first_rect.size.x / design_scale - 310.0 / 3.0) < 1.0, "ô ngày giữ đúng tọa độ và kích thước demo v3")
+	_check(first_rect.position.distance_to(design_origin + Vector2(20, 116) * design_scale) < 1.0 and absf(first_rect.size.x / design_scale - 310.0 / 3.0) < 1.0, "ô ngày giữ đúng tọa độ và kích thước demo v3")
 	_check(main._daily_popup.find_child("DailyRow1", true, false).get_child_count() == 3 and main._daily_popup.find_child("DailyRow2", true, false).get_child_count() == 3, "ngày 1–6: bố cục 3 cột")
 	_check(main._overlay_box.find_children("Milestone*", "VBoxContainer", true, false).size() == 4, "4 mốc hiển thị")
 	var claim := main._overlay_box.find_child("ClaimDailyReward", true, false) as Button
@@ -117,7 +117,7 @@ func _run() -> void:
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("res://output/daily_gift_runtime_v3/daily_rewards_claimed_runtime_390.png")
 	var second_cell := main._overlay_box.find_child("DailyCell2", true, false) as PanelContainer
-	_check(second_cell != null and second_cell.tooltip_text == "Ngày mai", "ô ngày 2 có tooltip Ngày mai, giữ mặt thẻ gọn như demo")
+	_check(second_cell != null and _has_text(second_cell, "Ngày mai") and second_cell.find_child("NextBadge", true, false) != null, "ô ngày 2 hiện nhãn Ngày mai (không chỉ tooltip)")
 
 	print("== Qua ngày ==")
 	gs.daily_device_unix = float(D0 + 1) * 86400.0 + 5.0

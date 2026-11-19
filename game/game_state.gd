@@ -1502,27 +1502,36 @@ func daily_reward_seconds_left() -> float:
 func claim_daily_reward(x2: bool = false) -> bool:
 	if phase == "save_error" or save_blocked:
 		return false
+	var before := _save_data()
+	var reward := apply_daily_reward_unsaved(x2)
+	if reward.is_empty():
+		return false
+	if not save_game():
+		_restore_transaction(before)
+		return false
+	last_daily_reward = reward
+	changed.emit()
+	return true
+
+
+## Cấp thưởng đăng nhập hôm nay vào bộ nhớ, không lưu: người gọi giữ giao dịch save (claim_daily_reward, Ads daily_x2).
+## Trả {} khi không nhận được; ngược lại là thưởng đã cấp, kèm cờ "x2".
+func apply_daily_reward_unsaved(x2: bool) -> Dictionary:
 	var today := daily_reward_today()
 	if not DailyRewards.can_claim(daily_rewards, today):
-		return false
+		return {}
 	var reward := DailyRewards.next_reward(daily_rewards)
 	var multiplied := x2 and DailyRewards.x2_enabled() and DailyRewards.has_gems(reward)
 	if multiplied:
 		reward = DailyRewards.with_gem_multiplier(reward, 2)
-	var before := _save_data()
 	gems += int(reward["gems"])
 	for kind in (reward["driver_coupon"] as Dictionary):
 		driver_coupons[kind] = int(driver_coupons.get(kind, 0)) + int(reward["driver_coupon"][kind])
 	for kind in (reward["gear_coupon"] as Dictionary):
 		gear_coupons[kind] = int(gear_coupons.get(kind, 0)) + int(reward["gear_coupon"][kind])
 	daily_rewards = DailyRewards.apply_claim(daily_rewards, today)
-	if not save_game():
-		_restore_transaction(before)
-		return false
-	last_daily_reward = reward.duplicate(true)
-	last_daily_reward["x2"] = multiplied
-	changed.emit()
-	return true
+	reward["x2"] = multiplied
+	return reward
 
 
 ## Ghi nhận popup tự bật hôm nay (không đổi thưởng).

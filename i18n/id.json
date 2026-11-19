@@ -665,5 +665,12 @@
  "shop.perk_upgrade_title": "Tingkatkan ke ×3",
  "shop.perk_offline_title": "Offline+",
  "shop.perk_income_benefit": "Pendapatan online & hadiah balapan ×%d selamanya",
- "shop.perk_offline_benefit": "Pendapatan offline ×3, hingga 24 jam"
+ "shop.perk_offline_benefit": "Pendapatan offline ×3, hingga 24 jam",
+ "daily.tier_pro": "Pro",
+ "daily.tier_allstar": "All-Star",
+ "daily.tier_standard": "Standard",
+ "daily.tier_elite": "Elite",
+ "daily.x2_claim": "TONTON x2",
+ "daily.x2_note": " (x2 gem)",
+ "daily.x_gem": "%d gem"
 }
