@@ -22,6 +22,8 @@ var camera_yaw := DEFAULT_YAW
 ## Mỏ neo 3D ngay trên mái khán đài, nơi bong bóng thưởng quảng cáo bám vào (Design/26 §4.1).
 var grandstand_anchor := Vector3.ZERO
 var has_grandstand := false
+var garage_anchor := Vector3.ZERO
+var has_garage := false
 var _frame_corners := PackedVector3Array()
 
 func _init(control: Control) -> void:
@@ -296,6 +298,7 @@ func build_props(bounds: Rect2) -> void:
 	var occupied: Array[Vector2] = []
 	var garage_built := false
 	has_grandstand = false
+	has_garage = false
 	for attempt in 260:
 		var p := bounds.position + Vector2(rng.randf(),rng.randf())*bounds.size
 		var room := clearance(p)
@@ -312,6 +315,8 @@ func build_props(bounds: Rect2) -> void:
 		if room > 25 and not garage_built:
 			garage(pos)
 			garage_built = true
+			garage_anchor = pos + Vector3(0, 2.05, 0)
+			has_garage = true
 		elif room >= 15 and not has_grandstand:
 			# Luôn cố dựng khán đài: bong bóng thưởng bám vào đây (Design/26 §4.0).
 			grandstand(pos)
@@ -377,9 +382,9 @@ func update_car(id: int, s: float, lateral: float, yaw: float, color: Color) -> 
 func screen_point(p: Vector2, height: float = 0.0) -> Vector2:
 	return view_rect.position + camera.unproject_position(point(p,height))*0.5
 
-## Toạ độ màn hình (cục bộ RaceView) của mái khán đài; đổi theo góc xoay camera.
+## Toạ độ màn hình (cục bộ RaceView) của mái nhà để xe, hoặc mái khán đài nếu track không có nhà để xe; đổi theo góc xoay camera.
 func screen_anchor() -> Vector2:
-	return view_rect.position + camera.unproject_position(grandstand_anchor)*0.5
+	return view_rect.position + camera.unproject_position(garage_anchor if has_garage else grandstand_anchor)*0.5
 
 func screen_at(s: float, lateral: float) -> Vector2:
 	return view_rect.position + camera.unproject_position(at(s,lateral,0.11))*0.5

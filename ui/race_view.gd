@@ -157,9 +157,9 @@ func rotate_circuit_view(horizontal_delta: float) -> void:
 		queue_redraw()
 		view_rotated.emit()
 
-## Vị trí màn hình của mái khán đài 3D, hoặc null khi đang ở chế độ 2D / track không có khán đài.
+## Vị trí màn hình của mái nhà để xe 3D (hoặc khán đài nếu không có nhà để xe), null khi ở chế độ 2D / không có cả hai.
 func grandstand_screen_point() -> Variant:
-	if _use_3d and _world_3d != null and _world_3d.has_grandstand:
+	if _use_3d and _world_3d != null and (_world_3d.has_garage or _world_3d.has_grandstand):
 		return _world_3d.screen_anchor()
 	return null
 
