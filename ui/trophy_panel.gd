@@ -143,23 +143,10 @@ static func _banner() -> PanelContainer:
 	amount.add_child(unit)
 	mid.add_child(amount)
 	top.add_child(mid)
-	var info := Button.new()
-	info.name = "TrophyInfo"
-	info.text = "i"
-	info.toggle_mode = true
-	info.custom_minimum_size = Vector2(36, 36)
-	info.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	for state in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color"]:
-		info.add_theme_color_override(state, Color.WHITE)
-	info.add_theme_stylebox_override("normal", _flat(Color("2f86ea"), Color.WHITE, 18, 0))
-	info.add_theme_stylebox_override("hover", _flat(Color("4a98f0"), Color.WHITE, 18, 0))
-	info.add_theme_stylebox_override("pressed", _flat(Color("1f66c4"), Color.WHITE, 18, 0))
-	HdUi.ButtonSkin.apply(info)
 	var multiplier := HdUi.Soft.pill("×%d" % maxi(1, GameData.trophy_reward(3, gs.business_tier)), Color("c9efbf"), 24)
 	multiplier.custom_minimum_size = Vector2(48, 0)
 	multiplier.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	top.add_child(multiplier)
-	top.add_child(info)
 	var earned_row := HBoxContainer.new()
 	var earned_title := _label(I18n.t("trophy.total_earned"), 11, C_MUTED)
 	earned_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -168,7 +155,6 @@ static func _banner() -> PanelContainer:
 	earned.name = "TrophyEarned"
 	earned_row.add_child(earned)
 	v.add_child(earned_row)
-	earned_row.hide()
 	var bar := ProgressBar.new()
 	bar.name = "TrophyCapProgress"
 	bar.show_percentage = false
@@ -178,12 +164,10 @@ static func _banner() -> PanelContainer:
 	bar.add_theme_stylebox_override("background", _flat(Color("e5ddc9"), Color.TRANSPARENT, 3, 0))
 	bar.add_theme_stylebox_override("fill", _flat(Color("ffbf1d"), Color.TRANSPARENT, 3, 0))
 	v.add_child(bar)
-	bar.hide()
 	var rewards := HBoxContainer.new()
 	rewards.add_theme_constant_override("separation", 5)
 	var rewards_title := _label(I18n.t("trophy.top_3_reward"), 10, C_MUTED)
 	v.add_child(rewards_title)
-	rewards_title.hide()
 	for p in 3:
 		var pill := _surface(Color("fff1c9"), Color("e2bd63"), 12, 5)
 		var reward_row := HBoxContainer.new()
@@ -193,17 +177,9 @@ static func _banner() -> PanelContainer:
 		reward_row.add_child(_label("P%d +%d" % [p + 1, GameData.trophy_reward(p + 1, gs.business_tier)], 11, RANK_COLORS[p]))
 		rewards.add_child(pill)
 	v.add_child(rewards)
-	rewards.hide()
 	var details := _label(I18n.t("trophy.trophies_are_only_earned_by"), 11, C_MUTED, true)
 	details.name = "TrophyCapInfo"
-	details.visible = false
 	v.add_child(details)
-	info.toggled.connect(func(pressed: bool) -> void:
-		details.visible = pressed
-		earned_row.visible = pressed
-		bar.visible = pressed
-		rewards.visible = pressed
-		rewards_title.visible = pressed)
 	if gs.trophies_earned >= gs.trophy_cap():
 		var hint := I18n.t("trophy.trophy_cap_reached_no_more")
 		var next_cap := GameData.trophy_cap_for_league(gs.business_tier + 1) + maxi(0, gs.trophy_cap_bonus)

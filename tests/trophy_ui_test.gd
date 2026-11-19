@@ -67,12 +67,10 @@ func run() -> void:
 	check(banner != null, "có banner cúp")
 	check(box.find_child("TrophyCount", true, false).text == "0", "banner hiện số cúp")
 	check(box.find_child("TrophyEarned", true, false).text == "0 / 100", "banner hiện tổng đã kiếm / trần")
-	var info: Button = box.find_child("TrophyInfo", true, false)
+	check(box.find_child("TrophyInfo", true, false) == null, "không còn nút i: bảng cúp luôn mở sẵn")
 	var cap_info: Label = box.find_child("TrophyCapInfo", true, false)
-	check(not cap_info.visible, "giải thích giới hạn cúp mặc định thu gọn")
-	info.button_pressed = true
-	check(cap_info.visible, "bấm i mở giải thích giới hạn")
-	info.button_pressed = false
+	check(cap_info != null and cap_info.is_visible_in_tree(), "giải thích giới hạn cúp hiện mặc định")
+	check(box.find_child("TrophyCapProgress", true, false).is_visible_in_tree(), "thanh tổng đã kiếm hiện mặc định")
 	var texts: Array = []
 	_texts(box, texts)
 	var joined := "
