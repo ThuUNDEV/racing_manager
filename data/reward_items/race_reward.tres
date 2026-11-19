@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://core/data/reward_item.gd" id="1_item"]
+[ext_resource type="Texture2D" path="res://assets/soft_miniature_ui_v1/runtime_flare/trophy_large.png" id="2_icon"]
+
+[resource]
+script = ExtResource("1_item")
+id = "race_reward"
+icon = ExtResource("2_icon")
+name_key = "shop.race_rewards"
