@@ -1,0 +1,71 @@
+{
+ "name": "league_ranks_v1",
+ "provenance": {
+  "concept": "Design/Concepts/rank_icons_metal_shield/sheet_v2.png",
+  "concept_generator": "Codex gpt-6.1-sol (imagegen), reasoning medium",
+  "cutout": "art-tools remove-bg refine=1 trim=1 pad=8, resized to 256px tall (Lanczos)",
+  "prompts": "Design/Concepts/rank_icons_metal_shield/prompts.json"
+ },
+ "files": {
+  "rank_0.png": {
+   "tier": 0,
+   "league": "league_0",
+   "size": [
+    237,
+    256
+   ],
+   "mode": "RGBA",
+   "style": "apprentice bronze"
+  },
+  "rank_1.png": {
+   "tier": 1,
+   "league": "league_1",
+   "size": [
+    239,
+    256
+   ],
+   "mode": "RGBA",
+   "style": "semi_pro silver"
+  },
+  "rank_2.png": {
+   "tier": 2,
+   "league": "league_2",
+   "size": [
+    271,
+    256
+   ],
+   "mode": "RGBA",
+   "style": "professional gold"
+  },
+  "rank_3.png": {
+   "tier": 3,
+   "league": "league_3",
+   "size": [
+    315,
+    256
+   ],
+   "mode": "RGBA",
+   "style": "national platinum"
+  },
+  "rank_4.png": {
+   "tier": 4,
+   "league": "league_4",
+   "size": [
+    290,
+    256
+   ],
+   "mode": "RGBA",
+   "style": "continental crystal"
+  },
+  "rank_5.png": {
+   "tier": 5,
+   "league": "league_5",
+   "size": [
+    314,
+    256
+   ],
+   "mode": "RGBA",
+   "style": "world legend"
+  }
+ }
+}

@@ -15,9 +15,8 @@ var _current: Label
 var _next: Label
 var _current_icon: TextureRect
 var _next_icon: TextureRect
-# Khiên rank_shield gốc màu cam; xoay hue theo màu giải trong data/leagues.json (tính một lần, lưu cache).
-static var _tint_cache: Dictionary = {}
-const HUE_SHIFT := {"green": 0.28, "blue": 0.52, "purple": 0.68, "orange": 0.0, "red": -0.08, "gold": 0.03}
+# Khiên rank theo giải: assets/league_ranks_v1/rank_<tier>.png
+const RANK_DIR := "res://assets/league_ranks_v1/"
 var _reqs: VBoxContainer
 var _rewards: VBoxContainer
 var _note: Label
@@ -196,30 +195,8 @@ func refresh() -> void:
 
 
 func _set_icon(icon: TextureRect, tier: int) -> void:
-	var color := String(GameData.league(tier).get("color", "orange"))
-	icon.texture = _tinted(color)
-
-
-static func _tinted(color: String) -> Texture2D:
-	if _tint_cache.has(color):
-		return _tint_cache[color]
-	var src := HdUi.Soft.texture("rank_shield")
-	var shift := float(HUE_SHIFT.get(color, 0.0))
-	if shift == 0.0 or src == null:
-		_tint_cache[color] = src
-		return src
-	var img := src.get_image()
-	img.convert(Image.FORMAT_RGBA8)
-	img.resize(img.get_width() / 2, img.get_height() / 2, Image.INTERPOLATE_LANCZOS)
-	for y in img.get_height():
-		for x in img.get_width():
-			var c := img.get_pixel(x, y)
-			if c.a > 0.0:
-				c.h = fposmod(c.h + shift, 1.0)
-				img.set_pixel(x, y, c)
-	var tex := ImageTexture.create_from_image(img)
-	_tint_cache[color] = tex
-	return tex
+	var path := RANK_DIR + "rank_%d.png" % tier
+	icon.texture = load(path) as Texture2D if ResourceLoader.exists(path) else null
 
 
 func _req_row(text: String, value: String, done: bool) -> void:
@@ -239,7 +216,7 @@ func _league_box(parent: Control, node_name: String) -> Label:
 	box.add_theme_constant_override("separation", 2)
 	box.size_flags_vertical = SIZE_SHRINK_BEGIN
 	parent.add_child(box)
-	var icon := HdUi.Soft.art("rank_shield", Vector2(0, 64))
+	var icon := HdUi.Soft.art("", Vector2(0, 64))
 	icon.name = node_name + "Icon"
 	box.add_child(icon)
 	var name_label := _label("", 18, Color.WHITE, true)
