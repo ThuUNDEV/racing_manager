@@ -682,7 +682,6 @@
  "promotion.req_revenue": "收入",
  "promotion.req_car": "赛车等级",
  "promotion.req_fee": "费用",
- "promotion.reward_line": "%s · +%d 宝石",
  "promotion.reward_none": "已领取",
  "promotion.reset_warning": "收入将重置为 0 级。",
  "promotion.queued": "本场结束后。",
@@ -690,5 +689,6 @@
  "promotion.max_league": "最高联赛。",
  "promotion.action": "晋级",
  "promotion.promoted": "已晋级至%s！",
- "promotion.failed": "暂时无法晋级。"
+ "promotion.failed": "暂时无法晋级。",
+ "promotion.reward_gems": "+%d 宝石"
 }

@@ -682,7 +682,6 @@
  "promotion.req_revenue": "収益",
  "promotion.req_car": "車クラス",
  "promotion.req_fee": "費用",
- "promotion.reward_line": "%s · +%dジェム",
  "promotion.reward_none": "受取済み",
  "promotion.reset_warning": "収益はLv0に戻ります。",
  "promotion.queued": "このレース後。",
@@ -690,5 +689,6 @@
  "promotion.max_league": "最上位リーグ。",
  "promotion.action": "昇格する",
  "promotion.promoted": "%sに昇格!",
- "promotion.failed": "まだ昇格できません。"
+ "promotion.failed": "まだ昇格できません。",
+ "promotion.reward_gems": "+%dジェム"
 }

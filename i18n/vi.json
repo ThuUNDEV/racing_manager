@@ -682,7 +682,6 @@
  "promotion.req_revenue": "Doanh thu",
  "promotion.req_car": "Hạng xe",
  "promotion.req_fee": "Phí",
- "promotion.reward_line": "%s · +%d gem",
  "promotion.reward_none": "Đã nhận",
  "promotion.reset_warning": "Doanh thu về cấp 0.",
  "promotion.queued": "Sau lượt này.",
@@ -690,5 +689,6 @@
  "promotion.max_league": "Giải cao nhất.",
  "promotion.action": "Thăng hạng",
  "promotion.promoted": "Đã thăng lên %s!",
- "promotion.failed": "Chưa thể thăng hạng."
+ "promotion.failed": "Chưa thể thăng hạng.",
+ "promotion.reward_gems": "+%d gem"
 }

@@ -682,7 +682,6 @@
  "promotion.req_revenue": "รายได้",
  "promotion.req_car": "คลาสรถ",
  "promotion.req_fee": "ค่าใช้จ่าย",
- "promotion.reward_line": "%s · +%d เพชร",
  "promotion.reward_none": "รับแล้ว",
  "promotion.reset_warning": "รายได้รีเซ็ตเป็นเลเวล 0",
  "promotion.queued": "หลังจบการแข่งนี้",
@@ -690,5 +689,6 @@
  "promotion.max_league": "ลีกสูงสุด",
  "promotion.action": "เลื่อนระดับ",
  "promotion.promoted": "เลื่อนไป %s แล้ว!",
- "promotion.failed": "ยังเลื่อนระดับไม่ได้"
+ "promotion.failed": "ยังเลื่อนระดับไม่ได้",
+ "promotion.reward_gems": "+%d เพชร"
 }

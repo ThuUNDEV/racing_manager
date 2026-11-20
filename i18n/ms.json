@@ -682,7 +682,6 @@
  "promotion.req_revenue": "Hasil",
  "promotion.req_car": "Kelas kereta",
  "promotion.req_fee": "Kos",
- "promotion.reward_line": "%s · +%d permata",
  "promotion.reward_none": "Sudah dituntut",
  "promotion.reset_warning": "Hasil ditetapkan semula ke tahap 0.",
  "promotion.queued": "Selepas perlumbaan ini.",
@@ -690,5 +689,6 @@
  "promotion.max_league": "Liga tertinggi.",
  "promotion.action": "Naik liga",
  "promotion.promoted": "Naik ke %s!",
- "promotion.failed": "Belum boleh naik liga."
+ "promotion.failed": "Belum boleh naik liga.",
+ "promotion.reward_gems": "+%d permata"
 }

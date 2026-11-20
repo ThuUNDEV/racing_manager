@@ -691,7 +691,6 @@
  "promotion.req_revenue": "Revenue",
  "promotion.req_car": "Car class",
  "promotion.req_fee": "Cost",
- "promotion.reward_line": "%s · +%d gems",
  "promotion.reward_none": "Claimed",
  "promotion.reset_warning": "Revenue resets to level 0.",
  "promotion.queued": "After this race.",
@@ -699,5 +698,6 @@
  "promotion.max_league": "Top league.",
  "promotion.action": "Promote",
  "promotion.promoted": "Promoted to %s!",
- "promotion.failed": "Could not promote."
+ "promotion.failed": "Could not promote.",
+ "promotion.reward_gems": "+%d gems"
 }

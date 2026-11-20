@@ -682,7 +682,6 @@
  "promotion.req_revenue": "Pendapatan",
  "promotion.req_car": "Kelas mobil",
  "promotion.req_fee": "Biaya",
- "promotion.reward_line": "%s · +%d gem",
  "promotion.reward_none": "Sudah diambil",
  "promotion.reset_warning": "Pendapatan kembali ke level 0.",
  "promotion.queued": "Setelah balapan ini.",
@@ -690,5 +689,6 @@
  "promotion.max_league": "Liga tertinggi.",
  "promotion.action": "Promosi",
  "promotion.promoted": "Naik ke %s!",
- "promotion.failed": "Belum bisa promosi."
+ "promotion.failed": "Belum bisa promosi.",
+ "promotion.reward_gems": "+%d gem"
 }
