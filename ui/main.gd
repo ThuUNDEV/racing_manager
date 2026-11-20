@@ -44,22 +44,45 @@ const ROW_ICONS := {
 var _pages: Array = []
 var _nav: Array = []
 var _nav_pill: Panel
+var _nav_inner_left: Panel
+var _nav_inner_right: Panel
 var _nav_amt: Array = []
 var _nav_from: Array = []
 var _nav_to: Array = []
 var _nav_old := 0
 var _nav_new := 0
 var _nav_tween: Tween
+var _nav_seen: Dictionary = {}
+var _nav_icon_tween: Tween
+var _nav_animated_icon: Control
 const NAV_SEL_W := 1.0
-const NAV_ICON_SEL := 54.0
-const NAV_ICON_TOP := -3.0
+const NAV_ICON_SEL := 42.0
+const NAV_ICON_TOP := 8.0
+const NAV_ICON_IDLE_TOP := 9.0
+const NAV_DOT_SIZE := 13.0   # chấm báo, đặt lệch so với tâm icon
+const NAV_DOT_DX := 25.0
+const NAV_DOT_DY := 18.0
 ## Tab Race là tab chính nên luôn rộng hơn và icon to hơn các tab khác.
-const NAV_RACE_W := 1.3
-const NAV_RACE_ICON := 66.0
-const NAV_RACE_ICON_IDLE := 50.0
-const NAV_RACE_RAISE := 14.0
-const NAV_RACE_TOP := -15.0
-const NAV_RACE_TOP_IDLE := 1.0
+const NAV_RACE_W := 1.0
+const NAV_RACE_ICON := 48.0
+const NAV_RACE_ICON_IDLE := 46.0
+const NAV_RACE_RAISE := 6.5
+const CONTENT_SIDE := 12  # lề ngang vùng nội dung (cộng lề 4 của khung ngoài = 16)
+const CONTENT_TOP := 10  # khoảng cách từ thanh trên tới nội dung
+const NAV_BLEED := 10.0  # phần khay điều hướng lấn ra ngoài màn hình ở hai bên và đáy
+const NAV_TRAY_COLOR := Color("fdf5ea")
+const NAV_RIM_COLOR := Color("f3e8d6")
+const NAV_TRAY_EDGE := Color("efe1cc")
+const NAV_PILL_COLOR := Color("fcb744")
+const NAV_PILL_EDGE := Color("e8962a")
+const NAV_INNER_GAP := 2.5        # khe giữa tấm kem trong khay và mặt cam tab Đua
+const NAV_INNER_TOP := 3.6        # tấm kem trong khay thấp hơn cạnh trên khay (dải viền nhạt)
+const NAV_INNER_RADIUS := 10
+const NAV_TRAY_TOP := -3.0        # cạnh trên khay, theo toạ độ của vùng tab
+const NAV_HOLDER_H := 77.0
+const NAV_PILL_BOTTOM := 66.0
+const NAV_RACE_TOP := -1.0
+const NAV_RACE_TOP_IDLE := 0.0
 var _rows: Array = []
 var _tab: int = Tab.RACE
 
@@ -447,21 +470,56 @@ func _build_ui() -> void:
 	_build_league_page()
 	_build_shop_page()
 
-	# Thanh dưới nền sáng; tab đang chọn xanh dương, icon và chữ gọn theo demo.
+	# Khay kem tràn hai mép và sát đáy; tab Đua đặt trên một bệ kem nhô lên, tab đang chọn có mặt cam nổi nhẹ.
 	var nav_frame := PanelContainer.new()
 	nav_frame.name = "BottomNavigation"
-	var nav_skin := HdUi.Soft.surface("nav")
-	nav_skin.set_content_margin_all(3)
+	var nav_skin := _nav_tray_skin(0)
+	nav_skin.content_margin_left = 3.0 + NAV_BLEED
+	nav_skin.content_margin_right = 3.0 + NAV_BLEED
+	nav_skin.content_margin_top = 3.0
+	nav_skin.content_margin_bottom = 3.0 + NAV_BLEED
 	nav_frame.add_theme_stylebox_override("panel", nav_skin)
-	root.add_child(nav_frame)
+	var nav_visible_h := NAV_HOLDER_H + 6.0
+	var nav_spacer := Control.new()
+	nav_spacer.name = "BottomNavigationSpace"
+	nav_spacer.custom_minimum_size = Vector2(0, nav_visible_h)
+	nav_spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	root.add_child(nav_spacer)
+	add_child(nav_frame)
+	nav_frame.anchor_left = 0.0
+	nav_frame.anchor_right = 1.0
+	nav_frame.anchor_top = 1.0
+	nav_frame.anchor_bottom = 1.0
+	nav_frame.offset_left = -NAV_BLEED
+	nav_frame.offset_right = NAV_BLEED
+	nav_frame.offset_bottom = NAV_BLEED
+	nav_frame.offset_top = -nav_visible_h
 	var nav_holder := Control.new()
-	nav_holder.custom_minimum_size = Vector2(0, 77)
+	nav_holder.custom_minimum_size = Vector2(0, NAV_HOLDER_H)
 	nav_frame.add_child(nav_holder)
-	# Nền xanh của tab đang chọn: một khối trượt giữa các tab (xem _animate_nav).
+	var rim := ColorRect.new()
+	rim.name = "NavRim"
+	rim.color = NAV_RIM_COLOR
+	rim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	rim.position = Vector2(-NAV_BLEED, NAV_TRAY_TOP)
+	rim.size = Vector2(4000.0, NAV_INNER_TOP - NAV_TRAY_TOP)
+	nav_holder.add_child(rim)
+	_nav_inner_left = _nav_inner_panel()
+	nav_holder.add_child(_nav_inner_left)
+	_nav_inner_right = _nav_inner_panel()
+	nav_holder.add_child(_nav_inner_right)
+	# Mặt cam trượt giữa các tab, chỉ giữ cạnh đáy 3px để tạo độ nổi.
 	_nav_pill = Panel.new()
 	_nav_pill.name = "NavPill"
 	_nav_pill.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_nav_pill.add_theme_stylebox_override("panel", HdUi.button("tab_on", "normal"))
+	var selected_skin := HdUi.Soft.flat(NAV_PILL_COLOR, 0, 20)
+	selected_skin.set_border_width_all(0)
+	selected_skin.border_width_bottom = 3
+	selected_skin.border_color = NAV_PILL_EDGE
+	selected_skin.shadow_color = Color(0.55, 0.3, 0.05, 0.18)
+	selected_skin.shadow_size = 3
+	selected_skin.shadow_offset = Vector2(0, 2)
+	_nav_pill.add_theme_stylebox_override("panel", selected_skin)
 	nav_holder.add_child(_nav_pill)
 	nav_holder.resized.connect(func() -> void: _nav_apply(1.0, true))
 	var nav := HBoxContainer.new()
@@ -470,7 +528,7 @@ func _build_ui() -> void:
 	nav_holder.add_child(nav)
 	for i in TAB_NAMES.size():
 		var item := Control.new()
-		item.custom_minimum_size = Vector2(0, 77)
+		item.custom_minimum_size = Vector2(0, NAV_HOLDER_H)
 		item.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		nav.add_child(item)
 		var b := _button("", false, 44.0, "tab")
@@ -479,6 +537,10 @@ func _build_ui() -> void:
 		b.offset_left = 0.0
 		b.offset_right = 0.0
 		b.accessibility_name = I18n.t(TAB_NAMES[i])
+		# Khay đã xanh sẵn và NavPill lo tab đang chọn: nút chỉ nhận chạm, không vẽ nền
+		# (nền nút bo góc từng ô làm lộ vệt sáng ở khe giữa các tab).
+		for state in ["normal", "hover", "pressed", "hover_pressed", "focus", "disabled"]:
+			b.add_theme_stylebox_override(state, StyleBoxEmpty.new())
 		b.pressed.connect(_select_tab.bind(i))
 		item.add_child(b)
 		var ic := HdUi.icon("icons/%s.png" % TAB_ICONS[i], Vector2(32, 32))
@@ -489,14 +551,14 @@ func _build_ui() -> void:
 		ic.offset_bottom = 36.0
 		ic.name = "NavIcon"
 		item.add_child(ic)
-		var lab := _label(I18n.t(TAB_NAMES[i]), 17, Color.WHITE)
+		ic.resized.connect(func() -> void: ic.pivot_offset = ic.size * 0.5)
+		var lab := _label(I18n.t(TAB_NAMES[i]), 15, HdUi.Soft.INK)
 		lab.name = "NavLabel"
-		lab.add_theme_color_override("font_outline_color", HdUi.C_OUTLINE)
-		HdUi.text_depth(lab)
 		lab.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		lab.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-		lab.offset_top = -25.0
-		lab.offset_bottom = -3.0
+		var lab_lift := 0.0
+		lab.offset_top = -33.0 - lab_lift
+		lab.offset_bottom = -15.0 - lab_lift
 		lab.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		item.add_child(lab)
 		item.resized.connect(_fit_nav_label.bind(lab, item))
@@ -518,18 +580,12 @@ func _build_ui() -> void:
 		dot.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		var dsb := StyleBoxFlat.new()
 		dsb.bg_color = Color("ef4444")
-		dsb.border_color = Color.WHITE
-		dsb.set_border_width_all(2)
-		dsb.set_corner_radius_all(9)
+		dsb.set_border_width_all(0)
+		dsb.set_corner_radius_all(7)
 		dot.add_theme_stylebox_override("panel", dsb)
 		dot.set_anchors_preset(Control.PRESET_CENTER_TOP)
-		dot.offset_left = 10.0
-		dot.offset_right = 28.0
-		dot.offset_top = 0.0
-		dot.offset_bottom = 18.0
 		dot.hide()
 		item.add_child(dot)
-		HdUi.text_depth(lab)
 		lab.modulate.a = 0.0
 		_nav_items.append(item)
 		_nav.append(b)
@@ -1659,6 +1715,56 @@ func _select_tab(i: int) -> void:
 		else:
 			page.visible = false
 	_animate_nav(prev_tab, i)
+	_animate_nav_icon(prev_tab, i)
+
+
+## Mỗi icon chào tab lần đầu trong phiên bằng một chuyển động riêng.
+func _animate_nav_icon(from_tab: int, to_tab: int) -> void:
+	if from_tab == to_tab:
+		return
+	var first_visit := not _nav_seen.has(to_tab)
+	_nav_seen[to_tab] = true
+	# Đổi tab nhanh phải trả icon cũ về trạng thái nghỉ ngay.
+	if _nav_icon_tween != null and _nav_icon_tween.is_valid():
+		_nav_icon_tween.kill()
+	if is_instance_valid(_nav_animated_icon):
+		_nav_animated_icon.scale = Vector2.ONE
+		_nav_animated_icon.rotation = 0.0
+	if not first_visit or not PopupAnim.motion_on():
+		return
+	var icon := _nav_items[to_tab].get_node("NavIcon") as Control
+	_nav_animated_icon = icon
+	icon.pivot_offset = icon.size * 0.5
+	_nav_icon_tween = icon.create_tween()
+	_nav_icon_tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	match to_tab:
+		Tab.SHOP:  # Cửa hàng đung đưa nhẹ hai bên.
+			_nav_icon_pose(icon, Vector2.ONE, -0.10, 0.10)
+			_nav_icon_pose(icon, Vector2.ONE, 0.08, 0.14)
+			_nav_icon_pose(icon, Vector2.ONE, -0.035, 0.12)
+		Tab.BAG:  # Túi nén xuống rồi bật căng lên.
+			_nav_icon_pose(icon, Vector2(1.12, 0.86), 0.0, 0.10)
+			_nav_icon_pose(icon, Vector2(0.93, 1.13), 0.0, 0.15)
+			_nav_icon_pose(icon, Vector2(1.04, 0.97), 0.0, 0.12)
+		Tab.RACE:  # Cờ phấp phới: co ngang và nghiêng luân phiên.
+			_nav_icon_pose(icon, Vector2(0.82, 1.0), -0.12, 0.10)
+			_nav_icon_pose(icon, Vector2(1.06, 1.0), 0.10, 0.12)
+			_nav_icon_pose(icon, Vector2(0.91, 1.0), -0.06, 0.10)
+			_nav_icon_pose(icon, Vector2(1.03, 1.0), 0.035, 0.10)
+		Tab.TEAM:  # Cả đội gật chào hai nhịp, không lắc ngang.
+			_nav_icon_pose(icon, Vector2(1.0, 0.86), 0.0, 0.10)
+			_nav_icon_pose(icon, Vector2.ONE, 0.0, 0.12)
+			_nav_icon_pose(icon, Vector2(1.0, 0.93), 0.0, 0.09)
+		Tab.LEAGUE:  # Nâng cúp rồi lắc mừng, biên độ giảm dần.
+			_nav_icon_pose(icon, Vector2.ONE * 1.13, -0.15, 0.14)
+			_nav_icon_pose(icon, Vector2.ONE * 1.10, 0.13, 0.12)
+			_nav_icon_pose(icon, Vector2.ONE * 1.05, -0.065, 0.12)
+	_nav_icon_pose(icon, Vector2.ONE, 0.0, 0.14)
+
+
+func _nav_icon_pose(icon: Control, stretch: Vector2, turn: float, seconds: float) -> void:
+	_nav_icon_tween.chain().tween_property(icon, "scale", stretch, seconds)
+	_nav_icon_tween.parallel().tween_property(icon, "rotation", turn, seconds)
 
 
 ## Five equal tabs keep their labels visible; the orange selection slides between them.
@@ -1683,7 +1789,7 @@ func _fit_nav_label(lab: Label, item: Control) -> void:
 	if avail < 8.0:
 		return
 	var font := lab.get_theme_font("font")
-	var font_size := 17
+	var font_size := 15
 	while font_size > 11 and font.get_string_size(lab.text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x > avail:
 		font_size -= 1
 	if lab.get_theme_font_size("font_size") != font_size:
@@ -1703,23 +1809,23 @@ func _nav_apply(t: float, done: bool = false) -> void:
 		item.size_flags_stretch_ratio = (NAV_RACE_W if is_race else 1.0) + a * (NAV_SEL_W - 1.0)
 		var icon := item.get_node("NavIcon") as Control
 		# Keep all five labels visible; the selected icon grows slightly.
-		var icon_size := lerpf(NAV_RACE_ICON_IDLE if is_race else 45.0, NAV_RACE_ICON if is_race else NAV_ICON_SEL, a)
-		var top := lerpf(NAV_RACE_TOP_IDLE if is_race else 3.0, NAV_RACE_TOP if is_race else NAV_ICON_TOP, a)
+		var icon_size := lerpf(NAV_RACE_ICON_IDLE if is_race else 40.0, NAV_RACE_ICON if is_race else NAV_ICON_SEL, a)
+		var top := lerpf(NAV_RACE_TOP_IDLE if is_race else NAV_ICON_IDLE_TOP, NAV_RACE_TOP if is_race else NAV_ICON_TOP, a)
 		icon.offset_left = -icon_size * 0.5
 		icon.offset_right = icon_size * 0.5
 		icon.offset_top = top
 		icon.offset_bottom = top + icon_size
 		# Chấm đỏ bám theo góc trên phải của icon.
 		var dot := item.get_node("NavDot") as Control
-		var dx := (icon_size - 32.0) * 0.5
-		var dy := top - 14.0
-		dot.offset_left = 10.0 + dx
-		dot.offset_right = 28.0 + dx
-		dot.offset_top = dy
-		dot.offset_bottom = 18.0 + dy
+		var dot_x := NAV_DOT_DX
+		var dot_y := top + icon_size * 0.5 - NAV_DOT_DY
+		dot.offset_left = dot_x - NAV_DOT_SIZE * 0.5
+		dot.offset_right = dot_x + NAV_DOT_SIZE * 0.5
+		dot.offset_top = dot_y - NAV_DOT_SIZE * 0.5
+		dot.offset_bottom = dot_y + NAV_DOT_SIZE * 0.5
 		var label := item.get_node("NavLabel") as Label
 		label.modulate.a = 1.0
-		label.add_theme_color_override("font_color", Color.WHITE.lerp(HdUi.Soft.INK, a))
+		label.add_theme_color_override("font_color", HdUi.Soft.INK)
 	var width: float = (_nav_pill.get_parent() as Control).size.x
 	var total := 0.0
 	for k in _nav.size():
@@ -1730,6 +1836,36 @@ func _nav_apply(t: float, done: bool = false) -> void:
 	var rect := Rect2(r_old.position.lerp(r_new.position, tt), r_old.size.lerp(r_new.size, tt))
 	_nav_pill.position = rect.position
 	_nav_pill.size = rect.size
+	var perch := _nav_slot(Tab.RACE, width, total)
+	var holder_h := (_nav_pill.get_parent() as Control).size.y
+	var inner_h := holder_h + NAV_BLEED + 6.0 - NAV_INNER_TOP
+	_nav_inner_left.position = Vector2(-NAV_BLEED - NAV_INNER_RADIUS, NAV_INNER_TOP)
+	_nav_inner_left.size = Vector2(perch.position.x - NAV_INNER_GAP + NAV_BLEED + NAV_INNER_RADIUS, inner_h)
+	_nav_inner_right.position = Vector2(perch.end.x + NAV_INNER_GAP, NAV_INNER_TOP)
+	_nav_inner_right.size = Vector2(width - perch.end.x - NAV_INNER_GAP + NAV_BLEED + NAV_INNER_RADIUS, inner_h)
+
+
+func _nav_inner_panel() -> Panel:
+	var panel := Panel.new()
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var skin := StyleBoxFlat.new()
+	skin.bg_color = NAV_TRAY_COLOR
+	skin.set_corner_radius_all(NAV_INNER_RADIUS)
+	panel.add_theme_stylebox_override("panel", skin)
+	return panel
+
+
+func _nav_tray_skin(top_radius: int) -> StyleBoxFlat:
+	var skin := StyleBoxFlat.new()
+	skin.bg_color = NAV_TRAY_COLOR
+	skin.border_width_top = 2
+	skin.border_color = NAV_TRAY_EDGE
+	skin.corner_radius_top_left = top_radius
+	skin.corner_radius_top_right = top_radius
+	skin.shadow_color = Color(0.45, 0.3, 0.12, 0.22)
+	skin.shadow_size = 8
+	skin.shadow_offset = Vector2(0, -2)
+	return skin
 
 
 func _nav_slot(k: int, width: float, total: float) -> Rect2:
@@ -1739,8 +1875,8 @@ func _nav_slot(k: int, width: float, total: float) -> Rect2:
 			break
 		before += float((_nav_items[j] as Control).size_flags_stretch_ratio)
 	var w := float((_nav_items[k] as Control).size_flags_stretch_ratio)
-	var raise := NAV_RACE_RAISE if k == Tab.RACE else 0.0
-	return Rect2(width * before / total, -raise, width * w / total, _nav_pill.get_parent().size.y + raise)
+	var top := -NAV_RACE_RAISE if k == Tab.RACE else 2.0
+	return Rect2(width * before / total, top, width * w / total, NAV_PILL_BOTTOM - top)
 
 
 func _refresh_light() -> void:

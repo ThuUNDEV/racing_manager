@@ -1,0 +1,205 @@
+{
+  "purpose": "Bottom navigation concepts only; no game code changes",
+  "variants": [
+    {
+      "id": "A",
+      "file": "nav_A.png",
+      "model": "gpt-image-2.5-flare",
+      "quality": "low",
+      "size_requested": "896x1920",
+      "final_size": "886x1920",
+      "background": "opaque",
+      "references": [
+        "output/nav_demo/tab_race.png",
+        "output/nav_demo/nav_demo_sheet.png",
+        "Design/Demos/SoftMiniature/approved/01-race.png"
+      ],
+      "prompt": "Use case: precise-object-edit / ui-mockup. Full-screen portrait concept of this racing game's bottom navigation. Image 1 is the EXACT edit target/current Race screen. Image 2 is a five-tab reference sheet for identity/order only. Image 3 is approved Soft Miniature art for materials ONLY, never its layout/data. Keep ALL content above the bottom navigation identical to image 1: HUD, circuit, upgrades, text, numbers, positions, colors. Change ONLY the bottom navigation, the bottom 77/845 of the frame, with the center tab protruding slightly above. Full-bleed opaque image, no bezel, title or annotation. Exactly five tabs left to right: Shop, Túi, Đua, Đội, Giải. Icons: storefront, blue backpack, checkered flag, three helmeted toy drivers, gold trophy. Labels verbatim: \"Shop\", \"Túi\", \"Đua\", \"Đội\", \"Giải\". Accurate Vietnamese accents, friendly rounded bold type, no heavy outlines. Central Đua selected, larger and raised. One small coral-red notification dot upper-right of Shop. Equal usable columns, each minimum 44x44 logical touch area; screen 390x845 logical, tray about 77 high flush at bottom. Soft Miniature sculpted clay toys, warm cream, rounded edges, subtle contact shadows, matte finish, gentle highlights. Avoid shiny plastic, harsh saturated blue, clutter, duplicated/missing tabs. Preserve first image everywhere outside the navigation.\nDirection A: rounded pale cream / light maple floating tray, bottom aligned with tiny warm edge shadow. Central selected tab is a raised vertically rounded warm apricot-orange pill, larger soft clay checkered flag above dark navy Đua label. Other icons directly on cream tray, muted warm navy labels. Subtle honey-colored wood edge, no obvious grain. Calm, cozy, premium.",
+      "raw_file": "nav_A.png",
+      "postprocessing": "Composite generated nav only over original screenshot resized to 886x1920. Tray surface 175 px (~77 logical); raised center extends above it. Original screenshot above navigation is retained.",
+      "validation": {
+        "size": [
+          886,
+          1920
+        ],
+        "tab_order": [
+          "Shop",
+          "Túi",
+          "Đua",
+          "Đội",
+          "Giải"
+        ],
+        "selected": "Đua",
+        "shop_notification": true,
+        "labels": "Visually checked Vietnamese accents",
+        "touch_area": "Concept specifies 5 equal columns >=44 logical; runtime not modified"
+      }
+    },
+    {
+      "id": "B",
+      "file": "nav_B.png",
+      "model": "gpt-image-2.5-flare",
+      "quality": "low",
+      "size_requested": "896x1920",
+      "final_size": "886x1920",
+      "background": "opaque",
+      "references": [
+        "output/nav_demo/tab_race.png",
+        "output/nav_demo/nav_demo_sheet.png",
+        "Design/Demos/SoftMiniature/approved/01-race.png"
+      ],
+      "prompt": "Use case: precise-object-edit / ui-mockup. Full-screen portrait concept of this racing game's bottom navigation. Image 1 is the EXACT edit target/current Race screen. Image 2 is a five-tab reference sheet for identity/order only. Image 3 is approved Soft Miniature art for materials ONLY, never its layout/data. Keep ALL content above the bottom navigation identical to image 1: HUD, circuit, upgrades, text, numbers, positions, colors. Change ONLY the bottom navigation, the bottom 77/845 of the frame, with the center tab protruding slightly above. Full-bleed opaque image, no bezel, title or annotation. Exactly five tabs left to right: Shop, Túi, Đua, Đội, Giải. Icons: storefront, blue backpack, checkered flag, three helmeted toy drivers, gold trophy. Labels verbatim: \"Shop\", \"Túi\", \"Đua\", \"Đội\", \"Giải\". Accurate Vietnamese accents, friendly rounded bold type, no heavy outlines. Central Đua selected, larger and raised. One small coral-red notification dot upper-right of Shop. Equal usable columns, each minimum 44x44 logical touch area; screen 390x845 logical, tray about 77 high flush at bottom. Soft Miniature sculpted clay toys, warm cream, rounded edges, subtle contact shadows, matte finish, gentle highlights. Avoid shiny plastic, harsh saturated blue, clutter, duplicated/missing tabs. Preserve first image everywhere outside the navigation.\nDirection B: continuous bottom-flush muted deep petrol-blue dock (#315D68 family), rounded upper corners and shallow curved central notch. Large round warm peach-orange clay button rises inside notch for central selected Đua, with larger checkered flag and slim cream rim. Đua label clearly centered beneath raised round button inside tray. Other labels warm ivory, smaller matte clay icons. Soft grounded cozy material, never bright blue.",
+      "raw_file": "nav_B.png",
+      "postprocessing": "Composite generated nav only over original screenshot resized to 886x1920. Tray surface 175 px (~77 logical); raised center extends above it. Original screenshot above navigation is retained.",
+      "validation": {
+        "size": [
+          886,
+          1920
+        ],
+        "tab_order": [
+          "Shop",
+          "Túi",
+          "Đua",
+          "Đội",
+          "Giải"
+        ],
+        "selected": "Đua",
+        "shop_notification": true,
+        "labels": "Visually checked Vietnamese accents",
+        "touch_area": "Concept specifies 5 equal columns >=44 logical; runtime not modified"
+      }
+    },
+    {
+      "id": "C",
+      "file": "nav_C.png",
+      "model": "gpt-image-2.5-flare",
+      "quality": "low",
+      "size_requested": "896x1920",
+      "final_size": "886x1920",
+      "background": "opaque",
+      "references": [
+        "output/nav_demo/tab_race.png",
+        "output/nav_demo/nav_demo_sheet.png",
+        "Design/Demos/SoftMiniature/approved/01-race.png"
+      ],
+      "prompt": "Use case: precise-object-edit / ui-mockup. Full-screen portrait concept of this racing game's bottom navigation. Image 1 is the EXACT edit target/current Race screen. Image 2 is a five-tab reference sheet for identity/order only. Image 3 is approved Soft Miniature art for materials ONLY, never its layout/data. Keep ALL content above the bottom navigation identical to image 1: HUD, circuit, upgrades, text, numbers, positions, colors. Change ONLY the bottom navigation, the bottom 77/845 of the frame, with the center tab protruding slightly above. Full-bleed opaque image, no bezel, title or annotation. Exactly five tabs left to right: Shop, Túi, Đua, Đội, Giải. Icons: storefront, blue backpack, checkered flag, three helmeted toy drivers, gold trophy. Labels verbatim: \"Shop\", \"Túi\", \"Đua\", \"Đội\", \"Giải\". Accurate Vietnamese accents, friendly rounded bold type, no heavy outlines. Central Đua selected, larger and raised. One small coral-red notification dot upper-right of Shop. Equal usable columns, each minimum 44x44 logical touch area; screen 390x845 logical, tray about 77 high flush at bottom. Soft Miniature sculpted clay toys, warm cream, rounded edges, subtle contact shadows, matte finish, gentle highlights. Avoid shiny plastic, harsh saturated blue, clutter, duplicated/missing tabs. Preserve first image everywhere outside the navigation.\nDirection C: minimal ivory-white warm cream bottom bar, delicate top shadow, almost no button containers. Large readable matte clay toy icons with generous air. Central Đua flag a little larger and raised; selection only very faint pale apricot oval wash plus tiny orange dot beneath dark navy Đua label. No filled orange button or selection pill. All FIVE labels visible, inactive muted warm navy, selected stronger navy. Quiet, tactile, clean.\nCritical correction for C: the selected center tab MUST NOT have a tall oval, tall capsule, raised platform or large enclosing shape. The enlarged flag stands freely on the same continuous ivory bar as other icons; only a small very low horizontal pale apricot oval behind the lower part of the flag and a tiny orange dot below Đua. Central flag top 12 logical px higher than inactive icons. No container surrounding the label. Do not make the pale background extend upward to enclose the flag.",
+      "raw_file": "nav_C_v2.png",
+      "postprocessing": "Composite generated nav only over original screenshot resized to 886x1920. Tray surface 175 px (~77 logical); raised center extends above it. Original screenshot above navigation is retained.",
+      "validation": {
+        "size": [
+          886,
+          1920
+        ],
+        "tab_order": [
+          "Shop",
+          "Túi",
+          "Đua",
+          "Đội",
+          "Giải"
+        ],
+        "selected": "Đua",
+        "shop_notification": true,
+        "labels": "Visually checked Vietnamese accents",
+        "touch_area": "Concept specifies 5 equal columns >=44 logical; runtime not modified"
+      }
+    },
+    {
+      "id": "A2",
+      "file": "nav_A2.png",
+      "model": "gpt-image-2.5-flare",
+      "quality": "low",
+      "size_requested": "896x1920",
+      "final_size": "886x1920",
+      "background": "opaque",
+      "references": [
+        "Design/Demos/NavBar_v2/nav_A.png"
+      ],
+      "prompt": "Use case: precise-object-edit. Edit target is the attached nav_A.png, a portrait idle racing game screenshot. Change ONLY the cream bottom navigation tray geometry. Preserve exactly the original clay material, colors, five icons and labels, their positions, the raised orange central selected Đua button and the red Shop notification dot. Preserve every pixel of the header, racing track, rewards and upgrade list above the navigation. The navigation tray occupies the bottom 175 pixels of the final 886x1920 frame (77 logical units). The cream tray must extend fully edge-to-edge, touching the LEFT x=0 and RIGHT x=885 frame edges continuously, and touching the BOTTOM y=1919 frame edge. Square outer edges: NO side margins, NO floating rounded outer corners, NO bottom margin, NO exposed page background at either side or below the tray. Only a subtle shadow ABOVE the tray and a pale luminous upper rim. Keep EXACTLY five tabs in order: \"Shop\", \"Túi\", \"Đua\", \"Đội\", \"Giải\". Preserve Vietnamese accents and dark navy rounded bold labels from reference. Central orange Đua remains larger and raised above tray top. All other UI unchanged. Opaque full screen, no phone frame, annotations or extra objects. Variant A2: the top cream tray edge is perfectly straight horizontal across the entire width, running behind the raised orange center button, with a thin bright cream highlight and faint upward cast shadow. Cream tray face extends uninterrupted all the way to left, right and bottom image edges.",
+      "raw_file": "output/imagegen/navbar_v2/nav_A2_raw.png",
+      "postprocessing": "Only bottom navigation composited over nav_A.png. Raw tray mapped from y1720 to y1745 for 175px height. Original orange selected button restored with rounded mask. Upper 1731 rows remain pixel-identical. No game code modified. Extended interior cream over outermost 8px side strips and bottom 8 rows to remove corner shading and guarantee flush edges.",
+      "validation": {
+        "size": [
+          886,
+          1920
+        ],
+        "tray_top_y": 1745,
+        "tray_height_px": 175,
+        "edge_pixel_count_checked": 1236,
+        "edges_full_cream": true,
+        "upper_1731_rows_pixel_identical": true,
+        "labels": "Shop, Túi, Đua, Đội, Giải; visually checked; center restored from original",
+        "left_edge_rgb": [
+          248,
+          238,
+          226
+        ],
+        "right_edge_rgb": [
+          249,
+          239,
+          226
+        ],
+        "bottom_corner_rgb": [
+          [
+            248,
+            238,
+            223
+          ],
+          [
+            248,
+            238,
+            225
+          ]
+        ]
+      }
+    },
+    {
+      "id": "A3",
+      "file": "nav_A3.png",
+      "model": "gpt-image-2.5-flare",
+      "quality": "low",
+      "size_requested": "896x1920",
+      "final_size": "886x1920",
+      "background": "opaque",
+      "references": [
+        "Design/Demos/NavBar_v2/nav_A.png"
+      ],
+      "prompt": "Use case: precise-object-edit. Edit target is the attached nav_A.png, a portrait idle racing game screenshot. Change ONLY the cream bottom navigation tray geometry. Preserve exactly the original clay material, colors, five icons and labels, their positions, the raised orange central selected Đua button and the red Shop notification dot. Preserve every pixel of the header, racing track, rewards and upgrade list above the navigation. The navigation tray occupies the bottom 175 pixels of the final 886x1920 frame (77 logical units). The cream tray must extend fully edge-to-edge, touching the LEFT x=0 and RIGHT x=885 frame edges continuously, and touching the BOTTOM y=1919 frame edge. Square outer edges: NO side margins, NO floating rounded outer corners, NO bottom margin, NO exposed page background at either side or below the tray. Only a subtle shadow ABOVE the tray and a pale luminous upper rim. Keep EXACTLY five tabs in order: \"Shop\", \"Túi\", \"Đua\", \"Đội\", \"Giải\". Preserve Vietnamese accents and dark navy rounded bold labels from reference. Central orange Đua remains larger and raised above tray top. All other UI unchanged. Opaque full screen, no phone frame, annotations or extra objects. Variant A3: the full-width cream tray top edge is horizontal except a shallow concave smooth U-shaped cut-in following the lower sides of the protruding orange central Đua button. Small elegant curved recess hugs the orange button, subtle pale rim and soft upward shadow. No central mound or convex bump. Left and right tray edges stay square, fully flush with image boundary; tray reaches bottom edge.",
+      "raw_file": "output/imagegen/navbar_v2/nav_A3_raw.png",
+      "postprocessing": "Only bottom navigation composited over nav_A.png. Raw tray mapped from y1720 to y1745 for 175px height. Original orange selected button restored with rounded mask. Upper 1731 rows remain pixel-identical. No game code modified. Extended interior cream over outermost 8px side strips and bottom 8 rows to remove corner shading and guarantee flush edges.",
+      "validation": {
+        "size": [
+          886,
+          1920
+        ],
+        "tray_top_y": 1745,
+        "tray_height_px": 175,
+        "edge_pixel_count_checked": 1236,
+        "edges_full_cream": true,
+        "upper_1731_rows_pixel_identical": true,
+        "labels": "Shop, Túi, Đua, Đội, Giải; visually checked; center restored from original",
+        "left_edge_rgb": [
+          252,
+          243,
+          232
+        ],
+        "right_edge_rgb": [
+          252,
+          243,
+          230
+        ],
+        "bottom_corner_rgb": [
+          [
+            248,
+            237,
+            222
+          ],
+          [
+            249,
+            238,
+            225
+          ]
+        ]
+      }
+    }
+  ]
+}

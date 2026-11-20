@@ -78,8 +78,10 @@ func run() -> void:
 			check(main._race_block.is_visible_in_tree() == (tab == 0), "circuit only on Race")
 			check_width(main._pages[tab], dimensions.x)
 			var nav := main.find_child("BottomNavigation", true, false) as Control
-			check_width(nav, dimensions.x)
-			check(nav.get_global_rect().end.y <= dimensions.y + 1, "navigation stays on screen")
+			# Khay điều hướng tràn sát hai mép và đáy (lấn NAV_BLEED ra ngoài), không để hở nền.
+			var nav_rect := nav.get_global_rect()
+			check(nav_rect.position.x <= 0.0 and nav_rect.end.x >= dimensions.x, "navigation spans edge to edge at %d" % dimensions.x)
+			check(nav_rect.end.y >= dimensions.y and nav_rect.end.y <= dimensions.y + main.NAV_BLEED + 1, "navigation flush with the bottom edge")
 			await capture("%d_tab_%d" % [dimensions.x, tab])
 			if tab == 0:
 				var a: Control = main._rows[0]["tile"]

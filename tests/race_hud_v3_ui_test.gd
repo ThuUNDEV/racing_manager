@@ -111,7 +111,7 @@ func run() -> void:
 		check(main._race_block.get_global_rect() == race, "entire race cluster stays fixed")
 		check(first.global_position.y < before, "upgrades move")
 		check(last.get_global_rect().end.y <= sc.get_global_rect().end.y + 1, "last upgrade reachable")
-		check(nav.get_global_rect().end.y <= dimensions.y + 1, "navigation stays on screen")
+		check(nav.get_global_rect().end.y >= dimensions.y and nav.get_global_rect().end.y <= dimensions.y + main.NAV_BLEED + 1, "navigation stays on screen")
 		await main._tutorial_reveal("A4_engine")
 		await settle()
 		check(first.global_position.y >= sc.global_position.y - 1, "tutorial reveals engine in upgrade scroller")
