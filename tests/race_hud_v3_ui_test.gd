@@ -55,7 +55,6 @@ func run() -> void:
 	state.tutorial["state"] = "done"
 	state.coins = BigNumber.from_int(12500)
 	state.gems = 240
-	state.daily_rewards["unlocked"] = true
 	root.content_scale_factor = 1.0
 	root.content_scale_size = Vector2i.ZERO
 	main = load("res://ui/main.gd").new()
@@ -85,13 +84,9 @@ func run() -> void:
 		check(main.find_child("ResetCircuitView", true, false) == null, "reset button removed")
 		check(not main._race_no_label.visible, "race number removed")
 		check(not "Income" in main._income_label.text and not "Thu nhập" in main._income_label.text, "compact income")
-		var daily: Button = main._daily_btn
 		var boost: Button = main._ads_controls._chip
-		check(daily.is_visible_in_tree(), "Daily Gift visible when unlocked")
-		check(not daily.get_global_rect().intersects(boost.get_global_rect()), "reward tiles do not overlap")
-		check(main._race_view.get_global_rect().encloses(daily.get_global_rect()), "Daily Gift fits cluster")
-		check(main._race_view.get_global_rect().encloses(boost.get_global_rect()), "ads tile fits cluster")
-		check(daily.get_global_rect().size.y >= 40 and boost.get_global_rect().size.y >= 40, "reward targets usable at smallest width")
+		check(main.find_child("ActionStrip", true, false).get_global_rect().encloses(boost.get_global_rect()), "ads tile fits action strip")
+		check(boost.get_global_rect().size.y >= 40, "reward targets usable at smallest width")
 		if "--capture" in OS.get_cmdline_user_args():
 			await RenderingServer.frame_post_draw
 			var image := root.get_texture().get_image()
@@ -122,10 +117,6 @@ func run() -> void:
 		await settle()
 		check(main._race_block.is_visible_in_tree(), "race restored on Race tab")
 		print("Checked fixed race at ", dimensions)
-	await click(main._daily_btn)
-	await settle()
-	check(main._overlay.visible and is_instance_valid(main._daily_popup), "Daily Gift opens live reward popup")
-	main._close_overlay()
 	var ads: Control = main._ads_controls
 	await click(ads._chip)
 	await settle()

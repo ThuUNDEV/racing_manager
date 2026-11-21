@@ -22,6 +22,7 @@ static var _gloss_styles: Dictionary = {}
 
 const GLOSS_PALETTES := {
 	"section": ["e0f7ff", "b3e4f7", "95d1ed"],
+	"section_tall": ["e0f7ff", "b3e4f7", "95d1ed"],
 	"level": ["58b9f5", "2265b7", "184386"],
 	"xp_track": ["15375f", "285c96", "5699c9"],
 	"xp_fill": ["fff19a", "ffae22", "e46d13"],
@@ -55,7 +56,7 @@ static func expansion(id: String) -> Texture2D:
 		return texture(id)
 	if id == "car_pico_showroom":
 		return texture("car_showroom")
-	var aliases := {"celebration": "nav_league", "parking": "currency_cash", "grandstands": "inventory_crate",
+	var aliases := {"ticket": "rev_ticket", "celebration": "rev_celebration", "parking": "rev_parking", "grandstands": "rev_grandstands",
 		"standard_driver_pack": "ticket", "elite_driver_pack": "nav_team",
 		"standard_gear_pack": "inventory_crate", "elite_gear_pack": "gift_red"}
 	if aliases.has(id):
@@ -66,7 +67,7 @@ static func expansion(id: String) -> Texture2D:
 	return null
 
 static func surface(kind: String = "panel", padding: Vector4 = Vector4(10, 8, 10, 10)) -> StyleBoxTexture:
-	if kind == "section":
+	if kind == "section" or kind == "section_tall":
 		return gloss(kind, padding)
 	var key := "panel_upgrade"
 	match kind:
@@ -106,8 +107,10 @@ static func gloss(kind: String, padding: Vector4) -> StyleBoxTexture:
 			height = 10
 		elif kind == "section" or kind == "income":
 			height = 34
+		elif kind == "section_tall":
+			height = 80  # baked at banner height so the checker is not stretched
 		var radius := mini(12, floori(height * 0.5))
-		var pattern_width := 64 if kind == "section" else 0
+		var pattern_width := 64 if kind.begins_with("section") else 0
 		var width := radius * 2 + pattern_width + 4
 		var pixels := Image.create_empty(width, height, false, Image.FORMAT_RGBA8)
 		for y in height:

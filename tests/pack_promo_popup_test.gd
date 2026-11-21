@@ -71,8 +71,7 @@ func run() -> void:
 			var cards: Array = []
 			var rewards_box: Node = main.find_child("PromoRewards", true, false)
 			if rewards_box != null:
-				for line in rewards_box.get_children():
-					cards.append_array(line.get_children())
+				cards = rewards_box.find_child("PromoRewardGrid", true, false).get_children()
 			if sku == "income_x2":
 				check(cards.size() == 2, "income_x2 có 2 thẻ: Online income + Race rewards: " + tag)
 				check(main.find_child("PermanentChip", true, false) != null, "income_x2 có chip PERMANENT: " + tag)
@@ -87,8 +86,8 @@ func run() -> void:
 				var cr := (card as Control).get_global_rect()
 				var pr := panel.get_global_rect()
 				check(cr.position.x >= pr.position.x - 1.0 and cr.end.x <= pr.end.x + 1.0, "thẻ thưởng không tràn ngang: %s card=%s panel=%s" % [tag, cr, pr])
-				check(cr.size.y <= 110.0, "thẻ thưởng không quá cao (%s): %s" % [cr.size.y, tag])
-			if sku in ["starter_1", "offer_noads_bundle", "income_x2"] or dimensions.x == 320:
+				check(cr.size.y <= 132.0, "thẻ thưởng không quá cao (%s): %s" % [cr.size.y, tag])
+			if sku in ["starter_1", "offer_noads_bundle", "income_x2", "weekly_s"] or dimensions.x == 320:
 				await capture("%s_%d" % [sku, dimensions.x])
 			main._close_overlay()
 			await settle()

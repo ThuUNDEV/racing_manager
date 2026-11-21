@@ -20,8 +20,17 @@ KEY_FILE = os.environ.get(
 DEFAULT_OUT = os.path.join(os.path.dirname(__file__), "..", "assets", "soft_miniature_ui_v1", "flare")
 
 
+PERSISTENT_KEY_FILE = os.path.expanduser("~/.config/racing_manager/openai_key")
+
+
 def key():
-    return open(KEY_FILE).read().strip()
+    # Thứ tự: OPENAI_KEY_FILE / file t3 cũ -> ~/.config/racing_manager/openai_key -> biến OPENAI_API_KEY.
+    for path in (KEY_FILE, PERSISTENT_KEY_FILE):
+        if os.path.isfile(path):
+            return open(path).read().strip()
+    if os.environ.get("OPENAI_API_KEY"):
+        return os.environ["OPENAI_API_KEY"].strip()
+    sys.exit("No OpenAI key: create " + PERSISTENT_KEY_FILE + " (chmod 600) or set OPENAI_API_KEY")
 
 
 def post_json(url, body):

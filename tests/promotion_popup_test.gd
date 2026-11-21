@@ -46,6 +46,16 @@ func run() -> void:
 			check(r.position.x >= 15 and r.end.x <= vp.x - 15 and r.position.y >= 31 and r.end.y <= vp.y - 31, "Popup vừa khung %s" % dims)
 			var act: Button = pop.find_child("PromotionAction", true, false)
 			check(act.get_global_rect().end.y <= vp.y and act.size.y >= 44, "Nút thăng hạng hiện đủ %s" % dims)
+			var close := pop.find_child("PromotionClose", true, false) as TextureButton
+			check(close.size.x >= 44 and close.size.y >= 44, "Vùng chạm đóng tối thiểu 44px %s" % dims)
+			for tile in pop._tiles.get_children():
+				var bounds: Rect2 = tile.get_global_rect()
+				check(r.encloses(bounds), "Ô điều kiện nằm trong thẻ %s" % dims)
+				var value: Control = tile.find_child("PromotionValue", true, false)
+				check(bounds.encloses(value.get_global_rect()), "Giá trị nằm trong ô điều kiện %s" % dims)
+			if "--shots" in OS.get_cmdline_user_args():
+				await RenderingServer.frame_post_draw
+				root.get_texture().get_image().save_png("res://Design/Previews/promotion_popup_%d.png" % dims.x)
 		check((pop.find_child("PromotionNext", true, false) as Label).text == Balance.league_name(1), "Hiện giải kế tiếp")
 		check((pop.find_child("PromotionAction", true, false) as Button).disabled, "Chưa đủ điều kiện thì nút tắt")
 		root.size = Vector2i(390, 844)

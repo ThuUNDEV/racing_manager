@@ -10,7 +10,6 @@
   "ui/leaderboard.gd",
   "ui/loading.gd",
   "ui/main.gd",
-  "ui/player_profile.gd",
   "ui/race_view.gd",
   "ui/shop_pack_ui.gd",
   "ui/shop_page.gd",

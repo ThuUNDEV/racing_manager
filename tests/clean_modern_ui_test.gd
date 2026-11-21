@@ -16,6 +16,7 @@ func settle() -> void:
 		await process_frame
 
 func run() -> void:
+	load("res://ui/popup_anim.gd").enabled = false
 	var state := root.get_node("GameState")
 	check(state.SAVE_PATH.contains("/tests/"), "save is isolated")
 	state.init_new_game()

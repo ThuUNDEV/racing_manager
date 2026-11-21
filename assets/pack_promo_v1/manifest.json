@@ -10,10 +10,16 @@
   "files": {
     "ribbon.png": "RGBA, trimmed, empty title ribbon with checkered flags",
     "badge.png": "256x256 RGBA, empty gold rosette (number drawn by Label)",
-    "perk_income.png": "256x256 RGBA garage + cash + arrow, no badge",
+    "perk_income.png": "609x618 RGBA, trimmed garage + cash hero shared by the Shop perk card and the promo popup; cropped from assets/perk_cards_v1/heroes.png (income_x2 cell)",
+    "icon_income.png": "256x256 RGBA, cash stack with gold upward arrow (Online income); tools/gen_image.py --ref currency_cash.png, quality low, 2026-11-20",
+    "icon_race.png": "256x256 RGBA, checkered flag with gold coins (Race rewards); tools/gen_image.py --ref currency_cash.png, quality low, 2026-11-20",
     "perk_offline.png": "256x256 RGBA blue garage + clock + moon, no badge",
     "hero_starter.webp": "1024x683 RGB opaque banner, WebP q85",
     "hero_noads.webp": "1024x683 RGB opaque banner, WebP q85",
-    "hero_weekly.webp": "1024x683 RGB opaque banner, WebP q85"
+    "hero_weekly.webp": "1024x683 RGB opaque banner, WebP q85",
+    "ticket_pro.png": "RGBA, trimmed red star ticket, cropped from assets/soft_miniature_ui_v1/runtime_flare/ticket.png",
+    "ticket_allstar.png": "384x384 RGBA, gold ticket, cream star on orange panel; tools/gen_image.py --ref ticket.png, quality low, 2026-11-20",
+    "ticket_standard.png": "384x384 RGBA, gold ticket, blue panel with grey gear; tools/gen_image.py --ref ticket.png, quality low, 2026-11-20",
+    "ticket_elite.png": "384x384 RGBA, purple ticket, gold gear; tools/gen_image.py --ref ticket.png, quality low, 2026-11-20"
   }
 }

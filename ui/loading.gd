@@ -396,14 +396,16 @@ func _on_ready() -> void:
 	await get_tree().create_timer(HOLD_100).timeout
 	while not _foreground:  # không bàn giao khi ứng dụng đang ở nền
 		await get_tree().process_frame
-	if not _boot.handoff():
-		_finishing = false
-		_on_failed("BOOT_RESOURCE", I18n.t("common.could_not_build_game_screen"))
-		return
+	# Mờ dần khi gameplay còn đứng yên phía sau; chỉ bàn giao (bắt đầu đua) sau khi loading đã tắt hẳn.
 	if not _reduce_motion:
 		var tw := create_tween()
 		tw.tween_property(_screen, "modulate:a", 0.0, FADE_TIME)
 		await tw.finished
+	if not _boot.handoff():
+		_screen.modulate.a = 1.0
+		_finishing = false
+		_on_failed("BOOT_RESOURCE", I18n.t("common.could_not_build_game_screen"))
+		return
 	queue_free()
 
 

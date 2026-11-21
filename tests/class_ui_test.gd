@@ -10,11 +10,6 @@ func check(ok: bool, message: String) -> void:
 		failures += 1
 
 
-func _prof(main) -> Control:
-	main._profile.refresh()
-	return main._profile
-
-
 func settle() -> void:
 	for i in 10:
 		await process_frame
@@ -37,15 +32,31 @@ func run() -> void:
 	root.add_child(main)
 	main.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	await settle()
-	main._profile.open()
-	await settle()
-	var btn: Button = _prof(main).find_child("ClassButton", true, false)
-	check(btn != null and btn.get_global_rect().end.x <= 390.0 and btn.get_global_rect().size.y >= 44.0, "Nút Class trong HUD, vừa màn hình")
+	var btn: Button = main.find_child("FacilitiesButton", true, false)
+	check(btn != null and btn.is_visible_in_tree() and btn.get_global_rect().end.x <= 390.0, "Nút Class trong HUD, vừa màn hình")
 	btn.pressed.emit()
 	await settle()
 	var page = main._class_page
 	check(page.visible, "Nút Class mở modal")
-	check(_prof(main).find_child("ClassActive_racing", true, false) != null, "Racing là Active khi mới vào")
+	check(page._header.get_child(0).get_child_count() == 2, "Header chỉ có tiêu đề và nút đóng, không còn số dư tiền")
+	var rename: Button = page.find_child("ClassEditName_racing", true, false)
+	check(rename != null and not rename.disabled and rename.size.x >= 44, "Thẻ đội có nút sửa tên đủ lớn để chạm")
+	rename.pressed.emit()
+	await settle()
+	var editor = page._rename_dialog
+	check(editor.visible and editor._name_input.text == state.player_team_name, "Sửa tên mở ngay trong Classes với tên hiện tại")
+	editor._name_input.text = " "
+	editor._save_name()
+	check(editor.visible and not editor._error.text.is_empty(), "Tên trống giữ hộp thoại mở và báo lỗi")
+	editor._name_input.text = "  Đội Tia Chớp  "
+	var gems_before: int = state.gems
+	editor._save_name()
+	await settle()
+	check(not editor.visible and page.visible and state.player_team_name == "Đội Tia Chớp", "Lưu tên đã bỏ khoảng trắng, vẫn ở Classes")
+	check(state.gems == gems_before and state.team_name_changes == 1, "Đổi tên lần đầu miễn phí")
+	check(page.find_child("ClassTeamName_racing", true, false).text == state.player_team_name, "Thẻ đội cập nhật tên ngay sau khi lưu")
+	check(state.load_game() == "ok" and state.player_team_name == "Đội Tia Chớp", "Tên đổi từ Classes được lưu qua tải lại")
+	check(page.find_child("ClassActive_racing", true, false) != null, "Racing là Active khi mới vào")
 	check(page.find_child("ClassCard_rally", true, false) == null and page.find_child("ClassCard_racing", true, false) != null, "Chỉ hiện class đã có cơ sở")
 	var fbuy: Button = page.find_child("FacilityBuy", true, false)
 	check(fbuy != null and fbuy.disabled, "Thiếu tiền: nút Mở cơ sở xám")
@@ -58,6 +69,16 @@ func run() -> void:
 		check(rect.position.x >= 11 and rect.end.x <= dimensions.x - 11 and rect.position.y >= 23 and rect.end.y <= dimensions.y - 23, "Popup có khoảng hở quanh game %s" % dimensions)
 		check(rect.get_center().distance_to(Vector2(dimensions) * 0.5) < 1.0, "Popup nằm giữa màn hình %s" % dimensions)
 		check(page._scroll.get_h_scroll_bar().max_value <= page._scroll.size.x + 1, "Không tràn ngang %s" % dimensions)
+		(page.find_child("ClassEditName_racing", true, false) as Button).pressed.emit()
+		await settle()
+		var edit_rect: Rect2 = editor._dialog_panel.get_global_rect()
+		check(edit_rect.position.x >= 15 and edit_rect.end.x <= dimensions.x - 15, "Hộp đổi tên vừa màn hình %s" % dimensions)
+		var cancel_edit := InputEventAction.new()
+		cancel_edit.action = "ui_cancel"
+		cancel_edit.pressed = true
+		page._unhandled_key_input(cancel_edit)
+		await settle()
+		check(not editor.visible and page.visible, "Escape chỉ đóng đổi tên %s" % dimensions)
 		if "--class-shots" in OS.get_cmdline_user_args():
 			await RenderingServer.frame_post_draw
 			root.get_texture().get_image().save_png("res://Design/Previews/classes_native_%d.png" % dimensions.x)
@@ -100,17 +121,28 @@ func run() -> void:
 	check(not ok.disabled, "Chọn một ô: OK sáng")
 	ok.pressed.emit()
 	await settle()
-	check(state.class_has("rally") and state.facilities == ["racing", "rally"] and page.find_child("FacilityPicker", true, false) == null and _prof(main).find_child("ClassWatch_rally", true, false) != null, "OK: hoàn tất, Rally có thẻ Watch")
-	check(_prof(main).find_child("ClassActive_racing", true, false) != null, "Vẫn Active Racing")
-	check(state.managed_class == "rally" and (_prof(main).find_child("ClassManage_rally", true, false) as Button).disabled, "Mở xong: tự quản lý Rally")
-	var mg: Button = _prof(main).find_child("ClassManage_racing", true, false)
-	check(mg != null and not mg.disabled, "Racing có nút Quản lý")
-	mg.pressed.emit()
+	check(state.class_has("rally") and state.facilities == ["racing", "rally"] and page.find_child("FacilityPicker", true, false) == null and page.find_child("ClassWatch_rally", true, false) != null, "OK: hoàn tất, Rally có thẻ Watch")
+	check(page.find_child("ClassActive_racing", true, false) != null and page.find_child("ClassWatch_racing", true, false) == null, "Vẫn Active Racing, không có nút Watch cho lớp đang đua")
+	(page.find_child("ClassEditName_rally", true, false) as Button).pressed.emit()
 	await settle()
-	check(state.managed_class == "racing" and state.active_class == "racing" and (_prof(main).find_child("ClassManage_racing", true, false) as Button).disabled, "Quản lý đổi tức thì, không đổi cơ sở đang đua")
-	(_prof(main).find_child("ClassWatch_rally", true, false) as Button).pressed.emit()
+	editor._name_input.text = "Đội Hai"
+	editor._update_rename_cost()
+	check(editor._rename_save.text == I18n.t("profile.rename_gems") % 50, "Đổi từ thẻ khác vẫn thông báo phí 50 gem")
+	state.gems = 49
+	editor._save_name()
+	check(editor.visible and state.player_team_name == "Đội Tia Chớp" and state.gems == 49, "Không đủ gem: giữ tên và không trừ gem")
+	state.gems = 50
+	editor._save_name()
 	await settle()
-	check(state.active_class == "rally" and _prof(main).find_child("ClassActive_rally", true, false) != null, "Watch đổi Active sang Rally")
+	check(not editor.visible and state.gems == 0 and state.team_name_changes == 2, "Đổi lần sau trừ đúng 50 gem")
+	for class_id in ["racing", "rally"]:
+		check(page.find_child("ClassTeamName_" + class_id, true, false).text == "Đội Hai", "Mọi thẻ cơ sở cập nhật tên đội: " + class_id)
+	check(state.active_class == "racing", "Mở xong: vẫn đua Racing")
+	var watch: Button = page.find_child("ClassWatch_rally", true, false)
+	check(watch != null and watch.size.y >= 44.0, "Rally có nút Watch race đủ lớn để chạm")
+	watch.pressed.emit()
+	await settle()
+	check(state.active_class == "rally" and page.find_child("ClassActive_rally", true, false) != null and page.find_child("ClassWatch_racing", true, false) != null, "Watch đổi Active sang Rally")
 	if "--class-shots" in OS.get_cmdline_user_args():
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("res://Design/Previews/classes_native_owned.png")

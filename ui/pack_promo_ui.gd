@@ -8,11 +8,10 @@ const MUTED := Color("52636c")
 const CREAM := Color("fff4e4")
 const EDGE := Color("e8d5bc")
 const SAGE := Color("eaf0d6")
-const TIER_EDGE := {
-	"gem": Color("9a52dc"), "cash": Color("5dbb4a"),
-	"standard_driver_pack": Color("e8604f"), "elite_driver_pack": Color("f0b429"),
-	"standard_gear_pack": Color("3e86d4"), "elite_gear_pack": Color("9a52dc"),
-	"crown": Color("f0b429"), "energy": Color("f0b429"), "research": Color("3e86d4"),
+const BUTTON_ROOT := "res://assets/promotion_ui_v1/skins/"
+const TICKETS := {
+	"standard_driver_pack": "ticket_pro.png", "elite_driver_pack": "ticket_allstar.png",
+	"standard_gear_pack": "ticket_standard.png", "elite_gear_pack": "ticket_elite.png",
 }
 static var _cache: Dictionary = {}
 
@@ -57,42 +56,60 @@ static func _outlined(label: Label, size: int, color: Color, outline: Color, out
 	label.add_theme_constant_override("outline_size", outline_size)
 
 
-## Title ribbon with a close button that stays >= 48x48 whatever the art looks like.
-static func header(title: String, on_close: Callable) -> Control:
+## Chỗ trống trong popup cho dải ruy băng nhô lên trên mép thẻ (header đặt ngoài vùng cuộn).
+static func header_space() -> Control:
+	var space := Control.new()
+	space.name = "PromoHeaderSpace"
+	space.custom_minimum_size.y = 22
+	space.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return space
+
+
+## Ruy băng tiêu đề dùng chung cho mọi popup Soft Miniature: nhô lên trên mép thẻ, căn giữa đúng tâm thẻ,
+## hai lề bằng nhau; nút đóng >= 48x48 chồng lên mép phải. bleed = lề nội dung của thẻ (header phủ hết bề ngang thẻ).
+static func header(title: String, on_close: Callable, bleed: float = 12.0, title_name: String = "PromoTitle", close_name: String = "PromoClose") -> Control:
 	var root := Control.new()
 	root.name = "PromoHeader"
-	root.custom_minimum_size.y = 64
-	var ribbon_box := Control.new()
-	ribbon_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	ribbon_box.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	ribbon_box.offset_left = 8
-	ribbon_box.offset_right = -56
-	root.add_child(ribbon_box)
+	root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	root.anchor_right = 1.0
+	root.offset_left = -bleed
+	root.offset_right = bleed
+	root.offset_top = -56
+	root.offset_bottom = 16
 	var ribbon := TextureRect.new()
 	ribbon.name = "PromoRibbon"
 	ribbon.texture = tex("ribbon.png")
 	ribbon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	ribbon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	ribbon.stretch_mode = TextureRect.STRETCH_SCALE
 	ribbon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	ribbon.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	ribbon_box.add_child(ribbon)
+	ribbon.offset_left = 44
+	ribbon.offset_right = -44
+	root.add_child(ribbon)
 	var text := Label.new()
-	text.name = "PromoTitle"
+	text.name = title_name
 	text.text = title
 	text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	text.clip_text = true
 	text.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var title_size := 22 if title.length() <= 9 else (19 if title.length() <= 12 else (18 if title.length() <= 17 else (15 if title.length() <= 22 else 13)))
-	_outlined(text, title_size, Color.WHITE, Color("0f4f78"), 5)
+	var title_size := 26 if title.length() <= 9 else (23 if title.length() <= 12 else (21 if title.length() <= 17 else (17 if title.length() <= 22 else 14)))
+	_outlined(text, title_size, Color.WHITE, Color("0f4f78"), 6)
 	text.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	text.anchor_left = 0.2
-	text.anchor_right = 0.8
-	text.offset_left = 0
-	text.offset_right = 0
-	ribbon_box.add_child(text)
+	text.offset_left = 84
+	text.offset_right = -84
+	text.offset_top = -8
+	text.offset_bottom = -6
+	root.add_child(text)
+	root.resized.connect(func() -> void:
+		var font := text.get_theme_font("font")
+		var room := root.size.x - 168.0
+		var fitted := title_size
+		while fitted > 12 and font.get_string_size(title, HORIZONTAL_ALIGNMENT_LEFT, -1, fitted).x + 12.0 > room:
+			fitted -= 1
+		text.add_theme_font_size_override("font_size", fitted))
 	var close := TextureButton.new()
-	close.name = "PromoClose"
+	close.name = close_name
 	close.accessibility_name = I18n.t("common.close")
 	close.texture_normal = tex("button_close.png", CLOSE_ROOT)
 	close.texture_hover = tex("button_close_hover.png", CLOSE_ROOT)
@@ -100,21 +117,21 @@ static func header(title: String, on_close: Callable) -> Control:
 	close.ignore_texture_size = true
 	close.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
 	close.custom_minimum_size = Vector2(48, 48)
-	close.set_anchors_and_offsets_preset(Control.PRESET_CENTER_RIGHT)
-	close.offset_left = -48
-	close.offset_right = 0
-	close.offset_top = -24
-	close.offset_bottom = 24
+	close.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
+	close.offset_left = -50
+	close.offset_right = -2
+	close.offset_top = -4
+	close.offset_bottom = 44
 	close.pressed.connect(on_close)
 	root.add_child(close)
 	return root
 
 
 ## Rosette with live text: big line + small caption.
-static func badge(top: String, bottom: String = "") -> Control:
+static func badge(top: String, bottom: String = "", extent: float = 84.0) -> Control:
 	var root := Control.new()
 	root.name = "PromoBadge"
-	root.custom_minimum_size = Vector2(84, 84)
+	root.custom_minimum_size = Vector2(extent, extent)
 	root.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var image := TextureRect.new()
 	image.texture = tex("badge.png")
@@ -128,8 +145,9 @@ static func badge(top: String, bottom: String = "") -> Control:
 	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	box.add_theme_constant_override("separation", -2)
 	box.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	box.offset_bottom = -18
+	box.offset_bottom = -extent * 0.21
 	root.add_child(box)
+	var unit := extent / 84.0
 	for pair in [[top, 22 if top.length() <= 4 else 17], [bottom, 11]]:
 		if String(pair[0]) == "":
 			continue
@@ -138,7 +156,7 @@ static func badge(top: String, bottom: String = "") -> Control:
 		line.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		line.clip_text = true
 		line.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		line.add_theme_font_size_override("font_size", int(pair[1]))
+		line.add_theme_font_size_override("font_size", roundi(float(pair[1]) * unit))
 		line.add_theme_color_override("font_color", INK)
 		box.add_child(line)
 	return root
@@ -203,24 +221,34 @@ static func hero(sku: String, product: Dictionary, height: float) -> Control:
 		frame.add_child(rosette)
 		if perk:
 			frame.add_child(_permanent_chip())
+	var grant: Dictionary = product.get("grant", {})
+	if String(product.get("kind", "")) == "offer" and String(grant.get("perk", "")) == "no_ads":
+		frame.add_child(_permanent_pill())
 	return frame
 
 
-## CTA cam nổi khối (Design/Demos/PackPromoPopup): nền #FF831E, cạnh dưới #D5570E dày 4, chữ trắng.
+## CTA cam nổi khối có gradient (Design/Demos/PackPromoPopup): skin chung với nút Thăng hạng, chữ trắng viền cam đậm.
 static func style_cta(button: Button) -> void:
-	for state in ["normal", "hover", "pressed", "hover_pressed", "disabled", "focus"]:
-		var style := StyleBoxFlat.new()
-		var disabled: bool = state == "disabled"
-		style.bg_color = Color("c9c2b8") if disabled else (Color("ff9438") if state == "hover" else Color("ff831e"))
-		style.border_color = Color("a89f94") if disabled else Color("d5570e")
-		style.border_width_bottom = 2 if state in ["pressed", "hover_pressed"] else 4
-		style.set_corner_radius_all(22)
-		style.content_margin_top = 4 if state in ["pressed", "hover_pressed"] else 2
+	for state in ["normal", "hover", "pressed", "hover_pressed", "disabled"]:
+		var style := StyleBoxTexture.new()
+		style.texture = load(BUTTON_ROOT + ("button_disabled.svg" if state == "disabled" else "button_normal.svg"))
+		for side in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]:
+			style.set_texture_margin(side, 25)
+		style.content_margin_left = 8
+		style.content_margin_right = 8
+		style.content_margin_top = 8 if state in ["pressed", "hover_pressed"] else 6
+		style.content_margin_bottom = 6 if state in ["pressed", "hover_pressed"] else 8
+		if state == "hover":
+			style.modulate_color = Color(1.06, 1.06, 1.06)
+		elif state in ["pressed", "hover_pressed"]:
+			style.modulate_color = Color(0.94, 0.94, 0.94)
 		button.add_theme_stylebox_override(state, style)
-	for color in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color", "font_disabled_color"]:
+	button.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
+	for color in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color"]:
 		button.add_theme_color_override(color, Color.WHITE)
+	button.add_theme_color_override("font_disabled_color", Color("f5f5ef"))
 	button.add_theme_color_override("font_outline_color", Color("a2420a"))
-	button.add_theme_constant_override("outline_size", 4)
+	button.add_theme_constant_override("outline_size", 5)
 
 
 ## Pill vàng "PERMANENT" ở góc phải hero của perk vĩnh viễn.
@@ -251,64 +279,90 @@ static func _permanent_chip() -> Control:
 	return chip
 
 
-static func _card(row: Dictionary) -> PanelContainer:
-	var card := PanelContainer.new()
-	card.name = "PromoReward"
-	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+static func _reward_icon(id: String, extent: float) -> Control:
+	if TICKETS.has(id):
+		var picture := TextureRect.new()
+		picture.texture = tex(String(TICKETS[id]))
+		picture.custom_minimum_size = Vector2(extent, extent)
+		picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		picture.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		return picture
+	var icon := PackUi.icon(id, extent)
+	icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	return icon
+
+
+## Pill xanh navy viền vàng "PERMANENT" ở đáy hero của gói có perk vĩnh viễn (No Ads Bundle).
+static func _permanent_pill() -> Control:
+	var pill := PanelContainer.new()
+	pill.name = "PermanentPill"
+	pill.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color("fffbf3")
-	style.border_color = TIER_EDGE.get(String(row["icon"]), Color("f0b429"))
+	style.bg_color = Color("1b5fae")
+	style.border_color = Color("f5bd42")
 	style.set_border_width_all(3)
 	style.set_corner_radius_all(16)
-	style.set_content_margin_all(8)
-	card.add_theme_stylebox_override("panel", style)
-	var line := HBoxContainer.new()
-	line.add_theme_constant_override("separation", 8)
-	var picture := PackUi.icon(String(row["icon"]), 44)
-	picture.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	line.add_child(picture)
-	var text := VBoxContainer.new()
-	text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	text.alignment = BoxContainer.ALIGNMENT_CENTER
-	text.add_theme_constant_override("separation", 0)
-	var length := String(row["value"]).length()
-	var value := PackUi.label(String(row["value"]), 24 if length <= 6 else (19 if length <= 12 else 16), INK)
-	text.add_child(value)
-	text.add_child(PackUi.label(String(row["label"]), 13, MUTED))
-	line.add_child(text)
-	card.add_child(line)
-	return card
+	style.content_margin_left = 16
+	style.content_margin_right = 16
+	style.content_margin_top = 2
+	style.content_margin_bottom = 3
+	pill.add_theme_stylebox_override("panel", style)
+	var label := Label.new()
+	label.text = I18n.t("shop.permanent").to_upper()
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_outlined(label, 15, Color.WHITE, Color("0f3c78"), 3)
+	pill.add_child(label)
+	pill.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM, Control.PRESET_MODE_MINSIZE)
+	pill.offset_bottom = -6
+	pill.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	return pill
 
 
-static func _wide(row: Dictionary) -> bool:
-	return String(row["value"]).length() > 8 or String(row["label"]).length() > 16
+static func _tile(row: Dictionary, narrow: bool) -> VBoxContainer:
+	var id := String(row["icon"])
+	var shown := String(row["value"])
+	if TICKETS.has(id):
+		shown = shown.trim_prefix("×")
+	var tile := VBoxContainer.new()
+	tile.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	tile.alignment = BoxContainer.ALIGNMENT_CENTER
+	tile.add_theme_constant_override("separation", 0)
+	var picture := _reward_icon(id, 48 if narrow else 56)
+	picture.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	tile.add_child(picture)
+	var number := PackUi.label(shown, 28 if shown.length() <= 6 else (21 if shown.length() <= 8 else 18), INK)
+	number.autowrap_mode = TextServer.AUTOWRAP_OFF
+	number.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	tile.add_child(number)
+	var caption := PackUi.label(String(row["label"]), 13, MUTED)
+	caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	tile.add_child(caption)
+	return tile
 
 
-## Two cards per row with rarity borders. A card with long text, or a lone last card, takes the full row.
-static func reward_cards(rows: Array, narrow: bool = false) -> VBoxContainer:
-	var column := VBoxContainer.new()
-	column.name = "PromoRewards"
-	column.add_theme_constant_override("separation", 8)
-	var pending: Array = []
+## Một khung kem mờ chứa lưới icon + số bên dưới, giống khối thưởng trên thẻ Shop.
+static func reward_panel(rows: Array, narrow: bool = false) -> PanelContainer:
+	var panel := PanelContainer.new()
+	panel.name = "PromoRewards"
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color("ffffffb8")
+	style.border_color = EDGE
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(18)
+	style.content_margin_left = 8
+	style.content_margin_right = 8
+	style.content_margin_top = 8
+	style.content_margin_bottom = 8
+	panel.add_theme_stylebox_override("panel", style)
+	var grid := GridContainer.new()
+	grid.name = "PromoRewardGrid"
+	grid.columns = 2 if rows.size() in [2, 4] else mini(3, maxi(1, rows.size()))
+	grid.add_theme_constant_override("h_separation", 6)
+	grid.add_theme_constant_override("v_separation", 6)
 	for row: Dictionary in rows:
-		if narrow or _wide(row):
-			if not pending.is_empty():
-				column.add_child(_line(pending))
-				pending = []
-			column.add_child(_line([row]))
-			continue
-		pending.append(row)
-		if pending.size() == 2:
-			column.add_child(_line(pending))
-			pending = []
-	if not pending.is_empty():
-		column.add_child(_line(pending))
-	return column
-
-
-static func _line(rows: Array) -> HBoxContainer:
-	var line := HBoxContainer.new()
-	line.add_theme_constant_override("separation", 8)
-	for row: Dictionary in rows:
-		line.add_child(_card(row))
-	return line
+		grid.add_child(_tile(row, narrow))
+	panel.add_child(grid)
+	return panel

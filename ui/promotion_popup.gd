@@ -8,10 +8,6 @@ signal notice(text: String)
 
 const INK := Color("0e2b5c")
 const MUTED := Color("52636c")
-const OK_EDGE := Color("5dbb4a")
-const OK_FILL := Color("3fae3f")
-const NO_EDGE := Color("e8604f")
-const NO_FILL := Color("e5483c")
 const RANK_DIR := "res://assets/league_ranks_v1/"
 const UI_DIR := "res://assets/promotion_ui_v1/"
 var _popup: PanelContainer
@@ -29,23 +25,36 @@ var _action: Button
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var bg := ColorRect.new()
-	bg.color = Color(0.04, 0.12, 0.25, 0.65)
+	bg.color = Color(0.02, 0.09, 0.15, 0.72)
+	var backdrop := ShaderMaterial.new()
+	backdrop.shader = preload("res://ui/popup_backdrop.gdshader")
+	bg.material = backdrop
 	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(bg)
 	_popup = PanelContainer.new()
 	_popup.name = "PromotionPopup"
-	_popup.add_theme_stylebox_override("panel", PromoUi.shell_style())
+	_popup.add_theme_stylebox_override("panel", _skin("shell", 28, Vector4(13, 12, 13, 16)))
 	add_child(_popup)
 	var root := VBoxContainer.new()
-	root.add_theme_constant_override("separation", 10)
+	root.add_theme_constant_override("separation", 8)
 	_popup.add_child(root)
-	var header := PromoUi.header(I18n.t("promotion.title"), _close)
-	header.name = "PromotionHeader"
-	root.add_child(header)
+	var header_space := PromoUi.header_space()
+	header_space.custom_minimum_size.y = 16
+	root.add_child(header_space)
+	var header := PromoUi.header(I18n.t("promotion.title"), _close, 13.0, "PromotionTitle", "PromotionClose")
+	header_space.add_child(header)
 	# Khối hai khiên: giải hiện tại › giải kế tiếp.
 	var leagues := PanelContainer.new()
 	leagues.name = "PromotionLeagues"
-	leagues.add_theme_stylebox_override("panel", _flat(Color("bfe4f6"), Color("8cc7e6"), 18, 3, 10))
+	leagues.add_theme_stylebox_override("panel", _flat(Color("bfe4f6"), Color("8cc7e6"), 16, 0, 10))
+	leagues.clip_children = CanvasItem.CLIP_CHILDREN_AND_DRAW
+	var scenery := TextureRect.new()
+	scenery.name = "PromotionScenery"
+	scenery.texture = load(UI_DIR + "league_backdrop.png")
+	scenery.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	scenery.stretch_mode = TextureRect.STRETCH_SCALE
+	scenery.mouse_filter = MOUSE_FILTER_IGNORE
+	leagues.add_child(scenery)
 	root.add_child(leagues)
 	var lrow := HBoxContainer.new()
 	lrow.add_theme_constant_override("separation", 6)
@@ -53,9 +62,9 @@ func _ready() -> void:
 	var cur := _league_box(lrow, "PromotionCurrent")
 	_current = cur[0]
 	_current_icon = cur[1]
-	var arrow := _icon(UI_DIR + "arrow_gold.png", 34)
+	var arrow := _icon(UI_DIR + "arrow_gold.png", 40)
 	arrow.size_flags_vertical = SIZE_SHRINK_CENTER
-	arrow.custom_minimum_size = Vector2(34, 34)
+	arrow.custom_minimum_size = Vector2(40, 40)
 	lrow.add_child(arrow)
 	var nxt := _league_box(lrow, "PromotionNext")
 	_next = nxt[0]
@@ -66,13 +75,14 @@ func _ready() -> void:
 	root.add_child(_tiles)
 	var reward_panel := PanelContainer.new()
 	reward_panel.name = "PromotionRewardPanel"
-	reward_panel.add_theme_stylebox_override("panel", _flat(Color("f4ecff"), Color("b58ae8"), 16, 3, 8))
+	reward_panel.add_theme_stylebox_override("panel", _skin("reward", 17, Vector4(10, 7, 10, 9)))
+	reward_panel.custom_minimum_size.y = 56
 	root.add_child(reward_panel)
 	_tiles_box = reward_panel
 	_rewards = HBoxContainer.new()
 	_rewards.name = "PromotionRewards"
 	_rewards.alignment = BoxContainer.ALIGNMENT_CENTER
-	_rewards.add_theme_constant_override("separation", 14)
+	_rewards.add_theme_constant_override("separation", 7)
 	reward_panel.add_child(_rewards)
 	_note = _label("", 12, MUTED, true)
 	_note.name = "PromotionNote"
@@ -83,8 +93,13 @@ func _ready() -> void:
 	_action.text = I18n.t("promotion.action")
 	_action.custom_minimum_size = Vector2(0, 52)
 	_action.add_theme_font_size_override("font_size", 22)
-	PromoUi.style_cta(_action)
-	_action.add_theme_stylebox_override("focus", StyleBoxEmpty.new())  # style_cta dùng khung cam đặc cho focus, che mất trạng thái tắt
+	for state in ["normal", "hover", "pressed", "disabled"]:
+		_action.add_theme_stylebox_override(state, _skin("button_disabled" if state == "disabled" else "button_normal", 25, Vector4(8, 6, 8, 8)))
+	_action.add_theme_color_override("font_color", Color.WHITE)
+	_action.add_theme_color_override("font_disabled_color", Color("f5f5ef"))
+	_action.add_theme_color_override("font_outline_color", Color("777872"))
+	_action.add_theme_constant_override("outline_size", 3)
+	_action.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
 	_action.pressed.connect(_promote)
 	root.add_child(_action)
 	PopupAnim.close_on_outside_click(self, _popup, _close)
@@ -164,16 +179,20 @@ func refresh() -> void:
 	var low_rev := min_rev
 	for kind in Balance.REVENUE:
 		low_rev = mini(low_rev, GameState.level_of(kind))
-	_tile(Soft_icon("ticket"), I18n.t("promotion.req_revenue"), "%d/%d" % [low_rev, min_rev], low_rev >= min_rev)
+	_tile(Soft_icon("currency_cash"), I18n.t("promotion.req_revenue"), "%d/%d" % [low_rev, min_rev], low_rev >= min_rev)
 	var need_class := int(GameData.league(nxt)["min_car_class"])
 	var have_class := int(GameData.car(GameState.active_car_id)["class"])
-	_tile(load("res://assets/racing_ui_hd/icons/car_red.png") as Texture2D, I18n.t("promotion.req_car"), "%d/%d" % [have_class, need_class], have_class >= need_class)
+	_tile(load(UI_DIR + "car_requirement.png") as Texture2D, I18n.t("promotion.req_car"), "%d/%d" % [have_class, need_class], have_class >= need_class)
 	var cost := Pricing.expansion_cost(tier)
-	_tile(Soft_icon("currency_cash"), I18n.t("promotion.req_fee"), "%s/%s" % [Balance.fmt_money(GameState.coins), Balance.fmt_money(cost)], GameState.coins.compare(cost) >= 0)
+	_tile(Soft_icon("currency_coins"), I18n.t("promotion.req_fee"), "%s/%s" % [Balance.fmt_money(GameState.coins), Balance.fmt_money(cost)], GameState.coins.compare(cost) >= 0)
 	if not GameState.processed_rewards.has("business_open/%d" % nxt):
-		_rewards.add_child(_icon_tex(Soft_icon("currency_cash"), 30))
+		_rewards.add_child(_icon_tex(Soft_icon("currency_cash"), 42))
 		_rewards.add_child(_label(Balance.fmt_money(Pricing.opening_reserve(nxt)), 20, INK))
-		_rewards.add_child(_icon_tex(Soft_icon("currency_gem"), 30))
+		var divider := _label("·", 24, Color("b9adcc"))
+		divider.custom_minimum_size.x = 15
+		divider.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		_rewards.add_child(divider)
+		_rewards.add_child(_icon_tex(Soft_icon("currency_gem"), 38))
 		_rewards.add_child(_label(I18n.t("promotion.reward_gems") % int(GameData.economy()["rewards"]["first_league_gems"]), 20, INK))
 	else:
 		_rewards.add_child(_label(I18n.t("promotion.reward_none"), 16, MUTED))
@@ -205,26 +224,34 @@ func _tile(texture: Texture2D, caption: String, value: String, done: bool) -> vo
 	var card := PanelContainer.new()
 	card.name = "PromotionTile"
 	card.size_flags_horizontal = SIZE_EXPAND_FILL
-	card.add_theme_stylebox_override("panel", _flat(Color("fffbf3"), OK_EDGE if done else NO_EDGE, 16, 3, 6))
+	card.add_theme_stylebox_override("panel", _skin("tile_ok" if done else "tile_no", 18, Vector4(6, 5, 6, 8)))
+	card.size_flags_stretch_ratio = 1.0
+	card.custom_minimum_size.y = 99
 	_tiles.add_child(card)
 	var col := VBoxContainer.new()
 	col.add_theme_constant_override("separation", 2)
 	card.add_child(col)
-	var pic := _icon_tex(texture, 38)
+	var pic := _icon_tex(texture, 43)
 	col.add_child(pic)
 	var name_label := _label(caption, 13, INK)
+	name_label.clip_text = true
 	name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	col.add_child(name_label)
 	var pill := PanelContainer.new()
 	pill.name = "PromotionValue"
-	pill.add_theme_stylebox_override("panel", _flat(OK_FILL if done else NO_FILL, Color.TRANSPARENT, 12, 0, 3))
+	pill.add_theme_stylebox_override("panel", _skin("value_ok" if done else "value_no", 14, Vector4(6, 1, 7, 3)))
+	pill.custom_minimum_size.y = 26
+	pill.clip_contents = true
 	col.add_child(pill)
 	var line := HBoxContainer.new()
 	line.alignment = BoxContainer.ALIGNMENT_CENTER
 	line.add_theme_constant_override("separation", 3)
 	pill.add_child(line)
-	line.add_child(_icon(UI_DIR + ("check_ok.png" if done else "check_no.png"), 16))
-	line.add_child(_label(value, 12, Color.WHITE))
+	line.add_child(_icon(UI_DIR + ("check_ok.png" if done else "check_cross.png"), 17))
+	var number := _label(value, 14 if value.length() <= 5 else (13 if value.length() <= 8 else 11), Color.WHITE)
+	number.add_theme_color_override("font_outline_color", Color("237b28") if done else Color("a9271e"))
+	number.add_theme_constant_override("outline_size", 2)
+	line.add_child(number)
 
 
 func _league_box(parent: Control, node_name: String) -> Array:
@@ -234,13 +261,13 @@ func _league_box(parent: Control, node_name: String) -> Array:
 	parent.add_child(box)
 	var icon := TextureRect.new()
 	icon.name = node_name + "Icon"
-	icon.custom_minimum_size = Vector2(0, 84)
+	icon.custom_minimum_size = Vector2(0, 88)
 	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	icon.mouse_filter = MOUSE_FILTER_IGNORE
 	box.add_child(icon)
 	var pill := PanelContainer.new()
-	pill.add_theme_stylebox_override("panel", _flat(Color("e8f5fc"), Color("a9d3ea"), 14, 2, 4))
+	pill.add_theme_stylebox_override("panel", _skin("league_name", 14, Vector4(4, 3, 4, 5)))
 	box.add_child(pill)
 	var name_label := _label("", 15, INK, true)
 	name_label.name = node_name
@@ -292,3 +319,15 @@ func _label(text: String, font_size: int = 14, color: Color = INK, wrap: bool = 
 		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		label.size_flags_horizontal = SIZE_EXPAND_FILL
 	return label
+
+
+func _skin(id: String, margin: float, padding: Vector4) -> StyleBoxTexture:
+	var style := StyleBoxTexture.new()
+	style.texture = load(UI_DIR + "skins/" + id + ".svg")
+	for side in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]:
+		style.set_texture_margin(side, margin)
+	style.content_margin_left = padding.x
+	style.content_margin_top = padding.y
+	style.content_margin_right = padding.z
+	style.content_margin_bottom = padding.w
+	return style

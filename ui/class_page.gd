@@ -16,7 +16,7 @@ var _popup: PanelContainer
 var _header: PanelContainer
 var _list: VBoxContainer
 var _scroll: ScrollContainer
-var _coins: Label
+var _rename_dialog: Control
 var _toast: Label
 var _picker: Control
 var _picker_choice: String = ""
@@ -29,7 +29,7 @@ func _ready() -> void:
 	dim.color = Color(0.04, 0.12, 0.25, 0.65)
 	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	dim.gui_input.connect(func(event: InputEvent) -> void:
-		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT and not is_instance_valid(_picker):
+		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT and not is_instance_valid(_picker) and not _rename_dialog.visible:
 			_close())
 	add_child(dim)
 	_popup = _surface(HdUi.Soft.BG, EDGE, 24, 0)
@@ -61,15 +61,6 @@ func _ready() -> void:
 	row.add_child(titles)
 	titles.add_child(_label("Classes", 25, INK))
 	titles.add_child(_label(I18n.t("class.manage_race_facilities"), 11, MUTED, true))
-	var wallet := _surface(Color("fffaf0"), EDGE, 18, 8)
-	wallet.size_flags_vertical = SIZE_SHRINK_CENTER
-	row.add_child(wallet)
-	var cash_row := HBoxContainer.new()
-	cash_row.add_theme_constant_override("separation", 4)
-	wallet.add_child(cash_row)
-	cash_row.add_child(HdUi.Soft.art("currency_cash", Vector2(26, 24)))
-	_coins = _label("", 16, INK)
-	cash_row.add_child(_coins)
 	row.add_child(HdUi.close_button(_close, "ClassClose"))
 	_scroll = TouchScroll.new()
 	_scroll.name = "ClassScroll"
@@ -102,6 +93,8 @@ func _ready() -> void:
 	_toast.add_theme_stylebox_override("normal", ts)
 	_toast.hide()
 	add_child(_toast)
+	_rename_dialog = preload("res://ui/team_name_dialog.gd").new()
+	add_child(_rename_dialog)
 	GameState.changed.connect(func() -> void:
 		if is_visible_in_tree():
 			refresh())
@@ -115,6 +108,7 @@ func open() -> void:
 
 
 func _close() -> void:
+	_rename_dialog.hide()
 	_close_picker()
 	PopupAnim.close(self, _popup, closed.emit)
 
@@ -132,7 +126,9 @@ func _fit_popup() -> void:
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if is_visible_in_tree() and event.is_action_pressed("ui_cancel"):
-		if is_instance_valid(_picker):
+		if _rename_dialog.visible:
+			_rename_dialog._hide_dialog()
+		elif is_instance_valid(_picker):
 			_close_picker()
 		else:
 			_close()
@@ -140,7 +136,6 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 
 func refresh() -> void:
-	_coins.text = Balance.fmt_money(GameState.coins)
 	for c in _list.get_children():
 		_list.remove_child(c)
 		c.queue_free()
@@ -194,8 +189,26 @@ func _card(cls: Dictionary) -> Control:
 	var team := VBoxContainer.new()
 	team.add_theme_constant_override("separation", 2)
 	team.add_child(_label(I18n.t("class.team_name"), 11, MUTED))
-	team.add_child(_label(GameState.player_team_name, 20, INK, true))
-	box.add_child(team)
+	var team_name := _label(GameState.player_team_name, 20, INK, true)
+	team_name.name = "ClassTeamName_" + id
+	team.add_child(team_name)
+	var team_row := HBoxContainer.new()
+	team_row.add_theme_constant_override("separation", 8)
+	team.size_flags_horizontal = SIZE_EXPAND_FILL
+	team_row.add_child(team)
+	var edit := Button.new()
+	edit.name = "ClassEditName_" + id
+	edit.text = "✎"
+	edit.accessibility_name = I18n.t("profile.edit_team_name")
+	edit.tooltip_text = I18n.t("profile.edit_team_name")
+	edit.custom_minimum_size = Vector2(44, 44)
+	edit.size_flags_vertical = SIZE_SHRINK_CENTER
+	edit.add_theme_font_size_override("font_size", 22)
+	HdUi.style_button(edit, "amber")
+	edit.disabled = not GameState.feature_unlocked("U2_league")
+	edit.pressed.connect(_rename_dialog._show_edit)
+	team_row.add_child(edit)
+	box.add_child(team_row)
 	var metrics := _surface(CARD_FILL, CARD_FILL, 16, 10)
 	box.add_child(metrics)
 	var metric_row := HBoxContainer.new()
@@ -221,7 +234,27 @@ func _card(cls: Dictionary) -> Control:
 	if variant != "":
 		hints.add_child(_label(I18n.t("class.suggested_car") + variant, 13, INK, true))
 	hints.add_child(_label(String(cls.get("key_stats", "")), 12, MUTED, true))
+	if not is_active:
+		var pending := id == GameState.pending_class
+		var watch := Button.new()
+		watch.name = "ClassWatch_" + id
+		watch.text = I18n.t("class.after_this_race") if pending else I18n.t("class.watch_race")
+		watch.custom_minimum_size.y = 48
+		watch.add_theme_font_size_override("font_size", 18)
+		HdUi.style_button(watch, "amber")
+		watch.pressed.connect(_on_watch.bind(id))
+		box.add_child(watch)
 	return card
+
+
+func _on_watch(id: String) -> void:
+	var cname := String(GameData.race_class(id)["name"])
+	if not GameState.select_class(id):
+		_say(I18n.t("class.could_not_change_class"))
+	elif GameState.pending_class == id:
+		_say(I18n.t("class.switching_after_current_race_ends") % cname)
+	else:
+		_say(I18n.t("class.switched") % cname)
 
 
 func _metric(icon_path: String, caption: String, value: String, color: Color) -> Control:

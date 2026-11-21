@@ -65,7 +65,6 @@ func run() -> void:
 		main._select_team_sub(0)
 		main._select_tab(scenario[1])
 		main._overlay.hide()
-		main._profile.hide()
 		main._class_page.hide()
 		main._result_panel.hide()
 		main._refresh()

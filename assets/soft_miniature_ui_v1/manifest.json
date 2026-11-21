@@ -2466,6 +2466,50 @@
       ],
       "sha256": "1cbdc05a6405d759bf522b125a46d999b087dbc675ed1a01e9c7f60b2e50c7c3",
       "transparent": true
+    },
+    "rev_ticket": {
+      "method": "flare_reference_edit",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, quality low, reference: runtime_flare/engine.png (tools/gen_image.py); prompts in output/imagegen/revenue_icons",
+      "png_2x": "runtime_flare/rev_ticket.png",
+      "native_size": [
+        506,
+        512
+      ],
+      "sha256": "3d1289dc7a3c67cf42d2fe9d423fed7066f420d3f95257178ea3d3fe303d1e84",
+      "transparent": true
+    },
+    "rev_celebration": {
+      "method": "flare_reference_edit",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, quality low, reference: runtime_flare/engine.png (tools/gen_image.py); prompts in output/imagegen/revenue_icons",
+      "png_2x": "runtime_flare/rev_celebration.png",
+      "native_size": [
+        512,
+        512
+      ],
+      "sha256": "f2ea817cfe6bea482afaab06c6719341aa72ee8a28a6e32848d54496199a24f3",
+      "transparent": true
+    },
+    "rev_parking": {
+      "method": "flare_reference_edit",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, quality low, reference: runtime_flare/engine.png (tools/gen_image.py); prompts in output/imagegen/revenue_icons",
+      "png_2x": "runtime_flare/rev_parking.png",
+      "native_size": [
+        512,
+        512
+      ],
+      "sha256": "13afbf5d7e25cd6e252cd2cd4d2b4dc0838dd29f3af3f73b67a39cec47f695b0",
+      "transparent": true
+    },
+    "rev_grandstands": {
+      "method": "flare_reference_edit",
+      "provenance": "gpt-image-2.5-flare via OpenAI Images API edits, quality low, reference: runtime_flare/engine.png (tools/gen_image.py); prompts in output/imagegen/revenue_icons",
+      "png_2x": "runtime_flare/rev_grandstands.png",
+      "native_size": [
+        510,
+        512
+      ],
+      "sha256": "3a65d62fafb586f1b40c7d8c214c623fbf5ec8f61e442d0ab426f962801d288f",
+      "transparent": true
     }
   },
   "hd_restoration": {

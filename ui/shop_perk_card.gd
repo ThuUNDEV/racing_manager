@@ -5,6 +5,7 @@ const Soft = preload("res://ui/soft_miniature.gd")
 const ButtonSkin = preload("res://ui/button_skin.gd")
 const RewardItems = preload("res://core/data/reward_items.gd")
 const HERO_PATH := "res://assets/perk_cards_v1/heroes.png"
+const PromoUi = preload("res://ui/pack_promo_ui.gd")
 const SKUS := ["income_x2"]
 ## Nền cảnh đua phủ cả thẻ (trời, mây, đồi, lề đường); vẽ bằng SVG nhúng, nạp lúc chạy. Mỗi nhóm gói một bảng màu.
 const SCENE_SVG := """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 366 150" preserveAspectRatio="xMidYMid slice">
@@ -15,8 +16,6 @@ const SCENE_SVG := """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 366 1
 <path d="M0 92 Q50 70 110 88 T230 82 T366 84 V150 H0Z" fill="{h0}"/><path d="M0 108 Q80 92 160 106 T366 100 V150 H0Z" fill="{h1}"/>
 <g fill="{bush0}"><circle cx="14" cy="104" r="9"/><circle cx="26" cy="109" r="7"/><circle cx="352" cy="100" r="9"/><circle cx="340" cy="106" r="7"/><circle cx="170" cy="112" r="6"/><circle cx="182" cy="115" r="5"/></g>
 <g fill="{bush1}"><circle cx="12" cy="100" r="6"/><circle cx="354" cy="96" r="6"/></g>
-<path d="M-6 120 Q90 110 180 118 T372 112" fill="none" stroke="{k0}" stroke-width="8"/>
-<path d="M-6 120 Q90 110 180 118 T372 112" fill="none" stroke="{k1}" stroke-width="8" stroke-dasharray="10 10"/>
 <g fill="#ffd34d"><path d="M22 44 l2 6 6 2 -6 2 -2 6 -2 -6 -6 -2 6 -2z"/><path d="M118 38 l1.6 4.6 4.6 1.6 -4.6 1.6 -1.6 4.6 -1.6 -4.6 -4.6 -1.6 4.6 -1.6z"/></g></svg>"""
 const SCENES := {
 	"starter": {"sky0": "#63bff3", "sky1": "#c6ebff", "sky2": "#eaf8ff", "glow": "#fff6c8", "cloud": "1", "h0": "#9ad97a", "h1": "#6cc64d", "bush0": "#3fa63a", "bush1": "#58bb45", "k0": "#fff", "k1": "#e8453c", "extra": ""},
@@ -33,7 +32,7 @@ const SCENES := {
 const PODIUM_SVG := """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 26">
 <defs><clipPath id="pc"><path d="M0 8 V16 A52 10 0 0 0 104 16 V8 Z"/></clipPath></defs>
 <ellipse cx="52" cy="16" rx="52" ry="10" fill="#d9ccb4"/>
-<g clip-path="url(#pc)"><rect y="8" width="104" height="20" fill="#f4ead6"/><path fill="#33424f" d="M0 8h8v8h-8zM16 8h8v8h-8zM32 8h8v8h-8zM48 8h8v8h-8zM64 8h8v8h-8zM80 8h8v8h-8zM96 8h8v8h-8zM8 16h8v8h-8zM24 16h8v8h-8zM40 16h8v8h-8zM56 16h8v8h-8zM72 16h8v8h-8zM88 16h8v8h-8zM0 24h8v8h-8zM16 24h8v8h-8zM32 24h8v8h-8zM48 24h8v8h-8zM64 24h8v8h-8zM80 24h8v8h-8zM96 24h8v8h-8z"/></g>
+<g clip-path="url(#pc)"><rect y="8" width="104" height="20" fill="#f4ead6"/></g>
 <ellipse cx="52" cy="8" rx="52" ry="8" fill="#f7eedb"/></svg>"""
 const CREAM := Color("fff4e4")
 const PRICE_FONT := 21
@@ -57,20 +56,23 @@ var _art_column: VBoxContainer
 var _flow: VBoxContainer
 var _plate: PanelContainer
 var _hero: Control
-var _badge: PanelContainer
-var _badge_label: Label
+var _badge: Control
 
 
 ## Thẻ perk (Income ×N, Offline+): hero cắt từ atlas, huy hiệu hệ số; thưởng là icon + số (không viết chữ).
 func setup(product: Dictionary) -> void:
 	var sku_id := String(product["sku"])
-	var sheet := load(HERO_PATH) as Texture2D
-	var index := SKUS.find(sku_id)
-	var atlas := AtlasTexture.new()
-	atlas.atlas = sheet
-	var cell := sheet.get_size() / 2.0
-	atlas.region = Rect2(Vector2(index % 2, index / 2) * cell, cell)
-	atlas.filter_clip = true
+	var art: Texture2D
+	if sku_id == "income_x2":
+		art = PromoUi.tex("perk_income.png")
+	else:
+		var sheet := load(HERO_PATH) as Texture2D
+		var atlas := AtlasTexture.new()
+		atlas.atlas = sheet
+		var cell := sheet.get_size() / 2.0
+		atlas.region = Rect2(Vector2(SKUS.find(sku_id) % 2, SKUS.find(sku_id) / 2) * cell, cell)
+		atlas.filter_clip = true
+		art = atlas
 	var multiplier := 2 if sku_id == "income_x2" else 3
 	var title_text := I18n.t("shop.perk_income_title") % multiplier
 	if sku_id == "income_x3_up": title_text = I18n.t("shop.perk_upgrade_title")
@@ -79,10 +81,10 @@ func setup(product: Dictionary) -> void:
 	if sku_id == "offline_plus":
 		rewards.append(reward("research", "×3"))
 	else:
-		rewards.append(reward("cash", "×%d" % multiplier, I18n.t("shop.online_income")))  # thu nhập = tiền: dùng icon Cash
+		rewards.append(reward("income_online", "×%d" % multiplier))
 		rewards.append(reward("race_reward", "×%d" % multiplier))
 	build(product, {
-		"art": atlas, "title": title_text, "rewards": rewards,
+		"art": art, "title": title_text, "rewards": rewards,
 		"badge": "×2 → ×3" if sku_id == "income_x3_up" else ("×2" if sku_id == "income_x2" else "×3"),
 	})
 
@@ -172,27 +174,17 @@ func build(product: Dictionary, opts: Dictionary) -> void:
 	art.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	art.offset_left = 2
 	art.offset_right = -2
-	art.offset_bottom = -16
+	art.offset_bottom = -6
 	var badge_text := String(opts.get("badge", ""))
 	if badge_text != "":
-		_badge = PanelContainer.new()
-		_badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		var blue := sku == "income_x2"
-		var badge_skin := Soft.flat(Color("237fc0") if blue else Color("f5c34a"), 3, 24)
-		badge_skin.border_color = Color("b9e7ff") if blue else Color("ffe8a0")
-		badge_skin.set_border_width_all(3)
-		badge_skin.shadow_color = Color("79593644")
-		badge_skin.shadow_size = 2
-		_badge.add_theme_stylebox_override("panel", badge_skin)
+		_badge = PromoUi.badge(badge_text, "", 64.0)
+		_badge.name = "PerkBadge"
 		_hero.add_child(_badge)
 		_badge.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
-		_badge.offset_left = -108 if sku == "income_x3_up" else -57
-		_badge.offset_bottom = 40 if sku == "income_x3_up" else 51
-		_badge_label = _label(badge_text, 20 if sku == "income_x3_up" else 30)
-		_badge_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		if blue:
-			_badge_label.add_theme_color_override("font_color", Color.WHITE)
-		_badge.add_child(_badge_label)
+		_badge.offset_left = -50
+		_badge.offset_right = 14
+		_badge.offset_top = -10
+		_badge.offset_bottom = 54
 	var chip_text := String(opts.get("chip", ""))
 	if chip_text != "":
 		var chip := PanelContainer.new()

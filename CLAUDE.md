@@ -80,7 +80,7 @@ Quy tắc chung:
 - Ảnh có chữ in sẵn (asset IAP/UI) chưa có bản theo ngôn ngữ.
 - `horus-game.json`: `appId` và `repo` còn trống, `languages` mới có `vi`.
 - Chưa kiểm tra loading/splash trên thiết bị di động thật (xem `Design/09_Startup_Loading_Design.md`).
-- Daily Gift v3 và Race UI v3 đang sửa dở (nhiều file đang thay đổi chưa commit): hỏi người dùng trước khi động vào `ui/daily_rewards_popup.gd`, `ui/race_view.gd`, `ui/race_world_3d.gd`.
+- Race UI v3 đang sửa dở (nhiều file đang thay đổi chưa commit): hỏi người dùng trước khi động vào `ui/race_view.gd`, `ui/race_world_3d.gd`. Chỉ popup Quà hằng ngày (`ui/daily_rewards_popup.gd`, nút ở dải chặng) bị gỡ; logic `game/daily_rewards.gd`, dữ liệu, key i18n `daily.*` và quà ngày cũ trong Shop (`claim_daily`) vẫn giữ.
 
 ## Setup và dựng UI
 

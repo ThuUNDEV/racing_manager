@@ -70,8 +70,6 @@ func run() -> void:
 	var name_before: String = state.player_team_name
 	for width in [320, 390, 412]:
 		root.size = Vector2i(width, 844)
-		main._show_daily_rewards()
-		await verify(main._overlay, "PopupClose", "daily_rewards")
 		main._show_settings()
 		await verify(main._overlay, "SettingsClose", "settings")
 		main._show_gear_info("standard")
@@ -80,13 +78,12 @@ func run() -> void:
 		await verify(main._overlay, "PopupClose", "driver_info")
 		main._show_shop_offer("PASS THÁNG", "Nhận thưởng mỗi ngày.")
 		await verify(main._overlay, "PopupClose", "shop_offer")
-		main._profile.open()
-		main._profile._show_edit()
-		main._profile._name_input.text = "Unsaved draft"
-		await verify(main._profile._dialog, "PopupClose", "edit_name")
-		check(state.player_team_name == name_before, "X discards name draft")
-		main._profile._close()
 		main._class_page.open()
+		main._class_page._rename_dialog._show_edit()
+		main._class_page._rename_dialog._name_input.text = "Unsaved draft"
+		await verify(main._class_page._rename_dialog, "PopupClose", "edit_name")
+		check(state.player_team_name == name_before, "X discards name draft")
+		main._class_page._rename_dialog.hide()
 		await verify(main._class_page, "ClassClose", "classes")
 		main._select_tab(main.Tab.TEAM)
 		main._select_team_sub(0)

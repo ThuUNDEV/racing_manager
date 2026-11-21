@@ -89,11 +89,8 @@ var _tab: int = Tab.RACE
 var _pages_root: Control
 var _coin_label: Label
 var _gem_label: Label
-var _profile: Control
 var _promotion: Control
 var _class_page: Control
-var _daily_btn: Button  # nút quà mỗi ngày ở dải chặng (Design/30 §5.1)
-var _daily_dot: Panel
 ## Icon quảng cáo pack ở dải chặng: kind -> {button, dot, skus}; _promo_seen đánh dấu pack đã bấm trong phiên (tắt chấm đỏ).
 const PACK_PROMOS := [
 	{"kind": "starter", "icon": "icons/pack_starter", "skus": ["starter_1", "starter_2", "starter_3"], "name": "shop.special_packs"},
@@ -104,10 +101,6 @@ const PACK_PROMOS := [
 ]
 var _promo_ui: Dictionary = {}
 var _promo_seen: Dictionary = {}
-var _daily_popup: Control
-var _daily_auto_hold := 0.0  # giây liên tục đủ điều kiện tự bật popup quà ngày (Design/30 R4)
-const DAILY_AUTO_DELAY := 1.2
-var _header_avatar: Control
 var _race_no_label: Label
 var _income_label: Label
 var _status_label: Label
@@ -399,7 +392,7 @@ func _build_ui() -> void:
 	var header_back := preload("res://ui/race_header_backdrop.gd").new()
 	header_back.name = "SoftHeaderBackground"
 	header_back.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	header_back.offset_bottom = 118
+	header_back.offset_bottom = 46
 	add_child(header_back)
 
 	var margin := MarginContainer.new()
@@ -418,30 +411,18 @@ func _build_ui() -> void:
 	# One scaled canvas keeps icon, text, and spacing proportions at every width.
 	var top := _header_canvas(root, 101.0)
 	top.name = "ResourceHeader"
-	_header_avatar = Button.new()
-	_header_avatar.name = "PlayerProfileButton"
-	for state in ["normal", "hover", "pressed", "focus", "disabled"]:
-		_header_avatar.add_theme_stylebox_override(state, StyleBoxEmpty.new())
-	_header_avatar.accessibility_name = I18n.t("common.player_profile")
-	_header_avatar.pressed.connect(_show_profile)
-	_header_place(top, _header_avatar, Rect2(18, 2, 106, 94))
-	var avatar_icon := _header_icon("icons/avatar.png")
-	avatar_icon.name = "PlayerAvatarIcon"
-	avatar_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_header_avatar.add_child(avatar_icon)
-	avatar_icon.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	for x in [140, 461, 782]:
+	for x in [391, 782]:
 		var divider := _hud_divider()
 		divider.custom_minimum_size = Vector2.ZERO
 		_header_place(top, divider, Rect2(x, 21, 2, 57))
 	_coin_label = _hud_label(48)
 	_coin_bar = _hud_bar("icons/cash.png", _coin_label, 74)
 	_coin_bar.name = "HudCoins"
-	_header_place(top, _coin_bar, Rect2(157, 12, 288, 74))
+	_header_place(top, _coin_bar, Rect2(18, 12, 352, 74))
 	_gem_label = _hud_label(48)
 	var gem_bar := _hud_bar("icons/gem.png", _gem_label, 74)
 	gem_bar.name = "HudGems"
-	_header_place(top, gem_bar, Rect2(478, 12, 288, 74))
+	_header_place(top, gem_bar, Rect2(414, 12, 352, 74))
 	_hud_bar_link(_coin_bar, "cash", I18n.t("main.buy_cash"))
 	_hud_bar_link(gem_bar, "gem", I18n.t("main.buy_gems"))
 	var settings := Button.new()
@@ -462,7 +443,20 @@ func _build_ui() -> void:
 	_pages_root = Control.new()
 	_pages_root.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_pages_root.clip_contents = true
-	root.add_child(_pages_root)
+	# Vùng nội dung (giữa thanh trên và điều hướng) lùi vào CONTENT_SIDE hai bên, CONTENT_TOP phía trên.
+	var content_margin := MarginContainer.new()
+	content_margin.name = "ContentArea"
+	content_margin.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	content_margin.add_theme_constant_override("margin_left", CONTENT_SIDE)
+	content_margin.add_theme_constant_override("margin_right", CONTENT_SIDE)
+	content_margin.add_theme_constant_override("margin_top", CONTENT_TOP)
+	root.add_child(content_margin)
+	content_margin.add_child(_pages_root)
+	# Màn hẹp (<360): Shop còn đặt chiều rộng tối thiểu ~316, nên bỏ lề ngang để khỏi tràn.
+	resized.connect(func() -> void:
+		var side := CONTENT_SIDE if size.x >= 360.0 else 0
+		content_margin.add_theme_constant_override("margin_left", side)
+		content_margin.add_theme_constant_override("margin_right", side))
 
 	_build_race_page()
 	_build_bag_page()
@@ -594,26 +588,17 @@ func _build_ui() -> void:
 	for slot in NAV_ORDER.size():
 		nav.move_child(_nav_items[NAV_ORDER[slot]], slot)
 
-	_profile = preload("res://ui/player_profile.gd").new()
-	_profile.name = "PlayerProfile"
-	_profile.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	add_child(_profile)
-	_profile.hide()
-	_profile.closed.connect(func() -> void: _header_avatar.grab_focus())
 	_promotion = preload("res://ui/promotion_popup.gd").new()
 	_promotion.name = "PromotionPopup"
 	_promotion.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(_promotion)
 	_promotion.hide()
-	_promotion.closed.connect(func() -> void: _header_avatar.grab_focus())
 	_promotion.notice.connect(_show_toast)
 	_class_page = preload("res://ui/class_page.gd").new()
 	_class_page.name = "ClassPage"
 	_class_page.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(_class_page)
 	_class_page.hide()
-	_class_page.closed.connect(func() -> void: _header_avatar.grab_focus())
-	_profile.class_requested.connect(_show_classes)
 	_build_overlay()
 	_tutorial = TutorialOverlay.new()
 	_tutorial.name = "TutorialOverlay"
@@ -886,27 +871,11 @@ func _build_race_block(v: VBoxContainer) -> void:
 	strip_row.add_theme_constant_override("separation", 36)
 	strip_canvas.add_child(strip_row)
 	RaceArt.place(strip_row, Rect2(0, 10, 1448, 205))
-	_daily_btn = Button.new()
-	_daily_btn.name = "DailyRewardsButton"
-	_daily_btn.accessibility_name = I18n.t("main.daily_rewards")
-	RaceArt.button_skin(_daily_btn, "reward_cream")
-	_daily_btn.pressed.connect(_show_daily_rewards)
-	_daily_btn.custom_minimum_size = Vector2(260, 205)
-	strip_row.add_child(_daily_btn)
 	var boost_slot := Control.new()
 	boost_slot.name = "BoostSlot"
 	boost_slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	boost_slot.custom_minimum_size = Vector2(260, 205)
 	strip_row.add_child(boost_slot)
-	RaceArt.image(_daily_btn, "icons/gift", Rect2(35, 28, 190, 149))
-	_daily_dot = Panel.new()
-	_daily_dot.name = "DailyDot"
-	_daily_dot.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var dot_skin := StyleBoxTexture.new()
-	dot_skin.texture = RaceArt.texture("icons/notification")
-	_daily_dot.add_theme_stylebox_override("panel", dot_skin)
-	_daily_btn.add_child(_daily_dot)
-	RaceArt.place(_daily_dot, Rect2(207, 9, 40, 40))
 	_build_pack_promos(strip_row)
 	_race_view_track = GameData.class_track(GameState.race_class_id)
 	_race_view.set_track(_race_view_track)
@@ -1241,6 +1210,11 @@ func _build_league_page() -> void:
 
 func _build_shop_page() -> void:
 	_shop_box = _make_page()
+	# Lề ngang chung 8 cho mọi khối Shop (tiêu đề, thẻ miễn phí, gói đặc biệt đều thẳng hàng).
+	var shop_panel := StyleBoxEmpty.new()
+	shop_panel.content_margin_left = 8
+	shop_panel.content_margin_right = 8
+	(_shop_box.get_parent() as ScrollContainer).add_theme_stylebox_override("panel", shop_panel)
 	_shop_content = (CleanArt.asset("res://ui/shop_page.gd") as GDScript).new()
 	_shop_box.add_child(_shop_content)
 
@@ -1308,13 +1282,6 @@ func _show_promotion() -> void:
 		_toast_lock("U2_league")
 		return
 	_promotion.open()
-
-
-func _show_profile() -> void:
-	if not GameState.feature_unlocked("U2_league"):
-		_toast_lock("U2_league")
-		return
-	_profile.open()
 
 
 func _show_classes() -> void:
@@ -1691,7 +1658,6 @@ func _select_tab(i: int) -> void:
 	_tab = i
 	_pages_root.clip_contents = true
 
-	_header_avatar.visible = true
 	# The fixed race cluster is shown only on the Race page.
 	if _race_block != null:
 		_race_block.visible = i == Tab.RACE
@@ -1880,7 +1846,6 @@ func _nav_slot(k: int, width: float, total: float) -> Rect2:
 
 
 func _refresh_light() -> void:
-	GameState.daily_reward_refresh()
 	_refresh_locks()
 	_coin_label.text = Balance.fmt_compact(GameState.coins)
 	_fit_hud_label(_coin_label, 48)
@@ -1948,7 +1913,16 @@ func _rebuild_league() -> void:
 
 ## Bảng nâng cấp bằng cúp ở tab Giải (dựng trong ui/trophy_panel.gd).
 func _build_trophy_panel() -> void:
-	TrophyPanel.build(_league_box, _trophy_group, _set_trophy_group, _buy_trophy)
+	TrophyPanel.build(_league_box, _trophy_group, _set_trophy_group, _buy_trophy, _show_trophy_rules)
+
+
+## Popup luật cúp: mức thưởng top 3 và giới hạn (nút i ở thẻ cúp).
+func _show_trophy_rules() -> void:
+	_sfx("ui_click")
+	_begin_overlay()
+	_overlay_box.add_child(HdUi.close_header(I18n.t("trophy.rules"), _close_overlay, 20))
+	TrophyPanel.rules_content(_overlay_box)
+	_fit_overlay()
 
 
 func _set_trophy_group(group: String) -> void:
@@ -2005,7 +1979,12 @@ func _show_iap_detail(sku: String) -> void:
 	var panel := _overlay_box.get_parent().get_parent() as PanelContainer
 	panel.add_theme_stylebox_override("panel", _shop_content.PromoUi.shell_style())
 	_overlay_box.get_parent().set_meta("preferred_width", 366.0)
-	_overlay_box.add_child(_shop_content.PromoUi.header(I18n.t("main.my_joins_team") if sku == "char_my" else _shop_content.PackUi.title(product), _close_overlay))
+	var header_holder := Control.new()
+	header_holder.name = "PromoHeaderHolder"
+	header_holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.add_child(header_holder)
+	header_holder.add_child(_shop_content.PromoUi.header(I18n.t("main.my_joins_team") if sku == "char_my" else _shop_content.PackUi.title(product), _close_overlay))
+	_overlay_box.add_child(_shop_content.PromoUi.header_space())
 	_overlay_box.add_child(_shop_content.build_detail(sku))
 	_fit_overlay()
 
@@ -2083,56 +2062,6 @@ func _claim_shop_daily() -> void:
 	_rebuild_shop()
 
 
-## Tự bật popup quà ngày một lần mỗi ngày (Design/30 R4). Chỉ khi rảnh liên tục DAILY_AUTO_DELAY giây:
-## không có popup/bảng kết quả nào, không đang hướng dẫn, đã đọc xong giới thiệu tính năng mới, không lỗi lưu.
-func _update_daily_auto(delta: float, modal_open: bool) -> void:
-	var idle: bool = not modal_open and not _result_panel.visible and not _tutorial.running and _tutorial.intro == "" and _tutorial.nav == "" 		and GameState.phase != "save_error" and not GameState.save_blocked
-	if not idle or not DailyRewards.should_auto_popup(GameState.daily_rewards, GameState.daily_reward_today()):
-		_daily_auto_hold = 0.0
-		return
-	_daily_auto_hold += delta
-	if _daily_auto_hold < DAILY_AUTO_DELAY:
-		return
-	_daily_auto_hold = 0.0
-	GameState.daily_reward_popup_shown()
-	_show_daily_rewards()
-
-
-## Popup Quà mỗi ngày (ui/daily_rewards_popup.gd). Nhận xong: âm thanh, hiệu ứng, toast tóm tắt thưởng.
-func _show_daily_rewards() -> void:
-	_sfx("ui_click")
-	_begin_overlay()
-	_overlay_box.get_parent().set_meta("preferred_width", 430.0)
-	_overlay_box.get_parent().set_meta("vertical_gutter", 24.0)
-	_overlay_box.get_parent().set_meta("horizontal_gutter", 16.0)
-	var daily_margin := _overlay_box.get_parent().get_parent().get_parent().get_parent() as MarginContainer
-	daily_margin.add_theme_constant_override("margin_left", 8)
-	daily_margin.add_theme_constant_override("margin_right", 8)
-	daily_margin.add_theme_constant_override("margin_top", 12)
-	daily_margin.add_theme_constant_override("margin_bottom", 12)
-	var daily_frame := StyleBoxEmpty.new()
-	(_overlay_box.get_parent().get_parent() as PanelContainer).add_theme_stylebox_override("panel", daily_frame)
-	_daily_popup = DailyRewardsPopup.new()
-	_overlay_box.add_child(_daily_popup)
-	_daily_popup.minimum_size_changed.connect(_fit_overlay.call_deferred)
-	_daily_popup.closed.connect(func() -> void: _close_overlay())
-	_daily_popup.claimed.connect(_on_daily_reward_claimed)
-	_daily_popup.notice.connect(_show_toast)
-
-
-func _on_daily_reward_claimed(reward: Dictionary) -> void:
-	_sfx("daily_gift")
-	var extra := ""
-	if int(reward.get("milestone", 0)) > 0:
-		extra = I18n.t("main.reached_day_milestone") % (int(reward["milestone"]) * int(GameData.daily_rewards().get("milestone_interval", 10)))
-	elif bool(reward.get("grand", false)):
-		extra = I18n.t("main.day_7")
-	_show_toast(I18n.t("common.claimed") + DailyRewardsPopup.reward_line(reward) + (I18n.t("daily.x2_note") if bool(reward.get("x2", false)) else "") + extra)
-	_lock_sig = ""
-	_refresh_locks()
-	_rebuild_shop()
-
-
 func _show_shop_offer(title: String, description: String) -> void:
 	_sfx("ui_click")
 	_begin_overlay()
@@ -2150,9 +2079,9 @@ func _process(delta: float) -> void:
 	if not _active:
 		GameState.tutorial_pause = false
 		return
-	_power_banner.set_suspended(not _race_block.visible or _overlay.visible or _result_panel.visible or (is_instance_valid(_profile) and _profile.visible) or (is_instance_valid(_promotion) and _promotion.visible))
+	_power_banner.set_suspended(not _race_block.visible or _overlay.visible or _result_panel.visible or (is_instance_valid(_promotion) and _promotion.visible))
 	# Bảng tổng kết tự tắt sau RESULT_SHOW_SEC giây (thời gian thật) rồi thả đua tiếp.
-	var modal_open: bool = _overlay.visible or (is_instance_valid(_profile) and _profile.visible) \
+	var modal_open: bool = _overlay.visible \
 		or (is_instance_valid(_promotion) and _promotion.visible) \
 		or (is_instance_valid(_class_page) and _class_page.visible)
 	_ads_controls.blocked = modal_open or _result_panel.visible or _tab != Tab.RACE or _tutorial.running \
@@ -2171,7 +2100,6 @@ func _process(delta: float) -> void:
 		if not _tutorial.blocked:
 			_pump_intro()
 	GameState.tutorial_pause = _tutorial.wants_pause()  # callout đang chờ thao tác → dừng đua + thu nhập
-	_update_daily_auto(delta, modal_open)
 	# A6 của hướng dẫn giữ bảng kết quả tới khi đọc xong (Design/23 §4).
 	if _result_panel.visible and not _tutorial.holds_result():
 		_result_timer -= delta
@@ -2417,6 +2345,10 @@ func _open_next_overlay() -> void:
 
 func _begin_overlay() -> void:
 	_clear(_overlay_box)
+	var stale_header := _overlay_panel().get_node_or_null("PromoHeaderHolder")
+	if stale_header != null:
+		stale_header.get_parent().remove_child(stale_header)
+		stale_header.queue_free()
 	_overlay_box.get_parent().set_meta("preferred_width", 316.0)
 	_overlay_box.get_parent().set_meta("vertical_gutter", 120.0)
 	_overlay_box.get_parent().set_meta("horizontal_gutter", 32.0)
@@ -2517,18 +2449,37 @@ func _show_offline() -> void:
 	var elapsed := maxf(float(rep["elapsed"]), 0.0)
 	var cap := GameState.offline_cap_sec_now()
 	var eligible := float(rep.get("eligible", minf(elapsed, cap)))
-	_overlay_box.add_theme_constant_override("separation", 12)
-	# Use Settings' existing panel skin and an inline header, without floating chrome.
+	(_overlay_box.get_parent().get_parent() as PanelContainer).add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+	_overlay_box.get_parent().set_meta("preferred_width", 374.0)
+	var frame := preload("res://ui/offline_popup_frame.gd").new()
+	frame.name = "OfflineFrame"
+	_overlay_box.add_child(frame)
+	# A narrow plaque straddles the top edge; its text remains a native Label.
+	var header_panel := PanelContainer.new()
+	header_panel.name = "OfflineHeader"
+	var header_style := frame.face("3eabf6", "146fc7", "f4e4ca", 22)
+	header_style.content_margin_left = 12
+	header_style.content_margin_right = 12
+	header_style.content_margin_top = 10
+	header_style.content_margin_bottom = 10
+	header_panel.add_theme_stylebox_override("panel", header_style)
+	var title_margin := MarginContainer.new()
+	title_margin.add_theme_constant_override("margin_left", 22)
+	title_margin.add_theme_constant_override("margin_right", 22)
+	frame.add_child(title_margin)
+	title_margin.add_child(header_panel)
 	var header := HBoxContainer.new()
-	header.add_theme_constant_override("separation", 10)
-	_overlay_box.add_child(header)
-	header.add_child(HdUi.icon("icons/cash.png", Vector2(36, 36)))
-	var title := _label(I18n.t("main.offline_income"), 26)
+	header.add_theme_constant_override("separation", 5)
+	header_panel.add_child(header)
+	header.add_child(HdUi.Soft.art("nav_race", Vector2(34, 34)))
+	var title := _label(I18n.t("main.offline_income"), 26, Color.WHITE)
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.name = "OfflineTitle"
 	title.autowrap_mode = TextServer.AUTOWRAP_OFF
 	title.clip_text = true
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(title)
+	header.add_child(frame.speed_marks())
 	# Keep a single-line title at the largest size that fits each phone width.
 	title.resized.connect(func() -> void:
 		var font := title.get_theme_font("font")
@@ -2536,26 +2487,55 @@ func _show_offline() -> void:
 		while font_size > 10 and font.get_string_size(title.text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x > title.size.x:
 			font_size -= 1
 		title.add_theme_font_size_override("font_size", font_size))
-	var divider := HSeparator.new()
-	var line := StyleBoxLine.new()
-	line.color = Color("639ce8")
-	line.thickness = 2
-	divider.add_theme_stylebox_override("separator", line)
-	_overlay_box.add_child(divider)
-	var offline_art := HdUi.Soft.art("offline_income_art", Vector2(0, 145))
+	var content_margin := MarginContainer.new()
+	content_margin.add_theme_constant_override("margin_left", 14)
+	content_margin.add_theme_constant_override("margin_right", 14)
+	frame.add_child(content_margin)
+	var income_block := PanelContainer.new()
+	income_block.name = "OfflineIncomeBlock"
+	var block_style := StyleBoxEmpty.new()
+	block_style.set_content_margin_all(0)
+	income_block.add_theme_stylebox_override("panel", block_style)
+	content_margin.add_child(income_block)
+	var block := VBoxContainer.new()
+	block.add_theme_constant_override("separation", 8)
+	income_block.add_child(block)
+	var art_window := PanelContainer.new()
+	art_window.name = "OfflineArtWindow"
+	var art_skin := frame.face("fffdf6", "e9d8c4", "d9c4ac", 24)
+	art_skin.set_content_margin_all(5)
+	art_window.add_theme_stylebox_override("panel", art_skin)
+	block.add_child(art_window)
+	var art_clip := Panel.new()
+	art_clip.clip_children = CanvasItem.CLIP_CHILDREN_AND_DRAW
+	art_clip.custom_minimum_size.y = 184
+	var clip_skin := _style(Color("43bcef"), 18)
+	clip_skin.set_border_width_all(0)
+	art_clip.add_theme_stylebox_override("panel", clip_skin)
+	art_window.add_child(art_clip)
+	var offline_art := TextureRect.new()
+	offline_art.texture = load("res://assets/offline_popup_v1/offline_garage_landscape.png")
+	offline_art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	offline_art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	offline_art.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	offline_art.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_overlay_box.add_child(offline_art)
+	art_clip.add_child(offline_art)
+	offline_art.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_sfx("coin_pickup")
 	var reward_panel := PanelContainer.new()
-	reward_panel.add_theme_stylebox_override("panel", _style(Color("fff3cf"), 16, Color("efc465"), 1))
-	_overlay_box.add_child(reward_panel)
+	reward_panel.name = "OfflineRewardBlock"
+	var reward_skin := frame.face("fff6c8", "ffdb8c", "e6ad48", 20)
+	reward_skin.content_margin_top = 12
+	reward_skin.content_margin_bottom = 12
+	reward_panel.add_theme_stylebox_override("panel", reward_skin)
+	block.add_child(reward_panel)
 	var reward_center := CenterContainer.new()
 	reward_panel.add_child(reward_center)
 	var reward_group := HBoxContainer.new()
 	reward_group.add_theme_constant_override("separation", 8)
 	reward_center.add_child(reward_group)
-	reward_group.add_child(HdUi.icon("icons/cash.png", Vector2(42, 42)))
-	var amount := _label("+%s" % Balance.fmt_money(rep["reward"]), 36, C_GOLD)
+	reward_group.add_child(HdUi.icon("icons/cash.png", Vector2(64, 64)))
+	var amount := _label("+%s" % Balance.fmt_money(rep["reward"]), 54, Color("8a3f0f"))
 	amount.name = "OfflineAmount"
 	reward_group.add_child(amount)
 	var progress := ProgressBar.new()
@@ -2564,17 +2544,17 @@ func _show_offline() -> void:
 	progress.show_percentage = false
 	progress.max_value = maxf(cap, 1.0)
 	progress.value = clampf(eligible, 0.0, cap)
-	var track_style := _style(Color("9ebfe8"), 14)
+	var track_style := _style(Color("fbe9ad"), 18, Color("e6b94f"), 2)
 	track_style.set_content_margin_all(0)
 	progress.add_theme_stylebox_override("background", track_style)
-	var progress_fill := _style(Color("ffbd35"), 14)
+	var progress_fill := frame.face("ffe36e", "ffb42a", "e8951a", 15, 0)
 	progress_fill.content_margin_left = 0
 	progress_fill.content_margin_right = 0
 	progress_fill.content_margin_top = 0
 	progress_fill.content_margin_bottom = 0
 	# Phần fill tự vẽ để luôn rộng tối thiểu bằng chiều cao, giữ hai đầu tròn khi giá trị nhỏ.
 	progress.add_theme_stylebox_override("fill", StyleBoxEmpty.new())
-	progress.custom_minimum_size.y = 28
+	progress.custom_minimum_size.y = 36
 	var fill_bar := Panel.new()
 	fill_bar.name = "OfflineFill"
 	fill_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -2585,11 +2565,11 @@ func _show_offline() -> void:
 		var h := progress.size.y
 		fill_bar.position = Vector2.ZERO
 		fill_bar.size = Vector2(minf(progress.size.x, maxf(h, progress.size.x * ratio)), h))
-	_overlay_box.add_child(progress)
+	block.add_child(progress)
 	var time_text := I18n.t("main.min_2") % [int(eligible / 60.0), int(cap / 60.0)]
 	if eligible >= cap:
 		time_text = I18n.t("main.full") + time_text
-	var time_label := _offline_center(time_text, 15, Color("1d2b44"))
+	var time_label := _offline_center(time_text, 18, Color("1d2b44"))
 	time_label.name = "OfflineTimeText"
 	time_label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	time_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
@@ -2597,14 +2577,26 @@ func _show_offline() -> void:
 	progress.add_child(time_label)
 	var button := _button(I18n.t("common.continue"), true)
 	button.name = "OfflineContinue"
-	button.custom_minimum_size.y = 52
+	button.custom_minimum_size.y = 48
 	button.add_theme_font_size_override("font_size", 20)
-	HdUi.style_button(button, "claim")
-
 	button.pressed.connect(func() -> void:
 		GameState.offline_report = {}
 		_open_next_overlay())
-	_overlay_box.add_child(button)
+	var footer := PanelContainer.new()
+	footer.name = "OfflineFooter"
+	var footer_skin := frame.face("b6eaff", "79c9ee", "4ba6d6", 24)
+	footer_skin.content_margin_left = 32
+	footer_skin.content_margin_right = 32
+	footer_skin.content_margin_top = 12
+	footer_skin.content_margin_bottom = 14
+	footer.add_theme_stylebox_override("panel", footer_skin)
+	var footer_margin := MarginContainer.new()
+	footer_margin.add_theme_constant_override("margin_left", 8)
+	footer_margin.add_theme_constant_override("margin_right", 8)
+	footer_margin.add_theme_constant_override("margin_bottom", 8)
+	frame.add_child(footer_margin)
+	footer_margin.add_child(footer)
+	footer.add_child(button)
 
 
 # ---------------------------------------------------------------- hướng dẫn đầu game
@@ -2687,10 +2679,8 @@ func _show_feedback(title: String, content: String, icon_path: String = "") -> v
 func _refresh_locks() -> void:
 	_refresh_pack_promos()
 	var shop_ad: bool = Ads.shop_ready()
-	var login_open: bool = DailyRewards.is_unlocked(GameState.daily_rewards)
-	var login_can: bool = login_open and GameState.daily_reward_available()
 	var has_coupons: bool = GameState.gear_coupons.values().any(func(n: Variant) -> bool: return int(n) > 0) or GameState.driver_coupons.values().any(func(n: Variant) -> bool: return int(n) > 0)
-	var sig := "%s|%d|%s|%s|%s|%s|%s|%s" % [GameState.gating_on(), GameState.completed_races, str(GameState.tutorial.get("intro_seen", [])), shop_ad, login_open, login_can, has_coupons, str(GameState.tutorial.get("lessons", {}))]
+	var sig := "%s|%d|%s|%s|%s|%s" % [GameState.gating_on(), GameState.completed_races, str(GameState.tutorial.get("intro_seen", [])), shop_ad, has_coupons, str(GameState.tutorial.get("lessons", {}))]
 	if sig == _lock_sig:
 		return
 	_lock_sig = sig
@@ -2702,12 +2692,8 @@ func _refresh_locks() -> void:
 		item.modulate = Color.WHITE if open else Color(0.62, 0.68, 0.8)
 		(item.get_node("NavLock") as Control).visible = not open
 		var new_feature := open and gated and fid != "" and not Tutorial.intro_seen(GameState, fid)
-		(item.get_node("NavDot") as Control).visible = new_feature or (open and i == Tab.SHOP and (shop_ad or login_can or has_coupons))
+		(item.get_node("NavDot") as Control).visible = new_feature or (open and i == Tab.SHOP and (shop_ad or has_coupons))
 		_nav[i].accessibility_name = I18n.t(TAB_NAMES[i]) + ("" if open else I18n.t("main.locked"))
-	_daily_btn.visible = login_open
-	_daily_dot.visible = login_can
-	var u2 := GameState.feature_unlocked("U2_league")
-	_header_avatar.modulate = Color.WHITE if u2 else Color(0.62, 0.66, 0.76)
 	var garage_btn: Button = _team_sub_buttons[1]
 	garage_btn.icon = null if GameState.feature_unlocked("U6_garage") else _tex("icons/vector_dark/lock.svg")
 	garage_btn.expand_icon = true
@@ -2747,7 +2733,7 @@ func _pump_intro() -> void:
 		return
 	if _tutorial.running or _tutorial.intro != "" or _tutorial.nav != "":
 		return
-	if _overlay.visible or _result_panel.visible or _profile.visible or _promotion.visible or _class_page.visible:
+	if _overlay.visible or _result_panel.visible or _promotion.visible or _class_page.visible:
 		return
 	if GameState.gating_on():
 		# Earliest eligible lesson owns its entire route, from any current tab.

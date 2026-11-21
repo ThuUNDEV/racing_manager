@@ -54,7 +54,6 @@ func run() -> void:
 	state.tutorial["gated"] = false
 	state.tutorial["state"] = "done"
 	state.coins = BigNumber.from_int(12500)
-	state.daily_rewards["unlocked"] = true
 	root.content_scale_factor = 1.0
 	root.content_scale_size = Vector2i.ZERO
 	main = load("res://ui/main.gd").new()
@@ -79,7 +78,7 @@ func run() -> void:
 		await settle()
 		var strip := main.find_child("ActionStrip", true, false) as Control
 		var rects: Array[Rect2] = []
-		for button: Button in [main._daily_btn, main._ads_controls._chip, main._promo_ui["starter"]["button"], main._promo_ui["offer"]["button"]]:
+		for button: Button in [main._ads_controls._chip, main._promo_ui["starter"]["button"], main._promo_ui["offer"]["button"]]:
 			if not button.is_visible_in_tree():
 				continue
 			var r := button.get_global_rect()

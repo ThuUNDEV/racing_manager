@@ -1,0 +1,23 @@
+{
+  "model": "gpt-image-2.5-flare",
+  "quality": "low",
+  "generated": "2026-11-20",
+  "tool": "tools/gen_image.py",
+  "assets": {
+    "league_backdrop.png": {
+      "reference": "Design/Demos/PromotionPopup/flare_A.png",
+      "prompt_summary": "Extract scenery only: cyan sky, clouds, soft miniature trees and red-white race curbs. No foreground UI or text.",
+      "sha256": "aeb0e2a7f6cdd9957d5a22c54801fc5571e433e79cf196f31e492e63beebad45"
+    },
+    "car_requirement.png": {
+      "reference": "Design/Demos/PromotionPopup/flare_A.png",
+      "prompt_summary": "Extract rounded red toy road car on middle condition tile; front three-quarter view, blue windows, transparent background, no text.",
+      "sha256": "7bf443ddeaa7dcc7f7033bbdcab66b1d241be671919f8f7cf49a2081ab7aa2f3"
+    },
+    "check_cross.png": {
+      "reference": "assets/promotion_ui_v1/check_no.png",
+      "prompt_summary": "Replace white exclamation mark with white X; preserve red round badge, lighting and bevels; transparent background.",
+      "sha256": "7f75a983f5c7205a4698231ba6627583aadf54baacee08637f406979418fee62"
+    }
+  }
+}

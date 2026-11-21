@@ -45,7 +45,6 @@ func run() -> void:
 	state.tutorial["state"] = "done"
 	state.coins = BigNumber.from_int(12500)
 	state.gems = 240
-	state.daily_rewards["unlocked"] = true
 	root.content_scale_factor = 1.0
 	root.content_scale_size = Vector2i.ZERO
 	main = load("res://ui/main.gd").new()
@@ -114,12 +113,6 @@ func run() -> void:
 		await settle()
 		check_width(main._overlay, dimensions.x)
 		await capture("%d_settings" % dimensions.x)
-		main._overlay.hide()
-		main._show_daily_rewards()
-		await settle()
-		check(main._daily_popup.find_children("DailyCell*", "PanelContainer", true, false).size() == 7, "daily reward has seven days")
-		check_width(main._overlay, dimensions.x)
-		await capture("%d_daily" % dimensions.x)
 		main._overlay.hide()
 		main._show_iap_detail("starter_1")
 		await settle()

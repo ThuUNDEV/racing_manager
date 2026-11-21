@@ -12,6 +12,7 @@ const ITEMS := {
 	"energy": preload("res://data/reward_items/energy.tres"),
 	"research": preload("res://data/reward_items/research.tres"),
 	"race_reward": preload("res://data/reward_items/race_reward.tres"),
+	"income_online": preload("res://data/reward_items/income_online.tres"),
 }
 
 

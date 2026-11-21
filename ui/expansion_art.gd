@@ -5,7 +5,15 @@ const CleanArt = preload("res://ui/clean_modern_art.gd")
 const ROOT := "res://assets/racing_ui_hd_expansion/sprites/"
 static var _textures: Dictionary = {}
 
+const GEAR_ICON_ROOT := "res://assets/gear_icons_soft_v1/"
+
 static func texture(id: String) -> Texture2D:
+	if id.begins_with("gear_"):
+		var gear_path := GEAR_ICON_ROOT + id + ".png"
+		if ResourceLoader.exists(gear_path):
+			if not _textures.has(id):
+				_textures[id] = load(gear_path) as Texture2D
+			return _textures[id]
 	var clay := HdUi.Soft.expansion(id)
 	if clay != null: return clay
 	if not _textures.has(id):

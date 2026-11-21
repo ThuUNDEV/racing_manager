@@ -13,7 +13,7 @@ const ART := "res://assets/league_redesign/"
 static var _textures: Dictionary = {}
 
 
-static func build(parent: Control, group: String, on_group: Callable, on_buy: Callable) -> void:
+static func build(parent: Control, group: String, on_group: Callable, on_buy: Callable, on_info: Callable = Callable()) -> void:
 	var box := VBoxContainer.new()
 	box.name = "TrophyPanel"
 	box.add_theme_constant_override("separation", 5)
@@ -23,7 +23,7 @@ static func build(parent: Control, group: String, on_group: Callable, on_buy: Ca
 	var header := PanelContainer.new()
 	header.name = "LeagueHeader"
 	header.custom_minimum_size.y = 80
-	header.add_theme_stylebox_override("panel", HdUi.Soft.surface("section", Vector4(4, 3, 4, 3)))
+	header.add_theme_stylebox_override("panel", HdUi.Soft.surface("section_tall", Vector4(4, 3, 4, 3)))
 	var title := HBoxContainer.new()
 	header.add_child(title)
 	title.add_child(HdUi.Soft.art("nav_league", Vector2(120, 78)))
@@ -32,7 +32,7 @@ static func build(parent: Control, group: String, on_group: Callable, on_buy: Ca
 	name.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	title.add_child(name)
 	box.add_child(header)
-	box.add_child(_banner())
+	box.add_child(_banner(on_info))
 	box.add_child(_filter(group, on_group))
 	box.add_child(HdUi.Soft.heading(I18n.t("trophy.upgrade_with_trophies"), "nav_race", 44))
 	for u: Dictionary in GameData.trophy_upgrades():
@@ -112,7 +112,7 @@ static func _art_surface(asset: String, padding: int = 12) -> PanelContainer:
 	return panel
 
 
-static func _banner() -> PanelContainer:
+static func _banner(on_info: Callable) -> PanelContainer:
 	var gs := GameState
 	var pc := _art_surface("trophy_summary", 6)
 	pc.name = "TrophyBanner"
@@ -146,46 +146,40 @@ static func _banner() -> PanelContainer:
 	var multiplier := HdUi.Soft.pill("×%d" % maxi(1, GameData.trophy_reward(3, gs.business_tier)), Color("c9efbf"), 24)
 	multiplier.custom_minimum_size = Vector2(48, 0)
 	multiplier.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	if on_info.is_valid():
+		var info := Button.new()
+		info.name = "TrophyInfo"
+		info.text = "i"
+		info.accessibility_name = I18n.t("trophy.rules")
+		info.custom_minimum_size = Vector2(30, 30)
+		info.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		info.add_theme_font_size_override("font_size", 16)
+		info.add_theme_color_override("font_color", Color.WHITE)
+		info.add_theme_color_override("font_hover_color", Color.WHITE)
+		info.add_theme_color_override("font_pressed_color", Color.WHITE)
+		for st: String in ["normal", "hover", "pressed", "focus"]:
+			info.add_theme_stylebox_override(st, _flat(Color("2f8fd8"), Color("ffffff"), 15, 0))
+		info.pressed.connect(on_info)
+		top.add_child(info)
 	top.add_child(multiplier)
-	var earned_row := HBoxContainer.new()
-	var earned_title := _label(I18n.t("trophy.total_earned"), 11, C_MUTED)
-	earned_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	earned_row.add_child(earned_title)
-	var earned := _label("%d / %d" % [gs.trophies_earned, gs.trophy_cap()], 11, C_TEXT)
-	earned.name = "TrophyEarned"
-	earned_row.add_child(earned)
-	v.add_child(earned_row)
+	# Thanh tiến độ dày, số đã kiếm / trần nằm ngay trong thanh.
 	var bar := ProgressBar.new()
 	bar.name = "TrophyCapProgress"
 	bar.show_percentage = false
 	bar.max_value = maxf(1.0, float(gs.trophy_cap()))
 	bar.value = float(mini(gs.trophies_earned, gs.trophy_cap()))
-	bar.custom_minimum_size = Vector2(0, 7)
-	bar.add_theme_stylebox_override("background", _flat(Color("e5ddc9"), Color.TRANSPARENT, 3, 0))
-	bar.add_theme_stylebox_override("fill", _flat(Color("ffbf1d"), Color.TRANSPARENT, 3, 0))
+	bar.custom_minimum_size = Vector2(0, 20)
+	bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	bar.add_theme_stylebox_override("background", _flat(Color("e5ddc9"), Color.TRANSPARENT, 10, 0))
+	bar.add_theme_stylebox_override("fill", _flat(Color("ffbf1d"), Color.TRANSPARENT, 10, 0))
+	var earned := _label("%d / %d" % [gs.trophies_earned, gs.trophy_cap()], 13, C_TEXT)
+	earned.name = "TrophyEarned"
+	earned.set_anchors_preset(Control.PRESET_FULL_RECT)
+	earned.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	earned.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	earned.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bar.add_child(earned)
 	v.add_child(bar)
-	var rewards := HBoxContainer.new()
-	rewards.add_theme_constant_override("separation", 5)
-	var rewards_title := _label(I18n.t("trophy.top_3_reward"), 10, C_MUTED)
-	v.add_child(rewards_title)
-	for p in 3:
-		var pill := _surface(Color("fff1c9"), Color("e2bd63"), 12, 5)
-		var reward_row := HBoxContainer.new()
-		reward_row.add_theme_constant_override("separation", 3)
-		pill.add_child(reward_row)
-		reward_row.add_child(_icon(["medal_gold", "medal_silver", "medal_bronze"][p], Vector2(20, 24)))
-		reward_row.add_child(_label("P%d +%d" % [p + 1, GameData.trophy_reward(p + 1, gs.business_tier)], 11, RANK_COLORS[p]))
-		rewards.add_child(pill)
-	v.add_child(rewards)
-	var details := _label(I18n.t("trophy.trophies_are_only_earned_by"), 11, C_MUTED, true)
-	details.name = "TrophyCapInfo"
-	v.add_child(details)
-	if gs.trophies_earned >= gs.trophy_cap():
-		var hint := I18n.t("trophy.trophy_cap_reached_no_more")
-		var next_cap := GameData.trophy_cap_for_league(gs.business_tier + 1) + maxi(0, gs.trophy_cap_bonus)
-		if next_cap > gs.trophy_cap():
-			hint += I18n.t("trophy.advance_next_league_raise_cap") % next_cap
-		v.add_child(_label(hint, 11, HdUi.C_RED, true))
 	return pc
 
 
@@ -385,3 +379,32 @@ static func _buy_button(u: Dictionary, maxed: bool, on_buy: Callable) -> Button:
 	b.disabled = GameState.trophies < cost or blocked
 	b.pressed.connect(func() -> void: on_buy.call(id))
 	return b
+
+
+## Nội dung popup luật cúp: mức thưởng top 3 và giải thích giới hạn.
+static func rules_content(parent: Control) -> void:
+	var gs := GameState
+	parent.add_child(_label(I18n.t("trophy.top_3_reward"), 14, C_TEXT))
+	var rewards := HBoxContainer.new()
+	rewards.name = "TrophyRewards"
+	rewards.add_theme_constant_override("separation", 5)
+	for p in 3:
+		var pill := _surface(Color("fff1c9"), Color("e2bd63"), 12, 5)
+		pill.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var reward_row := HBoxContainer.new()
+		reward_row.alignment = BoxContainer.ALIGNMENT_CENTER
+		reward_row.add_theme_constant_override("separation", 3)
+		pill.add_child(reward_row)
+		reward_row.add_child(_icon(["medal_gold", "medal_silver", "medal_bronze"][p], Vector2(20, 24)))
+		reward_row.add_child(_label("P%d +%d" % [p + 1, GameData.trophy_reward(p + 1, gs.business_tier)], 12, RANK_COLORS[p]))
+		rewards.add_child(pill)
+	parent.add_child(rewards)
+	var details := _label(I18n.t("trophy.trophies_are_only_earned_by"), 12, C_MUTED, true)
+	details.name = "TrophyCapInfo"
+	parent.add_child(details)
+	if gs.trophies_earned >= gs.trophy_cap():
+		var hint := I18n.t("trophy.trophy_cap_reached_no_more")
+		var next_cap := GameData.trophy_cap_for_league(gs.business_tier + 1) + maxi(0, gs.trophy_cap_bonus)
+		if next_cap > gs.trophy_cap():
+			hint += I18n.t("trophy.advance_next_league_raise_cap") % next_cap
+		parent.add_child(_label(hint, 11, HdUi.C_RED, true))

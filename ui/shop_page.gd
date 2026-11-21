@@ -556,12 +556,12 @@ func _h_offer_card(parent: Node, p: Dictionary, _row_h: float) -> void:
 
 func _perk_card(parent: Node, product: Dictionary, opts: Dictionary = {}) -> void:
 	var sku := String(product["sku"])
-	# The existing Shop list has a 4px inset; perk cards keep the approved 12px gutter.
+	# Lề ngang 8 của cả trang Shop do ScrollContainer đảm nhiệm (main.gd), thẻ không tự lùi thêm.
 	var inset := MarginContainer.new()
 	inset.name = "Offer_" + sku
 	inset.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	inset.add_theme_constant_override("margin_left", 8)
-	inset.add_theme_constant_override("margin_right", 8)
+	inset.add_theme_constant_override("margin_left", 0)
+	inset.add_theme_constant_override("margin_right", 0)
 	parent.add_child(inset)
 	var card := PerkCard.new()
 	inset.add_child(card)
@@ -1139,21 +1139,16 @@ func _adapt_grids() -> void:
 			portrait.custom_minimum_size.x = 66 if size.x < 335 else 82
 
 
-func _link(text: String) -> Button:
-	var link := Button.new()
+func _link(text: String) -> LinkButton:
+	var link := LinkButton.new()
 	link.text = text
-	link.flat = false
-	for state in ["normal", "hover", "pressed", "disabled", "focus"]:
-		var blank := StyleBoxEmpty.new()
-		blank.set_content_margin_all(2)
-		link.add_theme_stylebox_override(state, blank)
-	link.custom_minimum_size.y = 44
+	link.underline = LinkButton.UNDERLINE_MODE_ALWAYS
 	link.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	link.add_theme_font_size_override("font_size", 13)
-	link.add_theme_color_override("font_color", ShopSkin.LINK)
-	HdUi.style_button(link, "cancel")
-	link.add_theme_color_override("font_color", ShopSkin.LINK)
-	HdUi.text_depth(link)
+	link.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	link.focus_mode = Control.FOCUS_NONE
+	link.add_theme_font_size_override("font_size", 16)
+	for color in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color"]:
+		link.add_theme_color_override(color, ShopSkin.LINK)
 	return link
 
 
@@ -1371,7 +1366,7 @@ func build_detail(sku: String) -> VBoxContainer:
 	elif sku in ["income_x3", "income_x3_up"]:
 		subtitle = I18n.t("shop.triple_earnings")
 	# Soft Miniature: phụ đề là chữ navy trơn trên nền kem, không còn pill xanh (Design/Demos/PackPromoPopup).
-	var subtitle_label := _text(subtitle, 15, PromoUi.INK)
+	var subtitle_label := _text(subtitle, 19, PromoUi.INK)
 	subtitle_label.name = "PromoSubtitle"
 	subtitle_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	column.add_child(subtitle_label)
@@ -1381,12 +1376,12 @@ func build_detail(sku: String) -> VBoxContainer:
 	var entry: Dictionary = (_last_iap_view.get("items", {}) as Dictionary).get(sku, {})
 	if sku in ["income_x2", "income_x3", "income_x3_up"]:
 		var mult := "×2" if sku == "income_x2" else "×3"
-		column.add_child(PromoUi.reward_cards([
-			{"icon": "cash", "value": mult, "label": I18n.t("shop.online_income")},
-			{"icon": "flag", "value": mult, "label": I18n.t("shop.race_rewards")},
+		column.add_child(PromoUi.reward_panel([
+			{"icon": "income_online", "value": mult, "label": I18n.t("shop.online_income")},
+			{"icon": "race_reward", "value": mult, "label": I18n.t("shop.race_rewards")},
 		], true))
 	else:
-		column.add_child(PromoUi.reward_cards(PackUi.rewards(p, bool(entry.get("driver_owned", false))), get_viewport_rect().size.x < 340.0))
+		column.add_child(PromoUi.reward_panel(PackUi.rewards(p, bool(entry.get("driver_owned", false))), get_viewport_rect().size.x < 340.0))
 	if String(p.get("kind", "")) == "character" and bool(entry.get("driver_owned", false)):
 		var conversion := _text(I18n.t("shop.you_already_own_this_driver"), 12, ShopSkin.CONVERSION_INK)
 		conversion.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -1407,15 +1402,24 @@ func build_detail(sku: String) -> VBoxContainer:
 	_detail_status = _text("", 12, MUTED)
 	column.add_child(_detail_status)
 	var footer := HBoxContainer.new()
+	footer.alignment = BoxContainer.ALIGNMENT_CENTER
+	footer.add_theme_constant_override("separation", 10)
 	# Perk vĩnh viễn đã có badge PERMANENT ở hero; chân popup chỉ ghi "Mua một lần" (Design/28 §4.2).
-	var limit := _text(I18n.t("shop.buy_once") if String(p.get("kind", "")) == "perk" else PackUi.limit(p), 13, ShopSkin.DETAIL_INK)
+	var limit := _text(I18n.t("shop.buy_once") if String(p.get("kind", "")) == "perk" else PackUi.limit(p), 15, ShopSkin.DETAIL_INK)
 	limit.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	if not _has_coupons(p):
-		limit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		limit.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	limit.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	limit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	limit.custom_minimum_size.y = 44
 	footer.add_child(limit)
 	if _has_coupons(p):
+		var divider := ColorRect.new()
+		divider.name = "PromoFooterDivider"
+		divider.color = Color("b9a98e")
+		divider.custom_minimum_size = Vector2(2, 26)
+		divider.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		footer.add_child(divider)
 		var odds := _link(I18n.t("shop.view_rates"))
+		odds.name = "PromoRates"
 		odds.pressed.connect(func() -> void: odds_requested.emit(sku))
 		footer.add_child(odds)
 	column.add_child(footer)

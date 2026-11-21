@@ -1,0 +1,187 @@
+{
+  "mode": "built-in image_gen",
+  "use_case": "ui-mockup",
+  "logical_size": [
+    390,
+    845
+  ],
+  "output_size": [
+    852,
+    1846
+  ],
+  "reference": "/home/thupv/Desktop/DataSSD/racing_manager/Design/Concepts/offline_income_blocks/a.png",
+  "revision": "direction A v2: flat stretchable title plates and concise daily rewards",
+  "base_prompt": "Use case: ui-mockup. Generate ONE complete portrait mobile idle racing game popup concept, 852x1846 pixels, aspect ratio 390:845. Use input image as STYLE REFERENCE, not a literal layout to reproduce. Premium soft miniature toy diorama art, ivory cream, bright sky blue, navy text, plush bevels, ambient occlusion, controlled gloss, readable bold Vietnamese. Dimmed recognizable harbor circuit racing game background, miniature cars, resource HUD, upgrade rows, bottom five tabs Shop / Túi / Đua / Đội / Giải, center Đua selected. No phone bezel or design annotations. One main cream modal about 350 logical pixels wide with thick rounded blue border, inset sky-blue content window with cream bevel and cream information cards, separate light-blue footer strip with seam.\nCRITICAL REDESIGN: TITLE IS A PERFECTLY FLAT STRAIGHT HORIZONTAL BLUE ROUNDED RECTANGLE PLATE. Top and bottom edges are parallel horizontal straight lines across the middle 80 percent. No curved ribbon, arch, perspective, bulge, concavity, swoop or waving flags. Small checkered RECTANGULAR end caps only outside text safe area. Plain uniform blue or VERTICAL blue gradient middle, no illustration or motifs in middle, horizontally 9-slice stretchable. Title letters all have identical font size, upright, on ONE perfectly straight horizontal baseline, centered, white with a soft dark blue outline. Never wrap title. Make enough width for title. Plate overlaps modal top edge. Preserve rounded cream body and soft miniature depth elsewhere. Maximum one orange primary; secondary blue. Match reference materials. Do not bend title or plate. ",
+  "variants": [
+    {
+      "file": "00_offline_income.png",
+      "prompt": "Use case: ui-mockup. Generate ONE complete portrait mobile idle racing game popup concept, 852x1846 pixels, aspect ratio 390:845. Use input image as STYLE REFERENCE, not a literal layout to reproduce. Premium soft miniature toy diorama art, ivory cream, bright sky blue, navy text, plush bevels, ambient occlusion, controlled gloss, readable bold Vietnamese. Dimmed recognizable harbor circuit racing game background, miniature cars, resource HUD, upgrade rows, bottom five tabs Shop / Túi / Đua / Đội / Giải, center Đua selected. No phone bezel or design annotations. One main cream modal about 350 logical pixels wide with thick rounded blue border, inset sky-blue content window with cream bevel and cream information cards, separate light-blue footer strip with seam.\nCRITICAL REDESIGN: TITLE IS A PERFECTLY FLAT STRAIGHT HORIZONTAL BLUE ROUNDED RECTANGLE PLATE. Top and bottom edges are parallel horizontal straight lines across the middle 80 percent. No curved ribbon, arch, perspective, bulge, concavity, swoop or waving flags. Small checkered RECTANGULAR end caps only outside text safe area. Plain uniform blue or VERTICAL blue gradient middle, no illustration or motifs in middle, horizontally 9-slice stretchable. Title letters all have identical font size, upright, on ONE perfectly straight horizontal baseline, centered, white with a soft dark blue outline. Never wrap title. Make enough width for title. Plate overlaps modal top edge. Preserve rounded cream body and soft miniature depth elsewhere. Maximum one orange primary; secondary blue. Match reference materials. Do not bend title or plate. Title \"Thu nhập ngoại tuyến\". Content exactly reference: miniature blue garage with wrench emblem, blue/yellow sports car, large gold clock with dashed green time arrow, coins and green cash. Under scene cream/gold reward plaque cash icon and \"+28,8K\". Slim gold status strip \"Đã đầy · 120/120 phút\". Light-blue footer with ONE orange button \"Tiếp tục\". Keep title one line and perfectly flat.",
+      "output_size": [
+        852,
+        1846
+      ]
+    },
+    {
+      "file": "01_settings.png",
+      "prompt": "Use case: ui-mockup. Generate ONE complete portrait mobile idle racing game popup concept, 852x1846 pixels, aspect ratio 390:845. Use input image as STYLE REFERENCE, not a literal layout to reproduce. Premium soft miniature toy diorama art, ivory cream, bright sky blue, navy text, plush bevels, ambient occlusion, controlled gloss, readable bold Vietnamese. Dimmed recognizable harbor circuit racing game background, miniature cars, resource HUD, upgrade rows, bottom five tabs Shop / Túi / Đua / Đội / Giải, center Đua selected. No phone bezel or design annotations. One main cream modal about 350 logical pixels wide with thick rounded blue border, inset sky-blue content window with cream bevel and cream information cards, separate light-blue footer strip with seam.\nCRITICAL REDESIGN: TITLE IS A PERFECTLY FLAT STRAIGHT HORIZONTAL BLUE ROUNDED RECTANGLE PLATE. Top and bottom edges are parallel horizontal straight lines across the middle 80 percent. No curved ribbon, arch, perspective, bulge, concavity, swoop or waving flags. Small checkered RECTANGULAR end caps only outside text safe area. Plain uniform blue or VERTICAL blue gradient middle, no illustration or motifs in middle, horizontally 9-slice stretchable. Title letters all have identical font size, upright, on ONE perfectly straight horizontal baseline, centered, white with a soft dark blue outline. Never wrap title. Make enough width for title. Plate overlaps modal top edge. Preserve rounded cream body and soft miniature depth elsewhere. Maximum one orange primary; secondary blue. Match reference materials. Do not bend title or plate. Title \"Cài đặt\". NO garage, car illustration or other hero art inside popup. Only inset controls with section \"ÂM THANH\", cream rows: musical note icon \"Nhạc nền\" blue ON toggle; speaker icon \"Hiệu ứng âm thanh\" blue ON toggle; globe icon \"Ngôn ngữ\" blue selector \"Tiếng Việt\". Large readable rows. Footer one BLUE button \"Đóng\", no orange because settings apply immediately. Small blue close X.",
+      "output_size": [
+        852,
+        1846
+      ]
+    },
+    {
+      "file": "02_race_result.png",
+      "prompt": "Use case: ui-mockup. Generate ONE complete portrait mobile idle racing game popup concept, 852x1846 pixels, aspect ratio 390:845. Use input image as STYLE REFERENCE, not a literal layout to reproduce. Premium soft miniature toy diorama art, ivory cream, bright sky blue, navy text, plush bevels, ambient occlusion, controlled gloss, readable bold Vietnamese. Dimmed recognizable harbor circuit racing game background, miniature cars, resource HUD, upgrade rows, bottom five tabs Shop / Túi / Đua / Đội / Giải, center Đua selected. No phone bezel or design annotations. One main cream modal about 350 logical pixels wide with thick rounded blue border, inset sky-blue content window with cream bevel and cream information cards, separate light-blue footer strip with seam.\nCRITICAL REDESIGN: TITLE IS A PERFECTLY FLAT STRAIGHT HORIZONTAL BLUE ROUNDED RECTANGLE PLATE. Top and bottom edges are parallel horizontal straight lines across the middle 80 percent. No curved ribbon, arch, perspective, bulge, concavity, swoop or waving flags. Small checkered RECTANGULAR end caps only outside text safe area. Plain uniform blue or VERTICAL blue gradient middle, no illustration or motifs in middle, horizontally 9-slice stretchable. Title letters all have identical font size, upright, on ONE perfectly straight horizontal baseline, centered, white with a soft dark blue outline. Never wrap title. Make enough width for title. Plate overlaps modal top edge. Preserve rounded cream body and soft miniature depth elsewhere. Maximum one orange primary; secondary blue. Match reference materials. Do not bend title or plate. Title \"CHIẾN THẮNG\". Small blue/yellow racing car on number-one podium, gold trophy, large \"P1\". Three reward blocks: cash icon \"Tiền\" \"+176\"; trophy \"Cúp\" \"+3 · có 3/100\"; scout icon \"Điểm tuyển (SP)\" \"+14\". Footer ONLY blue recessed automatic countdown bar 65% full, no footer text or button. No other rewards.",
+      "output_size": [
+        852,
+        1846
+      ]
+    },
+    {
+      "file": "03_promotion.png",
+      "prompt": "Use case: ui-mockup. Generate ONE complete portrait mobile idle racing game popup concept, 852x1846 pixels, aspect ratio 390:845. Use input image as STYLE REFERENCE, not a literal layout to reproduce. Premium soft miniature toy diorama art, ivory cream, bright sky blue, navy text, plush bevels, ambient occlusion, controlled gloss, readable bold Vietnamese. Dimmed recognizable harbor circuit racing game background, miniature cars, resource HUD, upgrade rows, bottom five tabs Shop / Túi / Đua / Đội / Giải, center Đua selected. No phone bezel or design annotations. One main cream modal about 350 logical pixels wide with thick rounded blue border, inset sky-blue content window with cream bevel and cream information cards, separate light-blue footer strip with seam.\nCRITICAL REDESIGN: TITLE IS A PERFECTLY FLAT STRAIGHT HORIZONTAL BLUE ROUNDED RECTANGLE PLATE. Top and bottom edges are parallel horizontal straight lines across the middle 80 percent. No curved ribbon, arch, perspective, bulge, concavity, swoop or waving flags. Small checkered RECTANGULAR end caps only outside text safe area. Plain uniform blue or VERTICAL blue gradient middle, no illustration or motifs in middle, horizontally 9-slice stretchable. Title letters all have identical font size, upright, on ONE perfectly straight horizontal baseline, centered, white with a soft dark blue outline. Never wrap title. Make enough width for title. Plate overlaps modal top edge. Preserve rounded cream body and soft miniature depth elsewhere. Maximum one orange primary; secondary blue. Match reference materials. Do not bend title or plate. Title \"Thăng hạng\". Bronze shield \"Tập sự\" arrow to blue shield \"Bán chuyên\". Cream requirements block: \"Doanh thu\" check \"120 / 120\"; \"Hạng xe\" check \"1 / 1\"; \"Phí\" check \"2,54M / 2,54M\". Cream reward block with cash bundles and purple gem \"2B · +50 gem\". Navy warning \"Doanh thu về cấp 0.\". Footer one orange button \"Thăng hạng\", blue X.",
+      "output_size": [
+        852,
+        1846
+      ]
+    },
+    {
+      "file": "04_gear_result.png",
+      "prompt": "Use case: ui-mockup. Generate ONE complete portrait mobile idle racing game popup concept, 852x1846 pixels, aspect ratio 390:845. Use input image as STYLE REFERENCE, not a literal layout to reproduce. Premium soft miniature toy diorama art, ivory cream, bright sky blue, navy text, plush bevels, ambient occlusion, controlled gloss, readable bold Vietnamese. Dimmed recognizable harbor circuit racing game background, miniature cars, resource HUD, upgrade rows, bottom five tabs Shop / Túi / Đua / Đội / Giải, center Đua selected. No phone bezel or design annotations. One main cream modal about 350 logical pixels wide with thick rounded blue border, inset sky-blue content window with cream bevel and cream information cards, separate light-blue footer strip with seam.\nCRITICAL REDESIGN: TITLE IS A PERFECTLY FLAT STRAIGHT HORIZONTAL BLUE ROUNDED RECTANGLE PLATE. Top and bottom edges are parallel horizontal straight lines across the middle 80 percent. No curved ribbon, arch, perspective, bulge, concavity, swoop or waving flags. Small checkered RECTANGULAR end caps only outside text safe area. Plain uniform blue or VERTICAL blue gradient middle, no illustration or motifs in middle, horizontally 9-slice stretchable. Title letters all have identical font size, upright, on ONE perfectly straight horizontal baseline, centered, white with a soft dark blue outline. Never wrap title. Make enough width for title. Plate overlaps modal top edge. Preserve rounded cream body and soft miniature depth elsewhere. Maximum one orange primary; secondary blue. Match reference materials. Do not bend title or plate. Title \"Kết quả mở gói\" ONE LINE. Small subtitle \"Đã dùng 1 coupon\". Inset blue showcase contains ONE large pair of red/blue racing gloves, subtle rare blue glow. Cream plaque \"Racing Gloves · Rare\", then \"Mới\". English name is deliberate. Footer one orange \"Xong\". No equip, retry, stats or extra rewards.",
+      "output_size": [
+        852,
+        1846
+      ]
+    },
+    {
+      "file": "05_iap_detail.png",
+      "prompt": "Use case: ui-mockup. Generate ONE complete portrait mobile idle racing game popup concept, 852x1846 pixels, aspect ratio 390:845. Use input image as STYLE REFERENCE, not a literal layout to reproduce. Premium soft miniature toy diorama art, ivory cream, bright sky blue, navy text, plush bevels, ambient occlusion, controlled gloss, readable bold Vietnamese. Dimmed recognizable harbor circuit racing game background, miniature cars, resource HUD, upgrade rows, bottom five tabs Shop / Túi / Đua / Đội / Giải, center Đua selected. No phone bezel or design annotations. One main cream modal about 350 logical pixels wide with thick rounded blue border, inset sky-blue content window with cream bevel and cream information cards, separate light-blue footer strip with seam.\nCRITICAL REDESIGN: TITLE IS A PERFECTLY FLAT STRAIGHT HORIZONTAL BLUE ROUNDED RECTANGLE PLATE. Top and bottom edges are parallel horizontal straight lines across the middle 80 percent. No curved ribbon, arch, perspective, bulge, concavity, swoop or waving flags. Small checkered RECTANGULAR end caps only outside text safe area. Plain uniform blue or VERTICAL blue gradient middle, no illustration or motifs in middle, horizontally 9-slice stretchable. Title letters all have identical font size, upright, on ONE perfectly straight horizontal baseline, centered, white with a soft dark blue outline. Never wrap title. Make enough width for title. Plate overlaps modal top edge. Preserve rounded cream body and soft miniature depth elsewhere. Maximum one orange primary; secondary blue. Match reference materials. Do not bend title or plate. Title \"600 gem\". Inset showcase open blue/cream chest overflowing with purple gems only, no coins/tickets. Cream reward plaque purple gem icon large \"600\" and unit \"gem\". Footer one orange purchase button \"$9.99\". Blue X. Returning purchase, no bonus, x2, timer, discount or other pack choices.",
+      "output_size": [
+        852,
+        1846
+      ]
+    },
+    {
+      "file": "06_daily_rewards.png",
+      "prompt": "Use case: ui-mockup. Generate ONE complete portrait mobile idle racing game popup concept, 852x1846 pixels, aspect ratio 390:845. Use input image as STYLE REFERENCE, not a literal layout to reproduce. Premium soft miniature toy diorama art, ivory cream, bright sky blue, navy text, plush bevels, ambient occlusion, controlled gloss, readable bold Vietnamese. Dimmed recognizable harbor circuit racing game background, miniature cars, resource HUD, upgrade rows, bottom five tabs Shop / Túi / Đua / Đội / Giải, center Đua selected. No phone bezel or design annotations. One main cream modal about 350 logical pixels wide with thick rounded blue border, inset sky-blue content window with cream bevel and cream information cards, separate light-blue footer strip with seam.\nCRITICAL REDESIGN: TITLE IS A PERFECTLY FLAT STRAIGHT HORIZONTAL BLUE ROUNDED RECTANGLE PLATE. Top and bottom edges are parallel horizontal straight lines across the middle 80 percent. No curved ribbon, arch, perspective, bulge, concavity, swoop or waving flags. Small checkered RECTANGULAR end caps only outside text safe area. Plain uniform blue or VERTICAL blue gradient middle, no illustration or motifs in middle, horizontally 9-slice stretchable. Title letters all have identical font size, upright, on ONE perfectly straight horizontal baseline, centered, white with a soft dark blue outline. Never wrap title. Make enough width for title. Plate overlaps modal top edge. Preserve rounded cream body and soft miniature depth elsewhere. Maximum one orange primary; secondary blue. Match reference materials. Do not bend title or plate. Title \"QUÀ HẰNG NGÀY\" ONE LINE. Very concise icon-led daily reward layout. Remove ALL subtitles, claimed pill, special-gift captions, milestones heading and countdown hints. Inset blue window: 2 rows of 3 cream day cells. Each contains ONLY a small number badge, large reward icon and short amount. Day 1 badge \"1\" blue Pro DRIVER ticket icon with helmet motif \"x2\", gold outline indicates available; day 2 \"2\" blue Standard GEAR ticket with wrench motif \"x2\"; day 3 \"3\" purple gem \"15\"; day 4 \"4\" gold All-Star DRIVER ticket \"x1\"; day 5 \"5\" purple Elite GEAR ticket \"x1\"; day 6 \"6\" purple gem \"20\". No words on tickets or reward cards. Wide day-7 cell badge \"7\", big blue gift with gold bow, gold All-Star driver ticket \"x2\" and purple gem \"30\" ONLY. Milestone strip has four columns with reward icons and amounts and day labels \"10 ngày\", \"20 ngày\", \"30 ngày\", \"40 ngày\". At 10: purple gem \"40\"; 20 gold driver ticket \"x2\"; 30 purple gem \"80\" plus gold driver ticket \"x2\"; 40 purple gem \"40\". Simple empty progress bar below, no text on bar. NO \"QUÀ TÍCH LŨY\", no \"Đã nhận\", no \"Còn\", no \"Hoàn thành\", no \"HÔM NAY\", no ticket tier words, no reward unit words. Footer orange \"NHẬN\" plus smaller blue video play icon \"x2\". Blue close X. Generous icon scale and whitespace; lean interface.",
+      "output_size": [
+        852,
+        1846
+      ]
+    },
+    {
+      "file": "title_plate_reference.png",
+      "output_size": [
+        852,
+        1846
+      ]
+    }
+  ],
+  "notes": [
+    "Settings retains blue Close; race result retains automatic progress bar, matching v1 behavior.",
+    "No game code, git, or v1 assets changed.",
+    "Reference title widths follow text length at constant font size."
+  ],
+  "generation_outputs": {
+    "00_offline_income.png": {
+      "source": "/home/thupv/.codex/generated_images/01a1f6cc-38b7-7660-9eea-759188b8747f/exec-d0928f73-415c-4442-9019-95acbf8ce377.png",
+      "source_size": [
+        934,
+        1684
+      ],
+      "saved_size": [
+        852,
+        1846
+      ]
+    },
+    "01_settings.png": {
+      "source": "/home/thupv/.codex/generated_images/01a1f6cc-38b7-7660-9eea-759188b8747f/exec-6a428cfc-7d85-4886-bc78-7b9bf2f20e52.png",
+      "source_size": [
+        934,
+        1684
+      ],
+      "saved_size": [
+        852,
+        1846
+      ]
+    },
+    "02_race_result.png": {
+      "source": "/home/thupv/.codex/generated_images/01a1f6cc-38b7-7660-9eea-759188b8747f/exec-1c4aa0ec-2b83-4b37-8748-cd516fb525e2.png",
+      "source_size": [
+        934,
+        1684
+      ],
+      "saved_size": [
+        852,
+        1846
+      ]
+    },
+    "03_promotion.png": {
+      "source": "/home/thupv/.codex/generated_images/01a1f6cc-38b7-7660-9eea-759188b8747f/exec-42f6e8c6-57a3-412e-94ee-6ae5e0972aaa.png",
+      "source_size": [
+        934,
+        1684
+      ],
+      "saved_size": [
+        852,
+        1846
+      ]
+    },
+    "04_gear_result.png": {
+      "source": "/home/thupv/.codex/generated_images/01a1f6cc-38b7-7660-9eea-759188b8747f/exec-52b54848-26e1-40cb-82de-5066591c1519.png",
+      "source_size": [
+        934,
+        1684
+      ],
+      "saved_size": [
+        852,
+        1846
+      ]
+    },
+    "05_iap_detail.png": {
+      "source": "/home/thupv/.codex/generated_images/01a1f6cc-38b7-7660-9eea-759188b8747f/exec-e44f1376-d36f-4c27-908b-4d0a00c6c39f.png",
+      "source_size": [
+        934,
+        1684
+      ],
+      "saved_size": [
+        852,
+        1846
+      ]
+    },
+    "06_daily_rewards.png": {
+      "source": "/home/thupv/.codex/generated_images/01a1f6cc-38b7-7660-9eea-759188b8747f/exec-a094ad2a-721e-40eb-a336-03daca300939.png",
+      "source_size": [
+        934,
+        1684
+      ],
+      "saved_size": [
+        852,
+        1846
+      ]
+    },
+    "title_plate_reference.png": {
+      "source": "/home/thupv/.codex/generated_images/01a1f6cc-38b7-7660-9eea-759188b8747f/exec-3756f673-87d6-484d-82d7-5d9c4615b87c.png",
+      "source_size": [
+        934,
+        1684
+      ],
+      "saved_size": [
+        852,
+        1846
+      ]
+    }
+  },
+  "postprocessing": "Lanczos resampling to requested 852x1846 canvas; no content retouching.",
+  "visual_qa": {
+    "all": "Inspected all eight renders. Straight horizontal title plates and single-line titles. Cream bodies, blue borders, inset windows, light-blue footers retained. All saved PNG dimensions verified at 852x1846.",
+    "00_offline_income.png": "Garage, car, clock, +28,8K, 120/120 phút and Tiếp tục preserved.",
+    "01_settings.png": "Control rows only; no garage hero illustration; blue Đóng button.",
+    "02_race_result.png": "P1, +176, +3 with 3/100, +14 SP, countdown bar without action.",
+    "03_promotion.png": "League transition, three requirements, 2B and +50 gem, reset warning, orange promotion button.",
+    "04_gear_result.png": "Single gloves reward, coupon note, English item name and rarity, Xong.",
+    "05_iap_detail.png": "600 purple gems and $9.99, no bonus or pack selector.",
+    "06_daily_rewards.png": "Seven day badges, icons and amounts only; milestone rewards at 10/20/30/40 days; empty progress bar; NHẬN and video x2. Removed verbose captions.",
+    "title_plate_reference.png": "Three straight plates on neutral background, constant type size, widths follow actual title lengths."
+  }
+}

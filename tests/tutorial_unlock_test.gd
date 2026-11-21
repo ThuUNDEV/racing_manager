@@ -177,8 +177,6 @@ func run() -> void:
 	main._overlay.hide()
 	var engine: Dictionary = main._row_of("engine")
 	check((engine["tile"] as Control).modulate == Color.WHITE and not (engine["eff"] as Label).text.begins_with("Mở sau"), "ô nâng cấp không bị khóa")
-	main._show_profile()
-	check(not main._profile.visible, "hồ sơ khóa")
 	main._show_classes()
 	check(not main._class_page.visible, "trang Class khóa")
 
