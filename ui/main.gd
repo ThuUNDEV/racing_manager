@@ -1117,13 +1117,15 @@ func _show_gear_info(pack_id: String) -> void:
 
 
 func _on_gear_open(pack_id: String, count: int) -> void:
+	if _pack_is_opening():
+		return
 	var out := GameState.open_gear_pack(pack_id, count)
 	if out.is_empty():
 		_show_toast(I18n.t("main.cannot_open_pack_check_gems"))
 		_gear.refresh()
 		return
-	_sfx("daily_gift")
 	_show_gear_result(out)
+	_animate_pack_opening("gear", pack_id, count)
 	_gear.refresh()
 
 
@@ -1166,12 +1168,19 @@ func _show_driver_info(pack_id: String) -> void:
 
 
 func _on_driver_open(pack_id: String, count: int) -> void:
+	if _pack_is_opening():
+		return
 	var out := GameState.open_driver_pack(pack_id, count)
 	if out.is_empty():
 		_show_toast(I18n.t("main.cannot_open_pack_check_gems"))
 		_roster.refresh()
 		return
-	_sfx("daily_gift")
+	_show_driver_result(out)
+	_animate_pack_opening("driver", pack_id, count)
+	_roster.refresh()
+
+
+func _show_driver_result(out: Dictionary) -> void:
 	_begin_overlay()
 	_overlay_box.add_child(_label(I18n.t("main.pack_results"), 18))
 	var pay: Dictionary = out["payment"]
@@ -1188,10 +1197,43 @@ func _on_driver_open(pack_id: String, count: int) -> void:
 		reward_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		reward.add_child(reward_text)
 		_overlay_box.add_child(reward)
-	var ok := _button("Xong", true)
+	var ok := _button(I18n.t("main.done"), true)
 	ok.pressed.connect(func() -> void: _close_overlay())
 	_overlay_box.add_child(ok)
-	_roster.refresh()
+
+
+func _pack_is_opening() -> bool:
+	var opening := _overlay_box.get_node_or_null("PackOpening")
+	return _overlay.visible and opening != null and not opening.completed
+
+
+func _animate_pack_opening(kind: String, pack_id: String, count: int) -> void:
+	# Keep the committed result in this same overlay. Closing or replacing it
+	# destroys the animation too, so a delayed callback cannot reopen a popup.
+	var results := VBoxContainer.new()
+	results.name = "PackResultContent"
+	results.add_theme_constant_override("separation", 8)
+	for child in _overlay_box.get_children():
+		_overlay_box.remove_child(child)
+		results.add_child(child)
+	results.hide()
+	_overlay_box.add_child(results)
+	var opening := preload("res://ui/pack_opening.gd").new()
+	var pack := GameData.driver_pack(pack_id) if kind == "driver" else GameData.gear_pack(pack_id)
+	var art_path := "res://assets/shop_horizontal_v1/pack_%s_%s.png" % [kind, pack_id]
+	opening.setup(load(art_path) as Texture2D, "%s ×%d" % [String(pack.get("name", "")), count], pack_id in ["elite", "allstar"])
+	opening.finished.connect(func() -> void:
+		if not _overlay.visible or not results.is_inside_tree():
+			return
+		results.show()
+		_sfx("daily_gift")
+		if PopupAnim.motion_on():
+			results.modulate.a = 0.0
+			results.create_tween().tween_property(results, "modulate:a", 1.0, 0.22)
+		_fit_overlay.call_deferred())
+	_overlay_box.add_child(opening)
+	_overlay_box.move_child(opening, 0)
+	_fit_overlay.call_deferred()
 
 
 func _on_gear_upgrade(gear_id: String) -> void:

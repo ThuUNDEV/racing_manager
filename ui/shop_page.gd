@@ -286,7 +286,7 @@ func _free_ad(tile: Dictionary, placement: String) -> void:
 	var status := _text("", 11, MUTED)
 	status.hide()
 	(tile["card"] as Control).add_child(status)
-	_ad_buttons[placement] = {"button": button, "status": status, "reference": true, "price_font": 14}
+	_ad_buttons[placement] = {"button": button, "status": status, "card": tile["card"], "reference": true, "price_font": 14}
 
 
 const OFFER_TEXT := {
@@ -895,6 +895,9 @@ func update_ads(view: Dictionary) -> void:
 			entry = {"state": "save"}
 		var button: Button = _ad_buttons[pl]["button"]
 		var status: Label = _ad_buttons[pl]["status"]
+		var card := _ad_buttons[pl].get("card") as Control
+		if card != null:
+			card.visible = String(entry.get("state", "none")) != "locked"
 		var reward := String(entry.get("reward", ""))
 		var free := bool(entry.get("entitled", false))
 		if bool(_ad_buttons[pl].get("reference", false)):
@@ -933,6 +936,7 @@ func update_ads(view: Dictionary) -> void:
 			button.text = button.text.trim_prefix("▶ ")
 		if bool(_ad_buttons[pl].get("reference", false)):
 			ShopSkin.price_text(button, int(_ad_buttons[pl].get("price_font", 34)), UnitScale.unit_of(button))
+	_sync_sections()
 
 
 func _g_card(parent: Node, art_id: String) -> ShopGridCard:
