@@ -14,11 +14,11 @@
 
 **Nhịp 1:**
 
-> Cúp là phần thưởng cho những lần về top 3. Mình có thể dùng chúng để cải thiện chỉ số của đội, bên cạnh nâng xe bằng tiền.
+> Sếp nhớ những chiếc cúp mình mang về chứ? Giờ dùng chúng để đầu tư thêm cho đội được rồi.
 
 **Nhịp 2:**
 
-> Thử nâng tốc độ nhé, Sếp. Bấm nút %d cúp này để mua một cấp.
+> Mình thử nâng tốc độ nhé, cần %d cúp. Sếp bấm nút này, tôi ghi lại chỉ số cho đội.
 
 Khóa lời thoại: `data.tutorial.finish_top_3_earn_trophies`.
 
@@ -26,7 +26,7 @@ Khóa lời thoại: `data.tutorial.finish_top_3_earn_trophies`.
 
 **Nhịp 1:**
 
-> Xong rồi! Thưởng tốc độ từ nâng cấp này: +%d → +%d. Lượt đua sau đội sẽ dùng chỉ số mới.
+> Thưởng tốc độ từ nâng cấp này: +%d → +%d rồi! Tôi ghi vào phần chuẩn bị, lượt đua tiếp theo sẽ áp dụng.
 
 Khóa lời thoại: `tutorial.trophy.upgraded`.
 

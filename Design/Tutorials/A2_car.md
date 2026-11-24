@@ -14,11 +14,11 @@
 
 **Nhịp 1:**
 
-> Xe mình đây, Sếp! Nhìn nó ra đường đua, tôi vẫn hồi hộp như lần đầu.
+> Chiếc xe được khoanh sáng là xe mình đấy! Mỗi lần thấy nó ra đường đua, tôi vẫn hồi hộp.
 
 **Nhịp 2:**
 
-> Tay đua sẽ tự thi đấu. Mình theo dõi hạng ở góc trên, rồi tính cách giúp xe chạy tốt hơn ở lượt sau nhé.
+> Tay đua tự lo trên đường. Mình theo dõi hạng ở góc trên nhé, rồi chuẩn bị cho lượt tiếp theo.
 
 Khóa lời thoại: `tutorial.this_race_window_glowing_dot`.
 

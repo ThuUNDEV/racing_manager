@@ -38,7 +38,7 @@ func run() -> void:
 	GameData.reload()
 	Tutorial.reload()
 	check(Tutorial.validate().is_empty(), "all lesson definitions are valid")
-	check(Tutorial.Catalog.group("onboarding").size() == 6 and Tutorial.features().size() == 6 and Tutorial.tips().size() == 5, "six onboarding lessons, six feature lessons and five contextual tips")
+	check(Tutorial.Catalog.group("onboarding").size() == 6 and Tutorial.features().size() == 5 and Tutorial.tips().size() == 5, "sáu bài làm quen, năm bài tính năng và năm mẹo theo tình huống")
 	for group in ["onboarding", "features", "tips"]:
 		for item: Dictionary in Tutorial.Catalog.group(group):
 			check(FileAccess.file_exists(item["source"]) and not String(item["purpose"]).is_empty(), "%s owns its source and purpose" % item["id"])
@@ -96,6 +96,7 @@ func run() -> void:
 	check(Tutorial.intro_seen(state, "U4_shop") and Tutorial.lesson_progress("U4_shop", state)["status"] == "done", "acknowledgement completes only the gear lesson")
 	check(Tutorial.lesson_progress("U5_drivers", state)["status"] == "new", "driver recruitment remains independent")
 	check(tut.start_lesson("A3_income"), "preview just the income lesson")
+	tut._process(Tutorial.RUN_BEFORE_A3_SEC)
 	tut._process(0.1)
 	tut._on_primary()
 	tut._process(0.1)
@@ -108,9 +109,9 @@ func run() -> void:
 	tut._on_primary()
 	check(not tut.running and Tutorial.lesson_progress("A3_income", state)["status"] == "done", "one-lesson preview stops without starting the engine tutorial")
 	state.tutorial = {"state": "active", "step": "A4_engine", "intro_seen": ["U2_league"]}
-	check(Tutorial.lesson_progress("A3_income", state)["status"] == "done" and not Tutorial.intro_seen(state, "U2_league"), "legacy onboarding is preserved while the old text-only trophy intro remains eligible for the practical lesson")
+	check(Tutorial.lesson_progress("A3_income", state)["status"] == "new" and not Tutorial.intro_seen(state, "U2_league"), "legacy onboarding is preserved while the old text-only trophy intro remains eligible for the practical lesson")
 	state.tutorial = {"state": "active", "step": "A3_income", "lessons": {"A3_income": {"status": "done"}}}
-	check(Tutorial.resume_step(state) == "A4_engine", "completed checkpoint advances even if the old scheduler pointer was saved")
+	check(Tutorial.resume_step(state) == "A6_result", "completed checkpoint advances even if the old scheduler pointer was saved")
 	state.tutorial["lessons"]["U4_shop"] = {"status": "done"}
 	check(Tutorial.intro_seen(state, "U4_shop"), "completion checkpoint prevents replay before the legacy seen flag is written")
 	var cleaned: Dictionary = state._clean_lesson_progress({"U4_shop": {"status": "active", "sub": 999, "page": 999}, "unknown": {"status": "done"}})

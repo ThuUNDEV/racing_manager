@@ -7,9 +7,9 @@ GOALS = {
     'A1_welcome': ('Nhận đội', 'Biết Linh là ai và mục tiêu cùng xây dựng đội đua.'),
     'A2_car': ('Theo dõi cuộc đua', 'Nhận ra xe của đội, hiểu xe tự đua và biết xem hạng.'),
     'A3_income': ('Nguồn tiền', 'Tìm ô tiền mỗi giây, hiểu các yếu tố tác động, tự nâng doanh thu và quan sát số tăng ngay.'),
-    'A4_engine': ('Nâng Động cơ đầu tiên', 'Mua một cấp Động cơ và hiểu nâng cấp áp dụng từ lượt sau.'),
+    'A4_engine': ('Nâng Power đầu tiên', 'Hiểu Power, nâng Động cơ, xem Power trên HUD tăng ngay và hiểu hiệu quả đua áp dụng từ lượt sau.'),
     'A6_result': ('Kết quả cuộc đua', 'Phân biệt tiền thưởng lượt đua với cúp dành cho top 3.'),
-    'A7_race2': ('Sức mạnh đội', 'Nhìn thấy nâng cấp được áp dụng và hiểu ý nghĩa Power.'),
+    'A7_race2': ('Sếp tiếp quản', 'Kết thúc làm quen bằng lời dẫn theo thành tích; không lặp hướng dẫn nâng Power.'),
     'U2_league': ('Nâng cấp bằng cúp', 'Tự dùng cúp mua một nâng cấp tốc độ, xem chỉ số trước–sau và hiểu áp dụng từ lượt tiếp theo.'),
     'U4_shop': ('Mở phụ kiện đầu tiên', 'Dùng coupon mở đúng một gói và hiểu phụ kiện tăng Power cho đội.'),
     'U3_bag': ('Quản lý phụ kiện', 'Biết Túi giữ phụ kiện, đồ trùng thành mảnh và đủ mảnh thì nâng cấp.'),
@@ -62,6 +62,10 @@ def main():
                    '**Hoàn thành:** ' + FINISH[lesson['completion']],
                    f'**Nguồn chạy thật:** [{relative}](../../{relative}).',
                    '## Kịch bản']
+            if id == 'A4_engine':
+                out.append('Luồng mới: stage 4 (giải thích Power) → stage 0 (mua Động cơ thật) → stage 3 (chỉ thanh thông báo Power tăng, so sánh trước–sau và mức tăng màu xanh) → stage 1 (hiệu quả từ lượt sau). Thanh Power được giữ đến khi bấm Tiếp. Stage 2 chỉ nhắc khi thiếu tiền. Sau đó chuyển sang Doanh thu; giữ số stage cũ để tương thích save.')
+            if id == 'A7_race2':
+                out.append('Luồng hiện hành vào thẳng stage 2, chỉ lời kết. Stage 0/1 không chạy, kể cả khi tiếp tục save cũ, để không lặp hướng dẫn nâng Power. Không chờ lượt đua tiếp theo.')
             for stage, spec in lesson['stages'].items():
                 variants = spec.get('variants', {'': spec})
                 for variant, text_spec in variants.items():
@@ -86,8 +90,9 @@ def main():
               '`tutorial_lessons_test.gd` kiểm tra từng định nghĩa, chạy riêng, save giữa thao tác, save sau mở gói, không chi tiền lặp và tương thích save cũ. Các test tutorial hiện có vẫn kiểm tra luồng toàn game.']
     # Keep the comparison table contiguous in Markdown.
     intro = '\n\n'.join(index[:3])
-    table = '\n'.join(index[3:21])
-    rest = '\n\n'.join(index[21:])
+    table_end = index.index('## Thứ tự và điều phối')
+    table = '\n'.join(index[3:table_end])
+    rest = '\n\n'.join(index[table_end:])
     (destination / 'README.md').write_text(intro + '\n\n' + table + '\n\n' + rest + '\n')
 
 

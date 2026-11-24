@@ -653,7 +653,7 @@
  "tutorial.you_have_trophies_enough_upgrade": "老板有%d个奖杯——足够在联赛页升级了！\n只有跑进前三才能获得奖杯。",
  "tutorial.income.sources": "这里是收入升级。Ticket Marketing、Victory Celebrations和Parking增加收入，Grandstands则提供收入倍率。星级里程碑、设施和收入加成也会影响每秒收入。",
  "tutorial.income.upgrade": "点击这个%s现金按钮，将Ticket Marketing升级一次，再看看收入有什么变化！",
- "tutorial.income.increased": "再看收入栏：每秒%s → %s现金！收入升级立即生效，不用等到下一场比赛。",
+ "tutorial.income.increased": "看看收入：每秒%s → %s！收益升级立即生效。\n\n多出的资金能让我们继续建设车队。现在一起看看比赛吧！",
  "tutorial.income.waiting": "升级Ticket Marketing还差一点钱，等收入积累一会儿吧。",
  "tutorial.trophy.upgraded": "完成！这项升级的速度加成：+%d → +%d。新属性将在下一场比赛生效。",
  "trophy.prestige": "Prestige %d / %d",
@@ -690,5 +690,8 @@
  "promotion.action": "晋级",
  "promotion.promoted": "已晋级至%s！",
  "promotion.failed": "暂时无法晋级。",
- "promotion.reward_gems": "+%d 宝石"
+ "promotion.reward_gems": "+%d 宝石",
+  "tutorial.story.first_win": "P%d！老板，我们第一个冲线了！我得腾个地方放第一座奖杯！还拿到了%s奖金。",
+  "tutorial.story.already_has_trophy": "拿到第一座奖杯，我又想再拿一座了。老板，接下来往哪里投资，由您决定！\n\n我来准备赛车。有了新选择，我马上告诉您！",
+ "tutorial.power.increased": "老板，看看Power显示：%s → %s！升级引擎后，车队实力立刻提升了。"
 }

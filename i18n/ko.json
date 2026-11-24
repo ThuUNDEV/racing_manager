@@ -653,7 +653,7 @@
  "tutorial.you_have_trophies_enough_upgrade": "보스는 트로피 %d개를 가지고 있어요 — 리그 탭에서 업그레이드할 수 있어요!\n트로피는 3위 안에 들어야만 받을 수 있어요.",
  "tutorial.income.sources": "여기가 수입 업그레이드입니다. Ticket Marketing, Victory Celebrations, Parking은 수입을 더하고 Grandstands는 배율을 적용합니다. 별 달성, 시설, 수입 부스트도 영향을 줍니다.",
  "tutorial.income.upgrade": "%s 캐시 버튼으로 Ticket Marketing을 한 번 업그레이드하고 수입이 어떻게 변하는지 확인해 보세요!",
- "tutorial.income.increased": "수입을 다시 보세요: 초당 %s → %s 캐시! 수입 업그레이드는 다음 경주를 기다리지 않고 즉시 적용됩니다.",
+ "tutorial.income.increased": "수입을 보세요. 초당 %s → %s! 수입 강화는 바로 적용돼요.\n\n늘어난 자금으로 팀을 계속 키울 수 있겠어요. 이제 경기를 지켜봐요!",
  "tutorial.income.waiting": "Ticket Marketing을 업그레이드할 돈이 조금 부족합니다. 수입이 모일 때까지 기다려 주세요.",
  "tutorial.trophy.upgraded": "완료! 이 업그레이드의 속도 보너스: +%d → +%d. 새 능력치는 다음 경주부터 적용됩니다.",
  "trophy.prestige": "Prestige %d / %d",
@@ -690,5 +690,8 @@
  "promotion.action": "승격",
  "promotion.promoted": "%s(으)로 승격!",
  "promotion.failed": "아직 승격할 수 없습니다.",
- "promotion.reward_gems": "+%d 젬"
+ "promotion.reward_gems": "+%d 젬",
+  "tutorial.story.first_win": "P%d! 사장님, 우리 차가 1등으로 들어왔어요! 첫 트로피를 놓을 자리를 마련해야겠어요! 상금도 %s 받았어요.",
+  "tutorial.story.already_has_trophy": "첫 트로피를 얻으니 하나 더 갖고 싶네요. 사장님, 다음 투자 방향을 골라 주세요!\n\n저는 차를 준비할게요. 새로운 선택지가 생기면 바로 알려 드릴게요!",
+ "tutorial.power.increased": "사장님, Power 표시를 보세요. %s → %s! 엔진을 강화하니 팀 전력이 바로 올랐어요."
 }

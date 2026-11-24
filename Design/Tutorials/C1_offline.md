@@ -14,7 +14,7 @@
 
 **Nhịp 1:**
 
-> Sếp quay lại rồi! Lúc Sếp vắng, đội vẫn thu được %d%% doanh thu, tối đa %d giờ. Mình có thêm tiền để tiếp tục chăm chút cho đội.
+> Sếp về rồi! Trong lúc Sếp vắng, đội vẫn tích được %d%% doanh thu, tối đa %d giờ. Vào xem mình làm được gì tiếp nhé?
 
 Khóa lời thoại: `tutorial.while_you_re_away_team`.
 

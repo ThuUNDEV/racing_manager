@@ -10,7 +10,7 @@ signal reveal_requested(step: String)  # main cuộn trang tới mục tiêu (ô
 
 const C_RING := Color("ffae35")
 const C_DIM := Color(0.035, 0.09, 0.16, 0.58)
-const C_DIM_LIGHT := Color(0.035, 0.09, 0.16, 0.40)  # vòng tròn quanh xe: nền nhẹ hơn để vẫn thấy xe
+const C_DIM_LIGHT := Color(0.035, 0.09, 0.16, 0.40)  # ngoài vòng tròn quanh xe; bên trong giữ nguyên độ sáng
 const PORTRAIT_SIZE := Vector2(112, 128)
 const PORTRAIT_RISE := 58.0  # phần Linh nhô lên trên mép khung thoại
 const HAND_PATH := "res://assets/soft_miniature_ui_v1/tutorial/hand.png"
@@ -44,6 +44,7 @@ var nav: String = ""
 var _explained_nav: Dictionary = {}
 var _nav_force: bool = false
 var _money_wait: float = 0.0     # A4: số giây đã chờ đủ tiền (chỉ tính khi đang hiển thị được)
+var _run_wait: float = 0.0       # A3: số giây chạy tự do sau phần Power trước khi dẫn thu nhập
 var _money_nudged: bool = false  # đã nhắc "cần thêm tiền" một lần
 var _blockers: Array = []        # 4 Control chặn chạm quanh vùng sáng (Design/31 §3.1)
 var _tap_advances: bool = false  # chạm vào vùng chặn = bấm nút chính (bước chỉ đọc)
@@ -360,11 +361,23 @@ func _enter(s: String) -> void:
 	_confirm = false
 	_was_shown = false
 	_money_wait = 0.0
+	_run_wait = 0.0
 	_money_nudged = false
 	var progress := Tutorial.lesson_progress(s, GameState)
 	if progress.get("status", "") == "active":
 		sub = int(progress.get("sub", 0))
 		_page = int(progress.get("page", 0))
+	elif s == "A4_engine":
+		sub = 4  # Giới thiệu Power trước khi chỉ nâng Động cơ.
+	if s == "A7_race2" and sub < 2:
+		sub = 2  # Chỉ lời kết; không dạy lại nâng Power, kể cả save cũ ở stage 0/1.
+		_page = 0
+	if s == "A4_engine" and not progress.get("context", {}).has("power_before"):
+		var lessons: Dictionary = GameState.tutorial.get("lessons", {})
+		var checkpoint: Dictionary = lessons.get(s, {})
+		checkpoint["context"] = {"power_before": GameState.team_power()}
+		lessons[s] = checkpoint
+		GameState.tutorial["lessons"] = lessons
 	if s == "A3_income" and Tutorial.income_snapshot(GameState).is_empty():
 		var lessons: Dictionary = GameState.tutorial.get("lessons", {})
 		var checkpoint: Dictionary = lessons.get(s, {})
@@ -407,7 +420,11 @@ func _advance() -> void:
 		"A4_engine":
 			if sub == 0 or sub == 2:
 				return  # chỉ qua bằng thao tác mua thật
-			_enter(Tutorial.next_of(step))
+			if sub in [3, 4]:
+				sub = 1 if sub == 3 else 0
+				_was_shown = false
+			else:
+				_enter(Tutorial.next_of(step))
 		"A6_result":
 			if sub == 0:
 				sub = 1
@@ -416,9 +433,6 @@ func _advance() -> void:
 			result_released.emit()
 			_enter(Tutorial.next_of(step))
 		"A7_race2":
-			if sub < 2:  # 0: Power trước → sau, 1: giải thích Power, 2: câu kết
-				sub += 1
-				return
 			_finish("done")
 		_:
 			_enter(Tutorial.next_of(step))
@@ -427,10 +441,10 @@ func _advance() -> void:
 func _waiting() -> bool:
 	if Tutorial.waits_for_money(step, sub, GameState):
 		return true
+	if step == "A3_income" and sub == 0 and _run_wait < Tutorial.RUN_BEFORE_A3_SEC:
+		return true  # xe chạy và tiền đếm vài giây trước khi giải thích thu nhập
 	if step == "A6_result":
 		return not _holding
-	if step == "A7_race2":
-		return sub == 0 and GameState.phase != "racing"
 	return false
 
 
@@ -508,6 +522,8 @@ func _process(delta: float) -> void:
 	if not running:
 		return
 	if step == "A3_income":
+		if sub == 0 and not blocked and _run_wait < Tutorial.RUN_BEFORE_A3_SEC:
+			_run_wait += delta
 		if sub in [2, 4] and Tutorial.action_done(step, GameState):
 			sub = 3
 			_page = 0
@@ -524,10 +540,12 @@ func _process(delta: float) -> void:
 			_timer = 0.0
 			_was_shown = false
 	if step == "A4_engine":
-		if sub != 1 and Tutorial.action_done(step, GameState):
-			sub = 1
+		if sub in [0, 2, 4] and Tutorial.action_done(step, GameState):
+			var before: float = GameState.tutorial.get("lessons", {}).get(step, {}).get("context", {}).get("power_before", GameState.team_power())
+			sub = 3 if GameState.team_power() > before else 1
 			_timer = 0.0
 			_page = 0
+			_was_shown = false
 		elif sub == 0 and not blocked and Tutorial.waits_for_money(step, sub, GameState):
 			_money_wait += delta
 			if _money_wait >= Tutorial.MONEY_WAIT_SEC and not _money_nudged:
@@ -551,7 +569,7 @@ func _process(delta: float) -> void:
 		var auto := float(Tutorial.AUTO_SEC.get(step, 0.0))
 		if auto > 0.0 and _timer >= auto and not wants_pause():  # đang dừng game: chờ người chơi bấm Tiếp
 			_advance()
-		elif (step == "A4_engine" and sub == 1) or (step == "A7_race2" and sub == 0):
+		elif step == "A4_engine" and sub == 1:
 			if not _story_dialogue() and _timer >= Tutorial.AFTER_SEC:
 				_advance()
 		elif step == "A4_engine" and sub == 2 and _timer >= Tutorial.AFTER_SEC + 1.0:
@@ -699,7 +717,7 @@ func _update_view() -> void:
 		return
 	_skip.visible = false  # đã tắt tính năng bỏ qua tutorial
 	if not _confirm:
-		if step == "A7_race2" or (step == "A4_engine" and sub == 1) or (step == "A3_income" and sub == 3):
+		if step == "A7_race2" or (step == "A4_engine" and sub in [1, 3]) or (step == "A3_income" and sub == 3):
 			expression = "excited"
 		elif step in ["A2_car", "A3_income", "A4_engine"] or (step == "A6_result" and sub == 1):
 			expression = "point"
@@ -743,6 +761,8 @@ func _place_panel() -> void:
 		var r := _local(_target["rect"])
 		if r.get_center().y < size.y * 0.5:
 			pos.y = r.end.y + PORTRAIT_RISE + 12.0
+			if bool(_target.get("hand_clearance", false)) and _target.has("hand"):
+				pos.y += HAND_SIZE.y + 12.0
 		else:
 			pos.y = r.position.y - h - 14.0
 			if bool(_target.get("hand_down", false)):
@@ -781,7 +801,7 @@ func _block_mode() -> String:
 		"A3_income":
 			return "hole" if sub == 2 else ("" if sub == 4 else "all")
 		"A4_engine":
-			return "hole" if sub == 0 else ""
+			return "all" if sub in [3, 4] else ("hole" if sub == 0 else "")
 		"A7_race2":
 			return "all" if sub >= 1 else ""
 	return ""
@@ -851,21 +871,40 @@ func _draw() -> void:
 	var a := 0.55 + 0.45 * sin(_pulse / 1.2 * TAU)
 	var col := Color(C_RING, a)
 	if is_round:
-		# Nền đen phía sau callout; vòng trắng/cam giữ xe dễ nhận biết.
-		draw_rect(Rect2(Vector2.ZERO, size), C_DIM_LIGHT)
 		var c := r.get_center()
 		var rad := minf(r.size.x, r.size.y) * 0.5
+		# Chừa lỗ tròn trong lớp tối để xe và nhãn hạng giữ nguyên độ sáng.
+		_draw_dim_outside(Rect2(c - Vector2.ONE * rad, Vector2.ONE * rad * 2.0), rad, C_DIM_LIGHT)
 		draw_arc(c, rad, 0.0, TAU, 48, Color(1, 1, 1, 0.95), 8.0, true)
 		draw_arc(c, rad, 0.0, TAU, 48, col, 4.5, true)
 		draw_arc(c, rad + 8.0 + 6.0 * (_pulse / 1.2), 0.0, TAU, 48, Color(C_RING, 0.5 * (1.0 - _pulse / 1.2)), 3.0, true)
 		return
 	# Nền đen quanh mục tiêu, giữ ô cần thao tác sáng.
-	draw_rect(Rect2(0, 0, size.x, maxf(0.0, r.position.y)), C_DIM)
-	draw_rect(Rect2(0, r.end.y, size.x, maxf(0.0, size.y - r.end.y)), C_DIM)
-	draw_rect(Rect2(0, r.position.y, maxf(0.0, r.position.x), r.size.y), C_DIM)
-	draw_rect(Rect2(r.end.x, r.position.y, maxf(0.0, size.x - r.end.x), r.size.y), C_DIM)
+	_draw_dim_outside(r, minf(16.0, minf(r.size.x, r.size.y) * 0.5), C_DIM)
+	if r.size.x > 0.0:
+		var sb := StyleBoxFlat.new()
+		sb.draw_center = false
+		sb.border_color = col
+		sb.set_border_width_all(4)
+		sb.set_corner_radius_all(16)
+		sb.corner_detail = 16
+		draw_style_box(sb, r)
+		var halo := StyleBoxFlat.new()
+		halo.draw_center = false
+		halo.border_color = Color(1, 1, 1, 0.9)
+		halo.set_border_width_all(2)
+		halo.set_corner_radius_all(20)
+		halo.corner_detail = 16
+		draw_style_box(halo, r.grow(3.0))
+
+
+## Vẽ nền tối quanh một lỗ bo góc; radius bằng nửa cạnh tạo spotlight tròn.
+func _draw_dim_outside(r: Rect2, radius: float, tint: Color) -> void:
+	draw_rect(Rect2(0, 0, size.x, maxf(0.0, r.position.y)), tint)
+	draw_rect(Rect2(0, r.end.y, size.x, maxf(0.0, size.y - r.end.y)), tint)
+	draw_rect(Rect2(0, r.position.y, maxf(0.0, r.position.x), r.size.y), tint)
+	draw_rect(Rect2(r.end.x, r.position.y, maxf(0.0, size.x - r.end.x), r.size.y), tint)
 	# Bo cả lỗ spotlight để nền tối không để lộ bốn góc vuông ngoài viền.
-	var radius := minf(16.0, minf(r.size.x, r.size.y) * 0.5)
 	if radius > 0.0:
 		var corners := [
 			Vector2(r.position.x, r.position.y),
@@ -884,22 +923,7 @@ func _draw() -> void:
 			for segment in 17:
 				var angle := PI + float(i) * PI * 0.5 + float(segment) / 16.0 * PI * 0.5
 				points.append(centers[i] + Vector2(cos(angle), sin(angle)) * radius)
-			draw_colored_polygon(points, C_DIM)
-	if r.size.x > 0.0:
-		var sb := StyleBoxFlat.new()
-		sb.draw_center = false
-		sb.border_color = col
-		sb.set_border_width_all(4)
-		sb.set_corner_radius_all(16)
-		sb.corner_detail = 16
-		draw_style_box(sb, r)
-		var halo := StyleBoxFlat.new()
-		halo.draw_center = false
-		halo.border_color = Color(1, 1, 1, 0.9)
-		halo.set_border_width_all(2)
-		halo.set_corner_radius_all(20)
-		halo.corner_detail = 16
-		draw_style_box(halo, r.grow(3.0))
+			draw_colored_polygon(points, tint)
 
 
 func _record_progress() -> void:
@@ -916,7 +940,7 @@ func start_lesson(id: String) -> bool:
 	if _active() or Tutorial.lesson(id).is_empty():
 		return false
 	if id in Tutorial.step_ids():
-		GameState.set_lesson_progress(id, "active")
+		GameState.set_lesson_progress(id, "active", 4 if id == "A4_engine" else 0)
 		_single_lesson = id
 		running = true
 		_enter(id)

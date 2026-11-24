@@ -2,7 +2,7 @@
   "id": "A3_income",
   "purpose": "Find the income indicator, understand its modifiers, buy one revenue upgrade and observe the real before/after rate.",
   "trigger": {
-    "after": "A2_car"
+    "after": "A4_engine"
   },
   "completion": "revenue_upgrade_and_acknowledge",
   "stages": {

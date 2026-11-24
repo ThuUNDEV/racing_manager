@@ -5,13 +5,15 @@ const Catalog = preload("res://game/tutorial_catalog.gd")
 ## Chỉ là logic thuần để test được; hiển thị ở ui/tutorial_overlay.gd, tiến độ lưu trong GameState.tutorial.
 
 ## A5 (Ticket Marketing) đã bỏ (Design/31 §3.4b): chỉ hướng dẫn một ô nâng cấp. Giữ id A6/A7 để save cũ vẫn khớp.
-const STEPS := ["A1_welcome", "A2_car", "A3_income", "A4_engine", "A6_result", "A7_race2"]
+const STEPS := ["A1_welcome", "A2_car", "A4_engine", "A3_income", "A6_result", "A7_race2"]
 ## Save cũ đang dừng ở bước đã bỏ: tiếp tục ở bước kế tiếp tương ứng.
 const LEGACY_STEPS := {"A5_ticket": "A6_result"}
 ## Chờ chưa đủ tiền mua ô được chỉ quá số giây này: Linh nhắc một lần, không dừng game.
 const MONEY_WAIT_SEC := 60.0
 ## Bước chỉ đọc: tự qua sau số giây này (thời gian thật) nếu người chơi không bấm Tiếp.
 const AUTO_SEC := {"A2_car": 4.0}
+## Sau phần Power game chạy lại để quan sát thu nhập rồi A3 mới hiện lời dẫn.
+const RUN_BEFORE_A3_SEC := 4.0
 ## Câu phụ sau khi làm xong thao tác ở A4/A5 hoặc câu đầu A7: tự qua sau AFTER_SEC giây.
 const AFTER_SEC := 3.0
 const MENTOR := "Linh"
@@ -73,7 +75,7 @@ static func pauses_game(step: String, sub: int, gs: Node) -> bool:
 		"A3_income":
 			return sub != 4 and not waits_for_money(step, sub, gs)
 		"A4_engine":
-			return sub == 0 and gs.upgrade_state("engine") == "ok"
+			return sub in [3, 4] or (sub == 0 and gs.upgrade_state("engine") == "ok")
 		"A7_race2":
 			return sub == 1  # câu giải thích Power: chờ bấm Tiếp
 	return false
@@ -81,7 +83,7 @@ static func pauses_game(step: String, sub: int, gs: Node) -> bool:
 
 ## Bước chờ sự kiện của vòng đua, không hiện callout cho tới khi sự kiện tới.
 static func waits_for_race(step: String) -> bool:
-	return step == "A6_result" or step == "A7_race2"
+	return step == "A6_result"
 
 
 ## Lời thoại. `sub` là câu thứ mấy trong bước; `ctx` mang số liệu thật (giá, hạng, tiền...).

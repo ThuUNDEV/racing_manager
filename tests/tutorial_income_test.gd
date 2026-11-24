@@ -48,12 +48,20 @@ func run() -> void:
 	var tut = main._tutorial
 	check(tut.start_lesson("A3_income"), "start income lesson independently")
 	tut.blocked = false
+	tut._process(Tutorial.RUN_BEFORE_A3_SEC)
 	tut._process(0.1)
 	var before := Balance.fmt_rate(state.total_online_rate().multiply_ratio(state.income_multiplier(), 1))
 	check(tut._text.text.contains(before) and not Tutorial.action_done("A3_income", state), "show actual boosted income, require another purchase even when ticket is already upgraded")
 	tut._on_primary()
 	tut._process(0.1)
 	check(tut.sub == 1 and tut._target.has("rect"), "point to Revenue before explaining its modifiers")
+	await settle()
+	tut._process(0.1)
+	var revenue_view: Rect2 = main._upgrade_scroll.get_global_rect()
+	for kind: String in Balance.REVENUE:
+		var tile: Control = main._row_of(kind)["tile"]
+		check(revenue_view.encloses(tile.get_global_rect()), "Giới thiệu Thu nhập: ô %s hiện trọn trong vùng cuộn" % kind)
+		check(not tut._panel.get_global_rect().intersects(tile.get_global_rect()), "Thoại không che ô nâng cấp %s" % kind)
 	tut._on_primary()
 	tut._on_primary()
 	tut._process(0.1)
@@ -96,7 +104,7 @@ func run() -> void:
 	check((tut._target["rect"] as Rect2).is_equal_approx(pill.get_global_rect()) and not tut._hand.visible, "show the changed income indicator instead of the purchase button")
 	tut._on_primary()
 	tut._on_primary()
-	check(tut.step == "A4_engine" and Tutorial.lesson_progress("A3_income", state)["status"] == "done", "complete only after the upgrade and result acknowledgement")
+	check(tut.step == "A6_result" and Tutorial.lesson_progress("A3_income", state)["status"] == "done", "complete only after the upgrade and result acknowledgement")
 	main.queue_free()
 	await settle()
 	for path in [state.SAVE_PATH, state.BAK_PATH, state.TMP_PATH]:

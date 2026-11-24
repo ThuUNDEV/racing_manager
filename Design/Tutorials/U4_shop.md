@@ -14,11 +14,11 @@
 
 **Nhịp 1:**
 
-> Ngoài nâng xe, mình còn có thể bổ sung phụ kiện để tăng Power cho cả đội. Tôi muốn thử xem chúng giúp đội tiến bộ thế nào.
+> Tôi tìm được thêm một cách tăng sức mạnh cho đội: phụ kiện. Mình có sẵn một coupon mở gói để thử đây!
 
 **Nhịp 2:**
 
-> Mình được tặng một coupon mở gói phụ kiện. Sếp bấm nút này nhé, lần mở này không tốn gem.
+> Sếp mở gói này nhé. Lần này dùng coupon, không tốn gem.
 
 Khóa lời thoại: `data.tutorial.gear_boosts_driver_stats_open`.
 
@@ -26,7 +26,7 @@ Khóa lời thoại: `data.tutorial.gear_boosts_driver_stats_open`.
 
 **Nhịp 1:**
 
-> Có phụ kiện cho đội rồi, Sếp! Hiện chúng đang cộng thêm %s Power. Mỗi chút sức mạnh đều đáng quý lúc mới bắt đầu thế này.
+> Có kết quả rồi! Phụ kiện hiện đóng góp tổng cộng %s Power cho đội. Mình có thêm một hướng để đầu tư rồi đấy.
 
 Khóa lời thoại: `data.tutorial.duplicates_turn_into_shards_with`.
 

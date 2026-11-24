@@ -14,7 +14,7 @@
 
 **Nhịp 1:**
 
-> Tôi thấy %s có tổng chỉ số tốt hơn người đang lái. Sếp vào Đội xem thử nhé, biết đâu đây là thay đổi mình đang cần.
+> Tôi vừa xem hồ sơ của %s. Tổng chỉ số tốt hơn người đang lái đấy, Sếp vào Đội cân nhắc thử nhé?
 
 Khóa lời thoại: `tutorial.stronger_than_current_driver_pick`.
 

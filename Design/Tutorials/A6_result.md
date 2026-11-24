@@ -2,7 +2,7 @@
 
 **Mục đích:** Phân biệt tiền thưởng lượt đua với cúp dành cho top 3.
 
-**Bắt đầu:** Sau tutorial `A4_engine`. Chờ điều kiện `race_result`.
+**Bắt đầu:** Sau tutorial `A3_income`. Chờ điều kiện `race_result`.
 
 **Hoàn thành:** Đọc hai phần kết quả và phần thưởng, rồi đóng bảng kết quả.
 
@@ -10,11 +10,19 @@
 
 ## Kịch bản
 
+### Stage 0 — winner
+
+**Nhịp 1:**
+
+> P%d! Sếp thấy không, xe mình về đầu rồi! Để tôi lấy chỗ cất chiếc cúp đầu tiên! Mình nhận thêm %s tiền thưởng nữa.
+
+Khóa lời thoại: `tutorial.story.first_win`.
+
 ### Stage 0 — top3
 
 **Nhịp 1:**
 
-> P%d! Được lên bục ngay lượt đầu, vui thật đấy Sếp! Đội nhận %s tiền thưởng rồi.
+> P%d! Đội mình được lên bục rồi, Sếp! Chiếc cúp đầu tiên… tôi muốn đặt nó ngay cửa gara. Mình nhận thêm %s tiền thưởng nữa!
 
 Khóa lời thoại: `tutorial.finished_p_cash_prize_went`.
 
@@ -22,7 +30,7 @@ Khóa lời thoại: `tutorial.finished_p_cash_prize_went`.
 
 **Nhịp 1:**
 
-> Mình về P%d, nhận %s tiền thưởng. Tôi vẫn muốn thấy chiếc xe tiến xa hơn. Lượt sau thử với Động cơ mới nhé, Sếp.
+> P%d, nhận được %s tiền thưởng rồi. Chưa lên bục lần này, nhưng xe về là mình có việc để làm tiếp.
 
 Khóa lời thoại: `tutorial.finished_p_everyone_nervous_their`.
 
@@ -30,7 +38,7 @@ Khóa lời thoại: `tutorial.finished_p_everyone_nervous_their`.
 
 **Nhịp 1:**
 
-> Tiền thưởng giúp mình tiếp tục chăm chút cho đội. Còn mỗi lần về top 3, mình sẽ có thêm cúp để mua nâng cấp ở tab Giải.
+> Tiền thưởng để dành đầu tư tiếp nhé. Về top 3 còn có cúp; sau này mình dùng cúp mua thêm nâng cấp ở tab Giải.
 
 Khóa lời thoại: `tutorial.finish_top_3_earn_trophies`.
 

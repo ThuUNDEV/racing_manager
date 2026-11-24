@@ -14,7 +14,7 @@
 
 **Nhịp 1:**
 
-> Những lần lên bục đã có ích rồi, Sếp! Mình có %d cúp, đủ mua nâng cấp ở tab Giải. Vào chọn cho đội nhé.
+> Sếp ơi, mình có %d cúp rồi, đủ mua nâng cấp đấy. Ghé tab Giải chọn cho đội nhé?
 
 Khóa lời thoại: `tutorial.you_have_trophies_enough_upgrade`.
 

@@ -54,6 +54,8 @@ func run() -> void:
 		root.size = Vector2i(width, 844)
 		for step in ["A1_welcome", "A3_income", "A4_engine"]:
 			tut._enter(step)
+			if step == "A3_income":
+				tut._process(Tutorial.RUN_BEFORE_A3_SEC)
 			for page in range(2):
 				tut._page = page
 				for i in range(8):
@@ -182,6 +184,7 @@ func capture_income(main: Control, state: Node) -> void:
 		main._sync_sim()
 		tut.start_lesson("A3_income")
 		tut.blocked = false
+		tut._process(Tutorial.RUN_BEFORE_A3_SEC)
 		for stage in range(4):
 			for i in range(10):
 				tut._process(0.01)

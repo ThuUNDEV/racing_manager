@@ -1,8 +1,8 @@
-# A7_race2 — Sức mạnh đội
+# A7_race2 — Sếp tiếp quản
 
-**Mục đích:** Nhìn thấy nâng cấp được áp dụng và hiểu ý nghĩa Power.
+**Mục đích:** Kết thúc làm quen bằng lời dẫn theo thành tích; không lặp hướng dẫn nâng Power.
 
-**Bắt đầu:** Sau tutorial `A6_result`. Chờ điều kiện `race_start`.
+**Bắt đầu:** Sau tutorial `A6_result`.
 
 **Hoàn thành:** Đọc và xác nhận hết các nhịp thoại.
 
@@ -10,11 +10,13 @@
 
 ## Kịch bản
 
+Luồng hiện hành vào thẳng stage 2, chỉ lời kết. Stage 0/1 không chạy, kể cả khi tiếp tục save cũ, để không lặp hướng dẫn nâng Power. Không chờ lượt đua tiếp theo.
+
 ### Stage 0
 
 **Nhịp 1:**
 
-> Động cơ mới đã lắp xong! Power đội: %s → %s. Cùng xem công sức của mình trên đường đua nhé, Sếp!
+> Động cơ mới đã lắp xong! Power đội từ %s → %s. Tôi cũng nóng lòng xem lượt này lắm.
 
 Khóa lời thoại: `tutorial.new_engine_car_team_power`.
 
@@ -22,23 +24,35 @@ Khóa lời thoại: `tutorial.new_engine_car_team_power`.
 
 **Nhịp 1:**
 
-> Power là sức mạnh tổng hợp của đội. Chiếc xe, tay đua và phụ kiện đều góp phần vào đó.
+> Sếp nhìn ô Power này nhé. Đây là sức mạnh tổng hợp của đội; xe, tay đua và phụ kiện đều góp phần vào đó.
 
 **Nhịp 2:**
 
-> Mỗi lần cải thiện một phần, mình lại có thêm cơ hội cạnh tranh ở lượt sau.
+> Mình thử nâng Động cơ trước, rồi quay lại đây xem chỉ số thay đổi thế nào nhé!
 
 Khóa lời thoại: `tutorial.power_explained`.
 
-### Stage 2
+### Stage 2 — earned
 
 **Nhịp 1:**
 
-> Nhìn chiếc xe ra đường đua lần nữa, tôi bắt đầu mong tới chiếc cúp đầu tiên của đội rồi.
+> Có cúp đầu tiên rồi, giờ tôi lại muốn có thêm chiếc nữa. Sếp chọn hướng đầu tư tiếp nhé!
 
 **Nhịp 2:**
 
-> Sếp chọn hướng đi tiếp theo nhé. Tôi ở đây, có thêm lựa chọn mới sẽ báo Sếp ngay!
+> Tôi lo chuẩn bị xe. Có thêm lựa chọn mới, tôi sẽ báo Sếp ngay!
+
+Khóa lời thoại: `tutorial.story.already_has_trophy`.
+
+### Stage 2 — other
+
+**Nhịp 1:**
+
+> Giờ Sếp thử chọn hướng đầu tư tiếp nhé. Tôi vẫn đang để trống một chỗ trong gara cho chiếc cúp đầu tiên đấy.
+
+**Nhịp 2:**
+
+> Tôi lo chuẩn bị xe. Có thêm lựa chọn mới, tôi sẽ báo Sếp ngay!
 
 Khóa lời thoại: `tutorial.from_now_you_run_things`.
 

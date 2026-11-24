@@ -14,7 +14,7 @@
 
 **Nhịp 1:**
 
-> Gom đủ mảnh của %s rồi, Sếp! Vào Túi nâng cấp để món này giúp đội mạnh hơn nhé.
+> Gom đủ mảnh của %s rồi! Sếp vào Túi nâng cấp nhé, món này còn giúp đội được nữa.
 
 Khóa lời thoại: `tutorial.has_enough_shards_upgrade`.
 

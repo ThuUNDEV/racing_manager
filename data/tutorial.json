@@ -3,8 +3,8 @@
   "onboarding": [
     "res://data/tutorials/onboarding/welcome.json",
     "res://data/tutorials/onboarding/race_view.json",
-    "res://data/tutorials/onboarding/income.json",
     "res://data/tutorials/onboarding/engine_upgrade.json",
+    "res://data/tutorials/onboarding/income.json",
     "res://data/tutorials/onboarding/race_result.json",
     "res://data/tutorials/onboarding/team_power.json"
   ],

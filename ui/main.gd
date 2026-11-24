@@ -5,6 +5,7 @@ const CleanArt = preload("res://ui/clean_modern_art.gd")
 const BigNumber = preload("res://core/math/big_number.gd")
 const PowerIncreaseBanner = preload("res://ui/power_increase_banner.gd")
 const PopupAnim = preload("res://ui/popup_anim.gd")
+const TutorialMapFocus = preload("res://ui/tutorial_map_focus.gd")
 ## UI prototype: UI-01 Đua, UI-02 Tay đua (tối giản), UI-03 Garage, UI-04 Giải đấu,
 ## UI-05 Kết quả, UI-06 Thu nhập vắng mặt, UI-07 quà ngày. Dựng hoàn toàn bằng code.
 
@@ -121,6 +122,7 @@ var _shop_box: VBoxContainer
 var _shop_content: VBoxContainer
 var _toast: Label
 var _overlay: Control
+var _offline_popup_pending := false
 var _ads_controls: AdsRaceControls  # chip ×2 + lá cờ thưởng + popup xem video (ui/ads_race_controls.gd)
 var _result_panel: Control          # bảng tổng kết lượt, chỉ phủ lên vùng đua (không phải popup toàn màn hình)
 var _result_box: VBoxContainer
@@ -157,6 +159,7 @@ var _fast_forced: bool = false
 var _dev_time: float = 0.0
 var _shots_done: Dictionary = {}
 var _tutorial: TutorialOverlay       # hướng dẫn đầu game Phần A (Design/23 §4)
+var _tutorial_map_focus := TutorialMapFocus.new()
 var _coin_bar: Control
 var _cli_tutorial: bool = false      # --tutorial: vẫn chạy hướng dẫn khi chụp ảnh/auto-race
 var _cli_tutorial_step: String = ""  # --tutorial-step=A4_engine: nhảy tới bước (chụp ảnh kiểm tra)
@@ -239,8 +242,8 @@ func activate() -> void:
 	_refresh()
 	if GameState.load_error != "":
 		_show_toast(GameState.load_error)
-	_open_next_overlay()
 	_start_tutorial()
+	_open_next_overlay()
 	_set_music("music_workshop_loop")
 
 
@@ -2077,9 +2080,11 @@ func _show_shop_offer(title: String, description: String) -> void:
 
 func _process(delta: float) -> void:
 	if not _active:
+		_tutorial_map_focus.reset()
+		_power_banner.set_tutorial_focus(false)
 		GameState.tutorial_pause = false
 		return
-	_power_banner.set_suspended(not _race_block.visible or _overlay.visible or _result_panel.visible or (is_instance_valid(_promotion) and _promotion.visible))
+	_pump_offline_popup()
 	# Bảng tổng kết tự tắt sau RESULT_SHOW_SEC giây (thời gian thật) rồi thả đua tiếp.
 	var modal_open: bool = _overlay.visible \
 		or (is_instance_valid(_promotion) and _promotion.visible) \
@@ -2100,6 +2105,7 @@ func _process(delta: float) -> void:
 		if not _tutorial.blocked:
 			_pump_intro()
 	GameState.tutorial_pause = _tutorial.wants_pause()  # callout đang chờ thao tác → dừng đua + thu nhập
+	_sync_tutorial_power_banner()
 	# A6 của hướng dẫn giữ bảng kết quả tới khi đọc xong (Design/23 §4).
 	if _result_panel.visible and not _tutorial.holds_result():
 		_result_timer -= delta
@@ -2115,10 +2121,20 @@ func _process(delta: float) -> void:
 		_row_timer = 0.0
 		_refresh_light()
 	_sync_sim()
+	_sync_tutorial_map_focus(delta)
 	_update_race_ui()
 	_race_view.queue_redraw()
 	_pump_events()
 	_dev_tick(delta)
+
+
+func _sync_tutorial_map_focus(delta: float) -> void:
+	var identify_car := _tutorial.running and _tutorial.step == "A2_car" and not _tutorial.blocked and _tutorial.is_visible_in_tree()
+	_tutorial_map_focus.update(_race_view, identify_car, delta)
+
+
+func _exit_tree() -> void:
+	_tutorial_map_focus.reset()
 
 
 ## Khi vòng lặp đổi sim (grid xem trước, xuất phát, lượt mới): chuyển khung đua sang sim đó.
@@ -2340,7 +2356,17 @@ func _open_next_overlay() -> void:
 	if not GameState.offline_report.is_empty():
 		_show_offline()
 	else:
+		_offline_popup_pending = false
 		_close_overlay()
+
+
+## Báo cáo offline chờ hết phần làm quen (bao gồm A7), không chen vào thoại/modal khác.
+func _pump_offline_popup() -> void:
+	if not _offline_popup_pending or _tutorial._active() or _overlay.visible or _result_panel.visible:
+		return
+	if (is_instance_valid(_promotion) and _promotion.visible) or (is_instance_valid(_class_page) and _class_page.visible):
+		return
+	_show_offline()
 
 
 func _begin_overlay() -> void:
@@ -2443,6 +2469,13 @@ func _offline_row(parent: VBoxContainer, caption: String, value: String) -> void
 
 
 func _show_offline() -> void:
+	if GameState.offline_report.is_empty():
+		_offline_popup_pending = false
+		return
+	if _tutorial.running:
+		_offline_popup_pending = true
+		return
+	_offline_popup_pending = false
 	GameState.note_offline_shown()  # mẹo C1 hiện sau khi người chơi đóng panel
 	_begin_overlay()
 	var rep: Dictionary = GameState.offline_report
@@ -2602,7 +2635,7 @@ func _show_offline() -> void:
 # ---------------------------------------------------------------- hướng dẫn đầu game
 
 ## Tạm tắt toàn bộ hướng dẫn (onboarding, tính năng, mẹo). Đặt true để bật lại.
-const TUTORIAL_ENABLED := false
+const TUTORIAL_ENABLED := true
 
 
 func _start_tutorial() -> void:
@@ -2829,6 +2862,7 @@ func _reveal_node(n: Control) -> void:
 
 ## Mục tiêu spotlight của từng bước, theo tọa độ toàn cục.
 func _tutorial_target(step: String, sub: int) -> Dictionary:
+	_sync_tutorial_power_banner()
 	if step.begins_with("nav:"):
 		var destination := Tutorial.feature(step.substr(4))
 		if destination.get("tab", "") == "garage" and _tab == Tab.TEAM:
@@ -2880,7 +2914,11 @@ func _tutorial_target(step: String, sub: int) -> Dictionary:
 			if sub == 1:
 				var header := find_child("RevenueSectionHeader", true, false) as Control
 				if header != null:
-					return {"rect": header.get_global_rect()}
+					var rect := header.get_global_rect()
+					var grid := find_child("RevenueUpgradeGrid", true, false) as Control
+					if grid != null:
+						rect = rect.merge(grid.get_global_rect())
+					return {"rect": rect.intersection(_upgrade_scroll.get_global_rect())}
 			if sub == 2:
 				var row := _row_of("ticket")
 				if not row.is_empty():
@@ -2891,6 +2929,11 @@ func _tutorial_target(step: String, sub: int) -> Dictionary:
 				return {"rect": pill.get_global_rect()}
 			return {"rect": _coin_bar.get_global_rect()}
 		"A4_engine":
+			if sub == 3:
+				var banner_rect := _power_banner.get_global_rect()
+				return {"rect": banner_rect, "hand": Vector2(banner_rect.get_center().x, banner_rect.end.y + 4.0), "hand_clearance": true}
+			if sub == 4:
+				return _tutorial_power_target()
 			var row := _row_of("engine")
 			if row.is_empty():
 				return {}
@@ -2901,12 +2944,23 @@ func _tutorial_target(step: String, sub: int) -> Dictionary:
 		"A6_result":
 			if _result_panel.visible:
 				return {"rect": (_result_box.get_parent() as Control).get_global_rect()}
-		"A7_race2":
-			if sub <= 1:  # câu Power trước → sau và câu giải thích cùng chỉ vào vùng Power ở HUD
-				var hud := _race_view.hud_rank_rect()
-				var left := Rect2(Vector2.ZERO, Vector2(hud.position.x, RaceView.HUD_H))
-				return {"rect": Rect2(_race_view.get_global_transform() * left.position, left.size)}
 	return {}
+
+
+func _sync_tutorial_power_banner() -> void:
+	var suspended := _tab != Tab.RACE or not _race_block.is_visible_in_tree() or _overlay.visible or _result_panel.visible \
+		or (is_instance_valid(_promotion) and _promotion.visible) or (is_instance_valid(_class_page) and _class_page.visible)
+	_power_banner.set_suspended(suspended)
+	var focus := _tutorial.running and _tutorial.step == "A4_engine" and _tutorial.sub == 3 and not _tutorial.blocked and not suspended
+	var before: float = GameState.tutorial.get("lessons", {}).get("A4_engine", {}).get("context", {}).get("power_before", GameState.team_power())
+	_power_banner.set_tutorial_focus(focus, before, GameState.team_power())
+
+
+## Khớp đúng chip Power được RaceView vẽ trên canvas HUD 1448 px.
+func _tutorial_power_target() -> Dictionary:
+	var k := _race_view.size.x / 1448.0
+	var rect := Rect2(_race_view.get_global_transform() * (Vector2(30, 146) * k), Vector2(330, 100) * k)
+	return {"rect": rect, "hand": Vector2(rect.get_center().x, rect.end.y + 4.0), "hand_clearance": true}
 
 
 func _tutorial_context(step: String, res: Dictionary) -> Dictionary:
@@ -2917,12 +2971,15 @@ func _tutorial_context(step: String, res: Dictionary) -> Dictionary:
 			var effective := GameState.total_online_rate().multiply_ratio(GameState.income_multiplier(), 1)
 			return {"rate": Balance.fmt_rate(effective), "price": Balance.fmt_money(GameState.cost_of("ticket")), "before": String(Tutorial.income_snapshot(GameState).get("before", "")), "after": Balance.fmt_rate(effective)}
 		"A4_engine":
-			return {"price": Balance.fmt_money(GameState.cost_of("engine"))}
+			var before: float = GameState.tutorial.get("lessons", {}).get(step, {}).get("context", {}).get("power_before", GameState.team_power())
+			return {"price": Balance.fmt_money(GameState.cost_of("engine")),
+				"before": RaceView.format_team_power(before), "after": RaceView.format_team_power(GameState.team_power())}
 		"A6_result":
 			return {"position": int(res.get("position", 8)), "money": Balance.fmt_money(res.get("money", 0))}
 		"A7_race2":
 			return {"before": RaceView.format_team_power(float(GameState.tutorial.get("power_before", 0.0))),
-				"after": RaceView.format_team_power(GameState.team_power())}
+				"after": RaceView.format_team_power(GameState.team_power()),
+				"has_trophy": GameState.trophies_earned > 0}
 	return {}
 
 
@@ -2932,7 +2989,10 @@ func _tutorial_reveal(step: String) -> void:
 		if _tutorial.sub == 1:
 			var header := find_child("RevenueSectionHeader", true, false) as Control
 			if header != null:
-				_reveal_node(header)
+				# Đưa cả nhóm lên đầu vùng cuộn, thay vì chỉ kéo tiêu đề vừa chạm mép dưới.
+				_upgrade_scroll._stop_scroll()
+				var offset := header.get_global_rect().position.y - _upgrade_scroll.get_global_rect().position.y
+				_upgrade_scroll.scroll_vertical += roundi(offset - 8.0)
 		elif _tutorial.sub == 2:
 			var ticket := _row_of("ticket")
 			if not ticket.is_empty():

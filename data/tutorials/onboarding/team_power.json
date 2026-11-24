@@ -1,9 +1,8 @@
 {
   "id": "A7_race2",
-  "purpose": "See the upgrade applied and understand team Power.",
+  "purpose": "Close onboarding with a story response to earned trophies, without repeating the Power upgrade lesson.",
   "trigger": {
-    "after": "A6_result",
-    "wait": "race_start"
+    "after": "A6_result"
   },
   "completion": "read_all",
   "stages": {
@@ -18,7 +17,11 @@
       "text": "@tutorial.power_explained"
     },
     "2": {
-      "text": "@tutorial.from_now_you_run_things"
+      "variant_by": "has_trophy",
+      "variants": {
+        "earned": {"text": "@tutorial.story.already_has_trophy"},
+        "other": {"text": "@tutorial.from_now_you_run_things"}
+      }
     }
   }
 }

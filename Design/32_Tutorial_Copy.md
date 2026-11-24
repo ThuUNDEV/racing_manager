@@ -1,5 +1,7 @@
 # Kịch bản tutorial — Những vòng đua đầu tiên
 
+Cập nhật 24/11/2026: bản chạy hiện đưa giải thích Power và nâng Động cơ lên trước Doanh thu. Sau khi mua, Linh chỉ thanh thông báo Power tăng, hiển thị số thật trước → sau và mức tăng màu xanh; thanh được giữ đến khi bấm Tiếp. Hướng dẫn nâng Power chỉ chạy một lần, không lặp ở lượt đua sau. Kịch bản chi tiết hiện hành: [Nâng Power đầu tiên](Tutorials/A4_engine.md), [Nguồn tiền](Tutorials/A3_income.md). Các đoạn bên dưới là bản thoại tham chiếu trước thay đổi thứ tự này.
+
 Bản quản lý theo từng tutorial độc lập hiện ở [Design/Tutorials](Tutorials/README.md); mỗi phần có mục đích, điều kiện bắt đầu, kịch bản và điều kiện hoàn thành riêng.
 
 Ngày 16/11/2026. **Đã đưa vào bản chạy thử tiếng Việt.**

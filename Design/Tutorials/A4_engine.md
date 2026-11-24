@@ -1,8 +1,8 @@
-# A4_engine — Nâng Động cơ đầu tiên
+# A4_engine — Nâng Power đầu tiên
 
-**Mục đích:** Mua một cấp Động cơ và hiểu nâng cấp áp dụng từ lượt sau.
+**Mục đích:** Hiểu Power, nâng Động cơ, xem Power trên HUD tăng ngay và hiểu hiệu quả đua áp dụng từ lượt sau.
 
-**Bắt đầu:** Sau tutorial `A3_income`. Chờ điều kiện `engine_affordable`.
+**Bắt đầu:** Sau tutorial `A2_car`. Chờ điều kiện `engine_affordable`.
 
 **Hoàn thành:** Động cơ đạt ít nhất cấp 1, rồi đọc và xác nhận câu sau nâng cấp.
 
@@ -10,15 +10,17 @@
 
 ## Kịch bản
 
+Luồng mới: stage 4 (giải thích Power) → stage 0 (mua Động cơ thật) → stage 3 (chỉ thanh thông báo Power tăng, so sánh trước–sau và mức tăng màu xanh) → stage 1 (hiệu quả từ lượt sau). Thanh Power được giữ đến khi bấm Tiếp. Stage 2 chỉ nhắc khi thiếu tiền. Sau đó chuyển sang Doanh thu; giữ số stage cũ để tương thích save.
+
 ### Stage 0
 
 **Nhịp 1:**
 
-> Tôi muốn chiếc xe có thêm tốc độ để bám đuổi đối thủ. Nâng Động cơ là bước đầu tiên mình có thể làm cho nó.
+> Tôi muốn thử cho xe thêm sức ở những đoạn tăng tốc. Mình bắt đầu từ Động cơ nhé?
 
 **Nhịp 2:**
 
-> Sếp bấm nút %s tiền ở đây nhé. Để tôi chuẩn bị Động cơ mới!
+> Cần %s tiền cho lần nâng này. Sếp bấm ở đây, tôi chuẩn bị đồ!
 
 Khóa lời thoại: `tutorial.upgrade_engine_make_car_faster`.
 
@@ -26,7 +28,7 @@ Khóa lời thoại: `tutorial.upgrade_engine_make_car_faster`.
 
 **Nhịp 1:**
 
-> Xong rồi! Tôi cũng nóng lòng xem chiếc xe chạy thế nào. Động cơ mới sẽ được lắp từ lượt sau, mình chờ xe về nhé.
+> Xong phần chuẩn bị rồi! Xe đang đua nên chưa lắp ngay được. Đợi nó về gara, lượt sau mình thử động cơ mới.
 
 Khóa lời thoại: `tutorial.car_already_racing_so_upgrade`.
 
@@ -34,9 +36,29 @@ Khóa lời thoại: `tutorial.car_already_racing_so_upgrade`.
 
 **Nhịp 1:**
 
-> Mình còn thiếu chút tiền rồi, Sếp. Cứ để doanh thu tích thêm, tôi chờ được.
+> Còn thiếu chút tiền thôi. Cứ để doanh thu tích thêm nhé, tôi kiểm tra xe trong lúc chờ.
 
 Khóa lời thoại: `tutorial.need_more_cash_wait_moment`.
+
+### Stage 3
+
+**Nhịp 1:**
+
+> Sếp nhìn thanh Power này: %s → %s rồi! Phần màu xanh bên phải là sức mạnh vừa tăng từ lần nâng Động cơ đấy.
+
+Khóa lời thoại: `tutorial.power.increased`.
+
+### Stage 4
+
+**Nhịp 1:**
+
+> Sếp nhìn ô Power này nhé. Đây là sức mạnh tổng hợp của đội; xe, tay đua và phụ kiện đều góp phần vào đó.
+
+**Nhịp 2:**
+
+> Mình thử nâng Động cơ trước, rồi quay lại đây xem chỉ số thay đổi thế nào nhé!
+
+Khóa lời thoại: `tutorial.power_explained`.
 
 ## Kiểm tra riêng
 

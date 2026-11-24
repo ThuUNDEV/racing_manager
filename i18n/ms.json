@@ -653,7 +653,7 @@
  "tutorial.you_have_trophies_enough_upgrade": "Bos ada %d trofi — cukup untuk naik taraf di tab Liga!\nTrofi hanya diperoleh dengan tamat 3 teratas.",
  "tutorial.income.sources": "Naik taraf Pendapatan ada di sini. Ticket Marketing, Victory Celebrations dan Parking menambah pendapatan; Grandstands menggandakannya. Pencapaian bintang, kemudahan dan boost turut mempengaruhinya.",
  "tutorial.income.upgrade": "Tekan butang %s wang ini untuk menaik taraf Ticket Marketing sekali, kemudian lihat perubahan pendapatan!",
- "tutorial.income.increased": "Lihat pendapatan semula: %s → %s wang sesaat! Naik taraf pendapatan berkuat kuasa serta-merta, tanpa menunggu perlumbaan seterusnya.",
+ "tutorial.income.increased": "Lihat pendapatan kita: %s → %s wang sesaat! Naik taraf pendapatan berkuat kuasa serta-merta.\n\nWang tambahan ini membantu kita terus memajukan pasukan. Sekarang mari lihat perlumbaan!",
  "tutorial.income.waiting": "Wang belum cukup untuk Ticket Marketing. Tunggu pendapatan terkumpul sebentar.",
  "tutorial.trophy.upgraded": "Berjaya! Bonus kelajuan daripada naik taraf ini: +%d → +%d. Statistik baharu digunakan mulai perlumbaan seterusnya.",
  "trophy.prestige": "Prestige %d / %d",
@@ -690,5 +690,8 @@
  "promotion.action": "Naik liga",
  "promotion.promoted": "Naik ke %s!",
  "promotion.failed": "Belum boleh naik liga.",
- "promotion.reward_gems": "+%d permata"
+ "promotion.reward_gems": "+%d permata",
+  "tutorial.story.first_win": "P%d! Bos, kita tamat di tempat pertama! Saya perlu sediakan ruang untuk trofi pertama kita! Kita juga mendapat %s wang hadiah.",
+  "tutorial.story.already_has_trophy": "Kita sudah ada trofi pertama, sekarang saya mahu satu lagi. Pilih pelaburan seterusnya, Bos!\n\nSaya akan siapkan kereta. Jika ada pilihan baharu, saya akan beritahu!",
+ "tutorial.power.increased": "Lihat paparan Power, Bos: %s → %s! Naik taraf enjin terus meningkatkan kekuatan pasukan kita."
 }

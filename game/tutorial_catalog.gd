@@ -44,7 +44,14 @@ static func lesson(id: String) -> Dictionary:
 static func stage(id: String, sub: int, ctx: Dictionary = {}) -> String:
 	var spec: Dictionary = lesson(id).get("stages", {}).get(str(sub), {})
 	if spec.has("variants"):
-		spec = spec["variants"]["top3" if int(ctx.get("position", 8)) <= 3 else "other"]
+		var variants: Dictionary = spec["variants"]
+		var position := int(ctx.get("position", 8))
+		var variant := "top3" if position <= 3 else "other"
+		if spec.get("variant_by", "position") == "has_trophy":
+			variant = "earned" if bool(ctx.get("has_trophy", false)) else "other"
+		elif position == 1 and variants.has("winner"):
+			variant = "winner"
+		spec = variants[variant]
 	var line := String(spec.get("text", ""))
 	var args: Array = []
 	for key: String in spec.get("args", []):

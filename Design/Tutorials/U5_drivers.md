@@ -14,11 +14,11 @@
 
 **Nhịp 1:**
 
-> Chiếc xe đang tốt dần lên rồi. Tôi cũng muốn tìm thêm người cầm lái để đội có nhiều lựa chọn hơn.
+> Tôi lo chiếc xe, nhưng người cầm lái cũng quan trọng lắm. Mình tìm thêm tay đua cho đội nhé?
 
 **Nhịp 2:**
 
-> Mỗi tay đua có chỉ số và kỹ năng riêng. Sếp dùng coupon mở Pro Pack ở đây nhé, xem ai sẽ về với đội mình!
+> Mỗi tay đua có chỉ số và kỹ năng riêng. Có một coupon Pro Pack đây, Sếp mở thử xem ai sẽ về cùng mình!
 
 Khóa lời thoại: `data.tutorial.every_driver_has_their_own`.
 
@@ -26,7 +26,7 @@ Khóa lời thoại: `data.tutorial.every_driver_has_their_own`.
 
 **Nhịp 1:**
 
-> Có kết quả rồi, Sếp! Vào tab Đội xem chỉ số và kỹ năng nhé. Mình chọn người phù hợp cho lượt sau, tôi lo chuẩn bị xe.
+> Có kết quả tuyển người rồi, Sếp! Vào tab Đội xem chỉ số và kỹ năng nhé. Sếp chọn người phù hợp cho lượt sau, tôi sẽ chuẩn bị xe sẵn sàng.
 
 Khóa lời thoại: `data.tutorial.pick_new_driver_next_race`.
 

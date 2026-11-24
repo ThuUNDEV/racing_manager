@@ -653,7 +653,7 @@
  "tutorial.you_have_trophies_enough_upgrade": "ボスはトロフィーを%d個持っています — リーグタブで強化できます！\nトロフィーは3位以内でゴールした時のみ獲得できます。",
  "tutorial.income.sources": "ここが収入アップグレードです。Ticket Marketing、Victory Celebrations、Parkingは収入を増やし、Grandstandsは収入に倍率をかけます。星の節目、施設、収入ブーストも影響します。",
  "tutorial.income.upgrade": "%sキャッシュのボタンでTicket Marketingを1回強化し、収入の変化を見てみましょう！",
- "tutorial.income.increased": "収入をもう一度見てください：毎秒%s → %sキャッシュ！収入の強化は次のレースを待たず、すぐに反映されます。",
+ "tutorial.income.increased": "収入が%s → %s毎秒になりました！収入の強化はすぐに反映されます。\n\n増えた資金でチームをさらに育てられますね。さあ、レースを見守りましょう！",
  "tutorial.income.waiting": "Ticket Marketingの強化には資金が少し足りません。収入が貯まるまで待ちましょう。",
  "tutorial.trophy.upgraded": "完了です！この強化の速度ボーナス：+%d → +%d。新しい能力は次のレースから適用されます。",
  "trophy.prestige": "Prestige %d / %d",
@@ -690,5 +690,8 @@
  "promotion.action": "昇格する",
  "promotion.promoted": "%sに昇格!",
  "promotion.failed": "まだ昇格できません。",
- "promotion.reward_gems": "+%dジェム"
+ "promotion.reward_gems": "+%dジェム",
+  "tutorial.story.first_win": "P%d！ボス、トップでゴールしました！初めてのトロフィーを飾る場所を作らないと！賞金も%s獲得しました。",
+  "tutorial.story.already_has_trophy": "初めてのトロフィーを手にしたら、もう一つ欲しくなりました。ボス、次の投資先を選んでください！\n\n私は車を準備します。新しい選択肢が増えたら、すぐに知らせますね！",
+ "tutorial.power.increased": "ボス、Powerの表示を見てください。%s → %s！エンジンの強化でチームの力がすぐに上がりました。"
 }

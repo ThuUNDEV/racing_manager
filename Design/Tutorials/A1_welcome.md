@@ -14,11 +14,11 @@
 
 **Nhịp 1:**
 
-> Chào Sếp, tôi là Linh, phụ trách kỹ thuật. Đội mình còn nhỏ, nhưng tôi mong một ngày được thấy chiếc xe này lên bục nhận cúp.
+> Sếp tới rồi! Tôi là Linh, lo phần kỹ thuật cho đội. Gara hơi chật, xe cũng còn nhiều thứ phải sửa… nhưng cuối cùng mình đã được ra đua.
 
 **Nhịp 2:**
 
-> Mình có %s tiền để bắt đầu. Sếp lo hướng phát triển, tôi lo chiếc xe. Cùng thử sức nhé?
+> Đội còn %s tiền để bắt đầu. Sếp tính chuyện phát triển, tôi lo chuẩn bị xe. Cùng đưa đội tiến xa nhé?
 
 Khóa lời thoại: `tutorial.hi_boss_our_team_has`.
 

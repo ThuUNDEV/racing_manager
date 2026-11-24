@@ -14,11 +14,11 @@
 
 **Nhịp 1:**
 
-> Mình đã đi được một chặng rồi, Sếp. Giờ đội có thể tính xem muốn thử sức ở bộ môn nào.
+> Đi cùng nhau được một chặng rồi, Sếp nhỉ. Giờ mình có thể tính xem đội muốn theo bộ môn nào.
 
 **Nhịp 2:**
 
-> Mỗi bộ môn ưu tiên chỉ số khác nhau. Sếp bấm Class để xem nhé; chẳng hạn Rally cần Lốp và Khung gầm tốt.
+> Mỗi bộ môn cần thế mạnh khác nhau. Sếp mở Class xem thử nhé — chọn hướng rồi, mình sẽ biết nên đầu tư vào đâu.
 
 Khóa lời thoại: `data.tutorial.each_discipline_favors_different_stats`.
 

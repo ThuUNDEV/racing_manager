@@ -2,7 +2,7 @@
 
 **Mục đích:** Tìm ô tiền mỗi giây, hiểu các yếu tố tác động, tự nâng doanh thu và quan sát số tăng ngay.
 
-**Bắt đầu:** Sau tutorial `A2_car`.
+**Bắt đầu:** Sau tutorial `A4_engine`.
 
 **Hoàn thành:** Mua một lần nâng Ticket Marketing, thấy số tiền mỗi giây trước–sau và xác nhận kết quả.
 
@@ -14,7 +14,7 @@
 
 **Nhịp 1:**
 
-> Muốn chăm chút cho chiếc xe, đội cần có tiền đều đặn. Sếp nhìn ô thu nhập ở đây nhé: mình đang thu %s tiền mỗi giây, kể cả lúc chờ đua.
+> Có khán giả tới xem rồi, Sếp! Nhìn ô thu nhập này: đội đang thu %s tiền mỗi giây. Khoản này sẽ giúp mình có tiền chăm xe.
 
 Khóa lời thoại: `tutorial.crowd_pays_cash_per_second`.
 
@@ -22,11 +22,11 @@ Khóa lời thoại: `tutorial.crowd_pays_cash_per_second`.
 
 **Nhịp 1:**
 
-> Nhóm Doanh thu nằm ở đây, Sếp. Ticket Marketing, Victory Celebrations và Parking bổ sung tiền thu được; Grandstands nhân doanh thu.
+> Xe có thêm sức rồi. Muốn tiếp tục nâng, mình cần nguồn tiền đều đặn. Ticket Marketing, Victory Celebrations và Parking thêm tiền thu được; Grandstands nhân doanh thu.
 
 **Nhịp 2:**
 
-> Các mốc sao, cơ sở và boost thu nhập cũng tác động lên số tiền mỗi giây. Trước mắt, mình thử một nâng cấp để xem nhé.
+> Các mốc sao, cơ sở và boost cũng giúp tăng thu nhập. Trước mắt, mình thử nâng Ticket Marketing một lần nhé.
 
 Khóa lời thoại: `tutorial.income.sources`.
 
@@ -34,7 +34,7 @@ Khóa lời thoại: `tutorial.income.sources`.
 
 **Nhịp 1:**
 
-> Mình bắt đầu với Ticket Marketing nhé. Sếp bấm nút %s tiền này để nâng một lần, rồi cùng xem thu nhập thay đổi thế nào!
+> Mình bắt đầu với Ticket Marketing nhé. Giá nâng cấp là %s tiền — Sếp bấm ở đây, rồi cùng xem thu nhập tăng thế nào!
 
 Khóa lời thoại: `tutorial.income.upgrade`.
 
@@ -42,11 +42,11 @@ Khóa lời thoại: `tutorial.income.upgrade`.
 
 **Nhịp 1:**
 
-> Sếp nhìn lại ô thu nhập nhé: %s → %s tiền mỗi giây! Nâng doanh thu có hiệu lực ngay, không cần chờ lượt đua sau.
+> Sếp nhìn này: %s → %s tiền mỗi giây rồi! Nâng doanh thu có hiệu lực ngay.
 
 **Nhịp 2:**
 
-> Khoản tiền này giúp mình tiếp tục đầu tư cho chiếc xe. Giờ mình thử nâng Động cơ nhé!
+> Có thêm kinh phí để tiếp tục chăm xe rồi. Giờ mình cùng xem kết quả lượt đua nhé!
 
 Khóa lời thoại: `tutorial.income.increased`.
 
@@ -54,7 +54,7 @@ Khóa lời thoại: `tutorial.income.increased`.
 
 **Nhịp 1:**
 
-> Mình còn thiếu chút tiền để nâng Ticket Marketing. Chờ thu nhập tích thêm nhé, Sếp.
+> Còn thiếu một chút tiền để nâng Ticket Marketing thôi. Cứ để thu nhập tích thêm nhé, tôi kiểm tra xe trong lúc chờ.
 
 Khóa lời thoại: `tutorial.income.waiting`.
 

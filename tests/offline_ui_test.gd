@@ -1,4 +1,5 @@
 extends SceneTree
+const PopupAnim = preload("res://ui/popup_anim.gd")
 var failures := 0
 func _initialize() -> void:
 	call_deferred("run")
@@ -56,5 +57,53 @@ func run() -> void:
 	check(main._offline_duration(51660.0) == "14 giờ 21 phút", "Mixed duration formatted")
 	main.queue_free()
 	await settle()
+	await check_tutorial_order()
 	quit(1 if failures else 0)
+
+
+func check_tutorial_order() -> void:
+	var state := root.get_node("GameState")
+	state.init_new_game()
+	state.active = false
+	state.save_blocked = true
+	state.tutorial = {"state": "active", "step": "A7_race2", "gated": true}
+	state.offline_report = {"elapsed": 120.0, "eligible": 120.0, "reward": BigNumber.from_int(666), "capped": false}
+	var report: Dictionary = state.offline_report.duplicate(true)
+	var coins_before: Dictionary = state.coins.to_save()
+	var animation_enabled := PopupAnim.enabled
+	PopupAnim.enabled = false
+	var main = load("res://ui/main.gd").new()
+	main._shot_prefix = "offline-tutorial-order"
+	main._cli_tutorial = true
+	root.add_child(main)
+	await settle()
+	main.set_process(false)
+	main._tutorial.set_process(false)
+	main.activate()
+	var tut = main._tutorial
+	tut.blocked = false
+	tut._process(0.1)
+	check(tut.running and tut.step == "A7_race2" and not main._overlay.visible, "Vào game: A7 hiện trước popup offline")
+	check(main._offline_popup_pending and state.offline_report == report and not bool(state.tutorial.get("offline_shown", false)), "Báo cáo offline được giữ nguyên và chưa tính là đã xem")
+	main._pump_offline_popup()
+	tut._on_primary()
+	main._pump_offline_popup()
+	check(tut.running and not main._overlay.visible, "Chưa đọc hết A7: offline tiếp tục chờ")
+	tut._on_primary()
+	check(not tut.running and state.tutorial_state() == "done", "Xác nhận xong lời kết A7")
+	main._pump_offline_popup()
+	await settle()
+	check(main._overlay.visible and not main._offline_popup_pending and main._overlay_box.find_child("OfflineContinue", true, false) != null, "A7 hoàn tất: popup offline mới xuất hiện")
+	check(state.offline_report == report and state.coins.to_save() == coins_before, "Trì hoãn popup không cộng thưởng lần hai hoặc đổi báo cáo")
+	var frame = main._overlay_box.find_child("OfflineFrame", true, false)
+	main._pump_offline_popup()
+	check(frame == main._overlay_box.find_child("OfflineFrame", true, false), "Popup offline chỉ mở một lần sau A7")
+	main._overlay_box.find_child("OfflineContinue", true, false).pressed.emit()
+	check(state.offline_report.is_empty(), "Tiếp tục: xóa báo cáo sau khi đã xem")
+	state.offline_report = report.duplicate(true)
+	main._open_next_overlay()
+	check(main._overlay.visible and not main._offline_popup_pending, "Save đã xong tutorial: offline vẫn mở ngay")
+	main.queue_free()
+	await settle()
+	PopupAnim.enabled = animation_enabled
 

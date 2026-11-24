@@ -12,6 +12,7 @@ var _burst_base := 0.0
 var _has_burst := false
 var _suspended := true
 var _age := 0.0
+var _tutorial_focus := false
 
 
 func _ready() -> void:
@@ -36,6 +37,7 @@ func reset_power(value: float) -> void:
 	gain = 0.0
 	_initialized = true
 	_has_burst = false
+	_tutorial_focus = false
 	hide()
 
 
@@ -71,8 +73,29 @@ func set_suspended(value: bool) -> void:
 	visible = _has_burst and not value
 
 
+## Giữ đúng tổng Power và mức tăng trong lúc Linh chỉ dẫn, kể cả sau khi tải lại save.
+func set_tutorial_focus(enabled: bool, before: float = 0.0, after: float = 0.0) -> void:
+	if enabled:
+		_tutorial_focus = true
+		total_power = after
+		gain = snappedf(after - before, 0.1)
+		_burst_base = before
+		_has_burst = gain >= 0.1
+		_age = ENTER
+		modulate.a = 1.0
+		position.y = RaceView.HUD_H + 12.0
+		visible = _has_burst and not _suspended
+		queue_redraw()
+	elif _tutorial_focus:
+		_tutorial_focus = false
+		_has_burst = false
+		hide()
+
+
 func _process(delta: float) -> void:
 	if not _has_burst or _suspended:
+		return
+	if _tutorial_focus:
 		return
 	_age += delta
 	if _age >= DURATION:

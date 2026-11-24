@@ -653,7 +653,7 @@
  "tutorial.you_have_trophies_enough_upgrade": "Bos punya %d trofi — cukup untuk upgrade di tab Liga!\nTrofi hanya didapat dengan finis 3 besar.",
  "tutorial.income.sources": "Peningkatan Pendapatan ada di sini. Ticket Marketing, Victory Celebrations, dan Parking menambah pendapatan; Grandstands mengalikannya. Tonggak bintang, fasilitas, dan boost juga memengaruhinya.",
  "tutorial.income.upgrade": "Ketuk tombol %s uang ini untuk meningkatkan Ticket Marketing sekali, lalu lihat perubahan pendapatan!",
- "tutorial.income.increased": "Lihat pendapatan lagi: %s → %s uang per detik! Peningkatan pendapatan langsung berlaku, tanpa menunggu balapan berikutnya.",
+ "tutorial.income.increased": "Lihat pendapatan kita: %s → %s uang per detik! Peningkatan pendapatan langsung berlaku.\n\nUang tambahan ini membantu kita terus mengembangkan tim. Sekarang mari lihat balapannya!",
  "tutorial.income.waiting": "Uang belum cukup untuk Ticket Marketing. Tunggu pendapatan terkumpul sebentar.",
  "tutorial.trophy.upgraded": "Berhasil! Bonus kecepatan dari peningkatan ini: +%d → +%d. Statistik baru berlaku mulai balapan berikutnya.",
  "trophy.prestige": "Prestige %d / %d",
@@ -690,5 +690,8 @@
  "promotion.action": "Promosi",
  "promotion.promoted": "Naik ke %s!",
  "promotion.failed": "Belum bisa promosi.",
- "promotion.reward_gems": "+%d gem"
+ "promotion.reward_gems": "+%d gem",
+  "tutorial.story.first_win": "P%d! Bos, kita finis pertama! Aku harus menyiapkan tempat untuk trofi pertama kita! Kita juga mendapat %s uang hadiah.",
+  "tutorial.story.already_has_trophy": "Trofi pertama sudah kita raih, sekarang aku ingin satu lagi. Pilih investasi berikutnya, Bos!\n\nAku akan menyiapkan mobil. Kalau ada pilihan baru, aku akan memberi tahu!",
+ "tutorial.power.increased": "Lihat angka Power, Bos: %s → %s! Peningkatan mesin langsung menambah kekuatan tim kita."
 }

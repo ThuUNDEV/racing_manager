@@ -14,11 +14,11 @@
 
 **Nhịp 1:**
 
-> Những món mình kiếm được vẫn còn nâng lên được nữa, Sếp. Tôi thích cảm giác tận dụng tốt những gì đội đang có.
+> Phụ kiện của đội được giữ trong Túi này nhé, Sếp. Lúc nào muốn kiểm tra đồ đang có, mình vào đây.
 
 **Nhịp 2:**
 
-> Túi giữ phụ kiện của đội. Mở trùng sẽ nhận mảnh của món đó; đủ mảnh thì nâng cấp để tăng thêm Power nhé.
+> Nếu mở trùng một món, mình nhận mảnh của món đó. Gom đủ mảnh là nâng cấp được — tôi thích tận dụng những gì đội đã có.
 
 Khóa lời thoại: `data.tutorial.bag_holds_gear_upgrade`.
 
