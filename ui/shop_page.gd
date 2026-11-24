@@ -24,6 +24,7 @@ const Soft = preload("res://ui/soft_miniature.gd")
 const PromoUi = preload("res://ui/pack_promo_ui.gd")
 const UnitScale = preload("res://ui/unit_scale.gd")
 const PerkCard = preload("res://ui/shop_perk_card.gd")
+const FreeGiftCard = preload("res://ui/shop_free_gift_card.gd")
 ## Icon gói cũ -> icon gói racing_ui_hd (đường dẫn trong assets/racing_ui_hd/).
 const HD_ICONS := {
 	"daily_reward": "icons/gift.png", "season_pass": "icons/trophy.png", "monthly_pass": "icons/event.png",
@@ -36,6 +37,9 @@ const HD_ICONS := {
 var _daily_button: Button
 var _daily_amount: Label
 var _daily_status: Label
+var _daily_free_available := true
+var _daily_save_blocked := false
+var _last_ads_view: Dictionary = {}
 var _gem_grid: GridContainer
 var _cash_grid: GridContainer
 var _gem_heading: Control
@@ -229,25 +233,33 @@ func _reference_canvas(parent: Node, design_size: Vector2) -> Control:
 
 
 
-## Mục nhận miễn phí: quà mỗi ngày, gem xem video, vé gear/driver xem video; lưới 2x2 thẻ gọn.
+## Một thẻ gem: nhận quà ngày trước, rồi dùng lượt quảng cáo; theo sau là hai thẻ vé.
 func _build_free_section() -> void:
 	var section := _h_section(_t("shop.free_gifts", "Free gifts"), "gift_red", "featured", "Section_DailyGifts", false)
-	var grid := _grid(2)
+	section["heading"].set("icon_texture", load("res://assets/free_gifts_v1/icon_gift.png"))
+	var grid := VBoxContainer.new()
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	grid.add_theme_constant_override("separation", 8)
+	add_child(grid)
 	grid.name = "FreeGrid"
 	var placements: Dictionary = GameData.ads().get("placements", {})
-	var gift := _free_tile(grid, _sentence(I18n.t("shop.today_gift")), "gem", "5", "daily")
+	var gift := _free_tile(grid, _sentence(I18n.t("shop.free_gems")), "gem", "5", "daily")
 	(gift["card"] as Control).name = "DailyGiftBanner"
 	_daily_amount = gift["amount"]
 	_daily_button = gift["button"]
 	_daily_button.name = "ClaimDaily"
 	ShopSkin.set_kind(_daily_button, "buy")
-	_daily_button.pressed.connect(func() -> void: daily_requested.emit())
+	FreeGiftCard.style_action(_daily_button, true)
+	_daily_button.pressed.connect(func() -> void:
+		if _daily_free_available:
+			daily_requested.emit()
+		else:
+			ad_requested.emit("free_gems")
+	)
 	_daily_status = _text("", 12, MUTED)
 	_daily_status.hide()
 	(gift["card"] as Control).add_child(_daily_status)
-	var gems := _free_tile(grid, _sentence(I18n.t("shop.free_gems")), "gem", str(int(placements.get("free_gems", {}).get("amount", 0))), "starter")
-	(gems["card"] as Control).name = "FreeGemBanner"
-	_free_ad(gems, "free_gems_banner")
+	_ad_buttons["free_gems_banner"] = {"button": _daily_button, "status": _daily_status, "reference": true, "price_font": 14}
 	var gear := _free_tile(grid, _sentence(I18n.t("shop.gear_tickets")), _coupon_item("gear", String(placements.get("free_gear_coupon", {}).get("kind", "standard"))), str(int(placements.get("free_gear_coupon", {}).get("count", 1))), "perk")
 	_free_ad(gear, "free_gear_coupon")
 	var driver := _free_tile(grid, _sentence(I18n.t("shop.driver_tickets")), _coupon_item("driver", String(placements.get("free_driver_coupon", {}).get("kind", "pro"))), str(int(placements.get("free_driver_coupon", {}).get("count", 1))), "character")
@@ -255,115 +267,21 @@ func _build_free_section() -> void:
 	_sections.append({"heading": section["heading"], "content": grid, "group": "featured"})
 
 
-## Thẻ gọn: cảnh đua nhỏ có nhãn tên ở góc trên trái và ô thưởng (icon + số đè) ở giữa; nút ở dưới.
+## Thẻ phần thưởng dùng nền 9-slice, icon, nhãn số lượng và nút native.
 ## Trả {card, amount, button}. item_id lấy từ danh mục vật phẩm (data/reward_items).
 func _free_tile(parent: Node, title: String, item_id: String, amount: String, scene_kind: String) -> Dictionary:
-	var card := PanelContainer.new()
+	var card := FreeGiftCard.new()
 	card.theme = H_THEME
-	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var skin := StyleBoxFlat.new()
-	skin.bg_color = Color("fff4e4")
-	skin.border_color = Color("e8d5bc")
-	skin.set_border_width_all(2)
-	skin.set_corner_radius_all(20)
-	skin.set_content_margin_all(3)
-	skin.shadow_color = Color("79593633")
-	skin.shadow_size = 4
-	skin.shadow_offset = Vector2(0, 3)
-	card.add_theme_stylebox_override("panel", skin)
+	card.setup(title, item_id, amount, scene_kind)
 	parent.add_child(card)
-	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 4)
-	card.add_child(box)
-	var stage := Panel.new()
-	stage.clip_children = CanvasItem.CLIP_CHILDREN_AND_DRAW
-	stage.custom_minimum_size = Vector2(0, 80)
-	stage.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var stage_skin := StyleBoxFlat.new()
-	stage_skin.bg_color = Color("c6ebff")
-	stage_skin.set_corner_radius_all(17)
-	stage.add_theme_stylebox_override("panel", stage_skin)
-	box.add_child(stage)
-	var scene := TextureRect.new()
-	scene.texture = PerkCard.scene_texture(scene_kind)
-	scene.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	scene.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-	scene.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	stage.add_child(scene)
-	scene.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	var pill := PanelContainer.new()
-	pill.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var pill_skin := Soft.flat(Color(1.0, 0.973, 0.925, 0.95), 3, 12)
-	pill_skin.content_margin_left = 8
-	pill_skin.content_margin_right = 8
-	pill_skin.shadow_color = Color("79593622")
-	pill_skin.shadow_size = 2
-	pill.add_theme_stylebox_override("panel", pill_skin)
-	var pill_label := Label.new()
-	pill_label.text = title
-	pill_label.add_theme_font_override("font", HdUi.font())
-	pill_label.add_theme_font_size_override("font_size", 12)
-	pill_label.add_theme_color_override("font_color", PromoUi.INK)
-	pill_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	pill.add_child(pill_label)
-	stage.add_child(pill)
-	pill.position = Vector2(6, 6)
-	var tile := Control.new()
-	tile.custom_minimum_size = Vector2(56, 56)
-	tile.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	stage.add_child(tile)
-	tile.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
-	tile.offset_left = -18
-	tile.offset_right = 38
-	tile.offset_top = -18
-	tile.offset_bottom = 38
-	var icon := TextureRect.new()
-	icon.texture = RewardItems.icon(item_id)
-	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	tile.add_child(icon)
-	icon.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	var label := Label.new()
-	label.text = amount
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	label.add_theme_font_override("font", HdUi.font())
-	label.add_theme_font_size_override("font_size", 24)
-	label.add_theme_color_override("font_color", Color.WHITE)
-	label.add_theme_color_override("font_outline_color", Color("1f3347"))
-	label.add_theme_constant_override("outline_size", 6)
-	tile.add_child(label)
-	label.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
-	label.offset_left = -60
-	label.offset_right = 8
-	label.offset_top = -28
-	label.offset_bottom = 4
-	var button_margin := MarginContainer.new()
-	for side in ["left", "right", "bottom"]:
-		button_margin.add_theme_constant_override("margin_" + side, 4)
-	box.add_child(button_margin)
-	var button := Button.new()
-	button.custom_minimum_size = Vector2(0, 36)
-	button.expand_icon = true
-	button.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	button.alignment = HORIZONTAL_ALIGNMENT_CENTER
-	button.add_theme_constant_override("icon_max_width", 18)
-	button.add_theme_font_size_override("font_size", 14)
-	# Chữ khi bị khóa (Claimed, đếm ngược...): xám nâu đậm, dễ đọc trên nền xám nhạt, không viền.
-	button.add_theme_color_override("font_disabled_color", Color("6a645b"))
-	# Icon và chữ gom vào giữa nút (Godot ghim icon sát trái); tính lại mỗi khi nút đổi kích thước.
-	button.resized.connect(func() -> void: ShopSkin.center_icon(button))
-	button_margin.add_child(button)
-	return {"card": card, "amount": label, "button": button}
+	return {"card": card, "amount": card.amount_label, "button": card.action}
 
 
-## Gắn nút của thẻ gọn vào luồng quảng cáo thưởng (update_ads cập nhật chữ và trạng thái).
 func _free_ad(tile: Dictionary, placement: String) -> void:
 	var button := tile["button"] as Button
 	button.name = "Ad_" + placement
 	ShopSkin.set_kind(button, "ad")
+	FreeGiftCard.style_action(button, false)
 	button.pressed.connect(func() -> void: ad_requested.emit("free_gems" if placement == "free_gems_banner" else placement))
 	var status := _text("", 11, MUTED)
 	status.hide()
@@ -859,11 +777,25 @@ func _grid(columns: int) -> GridContainer:
 
 ## Dựng lại bốn thẻ gói (2 tay đua + 2 phụ kiện) khi coupon/gem/bảo đảm/khóa tính năng đổi.
 func update_daily(amount: String, gems: int, available: bool, blocked: bool) -> void:
+	var changed_mode := available != _daily_free_available
+	_daily_free_available = available
+	_daily_save_blocked = blocked
+	if changed_mode:
+		ShopSkin.set_kind(_daily_button, "buy" if available else "ad")
+		FreeGiftCard.style_action(_daily_button, available)
+	if not available:
+		_daily_amount.text = str(int(GameData.ads().get("placements", {}).get("free_gems", {}).get("amount", 0)))
+		# Main may skip update_ads when its view hash is unchanged after a daily claim.
+		update_ads(_last_ads_view)
+		return
 	_daily_amount.text = str(gems)
+	_daily_button.icon = null
+	_daily_button.alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_daily_button.disabled = not available or blocked
-	_daily_button.text = I18n.t("shop.claimed") if not available else (I18n.t("common.saving") if blocked else I18n.t("shop.claim"))
+	_daily_button.text = I18n.t("shop.claimed") if not available else (I18n.t("common.saving") if blocked else "FREE")
 	_daily_button.add_theme_constant_override("outline_size", 0 if _daily_button.disabled else 4)
 	_daily_button.add_theme_color_override("font_outline_color", Color(0.1, 0.4, 0.1))
+	ShopSkin.price_text(_daily_button, 14 if blocked else 22)
 	_daily_status.text = I18n.t("shop.free_refreshes_every_day")
 
 
@@ -954,8 +886,13 @@ func _ad_button(column: VBoxContainer, placement: String) -> void:
 
 ## Vẽ trạng thái các thẻ quảng cáo. view = {placement: {state, left, reward}} (xem Main._ads_view).
 func update_ads(view: Dictionary) -> void:
+	_last_ads_view = view
 	for pl: String in _ad_buttons:
+		if pl == "free_gems_banner" and _daily_free_available:
+			continue
 		var entry: Dictionary = view.get("free_gems" if pl == "free_gems_banner" else pl, {})
+		if pl == "free_gems_banner" and _daily_save_blocked:
+			entry = {"state": "save"}
 		var button: Button = _ad_buttons[pl]["button"]
 		var status: Label = _ad_buttons[pl]["status"]
 		var reward := String(entry.get("reward", ""))

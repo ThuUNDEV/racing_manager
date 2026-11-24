@@ -317,6 +317,8 @@ func build(product: Dictionary, opts: Dictionary) -> void:
 		price.add_theme_stylebox_override(state, ButtonSkin.palette(top, Color("e6d4bc") if disabled else Color("e8700f" if pressed else "ff831e"), Color("cbb79b") if disabled else Color("a8420a" if pressed else "d5570e")))
 		price.add_theme_color_override("font_" + state + "_color" if state != "normal" else "font_color", Color("657079") if disabled else Color.WHITE)
 	price.add_theme_color_override("font_outline_color", Color("a2420a"))
+	price.set_meta("price_outline_color", Color("a2420a"))
+	price.add_theme_constant_override("outline_size", 4)
 	var focus := Soft.flat(Color.TRANSPARENT, 0, 24)
 	focus.border_color = Color("168cc2")
 	focus.set_border_width_all(2)

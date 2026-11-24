@@ -192,7 +192,8 @@ static func price_text(b: Button, preferred_size: int = 18, unit: float = 1.0) -
 	var font := b.get_theme_font("font")
 	var reference := bool(b.get_meta("reference_face", false))
 	var fitted_text := b.text.trim_prefix("▶ ") if reference and b.icon != null else b.text
-	var available := ((b.get_meta("ub_rect") as Array)[1] as Vector2).x - 10.0 if reference and b.has_meta("ub_rect") else b.size.x / unit - 10.0
+	var edge_padding := float(b.get_meta("icon_edge_padding", 5.0))
+	var available := ((b.get_meta("ub_rect") as Array)[1] as Vector2).x - 10.0 if reference and b.has_meta("ub_rect") else b.size.x / unit - edge_padding * 2.0
 	if b.icon != null:
 		available -= 37.0 if reference else 22.0
 	var point_size := preferred_size
@@ -201,8 +202,9 @@ static func price_text(b: Button, preferred_size: int = 18, unit: float = 1.0) -
 			point_size -= 1
 	b.add_theme_font_size_override("font_size", roundi(point_size * unit))
 	b.set_meta("ub_font", point_size)
-	var buy := BUTTON_OUTLINES.has(b.theme_type_variation) and not b.disabled
-	b.add_theme_color_override("font_outline_color", BUTTON_OUTLINES[b.theme_type_variation] if buy else Color.TRANSPARENT)
+	var outline_color: Color = b.get_meta("price_outline_color", BUTTON_OUTLINES.get(b.theme_type_variation, Color.TRANSPARENT))
+	var buy := outline_color.a > 0.0 and not b.disabled
+	b.add_theme_color_override("font_outline_color", outline_color if buy else Color.TRANSPARENT)
 	var outline := 4 if buy else 0
 	b.add_theme_constant_override("outline_size", roundi(outline * unit))
 	b.set_meta("ub_c_outline_size", outline)
@@ -232,6 +234,16 @@ static func set_kind(b: Button, kind: String) -> void:
 ## Godot pins a button icon to the left edge; pad both sides so icon and text sit together in the middle.
 static func center_icon(b: Button) -> void:
 	if b.icon == null or b.size.x <= 0.0 or b.size.y <= 0.0:
+		return
+	if b.has_meta("icon_edge_padding"):
+		# Keep a fixed safe inset on the rounded Free Gifts buttons. Let Godot
+		# center text in the remaining icon/text area without clipping its start.
+		b.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
+		b.alignment = HORIZONTAL_ALIGNMENT_CENTER
+		for state in ["normal", "hover", "pressed", "hover_pressed", "disabled"]:
+			var safe_style := b.get_theme_stylebox(state)
+			safe_style.content_margin_left = float(b.get_meta("icon_edge_padding"))
+			safe_style.content_margin_right = float(b.get_meta("icon_edge_padding"))
 		return
 	b.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	b.alignment = HORIZONTAL_ALIGNMENT_RIGHT

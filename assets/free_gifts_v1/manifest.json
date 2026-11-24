@@ -1,0 +1,171 @@
+{
+  "source_size": [
+    1086,
+    1448
+  ],
+  "assets": {
+    "header_cyan": {
+      "file": "header_cyan.png",
+      "size": [
+        350,
+        129
+      ],
+      "source_cell": [
+        0,
+        0,
+        362,
+        362
+      ]
+    },
+    "card_daily_gold": {
+      "file": "card_daily_gold.png",
+      "size": [
+        341,
+        232
+      ],
+      "source_cell": [
+        362,
+        0,
+        724,
+        362
+      ],
+      "nine_slice_margin": 18
+    },
+    "card_gems_lavender": {
+      "file": "card_gems_lavender.png",
+      "size": [
+        349,
+        234
+      ],
+      "source_cell": [
+        724,
+        0,
+        1086,
+        362
+      ],
+      "nine_slice_margin": 18
+    },
+    "card_gear_mint": {
+      "file": "card_gear_mint.png",
+      "size": [
+        350,
+        220
+      ],
+      "source_cell": [
+        0,
+        362,
+        362,
+        724
+      ],
+      "nine_slice_margin": 18
+    },
+    "card_driver_blue": {
+      "file": "card_driver_blue.png",
+      "size": [
+        349,
+        223
+      ],
+      "source_cell": [
+        362,
+        362,
+        724,
+        724
+      ],
+      "nine_slice_margin": 18
+    },
+    "button_claim_green": {
+      "file": "button_claim_green.png",
+      "size": [
+        344,
+        156
+      ],
+      "source_cell": [
+        724,
+        362,
+        1086,
+        724
+      ],
+      "nine_slice_margin": 20
+    },
+    "button_video_blue": {
+      "file": "button_video_blue.png",
+      "size": [
+        350,
+        142
+      ],
+      "source_cell": [
+        0,
+        724,
+        362,
+        1086
+      ],
+      "nine_slice_margin": 20
+    },
+    "quantity_pill": {
+      "file": "quantity_pill.png",
+      "size": [
+        252,
+        137
+      ],
+      "source_cell": [
+        362,
+        724,
+        724,
+        1086
+      ],
+      "nine_slice_margin": 12
+    },
+    "icon_gem": {
+      "file": "icon_gem.png",
+      "size": [
+        252,
+        257
+      ],
+      "source_cell": [
+        724,
+        724,
+        1086,
+        1086
+      ]
+    },
+    "icon_gear_ticket": {
+      "file": "icon_gear_ticket.png",
+      "size": [
+        275,
+        263
+      ],
+      "source_cell": [
+        0,
+        1086,
+        362,
+        1448
+      ]
+    },
+    "icon_driver_ticket": {
+      "file": "icon_driver_ticket.png",
+      "size": [
+        270,
+        255
+      ],
+      "source_cell": [
+        362,
+        1086,
+        724,
+        1448
+      ]
+    },
+    "icon_gift": {
+      "file": "icon_gift.png",
+      "size": [
+        240,
+        245
+      ],
+      "source_cell": [
+        724,
+        1086,
+        1086,
+        1448
+      ]
+    }
+  }
+}
