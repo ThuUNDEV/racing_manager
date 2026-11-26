@@ -7,6 +7,7 @@ const CleanArt = preload("res://ui/clean_modern_art.gd")
 
 const ROOT := "res://assets/workshop_gp/"
 const TEX_SIZE := Vector2(238.0, 421.0)
+const SCENE_RATIO := 600.0 / 1024.0
 const C_DARK := Color("1d1f24")
 const C_LIGHT := Color("fff8e7")
 const PAINT_SHADER := preload("res://ui/car_paint.gdshader")
@@ -28,6 +29,8 @@ var decal_id: String = "none":
 	set(v):
 		decal_id = v
 		_update()
+## Khu trưng bày: tự giữ chiều cao theo tỉ lệ ảnh nền xưởng.
+var keep_scene_ratio: bool = false
 var show_floor: bool = true:
 	set(v):
 		show_floor = v
@@ -66,7 +69,15 @@ func _init() -> void:
 	_layer = DecalLayer.new()
 	_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_rig.add_child(_layer)
-	resized.connect(_update)
+	resized.connect(_on_resized)
+
+
+func _on_resized() -> void:
+	if keep_scene_ratio:
+		var wanted := roundf(size.x * SCENE_RATIO)
+		if not is_equal_approx(custom_minimum_size.y, wanted):
+			custom_minimum_size.y = wanted
+	_update()
 
 
 func _make_tex() -> TextureRect:
@@ -106,8 +117,14 @@ func _update() -> void:
 	_shadow.texture = ExpansionArt.texture("car_shadow")
 	_shadow.size = Vector2(dimensions.x, dimensions.y * 0.18)
 	_shadow.position = Vector2(-dimensions.x * 0.5, dimensions.y * 0.32)
-	var k := minf(size.y * 0.85 / dimensions.y, size.x * 0.85 / dimensions.x)
-	_rig.position = size * 0.5
+	# Trong xưởng: góc 3/4 đặt bánh lên bục xoay; nhìn từ trên thì nằm giữa mặt bục.
+	var fit := Vector2(0.85, 0.85)
+	var center := Vector2(0.5, 0.5)
+	if show_floor:
+		fit = Vector2(0.80, 0.90) if overhead else Vector2(0.76, 0.80)
+		center = Vector2(0.5, 0.52) if overhead else Vector2(0.5, 0.52)
+	var k := minf(size.y * fit.y / dimensions.y, size.x * fit.x / dimensions.x)
+	_rig.position = size * center
 	_rig.rotation = angle if overhead else 0.0
 	_rig.scale = Vector2(k, k)
 	var a := 0.55 if dimmed else 1.0
@@ -128,7 +145,7 @@ func _ready() -> void:
 
 func _draw() -> void:
 	if show_floor:
-		var background := HdUi.Soft.texture("garage_background_empty")
+		var background := HdUi.Soft.texture("garage_showroom_front")
 		if background != null:
 			draw_texture_rect(background, Rect2(Vector2.ZERO, size), false)
 

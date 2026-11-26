@@ -38,7 +38,7 @@ func run() -> void:
 	GameData.reload()
 	Tutorial.reload()
 	check(Tutorial.validate().is_empty(), "all lesson definitions are valid")
-	check(Tutorial.Catalog.group("onboarding").size() == 6 and Tutorial.features().size() == 5 and Tutorial.tips().size() == 5, "sáu bài làm quen, năm bài tính năng và năm mẹo theo tình huống")
+	check(Tutorial.Catalog.group("onboarding").size() == 6 and Tutorial.features().size() == 6 and Tutorial.tips().size() == 5, "sáu bài làm quen, sáu bài tính năng và năm mẹo theo tình huống")
 	for group in ["onboarding", "features", "tips"]:
 		for item: Dictionary in Tutorial.Catalog.group(group):
 			check(FileAccess.file_exists(item["source"]) and not String(item["purpose"]).is_empty(), "%s owns its source and purpose" % item["id"])

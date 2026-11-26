@@ -21,6 +21,8 @@ const SECTIONS := ["garage.cars", "garage.parts", "garage.appearance"]
 const STAT_NAMES := {"S": "common.pace", "H": "common.grip", "B": "common.stability", "A": "common.acceleration"}
 const PART_ORDER := ["engine", "tyre", "chassis", "gearbox"]
 const MULTS := [1, 10, 0]  # 0 = ×Max
+const STAT_ICONS := {"engine": "speedometer", "tyre": "tyre", "chassis": "stability_scales", "gearbox": "rocket_acceleration"}
+const STAT_CARD_ORDER := ["engine", "gearbox", "tyre", "chassis"]  # thứ tự thẻ theo concept 04-garage
 
 var _viewed: String = ""
 var _section: int = 0
@@ -163,21 +165,68 @@ func _style_button(b: Button, bg: Color, fg: Color, border: Color, bw: int = 1) 
 	b.add_theme_color_override("font_disabled_color", fg.lerp(C_MUTED, 0.5))
 
 
-## Nút phụ: nền kem viền be; `on` = đang chọn (graphite chữ trắng).
+## Mặt thẻ ngà phẳng; `on` = đang chọn (viền cam). Meta giữ lớp bo viên thuốc chung không ghi đè.
+func _card_style(on: bool) -> StyleBoxFlat:
+	var sb := _box(Color("fff0cf") if on else Color("fff9ee"), Color("ff9225") if on else Color("ded9c8"), 18, 3 if on else 1)
+	sb.border_width_bottom = 4 if on else 3
+	sb.set_content_margin_all(6)
+	sb.set_meta("rounded_button", true)
+	return sb
+
+
+func _style_card_button(b: Button, on: bool) -> void:
+	for st: String in ["normal", "hover", "pressed", "hover_pressed", "disabled"]:
+		b.add_theme_stylebox_override(st, _card_style(on))
+	for c: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color"]:
+		b.add_theme_color_override(c, C_TEXT)
+	b.add_theme_constant_override("outline_size", 0)
+
+
+## Nút phụ dạng thẻ (decal).
 func _choice(text: String, on: bool, cb: Callable, h: float = 44.0) -> Button:
 	var b := Button.new()
 	b.text = text
 	b.custom_minimum_size = Vector2(0, maxf(h, 44.0))
 	b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	b.add_theme_font_size_override("font_size", 14)
-	if on:
-		_style_button(b, C_INK, Color.WHITE, C_INK)
-	else:
-		_style_button(b, C_CARD, C_TEXT, C_LINE)
+	_style_card_button(b, on)
 	b.pressed.connect(func() -> void:
 		sfx.emit("ui_tab")
 		cb.call())
 	return b
+
+
+## Thanh chọn liền khối: khay ngà, mục đang chọn là viên cam.
+func _segmented(texts: Array, selected: int, cb: Callable) -> PanelContainer:
+	var tray := PanelContainer.new()
+	var track := _box(Color("fff9ee"), Color("ded9c8"), 26, 1)
+	track.border_width_bottom = 3
+	track.set_content_margin_all(4)
+	tray.add_theme_stylebox_override("panel", track)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 4)
+	tray.add_child(row)
+	for i in texts.size():
+		var on := i == selected
+		var b := Button.new()
+		b.text = String(texts[i])
+		b.clip_text = true
+		b.custom_minimum_size = Vector2(0, 44)
+		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		b.add_theme_font_size_override("font_size", 15)
+		if on:
+			HdUi.style_button(b, "orange")
+		else:
+			for st: String in ["normal", "hover", "pressed", "hover_pressed", "disabled"]:
+				b.add_theme_stylebox_override(st, StyleBoxEmpty.new())
+			for c: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color"]:
+				b.add_theme_color_override(c, C_TEXT)
+			b.add_theme_constant_override("outline_size", 0)
+		b.pressed.connect(func() -> void:
+			sfx.emit("ui_tab")
+			cb.call(i))
+		row.add_child(b)
+	return tray
 
 
 func _cta(text: String, enabled: bool, cb: Callable) -> Button:
@@ -186,7 +235,10 @@ func _cta(text: String, enabled: bool, cb: Callable) -> Button:
 	b.disabled = not enabled
 	b.custom_minimum_size = Vector2(0, 48)
 	b.add_theme_font_size_override("font_size", 16)
-	_style_button(b, C_ORANGE, C_INK, Color("d9620a"))
+	_style_button(b, C_ORANGE, Color.WHITE, Color("d9620a"))
+	b.add_theme_color_override("font_disabled_color", Color.WHITE)
+	b.add_theme_color_override("font_outline_color", Color("8a3a05") if enabled else Color("6d7480"))
+	b.add_theme_constant_override("outline_size", 4)
 	b.pressed.connect(func() -> void:
 		sfx.emit("ui_click")
 		cb.call())
@@ -242,11 +294,7 @@ func _rebuild() -> void:
 	_body.add_theme_constant_override("separation", 10)
 	_body.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	add_child(_body)
-	var tabs := HBoxContainer.new()
-	tabs.add_theme_constant_override("separation", 8)
-	_body.add_child(tabs)
-	for i in SECTIONS.size():
-		tabs.add_child(_choice(I18n.t(SECTIONS[i]), _section == i, _set_section.bind(i)))
+	_body.add_child(_segmented(SECTIONS.map(func(key: String) -> String: return I18n.t(key)), _section, _set_section))
 	match _section:
 		0:
 			_build_car_section()
@@ -256,41 +304,70 @@ func _rebuild() -> void:
 			_build_look_section()
 
 
-func _build_header() -> void:
-	var car := GameData.car(_viewed)
-	var head_card := PanelContainer.new()
-	head_card.add_theme_stylebox_override("panel", HdUi.Soft.surface("section", Vector4(8, 4, 8, 5)))
-	add_child(head_card)
-	var head := HBoxContainer.new()
-	head_card.add_child(head)
-	var titles := VBoxContainer.new()
-	titles.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	titles.add_theme_constant_override("separation", 0)
-	head.add_child(HdUi.Soft.art("nav_race", Vector2(55, 45)))
-	head.add_child(titles)
-	titles.add_child(_label("Garage", 25))
-	var sub := _label(I18n.t("garage.tier") % [car["name"], int(car["class"])], 14, C_MUTED, true)
-	titles.add_child(sub)
-	var change := _plain(I18n.t("garage.change_car"), func() -> void: _guard(func() -> void:
+func _open_collection() -> void:
+	_guard(func() -> void:
 		_collection = true
 		_confirm_buy = false
-		refresh()))
-	HdUi.style_button(change, "orange")
-	HdUi.text_depth(change, true)
-	change.custom_minimum_size = Vector2(88, 44)
-	head.add_child(change)
+		refresh())
+
+
+## Nút cam kèm hình cắt, dùng cho lối vào bộ sưu tập. Hình và chữ nằm liền nhau ở giữa nút.
+func _collection_button(text: String, art_id: String, h: float, art_size: float = 36.0) -> Button:
+	var b := Button.new()
+	b.accessibility_name = text
+	HdUi.style_button(b, "orange")
+	b.pressed.connect(func() -> void:
+		sfx.emit("ui_click")
+		_open_collection())
+	var row := HBoxContainer.new()
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.set_anchors_preset(Control.PRESET_FULL_RECT)
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override("separation", 5)
+	b.add_child(row)
+	row.add_child(HdUi.Soft.art(art_id, Vector2(art_size, art_size)))
+	var label := _label(text, 14, Color.WHITE)
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label.add_theme_color_override("font_outline_color", Color("8a3a05"))
+	label.add_theme_constant_override("outline_size", 4)
+	label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	row.add_child(label)
+	var width := HdUi.font().get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
+	b.custom_minimum_size = Vector2(ceilf(width) + art_size + 27.0, h)
+	return b
+
+
+func _build_header() -> void:
+	var car := GameData.car(_viewed)
+	var head := HBoxContainer.new()
+	head.add_theme_constant_override("separation", 6)
+	add_child(head)
+	var banner := PanelContainer.new()
+	banner.add_theme_stylebox_override("panel", HdUi.Soft.surface("section_tall", Vector4(8, 3, 8, 4)))
+	banner.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	head.add_child(banner)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 6)
+	banner.add_child(row)
+	row.add_child(HdUi.Soft.art("nav_race", Vector2(40, 40)))
+	var titles := VBoxContainer.new()
+	titles.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	titles.alignment = BoxContainer.ALIGNMENT_CENTER
+	titles.add_theme_constant_override("separation", -3)
+	row.add_child(titles)
+	titles.add_child(_label("Garage", 24))
+	titles.add_child(_label(I18n.t("garage.tier") % [car["name"], int(car["class"])], 12, C_MUTED, true))
+	var collection := _collection_button(I18n.t("garage.collection"), "inventory_crate", 52, 32.0)
+	head.add_child(collection)
 
 
 func _build_showroom() -> void:
 	_preview = CarPreview.new()
 	_preview.car_id = _viewed
 	_preview.top_down = _section == 2
-	_preview.custom_minimum_size = Vector2(0, 216)
 	_preview.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var pc := PanelContainer.new()
-	pc.add_theme_stylebox_override("panel", HdUi.panel())
-	pc.add_child(_preview)
-	add_child(pc)
+	_preview.keep_scene_ratio = true
+	add_child(_preview)
 	var cos := _saved_cos(_viewed)
 	if _owned(_viewed):
 		_preview.paint_id = _draft_paint if _draft_car == _viewed else cos["paint_id"]
@@ -301,17 +378,16 @@ func _build_showroom() -> void:
 		_preview.dimmed = true
 	var status := _status_text()
 	var active := _owned(_viewed) and _viewed == GameState.active_car_id and status.begins_with(I18n.t("garage.use"))
-	var status_pill := HdUi.Soft.pill(status, Color("d3f2c6") if active else Color("ece6d6"), 13)
-	status_pill.name = "ShowroomStatus"
-	if active:
-		var status_center := CenterContainer.new()
-		status_center.add_child(status_pill)
-		add_child(status_center)
-	else:
-		var status_label := status_pill.get_child(0) as Label
-		status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		status_pill.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		add_child(status_pill)
+	var pill := PanelContainer.new()
+	pill.name = "ShowroomStatus"
+	var skin := _box(Color("dcf5cc") if active else Color("f1ecdd"), Color("9bd684") if active else Color("d8d2bd"), 18, 2)
+	skin.content_margin_top = 5
+	skin.content_margin_bottom = 5
+	pill.add_theme_stylebox_override("panel", skin)
+	var text := _label(status, 13, Color("14532d") if active else C_TEXT, true)
+	text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	pill.add_child(text)
+	add_child(pill)
 
 
 func _status_text() -> String:
@@ -427,31 +503,55 @@ func _owned_level(kind: String) -> int:
 func _build_car_section() -> void:
 	var compare := _viewed != GameState.active_car_id
 	var grid := _grid(_body, 2)
-	for kind: String in PART_ORDER:
+	for kind: String in STAT_CARD_ORDER:
 		var key: String = Balance.PART_KEY[kind]
 		var value := GameState.car_part_stat(_viewed, kind, _owned_level(kind))
 		var card := _panel(grid)
 		var stat_row := HBoxContainer.new()
+		stat_row.add_theme_constant_override("separation", 4)
 		card.add_child(stat_row)
-		stat_row.add_child(HdUi.Soft.art({"engine": "speedometer", "tyre": "tyre", "chassis": "stability_scales", "gearbox": "rocket_acceleration"}[kind], Vector2(59, 54)))
+		stat_row.add_child(HdUi.Soft.art(STAT_ICONS[kind], Vector2(52, 52)))
 		var values := VBoxContainer.new()
 		values.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		values.alignment = BoxContainer.ALIGNMENT_CENTER
+		values.add_theme_constant_override("separation", 1)
 		stat_row.add_child(values)
-		values.add_child(_label(I18n.t(STAT_NAMES[key]), 15, C_TEXT))
-		var row := HBoxContainer.new()
-		row.add_theme_constant_override("separation", 8)
-		values.add_child(row)
-		row.add_child(HdUi.Soft.pill(Balance.fmt_rate(snappedf(value, 0.1)), Color("d3edbd"), 24))
+		var name_label := _label(I18n.t(STAT_NAMES[key]), 14, C_TEXT, true)
+		name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		values.add_child(name_label)
+		var value_pill := HdUi.Soft.pill(Balance.fmt_rate(snappedf(value, 0.1)), Color("d9f0c4"), 22)
+		(value_pill.get_child(0) as Label).add_theme_color_override("font_color", C_GOOD)
+		values.add_child(value_pill)
 		if compare:
 			var base := GameState.car_part_stat(GameState.active_car_id, kind, GameState.level_of(kind))
 			var delta := snappedf(value - base, 0.1)
 			var txt := "0" if is_zero_approx(delta) else ("%s%s" % ["+" if delta > 0.0 else "−", Balance.fmt_rate(absf(delta))])
 			var l := _label(txt, 13, C_GOOD if delta > 0.0 else (C_BAD if delta < 0.0 else C_MUTED))
-			l.size_flags_vertical = Control.SIZE_SHRINK_END
-			row.add_child(l)
+			l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			values.add_child(l)
 	var note := I18n.t("garage.compared_with_car_used_next") if compare else I18n.t("garage.part_levels_are_kept_separately")
-	_body.add_child(_label(note, 12, C_MUTED, true))
+	_body.add_child(_divider_note(note))
 	_body.add_child(_car_cta())
+	_body.add_child(_collection_button(I18n.t("garage.pick_other_car"), "car_showroom", 50, 40.0))
+
+
+## Ghi chú nhỏ kẹp giữa hai vạch kẻ.
+func _divider_note(text: String) -> Control:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
+	var note := _label(text, 12, C_MUTED, true)
+	note.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	note.size_flags_stretch_ratio = 12.0
+	for i in 2:
+		var line := HSeparator.new()
+		line.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var stroke := StyleBoxLine.new()
+		stroke.color = Color("c9c5b6")
+		line.add_theme_stylebox_override("separator", stroke)
+		row.add_child(line)
+		if i == 0:
+			row.add_child(note)
+	return row
 
 
 func _car_cta() -> Control:
@@ -490,7 +590,7 @@ func _car_cta() -> Control:
 			_confirm_buy = true
 			refresh())
 	if id == GameState.active_car_id:
-		return _cta(I18n.t("common.use"), false, func() -> void: pass)
+		return _cta("✓ " + I18n.t("common.use"), false, func() -> void: pass)
 	if _blocked():
 		return _cta(I18n.t("common.saving"), false, func() -> void: pass)
 	if not _eligible(id):
@@ -545,13 +645,7 @@ func _build_parts_section() -> void:
 		b.add_theme_constant_override("icon_max_width", 32)
 		b.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		var on := kind == _part
-		for st: String in ["normal", "hover", "pressed", "focus", "disabled", "hover_pressed"]:
-			var flat := _box(Color("fff0b3") if on else Color("fffaf0"), Color("f2b01e") if on else Color("dcd3bd"), 16, 3 if on else 1)
-			flat.set_content_margin_all(6)
-			b.add_theme_stylebox_override(st, flat)
-		for c: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color"]:
-			b.add_theme_color_override(c, C_TEXT)
+		_style_card_button(b, kind == _part)
 		b.pressed.connect(func() -> void:
 			sfx.emit("ui_tab")
 			_part = kind
@@ -676,7 +770,7 @@ func _build_look_section() -> void:
 		var b := Button.new()
 		b.custom_minimum_size = Vector2(0, 56)
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		_style_button(b, C_INK if on else C_CARD, Color.WHITE if on else C_TEXT, C_INK if on else C_LINE)
+		_style_card_button(b, on)
 		b.pressed.connect(func() -> void:
 			sfx.emit("ui_tab")
 			_draft_paint = id
@@ -693,7 +787,7 @@ func _build_look_section() -> void:
 		var ds := _box(Color(String(p["color"])), Color("1d1f24"), 11, 1)
 		dot.add_theme_stylebox_override("panel", ds)
 		col.add_child(dot)
-		var nm := _label(String(p["name"]), 11, Color.WHITE if on else C_TEXT)
+		var nm := _label(String(p["name"]), 11, C_TEXT)
 		nm.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		nm.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		nm.clip_text = true
@@ -755,14 +849,8 @@ func _build_collection() -> void:
 		refresh())
 	back.custom_minimum_size = Vector2(96, 48)
 	head.add_child(back)
-	var filt := HBoxContainer.new()
-	filt.add_theme_constant_override("separation", 8)
-	add_child(filt)
-	filt.add_child(_choice(I18n.t("garage.all"), not _owned_only, func() -> void:
-		_owned_only = false
-		refresh()))
-	filt.add_child(_choice(I18n.t("common.owned"), _owned_only, func() -> void:
-		_owned_only = true
+	add_child(_segmented([I18n.t("garage.all"), I18n.t("common.owned")], 1 if _owned_only else 0, func(i: int) -> void:
+		_owned_only = i == 1
 		refresh()))
 	add_child(_label(I18n.t("garage.tap_car_view_buying_or"), 12, C_MUTED, true))
 	var by_class := {}
@@ -791,7 +879,7 @@ func _collection_card(c: Dictionary) -> Control:
 	b.custom_minimum_size = Vector2(0, 132)
 	b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var viewed := id == _viewed
-	_style_button(b, Color("ffe8cf") if viewed else C_CARD, C_TEXT, C_ORANGE if viewed else C_LINE, 2 if viewed else 1)
+	_style_card_button(b, viewed)
 	b.pressed.connect(func() -> void:
 		sfx.emit("ui_click")
 		_view_car(id))

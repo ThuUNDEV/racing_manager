@@ -2510,6 +2510,19 @@
       ],
       "sha256": "3a65d62fafb586f1b40c7d8c214c623fbf5ec8f61e442d0ab426f962801d288f",
       "transparent": true
+    },
+    "garage_showroom_front": {
+      "method": "flare_reference_edit_export",
+      "provenance": "gpt-image-2.5-flare (quality low) via OpenAI Images API edits, reference: png_2x/scenes/garage_scene.png (tools/gen_image.py); car removed, cropped to 1536x900, rounded corners",
+      "source": "flare/garage_showroom_front.png",
+      "source_sha256": "7fdc39836e6b90805a1ceac5df702941a092f5fc1d867e94f5530e1d828f76c0",
+      "png_2x": "runtime_flare/garage_showroom_front.png",
+      "native_size": [
+        1024,
+        600
+      ],
+      "sha256": "012af4befc7a74cc37993c697b80552645cad05724bb555d15a5952d15ceea68",
+      "transparent": true
     }
   },
   "hd_restoration": {

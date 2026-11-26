@@ -135,8 +135,6 @@ var _audio: Node = null  # components/workshop_audio.gd
 var _music_player: AudioStreamPlayer = null
 var _music_on: bool = true
 var _sfx_on: bool = true
-## Bản này tạm ẩn Garage khỏi tab Đội (GaragePage vẫn dựng sẵn; đặt true để bật lại cùng tutorial U6_garage trong data/tutorial.json).
-const TEAM_GARAGE_ENABLED := false
 var _team_sub: int = 0
 var _team_sub_buttons: Array = []
 var _team_drivers_wrap: VBoxContainer
@@ -1001,7 +999,6 @@ func _build_team_page() -> void:
 	# Đội có hai mục con: Tay đua / Garage (Design/15 §3).
 	var tabs := PanelContainer.new()
 	tabs.name = "TeamTabs"
-	tabs.visible = TEAM_GARAGE_ENABLED
 	var track := StyleBoxFlat.new()
 	track.bg_color = Color("e9f3f5")
 	track.border_color = Color("d1e4e8")
