@@ -9,6 +9,15 @@ WIDTHS = ["320", "390", "412"]
 NOTES = {}
 
 screens = json.loads((ROOT / "index.json").read_text(encoding="utf-8"))
+# Pack popups (IAP detail, drop rates, opening results) sit together, right after Shop.
+PACKS = ("iap_", "gear_rates", "gear_result", "driver_rates", "driver_result")
+packs = [s for s in screens if s["id"].startswith(PACKS)]
+for s in packs:
+    s["group"] = "Popup pack"
+screens = [s for s in screens if s not in packs]
+at = max(i for i, s in enumerate(screens) if s["group"] == "Shop") + 1
+screens[at:at] = sorted(packs, key=lambda s: not s["id"].startswith("iap_"))
+
 for s in screens:
     s["note"] = NOTES.get(s["id"], "")
     s["img"] = {}
