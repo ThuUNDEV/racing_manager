@@ -1,0 +1,4 @@
+interface:
+  display_name: "Racing UI Review"
+  short_description: "Đối chiếu UI runtime với demo đã duyệt"
+  default_prompt: "Dùng $racing-ui-review so sánh UI đã setup với demo đã duyệt, chỉ ra sai lệch bằng ảnh runtime và sửa cho khớp khi được yêu cầu."
