@@ -1,0 +1,8 @@
+{
+  "_doc": "Shop display-only cash previews, Design/28 section 4.8. Actions remain upcoming; no exchange logic or balance is changed.",
+  "cash_previews": [
+    {"art": "cash_small", "income_minutes": 60, "gems": 10},
+    {"art": "cash_medium", "income_minutes": 240, "gems": 30},
+    {"art": "cash_large", "income_minutes": 480, "gems": 50}
+  ]
+}

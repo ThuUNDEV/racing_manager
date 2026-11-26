@@ -695,5 +695,10 @@
  "promotion.reward_gems": "+%d permata",
   "tutorial.story.first_win": "P%d! Bos, kita tamat di tempat pertama! Saya perlu sediakan ruang untuk trofi pertama kita! Kita juga mendapat %s wang hadiah.",
   "tutorial.story.already_has_trophy": "Kita sudah ada trofi pertama, sekarang saya mahu satu lagi. Pilih pelaburan seterusnya, Bos!\n\nSaya akan siapkan kereta. Jika ada pilihan baharu, saya akan beritahu!",
- "tutorial.power.increased": "Lihat paparan Power, Bos: %s → %s! Naik taraf enjin terus meningkatkan kekuatan pasukan kita."
+ "tutorial.power.increased": "Lihat paparan Power, Bos: %s → %s! Naik taraf enjin terus meningkatkan kekuatan pasukan kita.",
+ "shop.pack_gifts": "Hadiah tambahan",
+ "shop.pack_benefits": "Manfaat",
+ "shop.pack_remove_ads": "Buang\niklan",
+ "shop.pack_income_note": "Tidak digunakan semasa luar talian.\nTidak digabungkan dengan boost iklan (pengganda tertinggi digunakan).",
+ "shop.income_minutes": "%d minit"
 }

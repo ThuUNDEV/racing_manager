@@ -605,3 +605,68 @@ Nguồn: `ui/hd_ui.gd` (`ROOT = res://assets/racing_ui_hd/`), `ui/main.gd`, art 
 | Chữ | font trong `assets/clean_modern/fonts/`; chữ có viền sáng `#ffffffd9` hoặc tối `#173b59dd`, bóng 1 px | chữ chính `#102d60` |
 
 Quy tắc phong cách: Soft Miniature (nền kem, thẻ bo tròn kiểu đất sét, nút cam cho hành động, thanh tiêu đề xanh có cờ caro); chuẩn tham chiếu là `Demos/SoftMiniature/approved/` và `Demos/SoftMiniature/layout-review.html`. Mục này viết theo style glossy cũ nên phần màu bên dưới cần rà lại.
+
+
+## Popup pack: quyền lợi chính + quà kèm (sửa theo review 26/11/2026)
+
+Chuẩn: `Design/Demos/SoftMiniature/approved/pack_popup_benefit_gifts_v1/01_benefit_gifts.png`. Code: `ui/pack_benefit_ui.gd`; asset: `assets/pack_benefit_v2/`. Giá, grant và điều kiện vẫn do IAP service quản lý.
+
+```text
+Overlay / PanelContainer (padding trái/phải 16, trên 70, dưới 12)
+├─ ScrollContainer / VBoxContainer / build_detail
+│  ├─ PromoPrimary: sprite + quyền lợi chính + gem/badge/chip
+│  ├─ PromoRewards: heading chồng lên khay, các hàng thưởng
+│  ├─ PromoNote: ẩn nếu rỗng, cao theo nội dung
+│  ├─ PromoActionSpace: giãn phần trống ngoài khay
+│  ├─ DetailBuy_<sku>: IAP CTA, chạm tối thiểu 44
+│  ├─ trạng thái IAP (ẩn nếu rỗng)
+│  └─ Footer: giới hạn mua + nút Xem tỉ lệ 44 px
+└─ PromoHeaderHolder / PromoHeader: tiêu đề + PromoClose 48×48
+```
+
+Header cao 48 được ghim trong padding trên, offset y −56..−8 so với gốc content của panel; vùng cuộn bắt đầu bên dưới header, nên cuộn không che nút X. `vertical_gutter` của modal tính cả padding và lề màn hình.
+
+Tỷ lệ tham chiếu thẻ khoảng 390×588: sáu pack chuẩn dùng chiều cao nội dung tối thiểu theo tỷ lệ này. Primary cao 142 (income 156), scale theo bề rộng popup. Khay thưởng co theo số hàng, không ép khay một quà bằng khay ba quà. Khoảng cách nội dung 4, hàng thưởng tối thiểu 48×scale (một quà 84×scale). Nhãn tiêu đề fit font 34×scale, số gem 64×scale, hàng thưởng 24×scale, giá 38×scale. Text dài được xuống dòng/cuộn, không co méo popup.
+
+Số đo live tại 390×845 (logical px):
+
+| SKU | x | y | w | h |
+|---|---:|---:|---:|---:|
+| starter_1 | 16.0 | 151.0 | 358.0 | 542.0 |
+| weekly_s | 16.0 | 151.0 | 358.0 | 542.0 |
+| offer_noads_bundle | 16.0 | 152.0 | 358.0 | 540.0 |
+| income_x2 | 16.0 | 152.0 | 358.0 | 540.0 |
+| no_ads | 16.0 | 152.0 | 358.0 | 540.0 |
+| char_my | 16.0 | 152.0 | 358.0 | 540.0 |
+
+Bằng chứng: `Design/Previews/pack_benefit_fix_v2/`. Kiểm tra native 886×1920 với content_scale_factor 2.2718; ảnh giữ pixel vật lý, các JSON dùng tọa độ logical.
+
+
+## Shop — approved v9 implementation (26/11/2026)
+
+Chuẩn mới do người dùng chọn: `Design/Demos/SoftMiniature/approved/shop_v9/shop.png` (ảnh 3 vị trí cuộn). Phần này thay chuẩn Shop cũ ở §3.6; không thay các trang khác.
+
+Shop dùng `ui/shop_page.gd`, thẻ native `shop_demo_offer_card.gd`, `shop_demo_currency_card.gd` và helper màu `shop_demo_theme.gd`; không phủ ảnh concept lên UI. Toàn bộ tên, giá, số lượng và trạng thái là Label/Button thật. Header/nav chung được giữ, thứ tự nav Shop/Túi/Đua/Đội/Giải. Chỉ Shop đổi màu nền và lề ContentArea.
+
+- Nền `#ded7ca`, mặt thẻ `#eee6d9`, chữ `#102857`; viền special vàng bo liên tục 16px, tia sáng nhẹ.
+- FREE xanh lá; mua USD/tiêu gem xanh azure, video xanh nhạt; khôi phục nút viền.
+- Section ribbon compact 34px; lề thực của thẻ 12px tại 390px, khoảng cách khối 6px; nội dung rộng 366px.
+- Gói Tân binh, Thu nhập, Đội tự do: artwork + badge riêng; starter2/3 có section Gói Khởi động; điều kiện hiện/ẩn lấy từ IAP như trước.
+- Gói ngày full-width; mở gói 2 cột; gem và tiền 3 cột. Nút native tối thiểu 44px; thẻ có thể cao hơn ảnh concept để giữ vùng chạm và nhãn dịch.
+- Đổi tiền chỉ trưng bày 60/240/480 phút theo Design/28 §4.8, cấu hình UI ở `data/shop_display.json`. Bấm vẫn mở thông báo Sắp có; không bổ sung giao dịch hay thay balance/save.
+
+Số đo 390×845 trích từ SceneTree fixture trong `tests/shop_demo_v9_ui_test.gd`, lưu đầy đủ ở `Design/Previews/Shop_Demo_v9/geometry.json`. y dưới đây tương đối với đầu nội dung cuộn và phụ thuộc các SKU đủ điều kiện trong fixture:
+
+| Node | x, y, w, h logical |
+|---|---|
+| Offer_starter_1 | 0.0, 294.0, 366.0, 148.0 |
+| Offer_income_x2 | 0.0, 448.0, 366.0, 119.0 |
+| Offer_no_ads | 0.0, 573.0, 366.0, 117.0 |
+| Offer_starter_2 | 0.0, 736.0, 366.0, 125.0 |
+| Offer_daily_gear | 0.0, 907.0, 366.0, 117.0 |
+| Offer_daily_driver | 0.0, 1030.0, 366.0, 117.0 |
+| OpenPacks | 0.0, 1193.0, 366.0, 272.0 |
+| GemGrid | 0.0, 1511.0, 366.0, 340.0 |
+| CashGrid | 0.0, 1897.0, 366.0, 184.0 |
+
+Ảnh runtime và bảng so sánh: `Design/Previews/Shop_Demo_v9/`. Khác biệt dữ liệu hợp lệ: tay đua trong starter2 mang tên Marchetti theo catalog hiện tại, không hardcode Hà từ ảnh. Coupon giữ đúng icon tier của game thay vì đổi tier theo màu vé AI.

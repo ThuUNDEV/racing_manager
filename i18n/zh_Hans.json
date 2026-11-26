@@ -695,5 +695,10 @@
  "promotion.reward_gems": "+%d 宝石",
   "tutorial.story.first_win": "P%d！老板，我们第一个冲线了！我得腾个地方放第一座奖杯！还拿到了%s奖金。",
   "tutorial.story.already_has_trophy": "拿到第一座奖杯，我又想再拿一座了。老板，接下来往哪里投资，由您决定！\n\n我来准备赛车。有了新选择，我马上告诉您！",
- "tutorial.power.increased": "老板，看看Power显示：%s → %s！升级引擎后，车队实力立刻提升了。"
+ "tutorial.power.increased": "老板，看看Power显示：%s → %s！升级引擎后，车队实力立刻提升了。",
+ "shop.pack_gifts": "附赠奖励",
+ "shop.pack_benefits": "权益",
+ "shop.pack_remove_ads": "移除\n广告",
+ "shop.pack_income_note": "不适用于离线收益。\n不与广告加成叠加（取较高倍率）。",
+ "shop.income_minutes": "%d分钟"
 }

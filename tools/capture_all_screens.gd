@@ -29,7 +29,11 @@ func shot(group: String, id: String, title: String) -> void:
 	DirAccess.make_dir_recursive_absolute(dir)
 	root.get_texture().get_image().save_webp("%s/%s.webp" % [dir, id], true, 0.86)
 	if not index.any(func(e: Dictionary) -> bool: return e["id"] == id):
-		index.append({"group": group, "id": id, "title": title})
+		index.append({"group": group, "id": id, "title": title, "widths": [width]})
+	else:
+		for entry: Dictionary in index:
+			if entry["id"] == id and not width in entry["widths"]:
+				entry["widths"].append(width)
 	print("SHOT %d %s" % [width, id])
 
 

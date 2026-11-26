@@ -135,6 +135,8 @@ var _audio: Node = null  # components/workshop_audio.gd
 var _music_player: AudioStreamPlayer = null
 var _music_on: bool = true
 var _sfx_on: bool = true
+## Bản này tạm ẩn Garage khỏi tab Đội (GaragePage vẫn dựng sẵn; đặt true để bật lại cùng tutorial U6_garage trong data/tutorial.json).
+const TEAM_GARAGE_ENABLED := false
 var _team_sub: int = 0
 var _team_sub_buttons: Array = []
 var _team_drivers_wrap: VBoxContainer
@@ -386,6 +388,7 @@ func _show_toast(msg: String) -> void:
 func _build_ui() -> void:
 	# The resource and stage rows share the demo sky.
 	var sky := ColorRect.new()
+	sky.name = "PageBackground"
 	sky.color = C_BG
 	sky.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	sky.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -455,7 +458,7 @@ func _build_ui() -> void:
 	content_margin.add_child(_pages_root)
 	# Màn hẹp (<360): Shop còn đặt chiều rộng tối thiểu ~316, nên bỏ lề ngang để khỏi tràn.
 	resized.connect(func() -> void:
-		var side := CONTENT_SIDE if size.x >= 360.0 else 0
+		var side := CONTENT_SIDE if size.x >= 360.0 and _tab != Tab.SHOP else 0
 		content_margin.add_theme_constant_override("margin_left", side)
 		content_margin.add_theme_constant_override("margin_right", side))
 
@@ -999,6 +1002,7 @@ func _build_team_page() -> void:
 	# Đội có hai mục con: Tay đua / Garage (Design/15 §3).
 	var tabs := PanelContainer.new()
 	tabs.name = "TeamTabs"
+	tabs.visible = TEAM_GARAGE_ENABLED
 	var track := StyleBoxFlat.new()
 	track.bg_color = Color("e9f3f5")
 	track.border_color = Color("d1e4e8")
@@ -1253,7 +1257,8 @@ func _build_league_page() -> void:
 func _build_shop_page() -> void:
 	_shop_box = _make_page()
 	# Lề ngang chung 8 cho mọi khối Shop (tiêu đề, thẻ miễn phí, gói đặc biệt đều thẳng hàng).
-	var shop_panel := StyleBoxEmpty.new()
+	var shop_panel := StyleBoxFlat.new()
+	shop_panel.bg_color = preload("res://ui/shop_demo_theme.gd").BG
 	shop_panel.content_margin_left = 8
 	shop_panel.content_margin_right = 8
 	(_shop_box.get_parent() as ScrollContainer).add_theme_stylebox_override("panel", shop_panel)
@@ -1700,6 +1705,11 @@ func _select_tab(i: int) -> void:
 		return
 	var prev_tab := _tab
 	_tab = i
+	get_node("PageBackground").color = preload("res://ui/shop_demo_theme.gd").BG if i == Tab.SHOP else C_BG
+	var content_area := find_child("ContentArea", true, false) as MarginContainer
+	var side := CONTENT_SIDE if size.x >= 360.0 and i != Tab.SHOP else 0
+	content_area.add_theme_constant_override("margin_left", side)
+	content_area.add_theme_constant_override("margin_right", side)
 	_pages_root.clip_contents = true
 
 	# The fixed race cluster is shown only on the Race page.
@@ -2021,14 +2031,10 @@ func _show_iap_detail(sku: String) -> void:
 	_sfx("ui_click")
 	_begin_overlay()
 	var panel := _overlay_box.get_parent().get_parent() as PanelContainer
-	panel.add_theme_stylebox_override("panel", _shop_content.PromoUi.shell_style())
+	panel.add_theme_stylebox_override("panel", _shop_content.BenefitUi.shell())
 	_overlay_box.get_parent().set_meta("preferred_width", 366.0)
-	var header_holder := Control.new()
-	header_holder.name = "PromoHeaderHolder"
-	header_holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	panel.add_child(header_holder)
-	header_holder.add_child(_shop_content.PromoUi.header(I18n.t("main.my_joins_team") if sku == "char_my" else _shop_content.PackUi.title(product), _close_overlay))
-	_overlay_box.add_child(_shop_content.PromoUi.header_space())
+	panel.add_child(_shop_content.BenefitUi.header(I18n.t("main.my_joins_team") if sku == "char_my" else _shop_content.PackUi.title(product), _close_overlay, _shop_content.BenefitUi.scale_for(size.x)))
+	_overlay_box.get_parent().set_meta("vertical_gutter", 80.0 + _shop_content.BenefitUi.shell().get_minimum_size().y)
 	_overlay_box.add_child(_shop_content.build_detail(sku))
 	_fit_overlay()
 

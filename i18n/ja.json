@@ -695,5 +695,10 @@
  "promotion.reward_gems": "+%dジェム",
   "tutorial.story.first_win": "P%d！ボス、トップでゴールしました！初めてのトロフィーを飾る場所を作らないと！賞金も%s獲得しました。",
   "tutorial.story.already_has_trophy": "初めてのトロフィーを手にしたら、もう一つ欲しくなりました。ボス、次の投資先を選んでください！\n\n私は車を準備します。新しい選択肢が増えたら、すぐに知らせますね！",
- "tutorial.power.increased": "ボス、Powerの表示を見てください。%s → %s！エンジンの強化でチームの力がすぐに上がりました。"
+ "tutorial.power.increased": "ボス、Powerの表示を見てください。%s → %s！エンジンの強化でチームの力がすぐに上がりました。",
+ "shop.pack_gifts": "特典アイテム",
+ "shop.pack_benefits": "特典",
+ "shop.pack_remove_ads": "広告を\n削除",
+ "shop.pack_income_note": "オフライン収入には適用されません。\n広告ブーストとは重複せず、高い倍率が適用されます。",
+ "shop.income_minutes": "%d分"
 }

@@ -1,0 +1,76 @@
+{
+  "pack": "pack_benefit_v2",
+  "date": "2026-11-26",
+  "provenance": {
+    "approved_reference": "Design/Demos/SoftMiniature/approved/pack_popup_benefit_gifts_v1/01_benefit_gifts.png",
+    "workflow": "CLAUDE.md part 2: extracted concept crops; low-quality cutouts failed visual QA after upscale, so regenerated with references using tools/gen_image.py, then removed background via art-tools.",
+    "generation_model": "gpt-image-2.5-flare",
+    "generation_quality": "low",
+    "generation_tool": "tools/gen_image.py --ref --quality low",
+    "raw_and_prompts": "output/imagegen/pack_benefit_regen_v2/",
+    "extraction_refs": "output/imagegen/pack_benefit_runtime_v2/refs/",
+    "postprocess": "http://192.168.11.181:8790/remove-bg?refine=1&trim=1&pad=8"
+  },
+  "files": {
+    "badge_gold.svg": {
+      "source": "code-native reusable UI skin; no baked-in words or amounts"
+    },
+    "button_disabled.svg": {
+      "source": "code-native reusable UI skin; no baked-in words or amounts"
+    },
+    "button_orange.svg": {
+      "source": "code-native reusable UI skin; no baked-in words or amounts"
+    },
+    "cash_clock.png": {
+      "size": [
+        893,
+        683
+      ],
+      "mode": "RGBA",
+      "sha256": "0bf14f2e143664eb6ef0f4aea34d683091ca37cb73012e9c88b7a272853237fe",
+      "source": "regenerated from approved concept crop, low quality, then art-tools remove_background refine=1 trim=1 pad=8"
+    },
+    "driver_my.png": {
+      "size": [
+        903,
+        1004
+      ],
+      "mode": "RGBA",
+      "sha256": "8b5525f8a95e3421b17fed6292b5dc7305d787856431a700c4a729a7d54629b6",
+      "source": "regenerated from approved concept crop, low quality, then art-tools remove_background refine=1 trim=1 pad=8"
+    },
+    "income.png": {
+      "size": [
+        1015,
+        893
+      ],
+      "mode": "RGBA",
+      "sha256": "7c7ba1121ae62c9007c562aba1a7fd8ae4370f15fd2c371029bcf239e15a27a6",
+      "source": "regenerated from approved concept crop, low quality, then art-tools remove_background refine=1 trim=1 pad=8"
+    },
+    "mechanic.png": {
+      "size": [
+        995,
+        1006
+      ],
+      "mode": "RGBA",
+      "sha256": "1b6480c6875da85e9c7892766bab8817eb9229adc1ec68ce4e2f35bd4b5678dc",
+      "source": "regenerated from approved concept crop, low quality, then art-tools remove_background refine=1 trim=1 pad=8"
+    },
+    "no_ads.png": {
+      "size": [
+        951,
+        801
+      ],
+      "mode": "RGBA",
+      "sha256": "ba1bbb57ae3f5825a2ee8678b1d742b479f111113ef6ff90e6e6f37660f72e98",
+      "source": "regenerated from approved concept crop, low quality, then art-tools remove_background refine=1 trim=1 pad=8"
+    },
+    "pill_blue.svg": {
+      "source": "code-native reusable UI skin; no baked-in words or amounts"
+    },
+    "shard.svg": {
+      "source": "code-native reusable UI skin; no baked-in words or amounts"
+    }
+  }
+}

@@ -68,7 +68,7 @@ func run() -> void:
 	var payment_icon := coupon_button.find_child("PaymentIcon", true, false) as TextureRect
 	check(payment_icon != null and payment_icon.texture != null, "nút dùng coupon có icon thanh toán")
 	if payment_icon != null and payment_icon.texture != null:
-		check(payment_icon.texture.resource_path.ends_with("crops/gear_coupon.png"), "coupon dùng đúng ảnh vé, không hiển thị như giá gem")
+		check(payment_icon.texture == preload("res://core/data/reward_items.gd").icon("standard_gear_pack"), "coupon dùng đúng icon vật phẩm trong catalog, không hiển thị như giá gem")
 	for tab in [1, 2]:
 		main._select_tab(tab)
 		if tab == 2:

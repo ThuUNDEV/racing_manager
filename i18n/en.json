@@ -704,5 +704,10 @@
  "promotion.reward_gems": "+%d gems",
   "tutorial.story.first_win": "P%d! Boss, we finished first! I need to make room for our first trophy! We earned %s prize money too.",
   "tutorial.story.already_has_trophy": "We have our first trophy, and now I want another. Choose our next investment, Boss!\n\nI will get the car ready. When a new option opens up, I will let you know!",
- "tutorial.power.increased": "Look at this Power banner, Boss: %s → %s! The green number on the right shows the Power gained from our engine upgrade."
+ "tutorial.power.increased": "Look at this Power banner, Boss: %s → %s! The green number on the right shows the Power gained from our engine upgrade.",
+ "shop.pack_gifts": "Gifts included",
+ "shop.pack_benefits": "Benefits",
+ "shop.pack_remove_ads": "Remove\nads",
+ "shop.pack_income_note": "Does not apply offline.\nAd boosts do not stack (the higher multiplier applies).",
+ "shop.income_minutes": "%d min"
 }

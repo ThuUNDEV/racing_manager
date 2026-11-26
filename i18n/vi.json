@@ -695,5 +695,10 @@
  "promotion.reward_gems": "+%d gem",
   "tutorial.story.first_win": "P%d! Sếp thấy không, xe mình về đầu rồi! Để tôi lấy chỗ cất chiếc cúp đầu tiên! Mình nhận thêm %s tiền thưởng nữa.",
   "tutorial.story.already_has_trophy": "Có cúp đầu tiên rồi, giờ tôi lại muốn có thêm chiếc nữa. Sếp chọn hướng đầu tư tiếp nhé!\n\nTôi lo chuẩn bị xe. Có thêm lựa chọn mới, tôi sẽ báo Sếp ngay!",
- "tutorial.power.increased": "Sếp nhìn thanh Power này: %s → %s rồi! Phần màu xanh bên phải là sức mạnh vừa tăng từ lần nâng Động cơ đấy."
+ "tutorial.power.increased": "Sếp nhìn thanh Power này: %s → %s rồi! Phần màu xanh bên phải là sức mạnh vừa tăng từ lần nâng Động cơ đấy.",
+ "shop.pack_gifts": "Quà kèm",
+ "shop.pack_benefits": "Quyền lợi",
+ "shop.pack_remove_ads": "Bỏ\nquảng cáo",
+ "shop.pack_income_note": "Không áp dụng offline.\nKhông cộng dồn boost quảng cáo (lấy mức cao hơn).",
+ "shop.income_minutes": "%d phút"
 }

@@ -1,0 +1,17 @@
+{
+  "asset": "daily_gear.png",
+  "model": "gpt-image-2.5-flare",
+  "quality": "low",
+  "tool": "tools/gen_image.py --ref --quality low",
+  "prompt": "Standalone blue gift box with a wide yellow ribbon and bow next to a small red mechanics toolbox with a silver wrench on its lid. Match the reference composition and existing Soft Miniature toy art exactly, warm soft bevels, clean smooth edges, front three-quarter view, tight silhouette. Remove all floor, background, grass, text, gems, ticket icons, numbers, labels, UI elements. Transparent background. This is one small game shop illustration, not a card.",
+  "reference": "output/imagegen/shop_demo_v9/daily_gift_crop.png",
+  "raw": "output/imagegen/shop_demo_v9/flare/daily_gear.png",
+  "postprocess": "art-tools remove_background refine=true trim=true pad=8",
+  "concept": "Design/Demos/SoftMiniature/approved/shop_v9/shop.png",
+  "size": [
+    939,
+    599
+  ],
+  "sha256": "3c93b7565c872ba8c84debbfa7c3ede02fb5aac96ed002ea689aa2ea1de1a5bc",
+  "extraction": "Crop concept, art-tools remove_background + upscale; cutout had floor artifacts, regenerated with reference using Flare low."
+}

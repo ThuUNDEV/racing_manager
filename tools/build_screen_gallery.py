@@ -22,6 +22,8 @@ for s in screens:
     s["note"] = NOTES.get(s["id"], "")
     s["img"] = {}
     for w in WIDTHS:
+        if "widths" in s and int(w) not in s["widths"]:
+            continue  # Do not reuse an obsolete scroll-step image from an earlier capture.
         path = ROOT / w / (s["id"] + ".webp")
         if not path.exists():  # a taller/wider screen needs fewer scroll steps
             continue

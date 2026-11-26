@@ -44,7 +44,6 @@ func run() -> void:
 		["U4_shop", main.Tab.BAG, main.Tab.SHOP],
 		["U3_bag", main.Tab.SHOP, main.Tab.BAG],
 		["U5_drivers", main.Tab.LEAGUE, main.Tab.SHOP],
-		["U6_garage", main.Tab.SHOP, main.Tab.TEAM],
 		["U7_class", main.Tab.BAG, main.Tab.RACE],
 	]
 	for scenario in scenarios:
@@ -88,12 +87,6 @@ func run() -> void:
 		check(tut.nav == id, id + ": wrong tab does not finish navigation")
 		main._select_tab(scenario[2])
 		main._sync_tutorial_nav()
-		if id == "U6_garage":
-			tut._process(0.01)
-			var garage: Control = main._team_sub_buttons[1]
-			check(tut.nav == id and (tut._target["rect"] as Rect2).is_equal_approx(garage.get_global_rect()), "Garage: Team continues to the Garage subtab")
-			main._select_team_sub(1)
-			main._sync_tutorial_nav()
 		main._process(0.01)
 		tut._process(0.01)
 		check(tut.nav == "" and tut.intro == id and tut._panel.visible, id + ": destination immediately starts the lesson")

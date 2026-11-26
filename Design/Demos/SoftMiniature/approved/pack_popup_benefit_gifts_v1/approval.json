@@ -1,0 +1,14 @@
+{
+  "status": "approved_direction",
+  "approved_date": "2026-11-26",
+  "source": "Design/Demos/PackPopupDirections_v1/01_benefit_gifts.png",
+  "user_selection": "Hướng quyền lợi chính + quà kèm, được người dùng chọn qua ảnh đính kèm.",
+  "scope": "Duyệt hướng mỹ thuật và bố cục; chưa yêu cầu triển khai runtime.",
+  "layout": [
+    "Tiêu đề và nút đóng",
+    "Minh họa nhỏ bên cạnh quyền lợi chính nổi bật",
+    "Khay Quà kèm hoặc Quyền lợi chia thành hàng",
+    "Điều kiện và ghi chú",
+    "Nút giá và giới hạn mua; liên kết tỉ lệ khi có vé quay"
+  ]
+}

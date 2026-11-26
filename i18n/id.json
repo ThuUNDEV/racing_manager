@@ -695,5 +695,10 @@
  "promotion.reward_gems": "+%d gem",
   "tutorial.story.first_win": "P%d! Bos, kita finis pertama! Aku harus menyiapkan tempat untuk trofi pertama kita! Kita juga mendapat %s uang hadiah.",
   "tutorial.story.already_has_trophy": "Trofi pertama sudah kita raih, sekarang aku ingin satu lagi. Pilih investasi berikutnya, Bos!\n\nAku akan menyiapkan mobil. Kalau ada pilihan baru, aku akan memberi tahu!",
- "tutorial.power.increased": "Lihat angka Power, Bos: %s → %s! Peningkatan mesin langsung menambah kekuatan tim kita."
+ "tutorial.power.increased": "Lihat angka Power, Bos: %s → %s! Peningkatan mesin langsung menambah kekuatan tim kita.",
+ "shop.pack_gifts": "Hadiah tambahan",
+ "shop.pack_benefits": "Manfaat",
+ "shop.pack_remove_ads": "Hapus\niklan",
+ "shop.pack_income_note": "Tidak berlaku saat offline.\nTidak ditumpuk dengan boost iklan (gunakan pengali tertinggi).",
+ "shop.income_minutes": "%d menit"
 }

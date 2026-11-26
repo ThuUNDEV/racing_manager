@@ -38,6 +38,7 @@ var _pending: Callable = Callable()
 var _sig: String = ""
 var _built: bool = false
 var _preview: CarPreview
+var _yaw: float = CarPreview.DEFAULT_YAW  # góc xoay xe trưng bày, giữ qua các lần dựng lại
 var _body: VBoxContainer
 
 
@@ -367,6 +368,9 @@ func _build_showroom() -> void:
 	_preview.top_down = _section == 2
 	_preview.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_preview.keep_scene_ratio = true
+	_preview.rotatable = true
+	_preview.yaw = _yaw
+	_preview.yaw_changed.connect(func(v: float) -> void: _yaw = v)
 	add_child(_preview)
 	var cos := _saved_cos(_viewed)
 	if _owned(_viewed):
@@ -488,6 +492,7 @@ func _set_section(i: int) -> void:
 
 func _view_car(id: String) -> void:
 	_viewed = id
+	_yaw = CarPreview.DEFAULT_YAW
 	_collection = false
 	_confirm_buy = false
 	_draft_car = ""
@@ -891,7 +896,6 @@ func _collection_card(c: Dictionary) -> Control:
 	pv.car_id = id
 	pv.custom_minimum_size = Vector2(0, 74)
 	pv.show_floor = false
-	pv.angle = 0.0
 	pv.dimmed = not owned
 	var cos := _saved_cos(id) if owned else {"paint_id": GameData.default_paint_id(), "decal_id": GameData.default_decal_id()}
 	pv.paint_id = cos["paint_id"]

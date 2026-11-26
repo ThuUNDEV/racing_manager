@@ -1,0 +1,39 @@
+{
+  "pack": "pack_benefit_v1",
+  "provenance": {
+    "source": "Design/Demos/SoftMiniature/approved/pack_popup_benefit_gifts_v1/01_benefit_gifts.png",
+    "method": "Crop approved concept then art-tools remove-bg, refine=1, trim=1, pad=8",
+    "tool": "http://192.168.11.181:8790/remove-bg",
+    "generated": false,
+    "date": "2026-11-26",
+    "raw_crops": "output/imagegen/pack_benefit_runtime_v1/refs/"
+  },
+  "files": {
+    "mechanic.png": {
+      "region_xyxy": [
+        38,
+        79,
+        188,
+        235
+      ],
+      "size": [
+        157,
+        162
+      ],
+      "mode": "RGBA"
+    },
+    "no_ads.png": {
+      "region_xyxy": [
+        843,
+        99,
+        1005,
+        241
+      ],
+      "size": [
+        178,
+        145
+      ],
+      "mode": "RGBA"
+    }
+  }
+}

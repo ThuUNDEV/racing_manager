@@ -695,5 +695,10 @@
  "promotion.reward_gems": "+%d 젬",
   "tutorial.story.first_win": "P%d! 사장님, 우리 차가 1등으로 들어왔어요! 첫 트로피를 놓을 자리를 마련해야겠어요! 상금도 %s 받았어요.",
   "tutorial.story.already_has_trophy": "첫 트로피를 얻으니 하나 더 갖고 싶네요. 사장님, 다음 투자 방향을 골라 주세요!\n\n저는 차를 준비할게요. 새로운 선택지가 생기면 바로 알려 드릴게요!",
- "tutorial.power.increased": "사장님, Power 표시를 보세요. %s → %s! 엔진을 강화하니 팀 전력이 바로 올랐어요."
+ "tutorial.power.increased": "사장님, Power 표시를 보세요. %s → %s! 엔진을 강화하니 팀 전력이 바로 올랐어요.",
+ "shop.pack_gifts": "추가 선물",
+ "shop.pack_benefits": "혜택",
+ "shop.pack_remove_ads": "광고\n제거",
+ "shop.pack_income_note": "오프라인 수입에는 적용되지 않습니다.\n광고 부스트와 중첩되지 않으며 높은 배수가 적용됩니다.",
+ "shop.income_minutes": "%d분"
 }

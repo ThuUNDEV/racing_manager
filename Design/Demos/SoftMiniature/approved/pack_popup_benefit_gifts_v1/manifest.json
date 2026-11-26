@@ -1,0 +1,56 @@
+{
+  "status": "concepts_not_approved",
+  "created": "2026-11-26",
+  "provenance": {
+    "tool": "image_gen.imagegen (built-in)",
+    "agent_model": "GPT-6.1-Sol",
+    "reasoning": "medium",
+    "calls": 3,
+    "references": [
+      "Design/Demos/PackPopupRedesign_v1/concept.png",
+      "Design/Demos/SoftMiniature/approved/pack_promo_starter1.png"
+    ],
+    "data_sources": [
+      "data/iap.json",
+      "i18n/vi.json",
+      "data/drivers.json",
+      "Design/28_IAP_Packs.md"
+    ]
+  },
+  "images": [
+    {
+      "id": "01_benefit_gifts",
+      "file": "01_benefit_gifts.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "bc0cdd816316d2d8d0ed75d7646664a8857a7e53d554c3404a6ec391b23762a7"
+    },
+    {
+      "id": "02_pit_pass",
+      "file": "02_pit_pass.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "5c16403630e3aa6b22a0ababa319d3162ccbec00925908df67b4ebe726d4954d"
+    },
+    {
+      "id": "03_gift_showcase",
+      "file": "03_gift_showcase.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "sha256": "126121e0b4f2323557a7bdcda69c767133a0c1510b8b1a69661e44e15ce02a1c"
+    }
+  ],
+  "qa": {
+    "all": "Visually inspected tool-returned raster images. All 6 packs, prices, grants and caveats present; CTA aligned by row. No runtime changes. No equal 2x2 reward grids. All three boards materially different layout systems.",
+    "01_benefit_gifts": "Large primary benefit, gifts tray, small side cutout. No obvious text errors observed.",
+    "02_pit_pass": "Perforations, notches, purchase stub; character shard row repeats count in label and quantity column (30 mảnh Zielinski + 30), a wording issue without grant discrepancy.",
+    "03_gift_showcase": "Gift/podium illustrations and aligned list rows. Starter/weekly retain boy beside gift box more prominently than prompt intended. No obvious text errors observed.",
+    "limits": "Tool selected 1254x1254 for each board despite high-resolution request. No upscaling or deterministic text overlays applied. Raster concepts, not runtime/localizable assets."
+  }
+}

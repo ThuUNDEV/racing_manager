@@ -19,11 +19,14 @@ const ShopSkin = preload("res://ui/shop_demo_skin.gd")
 const INK := ShopSkin.LEGACY_INK
 const MUTED := ShopSkin.MUTED
 const PackUi = preload("res://ui/shop_pack_ui.gd")
+const BenefitUi = preload("res://ui/pack_benefit_ui.gd")
 const RewardItems = preload("res://core/data/reward_items.gd")
 const Soft = preload("res://ui/soft_miniature.gd")
 const PromoUi = preload("res://ui/pack_promo_ui.gd")
 const UnitScale = preload("res://ui/unit_scale.gd")
-const PerkCard = preload("res://ui/shop_perk_card.gd")
+const PerkCard = preload("res://ui/shop_demo_offer_card.gd")
+const DemoTheme = preload("res://ui/shop_demo_theme.gd")
+const CurrencyCard = preload("res://ui/shop_demo_currency_card.gd")
 const FreeGiftCard = preload("res://ui/shop_free_gift_card.gd")
 ## Icon gói cũ -> icon gói racing_ui_hd (đường dẫn trong assets/racing_ui_hd/).
 const HD_ICONS := {
@@ -136,7 +139,7 @@ func _button(value: String) -> Button:
 	button.custom_minimum_size.y = 44
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	button.add_theme_font_size_override("font_size", 15)
-	ShopSkin.style_button(button)
+	DemoTheme.action(button)
 	return button
 
 
@@ -171,7 +174,8 @@ func _build() -> void:
 	add_theme_constant_override("separation", 8)
 	# Thứ tự Shop: nhận miễn phí -> gói đặc biệt -> mở rương -> mua gem -> đổi tiền.
 	_build_free_section()
-	_offer_section(I18n.t("shop.special_packs"), ["starter", "perk", "offer"], ["starter_1", "income_x2", "no_ads", "offer_noads_bundle", "starter_2", "starter_3"], 228.0)
+	_offer_section(I18n.t("shop.special_packs"), ["starter", "perk", "offer"], ["starter_1", "income_x2", "no_ads", "offer_noads_bundle"], 228.0)
+	_offer_section(I18n.t("data.offers.starter_pack"), ["starter"], ["starter_2", "starter_3"], 228.0)
 	_offer_section(I18n.t("shop.breakthrough_combo"), ["offer"], ["offer_combo_1", "offer_combo_2"], 210.0)
 	_offer_section(I18n.t("shop.weekly_packs"), ["weekly"], [], 225.0)
 	_offer_section(I18n.t("shop.daily_packs"), ["daily"], [], 220.0)
@@ -182,7 +186,7 @@ func _build() -> void:
 	_pack_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	add_child(_pack_box)
 	update_packs()
-	var gems := _h_section("GEM", "currency_gem", "resources", "Section_GEM", false)
+	var gems := _h_section(RewardItems.item_name("gem"), "currency_gem", "resources", "Section_GEM", false)
 	_gem_heading = gems["heading"]
 	_gem_grid = _grid(3)
 	_gem_grid.name = "GemGrid"
@@ -195,13 +199,14 @@ func _build() -> void:
 	_cash_heading = cash["heading"]
 	_cash_grid = _grid(3)
 	_cash_grid.name = "CashGrid"
-	for entry in [["cash_small", "4.08B", "10"], ["cash_medium", "16.3B", "30"], ["cash_large", "32.6B", "50"]]:
-		_currency_card(_cash_grid, entry[0], entry[1], entry[2], I18n.t("shop.cash"))
+	var display: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/shop_display.json"))
+	for entry: Dictionary in display["cash_previews"]:
+		_currency_card(_cash_grid, String(entry["art"]), I18n.t("shop.income_minutes") % int(entry["income_minutes"]), str(int(entry["gems"])), I18n.t("common.income"))
 	_sections.append({"heading": _cash_heading, "content": _cash_grid, "group": "resources"})
 	_restore_button = _button(I18n.t("shop.restore_purchases"))
 	_restore_button.name = "RestorePurchases"
 	_restore_button.visible = false
-	ShopSkin.style_button(_restore_button, "tab")
+	DemoTheme.action(_restore_button, "outline", 18)
 	_restore_button.pressed.connect(func() -> void: restore_requested.emit())
 	add_child(_restore_button)
 	_sync_sections()
@@ -248,7 +253,7 @@ func _build_free_section() -> void:
 	_daily_amount = gift["amount"]
 	_daily_button = gift["button"]
 	_daily_button.name = "ClaimDaily"
-	ShopSkin.set_kind(_daily_button, "buy")
+	DemoTheme.action(_daily_button, "free", 22)
 	FreeGiftCard.style_action(_daily_button, true)
 	_daily_button.pressed.connect(func() -> void:
 		if _daily_free_available:
@@ -280,7 +285,7 @@ func _free_tile(parent: Node, title: String, item_id: String, amount: String, sc
 func _free_ad(tile: Dictionary, placement: String) -> void:
 	var button := tile["button"] as Button
 	button.name = "Ad_" + placement
-	ShopSkin.set_kind(button, "ad")
+	DemoTheme.action(button, "ad", 13)
 	FreeGiftCard.style_action(button, false)
 	button.pressed.connect(func() -> void: ad_requested.emit("free_gems" if placement == "free_gems_banner" else placement))
 	var status := _text("", 11, MUTED)
@@ -362,7 +367,8 @@ func _h_slot(parent: Node, content: Control, design_h: float, design_w: float = 
 func _h_section(title: String, icon: String, group: String, heading_name: String = "", with_grid: bool = true) -> Dictionary:
 	# Cùng ribbon xanh nhạt với trang Đua (ui/racing_section_header.gd), chữ navy, tiêu đề viết hoa từng từ.
 	var heading := preload("res://ui/racing_section_header.gd").new() as Control
-	heading.set("title", _title_case(title))
+	heading.set("title", _sentence(title))
+	heading.set("compact", true)
 	heading.set("icon_texture", _ui_icon(icon))
 	heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	add_child(heading)
@@ -499,7 +505,7 @@ func _perk_card(parent: Node, product: Dictionary, opts: Dictionary = {}) -> voi
 
 
 func _offer_section(title: String, kinds: Array, only_skus: Array = [], row_h: float = 200.0) -> void:
-	var icon := "trophy_large"
+	var icon := "gift_red"
 	if "character" in kinds:
 		icon = "helmet_pit"
 	elif "daily" in kinds or kinds == ["offer"]:
@@ -781,7 +787,7 @@ func update_daily(amount: String, gems: int, available: bool, blocked: bool) -> 
 	_daily_free_available = available
 	_daily_save_blocked = blocked
 	if changed_mode:
-		ShopSkin.set_kind(_daily_button, "buy" if available else "ad")
+		DemoTheme.action(_daily_button, "free" if available else "ad", 22 if available else 13)
 		FreeGiftCard.style_action(_daily_button, available)
 	if not available:
 		_daily_amount.text = str(int(GameData.ads().get("placements", {}).get("free_gems", {}).get("amount", 0)))
@@ -793,7 +799,7 @@ func update_daily(amount: String, gems: int, available: bool, blocked: bool) -> 
 	_daily_button.alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_daily_button.disabled = not available or blocked
 	_daily_button.text = I18n.t("shop.claimed") if not available else (I18n.t("common.saving") if blocked else "FREE")
-	_daily_button.add_theme_constant_override("outline_size", 0 if _daily_button.disabled else 4)
+	_daily_button.add_theme_constant_override("outline_size", 0)
 	_daily_button.add_theme_color_override("font_outline_color", Color(0.1, 0.4, 0.1))
 	ShopSkin.price_text(_daily_button, 14 if blocked else 22)
 	_daily_status.text = I18n.t("shop.free_refreshes_every_day")
@@ -839,7 +845,7 @@ func _pack_card(parent: Node, kind: String, pack: Dictionary) -> void:
 	parent.add_child(card)
 	var palette: Array = PACK_PALETTE.get(coupon, [Color("ff6b5e"), Color("ffd1c4")])
 	card.set_palette(palette[0], palette[1])
-	card.setup(RewardItems.icon(coupon), String(pack["name"]))
+	card.setup(_h_tex("pack_" + kind + "_" + id), String(pack["name"]))
 	card.info.name = "ShopPackInfo_%s_%s" % [kind, id]
 	card.info.accessibility_name = I18n.t("shop.view_2") + String(pack["name"])
 	card.info_pressed.connect(func() -> void: pack_info_requested.emit(kind, id))
@@ -939,31 +945,32 @@ func update_ads(view: Dictionary) -> void:
 	_sync_sections()
 
 
-func _g_card(parent: Node, art_id: String) -> ShopGridCard:
-	var card := ShopGridCard.new()
-	_h_slot(parent, card, ShopGridCard.DESIGN_SIZE.y, ShopGridCard.DESIGN_SIZE.x)
+func _g_card(parent: Node, art_id: String) -> CurrencyCard:
+	var card := CurrencyCard.new()
+	parent.add_child(card)
 	card.art_rect.texture = _h_tex(art_id)
 	return card
 
 
 func _currency_card(parent: Node, icon: String, amount: String, price: String, category: String) -> void:
 	var card := _g_card(parent, icon)
-	card.setup(_h_tex(icon), amount.replace(".", ","), price, RewardItems.icon("gem"))
+	card.setup(_h_tex(icon), amount + "\n" + category, price, RewardItems.icon("gem"))
+	card.amount_label.add_theme_font_size_override("font_size", 15)
 	card.buy_pressed.connect(func() -> void: offer_requested.emit(amount + " " + category, I18n.t("shop.coming_soon_exchange_gems_cash")))
 
 
 func _free_gem_card(parent: Node) -> void:
 	var card := _g_card(parent, "free_gems")
 	card.setup(_h_tex("free_gems"), str(int(GameData.ads().get("placements", {}).get("free_gems", {}).get("amount", 0))), "")
-	card.get_parent().name = "FreeGemCard"
+	card.name = "FreeGemCard"
 	card.art_rect.name = "GemArt_free"
 	card.price.name = "Ad_free_gems"
-	ShopSkin.set_kind(card.price, "ad")
+	DemoTheme.action(card.price, "ad", 11)
 	card.buy_pressed.connect(func() -> void: ad_requested.emit("free_gems"))
 	var status := _text("", 11, MUTED)
 	status.hide()
-	card.get_parent().add_child(status)
-	_ad_buttons["free_gems"] = {"button": card.price, "status": status, "reference": true, "price_font": 30}
+	card.add_child(status)
+	_ad_buttons["free_gems"] = {"button": card.price, "status": status, "reference": true, "price_font": 12}
 
 
 func _gem_card(parent: Node, sku: String, amount: int, price: String) -> void:
@@ -971,12 +978,12 @@ func _gem_card(parent: Node, sku: String, amount: int, price: String) -> void:
 	card.setup(_h_tex("gems_%d" % amount), "%d.%03d" % [amount / 1000, amount % 1000] if amount >= 1000 else str(amount), price, null, I18n.t("shop.first_time_x_2"))
 	card.art_rect.name = "GemArt_" + sku
 	card.price.name = "Iap_" + sku
-	ShopSkin.set_kind(card.price, "buy")
+	DemoTheme.action(card.price, "buy", 16)
 	card.buy_pressed.connect(func() -> void: iap_requested.emit(sku))
 	var status := _text("", 16, Color.WHITE)
 	status.hide()
-	card.get_parent().add_child(status)
-	_iap_buttons[sku] = {"button": card.price, "status": status, "reference": true, "ribbon": card.bonus, "price_font": 34}
+	card.add_child(status)
+	_iap_buttons[sku] = {"button": card.price, "status": status, "reference": true, "ribbon": card.bonus, "price_font": 16}
 
 
 func _resource_art(parent: Control, id: String, amount: String) -> void:
@@ -1056,7 +1063,7 @@ static func _reason_text(reason: String) -> String:
 
 func _adapt_grids() -> void:
 	var factor := size.x / 550.0
-	add_theme_constant_override("separation", roundi(12 * factor))
+	add_theme_constant_override("separation", roundi(9 * factor))
 	for entry: Dictionary in _sections:
 		var heading = entry["heading"]
 		if heading is Label:
@@ -1067,8 +1074,8 @@ func _adapt_grids() -> void:
 			style.content_margin_bottom = 4 * factor
 		var grid = entry["content"]
 		if grid is GridContainer:
-			grid.add_theme_constant_override("h_separation", roundi(12 * factor))
-			grid.add_theme_constant_override("v_separation", roundi(12 * factor))
+			grid.add_theme_constant_override("h_separation", roundi(9 * factor))
+			grid.add_theme_constant_override("v_separation", roundi(9 * factor))
 	for grid in [_gem_grid, _cash_grid]:
 		if is_instance_valid(grid):
 			grid.columns = 3
@@ -1295,49 +1302,36 @@ func build_detail(sku: String) -> VBoxContainer:
 	var p := GameData.iap_product(sku)
 	var column := VBoxContainer.new()
 	column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	column.add_theme_constant_override("separation", 10)
-	var subtitle := String(_offer_title(p)[1])
-	if sku == "starter_1":
-		subtitle = I18n.t("shop.ready_first_race")
-	elif String(p.get("kind", "")) == "character":
-		var driver := GameData.driver(String(p["grant"]["driver"]))
-		subtitle = I18n.t("shop.get_driver_guaranteed") % String(driver.get("name", ""))
-	elif sku == "income_x2":
-		subtitle = I18n.t("shop.double_earnings")
-	elif sku in ["income_x3", "income_x3_up"]:
-		subtitle = I18n.t("shop.triple_earnings")
-	# Soft Miniature: phụ đề là chữ navy trơn trên nền kem, không còn pill xanh (Design/Demos/PackPromoPopup).
-	var subtitle_label := _text(subtitle, 19, PromoUi.INK)
-	subtitle_label.name = "PromoSubtitle"
-	subtitle_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	column.add_child(subtitle_label)
-	# Fixed layout height avoids resize/minimum-size feedback inside the modal.
-	var promo_hero := PromoUi.hero(sku, p, clampf((get_viewport_rect().size.x - 64) * 0.5, 144, 176))
-	column.add_child(promo_hero if promo_hero != null else PackUi.art(sku, clampf((get_viewport_rect().size.x - 64) * 2.0 / 3.0, 168, 232), true))
+	var scale := BenefitUi.scale_for(get_viewport_rect().size.x)
+	column.add_theme_constant_override("separation", 4)
+	if sku in ["starter_1", "weekly_s", "offer_noads_bundle", "income_x2", "no_ads", "char_my"]:
+		column.custom_minimum_size.y = minf(get_viewport_rect().size.x - 32.0, 398.0) * 588.0 / 390.0 - BenefitUi.shell().get_minimum_size().y
 	var entry: Dictionary = (_last_iap_view.get("items", {}) as Dictionary).get(sku, {})
-	if sku in ["income_x2", "income_x3", "income_x3_up"]:
-		var mult := "×2" if sku == "income_x2" else "×3"
-		column.add_child(PromoUi.reward_panel([
-			{"icon": "income_online", "value": mult, "label": I18n.t("shop.online_income")},
-			{"icon": "race_reward", "value": mult, "label": I18n.t("shop.race_rewards")},
-		], true))
-	else:
-		column.add_child(PromoUi.reward_panel(PackUi.rewards(p, bool(entry.get("driver_owned", false))), get_viewport_rect().size.x < 340.0))
+	var parts := BenefitUi.split_rewards(p, bool(entry.get("driver_owned", false)))
+	column.add_child(BenefitUi.primary(p, parts["primary"], scale))
+	if not parts["gifts"].is_empty():
+		column.add_child(BenefitUi.gifts(parts["gifts"], parts["income"], scale))
 	if String(p.get("kind", "")) == "character" and bool(entry.get("driver_owned", false)):
 		var conversion := _text(I18n.t("shop.you_already_own_this_driver"), 12, ShopSkin.CONVERSION_INK)
 		conversion.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		column.add_child(conversion)
-	var note := I18n.t("shop.income_perk_note") if sku in ["income_x2", "income_x3", "income_x3_up"] else PackUi.note(p)
-	if note != "":
-		var note_label := _text(note, 12, ShopSkin.DETAIL_INK)
-		note_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		column.add_child(note_label)
+	var note := I18n.t("shop.pack_income_note") if sku in ["income_x2", "income_x3", "income_x3_up"] else PackUi.note(p)
+	var note_label := _text(note, roundi(13 * scale), BenefitUi.INK)
+	note_label.name = "PromoNote"
+	note_label.visible = not note.is_empty()
+	note_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	note_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	column.add_child(note_label)
+	var space := Control.new()
+	space.name = "PromoActionSpace"
+	space.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	space.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	column.add_child(space)
 	_detail_sku = sku
 	_detail_buy = _button("")
 	_detail_buy.name = "DetailBuy_" + sku
-	_detail_buy.custom_minimum_size.y = 58
-	PromoUi.style_cta(_detail_buy)
-	_detail_buy.add_theme_font_size_override("font_size", 28)
+	_detail_buy.custom_minimum_size.y = maxf(44, 52 * scale)
+	BenefitUi.style_cta(_detail_buy, scale)
 	_detail_buy.pressed.connect(func() -> void: iap_requested.emit(sku))
 	column.add_child(_detail_buy)
 	_detail_status = _text("", 12, MUTED)
@@ -1346,7 +1340,7 @@ func build_detail(sku: String) -> VBoxContainer:
 	footer.alignment = BoxContainer.ALIGNMENT_CENTER
 	footer.add_theme_constant_override("separation", 10)
 	# Perk vĩnh viễn đã có badge PERMANENT ở hero; chân popup chỉ ghi "Mua một lần" (Design/28 §4.2).
-	var limit := _text(I18n.t("shop.buy_once") if String(p.get("kind", "")) == "perk" else PackUi.limit(p), 15, ShopSkin.DETAIL_INK)
+	var limit := PackUi.label(I18n.t("shop.buy_once") if String(p.get("kind", "")) == "perk" else PackUi.limit(p), roundi(17 * scale), BenefitUi.INK)
 	limit.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	limit.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	limit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -1359,7 +1353,7 @@ func build_detail(sku: String) -> VBoxContainer:
 		divider.custom_minimum_size = Vector2(2, 26)
 		divider.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		footer.add_child(divider)
-		var odds := _link(I18n.t("shop.view_rates"))
+		var odds := BenefitUi.rates_button(I18n.t("shop.view_rates"), scale)
 		odds.name = "PromoRates"
 		odds.pressed.connect(func() -> void: odds_requested.emit(sku))
 		footer.add_child(odds)

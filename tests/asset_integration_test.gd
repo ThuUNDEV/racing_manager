@@ -67,11 +67,11 @@ func run() -> void:
 	(main._pages[2] as ScrollContainer).scroll_vertical = 0
 	main._garage.debug_show("0")
 	await shot("garage")
-	check(main._garage._preview._car.texture == ExpansionArt.texture("car_pico_showroom"), "Garage shows the selected model in three-quarter view")
+	check(main._garage._preview._car != null and main._garage._preview.rotatable, "Garage shows the rotatable 3D car")
 	main._garage.debug_show("2,draft=red:lightning")
 	await shot("cosmetics")
-	check(main._garage._preview._car.texture == ExpansionArt.texture("car_pico_topdown") and main._garage._preview._layer.visible, "cosmetic draft uses overhead body and visible decal")
-	check(main._garage._preview._paint_material.get_shader_parameter("paint_color").is_equal_approx(Color(GameData.paint("red")["color"])), "saved/draft color drives body material")
+	check(main._garage._preview.top_down and main._garage._preview._decals.get_child_count() > 0, "cosmetic draft raises the camera and shows a 3D decal")
+	check(main._garage._preview._paint_material.albedo_color.is_equal_approx(Color(GameData.paint("red")["color"])), "saved/draft color drives body material")
 	main._garage.debug_show("1")
 	(main._pages[2] as ScrollContainer).scroll_vertical = 350
 	await shot("parts")
