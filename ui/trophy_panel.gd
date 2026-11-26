@@ -333,10 +333,8 @@ static func _card(u: Dictionary, on_buy: Callable) -> PanelContainer:
 		gauge.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		gauge.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		effect_row.add_child(gauge)
-		var effect_label := _label(text, 13, C_GREEN)
+		var effect_label := _label(text, 13, C_GREEN, true)  # màn hẹp thì xuống dòng, không cắt chỉ số
 		effect_label.name = "Effect"
-		effect_label.clip_text = true
-		effect_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 		effect_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		effect_row.add_child(effect_label)
 		v.add_child(effect)

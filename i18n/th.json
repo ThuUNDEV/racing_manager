@@ -612,6 +612,7 @@
  "trophy.level": "เลเวล %d / %d",
  "trophy.limit_total_trophies_earned_including": "เพดานถ้วยรางวัลที่ได้รับทั้งหมด รวมที่ใช้ไปแล้ว",
  "trophy.max": "สูงสุด",
+ "trophy.rules": "กติกาถ้วยรางวัล",
  "trophy.top_3_reward": "รางวัล 3 อันดับแรก",
  "trophy.total_earned": "ได้รับทั้งหมด",
  "trophy.trophies": "%s · %d ถ้วย",

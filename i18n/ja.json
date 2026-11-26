@@ -612,6 +612,7 @@
  "trophy.level": "レベル %d / %d",
  "trophy.limit_total_trophies_earned_including": "獲得トロフィー総数の上限（使用済みを含む）",
  "trophy.max": "最大",
+ "trophy.rules": "トロフィーのルール",
  "trophy.top_3_reward": "トップ3報酬",
  "trophy.total_earned": "獲得総数",
  "trophy.trophies": "%s · トロフィー%d個",

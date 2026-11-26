@@ -612,6 +612,7 @@
  "trophy.level": "레벨 %d / %d",
  "trophy.limit_total_trophies_earned_including": "획득한 트로피 총합의 한도(사용한 트로피 포함)",
  "trophy.max": "최대",
+ "trophy.rules": "트로피 규칙",
  "trophy.top_3_reward": "3위 이내 보상",
  "trophy.total_earned": "총 획득",
  "trophy.trophies": "%s · 트로피 %d개",

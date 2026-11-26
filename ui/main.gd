@@ -1099,14 +1099,14 @@ func _build_bag_page() -> void:
 	v.add_child(_gear)
 
 
-## Bảng Drop Information của gói: hai hàng xác suất bậc, đóng không mua gì.
+## Bảng tỉ lệ gói phụ kiện: hai hàng xác suất bậc, đóng không mua gì.
 func _show_gear_info(pack_id: String) -> void:
 	var pack := GameData.gear_pack(pack_id)
 	if pack.is_empty():
 		return
 	_sfx("ui_click")
 	_begin_overlay()
-	_overlay_box.add_child(HdUi.close_header("Drop Information · %s" % pack["name"], _close_overlay))
+	_overlay_box.add_child(HdUi.close_header(I18n.t("main.rates") % pack["name"], _close_overlay))
 	var tiers: Dictionary = pack["tiers"]
 	var keys: Array = tiers.keys()
 	keys.sort_custom(func(a: String, b: String) -> bool: return float(tiers[a]) > float(tiers[b]))
@@ -1407,7 +1407,9 @@ func _show_language_picker() -> void:
 		var b := _button(("✓  " if chosen else "") + I18n.lang_name(code), true, 52.0)
 		b.name = "Lang_" + code
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		b.custom_minimum_size.x = 150
+		b.custom_minimum_size.x = 0
+		if size.x < 360.0:  # hai cột phải lọt màn 320
+			b.add_theme_font_size_override("font_size", 13)
 		# Both options share the same rounded face, raised base and nine-patch margins.
 		# Selection changes only the color and checkmark.
 		if not chosen:

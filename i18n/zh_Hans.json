@@ -612,6 +612,7 @@
  "trophy.level": "等级 %d / %d",
  "trophy.limit_total_trophies_earned_including": "累计获得奖杯的上限（包括已花费的）",
  "trophy.max": "已满级",
+ "trophy.rules": "奖杯规则",
  "trophy.top_3_reward": "前三名奖励",
  "trophy.total_earned": "累计获得",
  "trophy.trophies": "%s · %d奖杯",

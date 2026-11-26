@@ -74,6 +74,15 @@ static func close_header(title: String, action: Callable, font_size: int = 18) -
 	return header
 
 
+## Thu cỡ chữ của nhãn một dòng (clip_text) cho vừa bề rộng hiện có, không nhỏ hơn `smallest`.
+static func fit_font(label: Label, largest: int, smallest: int) -> void:
+	var font := label.get_theme_font("font")
+	var wanted := largest
+	while wanted > smallest and font.get_string_size(label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, wanted).x > label.size.x:
+		wanted -= 1
+	label.add_theme_font_size_override("font_size", wanted)
+
+
 ## Texture gốc (đầy đủ độ phân giải).
 static func tex(rel: String) -> Texture2D:
 	var aliases := {"cash": "cash", "coins": "coins", "gem": "gem", "energy": "engine", "gear": "settings", "crane": "chassis", "research": "gearbox", "gift": "gift", "flag": "flag", "tools": "bag", "staff": "team", "trophy": "trophy", "crown": "trophy", "shop": "shop", "garage": "garage", "avatar": "avatar", "seats": "ticket", "car_red": "car_showroom"}

@@ -333,6 +333,7 @@ func _build_shop_shortcut() -> void:
 	info.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	info.clip_text = true
 	info.add_theme_font_override("font", HdUi.font())
+	info.resized.connect(HdUi.fit_font.bind(info, 20, 13))
 	row.add_child(info)
 	var go := Button.new()
 	go.name = "OpenPacksInShop"
