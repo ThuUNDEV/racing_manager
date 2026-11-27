@@ -72,6 +72,8 @@ Quy tắc chung:
 - Key OpenAI đọc từ file ngoài repo (`OPENAI_KEY_FILE`, mặc định trong `~/.t3/userdata/secrets/files/`). Không đưa key vào repo, prompt hay log.
 - Lưu ảnh thô và prompt vào `output/imagegen/<tên>/` (kèm `prompts.json`), ghi `provenance` trong `manifest.json` của asset pack (xem `assets/soft_miniature_ui_v1/manifest.json`).
 - Sprite dùng trong game đặt ở `assets/soft_miniature_ui_v1/` (hoặc pack mới), kèm README bảng file/kích thước/mode.
+- Chống vỡ ảnh khi thu nhỏ: mọi texture trong `assets/` phải import có mipmap (`mipmaps/generate=true`). Project đã đặt sẵn `[importer_defaults]` và filter canvas mặc định Linear Mipmap; đừng tắt, đừng ép node UI về `TEXTURE_FILTER_LINEAR`. `tests/texture_import_test.gd` sẽ báo lỗi nếu có file thiếu mipmap.
+- Kích thước ảnh nguồn nên khoảng 2–3 lần kích thước hiển thị logical (icon 40 đơn vị thì cỡ 128–192px), không đưa ảnh 1024–1536px vào chỗ hiển thị nhỏ.
 
 ## Việc đang dở
 
