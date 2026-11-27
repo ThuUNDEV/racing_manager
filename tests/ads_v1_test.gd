@@ -78,8 +78,8 @@ func _initialize() -> void:
 	GameData.set_override("ads", bad)
 	var errs: Array = GameData.validate()
 	var joined := " | ".join(errs)
-	_check(joined.contains("multiplier") and joined.contains("reward lạ") and joined.contains("U99_khong_co")
-		and joined.contains("không phải loại coupon") and joined.contains("miss_gap_max_sec"), "dữ liệu sai bị báo đúng chỗ (%d lỗi)" % errs.size())
+	_check(joined.contains("multiplier") and joined.contains("unknown reward") and joined.contains("U99_khong_co")
+		and joined.contains("is not a coupon type") and joined.contains("miss_gap_max_sec"), "dữ liệu sai bị báo đúng chỗ (%d lỗi)" % errs.size())
 	GameData.reload()
 
 	print("== Boost ×2 (income_boost) ==")

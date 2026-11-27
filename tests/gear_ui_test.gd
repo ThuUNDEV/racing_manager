@@ -79,7 +79,7 @@ func run() -> void:
 	main._rebuild_shop()
 	await settle()
 	var b1 := main.find_child("ShopOpen_gear_standard_x1", true, false) as Button
-	check(not b1.disabled and "coupon" in b1.text, "có coupon: nút hiển thị coupon và mở được")
+	check(not b1.disabled and "coupon" in b1.accessibility_name, "có coupon: nút dùng coupon và mở được")
 
 	for width in [320, 360, 390, 412]:
 		root.size = Vector2i(width, 844)

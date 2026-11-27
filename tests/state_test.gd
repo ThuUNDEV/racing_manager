@@ -27,7 +27,7 @@ func _initialize() -> void:
 	_check(gs.upgrade_state("tyre") == "short", "trạng thái 'short'")
 	gs.coins = BigNumber.from_int(100000)
 	var rate_before: BigNumber = gs.online_rate()
-	_check(gs.buy("ticket") and gs.online_rate().equals(Pricing.revenue_rate({"ticket": 1})) and gs.online_rate().equals("8.25075"), "Ticket Marketing cấp 1 => 8,25075/giây")
+	_check(gs.buy("ticket") and gs.online_rate().equals(Pricing.revenue_rate({"ticket": 1})) and gs.online_rate().equals("8.252"), "Ticket Marketing cấp 1 => 8,252/giây")
 	_check(gs.online_rate().compare(rate_before) > 0, "rate tăng")
 
 	print("== Vòng lặp tự chạy: countdown 3 giây ==")

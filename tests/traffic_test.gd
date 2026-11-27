@@ -40,9 +40,9 @@ func _initialize() -> void:
 	_check(lb.valid, "dựng được hình học từ dữ liệu")
 	_check(is_equal_approx(lb.lap_length, 924.0) and lb.count() == 924, "vòng đường 924 đơn vị riêng của track (%d điểm)" % lb.count())
 	_check(lb.closure_error < 0.05, "đường khép kín (sai số %.4f đơn vị)" % lb.closure_error)
-	_check(absf(absf(lb.total_turn) - 360.0) < 0.001, "tổng góc rẽ 360°")
-	_check(lb.min_clearance() > road * 1.3, "hai đoạn đường cách nhau %.1f > %.1f" % [lb.min_clearance(), road * 1.3])
-	_check(lb.bounds.size.x / lb.bounds.size.y < 1.4 and lb.bounds.size.y > 150.0, "khung gần vuông, đủ cao cho màn hình dọc (%.0f × %.0f)" % [lb.bounds.size.x, lb.bounds.size.y])
+	# Circuit B là hình số 8: hai vòng rẽ ngược chiều và đường tự cắt nhau.
+	_check(lb.shape == "figure_eight" and absf(lb.total_turn) < 0.001, "hình số 8: tổng góc rẽ 0°")
+	_check(lb.bounds.size.x > 150.0 and lb.bounds.size.y > 100.0, "kích thước %.0f × %.0f đơn vị" % [lb.bounds.size.x, lb.bounds.size.y])
 	var turn_signs := 0
 	var last_sign := 0.0
 	for d: Dictionary in GameData.sector_defs("track_circuit_b"):

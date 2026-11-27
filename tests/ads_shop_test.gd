@@ -114,10 +114,11 @@ func _initialize() -> void:
 	var view := {}
 	for pl in ["free_gems", "free_driver_coupon", "free_gear_coupon"]:
 		view[pl] = {"state": "ready", "left": 0, "reward": "+1 X", "entitled": false}
+	page.update_daily("", 0, false, false)  # quà ngày đã nhận: banner chuyển sang quảng cáo
 	page.update_ads(view)
 	var b: Button = page.find_child("Ad_free_gems", true, false)
-	_check(b != null and not b.disabled and b.text == "▶ Xem video", "thẻ gem: nút '%s' bấm được" % (b.text if b else "?"))
-	var banner: Button = page.find_child("Ad_free_gems_banner", true, false)
+	_check(b != null and not b.disabled and b.text == "Xem video", "thẻ gem: nút '%s' bấm được" % (b.text if b else "?"))
+	var banner: Button = page.find_child("ClaimDaily", true, false)
 	_check(banner != null and not banner.disabled and banner.text == b.text, "banner miễn phí đồng bộ với ô gem")
 	var got := []
 	page.ad_requested.connect(func(pl: String) -> void: got.append(pl))

@@ -42,7 +42,8 @@ func run() -> void:
 			var widest_road := 0.0
 			for sample in view._left.size():
 				widest_road = maxf(widest_road, view._left[sample].distance_to(view._right[sample]))
-			check(view._layout.min_clearance() * view._k > widest_road, "wider asphalt keeps separate circuit sections apart")
+			if view._layout.shape != "figure_eight":  # figure eight crosses itself by design
+				check(view._layout.min_clearance() * view._k > widest_road, "wider asphalt keeps separate circuit sections apart")
 			var props: Array = view._scenery.duplicate(true)
 			view._on_resized()
 			check(props == view._scenery, "seeded scenery stable %s/%d" % [track, width])
@@ -55,7 +56,7 @@ func run() -> void:
 			view.alpha = 0.5
 			var before := sim.player_car().s
 			var marker := view.player_marker()
-			check((marker.pos as Vector2).is_equal_approx(view._to_px(view._layout.point_at(sim.render_pos(sim.player_car(), 0.5), sim.render_lat(sim.player_car(), 0.5) * RaceView.ROAD_WIDTH_SCALE))), "tutorial marker follows exact sim position")
+			check((marker.pos as Vector2).is_equal_approx(view._car_position(sim.render_pos(sim.player_car(), 0.5), sim.render_lat(sim.player_car(), 0.5))), "tutorial marker follows exact sim position")
 			check(float(marker.r) >= view._car_half_length(true), "spotlight contains toy car")
 			check(view._car_half_length(false) * 2.0 >= 14.0, "cars have a readable minimum length")
 			view.queue_redraw()
@@ -89,8 +90,9 @@ func run() -> void:
 		await settle()
 		main._race_view.queue_redraw()
 		check(main._race_view._top == RaceView.HUD_H + RaceView.STAND_H, "HUD and audience keep their space")
-		check(is_equal_approx(main._race_view.size.y, 190.0) and main._race_view._board_rect().size.y > 100, "race keeps the reviewed 190px layout and readable board")
-		check(main._race_view.get_global_rect().encloses(main._ads_controls._chip.get_global_rect()), "boost button remains in HUD")
+		check(absf(main._race_view.size.y - (main.size.x - 8.0) * 0.75) <= 1.0 and main._race_view._board_rect().size.y > 100, "race height follows screen width and keeps a readable board")
+		var chip: Rect2 = main._ads_controls._chip.get_global_rect()
+		check(main._ads_controls._chip.is_visible_in_tree() and chip.position.y >= main._race_view.get_global_rect().end.y and chip.position.x >= 0.0 and chip.end.x <= width, "boost button sits in the row under the race view")
 		await capture("race_%d" % width)
 	root.size = Vector2i(320, 568)
 	await settle()

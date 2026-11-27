@@ -87,7 +87,7 @@ func run() -> void:
 	check(joined.contains("Tốc độ  +0 → +1"), "hiệu ứng là số cụ thể từ → tới")
 	var buy: Button = box.find_child("Buy_speed_tune", true, false)
 	check(buy != null and buy.text == "1" and buy.disabled, "nút giá 1 cúp bị khóa khi chưa có cúp")
-	check(box.find_child("Buy_overtake_kit", true, false) == null and joined.contains("Mở ở giải"), "thẻ khóa gọn, không hiện nút mua trước khi mở giải")
+	check(box.find_child("Buy_overtake_kit", true, false) == null and not joined.contains("Mở ở giải"), "thẻ khóa bị ẩn trước khi mở giải")
 
 	print("== Đổi nhóm ==")
 	(box.find_child("Group_defense", true, false) as Button).pressed.emit()
