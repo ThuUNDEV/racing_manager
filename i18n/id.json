@@ -352,6 +352,7 @@
  "garage.tap_car_view_buying_or": "Ketuk mobil untuk melihatnya. Pembelian atau pemilihan mobil dilakukan di halaman detail.",
  "garage.this_car_appearance_has_unsaved": "Tampilan mobil ini punya perubahan yang belum disimpan.",
  "garage.tier": "%s · Tingkat %d",
+ "garage.class_badge": "Kelas %d",
  "garage.tier_2": "Tingkat %d · %s",
  "garage.unlock_league_first": "Buka liga %s dulu",
  "garage.unsaved_draft": "Draf belum disimpan",
@@ -702,5 +703,10 @@
  "shop.pack_benefits": "Manfaat",
  "shop.pack_remove_ads": "Hapus\niklan",
  "shop.pack_income_note": "Tidak berlaku saat offline.\nTidak ditumpuk dengan boost iklan (gunakan pengali tertinggi).",
- "shop.income_minutes": "%d menit"
+ "shop.income_minutes": "%d menit",
+  "garage.part_level_short": "Level %d/%d",
+  "garage.maximum": "Maks",
+  "garage.patterns": "Pola",
+  "garage.title": "Garasi",
+  "garage.upgrade": "Tingkatkan"
 }

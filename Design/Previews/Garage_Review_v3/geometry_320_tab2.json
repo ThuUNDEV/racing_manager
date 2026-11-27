@@ -1,0 +1,442 @@
+[
+  {
+    "minimum": "(0.0, 108.0)",
+    "path": "Showroom",
+    "rect": "[P: (4.0, 108.0), S: (312.0, 108.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "Showroom/@TextureRect@1997",
+    "rect": "[P: (4.0, 108.0), S: (312.0, 108.0)]"
+  },
+  {
+    "minimum": "(36.0, 52.0)",
+    "path": "GarageTabs",
+    "rect": "[P: (4.0, 222.0), S: (312.0, 52.0)]"
+  },
+  {
+    "minimum": "(28.0, 44.0)",
+    "path": "GarageTabs/@HBoxContainer@2000",
+    "rect": "[P: (8.0, 226.0), S: (304.0, 44.0)]"
+  },
+  {
+    "minimum": "(0.0, 44.0)",
+    "path": "GarageTabs/@HBoxContainer@2000/@Button@2001",
+    "rect": "[P: (8.0, 226.0), S: (98.0, 44.0)]"
+  },
+  {
+    "minimum": "(4.0, 24.0)",
+    "path": "GarageTabs/@HBoxContainer@2000/@VSeparator@2002",
+    "rect": "[P: (106.0, 236.0), S: (4.0, 24.0)]"
+  },
+  {
+    "minimum": "(0.0, 44.0)",
+    "path": "GarageTabs/@HBoxContainer@2000/@Button@2003",
+    "rect": "[P: (110.0, 226.0), S: (99.0, 44.0)]"
+  },
+  {
+    "minimum": "(4.0, 24.0)",
+    "path": "GarageTabs/@HBoxContainer@2000/@VSeparator@2004",
+    "rect": "[P: (209.0, 236.0), S: (4.0, 24.0)]"
+  },
+  {
+    "minimum": "(20.0, 44.0)",
+    "path": "GarageTabs/@HBoxContainer@2000/@Button@2005",
+    "rect": "[P: (213.0, 226.0), S: (99.0, 44.0)]"
+  },
+  {
+    "minimum": "(84.0, 0.0)",
+    "path": "GarageContent",
+    "rect": "[P: (4.0, 280.0), S: (312.0, 244.0)]"
+  },
+  {
+    "minimum": "(84.0, 246.0)",
+    "path": "GarageContent/@VBoxContainer@2008",
+    "rect": "[P: (4.0, 280.0), S: (312.0, 246.0)]"
+  },
+  {
+    "minimum": "(81.0, 142.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010",
+    "rect": "[P: (4.0, 280.0), S: (312.0, 142.0)]"
+  },
+  {
+    "minimum": "(69.0, 130.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011",
+    "rect": "[P: (10.0, 286.0), S: (300.0, 130.0)]"
+  },
+  {
+    "minimum": "(69.0, 24.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@HBoxContainer@2016",
+    "rect": "[P: (10.0, 286.0), S: (300.0, 24.0)]"
+  },
+  {
+    "minimum": "(3.0, 4.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@HBoxContainer@2016/@HSeparator@2012",
+    "rect": "[P: (10.0, 286.0), S: (118.0, 24.0)]"
+  },
+  {
+    "minimum": "(55.0, 24.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@HBoxContainer@2016/@PanelContainer@2014",
+    "rect": "[P: (132.0, 286.0), S: (55.0, 24.0)]"
+  },
+  {
+    "minimum": "(49.0, 18.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@HBoxContainer@2016/@PanelContainer@2014/@Label@2013",
+    "rect": "[P: (135.0, 289.0), S: (49.0, 18.0)]"
+  },
+  {
+    "minimum": "(3.0, 4.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@HBoxContainer@2016/@HSeparator@2015",
+    "rect": "[P: (191.0, 286.0), S: (119.0, 24.0)]"
+  },
+  {
+    "minimum": "(24.0, 100.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017",
+    "rect": "[P: (10.0, 316.0), S: (300.0, 100.0)]"
+  },
+  {
+    "minimum": "(0.0, 48.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_orange",
+    "rect": "[P: (10.0, 316.0), S: (69.0, 48.0)]"
+  },
+  {
+    "minimum": "(30.0, 47.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_orange/@VBoxContainer@2020",
+    "rect": "[P: (10.0, 316.0), S: (69.0, 48.0)]"
+  },
+  {
+    "minimum": "(30.0, 30.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_orange/@VBoxContainer@2020/@Control@2018",
+    "rect": "[P: (29.0, 316.0), S: (30.0, 30.0)]"
+  },
+  {
+    "minimum": "(1.0, 15.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_orange/@VBoxContainer@2020/@Label@2019",
+    "rect": "[P: (10.0, 348.0), S: (69.0, 15.0)]"
+  },
+  {
+    "minimum": "(0.0, 48.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_red",
+    "rect": "[P: (87.0, 316.0), S: (69.0, 48.0)]"
+  },
+  {
+    "minimum": "(30.0, 47.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_red/@VBoxContainer@2023",
+    "rect": "[P: (87.0, 316.0), S: (69.0, 48.0)]"
+  },
+  {
+    "minimum": "(30.0, 30.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_red/@VBoxContainer@2023/@Control@2021",
+    "rect": "[P: (106.0, 316.0), S: (30.0, 30.0)]"
+  },
+  {
+    "minimum": "(1.0, 15.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_red/@VBoxContainer@2023/@Label@2022",
+    "rect": "[P: (87.0, 348.0), S: (69.0, 15.0)]"
+  },
+  {
+    "minimum": "(0.0, 48.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_blue",
+    "rect": "[P: (164.0, 316.0), S: (69.0, 48.0)]"
+  },
+  {
+    "minimum": "(30.0, 47.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_blue/@VBoxContainer@2026",
+    "rect": "[P: (164.0, 316.0), S: (69.0, 48.0)]"
+  },
+  {
+    "minimum": "(30.0, 30.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_blue/@VBoxContainer@2026/@Control@2024",
+    "rect": "[P: (183.0, 316.0), S: (30.0, 30.0)]"
+  },
+  {
+    "minimum": "(1.0, 15.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_blue/@VBoxContainer@2026/@Label@2025",
+    "rect": "[P: (164.0, 348.0), S: (69.0, 15.0)]"
+  },
+  {
+    "minimum": "(0.0, 48.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_yellow",
+    "rect": "[P: (241.0, 316.0), S: (69.0, 48.0)]"
+  },
+  {
+    "minimum": "(30.0, 47.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_yellow/@VBoxContainer@2029",
+    "rect": "[P: (241.0, 316.0), S: (69.0, 48.0)]"
+  },
+  {
+    "minimum": "(30.0, 30.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_yellow/@VBoxContainer@2029/@Control@2027",
+    "rect": "[P: (260.0, 316.0), S: (30.0, 30.0)]"
+  },
+  {
+    "minimum": "(1.0, 15.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_yellow/@VBoxContainer@2029/@Label@2028",
+    "rect": "[P: (241.0, 348.0), S: (69.0, 15.0)]"
+  },
+  {
+    "minimum": "(0.0, 48.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_white",
+    "rect": "[P: (10.0, 368.0), S: (69.0, 48.0)]"
+  },
+  {
+    "minimum": "(30.0, 47.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_white/@VBoxContainer@2032",
+    "rect": "[P: (10.0, 368.0), S: (69.0, 48.0)]"
+  },
+  {
+    "minimum": "(30.0, 30.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_white/@VBoxContainer@2032/@Control@2030",
+    "rect": "[P: (29.0, 368.0), S: (30.0, 30.0)]"
+  },
+  {
+    "minimum": "(1.0, 15.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_white/@VBoxContainer@2032/@Label@2031",
+    "rect": "[P: (10.0, 400.0), S: (69.0, 15.0)]"
+  },
+  {
+    "minimum": "(0.0, 48.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_graphite",
+    "rect": "[P: (87.0, 368.0), S: (69.0, 48.0)]"
+  },
+  {
+    "minimum": "(30.0, 47.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_graphite/@VBoxContainer@2035",
+    "rect": "[P: (87.0, 368.0), S: (69.0, 48.0)]"
+  },
+  {
+    "minimum": "(30.0, 30.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_graphite/@VBoxContainer@2035/@Control@2033",
+    "rect": "[P: (106.0, 368.0), S: (30.0, 30.0)]"
+  },
+  {
+    "minimum": "(1.0, 15.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_graphite/@VBoxContainer@2035/@Label@2034",
+    "rect": "[P: (87.0, 400.0), S: (69.0, 15.0)]"
+  },
+  {
+    "minimum": "(0.0, 48.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_teal",
+    "rect": "[P: (164.0, 368.0), S: (69.0, 48.0)]"
+  },
+  {
+    "minimum": "(30.0, 47.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_teal/@VBoxContainer@2039",
+    "rect": "[P: (164.0, 368.0), S: (69.0, 48.0)]"
+  },
+  {
+    "minimum": "(30.0, 30.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_teal/@VBoxContainer@2039/@Control@2037",
+    "rect": "[P: (183.0, 368.0), S: (30.0, 30.0)]"
+  },
+  {
+    "minimum": "(17.0, 29.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_teal/@VBoxContainer@2039/@Control@2037/@Label@2036",
+    "rect": "[P: (183.0, 368.0), S: (30.0, 30.0)]"
+  },
+  {
+    "minimum": "(1.0, 15.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_teal/@VBoxContainer@2039/@Label@2038",
+    "rect": "[P: (164.0, 400.0), S: (69.0, 15.0)]"
+  },
+  {
+    "minimum": "(0.0, 48.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_purple",
+    "rect": "[P: (241.0, 368.0), S: (69.0, 48.0)]"
+  },
+  {
+    "minimum": "(30.0, 47.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_purple/@VBoxContainer@2042",
+    "rect": "[P: (241.0, 368.0), S: (69.0, 48.0)]"
+  },
+  {
+    "minimum": "(30.0, 30.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_purple/@VBoxContainer@2042/@Control@2040",
+    "rect": "[P: (260.0, 368.0), S: (30.0, 30.0)]"
+  },
+  {
+    "minimum": "(1.0, 15.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2010/@VBoxContainer@2011/@GridContainer@2017/Paint_purple/@VBoxContainer@2042/@Label@2041",
+    "rect": "[P: (241.0, 400.0), S: (69.0, 15.0)]"
+  },
+  {
+    "minimum": "(84.0, 98.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2043",
+    "rect": "[P: (4.0, 428.0), S: (312.0, 98.0)]"
+  },
+  {
+    "minimum": "(72.0, 86.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2043/@VBoxContainer@2044",
+    "rect": "[P: (10.0, 434.0), S: (300.0, 86.0)]"
+  },
+  {
+    "minimum": "(69.0, 24.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2043/@VBoxContainer@2044/@HBoxContainer@2049",
+    "rect": "[P: (10.0, 434.0), S: (300.0, 24.0)]"
+  },
+  {
+    "minimum": "(3.0, 4.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2043/@VBoxContainer@2044/@HBoxContainer@2049/@HSeparator@2045",
+    "rect": "[P: (10.0, 434.0), S: (118.0, 24.0)]"
+  },
+  {
+    "minimum": "(55.0, 24.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2043/@VBoxContainer@2044/@HBoxContainer@2049/@PanelContainer@2047",
+    "rect": "[P: (132.0, 434.0), S: (55.0, 24.0)]"
+  },
+  {
+    "minimum": "(49.0, 18.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2043/@VBoxContainer@2044/@HBoxContainer@2049/@PanelContainer@2047/@Label@2046",
+    "rect": "[P: (135.0, 437.0), S: (49.0, 18.0)]"
+  },
+  {
+    "minimum": "(3.0, 4.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2043/@VBoxContainer@2044/@HBoxContainer@2049/@HSeparator@2048",
+    "rect": "[P: (191.0, 434.0), S: (119.0, 24.0)]"
+  },
+  {
+    "minimum": "(72.0, 56.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2043/@VBoxContainer@2044/@GridContainer@2050",
+    "rect": "[P: (10.0, 464.0), S: (300.0, 56.0)]"
+  },
+  {
+    "minimum": "(12.0, 56.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2043/@VBoxContainer@2044/@GridContainer@2050/Decal_none",
+    "rect": "[P: (10.0, 464.0), S: (69.0, 56.0)]"
+  },
+  {
+    "minimum": "(34.0, 53.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2043/@VBoxContainer@2044/@GridContainer@2050/Decal_none/@VBoxContainer@2053",
+    "rect": "[P: (10.0, 464.0), S: (69.0, 56.0)]"
+  },
+  {
+    "minimum": "(34.0, 34.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2043/@VBoxContainer@2044/@GridContainer@2050/Decal_none/@VBoxContainer@2053/@TextureRect@2051",
+    "rect": "[P: (10.0, 465.0), S: (69.0, 34.0)]"
+  },
+  {
+    "minimum": "(1.0, 15.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2043/@VBoxContainer@2044/@GridContainer@2050/Decal_none/@VBoxContainer@2053/@Label@2052",
+    "rect": "[P: (10.0, 503.0), S: (69.0, 15.0)]"
+  },
+  {
+    "minimum": "(12.0, 56.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2043/@VBoxContainer@2044/@GridContainer@2050/Decal_double_stripe",
+    "rect": "[P: (87.0, 464.0), S: (69.0, 56.0)]"
+  },
+  {
+    "minimum": "(34.0, 53.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2043/@VBoxContainer@2044/@GridContainer@2050/Decal_double_stripe/@VBoxContainer@2056",
+    "rect": "[P: (87.0, 464.0), S: (69.0, 56.0)]"
+  },
+  {
+    "minimum": "(34.0, 34.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2043/@VBoxContainer@2044/@GridContainer@2050/Decal_double_stripe/@VBoxContainer@2056/@TextureRect@2054",
+    "rect": "[P: (87.0, 465.0), S: (69.0, 34.0)]"
+  },
+  {
+    "minimum": "(1.0, 15.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2043/@VBoxContainer@2044/@GridContainer@2050/Decal_double_stripe/@VBoxContainer@2056/@Label@2055",
+    "rect": "[P: (87.0, 503.0), S: (69.0, 15.0)]"
+  },
+  {
+    "minimum": "(12.0, 56.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2043/@VBoxContainer@2044/@GridContainer@2050/Decal_lightning",
+    "rect": "[P: (164.0, 464.0), S: (69.0, 56.0)]"
+  },
+  {
+    "minimum": "(34.0, 53.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2043/@VBoxContainer@2044/@GridContainer@2050/Decal_lightning/@VBoxContainer@2059",
+    "rect": "[P: (164.0, 464.0), S: (69.0, 56.0)]"
+  },
+  {
+    "minimum": "(34.0, 34.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2043/@VBoxContainer@2044/@GridContainer@2050/Decal_lightning/@VBoxContainer@2059/@TextureRect@2057",
+    "rect": "[P: (164.0, 465.0), S: (69.0, 34.0)]"
+  },
+  {
+    "minimum": "(1.0, 15.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2043/@VBoxContainer@2044/@GridContainer@2050/Decal_lightning/@VBoxContainer@2059/@Label@2058",
+    "rect": "[P: (164.0, 503.0), S: (69.0, 15.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2043/@VBoxContainer@2044/@GridContainer@2050/Decal_lightning/@Panel@2061",
+    "rect": "[P: (211.0, 464.0), S: (22.0, 22.0)]"
+  },
+  {
+    "minimum": "(14.0, 23.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2043/@VBoxContainer@2044/@GridContainer@2050/Decal_lightning/@Panel@2061/@Label@2060",
+    "rect": "[P: (211.0, 464.0), S: (22.0, 23.0)]"
+  },
+  {
+    "minimum": "(12.0, 56.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2043/@VBoxContainer@2044/@GridContainer@2050/Decal_checker",
+    "rect": "[P: (241.0, 464.0), S: (69.0, 56.0)]"
+  },
+  {
+    "minimum": "(34.0, 53.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2043/@VBoxContainer@2044/@GridContainer@2050/Decal_checker/@VBoxContainer@2064",
+    "rect": "[P: (241.0, 464.0), S: (69.0, 56.0)]"
+  },
+  {
+    "minimum": "(34.0, 34.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2043/@VBoxContainer@2044/@GridContainer@2050/Decal_checker/@VBoxContainer@2064/@TextureRect@2062",
+    "rect": "[P: (241.0, 465.0), S: (69.0, 34.0)]"
+  },
+  {
+    "minimum": "(1.0, 15.0)",
+    "path": "GarageContent/@VBoxContainer@2008/@PanelContainer@2043/@VBoxContainer@2044/@GridContainer@2050/Decal_checker/@VBoxContainer@2064/@Label@2063",
+    "rect": "[P: (241.0, 503.0), S: (69.0, 15.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@TextureRect@2006",
+    "rect": "[P: (4.0, 280.0), S: (624.0, 24.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@TextureRect@2007",
+    "rect": "[P: (4.0, 500.0), S: (624.0, 24.0)]"
+  },
+  {
+    "minimum": "(8.0, 8.0)",
+    "path": "GarageContent/_h_scroll",
+    "rect": "[P: (4.0, 524.0), S: (312.0, 8.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/_v_scroll",
+    "rect": "[P: (316.0, 280.0), S: (0.0, 244.0)]"
+  },
+  {
+    "minimum": "(8.0, 8.0)",
+    "path": "GarageContent/_focus",
+    "rect": "[P: (4.0, 280.0), S: (8.0, 8.0)]"
+  },
+  {
+    "minimum": "(76.0, 77.0)",
+    "path": "@VBoxContainer@2009",
+    "rect": "[P: (4.0, 530.0), S: (312.0, 77.0)]"
+  },
+  {
+    "minimum": "(76.0, 48.0)",
+    "path": "@VBoxContainer@2009/@HBoxContainer@2065",
+    "rect": "[P: (4.0, 530.0), S: (312.0, 48.0)]"
+  },
+  {
+    "minimum": "(48.0, 44.0)",
+    "path": "@VBoxContainer@2009/@HBoxContainer@2065/@Button@2066",
+    "rect": "[P: (4.0, 530.0), S: (152.0, 48.0)]"
+  },
+  {
+    "minimum": "(20.0, 48.0)",
+    "path": "@VBoxContainer@2009/@HBoxContainer@2065/@Button@2067",
+    "rect": "[P: (164.0, 530.0), S: (152.0, 48.0)]"
+  },
+  {
+    "minimum": "(1.0, 25.0)",
+    "path": "@VBoxContainer@2009/@Label@2068",
+    "rect": "[P: (4.0, 582.0), S: (312.0, 25.0)]"
+  }
+]

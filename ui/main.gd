@@ -140,11 +140,11 @@ var _audio: Node = null  # components/workshop_audio.gd
 var _music_player: AudioStreamPlayer = null
 var _music_on: bool = true
 var _sfx_on: bool = true
-## Bản này tạm ẩn Garage khỏi tab Đội (GaragePage vẫn dựng sẵn; đặt true để bật lại cùng tutorial U6_garage trong data/tutorial.json).
-const TEAM_GARAGE_ENABLED := false
+## Garage v2 nằm trong Đội; giữ điều kiện mở U6_garage hiện hành.
+const TEAM_GARAGE_ENABLED := true
 var _team_sub: int = 0
 var _team_sub_buttons: Array = []
-var _team_drivers_wrap: VBoxContainer
+var _team_drivers_wrap: Control
 var _garage: GaragePage
 var _gear: GearPage
 var _catalog_buttons: Array = []
@@ -1007,7 +1007,7 @@ func _section_head(parent: Control, text: String, icon_rel: String) -> void:
 
 
 func _build_team_page() -> void:
-	var page := _make_page()
+	var page := _make_fixed_page()
 	# Đội có hai mục con: Tay đua / Garage (Design/15 §3).
 	var tabs := PanelContainer.new()
 	tabs.name = "TeamTabs"
@@ -1023,7 +1023,7 @@ func _build_team_page() -> void:
 	var sub := HBoxContainer.new()
 	sub.add_theme_constant_override("separation", 4)
 	tabs.add_child(sub)
-	_team_sub_buttons = [_button(I18n.t("common.drivers"), false, 44.0), _button("Garage", false, 44.0)]
+	_team_sub_buttons = [_button(I18n.t("common.drivers"), false, 44.0), _button(I18n.t("garage.title"), false, 44.0)]
 	for i in _team_sub_buttons.size():
 		var sb: Button = _team_sub_buttons[i]
 		sb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -1035,9 +1035,14 @@ func _build_team_page() -> void:
 	var v := VBoxContainer.new()
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	v.add_theme_constant_override("separation", 5)
-	page.add_child(v)
-	_team_drivers_wrap = v
+	var driver_scroll := preload("res://ui/touch_scroll.gd").new()
+	driver_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	driver_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	page.add_child(driver_scroll)
+	driver_scroll.add_child(v)
+	_team_drivers_wrap = driver_scroll
 	_garage = GaragePage.new()
+	_garage.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_garage.sfx.connect(_sfx)
 	_garage.notice.connect(_show_toast)
 	page.add_child(_garage)

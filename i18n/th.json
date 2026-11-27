@@ -352,6 +352,7 @@
  "garage.tap_car_view_buying_or": "แตะรถเพื่อดู การซื้อหรือเลือกรถทำในหน้ารายละเอียด",
  "garage.this_car_appearance_has_unsaved": "รูปลักษณ์ของรถคันนี้มีการเปลี่ยนแปลงที่ยังไม่บันทึก",
  "garage.tier": "%s · ระดับ %d",
+ "garage.class_badge": "ระดับ %d",
  "garage.tier_2": "ระดับ %d · %s",
  "garage.unlock_league_first": "ปลดล็อกลีก %s ก่อน",
  "garage.unsaved_draft": "ฉบับร่างยังไม่บันทึก",
@@ -702,5 +703,10 @@
  "shop.pack_benefits": "สิทธิประโยชน์",
  "shop.pack_remove_ads": "ปิด\nโฆษณา",
  "shop.pack_income_note": "ไม่ใช้กับรายได้ออฟไลน์\nไม่คูณซ้อนกับบูสต์โฆษณา (ใช้ตัวคูณที่สูงกว่า)",
- "shop.income_minutes": "%d นาที"
+ "shop.income_minutes": "%d นาที",
+  "garage.part_level_short": "ระดับ %d/%d",
+  "garage.maximum": "สูงสุด",
+  "garage.patterns": "ลวดลาย",
+  "garage.title": "โรงรถ",
+  "garage.upgrade": "อัปเกรด"
 }

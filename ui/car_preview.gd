@@ -1,21 +1,34 @@
 class_name CarPreview
 extends Control
 ## Xe 3D (assets/models/race_car, dùng chung với màn đua) render vào SubViewport trong suốt, đặt trên nền khu trưng bày.
-## Màu sơn đổi vật liệu thân xe, decal là mesh phẳng trên mui/nóc/đuôi. Bật `rotatable` để kéo ngang xoay xe.
+## Màu sơn đổi vật liệu thân xe, decal bám mesh cong trên mui/nóc/đuôi/cửa. Bật `rotatable` để kéo ngang xoay xe.
 
 signal yaw_changed(value: float)
 
-const MODEL := preload("res://assets/models/race_car/race_car.tscn")
+const MODELS := [
+	preload("res://assets/models/race_car/pico.tscn"),
+	preload("res://assets/models/race_car/nova.tscn"),
+	preload("res://assets/models/race_car/apex.tscn"),
+	preload("res://assets/models/race_car/titan.tscn"),
+	preload("res://assets/models/race_car/zenith.tscn"),
+]
 const SCENE_RATIO := 600.0 / 1024.0
 const C_DARK := Color("1d1f24")
 const C_LIGHT := Color("fff8e7")
 const PAINT_NAME := "Body_Paint_Blue"
 ## Mặt trước xe là -Z; góc này cho mũi xe quay chéo về phía trái người xem.
-const DEFAULT_YAW := 125.0
+const DEFAULT_YAW := 145.0
 const DRAG_DEGREES_PER_UNIT := 0.8
 const FOV := 24.0
 
-var car_id: String = "car_pico_tia_chop"
+var car_id: String = "car_pico_tia_chop":
+	set(v):
+		if car_id == v:
+			return
+		car_id = v
+		if _car != null:
+			_replace_car()
+			_update()
 ## Nhìn từ trên cao hơn để thấy rõ decal (mục Ngoại hình).
 var top_down: bool = false:
 	set(v):
@@ -46,6 +59,8 @@ var dimmed: bool = false:  # xe chưa sở hữu: mờ nhẹ
 	set(v):
 		dimmed = v
 		_update()
+## Optional Garage-only background; other previews keep their existing scene.
+var showroom_texture: Texture2D
 var rotatable: bool = false:
 	set(v):
 		rotatable = v
@@ -58,6 +73,7 @@ var _car: Node3D
 var _camera: Camera3D
 var _paint_material: StandardMaterial3D
 var _decals: Node3D
+var _accent_material: StandardMaterial3D
 var _decal_material: StandardMaterial3D
 
 
@@ -81,22 +97,7 @@ func _init() -> void:
 
 
 func _build_world() -> void:
-	_car = MODEL.instantiate()
-	_viewport.add_child(_car)
-	_car.rotation_degrees.y = yaw
-	# Sọc đúc sẵn của model được ẩn: hoa văn chỉ đến từ decal người chơi chọn.
-	for child in _car.get_children():
-		if child is MeshInstance3D and child.material_override != null and child.material_override.resource_name == "Pearl_White" \
-				and absf(child.position.x) < 0.5:
-			child.visible = false
-	_apply_paint_material(_car)
-	_decal_material = StandardMaterial3D.new()
-	_decal_material.roughness = 0.5
-	_decal_material.cull_mode = BaseMaterial3D.CULL_DISABLED
-	_decals = Node3D.new()
-	_decals.name = "Decals"
-	_car.add_child(_decals)
-	_car.add_child(_make_shadow())
+	_replace_car()
 
 	_camera = Camera3D.new()
 	_camera.fov = FOV
@@ -106,17 +107,65 @@ func _build_world() -> void:
 	environment.environment.background_mode = Environment.BG_CLEAR_COLOR
 	environment.environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	environment.environment.ambient_light_color = Color("fff6ea")
-	environment.environment.ambient_light_energy = 0.6
+	environment.environment.ambient_light_energy = 0.42
+	var sky := Sky.new()
+	var sky_mat := ProceduralSkyMaterial.new()
+	sky_mat.sky_top_color = Color("87b9de")
+	sky_mat.sky_horizon_color = Color("fff5e6")
+	sky_mat.ground_horizon_color = Color("e0efff")
+	sky.sky_material = sky_mat
+	environment.environment.sky = sky
+	environment.environment.reflected_light_source = Environment.REFLECTION_SOURCE_SKY
 	_viewport.add_child(environment)
 	var key := DirectionalLight3D.new()
-	key.rotation_degrees = Vector3(-50, -30, 0)
-	key.light_energy = 0.9
+	key.rotation_degrees = Vector3(-48, -35, 0)
+	key.light_energy = 1.0
+	key.light_color = Color("fff0d9")
 	_viewport.add_child(key)
 	var fill := DirectionalLight3D.new()
 	fill.rotation_degrees = Vector3(-15, 55, 0)
 	fill.light_color = Color("cfe4ff")
-	fill.light_energy = 0.3
+	fill.light_energy = 0.45
+	var rim := DirectionalLight3D.new()
+	rim.rotation_degrees = Vector3(-35, 155, 0)
+	rim.light_color = Color("e4f4ff")
+	rim.light_energy = 0.65
+	_viewport.add_child(rim)
 	_viewport.add_child(fill)
+
+
+func _replace_car() -> void:
+	if _car != null:
+		_viewport.remove_child(_car)
+		_car.queue_free()
+	var data := GameData.car(car_id)
+	var tier := clampi(int(data.get("class", 1)), 1, 5)
+	_car = MODELS[tier - 1].instantiate()
+	_viewport.add_child(_car)
+	_car.rotation_degrees.y = yaw
+	_paint_material = null
+	_accent_material = null
+	_apply_paint_material(_car)
+	_decal_material = StandardMaterial3D.new()
+	_decal_material.roughness = 0.55
+	_decal_material.cull_mode = BaseMaterial3D.CULL_DISABLED
+	_decals = Node3D.new()
+	_decals.name = "Decals"
+	_car.add_child(_decals)
+	_car.add_child(_make_shadow())
+	_build_race_number()
+	var glass: MeshInstance3D = _car.get_node("Cabin_Glass")
+	var glint := MeshInstance3D.new()
+	glint.name = "WindshieldReflection"
+	glint.mesh = glass.mesh
+	glint.transform = glass.transform
+	var glint_mat := ShaderMaterial.new()
+	glint_mat.shader = preload("res://ui/car_livery.gdshader")
+	glint_mat.set_shader_parameter("pattern",4)
+	glint_mat.set_shader_parameter("ink",Color("bceaff"))
+	glint_mat.set_shader_parameter("panel_offset",glass.position)
+	glint.material_override = glint_mat
+	_car.add_child(glint)
 
 
 ## Mỗi khung xem có bản vật liệu sơn riêng để màu của xe này không lan sang xe khác.
@@ -126,6 +175,10 @@ func _apply_paint_material(node: Node) -> void:
 			if _paint_material == null:
 				_paint_material = child.material_override.duplicate()
 			child.material_override = _paint_material
+		if child is MeshInstance3D and child.material_override != null and child.material_override.resource_name == "Accent_Trim":
+			if _accent_material == null:
+				_accent_material = child.material_override.duplicate()
+			child.material_override = _accent_material
 		_apply_paint_material(child)
 
 
@@ -151,15 +204,29 @@ func _make_shadow() -> MeshInstance3D:
 	shadow.mesh = plane
 	shadow.material_override = mat
 	shadow.position.y = 0.005
+	# Small overlapping pools anchor each tire to the illustrated turntable.
+	var track: float = _car.get_meta("wheel_track",0.78)
+	var wheelbase: float = _car.get_meta("wheel_base",0.87)
+	for x: float in [-track,track]:
+		for z: float in [-wheelbase,wheelbase]:
+			var contact := MeshInstance3D.new()
+			var patch := PlaneMesh.new()
+			patch.size = Vector2(0.62,0.82)
+			contact.mesh = patch
+			contact.material_override = mat
+			contact.position = Vector3(x,0.002,z)
+			shadow.add_child(contact)
 	return shadow
 
 
 ## Màu tương phản cố định cho decal theo độ sáng của màu sơn (Design/15 §8).
 static func contrast_for(paint: String) -> Color:
 	var p := GameData.paint(paint)
+	if paint == "white":
+		return Color("dc583c")
 	if p.is_empty():
 		return C_LIGHT
-	return C_DARK if Color(String(p["color"])).get_luminance() > 0.5 else C_LIGHT
+	return C_DARK if Color(String(p["color"])).get_luminance() > 0.65 else C_LIGHT
 
 
 func _on_resized() -> void:
@@ -182,6 +249,8 @@ func _update() -> void:
 		p = GameData.paint(GameData.default_paint_id())
 	_paint_material.albedo_color = Color(String(p["color"]))
 	_decal_material.albedo_color = contrast_for(paint_id)
+	if _accent_material != null:
+		_accent_material.albedo_color = Color("ef7047") if _paint_material.albedo_color.get_luminance() > 0.6 else contrast_for(paint_id)
 	_rebuild_decals()
 	_view.modulate.a = 0.55 if dimmed else 1.0
 	if size.x >= 1.0 and size.y >= 1.0:
@@ -197,15 +266,19 @@ func _update() -> void:
 ## Khu trưng bày chừa lề cho bục và nền; thẻ bộ sưu tập thì xe chiếm gần hết khung.
 func _place_camera() -> void:
 	var aspect := size.x / size.y
-	var span_x := 5.1 if show_floor else 3.6
-	var span_y := 2.5 if show_floor else 1.9
+	var span_x := 4.6 if show_floor else 3.9
+	var span_y := (3.0 if top_down else 2.5) if show_floor else 1.9
+	if show_floor and showroom_texture != null:
+		span_y = 3.3
 	var half_tan := tan(deg_to_rad(FOV * 0.5))
 	var distance := maxf(span_y, span_x / aspect) * 0.5 / half_tan
-	var elevation := deg_to_rad(38.0 if top_down else 12.0)
+	var elevation := deg_to_rad(40.0 if top_down else 23.0)
 	# Điểm ngắm cao hơn tâm xe đẩy xe xuống đúng mặt bục của ảnh nền.
 	var target := Vector3(0, 0.55, 0)
 	if show_floor:
-		target.y = 0.65 if top_down else 0.78
+		target.y = 0.50 if top_down else 0.83
+		if showroom_texture != null:
+			target.y = 0.40
 	var direction := Vector3(0, sin(elevation), cos(elevation))
 	_camera.position = target + direction * distance
 	_camera.basis = Basis.looking_at(-direction)
@@ -228,9 +301,17 @@ func _gui_input(event: InputEvent) -> void:
 
 func _draw() -> void:
 	if show_floor:
-		var background := HdUi.Soft.texture("garage_showroom_front")
+		var background := showroom_texture if showroom_texture != null else HdUi.Soft.texture("garage_showroom_front")
 		if background != null:
-			draw_texture_rect(background, Rect2(Vector2.ZERO, size), false)
+			if showroom_texture != null:
+				# Uniform cover; the narrow viewport crops the room instead of flattening it.
+				var texture_size := background.get_size()
+				var scale_to_fill := maxf(size.x / texture_size.x, size.y / texture_size.y)
+				var source_size := size / scale_to_fill
+				var source := Rect2(Vector2((texture_size.x - source_size.x) * 0.5, texture_size.y - source_size.y), source_size)
+				draw_texture_rect_region(background, Rect2(Vector2.ZERO, size), source)
+			else:
+				draw_texture_rect(background, Rect2(Vector2.ZERO, size), false)
 
 
 # ---------------------------------------------------------------- decal
@@ -239,48 +320,59 @@ func _rebuild_decals() -> void:
 	for child in _decals.get_children():
 		_decals.remove_child(child)
 		child.queue_free()
-	# Ba mặt phẳng nhận decal: mui (trước kính), nóc, đuôi. Giá trị là (độ cao, z giữa, chiều dài).
-	var hood := Vector3(0.708, -0.99, 0.56)
-	var roof := Vector3(1.167, 0.23, 0.74)
-	var tail := Vector3(0.708, 1.03, 0.40)
-	match decal_id:
-		"double_stripe":
-			for surface: Vector3 in [hood, roof, tail]:
-				for x: float in [-0.19, 0.19]:
-					_decal_box(Vector2(x, surface.y), Vector2(0.14, surface.z), surface.x)
-		"lightning":
-			_decal_bolt(Vector2(0, hood.y), 0.0050, hood.x)
-			_decal_bolt(Vector2(0, roof.y), 0.0062, roof.x)
-		"checker":
-			for surface: Vector3 in [hood, roof]:
-				var cell := surface.z / 4.0
-				for r in 4:
-					for q in 4:
-						if (r + q) % 2 == 0:
-							_decal_box(Vector2((q - 1.5) * cell, surface.y + (r - 1.5) * cell), Vector2(cell, cell), surface.x)
+	if decal_id == "none":
+		return
+	var pattern := ["none","double_stripe","lightning","checker"].find(decal_id)
+	for panel_name in ["Body", "Roof"]:
+		var panel: MeshInstance3D = _car.get_node(panel_name)
+		var overlay := MeshInstance3D.new()
+		overlay.name = "Livery_"+panel_name
+		overlay.mesh = panel.mesh
+		overlay.transform = panel.transform
+		var mat := ShaderMaterial.new()
+		mat.shader = preload("res://ui/car_livery.gdshader")
+		mat.set_shader_parameter("ink",contrast_for(paint_id))
+		mat.set_shader_parameter("pattern",pattern)
+		mat.set_shader_parameter("panel_offset",panel.position)
+		mat.set_shader_parameter("body_top",float(_car.get_meta("body_top",0.86)))
+		overlay.material_override = mat
+		_decals.add_child(overlay)
 
 
-## `at` và `extent` là toạ độ (x, z) trên mặt xe, `height` là độ cao mặt đó.
-func _decal_box(at: Vector2, extent: Vector2, height: float) -> void:
-	var mesh := BoxMesh.new()
-	mesh.size = Vector3(extent.x, 0.012, extent.y)
-	_add_decal(mesh, Vector3(at.x, height, at.y))
-
-
-## Tia chớp 6 đỉnh (cao 116 đơn vị), đặt nằm trên mặt xe, tâm tại `at`.
-func _decal_bolt(at: Vector2, unit: float, height: float) -> void:
-	var outline := PackedVector2Array([Vector2(12, 0), Vector2(-28, 52), Vector2(-4, 52), Vector2(-16, 116), Vector2(30, 40), Vector2(4, 40)])
-	var surface := SurfaceTool.new()
-	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
-	for i in Geometry2D.triangulate_polygon(outline):
-		surface.set_normal(Vector3.UP)
-		surface.add_vertex(Vector3(outline[i].x * unit, 0.0, (outline[i].y - 58.0) * unit))
-	_add_decal(surface.commit(), Vector3(at.x, height + 0.008, at.y))
-
-
-func _add_decal(mesh: Mesh, at: Vector3) -> void:
-	var node := MeshInstance3D.new()
-	node.mesh = mesh
-	node.material_override = _decal_material
-	node.position = at
-	_decals.add_child(node)
+## Stable display number from the existing ordered car catalogue; no save field.
+func _build_race_number() -> void:
+	var number := 3
+	for i in GameData.cars().size():
+		if String(GameData.cars()[i]["id"]) == car_id:
+			number = i + 3
+			break
+	var badge_mat := StandardMaterial3D.new()
+	badge_mat.albedo_color = Color("fff1ce")
+	badge_mat.roughness = 0.55
+	var w := float(_car.get_meta("body_width",1.64))
+	var top := float(_car.get_meta("body_top",0.86))
+	for side: float in [-1.0,1.0]:
+		var disk := MeshInstance3D.new()
+		disk.name = "RaceNumberBadge_Left" if side < 0 else "RaceNumberBadge_Right"
+		var mesh := CylinderMesh.new()
+		mesh.top_radius = 0.205
+		mesh.bottom_radius = 0.205
+		mesh.height = 0.018
+		mesh.radial_segments = 48
+		disk.mesh = mesh
+		disk.material_override = badge_mat
+		disk.position = Vector3(side*(w/2+0.008),top-0.24,0.0)
+		disk.rotation.z = PI/2
+		_car.add_child(disk)
+		var label := Label3D.new()
+		label.name = "RaceNumber"
+		label.text = "%02d" % number
+		label.font = ThemeDB.fallback_font
+		label.font_size = 96
+		label.pixel_size = 0.0027
+		label.modulate = Color("24313c")
+		label.outline_size = 0
+		label.no_depth_test = false
+		label.position = disk.position + Vector3(side*0.013,0,0)
+		label.rotation.y = side*PI/2
+		_car.add_child(label)

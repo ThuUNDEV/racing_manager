@@ -352,6 +352,7 @@
  "garage.tap_car_view_buying_or": "点击赛车查看。购买或选择赛车请在详情页进行。",
  "garage.this_car_appearance_has_unsaved": "这辆车的外观有未保存的更改。",
  "garage.tier": "%s · %d级",
+ "garage.class_badge": "等级 %d",
  "garage.tier_2": "%d级 · %s",
  "garage.unlock_league_first": "请先解锁%s联赛",
  "garage.unsaved_draft": "未保存的草稿",
@@ -702,5 +703,10 @@
  "shop.pack_benefits": "权益",
  "shop.pack_remove_ads": "移除\n广告",
  "shop.pack_income_note": "不适用于离线收益。\n不与广告加成叠加（取较高倍率）。",
- "shop.income_minutes": "%d分钟"
+ "shop.income_minutes": "%d分钟",
+  "garage.part_level_short": "等级 %d/%d",
+  "garage.maximum": "最大",
+  "garage.patterns": "图案",
+  "garage.title": "车库",
+  "garage.upgrade": "升级"
 }

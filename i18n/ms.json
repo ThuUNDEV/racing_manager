@@ -352,6 +352,7 @@
  "garage.tap_car_view_buying_or": "Ketik kereta untuk melihatnya. Pembelian atau pemilihan kereta dibuat di halaman butiran.",
  "garage.this_car_appearance_has_unsaved": "Rupa kereta ini ada perubahan yang belum disimpan.",
  "garage.tier": "%s · Tahap %d",
+ "garage.class_badge": "Kelas %d",
  "garage.tier_2": "Tahap %d · %s",
  "garage.unlock_league_first": "Buka liga %s dahulu",
  "garage.unsaved_draft": "Draf belum disimpan",
@@ -702,5 +703,10 @@
  "shop.pack_benefits": "Manfaat",
  "shop.pack_remove_ads": "Buang\niklan",
  "shop.pack_income_note": "Tidak digunakan semasa luar talian.\nTidak digabungkan dengan boost iklan (pengganda tertinggi digunakan).",
- "shop.income_minutes": "%d minit"
+ "shop.income_minutes": "%d minit",
+  "garage.part_level_short": "Tahap %d/%d",
+  "garage.maximum": "Maks",
+  "garage.patterns": "Corak",
+  "garage.title": "Garaj",
+  "garage.upgrade": "Naik taraf"
 }

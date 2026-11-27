@@ -1,0 +1,347 @@
+[
+  {
+    "minimum": "(0.0, 104.0)",
+    "path": "Showroom",
+    "rect": "[P: (4.0, 108.0), S: (312.0, 104.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "Showroom/@TextureRect@1928",
+    "rect": "[P: (4.0, 108.0), S: (312.0, 104.0)]"
+  },
+  {
+    "minimum": "(36.0, 52.0)",
+    "path": "GarageTabs",
+    "rect": "[P: (4.0, 218.0), S: (312.0, 52.0)]"
+  },
+  {
+    "minimum": "(28.0, 44.0)",
+    "path": "GarageTabs/@HBoxContainer@1929",
+    "rect": "[P: (8.0, 222.0), S: (304.0, 44.0)]"
+  },
+  {
+    "minimum": "(0.0, 44.0)",
+    "path": "GarageTabs/@HBoxContainer@1929/@Button@1930",
+    "rect": "[P: (8.0, 222.0), S: (98.0, 44.0)]"
+  },
+  {
+    "minimum": "(4.0, 24.0)",
+    "path": "GarageTabs/@HBoxContainer@1929/@VSeparator@1931",
+    "rect": "[P: (106.0, 232.0), S: (4.0, 24.0)]"
+  },
+  {
+    "minimum": "(20.0, 44.0)",
+    "path": "GarageTabs/@HBoxContainer@1929/@Button@1932",
+    "rect": "[P: (110.0, 222.0), S: (99.0, 44.0)]"
+  },
+  {
+    "minimum": "(4.0, 24.0)",
+    "path": "GarageTabs/@HBoxContainer@1929/@VSeparator@1933",
+    "rect": "[P: (209.0, 232.0), S: (4.0, 24.0)]"
+  },
+  {
+    "minimum": "(0.0, 44.0)",
+    "path": "GarageTabs/@HBoxContainer@1929/@Button@1934",
+    "rect": "[P: (213.0, 222.0), S: (99.0, 44.0)]"
+  },
+  {
+    "minimum": "(32.0, 0.0)",
+    "path": "GarageContent",
+    "rect": "[P: (4.0, 276.0), S: (312.0, 184.0)]"
+  },
+  {
+    "minimum": "(32.0, 184.0)",
+    "path": "GarageContent/@VBoxContainer@1937",
+    "rect": "[P: (4.0, 276.0), S: (312.0, 184.0)]"
+  },
+  {
+    "minimum": "(32.0, 184.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid",
+    "rect": "[P: (4.0, 276.0), S: (312.0, 184.0)]"
+  },
+  {
+    "minimum": "(12.0, 88.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_engine",
+    "rect": "[P: (4.0, 276.0), S: (152.0, 88.0)]"
+  },
+  {
+    "minimum": "(89.0, 94.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_engine/@MarginContainer@1940",
+    "rect": "[P: (4.0, 276.0), S: (152.0, 94.0)]"
+  },
+  {
+    "minimum": "(75.0, 80.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_engine/@MarginContainer@1940/@HBoxContainer@1941",
+    "rect": "[P: (11.0, 283.0), S: (138.0, 80.0)]"
+  },
+  {
+    "minimum": "(46.0, 60.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_engine/@MarginContainer@1940/@HBoxContainer@1941/@TextureRect@1942",
+    "rect": "[P: (11.0, 283.0), S: (46.0, 80.0)]"
+  },
+  {
+    "minimum": "(24.0, 80.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_engine/@MarginContainer@1940/@HBoxContainer@1941/@VBoxContainer@1943",
+    "rect": "[P: (62.0, 283.0), S: (87.0, 80.0)]"
+  },
+  {
+    "minimum": "(1.0, 20.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_engine/@MarginContainer@1940/@HBoxContainer@1941/@VBoxContainer@1943/@Label@1944",
+    "rect": "[P: (62.0, 283.0), S: (87.0, 20.0)]"
+  },
+  {
+    "minimum": "(9.0, 16.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_engine/@MarginContainer@1940/@HBoxContainer@1941/@VBoxContainer@1943/@PanelContainer@1946",
+    "rect": "[P: (62.0, 306.0), S: (87.0, 16.0)]"
+  },
+  {
+    "minimum": "(1.0, 16.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_engine/@MarginContainer@1940/@HBoxContainer@1941/@VBoxContainer@1943/@PanelContainer@1946/@Label@1945",
+    "rect": "[P: (66.0, 306.0), S: (79.0, 16.0)]"
+  },
+  {
+    "minimum": "(1.0, 19.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_engine/@MarginContainer@1940/@HBoxContainer@1941/@VBoxContainer@1943/@Label@1947",
+    "rect": "[P: (62.0, 325.0), S: (87.0, 19.0)]"
+  },
+  {
+    "minimum": "(24.0, 16.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_engine/@MarginContainer@1940/@HBoxContainer@1941/@VBoxContainer@1943/@ProgressBar@1948",
+    "rect": "[P: (62.0, 347.0), S: (87.0, 16.0)]"
+  },
+  {
+    "minimum": "(12.0, 88.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_tyre",
+    "rect": "[P: (164.0, 276.0), S: (152.0, 88.0)]"
+  },
+  {
+    "minimum": "(89.0, 94.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_tyre/@MarginContainer@1949",
+    "rect": "[P: (164.0, 276.0), S: (152.0, 94.0)]"
+  },
+  {
+    "minimum": "(75.0, 80.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_tyre/@MarginContainer@1949/@HBoxContainer@1950",
+    "rect": "[P: (171.0, 283.0), S: (138.0, 80.0)]"
+  },
+  {
+    "minimum": "(46.0, 60.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_tyre/@MarginContainer@1949/@HBoxContainer@1950/@TextureRect@1951",
+    "rect": "[P: (171.0, 283.0), S: (46.0, 80.0)]"
+  },
+  {
+    "minimum": "(24.0, 80.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_tyre/@MarginContainer@1949/@HBoxContainer@1950/@VBoxContainer@1952",
+    "rect": "[P: (222.0, 283.0), S: (87.0, 80.0)]"
+  },
+  {
+    "minimum": "(1.0, 20.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_tyre/@MarginContainer@1949/@HBoxContainer@1950/@VBoxContainer@1952/@Label@1953",
+    "rect": "[P: (222.0, 283.0), S: (87.0, 20.0)]"
+  },
+  {
+    "minimum": "(9.0, 16.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_tyre/@MarginContainer@1949/@HBoxContainer@1950/@VBoxContainer@1952/@PanelContainer@1955",
+    "rect": "[P: (222.0, 306.0), S: (87.0, 16.0)]"
+  },
+  {
+    "minimum": "(1.0, 16.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_tyre/@MarginContainer@1949/@HBoxContainer@1950/@VBoxContainer@1952/@PanelContainer@1955/@Label@1954",
+    "rect": "[P: (226.0, 306.0), S: (79.0, 16.0)]"
+  },
+  {
+    "minimum": "(1.0, 19.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_tyre/@MarginContainer@1949/@HBoxContainer@1950/@VBoxContainer@1952/@Label@1956",
+    "rect": "[P: (222.0, 325.0), S: (87.0, 19.0)]"
+  },
+  {
+    "minimum": "(24.0, 16.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_tyre/@MarginContainer@1949/@HBoxContainer@1950/@VBoxContainer@1952/@ProgressBar@1957",
+    "rect": "[P: (222.0, 347.0), S: (87.0, 16.0)]"
+  },
+  {
+    "minimum": "(12.0, 88.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_chassis",
+    "rect": "[P: (4.0, 372.0), S: (152.0, 88.0)]"
+  },
+  {
+    "minimum": "(89.0, 94.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_chassis/@MarginContainer@1958",
+    "rect": "[P: (4.0, 372.0), S: (152.0, 94.0)]"
+  },
+  {
+    "minimum": "(75.0, 80.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_chassis/@MarginContainer@1958/@HBoxContainer@1959",
+    "rect": "[P: (11.0, 379.0), S: (138.0, 80.0)]"
+  },
+  {
+    "minimum": "(46.0, 60.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_chassis/@MarginContainer@1958/@HBoxContainer@1959/@TextureRect@1960",
+    "rect": "[P: (11.0, 379.0), S: (46.0, 80.0)]"
+  },
+  {
+    "minimum": "(24.0, 80.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_chassis/@MarginContainer@1958/@HBoxContainer@1959/@VBoxContainer@1961",
+    "rect": "[P: (62.0, 379.0), S: (87.0, 80.0)]"
+  },
+  {
+    "minimum": "(1.0, 20.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_chassis/@MarginContainer@1958/@HBoxContainer@1959/@VBoxContainer@1961/@Label@1962",
+    "rect": "[P: (62.0, 379.0), S: (87.0, 20.0)]"
+  },
+  {
+    "minimum": "(9.0, 16.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_chassis/@MarginContainer@1958/@HBoxContainer@1959/@VBoxContainer@1961/@PanelContainer@1964",
+    "rect": "[P: (62.0, 402.0), S: (87.0, 16.0)]"
+  },
+  {
+    "minimum": "(1.0, 16.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_chassis/@MarginContainer@1958/@HBoxContainer@1959/@VBoxContainer@1961/@PanelContainer@1964/@Label@1963",
+    "rect": "[P: (66.0, 402.0), S: (79.0, 16.0)]"
+  },
+  {
+    "minimum": "(1.0, 19.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_chassis/@MarginContainer@1958/@HBoxContainer@1959/@VBoxContainer@1961/@Label@1965",
+    "rect": "[P: (62.0, 421.0), S: (87.0, 19.0)]"
+  },
+  {
+    "minimum": "(24.0, 16.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_chassis/@MarginContainer@1958/@HBoxContainer@1959/@VBoxContainer@1961/@ProgressBar@1966",
+    "rect": "[P: (62.0, 443.0), S: (87.0, 16.0)]"
+  },
+  {
+    "minimum": "(12.0, 88.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_gearbox",
+    "rect": "[P: (164.0, 372.0), S: (152.0, 88.0)]"
+  },
+  {
+    "minimum": "(89.0, 94.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_gearbox/@MarginContainer@1967",
+    "rect": "[P: (164.0, 372.0), S: (152.0, 94.0)]"
+  },
+  {
+    "minimum": "(75.0, 80.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_gearbox/@MarginContainer@1967/@HBoxContainer@1968",
+    "rect": "[P: (171.0, 379.0), S: (138.0, 80.0)]"
+  },
+  {
+    "minimum": "(46.0, 60.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_gearbox/@MarginContainer@1967/@HBoxContainer@1968/@TextureRect@1969",
+    "rect": "[P: (171.0, 379.0), S: (46.0, 80.0)]"
+  },
+  {
+    "minimum": "(24.0, 80.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_gearbox/@MarginContainer@1967/@HBoxContainer@1968/@VBoxContainer@1970",
+    "rect": "[P: (222.0, 379.0), S: (87.0, 80.0)]"
+  },
+  {
+    "minimum": "(1.0, 20.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_gearbox/@MarginContainer@1967/@HBoxContainer@1968/@VBoxContainer@1970/@Label@1971",
+    "rect": "[P: (222.0, 379.0), S: (87.0, 20.0)]"
+  },
+  {
+    "minimum": "(9.0, 16.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_gearbox/@MarginContainer@1967/@HBoxContainer@1968/@VBoxContainer@1970/@PanelContainer@1973",
+    "rect": "[P: (222.0, 402.0), S: (87.0, 16.0)]"
+  },
+  {
+    "minimum": "(1.0, 16.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_gearbox/@MarginContainer@1967/@HBoxContainer@1968/@VBoxContainer@1970/@PanelContainer@1973/@Label@1972",
+    "rect": "[P: (226.0, 402.0), S: (79.0, 16.0)]"
+  },
+  {
+    "minimum": "(1.0, 19.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_gearbox/@MarginContainer@1967/@HBoxContainer@1968/@VBoxContainer@1970/@Label@1974",
+    "rect": "[P: (222.0, 421.0), S: (87.0, 19.0)]"
+  },
+  {
+    "minimum": "(24.0, 16.0)",
+    "path": "GarageContent/@VBoxContainer@1937/PartsGrid/Part_gearbox/@MarginContainer@1967/@HBoxContainer@1968/@VBoxContainer@1970/@ProgressBar@1975",
+    "rect": "[P: (222.0, 443.0), S: (87.0, 16.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@TextureRect@1935",
+    "rect": "[P: (4.0, 276.0), S: (24.0, 184.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@TextureRect@1936",
+    "rect": "[P: (292.0, 276.0), S: (24.0, 184.0)]"
+  },
+  {
+    "minimum": "(8.0, 8.0)",
+    "path": "GarageContent/_h_scroll",
+    "rect": "[P: (4.0, 460.0), S: (312.0, 8.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/_v_scroll",
+    "rect": "[P: (316.0, 276.0), S: (0.0, 184.0)]"
+  },
+  {
+    "minimum": "(8.0, 8.0)",
+    "path": "GarageContent/_focus",
+    "rect": "[P: (4.0, 276.0), S: (8.0, 8.0)]"
+  },
+  {
+    "minimum": "(48.0, 141.0)",
+    "path": "@VBoxContainer@1938",
+    "rect": "[P: (4.0, 466.0), S: (312.0, 141.0)]"
+  },
+  {
+    "minimum": "(48.0, 141.0)",
+    "path": "@VBoxContainer@1938/@PanelContainer@1976",
+    "rect": "[P: (4.0, 466.0), S: (312.0, 141.0)]"
+  },
+  {
+    "minimum": "(36.0, 131.0)",
+    "path": "@VBoxContainer@1938/@PanelContainer@1976/PartPurchase",
+    "rect": "[P: (10.0, 470.0), S: (300.0, 131.0)]"
+  },
+  {
+    "minimum": "(36.0, 52.0)",
+    "path": "@VBoxContainer@1938/@PanelContainer@1976/PartPurchase/@PanelContainer@1984",
+    "rect": "[P: (10.0, 470.0), S: (300.0, 52.0)]"
+  },
+  {
+    "minimum": "(28.0, 44.0)",
+    "path": "@VBoxContainer@1938/@PanelContainer@1976/PartPurchase/@PanelContainer@1984/@HBoxContainer@1978",
+    "rect": "[P: (14.0, 474.0), S: (292.0, 44.0)]"
+  },
+  {
+    "minimum": "(20.0, 44.0)",
+    "path": "@VBoxContainer@1938/@PanelContainer@1976/PartPurchase/@PanelContainer@1984/@HBoxContainer@1978/@Button@1979",
+    "rect": "[P: (14.0, 474.0), S: (94.0, 44.0)]"
+  },
+  {
+    "minimum": "(4.0, 24.0)",
+    "path": "@VBoxContainer@1938/@PanelContainer@1976/PartPurchase/@PanelContainer@1984/@HBoxContainer@1978/@VSeparator@1980",
+    "rect": "[P: (108.0, 484.0), S: (4.0, 24.0)]"
+  },
+  {
+    "minimum": "(0.0, 44.0)",
+    "path": "@VBoxContainer@1938/@PanelContainer@1976/PartPurchase/@PanelContainer@1984/@HBoxContainer@1978/@Button@1981",
+    "rect": "[P: (112.0, 474.0), S: (95.0, 44.0)]"
+  },
+  {
+    "minimum": "(4.0, 24.0)",
+    "path": "@VBoxContainer@1938/@PanelContainer@1976/PartPurchase/@PanelContainer@1984/@HBoxContainer@1978/@VSeparator@1982",
+    "rect": "[P: (207.0, 484.0), S: (4.0, 24.0)]"
+  },
+  {
+    "minimum": "(0.0, 44.0)",
+    "path": "@VBoxContainer@1938/@PanelContainer@1976/PartPurchase/@PanelContainer@1984/@HBoxContainer@1978/@Button@1983",
+    "rect": "[P: (211.0, 474.0), S: (95.0, 44.0)]"
+  },
+  {
+    "minimum": "(1.0, 19.0)",
+    "path": "@VBoxContainer@1938/@PanelContainer@1976/PartPurchase/@Label@1985",
+    "rect": "[P: (10.0, 528.0), S: (300.0, 19.0)]"
+  },
+  {
+    "minimum": "(20.0, 48.0)",
+    "path": "@VBoxContainer@1938/@PanelContainer@1976/PartPurchase/@Button@1986",
+    "rect": "[P: (10.0, 553.0), S: (300.0, 48.0)]"
+  }
+]

@@ -1,0 +1,13 @@
+[
+  {
+    "name": "rank_badge",
+    "tool": "tools/gen_image.py",
+    "model": "gpt-image-2.6-flare",
+    "quality": "medium",
+    "size": "1024x1024",
+    "reference": "Design/Concepts/Garage_Redesign_v2/01-car.png",
+    "prompt": "Use case: stylized-concept. Transparent game UI sprite, Soft Miniature clay style matching reference image 1. A compact golden royal crown on the left and curved golden laurel leaves framing the left and right edges of a wide orange gold rounded badge. Leave the central right area empty for native localized rank text. Warm ivory highlights, rich orange lower rim, soft dimensional shadow. Front view. Only the badge on transparent background, no text, no letters, no numbers, no car, no extra objects.",
+    "raw": "output/imagegen/garage_review_v3/rank_badge.png",
+    "export": "crop bounds of alpha > 200, retain original alpha inside crop, Lanczos thumbnail <= 512x256"
+  }
+]

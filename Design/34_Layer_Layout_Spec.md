@@ -670,3 +670,43 @@ Số đo 390×845 trích từ SceneTree fixture trong `tests/shop_demo_v9_ui_tes
 | CashGrid | 0.0, 1897.0, 366.0, 184.0 |
 
 Ảnh runtime và bảng so sánh: `Design/Previews/Shop_Demo_v9/`. Khác biệt dữ liệu hợp lệ: tay đua trong starter2 mang tên Marchetti theo catalog hiện tại, không hardcode Hà từ ảnh. Coupon giữ đúng icon tier của game thay vì đổi tier theo màu vé AI.
+
+## Garage — concept v2 implementation (27/11/2026)
+
+Chuẩn: `Design/Concepts/Garage_Redesign_v2/01-car.png`, `02-parts.png`, `03-look.png`. Bằng chứng v1: `Design/Previews/Garage_Impl_v1/`; polish v2: `Design/Previews/Garage_Impl_v2/`.
+
+Đội dùng shell cố định bên dưới HUD và trên nav chung (không đổi thứ tự nav). TeamTabs ghim trên cùng; Tay đua có ScrollContainer riêng. Garage dựng bằng `ui/garage_page.gd`:
+
+- Showroom polish v2: CarPreview 3D hiện hành trên nền phòng không xe mới `assets/garage_soft_miniature_v2/showroom.png`, góc 3/4; cao 170 logical ở tab Xe, 185 ở hai tab còn lại, 92 khi viewport hẹp hơn 340. Camera nền mới có span_y 3.3, target.y 0.40 để bánh xe nằm trên bục; preview ngoài Garage giữ camera/nền cũ.
+- Segmented Xe/Phụ tùng/Ngoại hình cao tối thiểu 52. GarageContent cuộn độc lập trong phần còn lại.
+- Xe: showroom → tên + huy hiệu hạng → bốn stat chip (icon 30) → hàng Nâng cấp xanh lá/chọn hoặc mua xe → segmented → bộ sưu tập nền xanh 3 cột cuộn tại chỗ. Xe chưa sở hữu vẫn xem được; mua không tự trang bị. Màn collection cũ đã gộp vào đây; CLI `collection` tương thích bằng cách hiện tab Xe.
+- Phụ tùng: showroom → segmented → lưới 2×2, icon đất sét 62×76 (46×76 ở 320), cao tối thiểu 112/thẻ (96 ở 320); footer PartPurchase ghim đáy, gồm ×1/×10/Tối đa, cấp trước/sau, CTA dùng Pricing/GameState.
+- Ngoại hình: 8 màu lưới 4 cột, 4 decal một hàng; Hủy/Lưu và trạng thái ghim đáy. Bản nháp qua guard khi đổi mục hoặc xe, chỉ ghi save khi Lưu.
+- Nội dung dài cuộn, CTA được wrap, giữ tối thiểu 44 logical. 320 thấy đầy đủ hàng xe đầu; cuộn để xem các hàng sau. Màu thẻ ưu tiên cosmetics đã lưu, còn lại map theo family/archetype, giữ màu thật cho active; không ghi map vào save. Xe khóa có icon khóa riêng và nhãn trạng thái.
+- Cấp fixture 40/30/20/10. Chỉ số/giá tính từ dữ liệu thực hiện hành; không sao chép số illustrative trong ảnh.
+
+
+## Garage — review v3 (27/11/2026)
+
+Chuẩn vẫn là Garage_Redesign_v2 (01-car/02-parts/03-look). Bằng chứng và sai lệch còn lại: `Design/Previews/Garage_Review_v3/REVIEW.md`. Các số dưới theo logical px, fixture vi/Pico active, engine40/tyre30/chassis20/gearbox10.
+
+- Thẻ stat chuyển icon trái, nhãn/số phải, padding4, bo14; thẻ chọn bo18 có bóng nhẹ, selected viền cam.
+- RankBadge 90×32: sprite crown/laurel + nhãn I18n native, nguồn và prompt trong pack.
+- Màu/họa tiết nằm trong hai khay riêng, header xanh giữa vạch. Có dấu chọn native; đủ 8/4 thấy trọn ở 320, 390, 412. Nút chạm ≥44.
+- Showroom dùng uniform cover, crop phía trên giữ bục; không kéo dẹt texture. Do tỷ lệ background khác viewport, phần cờ/đồ trang trí có thể bị crop.
+- Tên xe nằm trong khay kem bo16; cấp phụ tùng có pill xám, progress gradient vàng/cam bo4; CTA nâng cấp có mũi tên native.
+- Ghi chú miễn phí/không tăng stat ở tooltip footer; Hủy xám, Lưu cam; trạng thái có glyph info và căn giữa. Hai key vi: Không/Caro. Giá và chỉ số không đổi.
+
+| Width | Tab | Showroom x,y,w,h | GarageTabs x,y,w,h | GarageContent x,y,w,h |
+|---:|---|---|---|---|
+| 320 | Xe | [P: (4.0, 108.0), S: (312.0, 120.0)] | [P: (4.0, 397.0), S: (312.0, 52.0)] | [P: (4.0, 455.0), S: (312.0, 146.0)] |
+| 320 | Phụ tùng | [P: (4.0, 108.0), S: (312.0, 104.0)] | [P: (4.0, 218.0), S: (312.0, 52.0)] | [P: (4.0, 276.0), S: (312.0, 184.0)] |
+| 320 | Ngoại hình | [P: (4.0, 108.0), S: (312.0, 108.0)] | [P: (4.0, 222.0), S: (312.0, 52.0)] | [P: (4.0, 280.0), S: (312.0, 251.0)] |
+| 390 | Xe | [P: (16.0, 116.0), S: (358.0, 170.0)] | [P: (16.0, 461.0), S: (358.0, 52.0)] | [P: (16.0, 519.0), S: (358.0, 234.0)] |
+| 390 | Phụ tùng | [P: (16.0, 116.0), S: (358.0, 185.0)] | [P: (16.0, 307.0), S: (358.0, 52.0)] | [P: (16.0, 365.0), S: (358.0, 239.0)] |
+| 390 | Ngoại hình | [P: (16.0, 116.0), S: (358.0, 185.0)] | [P: (16.0, 307.0), S: (358.0, 52.0)] | [P: (16.0, 365.0), S: (358.0, 318.0)] |
+| 412 | Xe | [P: (16.0, 118.0), S: (380.0, 170.0)] | [P: (16.0, 463.0), S: (380.0, 52.0)] | [P: (16.0, 521.0), S: (380.0, 280.0)] |
+| 412 | Phụ tùng | [P: (16.0, 118.0), S: (380.0, 185.0)] | [P: (16.0, 309.0), S: (380.0, 52.0)] | [P: (16.0, 367.0), S: (380.0, 285.0)] |
+| 412 | Ngoại hình | [P: (16.0, 118.0), S: (380.0, 185.0)] | [P: (16.0, 309.0), S: (380.0, 52.0)] | [P: (16.0, 367.0), S: (380.0, 364.0)] |
+
+320: stat h65, part card h88 / icon46×60, paint hit48 / swatch control30, decal hit56 / glyph34. 390/412: stat h71, part card h112 / icon62×76, paint hit60 / swatch42, decal hit74 / glyph40×42. Geometry chi tiết trong 9 JSON của thư mục review. Khác biệt tỷ lệ 2:3 của concept và 390:845 của game vẫn được giữ, không ép méo ảnh so sánh.

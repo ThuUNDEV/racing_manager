@@ -352,6 +352,7 @@
  "garage.tap_car_view_buying_or": "차량을 탭해 확인하세요. 구매와 선택은 상세 페이지에서 할 수 있습니다.",
  "garage.this_car_appearance_has_unsaved": "이 차량의 외관에 저장하지 않은 변경 사항이 있습니다.",
  "garage.tier": "%s · %d등급",
+ "garage.class_badge": "등급 %d",
  "garage.tier_2": "%d등급 · %s",
  "garage.unlock_league_first": "먼저 %s 리그를 개방하세요",
  "garage.unsaved_draft": "저장되지 않은 임시본",
@@ -702,5 +703,10 @@
  "shop.pack_benefits": "혜택",
  "shop.pack_remove_ads": "광고\n제거",
  "shop.pack_income_note": "오프라인 수입에는 적용되지 않습니다.\n광고 부스트와 중첩되지 않으며 높은 배수가 적용됩니다.",
- "shop.income_minutes": "%d분"
+ "shop.income_minutes": "%d분",
+  "garage.part_level_short": "레벨 %d/%d",
+  "garage.maximum": "최대",
+  "garage.patterns": "무늬",
+  "garage.title": "차고",
+  "garage.upgrade": "강화"
 }

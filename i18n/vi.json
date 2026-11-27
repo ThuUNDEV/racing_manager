@@ -163,8 +163,8 @@
  "data.driver_gacha.guaranteed_elite_after_13_pulls": "Chắc chắn có Elite sau 13 lượt",
  "data.driver_gacha.guaranteed_legend_after_10_pulls": "Chắc chắn có Legend sau 10 lượt",
  "data.garage_cosmetics.blue": "Xanh dương",
- "data.garage_cosmetics.checkered": "Ô bàn cờ",
- "data.garage_cosmetics.none": "Trống",
+ "data.garage_cosmetics.checkered": "Caro",
+ "data.garage_cosmetics.none": "Không",
  "data.garage_cosmetics.purple": "Tím",
  "data.garage_cosmetics.red": "Đỏ",
  "data.garage_cosmetics.teal": "Xanh ngọc",
@@ -352,6 +352,7 @@
  "garage.tap_car_view_buying_or": "Chạm một xe để xem. Việc mua hoặc chọn xe làm ở trang chi tiết.",
  "garage.this_car_appearance_has_unsaved": "Ngoại hình xe này có thay đổi chưa lưu.",
  "garage.tier": "%s · Hạng %d",
+ "garage.class_badge": "Hạng %d",
  "garage.tier_2": "Hạng %d · %s",
  "garage.unlock_league_first": "Cần mở giải %s",
  "garage.unsaved_draft": "Bản nháp chưa lưu",
@@ -702,5 +703,10 @@
  "shop.pack_benefits": "Quyền lợi",
  "shop.pack_remove_ads": "Bỏ\nquảng cáo",
  "shop.pack_income_note": "Không áp dụng offline.\nKhông cộng dồn boost quảng cáo (lấy mức cao hơn).",
- "shop.income_minutes": "%d phút"
+ "shop.income_minutes": "%d phút",
+  "garage.part_level_short": "Cấp %d/%d",
+  "garage.maximum": "Tối đa",
+  "garage.patterns": "Họa tiết",
+  "garage.title": "Garage",
+  "garage.upgrade": "Nâng cấp"
 }

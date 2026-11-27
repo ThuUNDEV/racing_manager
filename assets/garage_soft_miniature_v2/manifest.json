@@ -1,0 +1,160 @@
+{
+  "version": 2,
+  "provenance": {
+    "tool": "tools/gen_image.py",
+    "model": "gpt-image-2.6-flare",
+    "quality": "medium",
+    "reference": "Design/Demos/SoftMiniature/approved/04-garage.png",
+    "raw": "output/imagegen/garage_polish_v2/",
+    "prompts": "prompts.json"
+  },
+  "assets": {
+    "part_chassis": {
+      "file": "part_chassis.png",
+      "size": [
+        384,
+        375
+      ],
+      "transparent": true,
+      "source_sha256": "1dc69a29e8527305eb39ffff3bbf855c987d2778756e6624ca987104e0dee965",
+      "export": "alpha bounds crop + Lanczos resize"
+    },
+    "part_engine": {
+      "file": "part_engine.png",
+      "size": [
+        384,
+        368
+      ],
+      "transparent": true,
+      "source_sha256": "c00ebcc390a14298c3ad7f65b4d5c574d06dd7f5f9a923ced51db47f542c45ba",
+      "export": "alpha bounds crop + Lanczos resize"
+    },
+    "part_gearbox": {
+      "file": "part_gearbox.png",
+      "size": [
+        384,
+        377
+      ],
+      "transparent": true,
+      "source_sha256": "d9d6bce00596accf216e2eb616f21aab3036f077407b70434f9be547f78a61ea",
+      "export": "alpha bounds crop + Lanczos resize"
+    },
+    "part_tyre": {
+      "file": "part_tyre.png",
+      "size": [
+        381,
+        384
+      ],
+      "transparent": true,
+      "source_sha256": "bbb0cc45e15543599ee66b81a0c6a9389191f39ddc4dc406e6061154750114e0",
+      "export": "alpha bounds crop + Lanczos resize"
+    },
+    "showroom": {
+      "file": "showroom.png",
+      "size": [
+        1200,
+        800
+      ],
+      "transparent": false,
+      "source_sha256": "8176ebdc0b26ff1dbea45fc07ac590aa302714718078385732182d3160345268",
+      "export": "Lanczos resize"
+    },
+    "stat_acceleration": {
+      "file": "stat_acceleration.png",
+      "size": [
+        384,
+        383
+      ],
+      "transparent": true,
+      "source_sha256": "aeb022517407540353c916ff8eecc88b1a70d6e1f9e76e0f8d7a8f534e474f8f",
+      "export": "alpha bounds crop + Lanczos resize"
+    },
+    "stat_grip": {
+      "file": "stat_grip.png",
+      "size": [
+        376,
+        384
+      ],
+      "transparent": true,
+      "source_sha256": "617fd329f0eb9895acfaed3955c6f27d95002e9624a46762ca44f6bb61fce137",
+      "export": "alpha bounds crop + Lanczos resize"
+    },
+    "stat_speed": {
+      "file": "stat_speed.png",
+      "size": [
+        384,
+        359
+      ],
+      "transparent": true,
+      "source_sha256": "231818847d407fee6d50d1055787dd438fd9e247759ce30817571fb9bbd82c83",
+      "export": "alpha bounds crop + Lanczos resize"
+    },
+    "stat_stability": {
+      "file": "stat_stability.png",
+      "size": [
+        384,
+        384
+      ],
+      "transparent": true,
+      "source_sha256": "a40e93ab069eaf41e2178cd8e5b2d87e4846b05effed81144f76ac549b14d112",
+      "export": "alpha bounds crop + Lanczos resize"
+    },
+    "lock": {
+      "file": "lock.svg",
+      "size": [
+        40,
+        48
+      ],
+      "provenance": "Native vector lock badge authored for Garage; no external artwork"
+    },
+    "rank_badge": {
+      "file": "rank_badge.png",
+      "size": [
+        512,
+        164
+      ],
+      "provenance": {
+        "tool": "tools/gen_image.py",
+        "model": "gpt-image-2.6-flare",
+        "quality": "medium",
+        "reference": "Design/Concepts/Garage_Redesign_v2/01-car.png",
+        "raw": "output/imagegen/garage_review_v3/rank_badge.png",
+        "source_sha256": "5c630ae3d5347794165a03b411c9c02a5d09b76eed5e13750c6f2b19820e6d23",
+        "export": "crop bounds of alpha > 200, retain original alpha inside crop, Lanczos thumbnail <= 512x256",
+        "prompts": "review_v3_prompts.json"
+      }
+    },
+    "decal_none": {
+      "file": "decal_none.svg",
+      "size": [
+        64,
+        64
+      ],
+      "provenance": "Native gradient vector glyph authored from concept geometry; no RaceStar artwork"
+    },
+    "decal_lightning": {
+      "file": "decal_lightning.svg",
+      "size": [
+        64,
+        64
+      ],
+      "provenance": "Native gradient vector glyph authored from concept geometry; no RaceStar artwork"
+    },
+    "decal_double_stripe": {
+      "file": "decal_double_stripe.svg",
+      "size": [
+        64,
+        64
+      ],
+      "provenance": "Native gradient vector glyph authored from concept geometry; no RaceStar artwork"
+    },
+    "decal_checker": {
+      "file": "decal_checker.svg",
+      "size": [
+        64,
+        64
+      ],
+      "provenance": "Native gradient vector glyph authored from concept geometry; no RaceStar artwork"
+    }
+  }
+}

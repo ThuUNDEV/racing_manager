@@ -354,6 +354,7 @@
  "garage.tap_car_view_buying_or": "Tap a car to view it. Buying or selecting a car is done on its detail page.",
  "garage.this_car_appearance_has_unsaved": "This car's appearance has unsaved changes.",
  "garage.tier": "%s · Tier %d",
+ "garage.class_badge": "Tier %d",
  "garage.tier_2": "Tier %d · %s",
  "garage.unlock_league_first": "Unlock league %s first",
  "garage.unsaved_draft": "Unsaved draft",
@@ -711,5 +712,10 @@
  "shop.pack_benefits": "Benefits",
  "shop.pack_remove_ads": "Remove\nads",
  "shop.pack_income_note": "Does not apply offline.\nAd boosts do not stack (the higher multiplier applies).",
- "shop.income_minutes": "%d min"
+ "shop.income_minutes": "%d min",
+  "garage.part_level_short": "Level %d/%d",
+  "garage.maximum": "Max",
+  "garage.patterns": "Patterns",
+  "garage.title": "Garage",
+  "garage.upgrade": "Upgrade"
 }

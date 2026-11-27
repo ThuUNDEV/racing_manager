@@ -352,6 +352,7 @@
  "garage.tap_car_view_buying_or": "車をタップして表示します。購入や選択は詳細ページで行います。",
  "garage.this_car_appearance_has_unsaved": "この車の外観に未保存の変更があります。",
  "garage.tier": "%s · ランク%d",
+ "garage.class_badge": "クラス %d",
  "garage.tier_2": "ランク%d · %s",
  "garage.unlock_league_first": "先に%sリーグを開放してください",
  "garage.unsaved_draft": "未保存の下書き",
@@ -702,5 +703,10 @@
  "shop.pack_benefits": "特典",
  "shop.pack_remove_ads": "広告を\n削除",
  "shop.pack_income_note": "オフライン収入には適用されません。\n広告ブーストとは重複せず、高い倍率が適用されます。",
- "shop.income_minutes": "%d分"
+ "shop.income_minutes": "%d分",
+  "garage.part_level_short": "レベル %d/%d",
+  "garage.maximum": "最大",
+  "garage.patterns": "模様",
+  "garage.title": "ガレージ",
+  "garage.upgrade": "強化"
 }
