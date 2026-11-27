@@ -6,7 +6,12 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent / "output" / "screens"
 WIDTHS = ["320", "390", "412"]
 
 # Problems seen while reviewing the shots: id -> note. Delete entries once fixed.
-NOTES = {}
+NOTES = {
+    "iap_offer_combo_2": "Số gem 1000 bị xuống dòng thành 100 / 0 (cả 3 cỡ).",
+    "shop_6": "Cỡ 320: nút 'Xem video' ở ô gem bị cắt thành 'em video'.",
+    "iap_starter_2": "Thiếu hình tay đua Marchetti, nửa trái phần quyền lợi chính để trống.",
+    "shop_1": "Hai thẻ cùng tên 'Thu nhập ×2' với giá $4.99 và $9.99, cần kiểm tra.",
+}
 
 screens = json.loads((ROOT / "index.json").read_text(encoding="utf-8"))
 # Pack popups (IAP detail, drop rates, opening results) sit together, right after Shop.

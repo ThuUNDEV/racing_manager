@@ -1,0 +1,41 @@
+{
+  "name": "Shop theme matched v2",
+  "status": "concept_pending_review",
+  "date": "2026-11-26",
+  "image": "01_shop_theme_matched.png",
+  "prompt": "01_shop_theme_matched_prompt.txt",
+  "provenance": {
+    "mode": "built-in image_gen",
+    "tool": "image_gen.imagegen",
+    "orchestrator": "Delegated GPT-6.1-Sol medium",
+    "image_model": "Tool-managed; exact model not exposed",
+    "references": [
+      "/home/thupv/Desktop/DataSSD/racing_manager/Design/Previews/pack_benefit_fix_v2/starter_1_vi_390x845.png",
+      "/tmp/codex-clipboard-494b3539-4db6-4a04-9d75-06bf439caf35.png",
+      "/home/thupv/Desktop/DataSSD/racing_manager/Design/Demos/SoftMiniature/approved/01-race.png"
+    ],
+    "raw": "output/imagegen/shop_recolor_v2/01_shop_theme_matched_raw.png",
+    "generation_calls": 1,
+    "postprocessing": "None; original PNG copied unchanged"
+  },
+  "changes_from_v1": [
+    "Replaced mint header/section strips with sky blue cyan and pale checkered motif",
+    "Replaced teal type with deep navy #0E2B5C",
+    "Replaced honey buttons with bright orange matching runtime popup",
+    "Retained green claim and blue video actions, purple gem payments",
+    "Removed added avatar and Shop title banner",
+    "Removed green foliage/landscape card decoration",
+    "Restored compact source HUD and cream bottom navigation tray"
+  ],
+  "validation": {
+    "coverage": "Free/special/starter/daily/open packs/gems/cash/restore; five tabs in source order",
+    "economy": "Main gem quantities, coupon quantities, prices and income minutes visually checked against supplied prompt and game data.",
+    "limitations": [
+      "Art concept only, not actual runtime screenshot",
+      "Small Hà portrait/name in starter_2 is imperfect AI rendering and must be replaced with correct game portrait/live text during implementation",
+      "Some Elite coupon artwork resembles crown rather than gear; final implementation should reuse authoritative coupon sprites",
+      "Concept proportions/spacing need native Godot QA when implementation is requested"
+    ],
+    "scope": "No runtime code, data, balance or save edits."
+  }
+}

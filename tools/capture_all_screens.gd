@@ -185,6 +185,12 @@ func capture_game() -> void:
 	await drop_main()
 	seed_state()
 	await build_main()
+	main._select_tab(main.Tab.RACE)
+	main._break_card.open(Balance.fmt_money(BigNumber.from_int(5400)))
+	await shot("Đua", "ads_break", "Ads Break: thẻ báo trước")
+	await drop_main()
+	seed_state()
+	await build_main()
 
 	# Gear
 	main._select_tab(main.Tab.BAG)
@@ -244,7 +250,7 @@ func capture_game() -> void:
 	main._select_tab(main.Tab.SHOP)
 	await settle(40)
 	await tab_shots(main.Tab.SHOP, "Shop", "shop", "Shop")
-	for sku in ["starter_1", "weekly_s", "offer_noads_bundle", "income_x2", "no_ads", "char_my"]:
+	for sku in ["starter_1", "starter_2", "starter_3", "offer_combo_1", "offer_combo_2", "offer_noads_bundle", "weekly_s", "daily_gear", "daily_driver", "income_x2", "no_ads", "char_my"]:
 		main._show_iap_detail(sku)
 		await shot("Shop", "iap_" + sku, "Chi tiết gói " + sku)
 		await close_all()

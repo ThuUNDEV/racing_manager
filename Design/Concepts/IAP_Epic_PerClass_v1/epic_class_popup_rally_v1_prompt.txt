@@ -1,0 +1,19 @@
+GENERATION PROMPT
+
+Use case: ui-mockup.
+Create ONE polished full-bleed raster concept for Racing Manager, a portrait mobile game screen. Exact canvas 390 pixels wide by 844 pixels tall, or a precise integer multiple of 390x844. No phone frame or presentation labels. Vietnamese typography, all accents correct, crisp and readable at logical 390px.
+Input images are reference images only: reference 1 approved Shop establishes Soft Miniature cream panels, soft bevels, blue banners, orange purchase buttons, navy rounded bold type; reference 2 establishes tactile miniature toys and warm light; reference 3 establishes the existing Epic popup composition; reference 4 establishes existing Epic Shop carousel. Preserve those visual and layout languages. Soft Miniature: sculpted rounded toy-clay vehicles, gentle gloss, soft ambient shadows, warm cream, saturated blue, purple rarity glow and golden stars. No photorealism.
+Business invariants: one Epic vehicle for each separate racing class, each bought once for 9.99 USD and restorable. Six exact class names: Racing, Rally, Stock Car, Superbike, Speedster, Monster Truck. Epic stats equal highest stats of its tier multiplied by 1.09. Do not invent numeric stat values or rewards. Four stat rows with icons and exactly FIVE clearly separated equal segments each are illustrative only, no absolute numbers. Do not show old Pico/Nova/Apex/Titan/Zenith offers.
+Primary request: Rally Epic detail popup. Match reference 3 composition closely: blurred dim warm miniature garage behind a centered tall rounded cream modal, blue header, hero, name, info/stats, purchase button, defer link. Keep comfortable vertical spacing and 12px logical outer margins, no cropped content.
+Blue header exact "XE EPIC ĐỘC QUYỀN", gift icon at left, small round red X at upper right without covering title. Purple EPIC flag near hero top-left. NEW cyan class badge beneath header with winding dirt circuit outline icon and exact text "Rally".
+Hero stage has purple radial glow, small golden stars, round blue-and-cream checker turntable. Vehicle fully visible in front three-quarter view. A true RALLY hatchback miniature: closed compact cabin, roof scoop, four round rally lamps on front, rear spoiler, chunky gravel tires, pearl purple-blue body and gold stripe. Clearly a rally car, not an open-wheel formula car or generic supercar. No text or digits on body.
+Below hero large navy name exact "RALLY EPIC". Small readable sentence exact "Chỉ dùng ở class Rally".
+Below this, FOUR compact horizontal stat rows labeled exactly "Tốc độ", "Tăng tốc", "Vào cua", "Ổn định", each with a small fitting icon and exactly FIVE equal separated colored segments. Do not invent absolute stat numbers. Under rows a pale cyan information strip with exact text wrapping into two lines: "Chỉ số cao nhất của hạng × 1,09".
+Small exact sentence "Mua một lần • Có thể khôi phục".
+Near modal bottom a full-width glossy orange purchase button, exactly 44 logical px tall minimum, large white exact "$9.99". Beneath button gray text link exact "Để sau". All contents fit entirely within the 390x844 canvas.
+Only the specified text and X glyph, no other currencies, values, claims or nav.
+
+FINAL PROMPT
+
+Edit target: supplied Rally popup. Redraw only two punctuation marks. FIRST: orange purchase button white price must read exactly "$9.99": a small CIRCULAR DOT "." between 9 and 99, with NO comma descender. SECOND: cyan formula strip must read exactly "Chỉ số cao nhất của hạng × 1,09": use a COMMA with a visible descender between 1 and 09. Preserve every other element, text, car, Vietnamese accent, layout and dimension. Do not redesign.
+

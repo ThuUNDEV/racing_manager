@@ -1,0 +1,27 @@
+{
+  "use_case": "ui-mockup",
+  "tool": "image_gen.imagegen (built-in)",
+  "tool_model": "not exposed by built-in tool",
+  "orchestrator_model": "GPT-6.1-Sol",
+  "reasoning": "medium",
+  "generated_at": "2026-11-27T05:39:26.416Z",
+  "prompt": "Use case: ui-mockup.\nAsset type: one finished full-screen portrait mobile game UI visual-polish concept for Racing Manager, 390:844 aspect ratio, edge-to-edge screenshot with no device frame.\nInputs: Image 1 (race_main.webp) is the authoritative EDIT TARGET: preserve its exact screen layout, all existing content, all game numbers, current racing track geometry, camera, scenery, and cars. Image 2 (approved/01-race.png) is ONLY a Soft Miniature material/style reference; do NOT use its layout, avatar, text, amounts, seaside scenery, or navigation order.\nPrimary request: polish only the visual design of Image 1. Make it feel cohesive, refined, readable, and premium while staying gentle and playful. Warm ivory card surfaces, consistently rounded corners, subtle warm gray borders, delicate soft ambient shadows, generous clean internal padding, crisp dark navy rounded sans-serif typography with clear hierarchy. Keep the isometric race scene exactly as in image 1, with the existing turquoise ground, small simple trees, low-poly track and camera. Do not enlarge, redesign, or add scenery. UI surfaces can be cleaner and more modern; retain clay/miniature dimensional object icons. Avoid hypergloss, plastic-heavy chunky outlines and strong bevels.\nComposition: follow image 1's exact vertical structure and approximate normalized locations: top HUD 0–5.2% screen; race card x4.5–95.5%, y7.1–40.7%; four centered promotional icons y41.4–47.3%; pale blue Nâng cấp xe section ribbon y48.4–52.8%; four full-width horizontal upgrade cards y53.8–82.3%; pale blue Thu nhập section ribbon y83.2–87.7%; first revenue row only slightly peeking beneath as in target; five-item fixed bottom navigation y90–100%. No shifting layout or adding empty sections.\nHUD: keep cash icon, \"1,25M\", plus; gem icon, \"1.240\", plus; settings gear. Make this header a clean soft blue strip, amounts in readable navy or white. No avatar and no player level.\nRace-card overlay labels: existing trophy badge at top left; green income pill \"+8/giây\"; center chip \"1/3\"; top right garage icon and \"Class\"; small speed chip \"440,0\"; floating position chip \"P8/8\"; bottom-center helper \"Kéo để xoay\". Retain exact labels and current positions.\nFour promo shortcuts: first pale blue x2 cash/video icon, then star coin, treasure chest, wrapped gift on understated ivory pads. Tiny red notification dots on the same three icons as target. No new offer text.\nUpgrade section: header \"Nâng cấp xe\" with checkered flag. Four uniform ivory cards with miniature component icons at left, names navy at left-middle; small \"Cấp 0\" centered above a pale green stat pill; purchase button at right. Give ALL FOUR purchase buttons the same warm orange primary-action treatment (soft rounded rectangular shape, minimal bevel, tiny green cash icon, white legible price). Exact card text and values top to bottom:\n1. \"Động cơ\" / \"Cấp 0\" / \"46 → 47\" / cash price \"39\"\n2. \"Lốp\" / \"Cấp 0\" / \"38 → 39\" / cash price \"20\"\n3. \"Khung gầm\" / \"Cấp 0\" / \"38 → 39\" / cash price \"32\"\n4. \"Hộp số\" / \"Cấp 0\" / \"38 → 39\" / cash price \"27\".\nMaintain compact rows and two-line Khung gầm if needed. No invented stat explanations, costs or rewards. Below is the existing pale-blue \"Thu nhập\" ribbon with cash icon.\nBottom nav: warm ivory common bar and soft top shadow. Exactly FIVE evenly spaced icons and labels, left to right: \"Shop\", \"Túi\", \"Đua\", \"Đội\", \"Giải\". Exactly one selected state, Đua at center in a warm orange raised rounded tile with checkered-flag icon; Shop storefront, Túi blue backpack, Đội team figures, Giải gold trophy. Small red dot at Shop as target. Keep current order and no extra tabs.\nConstraints: visually polished coherent Soft Miniature style, high-resolution clean text with accurate Vietnamese diacritics. All text verbatim. Preserve all layout and data from image 1, only refine visual treatment. No race/start button, no new mechanics, no leaderboard, no additional scene objects, no avatar, no screenshots beside one another, no annotations, no surrounding background, no watermark.",
+  "references": [
+    {
+      "path": "output/screens/390/race_main.webp",
+      "role": "authoritative layout/content edit target"
+    },
+    {
+      "path": "Design/Demos/SoftMiniature/approved/01-race.png",
+      "role": "Soft Miniature style/material only; outdated layout/values ignored"
+    }
+  ],
+  "raw_output": "output/imagegen/race_ui_polish_v1/01-race-polish-raw.png",
+  "final_output": "Design/Concepts/Race_UI_Polish_v1/01-race-polish.png",
+  "inspection": {
+    "layout": "Same overall block order and proportions; AI-rendered interpretation rather than pixel-exact UI",
+    "values": "HUD 1,25M and 1.240; +8/giây; 1/3; P8/8; 440,0; Class; four Cấp 0 rows and 46→47/38→39; prices 39/20/32/27 verified visually",
+    "nav": "Shop/Túi/Đua/Đội/Giải verified; Đua selected",
+    "limitations": "Race geometry/camera recognizable and close to source, but raster generator slightly re-rendered track/scenery details; concept only, not native UI or runtime asset."
+  }
+}

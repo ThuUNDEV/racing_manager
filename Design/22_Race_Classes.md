@@ -1,5 +1,10 @@
 # 22. Class đua (bộ môn) — đa dạng hóa cuộc đua
 
+> **27/11/2026 — Xe theo class:** thêm model Godot riêng cho Rally, Stock Car, Superbike (hai bánh + người lái), Speedster và Monster Truck. Racing giữ năm thân xe theo hạng Garage. Cả đoàn xe lấy bộ môn từ đường của sim đang hiển thị; đổi class trong lượt chỉ đổi xe và đường khi lượt kế bắt đầu. Garage theo class cơ sở đang quản lý; icon popup render từ chính model. Rally/Monster dùng màu mặt đường đất. Không thêm xe mua riêng, không đổi chỉ số/giá/save schema. Nguồn: `assets/models/class_vehicles/README.md`; kiểm tra `tests/class_vehicle_test.gd`; ảnh `Design/Previews/Class_Vehicles_v1/`. Các mô tả hiển thị bằng chấm tròn và thiếu asset P5 dưới đây là lịch sử thiết kế cũ.
+
+
+> **27/11/2026 — UI đổi class theo game gốc:** popup Classes dựng lại theo concept đã duyệt `Design/Demos/SoftMiniature/approved/class_switch_v1/`: dòng "N of 6 classes unlocked", banner "Switching to X after this race", thẻ có nhãn Active hoặc nút Watch/After this race ở đầu thẻ, thẻ "Unlock New Class" (giá, tiến độ), thẻ "More Coming Soon!", popup "Choose Your Class". **Chưa làm:** dòng Win Chance (P4, cần phép tính thật), nút Advance/Details (P3), biểu tượng khóa trên ô "?". Ảnh chụp: `Design/Previews/classes_switch_native_390*.png`.
+
 Ngày 12/11/2026. Trạng thái: **đã duyệt; P0–P2 đã triển khai 12/11/2026; cơ sở độc lập (doanh thu, giải, nâng cấp riêng): xem [26](26_Independent_Facilities.md)** (dữ liệu `data/classes.json`, mua/đổi class, save v9, modal `ui/class_page.gd`, nút Class trên HUD; test `class_test`, `class_ui_test`). Chưa làm: thang giải/mùa riêng từng class và Advance/Details (P3), số "sức mạnh đề xuất"/"cơ hội thắng" thật (P4), sự kiện riêng, asset riêng (P5). Hiện thẻ class đã mua hiển thị tên đội và giải chung (`business_tier`); mọi class dùng chung track `circuit_b`. Nguồn tham chiếu: 3 ảnh màn hình "Classes" do người dùng cung cấp (modal danh sách thẻ Racing, Rally, Stock Car, Superbike, Speedster, Monster Truck, "More Coming Soon"). Chỉ lấy ý tưởng bố cục và cấu trúc, không chép nội dung.
 
 ## 1. Mục tiêu
@@ -27,7 +32,7 @@ Racing là class hiện tại; mọi tham số của nó = giá trị mặc đ�
 | Speedster | Đường thẳng dài, tốc độ tối đa | Speed | ít lỗi, ít ngẫu nhiên | mạnh | Chọn tự do |
 | Monster Truck | Vật cản, nhảy, hỗn loạn | Stability, Accel | lỗi rất nhiều, form lệch rất lớn | không | Chọn tự do |
 
-**Người chơi mới chỉ có một cơ sở, dành cho Racing. Muốn chơi class khác phải mở cơ sở mới bằng tiền rồi chọn class cho cơ sở đó** (§5.0).
+**Người chơi mới có một cơ sở miễn phí và tự chọn class cho nó ngay khi vào game (như game gốc). Muốn chơi thêm class khác phải mở cơ sở mới bằng tiền rồi chọn class cho cơ sở đó** (§5.0).
 
 ### 3.1. Tham số mô phỏng (đề xuất ban đầu, lab sẽ chốt)
 
@@ -85,7 +90,7 @@ Thẻ class hiện nhãn **Xe gợi ý** theo bảng này. Nhờ trọng số §
 
 Mỗi class là **một cơ sở thật**. Giá không gắn với từng class mà gắn với **số cơ sở đã mở**:
 
-- Vào game có **1 cơ sở, dành cho Racing**. Tối đa bằng số class (6); mỗi class chỉ có một cơ sở.
+- Vào game có **1 cơ sở miễn phí, người chơi chọn class cho nó ngay lần đầu** (cập nhật 27/11/2026, theo game gốc): popup "Chọn class đầu tiên" hiện trước tutorial, liệt kê đủ mọi class, không đóng được; vòng lặp đua và thu nhập tạm dừng tới khi chọn xong. Chọn xong không đổi lại và không tặng gem mở cơ sở. Cờ `first_class_pending` (save) đánh dấu chưa chọn; save cũ không có cờ coi như đã chọn (Racing). Tối đa bằng số class (6); mỗi class chỉ có một cơ sở.
 - **Mở cơ sở mới** (nút ở đầu màn Classes): giá = `facility_price_mult[n-1]` × `Pricing.expansion_cost(business_tier)`, hệ số trong `data/classes.json` là 0,5 / 1 / 2 / 4 / 8 cho cơ sở thứ 2 đến 6 (lab chốt sau). Cơ sở mới ở trạng thái **chờ chọn class**.
 - **Chọn loại**: ngay sau khi mở, hiện popup lưới 2 cột liệt kê các class chưa có cơ sở; chạm một ô rồi bấm **OK** là xong. Bấm ra ngoài popup thì cơ sở vẫn chờ và nút đổi thành "Chọn loại". Chọn xong **không đổi lại**; không tự chuyển Active, người chơi bấm Watch khi muốn (§5.1).
 - Phải chọn class cho cơ sở đang chờ trước khi mở cơ sở tiếp theo.
@@ -205,5 +210,5 @@ Rủi ro chính: tuning ghi đè phải áp **sau** khi cân `race_snapshot` đ�
 | D-C3 | Tên đội theo class hay toàn cục? | **Toàn cục** |
 | D-C4 | Thưởng tiền khác nhau theo class? | **Bằng nhau**; đa dạng bằng Huy hiệu class |
 | D-C5 | Số class lúc phát hành | **6** như ảnh; có thể giảm còn 4 (Racing, Rally, Stock Car, Superbike) nếu ngân sách art hạn chế |
-| D-C7 | Mở class thế nào? | **Mở cơ sở bằng tiền rồi chọn class cho cơ sở** (người dùng chốt 12/11/2026); giá theo số cơ sở, không theo class; mỗi class một cơ sở, chọn xong không đổi |
+| D-C7 | Mở class thế nào? | **Cơ sở đầu miễn phí, chọn class khi vào game (27/11/2026); các cơ sở sau mở bằng tiền rồi chọn class cho cơ sở** (người dùng chốt 12/11/2026); giá theo số cơ sở, không theo class; mỗi class một cơ sở, chọn xong không đổi |
 | D-C6 | Số liệu người/cỏ bốn lá trên thẻ | Sức mạnh đề xuất + cơ hội thắng thật (§5.2) |

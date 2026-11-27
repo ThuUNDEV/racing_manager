@@ -1,0 +1,34 @@
+{
+  "name": "Shop refined hierarchy v5",
+  "status": "concept_pending_review",
+  "date": "2026-11-26",
+  "image": "01_shop_refined_hierarchy.png",
+  "prompt": "01_shop_refined_hierarchy_prompt.txt",
+  "provenance": {
+    "mode": "built-in image_gen refinement edit",
+    "tool": "image_gen.imagegen",
+    "orchestrator": "Delegated GPT-6.1-Sol medium",
+    "image_model": "Tool-managed; exact model not exposed",
+    "edit_target": "Design/Demos/SoftMiniature/shop_recolor_v4/01_shop_unified_blue_actions.png",
+    "raw": "output/imagegen/shop_recolor_v5/01_shop_refined_hierarchy_raw.png",
+    "generation_calls": 1,
+    "postprocessing": "None; original image copied unchanged"
+  },
+  "changes": [
+    "Reduced primary purchase button saturation, gloss and rim",
+    "Video actions pale blue/navy; restore cream with thin blue outline",
+    "FREE remains green; other actions remain blue",
+    "Starter primary 150 Gem and 500 Gem enlarged, secondary reward rows ordered",
+    "Daily 50 reward enlarged; cards spaced",
+    "Replaced garbled small starter2 name with clear Hà"
+  ],
+  "validation": {
+    "visual": "Checked all three panel content, five nav tabs, compact HUD, blue non-FREE actions, green FREE, primary quantities and USD prices. Correct gear ticket symbols visible; no purple UI fills or orange price buttons.",
+    "limitations": [
+      "Concept uses placeholder Hà portrait rather than verified unique game portrait",
+      "Fine typography and icon fidelity remain AI-rendered; runtime should use real sprite IDs and localized labels",
+      "Layout is a concept and needs Godot checks at target mobile widths if implemented"
+    ],
+    "scope": "No runtime code, data, balance or save edits."
+  }
+}

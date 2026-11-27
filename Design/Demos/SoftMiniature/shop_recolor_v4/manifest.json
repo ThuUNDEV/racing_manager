@@ -1,0 +1,33 @@
+{
+  "name": "Shop unified blue actions v4",
+  "status": "concept_pending_review",
+  "date": "2026-11-26",
+  "image": "01_shop_unified_blue_actions.png",
+  "prompt": "01_shop_unified_blue_actions_prompt.txt",
+  "provenance": {
+    "mode": "built-in image_gen localized edit",
+    "tool": "image_gen.imagegen",
+    "orchestrator": "Delegated GPT-6.1-Sol medium",
+    "image_model": "Tool-managed; exact model not exposed",
+    "edit_target": "Design/Demos/SoftMiniature/shop_recolor_v3/01_shop_reduce_purple.png",
+    "raw": "output/imagegen/shop_recolor_v4/01_shop_unified_blue_actions_raw.png",
+    "generation_calls": 1,
+    "postprocessing": "None; original image copied unchanged"
+  },
+  "user_requirement": "FREE green, all other action buttons blue",
+  "changes": [
+    "All eleven USD purchase buttons changed from orange to blue",
+    "Existing blue video, gem-payment and restore buttons preserved",
+    "FREE green preserved; amber Shop navigation selection preserved",
+    "Purple confined to gem crystals/currency icons"
+  ],
+  "validation": {
+    "visual": "All visible USD purchase buttons are blue; FREE is green. Three panel composition, resource HUD, prices, quantities and five nav tabs visually preserved.",
+    "limitations": [
+      "AI edit slightly redraws fine image details; not pixel-exact",
+      "Tiny Hà portrait/name rendering remains imperfect from earlier concept",
+      "Art concept only; native runtime should use proper sprites and localized labels"
+    ],
+    "scope": "No runtime, data, balance or save edits."
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "conclusion": "Chưa đạt độ bám concept đã duyệt. Đúng cấu trúc quyền lợi + quà kèm nhưng tỷ lệ, typography, asset và skin còn lệch.",
+  "scope": {
+    "reference": "Design/Demos/SoftMiniature/approved/pack_popup_benefit_gifts_v1/01_benefit_gifts.png",
+    "products": [
+      "starter_1",
+      "weekly_s",
+      "offer_noads_bundle",
+      "income_x2",
+      "no_ads",
+      "char_my"
+    ],
+    "renderer": "Godot 4.7.2 OpenGL compatibility",
+    "fixtures": "vi, ready-to-purchase, driver not owned; presentation view only, no actual purchase/eligibility/grant mutation",
+    "viewports": [
+      [
+        390,
+        845
+      ],
+      [
+        320,
+        694
+      ],
+      [
+        412,
+        893
+      ]
+    ],
+    "i18n_viewport": [
+      320,
+      694
+    ],
+    "languages": [
+      "en",
+      "vi",
+      "id",
+      "ms",
+      "th",
+      "ja",
+      "ko",
+      "zh_Hans"
+    ],
+    "short_viewport": [
+      320,
+      568
+    ],
+    "samples": 67,
+    "runtime_modified": false
+  },
+  "normalization": {
+    "reference_card_edge_bounds_approx": [
+      27,
+      22,
+      417,
+      610
+    ],
+    "reference_card_size": [
+      390,
+      588
+    ],
+    "runtime_card_size": [
+      358.0,
+      629.0
+    ],
+    "runtime_at_reference_width": [
+      390,
+      685.2
+    ],
+    "method": "Uniform scaling of complete popup, including 12px surrounding shadow; no aspect distortion. Manual reference bounds are approximate; live runtime rects are exact logical values."
+  },
+  "findings": [
+    {
+      "priority": "P2",
+      "title": "Nút X bị cuộn ra khỏi vùng nhìn thấy ở 320×568",
+      "observed": {
+        "scroll_viewport": [
+          28.0,
+          60.0,
+          264.0,
+          448.0
+        ],
+        "close_after_scroll": [
+          244.0,
+          3.0,
+          48.0,
+          48.0
+        ]
+      },
+      "cause": "PromoHeader được thêm vào VBox nội dung của ScrollContainer.",
+      "code": "ui/main.gd:2026",
+      "remedy": "Ghim header/close ngoài vùng cuộn, dành chiều cao cho nội dung cuộn."
+    },
+    {
+      "priority": "P2",
+      "title": "Popup cao và khối nội dung có nhiều khoảng trống hơn concept",
+      "observed": "Starter_1 358×629 logical; chuẩn hóa về rộng 390 thành cao 685.2, demo khoảng 390×588. Khay 1 quà vẫn ép min178; note trống vẫn min44.",
+      "code": [
+        "ui/pack_benefit_ui.gd:145",
+        "ui/shop_page.gd:1314"
+      ],
+      "remedy": "Bám tỷ lệ từng nhóm pack và lượng nội dung của concept, không ép mọi khay bằng nhau."
+    },
+    {
+      "priority": "P2",
+      "title": "Typography, hình chính và badge quá nhỏ",
+      "observed": {
+        "title_font": 24,
+        "main_gems_font": 48,
+        "reward_font": 19,
+        "cta_font": 28,
+        "badge_extent": 48,
+        "hero_width": 118
+      },
+      "code": [
+        "ui/pack_benefit_ui.gd:13",
+        "ui/pack_benefit_ui.gd:95",
+        "ui/pack_benefit_ui.gd:107",
+        "ui/pack_benefit_ui.gd:120",
+        "ui/shop_page.gd:1323"
+      ],
+      "remedy": "Đo lại phân cấp chữ, tỷ lệ minh họa và badge từ mẫu ở cùng độ rộng popup."
+    },
+    {
+      "priority": "P2",
+      "title": "Asset chưa đủ và chưa khớp mẫu",
+      "observed": "Thiếu viên gem lớn bên cạnh 150/300; garage income có mũi tên khác mẫu; chân dung My khác biểu cảm; cash thiếu đồng hồ. Cutout mechanic/no_ads chỉ 157×162 và178×145 nên không đủ sắc nét khi lên viewport native886×1920.",
+      "code": "ui/pack_benefit_ui.gd:83",
+      "remedy": "Hoàn thiện bộ sprite theo đúng concept, kiểm tra chất lượng ở scale native; không dùng sprite gần giống để kết luận đã khớp."
+    },
+    {
+      "priority": "P2",
+      "title": "Skin chip/CTA khác concept",
+      "observed": "Chip xanh phẳng, chữ trắng nhỏ; mẫu có gradient, chữ vàng ở quyền lợi và hiệu ứng nổi. CTA hiện vàng-cam, viền sáng và giá nhỏ; mẫu cam đậm, chữ trắng lớn.",
+      "code": [
+        "ui/pack_benefit_ui.gd:53",
+        "ui/pack_promo_ui.gd:231"
+      ],
+      "remedy": "Dùng palette, độ bo, bóng và chữ của chính mẫu cho popup pack."
+    }
+  ],
+  "checks": {
+    "horizontal_label_overflow": [],
+    "label_line_clipping": [],
+    "scope_limit": "Không chứng minh glyph web/mobile của 8 ngôn ngữ. Desktop có font hệ thống fallback. Không gọi thanh toán thật.",
+    "regression_status": "PACK_PROMO_POPUP_TEST failures=0; no SCRIPT ERROR or Parse Error. Existing engine resource/ObjectDB exit warnings remain."
+  },
+  "evidence": [
+    "reference_approved.png",
+    "compare_starter_1.png",
+    "compare_all.png",
+    "measurements.json",
+    "starter_1_short_scrolled.png",
+    "regression.log",
+    "overlay_starter_1.png"
+  ]
+}

@@ -421,41 +421,50 @@ func dock_chip(host: Control) -> void:
 	_layout_chip()
 
 
+## Ô chứa đổi cỡ (dải chặng thu hẹp khi nhiều icon).
+func relayout_chip() -> void:
+	if _chip_host != null:
+		_layout_chip()
+
+
 func _layout_chip() -> void:
 	var k := size.x / 1448.0
 	var rect := RaceView.hud_boost_rect_for_width(size.x)
+	var shift := Vector2.ZERO  # canh giữa nội dung theo chiều dọc khi ô hẹp mà cao
 	if _chip_host != null:
-		k = 1.0
-		rect = Rect2(Vector2.ZERO, Vector2(260, 205))
+		var slot := _chip_host.custom_minimum_size
+		k = slot.x / 260.0
+		rect = Rect2(Vector2.ZERO, slot)
+		shift = Vector2(0, (slot.y - 205.0 * k) / 2.0)
 	_chip.custom_minimum_size = Vector2.ZERO
 	_chip.size = rect.size
 	_chip.position = rect.position
-	_chip_cash.position = Vector2(14, 51) * k
+	_chip_cash.position = Vector2(14, 51) * k + shift
 	_chip_cash.size = Vector2(150, 102) * k
-	_chip_video.position = Vector2(166, 83) * k
+	_chip_video.position = Vector2(166, 83) * k + shift
 	_chip_video.size = Vector2(83, 70) * k
 	_chip_title.hide()
 	_chip_time.hide()
-	_chip_mult.position = Vector2(140, 0) * k
+	_chip_mult.position = Vector2(140, 0) * k + shift
 	_chip_mult.size = Vector2(114, 84) * k
 	_chip_mult.add_theme_font_size_override("font_size", maxi(12, roundi(74 * k)))
 	_chip_mult.add_theme_constant_override("outline_size", maxi(3, roundi(12 * k)))
 	_chip_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_chip_title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_chip_title.clip_text = true
-	_chip_title.position = Vector2(6, 103) * k
+	_chip_title.position = Vector2(6, 103) * k + shift
 	_chip_title.size = Vector2(248, 47) * k
 	_chip_title.add_theme_font_size_override("font_size", maxi(9, roundi(36 * k)))
 	_chip_time.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_chip_time.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_chip_time.clip_text = true
-	_chip_time.position = Vector2(6, 150) * k
+	_chip_time.position = Vector2(6, 150) * k + shift
 	_chip_time.size = Vector2(248, 40) * k
 	var caption_font := maxi(8, roundi(30 * k))
 	while caption_font > 7 and _chip_time.get_theme_font("font").get_string_size(_chip_time.text, HORIZONTAL_ALIGNMENT_LEFT, -1, caption_font).x > rect.size.x - 4:
 		caption_font -= 1
 	_chip_time.add_theme_font_size_override("font_size", caption_font)
-	_chip_progress.position = Vector2(27, 192) * k
+	_chip_progress.position = Vector2(27, 192) * k + shift
 	_chip_progress.size = Vector2(206, 3) * k
 
 

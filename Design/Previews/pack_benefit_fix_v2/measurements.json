@@ -1,0 +1,5941 @@
+[
+	{
+		"buy": {
+			"disabled": false,
+			"font_size": 38,
+			"rect": [
+				32.0,
+				580.0,
+				326.0,
+				53.0
+			],
+			"text": "$0.99"
+		},
+		"controls": {
+			"DetailBuy_starter_1": {
+				"minimum": [
+					0.0,
+					53.0
+				],
+				"rect": [
+					32.0,
+					580.0,
+					326.0,
+					53.0
+				]
+			},
+			"OfferArt_starter_1": {
+				"minimum": [
+					126.0,
+					0.0
+				],
+				"rect": [
+					32.0,
+					221.0,
+					126.0,
+					142.0
+				]
+			},
+			"PromoBadge": {
+				"minimum": [
+					76.0,
+					76.0
+				],
+				"rect": [
+					282.0,
+					221.0,
+					76.0,
+					76.0
+				]
+			},
+			"PromoClose": {
+				"minimum": [
+					48.0,
+					48.0
+				],
+				"rect": [
+					310.0,
+					165.0,
+					48.0,
+					48.0
+				]
+			},
+			"PromoHeader": {
+				"minimum": [
+					55.0,
+					48.0
+				],
+				"rect": [
+					32.0,
+					165.0,
+					326.0,
+					48.0
+				]
+			},
+			"PromoNote": {
+				"minimum": [
+					1.0,
+					18.0
+				],
+				"rect": [
+					32.0,
+					554.0,
+					326.0,
+					18.0
+				]
+			},
+			"PromoPrimary": {
+				"minimum": [
+					203.0,
+					142.0
+				],
+				"rect": [
+					32.0,
+					221.0,
+					326.0,
+					142.0
+				]
+			},
+			"PromoPrimaryGem": {
+				"minimum": [
+					64.0,
+					64.0
+				],
+				"rect": [
+					294.0,
+					299.0,
+					64.0,
+					64.0
+				]
+			},
+			"PromoPrimaryValue": {
+				"minimum": [
+					1.0,
+					88.0
+				],
+				"rect": [
+					164.0,
+					232.0,
+					124.0,
+					88.0
+				]
+			},
+			"PromoRates": {
+				"minimum": [
+					80.0,
+					44.0
+				],
+				"rect": [
+					206.0,
+					637.0,
+					152.0,
+					44.0
+				]
+			},
+			"PromoRewardRows": {
+				"minimum": [
+					77.0,
+					150.0
+				],
+				"rect": [
+					42.0,
+					394.0,
+					306.0,
+					150.0
+				]
+			},
+			"PromoRewards": {
+				"minimum": [
+					112.0,
+					183.0
+				],
+				"rect": [
+					32.0,
+					367.0,
+					326.0,
+					183.0
+				]
+			},
+			"PromoRewardsHeading": {
+				"minimum": [
+					112.0,
+					29.0
+				],
+				"rect": [
+					139.0,
+					367.0,
+					112.0,
+					29.0
+				]
+			},
+			"PromoTitle": {
+				"minimum": [
+					1.0,
+					47.0
+				],
+				"rect": [
+					32.0,
+					165.0,
+					272.0,
+					47.0
+				]
+			}
+		},
+		"interactions": {},
+		"lang": "vi",
+		"panel": [
+			16.0,
+			151.0,
+			358.0,
+			542.0
+		],
+		"scroll": {
+			"content_min_height": 460.0,
+			"max_value": 460.0,
+			"page": 460.0,
+			"viewport": [
+				32.0,
+				221.0,
+				326.0,
+				460.0
+			]
+		},
+		"sku": "starter_1",
+		"text": [
+			{
+				"font_size": 64,
+				"lines": 1,
+				"name": "PromoPrimaryValue",
+				"rect": [
+					164.0,
+					232.0,
+					124.0,
+					88.0
+				],
+				"text": "150",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 28,
+				"lines": 1,
+				"name": "@Label@1940",
+				"rect": [
+					164.0,
+					312.0,
+					124.0,
+					39.0
+				],
+				"text": "Gem",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 24,
+				"lines": 1,
+				"name": "@Label@1944",
+				"rect": [
+					282.0,
+					221.0,
+					76.0,
+					76.0
+				],
+				"text": "4,4x",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 18,
+				"lines": 1,
+				"name": "@Label@1945",
+				"rect": [
+					151.0,
+					368.0,
+					88.0,
+					26.0
+				],
+				"text": "QUÀ KÈM",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 24,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					118.0,
+					401.0,
+					230.0,
+					34.0
+				],
+				"text": "3 Vé Pro",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 24,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					118.0,
+					452.0,
+					230.0,
+					34.0
+				],
+				"text": "3 Vé Standard",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 24,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					118.0,
+					503.0,
+					230.0,
+					34.0
+				],
+				"text": "1 giờ Thu nhập",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 13,
+				"lines": 1,
+				"name": "PromoNote",
+				"rect": [
+					32.0,
+					554.0,
+					326.0,
+					18.0
+				],
+				"text": "Tiền tính theo thu nhập của đội tại thời điểm mua.",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 17,
+				"lines": 1,
+				"name": "@Label@1953",
+				"rect": [
+					32.0,
+					637.0,
+					152.0,
+					44.0
+				],
+				"text": "Mua 1 lần",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 34,
+				"lines": 1,
+				"name": "PromoTitle",
+				"rect": [
+					32.0,
+					165.0,
+					272.0,
+					47.0
+				],
+				"text": "Gói Tân binh",
+				"visible_lines": 1
+			}
+		],
+		"viewport": [
+			390,
+			845
+		]
+	},
+	{
+		"buy": {
+			"disabled": false,
+			"font_size": 38,
+			"rect": [
+				32.0,
+				580.0,
+				326.0,
+				53.0
+			],
+			"text": "$4.99"
+		},
+		"controls": {
+			"DetailBuy_weekly_s": {
+				"minimum": [
+					0.0,
+					53.0
+				],
+				"rect": [
+					32.0,
+					580.0,
+					326.0,
+					53.0
+				]
+			},
+			"OfferArt_weekly_s": {
+				"minimum": [
+					126.0,
+					0.0
+				],
+				"rect": [
+					32.0,
+					221.0,
+					126.0,
+					142.0
+				]
+			},
+			"PromoBadge": {
+				"minimum": [
+					76.0,
+					76.0
+				],
+				"rect": [
+					282.0,
+					221.0,
+					76.0,
+					76.0
+				]
+			},
+			"PromoClose": {
+				"minimum": [
+					48.0,
+					48.0
+				],
+				"rect": [
+					310.0,
+					165.0,
+					48.0,
+					48.0
+				]
+			},
+			"PromoHeader": {
+				"minimum": [
+					55.0,
+					48.0
+				],
+				"rect": [
+					32.0,
+					165.0,
+					326.0,
+					48.0
+				]
+			},
+			"PromoNote": {
+				"minimum": [
+					1.0,
+					18.0
+				],
+				"rect": [
+					32.0,
+					554.0,
+					326.0,
+					18.0
+				]
+			},
+			"PromoPrimary": {
+				"minimum": [
+					203.0,
+					142.0
+				],
+				"rect": [
+					32.0,
+					221.0,
+					326.0,
+					142.0
+				]
+			},
+			"PromoPrimaryGem": {
+				"minimum": [
+					64.0,
+					64.0
+				],
+				"rect": [
+					294.0,
+					299.0,
+					64.0,
+					64.0
+				]
+			},
+			"PromoPrimaryValue": {
+				"minimum": [
+					1.0,
+					88.0
+				],
+				"rect": [
+					164.0,
+					232.0,
+					124.0,
+					88.0
+				]
+			},
+			"PromoRates": {
+				"minimum": [
+					80.0,
+					44.0
+				],
+				"rect": [
+					206.0,
+					637.0,
+					152.0,
+					44.0
+				]
+			},
+			"PromoRewardRows": {
+				"minimum": [
+					77.0,
+					150.0
+				],
+				"rect": [
+					42.0,
+					394.0,
+					306.0,
+					150.0
+				]
+			},
+			"PromoRewards": {
+				"minimum": [
+					112.0,
+					183.0
+				],
+				"rect": [
+					32.0,
+					367.0,
+					326.0,
+					183.0
+				]
+			},
+			"PromoRewardsHeading": {
+				"minimum": [
+					112.0,
+					29.0
+				],
+				"rect": [
+					139.0,
+					367.0,
+					112.0,
+					29.0
+				]
+			},
+			"PromoTitle": {
+				"minimum": [
+					1.0,
+					47.0
+				],
+				"rect": [
+					32.0,
+					165.0,
+					272.0,
+					47.0
+				]
+			}
+		},
+		"interactions": {},
+		"lang": "vi",
+		"panel": [
+			16.0,
+			151.0,
+			358.0,
+			542.0
+		],
+		"scroll": {
+			"content_min_height": 460.0,
+			"max_value": 460.0,
+			"page": 460.0,
+			"viewport": [
+				32.0,
+				221.0,
+				326.0,
+				460.0
+			]
+		},
+		"sku": "weekly_s",
+		"text": [
+			{
+				"font_size": 64,
+				"lines": 1,
+				"name": "PromoPrimaryValue",
+				"rect": [
+					164.0,
+					232.0,
+					124.0,
+					88.0
+				],
+				"text": "300",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 28,
+				"lines": 1,
+				"name": "@Label@1958",
+				"rect": [
+					164.0,
+					312.0,
+					124.0,
+					39.0
+				],
+				"text": "Gem",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 24,
+				"lines": 1,
+				"name": "@Label@1962",
+				"rect": [
+					282.0,
+					221.0,
+					76.0,
+					76.0
+				],
+				"text": "2,6x",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 18,
+				"lines": 1,
+				"name": "@Label@1963",
+				"rect": [
+					151.0,
+					368.0,
+					88.0,
+					26.0
+				],
+				"text": "QUÀ KÈM",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 24,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					118.0,
+					401.0,
+					230.0,
+					34.0
+				],
+				"text": "6 Vé All-Star",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 24,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					118.0,
+					452.0,
+					230.0,
+					34.0
+				],
+				"text": "4 Vé Elite",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 24,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					118.0,
+					503.0,
+					230.0,
+					34.0
+				],
+				"text": "4 giờ Thu nhập",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 13,
+				"lines": 1,
+				"name": "PromoNote",
+				"rect": [
+					32.0,
+					554.0,
+					326.0,
+					18.0
+				],
+				"text": "Tiền tính theo thu nhập của đội tại thời điểm mua.",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 17,
+				"lines": 1,
+				"name": "@Label@1971",
+				"rect": [
+					32.0,
+					637.0,
+					152.0,
+					44.0
+				],
+				"text": "1 lần / tuần",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 34,
+				"lines": 1,
+				"name": "PromoTitle",
+				"rect": [
+					32.0,
+					165.0,
+					272.0,
+					47.0
+				],
+				"text": "Gói tuần S",
+				"visible_lines": 1
+			}
+		],
+		"viewport": [
+			390,
+			845
+		]
+	},
+	{
+		"buy": {
+			"disabled": false,
+			"font_size": 38,
+			"rect": [
+				32.0,
+				579.0,
+				326.0,
+				53.0
+			],
+			"text": "$9.99"
+		},
+		"controls": {
+			"DetailBuy_offer_noads_bundle": {
+				"minimum": [
+					0.0,
+					53.0
+				],
+				"rect": [
+					32.0,
+					579.0,
+					326.0,
+					53.0
+				]
+			},
+			"OfferArt_offer_noads_bundle": {
+				"minimum": [
+					136.0,
+					0.0
+				],
+				"rect": [
+					32.0,
+					222.0,
+					136.0,
+					142.0
+				]
+			},
+			"PermanentChip": {
+				"minimum": [
+					25.0,
+					32.0
+				],
+				"rect": [
+					174.0,
+					325.0,
+					184.0,
+					32.0
+				]
+			},
+			"PromoClose": {
+				"minimum": [
+					48.0,
+					48.0
+				],
+				"rect": [
+					310.0,
+					166.0,
+					48.0,
+					48.0
+				]
+			},
+			"PromoHeader": {
+				"minimum": [
+					55.0,
+					48.0
+				],
+				"rect": [
+					32.0,
+					166.0,
+					326.0,
+					48.0
+				]
+			},
+			"PromoNote": {
+				"minimum": [
+					1.0,
+					39.0
+				],
+				"rect": [
+					32.0,
+					504.0,
+					326.0,
+					39.0
+				]
+			},
+			"PromoPrimary": {
+				"minimum": [
+					167.0,
+					142.0
+				],
+				"rect": [
+					32.0,
+					222.0,
+					326.0,
+					142.0
+				]
+			},
+			"PromoPrimaryValue": {
+				"minimum": [
+					1.0,
+					97.0
+				],
+				"rect": [
+					174.0,
+					228.0,
+					184.0,
+					97.0
+				]
+			},
+			"PromoRates": {
+				"minimum": [
+					80.0,
+					44.0
+				],
+				"rect": [
+					206.0,
+					636.0,
+					152.0,
+					44.0
+				]
+			},
+			"PromoRewardRows": {
+				"minimum": [
+					77.0,
+					99.0
+				],
+				"rect": [
+					42.0,
+					395.0,
+					306.0,
+					99.0
+				]
+			},
+			"PromoRewards": {
+				"minimum": [
+					112.0,
+					132.0
+				],
+				"rect": [
+					32.0,
+					368.0,
+					326.0,
+					132.0
+				]
+			},
+			"PromoRewardsHeading": {
+				"minimum": [
+					112.0,
+					29.0
+				],
+				"rect": [
+					139.0,
+					368.0,
+					112.0,
+					29.0
+				]
+			},
+			"PromoTitle": {
+				"minimum": [
+					1.0,
+					47.0
+				],
+				"rect": [
+					32.0,
+					166.0,
+					272.0,
+					47.0
+				]
+			}
+		},
+		"interactions": {},
+		"lang": "vi",
+		"panel": [
+			16.0,
+			152.0,
+			358.0,
+			540.0
+		],
+		"scroll": {
+			"content_min_height": 458.0,
+			"max_value": 458.0,
+			"page": 458.0,
+			"viewport": [
+				32.0,
+				222.0,
+				326.0,
+				458.0
+			]
+		},
+		"sku": "offer_noads_bundle",
+		"text": [
+			{
+				"font_size": 34,
+				"lines": 2,
+				"name": "PromoPrimaryValue",
+				"rect": [
+					174.0,
+					228.0,
+					184.0,
+					97.0
+				],
+				"text": "Bỏ\nquảng cáo",
+				"visible_lines": 2
+			},
+			{
+				"font_size": 20,
+				"lines": 1,
+				"name": "@Label@1976",
+				"rect": [
+					186.0,
+					326.0,
+					160.0,
+					29.0
+				],
+				"text": "Vĩnh viễn",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 18,
+				"lines": 1,
+				"name": "@Label@1977",
+				"rect": [
+					151.0,
+					369.0,
+					88.0,
+					26.0
+				],
+				"text": "QUÀ KÈM",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 24,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					118.0,
+					402.0,
+					230.0,
+					34.0
+				],
+				"text": "300 Gem",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 24,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					118.0,
+					453.0,
+					230.0,
+					34.0
+				],
+				"text": "3 Vé All-Star",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 13,
+				"lines": 2,
+				"name": "PromoNote",
+				"rect": [
+					32.0,
+					504.0,
+					326.0,
+					39.0
+				],
+				"text": "Tắt Ads Break và nhận thẳng thưởng quảng cáo, theo giới hạn từng mục.",
+				"visible_lines": 2
+			},
+			{
+				"font_size": 17,
+				"lines": 1,
+				"name": "@Label@1983",
+				"rect": [
+					32.0,
+					636.0,
+					152.0,
+					44.0
+				],
+				"text": "Mua 1 lần",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 34,
+				"lines": 1,
+				"name": "PromoTitle",
+				"rect": [
+					32.0,
+					166.0,
+					272.0,
+					47.0
+				],
+				"text": "Đội tự do + quà",
+				"visible_lines": 1
+			}
+		],
+		"viewport": [
+			390,
+			845
+		]
+	},
+	{
+		"buy": {
+			"disabled": false,
+			"font_size": 38,
+			"rect": [
+				32.0,
+				579.0,
+				326.0,
+				53.0
+			],
+			"text": "$4.99"
+		},
+		"controls": {
+			"DetailBuy_income_x2": {
+				"minimum": [
+					0.0,
+					53.0
+				],
+				"rect": [
+					32.0,
+					579.0,
+					326.0,
+					53.0
+				]
+			},
+			"OfferArt_income_x2": {
+				"minimum": [
+					142.0,
+					0.0
+				],
+				"rect": [
+					32.0,
+					222.0,
+					142.0,
+					159.0
+				]
+			},
+			"PermanentChip": {
+				"minimum": [
+					25.0,
+					32.0
+				],
+				"rect": [
+					180.0,
+					349.0,
+					178.0,
+					32.0
+				]
+			},
+			"PromoClose": {
+				"minimum": [
+					48.0,
+					48.0
+				],
+				"rect": [
+					310.0,
+					166.0,
+					48.0,
+					48.0
+				]
+			},
+			"PromoHeader": {
+				"minimum": [
+					55.0,
+					48.0
+				],
+				"rect": [
+					32.0,
+					166.0,
+					326.0,
+					48.0
+				]
+			},
+			"PromoNote": {
+				"minimum": [
+					1.0,
+					39.0
+				],
+				"rect": [
+					32.0,
+					521.0,
+					326.0,
+					39.0
+				]
+			},
+			"PromoPrimary": {
+				"minimum": [
+					173.0,
+					159.0
+				],
+				"rect": [
+					32.0,
+					222.0,
+					326.0,
+					159.0
+				]
+			},
+			"PromoPrimaryValue": {
+				"minimum": [
+					1.0,
+					88.0
+				],
+				"rect": [
+					180.0,
+					269.0,
+					178.0,
+					88.0
+				]
+			},
+			"PromoRewardRows": {
+				"minimum": [
+					77.0,
+					99.0
+				],
+				"rect": [
+					42.0,
+					412.0,
+					306.0,
+					99.0
+				]
+			},
+			"PromoRewards": {
+				"minimum": [
+					126.0,
+					132.0
+				],
+				"rect": [
+					32.0,
+					385.0,
+					326.0,
+					132.0
+				]
+			},
+			"PromoRewardsHeading": {
+				"minimum": [
+					126.0,
+					29.0
+				],
+				"rect": [
+					132.0,
+					385.0,
+					126.0,
+					29.0
+				]
+			},
+			"PromoTitle": {
+				"minimum": [
+					1.0,
+					47.0
+				],
+				"rect": [
+					32.0,
+					166.0,
+					272.0,
+					47.0
+				]
+			}
+		},
+		"interactions": {},
+		"lang": "vi",
+		"panel": [
+			16.0,
+			152.0,
+			358.0,
+			540.0
+		],
+		"scroll": {
+			"content_min_height": 458.0,
+			"max_value": 458.0,
+			"page": 458.0,
+			"viewport": [
+				32.0,
+				222.0,
+				326.0,
+				458.0
+			]
+		},
+		"sku": "income_x2",
+		"text": [
+			{
+				"font_size": 18,
+				"lines": 2,
+				"name": "@Label@1988",
+				"rect": [
+					180.0,
+					222.0,
+					178.0,
+					55.0
+				],
+				"text": "Thu nhập online & thưởng đua",
+				"visible_lines": 2
+			},
+			{
+				"font_size": 64,
+				"lines": 1,
+				"name": "PromoPrimaryValue",
+				"rect": [
+					180.0,
+					269.0,
+					178.0,
+					88.0
+				],
+				"text": "×2",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 20,
+				"lines": 1,
+				"name": "@Label@1989",
+				"rect": [
+					192.0,
+					350.0,
+					154.0,
+					29.0
+				],
+				"text": "Vĩnh viễn",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 18,
+				"lines": 1,
+				"name": "@Label@1990",
+				"rect": [
+					144.0,
+					386.0,
+					102.0,
+					26.0
+				],
+				"text": "QUYỀN LỢI",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 24,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					118.0,
+					419.0,
+					230.0,
+					34.0
+				],
+				"text": "Thu nhập online ×2",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 24,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					118.0,
+					470.0,
+					230.0,
+					34.0
+				],
+				"text": "Thưởng đua ×2",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 13,
+				"lines": 2,
+				"name": "PromoNote",
+				"rect": [
+					32.0,
+					521.0,
+					326.0,
+					39.0
+				],
+				"text": "Không áp dụng offline.\nKhông cộng dồn boost quảng cáo (lấy mức cao hơn).",
+				"visible_lines": 2
+			},
+			{
+				"font_size": 17,
+				"lines": 1,
+				"name": "@Label@1996",
+				"rect": [
+					32.0,
+					636.0,
+					326.0,
+					44.0
+				],
+				"text": "Mua 1 lần",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 34,
+				"lines": 1,
+				"name": "PromoTitle",
+				"rect": [
+					32.0,
+					166.0,
+					272.0,
+					47.0
+				],
+				"text": "Thu nhập ×2",
+				"visible_lines": 1
+			}
+		],
+		"viewport": [
+			390,
+			845
+		]
+	},
+	{
+		"buy": {
+			"disabled": false,
+			"font_size": 38,
+			"rect": [
+				32.0,
+				579.0,
+				326.0,
+				53.0
+			],
+			"text": "$9.99"
+		},
+		"controls": {
+			"DetailBuy_no_ads": {
+				"minimum": [
+					0.0,
+					53.0
+				],
+				"rect": [
+					32.0,
+					579.0,
+					326.0,
+					53.0
+				]
+			},
+			"OfferArt_no_ads": {
+				"minimum": [
+					136.0,
+					0.0
+				],
+				"rect": [
+					32.0,
+					222.0,
+					136.0,
+					142.0
+				]
+			},
+			"PermanentChip": {
+				"minimum": [
+					25.0,
+					32.0
+				],
+				"rect": [
+					174.0,
+					325.0,
+					184.0,
+					32.0
+				]
+			},
+			"PromoClose": {
+				"minimum": [
+					48.0,
+					48.0
+				],
+				"rect": [
+					310.0,
+					166.0,
+					48.0,
+					48.0
+				]
+			},
+			"PromoHeader": {
+				"minimum": [
+					55.0,
+					48.0
+				],
+				"rect": [
+					32.0,
+					166.0,
+					326.0,
+					48.0
+				]
+			},
+			"PromoNote": {
+				"minimum": [
+					1.0,
+					39.0
+				],
+				"rect": [
+					32.0,
+					489.0,
+					326.0,
+					39.0
+				]
+			},
+			"PromoPrimary": {
+				"minimum": [
+					167.0,
+					142.0
+				],
+				"rect": [
+					32.0,
+					222.0,
+					326.0,
+					142.0
+				]
+			},
+			"PromoPrimaryValue": {
+				"minimum": [
+					1.0,
+					97.0
+				],
+				"rect": [
+					174.0,
+					228.0,
+					184.0,
+					97.0
+				]
+			},
+			"PromoRewardRows": {
+				"minimum": [
+					77.0,
+					84.0
+				],
+				"rect": [
+					42.0,
+					395.0,
+					306.0,
+					84.0
+				]
+			},
+			"PromoRewards": {
+				"minimum": [
+					112.0,
+					117.0
+				],
+				"rect": [
+					32.0,
+					368.0,
+					326.0,
+					117.0
+				]
+			},
+			"PromoRewardsHeading": {
+				"minimum": [
+					112.0,
+					29.0
+				],
+				"rect": [
+					139.0,
+					368.0,
+					112.0,
+					29.0
+				]
+			},
+			"PromoTitle": {
+				"minimum": [
+					1.0,
+					47.0
+				],
+				"rect": [
+					32.0,
+					166.0,
+					272.0,
+					47.0
+				]
+			}
+		},
+		"interactions": {},
+		"lang": "vi",
+		"panel": [
+			16.0,
+			152.0,
+			358.0,
+			540.0
+		],
+		"scroll": {
+			"content_min_height": 458.0,
+			"max_value": 458.0,
+			"page": 458.0,
+			"viewport": [
+				32.0,
+				222.0,
+				326.0,
+				458.0
+			]
+		},
+		"sku": "no_ads",
+		"text": [
+			{
+				"font_size": 34,
+				"lines": 2,
+				"name": "PromoPrimaryValue",
+				"rect": [
+					174.0,
+					228.0,
+					184.0,
+					97.0
+				],
+				"text": "Bỏ\nquảng cáo",
+				"visible_lines": 2
+			},
+			{
+				"font_size": 20,
+				"lines": 1,
+				"name": "@Label@2001",
+				"rect": [
+					186.0,
+					326.0,
+					160.0,
+					29.0
+				],
+				"text": "Vĩnh viễn",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 18,
+				"lines": 1,
+				"name": "@Label@2002",
+				"rect": [
+					151.0,
+					369.0,
+					88.0,
+					26.0
+				],
+				"text": "QUÀ KÈM",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 32,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					118.0,
+					414.0,
+					230.0,
+					45.0
+				],
+				"text": "100 Gem",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 13,
+				"lines": 2,
+				"name": "PromoNote",
+				"rect": [
+					32.0,
+					489.0,
+					326.0,
+					39.0
+				],
+				"text": "Tắt Ads Break và nhận thẳng thưởng quảng cáo, theo giới hạn từng mục.",
+				"visible_lines": 2
+			},
+			{
+				"font_size": 17,
+				"lines": 1,
+				"name": "@Label@2006",
+				"rect": [
+					32.0,
+					636.0,
+					326.0,
+					44.0
+				],
+				"text": "Mua 1 lần",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 34,
+				"lines": 1,
+				"name": "PromoTitle",
+				"rect": [
+					32.0,
+					166.0,
+					272.0,
+					47.0
+				],
+				"text": "Đội tự do",
+				"visible_lines": 1
+			}
+		],
+		"viewport": [
+			390,
+			845
+		]
+	},
+	{
+		"buy": {
+			"disabled": false,
+			"font_size": 38,
+			"rect": [
+				32.0,
+				579.0,
+				326.0,
+				53.0
+			],
+			"text": "$4.99"
+		},
+		"controls": {
+			"DetailBuy_char_my": {
+				"minimum": [
+					0.0,
+					53.0
+				],
+				"rect": [
+					32.0,
+					579.0,
+					326.0,
+					53.0
+				]
+			},
+			"OfferArt_char_my": {
+				"minimum": [
+					142.0,
+					0.0
+				],
+				"rect": [
+					32.0,
+					222.0,
+					142.0,
+					142.0
+				]
+			},
+			"PermanentChip": {
+				"minimum": [
+					25.0,
+					32.0
+				],
+				"rect": [
+					180.0,
+					302.0,
+					178.0,
+					32.0
+				]
+			},
+			"PromoClose": {
+				"minimum": [
+					48.0,
+					48.0
+				],
+				"rect": [
+					310.0,
+					166.0,
+					48.0,
+					48.0
+				]
+			},
+			"PromoHeader": {
+				"minimum": [
+					55.0,
+					48.0
+				],
+				"rect": [
+					32.0,
+					166.0,
+					326.0,
+					48.0
+				]
+			},
+			"PromoNote": {
+				"minimum": [
+					1.0,
+					18.0
+				],
+				"rect": [
+					32.0,
+					222.0,
+					1.0,
+					18.0
+				]
+			},
+			"PromoPrimary": {
+				"minimum": [
+					173.0,
+					142.0
+				],
+				"rect": [
+					32.0,
+					222.0,
+					326.0,
+					142.0
+				]
+			},
+			"PromoPrimaryValue": {
+				"minimum": [
+					1.0,
+					50.0
+				],
+				"rect": [
+					180.0,
+					252.0,
+					178.0,
+					50.0
+				]
+			},
+			"PromoRates": {
+				"minimum": [
+					80.0,
+					44.0
+				],
+				"rect": [
+					206.0,
+					636.0,
+					152.0,
+					44.0
+				]
+			},
+			"PromoRewardRows": {
+				"minimum": [
+					77.0,
+					150.0
+				],
+				"rect": [
+					42.0,
+					395.0,
+					306.0,
+					150.0
+				]
+			},
+			"PromoRewards": {
+				"minimum": [
+					112.0,
+					183.0
+				],
+				"rect": [
+					32.0,
+					368.0,
+					326.0,
+					183.0
+				]
+			},
+			"PromoRewardsHeading": {
+				"minimum": [
+					112.0,
+					29.0
+				],
+				"rect": [
+					139.0,
+					368.0,
+					112.0,
+					29.0
+				]
+			},
+			"PromoTitle": {
+				"minimum": [
+					1.0,
+					47.0
+				],
+				"rect": [
+					32.0,
+					166.0,
+					272.0,
+					47.0
+				]
+			}
+		},
+		"interactions": {},
+		"lang": "vi",
+		"panel": [
+			16.0,
+			152.0,
+			358.0,
+			540.0
+		],
+		"scroll": {
+			"content_min_height": 458.0,
+			"max_value": 458.0,
+			"page": 458.0,
+			"viewport": [
+				32.0,
+				222.0,
+				326.0,
+				458.0
+			]
+		},
+		"sku": "char_my",
+		"text": [
+			{
+				"font_size": 36,
+				"lines": 1,
+				"name": "PromoPrimaryValue",
+				"rect": [
+					180.0,
+					252.0,
+					178.0,
+					50.0
+				],
+				"text": "Zielinski",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 20,
+				"lines": 1,
+				"name": "@Label@2011",
+				"rect": [
+					192.0,
+					303.0,
+					154.0,
+					29.0
+				],
+				"text": "Nhận chắc chắn",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 18,
+				"lines": 1,
+				"name": "@Label@2012",
+				"rect": [
+					151.0,
+					369.0,
+					88.0,
+					26.0
+				],
+				"text": "QUÀ KÈM",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 24,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					118.0,
+					402.0,
+					230.0,
+					34.0
+				],
+				"text": "30 mảnh Zielinski",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 24,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					118.0,
+					453.0,
+					230.0,
+					34.0
+				],
+				"text": "100 Gem",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 24,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					118.0,
+					504.0,
+					230.0,
+					34.0
+				],
+				"text": "3 Vé Elite",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 17,
+				"lines": 1,
+				"name": "@Label@2020",
+				"rect": [
+					32.0,
+					636.0,
+					152.0,
+					44.0
+				],
+				"text": "Mua 1 lần",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 34,
+				"lines": 1,
+				"name": "PromoTitle",
+				"rect": [
+					32.0,
+					166.0,
+					272.0,
+					47.0
+				],
+				"text": "My về đội bạn",
+				"visible_lines": 1
+			}
+		],
+		"viewport": [
+			390,
+			845
+		]
+	},
+	{
+		"buy": {
+			"disabled": false,
+			"font_size": 31,
+			"rect": [
+				32.0,
+				478.0,
+				256.0,
+				44.0
+			],
+			"text": "$0.99"
+		},
+		"controls": {
+			"DetailBuy_starter_1": {
+				"minimum": [
+					0.0,
+					44.0
+				],
+				"rect": [
+					32.0,
+					478.0,
+					256.0,
+					44.0
+				]
+			},
+			"OfferArt_starter_1": {
+				"minimum": [
+					101.363128662109,
+					0.0
+				],
+				"rect": [
+					32.0,
+					181.0,
+					102.0,
+					115.0
+				]
+			},
+			"PromoBadge": {
+				"minimum": [
+					61.1396636962891,
+					61.1396636962891
+				],
+				"rect": [
+					226.34635925293,
+					181.251403808594,
+					61.1396636962891,
+					61.1396636962891
+				]
+			},
+			"PromoClose": {
+				"minimum": [
+					48.0,
+					48.0
+				],
+				"rect": [
+					240.0,
+					125.0,
+					48.0,
+					48.0
+				]
+			},
+			"PromoHeader": {
+				"minimum": [
+					55.0,
+					48.0
+				],
+				"rect": [
+					32.0,
+					125.0,
+					256.0,
+					48.0
+				]
+			},
+			"PromoNote": {
+				"minimum": [
+					1.0,
+					14.0
+				],
+				"rect": [
+					32.0,
+					456.0,
+					256.0,
+					14.0
+				]
+			},
+			"PromoPrimary": {
+				"minimum": [
+					165.0,
+					114.234634399414
+				],
+				"rect": [
+					32.0,
+					181.0,
+					256.0,
+					115.0
+				]
+			},
+			"PromoPrimaryGem": {
+				"minimum": [
+					51.4860343933105,
+					51.4860343933105
+				],
+				"rect": [
+					236.0,
+					244.0,
+					51.4860343933105,
+					51.4860382080078
+				]
+			},
+			"PromoPrimaryValue": {
+				"minimum": [
+					1.0,
+					70.0
+				],
+				"rect": [
+					139.0,
+					190.0,
+					92.0,
+					70.0
+				]
+			},
+			"PromoRates": {
+				"minimum": [
+					62.0,
+					44.0
+				],
+				"rect": [
+					171.0,
+					526.0,
+					117.0,
+					44.0
+				]
+			},
+			"PromoRewardRows": {
+				"minimum": [
+					62.0,
+					123.0
+				],
+				"rect": [
+					42.0,
+					323.0,
+					236.0,
+					123.0
+				]
+			},
+			"PromoRewards": {
+				"minimum": [
+					88.0,
+					152.0
+				],
+				"rect": [
+					32.0,
+					300.0,
+					256.0,
+					152.0
+				]
+			},
+			"PromoRewardsHeading": {
+				"minimum": [
+					87.3072662353516,
+					23.0
+				],
+				"rect": [
+					116.0,
+					300.0,
+					87.3072662353516,
+					23.0
+				]
+			},
+			"PromoTitle": {
+				"minimum": [
+					1.0,
+					38.0
+				],
+				"rect": [
+					32.0,
+					130.0,
+					202.0,
+					38.0
+				]
+			}
+		},
+		"interactions": {},
+		"lang": "vi",
+		"panel": [
+			16.0,
+			111.0,
+			288.0,
+			471.0
+		],
+		"scroll": {
+			"content_min_height": 389.0,
+			"max_value": 389.0,
+			"page": 389.0,
+			"viewport": [
+				32.0,
+				181.0,
+				256.0,
+				389.0
+			]
+		},
+		"sku": "starter_1",
+		"text": [
+			{
+				"font_size": 51,
+				"lines": 1,
+				"name": "PromoPrimaryValue",
+				"rect": [
+					139.0,
+					190.0,
+					92.0,
+					70.0
+				],
+				"text": "150",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 23,
+				"lines": 1,
+				"name": "@Label@2025",
+				"rect": [
+					139.0,
+					254.0,
+					92.0,
+					33.0
+				],
+				"text": "Gem",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 20,
+				"lines": 1,
+				"name": "@Label@2029",
+				"rect": [
+					226.34635925293,
+					181.251403808594,
+					61.1396636962891,
+					61.1396636962891
+				],
+				"text": "4,4x",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 14,
+				"lines": 1,
+				"name": "@Label@2030",
+				"rect": [
+					125.653633117676,
+					301.0,
+					68.0,
+					20.0
+				],
+				"text": "QUÀ KÈM",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 19,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					103.0,
+					329.0,
+					175.0,
+					27.0
+				],
+				"text": "3 Vé Pro",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 19,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					103.0,
+					371.0,
+					175.0,
+					27.0
+				],
+				"text": "3 Vé Standard",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 19,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					103.0,
+					413.0,
+					175.0,
+					27.0
+				],
+				"text": "1 giờ Thu nhập",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 10,
+				"lines": 1,
+				"name": "PromoNote",
+				"rect": [
+					32.0,
+					456.0,
+					256.0,
+					14.0
+				],
+				"text": "Tiền tính theo thu nhập của đội tại thời điểm mua.",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 14,
+				"lines": 1,
+				"name": "@Label@2038",
+				"rect": [
+					32.0,
+					526.0,
+					117.0,
+					44.0
+				],
+				"text": "Mua 1 lần",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 27,
+				"lines": 1,
+				"name": "PromoTitle",
+				"rect": [
+					32.0,
+					130.0,
+					202.0,
+					38.0
+				],
+				"text": "Gói Tân binh",
+				"visible_lines": 1
+			}
+		],
+		"viewport": [
+			320,
+			694
+		]
+	},
+	{
+		"buy": {
+			"disabled": false,
+			"font_size": 31,
+			"rect": [
+				32.0,
+				478.0,
+				256.0,
+				44.0
+			],
+			"text": "$4.99"
+		},
+		"controls": {
+			"DetailBuy_weekly_s": {
+				"minimum": [
+					0.0,
+					44.0
+				],
+				"rect": [
+					32.0,
+					478.0,
+					256.0,
+					44.0
+				]
+			},
+			"OfferArt_weekly_s": {
+				"minimum": [
+					101.363128662109,
+					0.0
+				],
+				"rect": [
+					32.0,
+					181.0,
+					102.0,
+					115.0
+				]
+			},
+			"PromoBadge": {
+				"minimum": [
+					61.1396636962891,
+					61.1396636962891
+				],
+				"rect": [
+					226.34635925293,
+					181.251403808594,
+					61.1396636962891,
+					61.1396636962891
+				]
+			},
+			"PromoClose": {
+				"minimum": [
+					48.0,
+					48.0
+				],
+				"rect": [
+					240.0,
+					125.0,
+					48.0,
+					48.0
+				]
+			},
+			"PromoHeader": {
+				"minimum": [
+					55.0,
+					48.0
+				],
+				"rect": [
+					32.0,
+					125.0,
+					256.0,
+					48.0
+				]
+			},
+			"PromoNote": {
+				"minimum": [
+					1.0,
+					14.0
+				],
+				"rect": [
+					32.0,
+					456.0,
+					256.0,
+					14.0
+				]
+			},
+			"PromoPrimary": {
+				"minimum": [
+					165.0,
+					114.234634399414
+				],
+				"rect": [
+					32.0,
+					181.0,
+					256.0,
+					115.0
+				]
+			},
+			"PromoPrimaryGem": {
+				"minimum": [
+					51.4860343933105,
+					51.4860343933105
+				],
+				"rect": [
+					236.0,
+					244.0,
+					51.4860343933105,
+					51.4860382080078
+				]
+			},
+			"PromoPrimaryValue": {
+				"minimum": [
+					1.0,
+					70.0
+				],
+				"rect": [
+					139.0,
+					190.0,
+					92.0,
+					70.0
+				]
+			},
+			"PromoRates": {
+				"minimum": [
+					62.0,
+					44.0
+				],
+				"rect": [
+					171.0,
+					526.0,
+					117.0,
+					44.0
+				]
+			},
+			"PromoRewardRows": {
+				"minimum": [
+					62.0,
+					123.0
+				],
+				"rect": [
+					42.0,
+					323.0,
+					236.0,
+					123.0
+				]
+			},
+			"PromoRewards": {
+				"minimum": [
+					88.0,
+					152.0
+				],
+				"rect": [
+					32.0,
+					300.0,
+					256.0,
+					152.0
+				]
+			},
+			"PromoRewardsHeading": {
+				"minimum": [
+					87.3072662353516,
+					23.0
+				],
+				"rect": [
+					116.0,
+					300.0,
+					87.3072662353516,
+					23.0
+				]
+			},
+			"PromoTitle": {
+				"minimum": [
+					1.0,
+					38.0
+				],
+				"rect": [
+					32.0,
+					130.0,
+					202.0,
+					38.0
+				]
+			}
+		},
+		"interactions": {},
+		"lang": "vi",
+		"panel": [
+			16.0,
+			111.0,
+			288.0,
+			471.0
+		],
+		"scroll": {
+			"content_min_height": 389.0,
+			"max_value": 389.0,
+			"page": 389.0,
+			"viewport": [
+				32.0,
+				181.0,
+				256.0,
+				389.0
+			]
+		},
+		"sku": "weekly_s",
+		"text": [
+			{
+				"font_size": 51,
+				"lines": 1,
+				"name": "PromoPrimaryValue",
+				"rect": [
+					139.0,
+					190.0,
+					92.0,
+					70.0
+				],
+				"text": "300",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 23,
+				"lines": 1,
+				"name": "@Label@2043",
+				"rect": [
+					139.0,
+					254.0,
+					92.0,
+					33.0
+				],
+				"text": "Gem",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 20,
+				"lines": 1,
+				"name": "@Label@2047",
+				"rect": [
+					226.34635925293,
+					181.251403808594,
+					61.1396636962891,
+					61.1396636962891
+				],
+				"text": "2,6x",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 14,
+				"lines": 1,
+				"name": "@Label@2048",
+				"rect": [
+					125.653633117676,
+					301.0,
+					68.0,
+					20.0
+				],
+				"text": "QUÀ KÈM",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 19,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					103.0,
+					329.0,
+					175.0,
+					27.0
+				],
+				"text": "6 Vé All-Star",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 19,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					103.0,
+					371.0,
+					175.0,
+					27.0
+				],
+				"text": "4 Vé Elite",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 19,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					103.0,
+					413.0,
+					175.0,
+					27.0
+				],
+				"text": "4 giờ Thu nhập",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 10,
+				"lines": 1,
+				"name": "PromoNote",
+				"rect": [
+					32.0,
+					456.0,
+					256.0,
+					14.0
+				],
+				"text": "Tiền tính theo thu nhập của đội tại thời điểm mua.",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 14,
+				"lines": 1,
+				"name": "@Label@2056",
+				"rect": [
+					32.0,
+					526.0,
+					117.0,
+					44.0
+				],
+				"text": "1 lần / tuần",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 27,
+				"lines": 1,
+				"name": "PromoTitle",
+				"rect": [
+					32.0,
+					130.0,
+					202.0,
+					38.0
+				],
+				"text": "Gói tuần S",
+				"visible_lines": 1
+			}
+		],
+		"viewport": [
+			320,
+			694
+		]
+	},
+	{
+		"buy": {
+			"disabled": false,
+			"font_size": 31,
+			"rect": [
+				32.0,
+				466.0,
+				256.0,
+				44.0
+			],
+			"text": "$9.99"
+		},
+		"controls": {
+			"DetailBuy_offer_noads_bundle": {
+				"minimum": [
+					0.0,
+					44.0
+				],
+				"rect": [
+					32.0,
+					466.0,
+					256.0,
+					44.0
+				]
+			},
+			"OfferArt_offer_noads_bundle": {
+				"minimum": [
+					109.407821655273,
+					0.0
+				],
+				"rect": [
+					32.0,
+					194.0,
+					110.0,
+					115.0
+				]
+			},
+			"PermanentChip": {
+				"minimum": [
+					20.3072624206543,
+					26.0
+				],
+				"rect": [
+					147.0,
+					278.0,
+					141.0,
+					26.0
+				]
+			},
+			"PromoClose": {
+				"minimum": [
+					48.0,
+					48.0
+				],
+				"rect": [
+					240.0,
+					138.0,
+					48.0,
+					48.0
+				]
+			},
+			"PromoHeader": {
+				"minimum": [
+					55.0,
+					48.0
+				],
+				"rect": [
+					32.0,
+					138.0,
+					256.0,
+					48.0
+				]
+			},
+			"PromoNote": {
+				"minimum": [
+					1.0,
+					31.0
+				],
+				"rect": [
+					32.0,
+					427.0,
+					256.0,
+					31.0
+				]
+			},
+			"PromoPrimary": {
+				"minimum": [
+					136.0,
+					114.234634399414
+				],
+				"rect": [
+					32.0,
+					194.0,
+					256.0,
+					115.0
+				]
+			},
+			"PromoPrimaryValue": {
+				"minimum": [
+					1.0,
+					79.0
+				],
+				"rect": [
+					147.0,
+					199.0,
+					141.0,
+					79.0
+				]
+			},
+			"PromoRates": {
+				"minimum": [
+					62.0,
+					44.0
+				],
+				"rect": [
+					171.0,
+					514.0,
+					117.0,
+					44.0
+				]
+			},
+			"PromoRewardRows": {
+				"minimum": [
+					62.0,
+					81.0
+				],
+				"rect": [
+					42.0,
+					336.0,
+					236.0,
+					81.0
+				]
+			},
+			"PromoRewards": {
+				"minimum": [
+					88.0,
+					110.0
+				],
+				"rect": [
+					32.0,
+					313.0,
+					256.0,
+					110.0
+				]
+			},
+			"PromoRewardsHeading": {
+				"minimum": [
+					87.3072662353516,
+					23.0
+				],
+				"rect": [
+					116.0,
+					313.0,
+					87.3072662353516,
+					23.0
+				]
+			},
+			"PromoTitle": {
+				"minimum": [
+					1.0,
+					37.0
+				],
+				"rect": [
+					32.0,
+					143.0,
+					202.0,
+					37.0
+				]
+			}
+		},
+		"interactions": {},
+		"lang": "vi",
+		"panel": [
+			16.0,
+			124.0,
+			288.0,
+			446.0
+		],
+		"scroll": {
+			"content_min_height": 364.0,
+			"max_value": 364.0,
+			"page": 364.0,
+			"viewport": [
+				32.0,
+				194.0,
+				256.0,
+				364.0
+			]
+		},
+		"sku": "offer_noads_bundle",
+		"text": [
+			{
+				"font_size": 27,
+				"lines": 2,
+				"name": "PromoPrimaryValue",
+				"rect": [
+					147.0,
+					199.0,
+					141.0,
+					79.0
+				],
+				"text": "Bỏ\nquảng cáo",
+				"visible_lines": 2
+			},
+			{
+				"font_size": 16,
+				"lines": 1,
+				"name": "@Label@2061",
+				"rect": [
+					156.653625488281,
+					279.0,
+					121.692726135254,
+					23.0
+				],
+				"text": "Vĩnh viễn",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 14,
+				"lines": 1,
+				"name": "@Label@2062",
+				"rect": [
+					125.653633117676,
+					314.0,
+					68.0,
+					20.0
+				],
+				"text": "QUÀ KÈM",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 19,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					103.0,
+					342.0,
+					175.0,
+					27.0
+				],
+				"text": "300 Gem",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 19,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					103.0,
+					384.0,
+					175.0,
+					27.0
+				],
+				"text": "3 Vé All-Star",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 10,
+				"lines": 2,
+				"name": "PromoNote",
+				"rect": [
+					32.0,
+					427.0,
+					256.0,
+					31.0
+				],
+				"text": "Tắt Ads Break và nhận thẳng thưởng quảng cáo, theo giới hạn từng mục.",
+				"visible_lines": 2
+			},
+			{
+				"font_size": 14,
+				"lines": 1,
+				"name": "@Label@2068",
+				"rect": [
+					32.0,
+					514.0,
+					117.0,
+					44.0
+				],
+				"text": "Mua 1 lần",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 26,
+				"lines": 1,
+				"name": "PromoTitle",
+				"rect": [
+					32.0,
+					143.0,
+					202.0,
+					37.0
+				],
+				"text": "Đội tự do + quà",
+				"visible_lines": 1
+			}
+		],
+		"viewport": [
+			320,
+			694
+		]
+	},
+	{
+		"buy": {
+			"disabled": false,
+			"font_size": 31,
+			"rect": [
+				32.0,
+				481.0,
+				256.0,
+				44.0
+			],
+			"text": "$4.99"
+		},
+		"controls": {
+			"DetailBuy_income_x2": {
+				"minimum": [
+					0.0,
+					44.0
+				],
+				"rect": [
+					32.0,
+					481.0,
+					256.0,
+					44.0
+				]
+			},
+			"OfferArt_income_x2": {
+				"minimum": [
+					114.234634399414,
+					0.0
+				],
+				"rect": [
+					32.0,
+					179.0,
+					115.0,
+					127.0
+				]
+			},
+			"PermanentChip": {
+				"minimum": [
+					20.3072624206543,
+					26.0
+				],
+				"rect": [
+					152.0,
+					280.0,
+					136.0,
+					26.0
+				]
+			},
+			"PromoClose": {
+				"minimum": [
+					48.0,
+					48.0
+				],
+				"rect": [
+					240.0,
+					123.0,
+					48.0,
+					48.0
+				]
+			},
+			"PromoHeader": {
+				"minimum": [
+					55.0,
+					48.0
+				],
+				"rect": [
+					32.0,
+					123.0,
+					256.0,
+					48.0
+				]
+			},
+			"PromoNote": {
+				"minimum": [
+					1.0,
+					31.0
+				],
+				"rect": [
+					32.0,
+					442.0,
+					256.0,
+					31.0
+				]
+			},
+			"PromoPrimary": {
+				"minimum": [
+					141.0,
+					127.0
+				],
+				"rect": [
+					32.0,
+					179.0,
+					256.0,
+					127.0
+				]
+			},
+			"PromoPrimaryValue": {
+				"minimum": [
+					1.0,
+					70.0
+				],
+				"rect": [
+					152.0,
+					216.0,
+					136.0,
+					70.0
+				]
+			},
+			"PromoRewardRows": {
+				"minimum": [
+					62.0,
+					99.0
+				],
+				"rect": [
+					42.0,
+					333.0,
+					236.0,
+					99.0
+				]
+			},
+			"PromoRewards": {
+				"minimum": [
+					99.0,
+					128.0
+				],
+				"rect": [
+					32.0,
+					310.0,
+					256.0,
+					128.0
+				]
+			},
+			"PromoRewardsHeading": {
+				"minimum": [
+					98.3072662353516,
+					23.0
+				],
+				"rect": [
+					110.0,
+					310.0,
+					98.3072662353516,
+					23.0
+				]
+			},
+			"PromoTitle": {
+				"minimum": [
+					1.0,
+					38.0
+				],
+				"rect": [
+					32.0,
+					128.0,
+					202.0,
+					38.0
+				]
+			}
+		},
+		"interactions": {},
+		"lang": "vi",
+		"panel": [
+			16.0,
+			109.0,
+			288.0,
+			476.0
+		],
+		"scroll": {
+			"content_min_height": 394.0,
+			"max_value": 394.0,
+			"page": 394.0,
+			"viewport": [
+				32.0,
+				179.0,
+				256.0,
+				394.0
+			]
+		},
+		"sku": "income_x2",
+		"text": [
+			{
+				"font_size": 14,
+				"lines": 2,
+				"name": "@Label@2073",
+				"rect": [
+					152.0,
+					179.0,
+					136.0,
+					43.0
+				],
+				"text": "Thu nhập online & thưởng đua",
+				"visible_lines": 2
+			},
+			{
+				"font_size": 51,
+				"lines": 1,
+				"name": "PromoPrimaryValue",
+				"rect": [
+					152.0,
+					216.0,
+					136.0,
+					70.0
+				],
+				"text": "×2",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 16,
+				"lines": 1,
+				"name": "@Label@2074",
+				"rect": [
+					161.653625488281,
+					281.0,
+					116.692733764648,
+					23.0
+				],
+				"text": "Vĩnh viễn",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 14,
+				"lines": 1,
+				"name": "@Label@2075",
+				"rect": [
+					119.653633117676,
+					311.0,
+					79.0,
+					20.0
+				],
+				"text": "QUYỀN LỢI",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 19,
+				"lines": 2,
+				"name": "PromoRewardText",
+				"rect": [
+					103.0,
+					333.0,
+					175.0,
+					57.0
+				],
+				"text": "Thu nhập online ×2",
+				"visible_lines": 2
+			},
+			{
+				"font_size": 19,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					103.0,
+					399.0,
+					175.0,
+					27.0
+				],
+				"text": "Thưởng đua ×2",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 10,
+				"lines": 2,
+				"name": "PromoNote",
+				"rect": [
+					32.0,
+					442.0,
+					256.0,
+					31.0
+				],
+				"text": "Không áp dụng offline.\nKhông cộng dồn boost quảng cáo (lấy mức cao hơn).",
+				"visible_lines": 2
+			},
+			{
+				"font_size": 14,
+				"lines": 1,
+				"name": "@Label@2081",
+				"rect": [
+					32.0,
+					529.0,
+					256.0,
+					44.0
+				],
+				"text": "Mua 1 lần",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 27,
+				"lines": 1,
+				"name": "PromoTitle",
+				"rect": [
+					32.0,
+					128.0,
+					202.0,
+					38.0
+				],
+				"text": "Thu nhập ×2",
+				"visible_lines": 1
+			}
+		],
+		"viewport": [
+			320,
+			694
+		]
+	},
+	{
+		"buy": {
+			"disabled": false,
+			"font_size": 31,
+			"rect": [
+				32.0,
+				460.0,
+				256.0,
+				44.0
+			],
+			"text": "$9.99"
+		},
+		"controls": {
+			"DetailBuy_no_ads": {
+				"minimum": [
+					0.0,
+					44.0
+				],
+				"rect": [
+					32.0,
+					460.0,
+					256.0,
+					44.0
+				]
+			},
+			"OfferArt_no_ads": {
+				"minimum": [
+					109.407821655273,
+					0.0
+				],
+				"rect": [
+					32.0,
+					199.0,
+					110.0,
+					115.0
+				]
+			},
+			"PermanentChip": {
+				"minimum": [
+					20.3072624206543,
+					26.0
+				],
+				"rect": [
+					147.0,
+					283.0,
+					141.0,
+					26.0
+				]
+			},
+			"PromoClose": {
+				"minimum": [
+					48.0,
+					48.0
+				],
+				"rect": [
+					240.0,
+					143.0,
+					48.0,
+					48.0
+				]
+			},
+			"PromoHeader": {
+				"minimum": [
+					55.0,
+					48.0
+				],
+				"rect": [
+					32.0,
+					143.0,
+					256.0,
+					48.0
+				]
+			},
+			"PromoNote": {
+				"minimum": [
+					1.0,
+					31.0
+				],
+				"rect": [
+					32.0,
+					419.0,
+					256.0,
+					31.0
+				]
+			},
+			"PromoPrimary": {
+				"minimum": [
+					136.0,
+					114.234634399414
+				],
+				"rect": [
+					32.0,
+					199.0,
+					256.0,
+					115.0
+				]
+			},
+			"PromoPrimaryValue": {
+				"minimum": [
+					1.0,
+					79.0
+				],
+				"rect": [
+					147.0,
+					204.0,
+					141.0,
+					79.0
+				]
+			},
+			"PromoRewardRows": {
+				"minimum": [
+					62.0,
+					68.0
+				],
+				"rect": [
+					42.0,
+					341.0,
+					236.0,
+					68.0
+				]
+			},
+			"PromoRewards": {
+				"minimum": [
+					88.0,
+					97.0
+				],
+				"rect": [
+					32.0,
+					318.0,
+					256.0,
+					97.0
+				]
+			},
+			"PromoRewardsHeading": {
+				"minimum": [
+					87.3072662353516,
+					23.0
+				],
+				"rect": [
+					116.0,
+					318.0,
+					87.3072662353516,
+					23.0
+				]
+			},
+			"PromoTitle": {
+				"minimum": [
+					1.0,
+					38.0
+				],
+				"rect": [
+					32.0,
+					148.0,
+					202.0,
+					38.0
+				]
+			}
+		},
+		"interactions": {},
+		"lang": "vi",
+		"panel": [
+			16.0,
+			129.0,
+			288.0,
+			435.0
+		],
+		"scroll": {
+			"content_min_height": 353.0,
+			"max_value": 353.0,
+			"page": 353.0,
+			"viewport": [
+				32.0,
+				199.0,
+				256.0,
+				353.0
+			]
+		},
+		"sku": "no_ads",
+		"text": [
+			{
+				"font_size": 27,
+				"lines": 2,
+				"name": "PromoPrimaryValue",
+				"rect": [
+					147.0,
+					204.0,
+					141.0,
+					79.0
+				],
+				"text": "Bỏ\nquảng cáo",
+				"visible_lines": 2
+			},
+			{
+				"font_size": 16,
+				"lines": 1,
+				"name": "@Label@2086",
+				"rect": [
+					156.653625488281,
+					284.0,
+					121.692726135254,
+					23.0
+				],
+				"text": "Vĩnh viễn",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 14,
+				"lines": 1,
+				"name": "@Label@2087",
+				"rect": [
+					125.653633117676,
+					319.0,
+					68.0,
+					20.0
+				],
+				"text": "QUÀ KÈM",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 26,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					103.0,
+					356.0,
+					175.0,
+					37.0
+				],
+				"text": "100 Gem",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 10,
+				"lines": 2,
+				"name": "PromoNote",
+				"rect": [
+					32.0,
+					419.0,
+					256.0,
+					31.0
+				],
+				"text": "Tắt Ads Break và nhận thẳng thưởng quảng cáo, theo giới hạn từng mục.",
+				"visible_lines": 2
+			},
+			{
+				"font_size": 14,
+				"lines": 1,
+				"name": "@Label@2091",
+				"rect": [
+					32.0,
+					508.0,
+					256.0,
+					44.0
+				],
+				"text": "Mua 1 lần",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 27,
+				"lines": 1,
+				"name": "PromoTitle",
+				"rect": [
+					32.0,
+					148.0,
+					202.0,
+					38.0
+				],
+				"text": "Đội tự do",
+				"visible_lines": 1
+			}
+		],
+		"viewport": [
+			320,
+			694
+		]
+	},
+	{
+		"buy": {
+			"disabled": false,
+			"font_size": 31,
+			"rect": [
+				32.0,
+				469.0,
+				256.0,
+				44.0
+			],
+			"text": "$4.99"
+		},
+		"controls": {
+			"DetailBuy_char_my": {
+				"minimum": [
+					0.0,
+					44.0
+				],
+				"rect": [
+					32.0,
+					469.0,
+					256.0,
+					44.0
+				]
+			},
+			"OfferArt_char_my": {
+				"minimum": [
+					114.234634399414,
+					0.0
+				],
+				"rect": [
+					32.0,
+					190.0,
+					115.0,
+					115.0
+				]
+			},
+			"PermanentChip": {
+				"minimum": [
+					20.3072624206543,
+					25.0
+				],
+				"rect": [
+					152.0,
+					255.0,
+					136.0,
+					25.0
+				]
+			},
+			"PromoClose": {
+				"minimum": [
+					48.0,
+					48.0
+				],
+				"rect": [
+					240.0,
+					134.0,
+					48.0,
+					48.0
+				]
+			},
+			"PromoHeader": {
+				"minimum": [
+					55.0,
+					48.0
+				],
+				"rect": [
+					32.0,
+					134.0,
+					256.0,
+					48.0
+				]
+			},
+			"PromoNote": {
+				"minimum": [
+					1.0,
+					14.0
+				],
+				"rect": [
+					32.0,
+					190.0,
+					1.0,
+					14.0
+				]
+			},
+			"PromoPrimary": {
+				"minimum": [
+					141.0,
+					114.234634399414
+				],
+				"rect": [
+					32.0,
+					190.0,
+					256.0,
+					115.0
+				]
+			},
+			"PromoPrimaryValue": {
+				"minimum": [
+					1.0,
+					41.0
+				],
+				"rect": [
+					152.0,
+					214.0,
+					136.0,
+					41.0
+				]
+			},
+			"PromoRates": {
+				"minimum": [
+					62.0,
+					44.0
+				],
+				"rect": [
+					171.0,
+					517.0,
+					117.0,
+					44.0
+				]
+			},
+			"PromoRewardRows": {
+				"minimum": [
+					62.0,
+					123.0
+				],
+				"rect": [
+					42.0,
+					332.0,
+					236.0,
+					123.0
+				]
+			},
+			"PromoRewards": {
+				"minimum": [
+					88.0,
+					152.0
+				],
+				"rect": [
+					32.0,
+					309.0,
+					256.0,
+					152.0
+				]
+			},
+			"PromoRewardsHeading": {
+				"minimum": [
+					87.3072662353516,
+					23.0
+				],
+				"rect": [
+					116.0,
+					309.0,
+					87.3072662353516,
+					23.0
+				]
+			},
+			"PromoTitle": {
+				"minimum": [
+					1.0,
+					38.0
+				],
+				"rect": [
+					32.0,
+					139.0,
+					202.0,
+					38.0
+				]
+			}
+		},
+		"interactions": {},
+		"lang": "vi",
+		"panel": [
+			16.0,
+			120.0,
+			288.0,
+			453.0
+		],
+		"scroll": {
+			"content_min_height": 371.0,
+			"max_value": 371.0,
+			"page": 371.0,
+			"viewport": [
+				32.0,
+				190.0,
+				256.0,
+				371.0
+			]
+		},
+		"sku": "char_my",
+		"text": [
+			{
+				"font_size": 29,
+				"lines": 1,
+				"name": "PromoPrimaryValue",
+				"rect": [
+					152.0,
+					214.0,
+					136.0,
+					41.0
+				],
+				"text": "Zielinski",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 15,
+				"lines": 1,
+				"name": "@Label@2096",
+				"rect": [
+					161.653625488281,
+					256.0,
+					116.692733764648,
+					22.0
+				],
+				"text": "Nhận chắc chắn",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 14,
+				"lines": 1,
+				"name": "@Label@2097",
+				"rect": [
+					125.653633117676,
+					310.0,
+					68.0,
+					20.0
+				],
+				"text": "QUÀ KÈM",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 19,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					103.0,
+					338.0,
+					175.0,
+					27.0
+				],
+				"text": "30 mảnh Zielinski",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 19,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					103.0,
+					380.0,
+					175.0,
+					27.0
+				],
+				"text": "100 Gem",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 19,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					103.0,
+					422.0,
+					175.0,
+					27.0
+				],
+				"text": "3 Vé Elite",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 14,
+				"lines": 1,
+				"name": "@Label@2105",
+				"rect": [
+					32.0,
+					517.0,
+					117.0,
+					44.0
+				],
+				"text": "Mua 1 lần",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 27,
+				"lines": 1,
+				"name": "PromoTitle",
+				"rect": [
+					32.0,
+					139.0,
+					202.0,
+					38.0
+				],
+				"text": "My về đội bạn",
+				"visible_lines": 1
+			}
+		],
+		"viewport": [
+			320,
+			694
+		]
+	},
+	{
+		"buy": {
+			"disabled": false,
+			"font_size": 40,
+			"rect": [
+				32.0,
+				617.0,
+				348.0,
+				56.0
+			],
+			"text": "$0.99"
+		},
+		"controls": {
+			"DetailBuy_starter_1": {
+				"minimum": [
+					0.0,
+					56.0
+				],
+				"rect": [
+					32.0,
+					617.0,
+					348.0,
+					56.0
+				]
+			},
+			"OfferArt_starter_1": {
+				"minimum": [
+					133.743011474609,
+					0.0
+				],
+				"rect": [
+					32.0,
+					230.0,
+					134.0,
+					151.0
+				]
+			},
+			"PromoBadge": {
+				"minimum": [
+					80.6703872680664,
+					80.6703872680664
+				],
+				"rect": [
+					299.262573242188,
+					230.206695556641,
+					80.6703872680664,
+					80.6703948974609
+				]
+			},
+			"PromoClose": {
+				"minimum": [
+					48.0,
+					48.0
+				],
+				"rect": [
+					332.0,
+					174.0,
+					48.0,
+					50.0
+				]
+			},
+			"PromoHeader": {
+				"minimum": [
+					55.0,
+					50.0
+				],
+				"rect": [
+					32.0,
+					174.0,
+					348.0,
+					50.0
+				]
+			},
+			"PromoNote": {
+				"minimum": [
+					1.0,
+					19.0
+				],
+				"rect": [
+					32.0,
+					581.0,
+					348.0,
+					19.0
+				]
+			},
+			"PromoPrimary": {
+				"minimum": [
+					215.0,
+					150.726257324219
+				],
+				"rect": [
+					32.0,
+					230.0,
+					348.0,
+					151.0
+				]
+			},
+			"PromoPrimaryGem": {
+				"minimum": [
+					67.9329605102539,
+					67.9329605102539
+				],
+				"rect": [
+					312.0,
+					313.0,
+					67.9329605102539,
+					67.9329605102539
+				]
+			},
+			"PromoPrimaryValue": {
+				"minimum": [
+					1.0,
+					93.0
+				],
+				"rect": [
+					172.0,
+					242.0,
+					134.0,
+					93.0
+				]
+			},
+			"PromoRates": {
+				"minimum": [
+					84.0,
+					44.0
+				],
+				"rect": [
+					217.0,
+					677.0,
+					163.0,
+					44.0
+				]
+			},
+			"PromoRewardRows": {
+				"minimum": [
+					82.0,
+					159.0
+				],
+				"rect": [
+					42.0,
+					412.0,
+					328.0,
+					159.0
+				]
+			},
+			"PromoRewards": {
+				"minimum": [
+					119.0,
+					192.0
+				],
+				"rect": [
+					32.0,
+					385.0,
+					348.0,
+					192.0
+				]
+			},
+			"PromoRewardsHeading": {
+				"minimum": [
+					118.47486114502,
+					30.0
+				],
+				"rect": [
+					146.0,
+					385.0,
+					118.47486114502,
+					30.0
+				]
+			},
+			"PromoTitle": {
+				"minimum": [
+					1.0,
+					50.0
+				],
+				"rect": [
+					32.0,
+					174.0,
+					294.0,
+					50.0
+				]
+			}
+		},
+		"interactions": {},
+		"lang": "vi",
+		"panel": [
+			16.0,
+			160.0,
+			380.0,
+			573.0
+		],
+		"scroll": {
+			"content_min_height": 491.0,
+			"max_value": 491.0,
+			"page": 491.0,
+			"viewport": [
+				32.0,
+				230.0,
+				348.0,
+				491.0
+			]
+		},
+		"sku": "starter_1",
+		"text": [
+			{
+				"font_size": 68,
+				"lines": 1,
+				"name": "PromoPrimaryValue",
+				"rect": [
+					172.0,
+					242.0,
+					134.0,
+					93.0
+				],
+				"text": "150",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 30,
+				"lines": 1,
+				"name": "@Label@2110",
+				"rect": [
+					172.0,
+					327.0,
+					134.0,
+					42.0
+				],
+				"text": "Gem",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 26,
+				"lines": 1,
+				"name": "@Label@2114",
+				"rect": [
+					299.262573242188,
+					230.206695556641,
+					80.6703872680664,
+					80.6703948974609
+				],
+				"text": "4,4x",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 19,
+				"lines": 1,
+				"name": "@Label@2115",
+				"rect": [
+					158.737426757812,
+					386.0,
+					93.0,
+					27.0
+				],
+				"text": "QUÀ KÈM",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 25,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					123.0,
+					420.0,
+					247.0,
+					35.0
+				],
+				"text": "3 Vé Pro",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 25,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					123.0,
+					474.0,
+					247.0,
+					35.0
+				],
+				"text": "3 Vé Standard",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 25,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					123.0,
+					528.0,
+					247.0,
+					35.0
+				],
+				"text": "1 giờ Thu nhập",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 14,
+				"lines": 1,
+				"name": "PromoNote",
+				"rect": [
+					32.0,
+					581.0,
+					348.0,
+					19.0
+				],
+				"text": "Tiền tính theo thu nhập của đội tại thời điểm mua.",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 18,
+				"lines": 1,
+				"name": "@Label@2123",
+				"rect": [
+					32.0,
+					677.0,
+					163.0,
+					44.0
+				],
+				"text": "Mua 1 lần",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 36,
+				"lines": 1,
+				"name": "PromoTitle",
+				"rect": [
+					32.0,
+					174.0,
+					294.0,
+					50.0
+				],
+				"text": "Gói Tân binh",
+				"visible_lines": 1
+			}
+		],
+		"viewport": [
+			412,
+			893
+		]
+	},
+	{
+		"buy": {
+			"disabled": false,
+			"font_size": 40,
+			"rect": [
+				32.0,
+				617.0,
+				348.0,
+				56.0
+			],
+			"text": "$4.99"
+		},
+		"controls": {
+			"DetailBuy_weekly_s": {
+				"minimum": [
+					0.0,
+					56.0
+				],
+				"rect": [
+					32.0,
+					617.0,
+					348.0,
+					56.0
+				]
+			},
+			"OfferArt_weekly_s": {
+				"minimum": [
+					133.743011474609,
+					0.0
+				],
+				"rect": [
+					32.0,
+					230.0,
+					134.0,
+					151.0
+				]
+			},
+			"PromoBadge": {
+				"minimum": [
+					80.6703872680664,
+					80.6703872680664
+				],
+				"rect": [
+					299.262573242188,
+					230.206695556641,
+					80.6703872680664,
+					80.6703948974609
+				]
+			},
+			"PromoClose": {
+				"minimum": [
+					48.0,
+					48.0
+				],
+				"rect": [
+					332.0,
+					174.0,
+					48.0,
+					50.0
+				]
+			},
+			"PromoHeader": {
+				"minimum": [
+					55.0,
+					50.0
+				],
+				"rect": [
+					32.0,
+					174.0,
+					348.0,
+					50.0
+				]
+			},
+			"PromoNote": {
+				"minimum": [
+					1.0,
+					19.0
+				],
+				"rect": [
+					32.0,
+					581.0,
+					348.0,
+					19.0
+				]
+			},
+			"PromoPrimary": {
+				"minimum": [
+					215.0,
+					150.726257324219
+				],
+				"rect": [
+					32.0,
+					230.0,
+					348.0,
+					151.0
+				]
+			},
+			"PromoPrimaryGem": {
+				"minimum": [
+					67.9329605102539,
+					67.9329605102539
+				],
+				"rect": [
+					312.0,
+					313.0,
+					67.9329605102539,
+					67.9329605102539
+				]
+			},
+			"PromoPrimaryValue": {
+				"minimum": [
+					1.0,
+					93.0
+				],
+				"rect": [
+					172.0,
+					242.0,
+					134.0,
+					93.0
+				]
+			},
+			"PromoRates": {
+				"minimum": [
+					84.0,
+					44.0
+				],
+				"rect": [
+					217.0,
+					677.0,
+					163.0,
+					44.0
+				]
+			},
+			"PromoRewardRows": {
+				"minimum": [
+					82.0,
+					159.0
+				],
+				"rect": [
+					42.0,
+					412.0,
+					328.0,
+					159.0
+				]
+			},
+			"PromoRewards": {
+				"minimum": [
+					119.0,
+					192.0
+				],
+				"rect": [
+					32.0,
+					385.0,
+					348.0,
+					192.0
+				]
+			},
+			"PromoRewardsHeading": {
+				"minimum": [
+					118.47486114502,
+					30.0
+				],
+				"rect": [
+					146.0,
+					385.0,
+					118.47486114502,
+					30.0
+				]
+			},
+			"PromoTitle": {
+				"minimum": [
+					1.0,
+					50.0
+				],
+				"rect": [
+					32.0,
+					174.0,
+					294.0,
+					50.0
+				]
+			}
+		},
+		"interactions": {},
+		"lang": "vi",
+		"panel": [
+			16.0,
+			160.0,
+			380.0,
+			573.0
+		],
+		"scroll": {
+			"content_min_height": 491.0,
+			"max_value": 491.0,
+			"page": 491.0,
+			"viewport": [
+				32.0,
+				230.0,
+				348.0,
+				491.0
+			]
+		},
+		"sku": "weekly_s",
+		"text": [
+			{
+				"font_size": 68,
+				"lines": 1,
+				"name": "PromoPrimaryValue",
+				"rect": [
+					172.0,
+					242.0,
+					134.0,
+					93.0
+				],
+				"text": "300",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 30,
+				"lines": 1,
+				"name": "@Label@2128",
+				"rect": [
+					172.0,
+					327.0,
+					134.0,
+					42.0
+				],
+				"text": "Gem",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 26,
+				"lines": 1,
+				"name": "@Label@2132",
+				"rect": [
+					299.262573242188,
+					230.206695556641,
+					80.6703872680664,
+					80.6703948974609
+				],
+				"text": "2,6x",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 19,
+				"lines": 1,
+				"name": "@Label@2133",
+				"rect": [
+					158.737426757812,
+					386.0,
+					93.0,
+					27.0
+				],
+				"text": "QUÀ KÈM",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 25,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					123.0,
+					420.0,
+					247.0,
+					35.0
+				],
+				"text": "6 Vé All-Star",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 25,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					123.0,
+					474.0,
+					247.0,
+					35.0
+				],
+				"text": "4 Vé Elite",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 25,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					123.0,
+					528.0,
+					247.0,
+					35.0
+				],
+				"text": "4 giờ Thu nhập",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 14,
+				"lines": 1,
+				"name": "PromoNote",
+				"rect": [
+					32.0,
+					581.0,
+					348.0,
+					19.0
+				],
+				"text": "Tiền tính theo thu nhập của đội tại thời điểm mua.",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 18,
+				"lines": 1,
+				"name": "@Label@2141",
+				"rect": [
+					32.0,
+					677.0,
+					163.0,
+					44.0
+				],
+				"text": "1 lần / tuần",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 36,
+				"lines": 1,
+				"name": "PromoTitle",
+				"rect": [
+					32.0,
+					174.0,
+					294.0,
+					50.0
+				],
+				"text": "Gói tuần S",
+				"visible_lines": 1
+			}
+		],
+		"viewport": [
+			412,
+			893
+		]
+	},
+	{
+		"buy": {
+			"disabled": false,
+			"font_size": 40,
+			"rect": [
+				32.0,
+				617.0,
+				348.0,
+				56.0
+			],
+			"text": "$9.99"
+		},
+		"controls": {
+			"DetailBuy_offer_noads_bundle": {
+				"minimum": [
+					0.0,
+					56.0
+				],
+				"rect": [
+					32.0,
+					617.0,
+					348.0,
+					56.0
+				]
+			},
+			"OfferArt_offer_noads_bundle": {
+				"minimum": [
+					144.357543945312,
+					0.0
+				],
+				"rect": [
+					32.0,
+					230.0,
+					145.0,
+					151.0
+				]
+			},
+			"PermanentChip": {
+				"minimum": [
+					26.4748611450195,
+					33.0
+				],
+				"rect": [
+					183.0,
+					340.0,
+					197.0,
+					33.0
+				]
+			},
+			"PromoClose": {
+				"minimum": [
+					48.0,
+					48.0
+				],
+				"rect": [
+					332.0,
+					174.0,
+					48.0,
+					50.0
+				]
+			},
+			"PromoHeader": {
+				"minimum": [
+					55.0,
+					50.0
+				],
+				"rect": [
+					32.0,
+					174.0,
+					348.0,
+					50.0
+				]
+			},
+			"PromoNote": {
+				"minimum": [
+					1.0,
+					41.0
+				],
+				"rect": [
+					32.0,
+					527.0,
+					348.0,
+					41.0
+				]
+			},
+			"PromoPrimary": {
+				"minimum": [
+					178.0,
+					150.726257324219
+				],
+				"rect": [
+					32.0,
+					230.0,
+					348.0,
+					151.0
+				]
+			},
+			"PromoPrimaryValue": {
+				"minimum": [
+					1.0,
+					103.0
+				],
+				"rect": [
+					183.0,
+					237.0,
+					197.0,
+					103.0
+				]
+			},
+			"PromoRates": {
+				"minimum": [
+					84.0,
+					44.0
+				],
+				"rect": [
+					217.0,
+					677.0,
+					163.0,
+					44.0
+				]
+			},
+			"PromoRewardRows": {
+				"minimum": [
+					82.0,
+					105.0
+				],
+				"rect": [
+					42.0,
+					412.0,
+					328.0,
+					105.0
+				]
+			},
+			"PromoRewards": {
+				"minimum": [
+					119.0,
+					138.0
+				],
+				"rect": [
+					32.0,
+					385.0,
+					348.0,
+					138.0
+				]
+			},
+			"PromoRewardsHeading": {
+				"minimum": [
+					118.47486114502,
+					30.0
+				],
+				"rect": [
+					146.0,
+					385.0,
+					118.47486114502,
+					30.0
+				]
+			},
+			"PromoTitle": {
+				"minimum": [
+					1.0,
+					50.0
+				],
+				"rect": [
+					32.0,
+					174.0,
+					294.0,
+					50.0
+				]
+			}
+		},
+		"interactions": {},
+		"lang": "vi",
+		"panel": [
+			16.0,
+			160.0,
+			380.0,
+			573.0
+		],
+		"scroll": {
+			"content_min_height": 491.0,
+			"max_value": 491.0,
+			"page": 491.0,
+			"viewport": [
+				32.0,
+				230.0,
+				348.0,
+				491.0
+			]
+		},
+		"sku": "offer_noads_bundle",
+		"text": [
+			{
+				"font_size": 36,
+				"lines": 2,
+				"name": "PromoPrimaryValue",
+				"rect": [
+					183.0,
+					237.0,
+					197.0,
+					103.0
+				],
+				"text": "Bỏ\nquảng cáo",
+				"visible_lines": 2
+			},
+			{
+				"font_size": 21,
+				"lines": 1,
+				"name": "@Label@2146",
+				"rect": [
+					195.737426757812,
+					341.0,
+					171.525146484375,
+					30.0
+				],
+				"text": "Vĩnh viễn",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 19,
+				"lines": 1,
+				"name": "@Label@2147",
+				"rect": [
+					158.737426757812,
+					386.0,
+					93.0,
+					27.0
+				],
+				"text": "QUÀ KÈM",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 25,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					123.0,
+					420.0,
+					247.0,
+					35.0
+				],
+				"text": "300 Gem",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 25,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					123.0,
+					474.0,
+					247.0,
+					35.0
+				],
+				"text": "3 Vé All-Star",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 14,
+				"lines": 2,
+				"name": "PromoNote",
+				"rect": [
+					32.0,
+					527.0,
+					348.0,
+					41.0
+				],
+				"text": "Tắt Ads Break và nhận thẳng thưởng quảng cáo, theo giới hạn từng mục.",
+				"visible_lines": 2
+			},
+			{
+				"font_size": 18,
+				"lines": 1,
+				"name": "@Label@2153",
+				"rect": [
+					32.0,
+					677.0,
+					163.0,
+					44.0
+				],
+				"text": "Mua 1 lần",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 36,
+				"lines": 1,
+				"name": "PromoTitle",
+				"rect": [
+					32.0,
+					174.0,
+					294.0,
+					50.0
+				],
+				"text": "Đội tự do + quà",
+				"visible_lines": 1
+			}
+		],
+		"viewport": [
+			412,
+			893
+		]
+	},
+	{
+		"buy": {
+			"disabled": false,
+			"font_size": 40,
+			"rect": [
+				32.0,
+				617.0,
+				348.0,
+				56.0
+			],
+			"text": "$4.99"
+		},
+		"controls": {
+			"DetailBuy_income_x2": {
+				"minimum": [
+					0.0,
+					56.0
+				],
+				"rect": [
+					32.0,
+					617.0,
+					348.0,
+					56.0
+				]
+			},
+			"OfferArt_income_x2": {
+				"minimum": [
+					150.726257324219,
+					0.0
+				],
+				"rect": [
+					32.0,
+					230.0,
+					151.0,
+					167.0
+				]
+			},
+			"PermanentChip": {
+				"minimum": [
+					26.4748611450195,
+					33.0
+				],
+				"rect": [
+					189.0,
+					364.0,
+					191.0,
+					33.0
+				]
+			},
+			"PromoClose": {
+				"minimum": [
+					48.0,
+					48.0
+				],
+				"rect": [
+					332.0,
+					174.0,
+					48.0,
+					50.0
+				]
+			},
+			"PromoHeader": {
+				"minimum": [
+					55.0,
+					50.0
+				],
+				"rect": [
+					32.0,
+					174.0,
+					348.0,
+					50.0
+				]
+			},
+			"PromoNote": {
+				"minimum": [
+					1.0,
+					41.0
+				],
+				"rect": [
+					32.0,
+					543.0,
+					348.0,
+					41.0
+				]
+			},
+			"PromoPrimary": {
+				"minimum": [
+					184.0,
+					167.0
+				],
+				"rect": [
+					32.0,
+					230.0,
+					348.0,
+					167.0
+				]
+			},
+			"PromoPrimaryValue": {
+				"minimum": [
+					1.0,
+					93.0
+				],
+				"rect": [
+					189.0,
+					279.0,
+					191.0,
+					93.0
+				]
+			},
+			"PromoRewardRows": {
+				"minimum": [
+					82.0,
+					105.0
+				],
+				"rect": [
+					42.0,
+					428.0,
+					328.0,
+					105.0
+				]
+			},
+			"PromoRewards": {
+				"minimum": [
+					133.0,
+					138.0
+				],
+				"rect": [
+					32.0,
+					401.0,
+					348.0,
+					138.0
+				]
+			},
+			"PromoRewardsHeading": {
+				"minimum": [
+					132.474853515625,
+					30.0
+				],
+				"rect": [
+					139.0,
+					401.0,
+					132.474853515625,
+					30.0
+				]
+			},
+			"PromoTitle": {
+				"minimum": [
+					1.0,
+					50.0
+				],
+				"rect": [
+					32.0,
+					174.0,
+					294.0,
+					50.0
+				]
+			}
+		},
+		"interactions": {},
+		"lang": "vi",
+		"panel": [
+			16.0,
+			160.0,
+			380.0,
+			573.0
+		],
+		"scroll": {
+			"content_min_height": 491.0,
+			"max_value": 491.0,
+			"page": 491.0,
+			"viewport": [
+				32.0,
+				230.0,
+				348.0,
+				491.0
+			]
+		},
+		"sku": "income_x2",
+		"text": [
+			{
+				"font_size": 19,
+				"lines": 2,
+				"name": "@Label@2158",
+				"rect": [
+					189.0,
+					230.0,
+					191.0,
+					57.0
+				],
+				"text": "Thu nhập online & thưởng đua",
+				"visible_lines": 2
+			},
+			{
+				"font_size": 68,
+				"lines": 1,
+				"name": "PromoPrimaryValue",
+				"rect": [
+					189.0,
+					279.0,
+					191.0,
+					93.0
+				],
+				"text": "×2",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 21,
+				"lines": 1,
+				"name": "@Label@2159",
+				"rect": [
+					201.737426757812,
+					365.0,
+					165.525146484375,
+					30.0
+				],
+				"text": "Vĩnh viễn",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 19,
+				"lines": 1,
+				"name": "@Label@2160",
+				"rect": [
+					151.737426757812,
+					402.0,
+					107.0,
+					27.0
+				],
+				"text": "QUYỀN LỢI",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 25,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					123.0,
+					436.0,
+					247.0,
+					35.0
+				],
+				"text": "Thu nhập online ×2",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 25,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					123.0,
+					490.0,
+					247.0,
+					35.0
+				],
+				"text": "Thưởng đua ×2",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 14,
+				"lines": 2,
+				"name": "PromoNote",
+				"rect": [
+					32.0,
+					543.0,
+					348.0,
+					41.0
+				],
+				"text": "Không áp dụng offline.\nKhông cộng dồn boost quảng cáo (lấy mức cao hơn).",
+				"visible_lines": 2
+			},
+			{
+				"font_size": 18,
+				"lines": 1,
+				"name": "@Label@2166",
+				"rect": [
+					32.0,
+					677.0,
+					348.0,
+					44.0
+				],
+				"text": "Mua 1 lần",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 36,
+				"lines": 1,
+				"name": "PromoTitle",
+				"rect": [
+					32.0,
+					174.0,
+					294.0,
+					50.0
+				],
+				"text": "Thu nhập ×2",
+				"visible_lines": 1
+			}
+		],
+		"viewport": [
+			412,
+			893
+		]
+	},
+	{
+		"buy": {
+			"disabled": false,
+			"font_size": 40,
+			"rect": [
+				32.0,
+				617.0,
+				348.0,
+				56.0
+			],
+			"text": "$9.99"
+		},
+		"controls": {
+			"DetailBuy_no_ads": {
+				"minimum": [
+					0.0,
+					56.0
+				],
+				"rect": [
+					32.0,
+					617.0,
+					348.0,
+					56.0
+				]
+			},
+			"OfferArt_no_ads": {
+				"minimum": [
+					144.357543945312,
+					0.0
+				],
+				"rect": [
+					32.0,
+					230.0,
+					145.0,
+					151.0
+				]
+			},
+			"PermanentChip": {
+				"minimum": [
+					26.4748611450195,
+					33.0
+				],
+				"rect": [
+					183.0,
+					340.0,
+					197.0,
+					33.0
+				]
+			},
+			"PromoClose": {
+				"minimum": [
+					48.0,
+					48.0
+				],
+				"rect": [
+					332.0,
+					174.0,
+					48.0,
+					50.0
+				]
+			},
+			"PromoHeader": {
+				"minimum": [
+					55.0,
+					50.0
+				],
+				"rect": [
+					32.0,
+					174.0,
+					348.0,
+					50.0
+				]
+			},
+			"PromoNote": {
+				"minimum": [
+					1.0,
+					41.0
+				],
+				"rect": [
+					32.0,
+					512.0,
+					348.0,
+					41.0
+				]
+			},
+			"PromoPrimary": {
+				"minimum": [
+					178.0,
+					150.726257324219
+				],
+				"rect": [
+					32.0,
+					230.0,
+					348.0,
+					151.0
+				]
+			},
+			"PromoPrimaryValue": {
+				"minimum": [
+					1.0,
+					103.0
+				],
+				"rect": [
+					183.0,
+					237.0,
+					197.0,
+					103.0
+				]
+			},
+			"PromoRewardRows": {
+				"minimum": [
+					82.0,
+					90.0
+				],
+				"rect": [
+					42.0,
+					412.0,
+					328.0,
+					90.0
+				]
+			},
+			"PromoRewards": {
+				"minimum": [
+					119.0,
+					123.0
+				],
+				"rect": [
+					32.0,
+					385.0,
+					348.0,
+					123.0
+				]
+			},
+			"PromoRewardsHeading": {
+				"minimum": [
+					118.47486114502,
+					30.0
+				],
+				"rect": [
+					146.0,
+					385.0,
+					118.47486114502,
+					30.0
+				]
+			},
+			"PromoTitle": {
+				"minimum": [
+					1.0,
+					50.0
+				],
+				"rect": [
+					32.0,
+					174.0,
+					294.0,
+					50.0
+				]
+			}
+		},
+		"interactions": {},
+		"lang": "vi",
+		"panel": [
+			16.0,
+			160.0,
+			380.0,
+			573.0
+		],
+		"scroll": {
+			"content_min_height": 491.0,
+			"max_value": 491.0,
+			"page": 491.0,
+			"viewport": [
+				32.0,
+				230.0,
+				348.0,
+				491.0
+			]
+		},
+		"sku": "no_ads",
+		"text": [
+			{
+				"font_size": 36,
+				"lines": 2,
+				"name": "PromoPrimaryValue",
+				"rect": [
+					183.0,
+					237.0,
+					197.0,
+					103.0
+				],
+				"text": "Bỏ\nquảng cáo",
+				"visible_lines": 2
+			},
+			{
+				"font_size": 21,
+				"lines": 1,
+				"name": "@Label@2171",
+				"rect": [
+					195.737426757812,
+					341.0,
+					171.525146484375,
+					30.0
+				],
+				"text": "Vĩnh viễn",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 19,
+				"lines": 1,
+				"name": "@Label@2172",
+				"rect": [
+					158.737426757812,
+					386.0,
+					93.0,
+					27.0
+				],
+				"text": "QUÀ KÈM",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 34,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					123.0,
+					433.0,
+					247.0,
+					47.0
+				],
+				"text": "100 Gem",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 14,
+				"lines": 2,
+				"name": "PromoNote",
+				"rect": [
+					32.0,
+					512.0,
+					348.0,
+					41.0
+				],
+				"text": "Tắt Ads Break và nhận thẳng thưởng quảng cáo, theo giới hạn từng mục.",
+				"visible_lines": 2
+			},
+			{
+				"font_size": 18,
+				"lines": 1,
+				"name": "@Label@2176",
+				"rect": [
+					32.0,
+					677.0,
+					348.0,
+					44.0
+				],
+				"text": "Mua 1 lần",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 36,
+				"lines": 1,
+				"name": "PromoTitle",
+				"rect": [
+					32.0,
+					174.0,
+					294.0,
+					50.0
+				],
+				"text": "Đội tự do",
+				"visible_lines": 1
+			}
+		],
+		"viewport": [
+			412,
+			893
+		]
+	},
+	{
+		"buy": {
+			"disabled": false,
+			"font_size": 40,
+			"rect": [
+				32.0,
+				617.0,
+				348.0,
+				56.0
+			],
+			"text": "$4.99"
+		},
+		"controls": {
+			"DetailBuy_char_my": {
+				"minimum": [
+					0.0,
+					56.0
+				],
+				"rect": [
+					32.0,
+					617.0,
+					348.0,
+					56.0
+				]
+			},
+			"OfferArt_char_my": {
+				"minimum": [
+					150.726257324219,
+					0.0
+				],
+				"rect": [
+					32.0,
+					230.0,
+					151.0,
+					151.0
+				]
+			},
+			"PermanentChip": {
+				"minimum": [
+					26.4748611450195,
+					33.0
+				],
+				"rect": [
+					189.0,
+					315.0,
+					191.0,
+					33.0
+				]
+			},
+			"PromoClose": {
+				"minimum": [
+					48.0,
+					48.0
+				],
+				"rect": [
+					332.0,
+					174.0,
+					48.0,
+					50.0
+				]
+			},
+			"PromoHeader": {
+				"minimum": [
+					55.0,
+					50.0
+				],
+				"rect": [
+					32.0,
+					174.0,
+					348.0,
+					50.0
+				]
+			},
+			"PromoNote": {
+				"minimum": [
+					1.0,
+					19.0
+				],
+				"rect": [
+					32.0,
+					230.0,
+					1.0,
+					19.0
+				]
+			},
+			"PromoPrimary": {
+				"minimum": [
+					184.0,
+					150.726257324219
+				],
+				"rect": [
+					32.0,
+					230.0,
+					348.0,
+					151.0
+				]
+			},
+			"PromoPrimaryValue": {
+				"minimum": [
+					1.0,
+					53.0
+				],
+				"rect": [
+					189.0,
+					262.0,
+					191.0,
+					53.0
+				]
+			},
+			"PromoRates": {
+				"minimum": [
+					84.0,
+					44.0
+				],
+				"rect": [
+					217.0,
+					677.0,
+					163.0,
+					44.0
+				]
+			},
+			"PromoRewardRows": {
+				"minimum": [
+					82.0,
+					159.0
+				],
+				"rect": [
+					42.0,
+					412.0,
+					328.0,
+					159.0
+				]
+			},
+			"PromoRewards": {
+				"minimum": [
+					119.0,
+					192.0
+				],
+				"rect": [
+					32.0,
+					385.0,
+					348.0,
+					192.0
+				]
+			},
+			"PromoRewardsHeading": {
+				"minimum": [
+					118.47486114502,
+					30.0
+				],
+				"rect": [
+					146.0,
+					385.0,
+					118.47486114502,
+					30.0
+				]
+			},
+			"PromoTitle": {
+				"minimum": [
+					1.0,
+					50.0
+				],
+				"rect": [
+					32.0,
+					174.0,
+					294.0,
+					50.0
+				]
+			}
+		},
+		"interactions": {},
+		"lang": "vi",
+		"panel": [
+			16.0,
+			160.0,
+			380.0,
+			573.0
+		],
+		"scroll": {
+			"content_min_height": 491.0,
+			"max_value": 491.0,
+			"page": 491.0,
+			"viewport": [
+				32.0,
+				230.0,
+				348.0,
+				491.0
+			]
+		},
+		"sku": "char_my",
+		"text": [
+			{
+				"font_size": 38,
+				"lines": 1,
+				"name": "PromoPrimaryValue",
+				"rect": [
+					189.0,
+					262.0,
+					191.0,
+					53.0
+				],
+				"text": "Zielinski",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 21,
+				"lines": 1,
+				"name": "@Label@2181",
+				"rect": [
+					201.737426757812,
+					316.0,
+					165.525146484375,
+					30.0
+				],
+				"text": "Nhận chắc chắn",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 19,
+				"lines": 1,
+				"name": "@Label@2182",
+				"rect": [
+					158.737426757812,
+					386.0,
+					93.0,
+					27.0
+				],
+				"text": "QUÀ KÈM",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 25,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					123.0,
+					420.0,
+					247.0,
+					35.0
+				],
+				"text": "30 mảnh Zielinski",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 25,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					123.0,
+					474.0,
+					247.0,
+					35.0
+				],
+				"text": "100 Gem",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 25,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					123.0,
+					528.0,
+					247.0,
+					35.0
+				],
+				"text": "3 Vé Elite",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 18,
+				"lines": 1,
+				"name": "@Label@2190",
+				"rect": [
+					32.0,
+					677.0,
+					163.0,
+					44.0
+				],
+				"text": "Mua 1 lần",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 36,
+				"lines": 1,
+				"name": "PromoTitle",
+				"rect": [
+					32.0,
+					174.0,
+					294.0,
+					50.0
+				],
+				"text": "My về đội bạn",
+				"visible_lines": 1
+			}
+		],
+		"viewport": [
+			412,
+			893
+		]
+	},
+	{
+		"buy": {
+			"disabled": false,
+			"font_size": 31,
+			"rect": [
+				32.0,
+				449.0,
+				256.0,
+				44.0
+			],
+			"text": "$9.99"
+		},
+		"controls": {
+			"DetailBuy_starter_3": {
+				"minimum": [
+					0.0,
+					44.0
+				],
+				"rect": [
+					32.0,
+					449.0,
+					256.0,
+					44.0
+				]
+			},
+			"OfferArt_starter_3": {
+				"minimum": [
+					114.234634399414,
+					0.0
+				],
+				"rect": [
+					32.0,
+					110.0,
+					115.0,
+					115.0
+				]
+			},
+			"PermanentChip": {
+				"minimum": [
+					20.3072624206543,
+					25.0
+				],
+				"rect": [
+					152.0,
+					196.0,
+					136.0,
+					25.0
+				]
+			},
+			"PromoBadge": {
+				"minimum": [
+					41.8324012756348,
+					41.8324012756348
+				],
+				"rect": [
+					246.167602539062,
+					113.0,
+					41.8324012756348,
+					42.0
+				]
+			},
+			"PromoClose": {
+				"minimum": [
+					48.0,
+					48.0
+				],
+				"rect": [
+					240.0,
+					54.0,
+					48.0,
+					48.0
+				]
+			},
+			"PromoHeader": {
+				"minimum": [
+					55.0,
+					48.0
+				],
+				"rect": [
+					32.0,
+					54.0,
+					256.0,
+					48.0
+				]
+			},
+			"PromoNote": {
+				"minimum": [
+					1.0,
+					14.0
+				],
+				"rect": [
+					32.0,
+					427.0,
+					256.0,
+					14.0
+				]
+			},
+			"PromoPrimary": {
+				"minimum": [
+					162.0,
+					114.234634399414
+				],
+				"rect": [
+					32.0,
+					110.0,
+					256.0,
+					115.0
+				]
+			},
+			"PromoPrimaryValue": {
+				"minimum": [
+					1.0,
+					41.0
+				],
+				"rect": [
+					152.0,
+					155.0,
+					136.0,
+					41.0
+				]
+			},
+			"PromoRates": {
+				"minimum": [
+					62.0,
+					44.0
+				],
+				"rect": [
+					171.0,
+					497.0,
+					117.0,
+					44.0
+				]
+			},
+			"PromoRewardRows": {
+				"minimum": [
+					62.0,
+					165.0
+				],
+				"rect": [
+					42.0,
+					252.0,
+					236.0,
+					165.0
+				]
+			},
+			"PromoRewards": {
+				"minimum": [
+					88.0,
+					194.0
+				],
+				"rect": [
+					32.0,
+					229.0,
+					256.0,
+					194.0
+				]
+			},
+			"PromoRewardsHeading": {
+				"minimum": [
+					87.3072662353516,
+					23.0
+				],
+				"rect": [
+					116.0,
+					229.0,
+					87.3072662353516,
+					23.0
+				]
+			},
+			"PromoTitle": {
+				"minimum": [
+					1.0,
+					31.0
+				],
+				"rect": [
+					32.0,
+					62.0,
+					202.0,
+					31.0
+				]
+			}
+		},
+		"interactions": {
+			"short_buy_after_scroll": [
+				32.0,
+				424.0,
+				256.0,
+				44.0
+			],
+			"short_close_after_scroll": [
+				240.0,
+				54.0,
+				48.0,
+				48.0
+			]
+		},
+		"lang": "vi",
+		"panel": [
+			16.0,
+			40.0,
+			288.0,
+			488.0
+		],
+		"scroll": {
+			"content_min_height": 431.0,
+			"max_value": 431.0,
+			"page": 406.0,
+			"viewport": [
+				32.0,
+				110.0,
+				256.0,
+				406.0
+			]
+		},
+		"sku": "starter_3",
+		"text": [
+			{
+				"font_size": 13,
+				"lines": 1,
+				"name": "@Label@2197",
+				"rect": [
+					246.167602539062,
+					113.0,
+					41.8324012756348,
+					42.0
+				],
+				"text": "3,2x",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 29,
+				"lines": 1,
+				"name": "PromoPrimaryValue",
+				"rect": [
+					152.0,
+					155.0,
+					136.0,
+					41.0
+				],
+				"text": "Zielinski",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 15,
+				"lines": 1,
+				"name": "@Label@2195",
+				"rect": [
+					161.653625488281,
+					197.0,
+					116.692733764648,
+					22.0
+				],
+				"text": "Nhận chắc chắn",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 14,
+				"lines": 1,
+				"name": "@Label@2198",
+				"rect": [
+					125.653633117676,
+					230.0,
+					68.0,
+					20.0
+				],
+				"text": "QUÀ KÈM",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 19,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					103.0,
+					258.0,
+					175.0,
+					27.0
+				],
+				"text": "800 Gem",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 19,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					103.0,
+					300.0,
+					175.0,
+					27.0
+				],
+				"text": "10 Vé All-Star",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 19,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					103.0,
+					342.0,
+					175.0,
+					27.0
+				],
+				"text": "8 Vé Elite",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 19,
+				"lines": 1,
+				"name": "PromoRewardText",
+				"rect": [
+					103.0,
+					384.0,
+					175.0,
+					27.0
+				],
+				"text": "4 giờ Thu nhập",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 10,
+				"lines": 1,
+				"name": "PromoNote",
+				"rect": [
+					32.0,
+					427.0,
+					256.0,
+					14.0
+				],
+				"text": "Tiền tính theo thu nhập của đội tại thời điểm mua.",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 14,
+				"lines": 1,
+				"name": "@Label@2208",
+				"rect": [
+					32.0,
+					497.0,
+					117.0,
+					44.0
+				],
+				"text": "Mua 1 lần",
+				"visible_lines": 1
+			},
+			{
+				"font_size": 22,
+				"lines": 1,
+				"name": "PromoTitle",
+				"rect": [
+					32.0,
+					62.0,
+					202.0,
+					31.0
+				],
+				"text": "Gói Chuyên nghiệp",
+				"visible_lines": 1
+			}
+		],
+		"viewport": [
+			320,
+			568
+		]
+	}
+]

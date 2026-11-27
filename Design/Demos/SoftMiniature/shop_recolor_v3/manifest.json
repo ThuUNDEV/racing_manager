@@ -1,0 +1,32 @@
+{
+  "name": "Shop reduce purple v3",
+  "status": "concept_pending_review",
+  "date": "2026-11-26",
+  "image": "01_shop_reduce_purple.png",
+  "prompt": "01_shop_reduce_purple_prompt.txt",
+  "provenance": {
+    "mode": "built-in image_gen localized edit",
+    "tool": "image_gen.imagegen",
+    "orchestrator": "Delegated GPT-6.1-Sol medium",
+    "image_model": "Tool-managed; exact model not exposed",
+    "edit_target": "Design/Demos/SoftMiniature/shop_recolor_v2/01_shop_theme_matched.png",
+    "raw": "output/imagegen/shop_recolor_v3/01_shop_reduce_purple_raw.png",
+    "generation_calls": 1,
+    "postprocessing": "None; original image copied unchanged"
+  },
+  "changes": [
+    "Eight gem-payment pills under four open-pack cards: purple to blue",
+    "Three cash-exchange payment buttons: purple to blue",
+    "Two Elite coupon ticket artworks: blue/gold with gear icon",
+    "Gem chest trim: blue/gold; purple preserved on actual gems"
+  ],
+  "validation": {
+    "visual": "Composition, three panels, compact HUD, nav, main values and orange prices preserved on visual inspection. Purple is now confined to currency gem crystals/icons.",
+    "limitations": [
+      "AI image editing may subtly redraw antialiasing/small details; this is not a pixel-exact deterministic edit",
+      "Tiny Hà portrait/name rendering remains imperfect from v2",
+      "Art concept only; runtime uses proper sprites and localized labels"
+    ],
+    "scope": "No runtime code or data edits."
+  }
+}

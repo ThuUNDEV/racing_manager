@@ -86,8 +86,7 @@ func run() -> void:
 			await RenderingServer.frame_post_draw
 			root.get_texture().get_image().save_png("res://output/"+track+"_3d.png")
 	view.set_track("track_circuit_c")
-	check(not view._use_3d, "other circuits keep existing presentation")
-	check(view._world_3d.viewport.render_target_update_mode == SubViewport.UPDATE_DISABLED, "inactive 3D world stops rendering")
+	check(view._use_3d and view._world_3d.viewport.render_target_update_mode == SubViewport.UPDATE_WHEN_VISIBLE, "every circuit uses the 3D world")
 	view.set_track(GameData.class_track(GameData.default_class_id()))
 	view.sim = null
 	root.size = Vector2i(390,242)

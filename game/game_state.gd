@@ -64,6 +64,8 @@ var tutorial: Dictionary = {"state": "new", "step": "", "power_before": 0.0, "ga
 var race_history_complete: bool = true
 var active_car_id: String = ""
 var active_driver_id: String = "driver_an"
+var first_class_pending: bool = false   # game mới: người chơi chưa chọn class cho cơ sở đầu tiên (facilities[0] tạm là class mặc định)
+var gate_first_class: bool = false      # UI đang hiện popup chọn class đầu: tạm dừng vòng lặp đua và thu nhập
 var facilities: Array = ["racing"]     # cơ sở đã mở: class_id, hoặc "" nếu chưa chọn class (Design/22 §5.0)
 var class_owned: Array = ["racing"]   # class đua đã mua (Design/22); racing luôn có
 var active_class: String = "racing"    # class đang dùng cho lượt kế/lượt hiện tại
@@ -71,6 +73,7 @@ var pending_class: String = ""         # class chờ áp dụng sau khi lượt 
 var race_class_id: String = "racing"   # class của countdown/lượt đang chạy (chốt theo checkpoint)
 var managed_class: String = "racing"   # cơ sở đang quản lý (Design/26): các trường theo cơ sở ở dạng phẳng là bản làm việc của cơ sở này
 var businesses: Dictionary = {}        # class_id -> trạng thái các cơ sở KHÔNG đang quản lý
+var iap_target_class: String = ""      # cơ sở nhận vật phẩm theo từng class của lượt mua kế (không lưu); "" = cơ sở đang quản lý
 var _total_key: String = ""
 var _total_value: BigNumber = BigNumber.zero()
 
@@ -160,7 +163,7 @@ func _process(delta: float) -> void:
 				suspended = false
 				changed.emit()
 			_retry_timer = SAVE_RETRY_SEC
-	if not active or suspended or ad_pause or tutorial_pause:
+	if not active or suspended or ad_pause or tutorial_pause or gate_first_class:
 		_clock_usec = 0  # quay lại sẽ không tính khoảng vắng mặt
 		return
 	if phase == "save_error":
@@ -265,6 +268,8 @@ func init_new_game() -> void:
 	active_car_id = GameData.starter_car_id()
 	active_driver_id = "driver_an"
 	facilities = [GameData.default_class_id()]
+	first_class_pending = true
+	gate_first_class = false
 	managed_class = GameData.default_class_id()
 	businesses = {}
 	_total_key = ""
@@ -509,10 +514,23 @@ func cosmetics_of(car_id: String) -> Dictionary:
 	var c: Dictionary = garage_cosmetics.get(car_id, {})
 	var paint_id := String(c.get("paint_id", ""))
 	var decal_id := String(c.get("decal_id", ""))
+	var fallback := String(GameData.car(car_id).get("default_paint", GameData.default_paint_id()))
 	return {
-		"paint_id": paint_id if not GameData.paint(paint_id).is_empty() else GameData.default_paint_id(),
+		"paint_id": paint_id if not GameData.paint(paint_id).is_empty() and paint_owned(paint_id) else fallback,
 		"decal_id": decal_id if not GameData.decal(decal_id).is_empty() else GameData.default_decal_id(),
 	}
+
+
+## Màu sơn dùng được: màu thường luôn có; bộ sơn Epic (có sku) cần đã mua SKU; màu Epic gắn xe (epic "car") cần đang có một xe Epic.
+func paint_owned(paint_id: String) -> bool:
+	var p := GameData.paint(paint_id)
+	if p.is_empty():
+		return false
+	if String(p.get("sku", "")) != "":
+		return iap_bought(String(p["sku"]))
+	if String(p.get("epic", "")) == "car":
+		return owned_cars.has(String(p.get("car", "")))
+	return true
 
 
 func _clean_cosmetics(raw: Variant) -> Dictionary:
@@ -539,7 +557,7 @@ func cosmetics_of_dict(c: Dictionary) -> Dictionary:
 func set_cosmetics(car_id: String, paint_id: String, decal_id: String) -> bool:
 	if not feature_unlocked("U6_garage"):
 		return false
-	if not owned_cars.has(car_id) or GameData.paint(paint_id).is_empty() or GameData.decal(decal_id).is_empty():
+	if not owned_cars.has(car_id) or GameData.paint(paint_id).is_empty() or GameData.decal(decal_id).is_empty() or not paint_owned(paint_id):
 		return false
 	if phase == "save_error" or save_blocked:
 		return false
@@ -567,7 +585,7 @@ func car_unlocked(id: String) -> bool:
 func buy_car(id: String) -> bool:
 	if not feature_unlocked("U6_garage"):
 		return false
-	if phase == "save_error" or save_blocked or owned_cars.has(id) or not car_unlocked(id):
+	if phase == "save_error" or save_blocked or owned_cars.has(id) or not car_unlocked(id) or bool(GameData.car(id).get("iap_only", false)):
 		return false
 	var price := Pricing.car_price(id)
 	if coins.compare(price) < 0:
@@ -727,6 +745,66 @@ func assign_facility(id: String) -> bool:
 	return true
 
 
+## Game mới: chọn class cho cơ sở đầu tiên (miễn phí, một lần). Chưa đua lượt nào nên đổi thẳng, dựng lại countdown theo trường đua của class.
+func choose_first_class(id: String) -> bool:
+	if not first_class_pending or GameData.race_class(id).is_empty() or phase == "save_error" or save_blocked:
+		return false
+	if phase == "racing":
+		return false
+	var before := _save_data()
+	first_class_pending = false
+	gate_first_class = false
+	if id != String(facilities[0]):
+		facilities = [id]
+		_sync_class_owned()
+		managed_class = id
+		active_class = id
+		pending_class = ""
+		race_class_id = id
+		_total_key = ""
+		_rate_key = ""
+		if phase == "countdown":
+			race_counter -= 1
+			begin_countdown()
+	if not save_game():
+		_restore_transaction(before)
+		first_class_pending = true
+		return false
+	changed.emit()
+	return true
+
+
+## Dev (chỉ bản debug): mở miễn phí rồi chuyển sang class bất kỳ, bỏ qua khóa tính năng và giá cơ sở.
+func dev_switch_class(id: String) -> bool:
+	if not OS.is_debug_build() or GameData.race_class(id).is_empty() or phase == "save_error" or save_blocked:
+		return false
+	var before := _save_data()
+	if not class_owned.has(id):
+		var slot := facility_unassigned()
+		if slot >= 0:
+			facilities[slot] = id
+		elif facilities.size() < facility_limit():
+			facilities.append(id)
+		else:
+			return false
+		_sync_class_owned()
+		businesses[id] = _new_business()
+	if phase == "racing":
+		pending_class = "" if id == active_class else id
+	else:
+		active_class = id
+		pending_class = ""
+		race_class_id = id
+	_switch_working(id)
+	if not save_game():
+		_restore_transaction(before)
+		return false
+	if phase == "countdown":
+		_rebuild_preview()
+	changed.emit()
+	return true
+
+
 func _sync_class_owned() -> void:
 	class_owned = []
 	for id in facilities:
@@ -762,11 +840,19 @@ func _apply_pending_class() -> void:
 	pending_class = ""
 
 
+## Class dùng khi dữ liệu trỏ tới class chưa có cơ sở: cơ sở đầu tiên đã chọn, thiếu thì class mặc định.
+func _fallback_class() -> String:
+	return String(class_owned[0]) if not class_owned.is_empty() else GameData.default_class_id()
+
+
 func _apply_classes(d: Dictionary) -> void:
 	var def := GameData.default_class_id()
 	facilities = [def]
 	# save cũ (v9 dev) chỉ có class_owned: mỗi class đã mua thành một cơ sở đã chọn class.
 	var raw: Variant = d.get("facilities", d.get("class_owned", []))
+	first_class_pending = d.get("first_class_pending", false) == true
+	if d.has("first_class_pending") and not first_class_pending and typeof(raw) == TYPE_ARRAY and not (raw as Array).is_empty():
+		facilities = []
 	if typeof(raw) == TYPE_ARRAY:
 		for v in raw:
 			var id := String(v)
@@ -774,10 +860,12 @@ func _apply_classes(d: Dictionary) -> void:
 				break
 			if id == "" or (not GameData.race_class(id).is_empty() and not facilities.has(id)):
 				facilities.append(id)
+	if facilities.is_empty():
+		facilities = [def]
 	_sync_class_owned()
 	active_class = String(d.get("active_class", def))
 	if not class_owned.has(active_class):
-		active_class = def
+		active_class = _fallback_class()
 	pending_class = String(d.get("pending_class", ""))
 	if pending_class == active_class or not class_owned.has(pending_class):
 		pending_class = ""
@@ -843,6 +931,60 @@ func _business_clean(b: Dictionary) -> Dictionary:
 	out["records"] = (b.get("records", {}) as Dictionary).duplicate(true)
 	var driver_id := String(b.get("active_driver_id", "driver_an"))
 	out["active_driver_id"] = driver_id if not GameData.driver(driver_id).is_empty() else "driver_an"
+	var team := String(b.get("team_name", ""))
+	out["team_name"] = team if valid_team_name(team) else I18n.t("save.team")
+	var roster: Array = []
+	var roster_in: Variant = b.get("owned_drivers", [])
+	if typeof(roster_in) == TYPE_ARRAY:
+		for id: Variant in roster_in:
+			if typeof(id) == TYPE_STRING and not GameData.driver(String(id)).is_empty() and not roster.has(String(id)):
+				roster.append(String(id))
+	if not roster.has(out["active_driver_id"]):
+		roster.push_front(out["active_driver_id"])
+	out["owned_drivers"] = roster
+	var progress_in: Variant = b.get("driver_progress", {})
+	var progress: Dictionary = {}
+	for id: String in roster:
+		var row: Variant = (progress_in as Dictionary).get(id, {}) if typeof(progress_in) == TYPE_DICTIONARY else {}
+		var cfg := GameData.driver_gacha_config(id)
+		var row_dict: Dictionary = row if typeof(row) == TYPE_DICTIONARY else {}
+		progress[id] = {
+			"level": clampi(int(row_dict.get("level", 0)), 0, int(cfg.get("max_level", 0))),
+			"shards": maxi(0, int(row_dict.get("shards", 0))),
+		}
+	out["driver_progress"] = progress
+	var coupons := {"pro": 0, "allstar": 0}
+	var pity := {"pro": 0, "allstar": 0}
+	var coupons_in: Variant = b.get("driver_coupons", {})
+	var pity_in: Variant = b.get("driver_pity", {})
+	for k: String in coupons:
+		if typeof(coupons_in) == TYPE_DICTIONARY:
+			coupons[k] = maxi(0, int((coupons_in as Dictionary).get(k, 0)))
+		if typeof(pity_in) == TYPE_DICTIONARY:
+			pity[k] = clampi(int((pity_in as Dictionary).get(k, 0)), 0, maxi(0, int(GameData.driver_pack(k).get("pity_draws", 1)) - 1))
+	out["driver_coupons"] = coupons
+	out["driver_pity"] = pity
+	out["scout_points"] = maxi(0, int(b.get("scout_points", 0)))
+	var gear: Dictionary = {}
+	var gear_in: Variant = b.get("gear_owned", {})
+	if typeof(gear_in) == TYPE_DICTIONARY:
+		for id: Variant in gear_in:
+			var row: Variant = (gear_in as Dictionary)[id]
+			if GameData.gear_item(String(id)).is_empty() or typeof(row) != TYPE_DICTIONARY:
+				continue
+			var cfg := GameData.gear_config(String(id))
+			gear[String(id)] = {
+				"level": clampi(int((row as Dictionary).get("level", cfg.get("initial_level", 0))), int(cfg.get("initial_level", 0)), int(cfg.get("max_level", 0))),
+				"shards": maxi(0, int((row as Dictionary).get("shards", 0))),
+			}
+	out["gear_owned"] = gear
+	var gear_coupons_out := {"standard": 0, "elite": 0}
+	var gear_coupons_in: Variant = b.get("gear_coupons", {})
+	if typeof(gear_coupons_in) == TYPE_DICTIONARY:
+		for k: String in gear_coupons_out:
+			gear_coupons_out[k] = maxi(0, int((gear_coupons_in as Dictionary).get(k, 0)))
+	out["gear_coupons"] = gear_coupons_out
+	out["gear_open_count"] = maxi(0, int(b.get("gear_open_count", 0)))
 	return out
 
 
@@ -858,7 +1000,18 @@ func _business_snapshot() -> Dictionary:
 		"trophy_levels": trophy_levels.duplicate(true), "trophy_cap_bonus": trophy_cap_bonus,
 		"recent_results": recent_results.duplicate(true), "records": records.duplicate(true),
 		"active_driver_id": active_driver_id,
+		"team_name": player_team_name, "owned_drivers": owned_drivers.duplicate(true),
+		"driver_progress": driver_progress.duplicate(true), "driver_coupons": driver_coupons.duplicate(true),
+		"driver_pity": driver_pity.duplicate(true), "scout_points": scout_points,
+		"gear_owned": gear_owned.duplicate(true), "gear_coupons": gear_coupons.duplicate(true), "gear_open_count": gear_open_count,
 	}
+
+
+## Tên đội của một cơ sở bất kỳ (bản làm việc nếu là cơ sở đang quản lý).
+func facility_team_name(id: String) -> String:
+	if id == managed_class:
+		return player_team_name
+	return String((businesses.get(id, {}) as Dictionary).get("team_name", I18n.t("save.team")))
 
 
 func _business_load(raw: Dictionary) -> void:
@@ -879,7 +1032,19 @@ func _business_load(raw: Dictionary) -> void:
 	recent_results = b["recent_results"]
 	records = b["records"]
 	active_driver_id = b["active_driver_id"]
+	player_team_name = b["team_name"]
+	owned_drivers = b["owned_drivers"]
+	driver_progress = b["driver_progress"]
+	driver_coupons = b["driver_coupons"]
+	driver_pity = b["driver_pity"]
+	scout_points = b["scout_points"]
+	gear_owned = b["gear_owned"]
+	gear_coupons = b["gear_coupons"]
+	gear_open_count = b["gear_open_count"]
+	last_gear_result = []
+	driver_pack_new = clampi(driver_pack_new, 0, maxi(0, owned_drivers.size() - 1))
 	_rate_key = ""
+	_sync_account_cars()
 
 
 ## Đổi bản làm việc sang cơ sở `id` (ghi cơ sở hiện tại vào `businesses`). Không lưu, không phát tín hiệu.
@@ -976,9 +1141,9 @@ func manage_class(id: String) -> bool:
 
 func _apply_businesses(d: Dictionary) -> void:
 	businesses = {}
-	managed_class = String(d.get("managed_class", GameData.default_class_id()))
+	managed_class = String(d.get("managed_class", _fallback_class()))
 	if not class_owned.has(managed_class):
-		managed_class = GameData.default_class_id()
+		managed_class = _fallback_class()
 	var raw: Variant = d.get("businesses", {})
 	var src: Dictionary = raw if typeof(raw) == TYPE_DICTIONARY else {}
 	for id: Variant in facilities:
@@ -988,6 +1153,7 @@ func _apply_businesses(d: Dictionary) -> void:
 		var row: Variant = src.get(cid, {})
 		businesses[cid] = _business_clean(row if typeof(row) == TYPE_DICTIONARY else {})
 	_total_key = ""
+	_sync_account_cars()
 
 
 func _valid_business(raw: Variant) -> bool:
@@ -1169,7 +1335,7 @@ func _restore_checkpoint(cp: Dictionary) -> bool:
 		return false
 	var cid := String(cp.get("class_id", "racing"))
 	if GameData.race_class(cid).is_empty() or not class_owned.has(cid):
-		cid = GameData.default_class_id()
+		cid = _fallback_class()
 	race_class_id = cid
 	var back := _race_ctx_enter()
 	var ok := _restore_checkpoint_inner(cp)
@@ -1182,7 +1348,7 @@ func _restore_checkpoint_inner(cp: Dictionary) -> bool:
 	_race_seed = int(cp.get("seed", 0))
 	race_class_id = String(cp.get("class_id", "racing"))
 	if GameData.race_class(race_class_id).is_empty() or not class_owned.has(race_class_id):
-		race_class_id = GameData.default_class_id()
+		race_class_id = _fallback_class()
 	_sim_accum = 0.0
 	var ph := String(cp.get("phase", ""))
 	if ph == "countdown":
@@ -2106,7 +2272,7 @@ const IAP_KNOWN_OWNED := ["no_ads", "income_x2", "income_x3", "offline_plus", "p
 
 static func iap_default() -> Dictionary:
 	return {"buys": [], "owned": [], "first_bonus_used": [], "daily": {}, "weekly": {}, "offers": {},
-		"popup": {}, "pass_month": {"left_days": 0, "last_claim_day": -1}, "growth_claimed": [], "pending_ctx": {}}
+		"popup": {}, "pass_month": {"left_days": 0, "last_claim_day": -1}, "growth_claimed": [], "pending_ctx": {}, "car_class": {}}
 
 
 static func iap_day(unix: float) -> int:
@@ -2175,6 +2341,43 @@ func iap_clear_ctx(sku: String) -> void:
 		save_game()
 
 
+## Xe Epic đã mua (theo đơn IAP). Xe có ghi class nhận (iap.car_class) chỉ thuộc class đó; đơn cũ không ghi class thì dùng chung mọi cơ sở.
+func account_car_ids() -> Array:
+	var out: Array = []
+	for b in (iap["buys"] as Array):
+		var car_id := String(((GameData.iap_product(String((b as Dictionary).get("sku", ""))).get("grant", {})) as Dictionary).get("car", ""))
+		if car_id != "" and not GameData.car(car_id).is_empty() and not out.has(car_id):
+			out.append(car_id)
+	return out
+
+
+## Thêm xe Epic vào đúng cơ sở nhận (chưa có thì tạo cấp phụ tùng 0). Không lưu.
+func _sync_account_cars() -> void:
+	var empty := {"engine": 0, "tyre": 0, "chassis": 0, "gearbox": 0}
+	var targets: Dictionary = iap.get("car_class", {})
+	for car_id: String in account_car_ids():
+		var only := String(targets.get(car_id, ""))
+		if only != "" and not class_owned.has(only):
+			only = ""
+		if only == "" or only == managed_class:
+			if not owned_cars.has(car_id):
+				owned_cars[car_id] = true
+				car_levels[car_id] = empty.duplicate()
+		for cid: String in businesses:
+			if only != "" and cid != only:
+				continue
+			var biz: Dictionary = businesses[cid]
+			if not (biz.get("owned_cars", {}) as Dictionary).has(car_id):
+				(biz["owned_cars"] as Dictionary)[car_id] = true
+				(biz["car_levels"] as Dictionary)[car_id] = empty.duplicate()
+
+
+## Gói có vật phẩm gắn với từng class (coupon, tay đua) nên cần biết cơ sở nhận.
+func iap_per_class(sku: String) -> bool:
+	var g: Dictionary = GameData.iap_product(sku).get("grant", {})
+	return g.has("driver_coupon") or g.has("gear_coupon") or g.has("driver") or g.has("driver_shards_tier") or g.has("car")
+
+
 func grant_iap(sku: String, token: String, context: Dictionary = {}) -> bool:
 	var p := GameData.iap_product(sku)
 	if p.is_empty() or token == "" or save_blocked or phase == "save_error":
@@ -2184,7 +2387,15 @@ func grant_iap(sku: String, token: String, context: Dictionary = {}) -> bool:
 	var before := _save_data()
 	var g: Dictionary = p["grant"]
 	var now := Time.get_unix_time_from_system()
-	var summary := {"sku": sku, "gems": 0, "first": false, "income": null, "driver_shards": 0, "driver": ""}
+	var summary := {"sku": sku, "gems": 0, "first": false, "income": null, "driver_shards": 0, "driver": "", "car": "", "paint": "", "class": ""}
+	var target := String(context.get("class", iap_target_class))
+	iap_target_class = ""
+	var back := ""
+	if iap_per_class(sku):
+		if target != "" and target != managed_class and class_owned.has(target):
+			back = managed_class
+			_switch_working(target)
+		summary["class"] = managed_class
 	# Gem (lần mua đầu của gói gem nhân hệ số).
 	var gem_total := int(g.get("gems", 0))
 	var used: Array = iap["first_bonus_used"]
@@ -2228,6 +2439,19 @@ func grant_iap(sku: String, token: String, context: Dictionary = {}) -> bool:
 		driver_progress[did] = prog
 		summary["driver"] = did
 		summary["driver_shards"] = shards
+	# Xe Epic: thêm vào garage (chưa có thì tạo cấp phụ tùng 0); bộ sơn Epic: quyền dùng nằm ở đơn đã mua (paint_owned).
+	if g.has("car"):
+		var car_id := String(g["car"])
+		if not owned_cars.has(car_id):
+			owned_cars[car_id] = true
+			car_levels[car_id] = {"engine": 0, "tyre": 0, "chassis": 0, "gearbox": 0}
+		summary["car"] = car_id
+		(iap["car_class"] as Dictionary)[car_id] = managed_class
+	if g.has("paint"):
+		summary["paint"] = String(g["paint"])
+	# Mảnh theo bậc (gói Chọn Một): dồn vào tay đua đang sở hữu cùng bậc và gần lên cấp nhất; chưa có ai thì đổi thành vé.
+	for tier_id in (g.get("driver_shards_tier", {}) as Dictionary):
+		_iap_tier_shards(String(tier_id), int(g["driver_shards_tier"][tier_id]), summary)
 	# Pass tháng: cộng 30 ngày, trần theo SKU.
 	if String(p.get("kind", "")) == "pass_month":
 		var pm: Dictionary = iap["pass_month"]
@@ -2237,9 +2461,12 @@ func grant_iap(sku: String, token: String, context: Dictionary = {}) -> bool:
 		(iap["daily"] as Dictionary)[sku] = iap_day(now)
 	if p.has("weekly_limit"):
 		(iap["weekly"] as Dictionary)[sku] = iap_week(now)
+	if back != "":
+		_switch_working(back)
 	# Ghi đơn.
 	(iap["buys"] as Array).append({"sku": sku, "token": token, "order": String(context.get("order", "")), "t": int(now)})
 	_iap_trim_buys()
+	_sync_account_cars()
 	if "no_ads" in owned:
 		ad_state["free"] = true
 	if not save_game():
@@ -2248,6 +2475,28 @@ func grant_iap(sku: String, token: String, context: Dictionary = {}) -> bool:
 	last_iap_grant = summary
 	changed.emit()
 	return true
+
+
+## Mảnh tay đua theo bậc từ gói IAP: người nhận là tay đua sở hữu cùng bậc, chưa tối đa, level cao nhất (hòa: thứ tự data).
+## Không có người nhận thì đổi mỗi 10 mảnh (tối thiểu 1) thành vé tay đua (pro cho bậc rookie/pro, allstar cho elite/legend).
+func _iap_tier_shards(tier_id: String, amount: int, summary: Dictionary) -> void:
+	var tier := GameData.driver_tier_ids().find(tier_id)
+	var target := ""
+	for d: Dictionary in GameData.drivers():
+		var id := String(d.get("id", ""))
+		if int(d.get("tier", -1)) != tier or not driver_has(id) or driver_level(id) >= driver_max_level(id):
+			continue
+		if target == "" or driver_level(id) > driver_level(target):
+			target = id
+	if target != "":
+		var prog: Dictionary = driver_progress.get(target, {"level": 0, "shards": 0})
+		prog["shards"] = int(prog.get("shards", 0)) + amount
+		driver_progress[target] = prog
+		summary["driver_shards"] = int(summary.get("driver_shards", 0)) + amount
+		summary["driver"] = target
+		return
+	var kind := "allstar" if tier_id in ["elite", "legend"] else "pro"
+	driver_coupons[kind] = int(driver_coupons.get(kind, 0)) + maxi(1, int(floor(amount / 10.0)))
 
 
 ## Giữ hết đơn của SKU non-consumable/once (cần cho "đã mua" và khôi phục), đơn tiêu thụ chỉ giữ IAP_BUYS_KEEP gần nhất.
@@ -2303,6 +2552,10 @@ func _apply_iap(d: Dictionary) -> void:
 	for t in (r.get("growth_claimed", []) as Array):
 		if (typeof(t) == TYPE_INT or typeof(t) == TYPE_FLOAT) and not int(t) in iap["growth_claimed"]:
 			(iap["growth_claimed"] as Array).append(int(t))
+	if typeof(r.get("car_class")) == TYPE_DICTIONARY:
+		for car_id in r["car_class"]:
+			if typeof(r["car_class"][car_id]) == TYPE_STRING:
+				(iap["car_class"] as Dictionary)[String(car_id)] = String(r["car_class"][car_id])
 	if typeof(r.get("pending_ctx")) == TYPE_DICTIONARY:
 		for sku in r["pending_ctx"]:
 			var c: Variant = r["pending_ctx"][sku]
@@ -2340,6 +2593,7 @@ func _save_data() -> Dictionary:
 		"player_team_name": player_team_name, "completed_races": completed_races, "tutorial": tutorial,
 		"team_name_changes": team_name_changes,
 		"race_history_complete": race_history_complete,
+		"first_class_pending": first_class_pending,
 		"facilities": facilities, "active_class": active_class, "pending_class": pending_class,
 		"managed_class": managed_class, "businesses": businesses,
 	}
@@ -2450,6 +2704,8 @@ func _valid_save(raw: Variant) -> bool:
 	for key in ["facilities", "class_owned"]:
 		if d.has(key) and typeof(d[key]) != TYPE_ARRAY:
 			return false
+	if d.has("first_class_pending") and typeof(d["first_class_pending"]) != TYPE_BOOL:
+		return false
 	for key in ["active_class", "pending_class"]:
 		if d.has(key) and typeof(d[key]) != TYPE_STRING:
 			return false
@@ -2472,7 +2728,7 @@ func _valid_save(raw: Variant) -> bool:
 		for key in ["buys", "owned", "first_bonus_used", "growth_claimed"]:
 			if (d["iap"] as Dictionary).has(key) and typeof(d["iap"][key]) != TYPE_ARRAY:
 				return false
-		for key in ["daily", "weekly", "offers", "popup", "pass_month", "pending_ctx"]:
+		for key in ["daily", "weekly", "offers", "popup", "pass_month", "pending_ctx", "car_class"]:
 			if (d["iap"] as Dictionary).has(key) and typeof(d["iap"][key]) != TYPE_DICTIONARY:
 				return false
 	if d.has("last_driver_result") and typeof(d["last_driver_result"]) != TYPE_ARRAY:

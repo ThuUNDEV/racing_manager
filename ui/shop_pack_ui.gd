@@ -27,6 +27,19 @@ static func label(value: String, font_size: int = 13, color: Color = INK) -> Lab
 
 
 static func title(product: Dictionary) -> String:
+	match String(product.get("kind", "")):
+		"limited":
+			return I18n.t("shop.limited_pack")
+		"chooseone":
+			var tier_keys := {"s": I18n.t("drivers.tier_pro"), "m": I18n.t("drivers.tier_elite"), "l": I18n.t("drivers.tier_legend")}
+			var size := String(product.get("size", ""))
+			return I18n.t("shop.choose_all_title") if size == "all" else I18n.t("shop.tier_shards_title") % String(tier_keys.get(size, ""))
+		"epic_car":
+			return String(GameData.car(String(product["grant"]["car"])).get("name", product["sku"]))
+		"epic_paint":
+			return String(GameData.paint(String(product["grant"]["paint"])).get("name", product["sku"]))
+		"chain":
+			return I18n.t("shop.chain_driver") if String(product.get("chain_id", "")) == "driver" else I18n.t("shop.chain_gear")
 	return String(recipe(String(product["sku"])).get("title", product["sku"]))
 
 
@@ -39,6 +52,7 @@ static func limit(product: Dictionary) -> String:
 		"pass_month": return I18n.tn("shop.days", int(product.get("days", 30))) % int(product.get("days", 30))
 		"perk": return I18n.t("shop.permanent")
 		"pass_growth": return I18n.t("shop.buy_once")
+		"limited", "chooseone": return I18n.t("shop.limit_once") if int(product.get("week_cap", 1)) == 1 else ""
 	return ""
 
 
@@ -152,6 +166,10 @@ static func rewards(product: Dictionary, owned_driver: bool = false) -> Array:
 			rows.append({"icon": did, "value": driver_name, "label": I18n.t("shop.guaranteed")})
 			if grant.has("driver_shards"):
 				rows.append({"icon": did, "value": I18n.tn("shop.shards", int(grant["driver_shards"])) % int(grant["driver_shards"]), "label": driver_name, "shards": true})
+	if grant.has("car"):
+		rows.append({"icon": "car_blue", "value": String(GameData.car(String(grant["car"])).get("name", "")), "label": I18n.t("shop.epic_tag")})
+	if grant.has("paint"):
+		rows.append({"icon": "garage", "value": String(GameData.paint(String(grant["paint"])).get("name", "")), "label": I18n.t("shop.epic_for_all")})
 	var perk := String(grant.get("perk", ""))
 	if perk != "":
 		var text := {"no_ads": I18n.t("shop.remove_ads_2"), "income_x2": I18n.t("common.income_x_2"), "income_x3": I18n.t("common.income_x_3"), "offline_plus": "Offline ×3"}
@@ -162,6 +180,9 @@ static func rewards(product: Dictionary, owned_driver: bool = false) -> Array:
 		rows.append({"icon": "standard_driver_pack" if kind == "pro" else "elite_driver_pack", "value": "×%d" % int(grant["driver_coupon"][kind]), "label": I18n.t("shop.pro_ticket") if kind == "pro" else I18n.t("shop.all_star_ticket")})
 	for kind: String in grant.get("gear_coupon", {}):
 		rows.append({"icon": "standard_gear_pack" if kind == "standard" else "elite_gear_pack", "value": "×%d" % int(grant["gear_coupon"][kind]), "label": I18n.t("shop.standard_ticket") if kind == "standard" else I18n.t("shop.elite_ticket")})
+	var tier_names := {"pro": I18n.t("drivers.tier_pro"), "elite": I18n.t("drivers.tier_elite"), "legend": I18n.t("drivers.tier_legend")}
+	for tier: String in grant.get("driver_shards_tier", {}):
+		rows.append({"icon": "standard_driver_pack" if tier == "pro" else "elite_driver_pack", "value": "×%d" % int(grant["driver_shards_tier"][tier]), "label": I18n.t("shop.tier_shards_title") % String(tier_names.get(tier, tier)), "shards": true})
 	if grant.has("income_min"):
 		rows.append({"icon": "cash", "value": I18n.t("common.h") % (int(grant["income_min"]) / 60), "label": I18n.t("common.income")})
 	if String(product.get("kind", "")) == "pass_month":

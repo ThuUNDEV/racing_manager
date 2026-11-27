@@ -214,7 +214,7 @@ func _ensure_track_layer() -> void:
 
 ## Chọn track cần vẽ (phải có hình học: mọi sector cua có "turn").
 func set_track(track_id: String) -> void:
-	_use_3d = track_id == GameData.class_track(GameData.default_class_id())
+	_use_3d = true
 	_rotation_pointer = -2
 	if _rotation_hint != null:
 		_rotation_hint.visible = _use_3d

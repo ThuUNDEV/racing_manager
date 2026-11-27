@@ -13,6 +13,8 @@ signal iap_event(name: String, params: Dictionary)
 ## Trạng thái đổi (đang bận, đã giao hàng): UI vẽ lại nút.
 signal changed
 
+const DROP_REASONS := ["hidden", "owned", "once", "maxed"]
+
 var provider: IapProvider = null
 var _busy := false
 var _busy_sku := ""
@@ -90,6 +92,8 @@ func _unlocked(u: Dictionary) -> bool:
 		return false  # chỉ dùng được cùng grant.driver, xử lý ở _driver_open
 	if u.has("ad_breaks_today") and Ads.breaks_today() < int(u["ad_breaks_today"]):
 		return false
+	if u.has("races") and GameState.completed_races < int(u["races"]):
+		return false
 	return true
 
 
@@ -122,7 +126,7 @@ func _driver_open(p: Dictionary) -> bool:
 
 
 ## Lý do không bán được: "" (bán được), "none" (SKU lạ), "flag", "hidden" (đã có thứ thay thế), "locked", "owned",
-## "once", "daily", "weekly", "requires", "pass_left", "maxed" (tay đua đã tối đa), "save", "busy".
+## "once", "daily", "weekly", "rotation" (không thuộc vòng xoay tuần này), "requires", "pass_left", "maxed" (tay đua đã tối đa), "save", "busy".
 func block_reason(sku: String) -> String:
 	var p := product(sku)
 	if p.is_empty():
@@ -158,11 +162,102 @@ func block_reason(sku: String) -> String:
 		return "daily"
 	if p.has("weekly_limit") and int((GameState.iap["weekly"] as Dictionary).get(sku, -1)) == GameState.iap_week(now):
 		return "weekly"
+	if p.has("rotation") and rotation_of(kind, now) != int(p["rotation"]):
+		return "rotation"
+	if p.has("week_cap") and bought_this_week(sku, now) >= int(p["week_cap"]):
+		return "weekly"
+	for other in (p.get("week_conflict", []) as Array):
+		if bought_this_week(String(other), now) > 0:
+			return "weekly"
 	if kind == "pass_month" and int((GameState.iap["pass_month"] as Dictionary).get("left_days", 0)) > int(p.get("rebuy_when_left_days", 5)):
 		return "pass_left"
 	if _busy:
 		return "busy"
 	return ""
+
+
+## SKU của một chuỗi Chain Offer theo thứ tự bước (kind "chain", Design/35 đợt B).
+func chain_skus(chain_id: String) -> Array:
+	var rows: Array = []
+	for p: Dictionary in products():
+		if String(p.get("kind", "")) == "chain" and String(p.get("chain_id", "")) == chain_id:
+			rows.append(p)
+	rows.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return int(a["chain_step"]) < int(b["chain_step"]))
+	return rows.map(func(p: Dictionary) -> String: return String(p["sku"]))
+
+
+## Trạng thái chuỗi: {"total", "bought", "sku" (bước đang bán, "" nếu chuỗi chưa mở hoặc đã mua hết), "step", "next_sku"}.
+## Bước đang bán là bước đầu tiên chưa mua; bước 1 chưa mở (chưa starter_3 hoặc bậc 2) thì không có sku.
+func chain_state(chain_id: String) -> Dictionary:
+	var skus := chain_skus(chain_id)
+	var bought := 0
+	var state := {"total": skus.size(), "bought": 0, "sku": "", "step": 0, "next_sku": ""}
+	for index in skus.size():
+		var sku: String = skus[index]
+		if GameState.iap_bought(sku):
+			bought += 1
+			continue
+		state["bought"] = bought
+		if block_reason(sku) in ["", "busy", "save"]:
+			state["sku"] = sku
+			state["step"] = index + 1
+			state["next_sku"] = String(skus[index + 1]) if index + 1 < skus.size() else ""
+		return state
+	state["bought"] = bought
+	return state
+
+
+## Vòng xoay tuần UTC hiện tại (1..N) của ưu đãi giới hạn / chọn một (GameData.IAP_ROTATIONS).
+func rotation_of(kind: String, now: float = -1.0) -> int:
+	if now < 0.0:
+		now = _now()
+	return GameState.iap_week(now) % int(GameData.IAP_ROTATIONS.get(kind, 1)) + 1
+
+
+## Số giây tới lúc vòng xoay đổi (đầu tuần UTC kế tiếp, trùng GameState.iap_week).
+func rotation_ends_in(now: float = -1.0) -> float:
+	if now < 0.0:
+		now = _now()
+	return float((GameState.iap_week(now) + 1) * 7 - 3) * 86400.0 - now
+
+
+## Số đơn của SKU trong tuần UTC chứa `now` (giới hạn mua của gói xoay tuần).
+func bought_this_week(sku: String, now: float = -1.0) -> int:
+	if now < 0.0:
+		now = _now()
+	var week := GameState.iap_week(now)
+	var count := 0
+	for b: Dictionary in (GameState.iap["buys"] as Array):
+		if String(b.get("sku", "")) == sku and GameState.iap_week(float(b.get("t", 0))) == week:
+			count += 1
+	return count
+
+
+## SKU của vòng xoay hiện tại theo thứ tự hiển thị (limited: ô 1..3 rẻ -> đắt; chooseone: S, M, L, Tất cả).
+func timed_skus(kind: String, now: float = -1.0) -> Array:
+	var rotation := rotation_of(kind, now)
+	var rows: Array = []
+	for p: Dictionary in products():
+		if String(p.get("kind", "")) == kind and int(p.get("rotation", 0)) == rotation:
+			rows.append(p)
+	var key := "slot" if kind == "limited" else "size"
+	rows.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		if kind == "limited":
+			return int(a[key]) < int(b[key])
+		return GameData.IAP_CHOOSE_SIZES.find(String(a[key])) < GameData.IAP_CHOOSE_SIZES.find(String(b[key])))
+	return rows.map(func(p: Dictionary) -> String: return String(p["sku"]))
+
+
+## Trạng thái ưu đãi xoay tuần: {"rotation", "ends_in", "skus", "open", "bought"} ("open": có ô nào bán được/đã mua trong tuần, tức mục nên hiện).
+func timed_state(kind: String, now: float = -1.0) -> Dictionary:
+	var skus := timed_skus(kind, now)
+	var open := false
+	var bought := {}
+	for sku: String in skus:
+		bought[sku] = bought_this_week(sku, now)
+		if block_reason(sku) not in ["locked", "flag", "hidden", "none"]:
+			open = true
+	return {"rotation": rotation_of(kind, now), "ends_in": rotation_ends_in(now), "skus": skus, "open": open, "bought": bought}
 
 
 func can_buy(sku: String) -> bool:
@@ -179,24 +274,62 @@ func sales_popup_queue(now: float = -1.0) -> Array:
 		now = _now()
 	var offers: Dictionary = GameState.iap["offers"]
 	var waiting: Array = []
-	var opened := false
+	var changed := false
 	var index := 0
 	for p: Dictionary in products():
 		index += 1
 		var sku := String(p["sku"])
-		if not p.has("auto_popup") or block_reason(sku) != "":
+		if not p.has("auto_popup"):
 			continue
 		var o: Dictionary = offers.get(sku, {})
+		if bool(o.get("dropped", false)):
+			continue
+		var reason := block_reason(sku)
+		if reason != "":
+			if o.has("open_t") and int(o.get("popup_count", 0)) < int(p["auto_popup"]) and DROP_REASONS.has(reason):
+				o["dropped"] = true
+				offers[sku] = o
+				changed = true
+			continue
+		if not _popup_ready(p):
+			continue
 		if not o.has("open_t"):
 			o.merge({"open_t": now, "popup_count": 0, "last_popup_day": -1})
 			offers[sku] = o
-			opened = true
+			changed = true
 		if int(o.get("popup_count", 0)) < int(p["auto_popup"]):
-			waiting.append([float(o.get("open_t", now)), index, sku])
-	if opened:
+			waiting.append([_popup_group_rank(p), -int(p.get("prio", 0)), float(o.get("open_t", now)), index, sku])
+	if changed:
 		GameState.save_game()  # lỗi ghi: giữ trong bộ nhớ, lần lưu sau ghi lại
 	waiting.sort()
-	return waiting.map(func(w: Array) -> String: return String(w[2]))
+	return waiting.map(func(w: Array) -> String: return String(w[4]))
+
+
+## Gói đã rời hàng đợi popup mà chưa tự hiện đủ lần (đã mua, bị gói khác thay, tay đua đã tối đa).
+func popup_dropped(sku: String) -> bool:
+	return bool(((GameState.iap["offers"] as Dictionary).get(sku, {}) as Dictionary).get("dropped", false))
+
+
+## Thứ hạng nhóm popup (data popup.groups, nhóm đứng trước được xét trước); nhóm không khai báo xếp mặc định high_value.
+func _popup_group_rank(p: Dictionary) -> int:
+	var groups: Array = GameData.iap().get("popup", {}).get("groups", [])
+	var at := groups.find(String(p.get("popup_group", "high_value")))
+	return at if at >= 0 else groups.size()
+
+
+## Điểm ưu tiên của icon gói ở dải chặng (OfferRotationConfig của game gốc: NoAds 400, IncomeX2 300, ...); mặc định 0.
+func strip_prio(sku: String) -> int:
+	return int(product(sku).get("strip_prio", 0))
+
+
+## Điều kiện riêng của popup tự hiện, tách khỏi điều kiện mở thẻ trong Shop.
+func _popup_ready(p: Dictionary) -> bool:
+	if not _unlocked(p.get("popup_unlock", {})):
+		return false
+	for other in (p.get("popup_unless", []) as Array):
+		if block_reason(String(other)) == "":
+			return false
+	return true
 
 
 ## Gói được tự hiện lúc này: {"sku", "why"}. sku rỗng thì why: "" (không có gì chờ), "tutorial", "gap", "day_cap", "session".
@@ -214,6 +347,11 @@ func next_sales_popup(now: float = -1.0) -> Dictionary:
 	var today := GameState.iap_day(now)
 	if int(state.get("day_utc", -1)) == today and int(state.get("count_today", 0)) >= int(cfg.get("per_day", 1)):
 		return {"sku": "", "why": "day_cap"}
+	for sku: String in queue:
+		var first_o: Dictionary = GameState.iap["offers"][sku]
+		if bool(product(sku).get("high_priority", false)) and not bool(first_o.get("high_used", false)) \
+				and int(first_o.get("last_popup_day", -1)) != today:
+			return {"sku": sku, "why": ""}
 	var last := float(state.get("last_t", -1.0))
 	var since := now - last if last >= 0.0 else INF
 	if since >= 0.0 and since < float(cfg.get("gap_sec", 0)):
@@ -240,6 +378,8 @@ func note_sales_popup(sku: String, now: float = -1.0) -> void:
 	var o: Dictionary = (GameState.iap["offers"] as Dictionary).get(sku, {"open_t": now})
 	o["popup_count"] = int(o.get("popup_count", 0)) + 1
 	o["last_popup_day"] = today
+	if bool(product(sku).get("high_priority", false)):
+		o["high_used"] = true
 	GameState.iap["offers"][sku] = o
 	var state: Dictionary = GameState.iap["popup"]
 	state["count_today"] = int(state.get("count_today", 0)) + 1 if int(state.get("day_utc", -1)) == today else 1

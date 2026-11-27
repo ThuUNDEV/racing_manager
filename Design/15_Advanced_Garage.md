@@ -193,3 +193,5 @@ Thứ tự triển khai dự kiến: catalog cosmetic/art → giao dịch nâng 
 ## 10. Quan hệ với tài liệu cũ
 
 Tài liệu này đề xuất thay UI Garage trong 01/06 và cách truy cập xe ở trang Đội, giữ nền kinh tế 12–13 và đua liên tục 10. Không ghi đè tài liệu cũ hoặc tự chuyển trạng thái tính năng thành đã phát hành. Sau khi duyệt, cập nhật các mục UI/phạm vi tương ứng; tài liệu 14 về equipment không bị nhập vào Garage.
+
+> Ngoại lệ (27/11/2026, `Design/35` đợt E1): sáu màu sơn Epic (`epic: "paint"` hoặc `"car"` trong `data/garage_cosmetics.json`) chỉ dùng được sau khi mua IAP; sơn thường và decal vẫn miễn phí.

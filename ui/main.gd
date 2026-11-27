@@ -98,15 +98,27 @@ const PACK_PROMOS := [
 	{"kind": "offer", "icon": "icons/pack_offer", "skus": ["offer_noads_bundle", "offer_combo_1", "offer_combo_2"], "name": "shop.special_packs"},
 	{"kind": "weekly", "icon": "icons/pack_weekly", "skus": ["weekly_s", "weekly_m", "weekly_l", "weekly_xl"], "name": "shop.weekly_packs"},
 	# Tiện ích vĩnh viễn (Design/28 §4.2). Icon tạm dùng icons/coin cho tới khi có icons/pack_perk.
-	{"kind": "perk", "icon": "icons/coin", "skus": ["income_x2", "no_ads"], "name": "shop.more_perks"},
+	# Ưu đãi xoay tuần (Design/35 đợt C+D): một icon chung cho Gói Giới hạn rồi Gói Chọn Một; chỉ ô thuộc vòng xoay hiện tại bán được nên icon tự đổi theo tuần. Icon tạm.
+	{"kind": "timed", "icon": "icons/pack_offer", "skus": ["limited_1_2", "limited_1_1", "limited_1_3", "limited_2_2", "limited_2_1", "limited_2_3", "limited_3_2", "limited_3_1", "limited_3_3", "limited_4_2", "limited_4_1", "limited_4_3", "chooseone_m_1", "chooseone_s_1", "chooseone_l_1", "chooseone_all_1", "chooseone_m_2", "chooseone_s_2", "chooseone_l_2", "chooseone_all_2", "chooseone_m_3", "chooseone_s_3", "chooseone_l_3", "chooseone_all_3"], "name": "shop.limited_offers"},
+	# Xe Epic / Bộ sơn Epic (Design/35 đợt E1): một icon chung, hiện gói chưa mua có strip_prio cao nhất. Icon tạm.
+	{"kind": "epic", "icon": "icons/pack_offer", "skus": ["epic_car_pico", "epic_car_nova", "epic_car_apex", "epic_car_titan", "epic_car_zenith", "epic_paint_aurora", "epic_paint_solar", "epic_paint_midnight", "epic_paint_sakura", "epic_paint_neon"], "name": "shop.epic_cars"},
+	{"kind": "perk", "icon": "icons/coin", "skus": ["income_x2", "income_x3_up", "no_ads", "offline_plus"], "name": "shop.more_perks"},
+	# Gói ngày và gói tay đua dùng tạm icon có sẵn cho tới khi có sprite riêng ("soft:" = id trong Soft Miniature).
+	{"kind": "daily", "icon": "icons/gift", "skus": ["daily_gear", "daily_driver"], "name": "shop.daily_packs"},
+	{"kind": "character", "icon": "soft:nav_team", "skus": ["char_my", "char_lam", "char_nhan", "char_phuong", "char_quang", "char_son"], "name": "shop.recruit_drivers"},
 ]
+## Ô dải chặng trên canvas 1448×225: cỡ chuẩn 260; quá 5 ô thì thu hẹp (và cao hơn để vẫn đủ chạm) cho vừa một hàng.
+const STRIP_W := 1448.0
+const STRIP_SLOT_W := 260.0
 var _promo_ui: Dictionary = {}
+var _strip_row: HBoxContainer
 var _promo_seen: Dictionary = {}
 ## Popup bán hàng tự hiện (Design/28 §5b): hạng của lượt chờ xét, và gói đang giữ vòng đua.
 var _sales_position := 0
 var _sales_tutorial_hit := false
 var _sales_sku := ""
 var _break_card: Control
+var _detail_open_sku := ""   # gói đang xem trong popup chi tiết
 var _race_no_label: Label
 var _income_label: Label
 var _status_label: Label
@@ -125,6 +137,7 @@ var _roster: DriverRosterPage
 var _league_box: VBoxContainer
 var _shop_box: VBoxContainer
 var _shop_content: VBoxContainer
+var _shop_panel: StyleBoxFlat
 var _toast: Label
 var _overlay: Control
 var _offline_popup_pending := false
@@ -248,9 +261,19 @@ func activate() -> void:
 	_refresh()
 	if GameState.load_error != "":
 		_show_toast(GameState.load_error)
-	_start_tutorial()
+	if GameState.first_class_pending and _shot_prefix == "" and not _auto_race:
+		GameState.gate_first_class = true
+		_class_page.first_class_chosen.connect(_on_first_class_chosen, CONNECT_ONE_SHOT)
+		_class_page.open_first_choice()
+	else:
+		_start_tutorial()
 	_open_next_overlay()
 	_set_music("music_workshop_loop")
+
+
+func _on_first_class_chosen() -> void:
+	_refresh()
+	_start_tutorial()
 
 
 ## Dev: khởi tạo đồng bộ khi chạy riêng main.tscn, bỏ qua BootFlow.
@@ -884,6 +907,7 @@ func _build_race_block(v: VBoxContainer) -> void:
 	strip_row.add_theme_constant_override("separation", 36)
 	strip_canvas.add_child(strip_row)
 	RaceArt.place(strip_row, Rect2(0, 10, 1448, 205))
+	_strip_row = strip_row
 	var boost_slot := Control.new()
 	boost_slot.name = "BoostSlot"
 	boost_slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -895,6 +919,8 @@ func _build_race_block(v: VBoxContainer) -> void:
 	_ads_controls = AdsRaceControls.new()
 	_race_view.add_child(_ads_controls)
 	_ads_controls.dock_chip(boost_slot)
+	boost_slot.visibility_changed.connect(_fit_strip_slots)
+	_fit_strip_slots()
 	_power_banner = PowerIncreaseBanner.new()
 	_race_view.add_child(_power_banner)
 	_build_race_result_panel()
@@ -939,7 +965,11 @@ func _build_pack_promos(strip_row: HBoxContainer) -> void:
 		button.custom_minimum_size = Vector2(260, 205)
 		button.pressed.connect(_open_pack_promo.bind(kind))
 		strip_row.add_child(button)
-		RaceArt.image(button, String(promo["icon"]), Rect2(35, 28, 190, 149))
+		var icon := String(promo["icon"])
+		var art := RaceArt.image(button, "icons/gift" if icon.begins_with("soft:") else icon, Rect2(35, 28, 190, 149))
+		art.name = "Icon"
+		if icon.begins_with("soft:"):
+			art.texture = preload("res://ui/soft_miniature.gd").icon(icon.trim_prefix("soft:"))
 		var dot := Panel.new()
 		dot.name = "Dot"
 		dot.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -964,12 +994,58 @@ func _pack_promo_sku(skus: Array) -> String:
 
 
 func _refresh_pack_promos() -> void:
+	var order: Array = []
 	for kind: String in _promo_ui:
 		var entry: Dictionary = _promo_ui[kind]
 		var sku := _pack_promo_sku(entry["skus"])
 		entry["sku"] = sku
 		(entry["button"] as Button).visible = sku != ""
 		(entry["dot"] as Control).visible = sku != "" and not _promo_seen.has(sku)
+		order.append([-Iap.strip_prio(sku) if sku != "" else 0, order.size(), kind])
+	_order_pack_promos(order)
+	_fit_strip_slots()
+
+
+## Icon điểm ưu tiên cao đứng trước (sau ô tăng tốc); cùng điểm giữ thứ tự PACK_PROMOS.
+func _order_pack_promos(order: Array) -> void:
+	if not is_instance_valid(_strip_row):
+		return
+	order.sort()
+	var at := 1
+	for item: Array in order:
+		var button := (_promo_ui[String(item[2])] as Dictionary)["button"] as Button
+		if button.get_parent() == _strip_row and button.get_index() != at:
+			_strip_row.move_child(button, at)
+		at += 1
+
+
+## Chia bề ngang cho các ô đang hiện (kể cả ô tăng tốc).
+func _fit_strip_slots() -> void:
+	if not is_instance_valid(_strip_row):
+		return
+	var slots: Array = _strip_row.get_children().filter(func(c: Control) -> bool: return c.visible)
+	var n := slots.size()
+	if n == 0:
+		return
+	var crowded := n > 5
+	var gap := 16 if crowded else 36
+	var width := minf(STRIP_SLOT_W, floorf((STRIP_W - gap * (n - 1)) / n))
+	var height := 220.0 if crowded else 205.0
+	_strip_row.add_theme_constant_override("separation", gap)
+	var k := width / STRIP_SLOT_W
+	for slot: Control in _strip_row.get_children():
+		slot.custom_minimum_size = Vector2(width, height)
+		var art := slot.get_node_or_null("Icon") as Control
+		if art != null:
+			var extent := Vector2(190, 149) * k
+			RaceArt.place(art, Rect2((Vector2(width, height) - extent) / 2.0, extent))
+			RaceArt.place(slot.get_node("Dot") as Control, Rect2(width - 53.0 * k, 9, 40.0 * k, 40.0 * k))
+	# Đặt khung hàng sau khi các ô đã thu: đặt trước thì bị giữ ở bề ngang tối thiểu cũ và lệch phải.
+	var rect := Rect2(0, 3.0 if crowded else 10.0, STRIP_W, height)
+	RaceArt.place(_strip_row, rect)
+	RaceArt.place.call_deferred(_strip_row, rect)
+	if _ads_controls != null:
+		_ads_controls.relayout_chip()
 
 
 func _open_pack_promo(kind: String) -> void:
@@ -1045,6 +1121,7 @@ func _build_team_page() -> void:
 	_garage.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_garage.sfx.connect(_sfx)
 	_garage.notice.connect(_show_toast)
+	_garage.shop_requested.connect(func() -> void: _select_tab(Tab.SHOP))
 	page.add_child(_garage)
 	_drivers_box = v
 	# Trang Tay đua dựng lại theo mockup (ui/driver_roster_page.gd); bảng chi tiết phủ vùng nội dung, không che khung đua.
@@ -1268,13 +1345,23 @@ func _build_league_page() -> void:
 	(_league_box.get_parent() as ScrollContainer).add_theme_stylebox_override("panel", background)
 
 
+func _apply_shop_side_margin() -> void:
+	if _shop_panel == null:
+		return
+	var side := CONTENT_SIDE if size.x >= 360.0 else 8
+	_shop_panel.content_margin_left = side
+	_shop_panel.content_margin_right = side
+	(_shop_box.get_parent() as ScrollContainer).queue_redraw()
+
+
 func _build_shop_page() -> void:
 	_shop_box = _make_page()
 	# Lề ngang chung 8 cho mọi khối Shop (tiêu đề, thẻ miễn phí, gói đặc biệt đều thẳng hàng).
 	var shop_panel := StyleBoxFlat.new()
 	shop_panel.bg_color = preload("res://ui/shop_demo_theme.gd").BG
-	shop_panel.content_margin_left = 8
-	shop_panel.content_margin_right = 8
+	_shop_panel = shop_panel
+	_apply_shop_side_margin()
+	resized.connect(_apply_shop_side_margin)
 	(_shop_box.get_parent() as ScrollContainer).add_theme_stylebox_override("panel", shop_panel)
 	_shop_content = (CleanArt.asset("res://ui/shop_page.gd") as GDScript).new()
 	_shop_box.add_child(_shop_content)
@@ -1312,9 +1399,17 @@ func _on_iap_result(r: Dictionary) -> void:
 		"ok":
 			var g: Dictionary = GameState.last_iap_grant
 			_sfx("daily_gift")
-			if _sales_sku != "" and String(r.get("sku", "")) == _sales_sku:
-				_close_overlay()
-			_show_toast(I18n.t("main.purchase_successful") + (" · +%d gem" % int(g["gems"]) if int(g.get("gems", 0)) > 0 else ""))
+			var bought := String(r.get("sku", ""))
+			if _overlay.visible and bought == _detail_open_sku and _overlay_box.find_child("DetailBuy_" + bought, true, false) != null:
+				if _sales_sku != "":
+					_close_overlay()  # popup tự hiện: mua xong thì đóng, vòng đua chạy tiếp
+				elif bought.begins_with("starter_"):
+					_fill_iap_detail(bought)  # cập nhật dải 1 · 2 · 3
+			var target_class := String(g.get("class", ""))
+			var class_note := ""
+			if target_class != "" and GameState.class_owned.size() > 1:
+				class_note = " · " + I18n.t("shop.delivered_to") % String(GameData.race_class(target_class).get("name", target_class))
+			_show_toast(I18n.t("main.purchase_successful") + (" · +%d gem" % int(g["gems"]) if int(g.get("gems", 0)) > 0 else "") + class_note)
 		"pending":
 			_show_toast(I18n.t("main.waiting_payment_finish"))
 		"invalid":
@@ -2037,21 +2132,77 @@ func _iap_view() -> Dictionary:
 			"first_bonus": p.has("first_bonus") and not sku in GameState.iap["first_bonus_used"]}
 		var did := String((p.get("grant", {}) as Dictionary).get("driver", ""))
 		items[sku]["driver_owned"] = did != "" and GameState.driver_has(did)
-	return {"items": items, "busy": Iap.is_busy(), "restorable": Iap.restorable()}
+	var chains := {}
+	for chain: String in GameData.IAP_CHAINS:
+		chains[chain] = Iap.chain_state(chain)
+	var timed := {}
+	for mode: String in GameData.IAP_ROTATIONS:
+		var state := Iap.timed_state(mode)
+		state["ends_in"] = floorf(float(state["ends_in"]) / 60.0) * 60.0
+		timed[mode] = state
+	return {"items": items, "chains": chains, "timed": timed, "busy": Iap.is_busy(), "restorable": Iap.restorable()}
 
 
 func _show_iap_detail(sku: String) -> void:
-	var product := GameData.iap_product(sku)
-	if product.is_empty():
+	if GameData.iap_product(sku).is_empty():
 		return
 	_sfx("ui_click")
 	_begin_overlay()
+	_fill_iap_detail(sku)
+
+
+## Dựng nội dung popup chi tiết vào overlay đã mở (gọi lại khi đổi bước của chuỗi Tân binh).
+func _fill_iap_detail(sku: String) -> void:
+	var product := GameData.iap_product(sku)
+	_clear(_overlay_box)
+	var stale := _overlay_panel().get_node_or_null("PromoHeaderHolder")
+	if stale != null:
+		stale.get_parent().remove_child(stale)
+		stale.queue_free()
+	_detail_open_sku = sku
 	var panel := _overlay_box.get_parent().get_parent() as PanelContainer
 	panel.add_theme_stylebox_override("panel", _shop_content.BenefitUi.shell())
 	_overlay_box.get_parent().set_meta("preferred_width", 366.0)
-	panel.add_child(_shop_content.BenefitUi.header(I18n.t("main.my_joins_team") if sku == "char_my" else _shop_content.PackUi.title(product), _close_overlay, _shop_content.BenefitUi.scale_for(size.x)))
+	if _shop_content.EpicDetail.is_epic(product):
+		# Khung, thanh tiêu đề và bề rộng riêng theo concept Epic (Design/Previews/epic_popup_v2/plan.md).
+		var epic: GDScript = _shop_content.EpicDetail
+		panel.add_theme_stylebox_override("panel", epic.shell())
+		_overlay_box.get_parent().set_meta("preferred_width", epic.CONTENT_WIDTH)
+		_overlay_box.get_parent().set_meta("horizontal_gutter", epic.SCREEN_GUTTER)
+		var epic_margin := _overlay_box.get_parent().get_parent().get_parent().get_parent() as MarginContainer
+		epic_margin.add_theme_constant_override("margin_left", roundi(epic.SCREEN_GUTTER * 0.5))
+		epic_margin.add_theme_constant_override("margin_right", roundi(epic.SCREEN_GUTTER * 0.5))
+		var ribbon_holder := Control.new()
+		ribbon_holder.name = "PromoHeaderHolder"
+		ribbon_holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		ribbon_holder.add_child(epic.header(epic.title(product), _close_overlay))
+		panel.add_child(ribbon_holder)
+	else:
+		panel.add_child(_shop_content.BenefitUi.header(I18n.t("main.my_joins_team") if sku == "char_my" else _shop_content.PackUi.title(product), _close_overlay, _shop_content.BenefitUi.scale_for(size.x)))
 	_overlay_box.get_parent().set_meta("vertical_gutter", 80.0 + _shop_content.BenefitUi.shell().get_minimum_size().y)
+	if String(product.get("kind", "")) == "starter":
+		var steps := preload("res://ui/starter_steps.gd").new()
+		steps.setup(sku, steps.CHAIN.filter(func(other: String) -> bool: return Iap.block_reason(other) in ["", "busy"]))
+		steps.picked.connect(func(other: String) -> void:
+			_sfx("ui_click")
+			_fill_iap_detail.call_deferred(other))
+		_overlay_box.add_child(steps)
+		if size.y < 650.0:  # màn thấp: bớt lề trên dưới để nút mua không bị đẩy khuất bởi dải bước
+			var margin := _overlay_box.get_parent().get_parent().get_parent().get_parent() as MarginContainer
+			margin.add_theme_constant_override("margin_top", 8)
+			margin.add_theme_constant_override("margin_bottom", 8)
+			_overlay_box.get_parent().set_meta("vertical_gutter", 16.0 + _shop_content.BenefitUi.shell().get_minimum_size().y)
 	_overlay_box.add_child(_shop_content.build_detail(sku))
+	var later := _overlay_box.find_child("EpicLater", true, false) as Button
+	if later != null:
+		later.pressed.connect(_close_overlay)
+	for arrow_name: String in ["EpicPrev", "EpicNext"]:
+		var arrow := _overlay_box.find_child(arrow_name, true, false) as Button
+		if arrow != null:
+			var other: String = _shop_content.EpicDetail.neighbor(sku, -1 if arrow_name == "EpicPrev" else 1)
+			arrow.pressed.connect(func() -> void:
+				_sfx("ui_click")
+				_fill_iap_detail.call_deferred(other))
 	_fit_overlay()
 
 

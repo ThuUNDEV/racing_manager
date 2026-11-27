@@ -18,14 +18,14 @@ func _init() -> void:
 	box.add_child(badge_space)
 	bonus = PanelContainer.new()
 	bonus.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var badge := DemoSkin.Soft.flat(Color("08a7e3"), 1, 7)
+	var badge := DemoSkin.Soft.flat(DemoSkin.BLUE, 1, 7)
 	badge.content_margin_left = 5; badge.content_margin_right = 5
 	badge.set_border_width_all(0)
 	bonus.add_theme_stylebox_override("panel", badge)
 	badge_space.add_child(bonus)
 	var caption := DemoSkin.label("", 9)
 	caption.name = "BonusLabel"
-	caption.add_theme_color_override("font_color", Color.WHITE)
+	caption.add_theme_color_override("font_color", DemoSkin.INK)
 	bonus.add_child(caption)
 	art_rect = DemoSkin.picture(null, Vector2(0, 64))
 	box.add_child(art_rect)

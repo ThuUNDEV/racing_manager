@@ -1,0 +1,48 @@
+{
+  "date": "2026-11-27",
+  "use_case": "ui-mockup",
+  "tool": "built-in image_gen.imagegen",
+  "model": "Built-in image_gen; underlying image model ID not exposed by tool",
+  "agent_model": "gpt-6.1-sol",
+  "reasoning_effort": "medium",
+  "mode": "generate with style references",
+  "prompts": {
+    "epic_shop_v1": "Use case: ui-mockup.\nGenerate ONE new polished raster UI concept, a very tall vertically scrolling mobile idle racing Shop slice, Vietnamese, Soft Miniature style. Target aspect ratio 390:1300 logical pixels, high resolution about 886 pixels wide and 2953 pixels tall. Full bleed image, no device frame, no presentation labels.\nINPUT IMAGES are STYLE REFERENCES ONLY, not edit targets: reference 1 is PRIMARY for cream outer cards, beige inset outlines, rounded navy bold typography, glossy orange buttons, cyan chips; references 2–4 for sculpted toy-clay car silhouette and pedestal, reference 5 for Shop finish. Do not copy their content or prices.\nLayout: narrow margins on cream backdrop. Small clipped blurred neighbouring UI at top and bottom, no legible neighbouring offers. TWO complete sections stacked with compact sensible spacing. Each section uses a glossy blue banner, gift icon on left, pale checkered flag on right. ONE cream outer card below each banner, containing ONE HORIZONTAL CAROUSEL of vertical product cards. CRITICAL: each carousel shows exactly TWO FULL CARDS side by side and about one QUARTER of a THIRD card clipped at the RIGHT edge. This is a horizontal viewport, never a 3-column grid or stacked cards. Small page dots beneath each row. Equal card widths around 155 logical pixels; modest tall product cards, fill image thoughtfully.\nSECTION A banner exact \"XE EPIC\".\nInside carousel: full PICO EPIC, full NOVA EPIC, partly clipped APEX EPIC. PICO is a small light blue city racer with chunky rounded body, big rubber wheels and toy proportions. NOVA is a larger sleek teal sporty racer with more aggressive wing, still rounded toy-clay. APEX at right is more powerful still. Each sits on a small cream-blue round pedestal with subtle purple sparkle aura. Use car silhouette language from garage references, simplified chunky rounded/open wheel racing toys, NOT realistic supercar photography. No digits on body.\nEach card top-left small purple ribbon exact \"EPIC\"; beneath car its name exact \"PICO EPIC\" / \"NOVA EPIC\" / \"APEX EPIC\"; pale cyan pill exact \"Độc quyền\"; exactly FOUR tiny stat bars, no numbers or labels; bottom glossy orange purchase button exact \"$9,99\". Align both full card bottoms. The two remaining cars TITAN EPIC and ZENITH EPIC exist OFF SCREEN; do not render their cards or names.\nSECTION B banner exact \"BỘ SƠN EPIC\".\nOne cream outer card with same horizontal carousel structure, TWO FULL CARDS plus partly clipped third at right, small dots below. Full \"AURORA\", full \"SOLAR\", clipped \"MIDNIGHT\". Show same simple rounded toy racer silhouette on pedestals in all livery cards, only paint and decal differ. AURORA teal-violet pearl paint, clear wave decal; SOLAR gold-orange paint, clear flame decal; MIDNIGHT black chrome paint, cyan stripe. Small purple \"EPIC\" ribbon top-left on each. Beneath each car name, small navy text exact \"Dùng cho mọi xe đã có\" (may wrap into two lines). AURORA is OWNED: bottom gray button with white checkmark and exact \"ĐÃ MUA\". SOLAR orange button exact \"$9,99\"; third card's orange \"$9,99\" naturally partly clipped by right viewport.\nStyle: luxurious playful tactile glossy toy clay, softly bevelled cream UI, soft ambient shadows and highlights, gentle warm studio light. Cars at three-quarter view, crisp contours and rounded friendly proportions. Purple rarity accents and sparkles only, not dark fantasy. Rounded bold navy typography and perfectly crisp Vietnamese diacritics, strong readable hierarchy. Match reference cream-blue-orange card language. No other words, numbers, rewards, currencies, stats numbers, invented badges, HUD, bottom nav, watermarks or labels. Exact text strings only.",
+    "epic_car_popup_v1": "Use case: ui-mockup.\nGenerate ONE new polished raster promotional popup concept for Vietnamese mobile idle racing game, Soft Miniature style. Portrait aspect 390:844, high resolution about 886x1918 pixels. No device frame, no presentation labels. Use input images as STYLE REFERENCES ONLY, not edit targets: image 1 PRIMARY cream-blue card language, navy rounded bold type, pale cyan chips, orange glossy button; images 2–4 toy-clay miniature cars and garage; image 5 Shop finishing. Do not copy old text, numbers, prices or content.\nScene: dimmed strongly blurred cozy toy garage background, warm cream arches, blue drawers, wheels and soft lighting. No legible background text, no HUD numbers. Center one cream rounded popup filling most of width with comfortable margins and soft drop shadow. Blue header bar EXACT text \"XE EPIC ĐỘC QUYỀN\", bold white rounded readable type. Small round X close button top-right, integrated cleanly without covering title.\nHero within popup: a large glossy toy-clay ZENITH EPIC racer on a round cream and blue pedestal, purple and gold sparkle burst and tasteful purple aura. Purple \"EPIC\" ribbon near top-left of hero. Zenith is the largest most aggressive class racer but remains a small chunky rounded miniature, big soft rubber tires, short sculpted nose, bold rear wing, toy open-wheel/rounded racing silhouette consistent with garage reference cars; pearl violet and deep blue paint with gold accents, no letters or digits on car body. Three-quarter front view. Car entirely visible and clearly readable as a collectable toy, not realistic full size supercar.\nBelow hero: large navy name EXACT \"ZENITH EPIC\".\nBelow name: a pale cyan rounded chip EXACT \"Hạng Zenith • Chỉ có ở cửa hàng\".\nBelow: THREE small pale cyan benefit chips in ONE HORIZONTAL ROW, all three visible, with these EXACT strings: \"Hiệu suất cao hơn\", \"Xe sưu tầm\", \"Dùng được ngay\". Their text may wrap within each chip over two lines for readable 390 logical pixel layout; never omit or duplicate one. Tiny fitting illustrative icons optional if they don't harm readability.\nBelow benefit row: big full width glossy orange rounded button with EXACT \"$9,99\" in large bold white type. Under button small gray text link EXACT \"Để sau\".\nStyle: soft rounded cream UI, beige outlines, sculpted clay gloss, soft ambient shadows, premium purple/gold sparkle accents, saturated blue header, navy rounded bold font. Keep Vietnamese diacritics completely correct, typography crisp at mobile size, balanced spacing, simple premium hierarchy. ONLY the specified text plus the X close glyph. No other numbers, stat values, invented rewards, claims, badges, countdowns, nav bars, watermarks or extra text."
+  },
+  "reference_images": [
+    "/home/thupv/Desktop/DataSSD/racing_manager/Design/Concepts/IAP_Limited_ChooseOne_v1/limited_chooseone_shop_v1.png",
+    "/home/thupv/Desktop/DataSSD/racing_manager/Design/Demos/SoftMiniature/approved/04-garage.png",
+    "/home/thupv/Desktop/DataSSD/racing_manager/Design/Concepts/Garage_Redesign_v2/01-car.png",
+    "/home/thupv/Desktop/DataSSD/racing_manager/Design/Concepts/Garage_Redesign_v2/03-look.png",
+    "/home/thupv/Desktop/DataSSD/racing_manager/Design/Demos/SoftMiniature/approved/06-shop.png"
+  ],
+  "outputs": [
+    {
+      "file": "epic_shop_v1.png",
+      "source_image": "/home/thupv/.codex/generated_images/01a21bc0-73c5-7ec3-887a-764964f68655/exec-a3f65121-1096-47c1-82fc-c38c09b0af5a.png",
+      "width": 739,
+      "height": 2129,
+      "mode": "RGB"
+    },
+    {
+      "file": "epic_car_popup_v1.png",
+      "source_image": "/home/thupv/.codex/generated_images/01a21bc0-73c5-7ec3-887a-764964f68655/exec-eeca50fa-dcbf-4def-ad37-080656966817.png",
+      "width": 916,
+      "height": 1716,
+      "mode": "RGB"
+    }
+  ],
+  "review": {
+    "observed_text_or_number_errors": [],
+    "notes": [
+      "Visually inspected both built-in outputs. Required visible Vietnamese strings and decimal-comma prices appear correct; clipped third-card names/text are intentionally partial.",
+      "Shop contains two complete cards and a partial third per horizontal carousel, four unnumbered stat bars per car, page dots, owned AURORA and available SOLAR. TITAN and ZENITH shop cards remain off screen.",
+      "Generated Shop is 739x2129 (390x1124 logical equivalent), more compact than requested ~390x1300 and narrower than ~886 render width. No post-generation resizing or compositing.",
+      "Generated popup is 916x1716 (390x731 logical equivalent), more compact than requested ~390x844. Benefit chips have larger icon tiles rather than small text chips.",
+      "Shop stat bars are larger icon-supported rows rather than tiny bars. Bottom blurred neighbour resembles navigation instead of an adjacent offer card.",
+      "Popup includes decorative gift/checker header motifs consistent with the primary reference. No extra text or numbers observed.",
+      "Only the two PNG concepts and prompts.json were created in the destination. No runtime code, data, i18n, Godot import or git operations."
+    ]
+  }
+}

@@ -66,9 +66,14 @@ static func expansion(id: String) -> Texture2D:
 			return texture(part)
 	return null
 
-static func surface(kind: String = "panel", padding: Vector4 = Vector4(10, 8, 10, 10)) -> StyleBoxTexture:
+static func surface(kind: String = "panel", padding: Vector4 = Vector4(10, 8, 10, 10)) -> StyleBox:
 	if kind == "section" or kind == "section_tall":
-		return gloss(kind, padding)
+		var ribbon := preload("res://ui/section_ribbon_style.gd").new()
+		ribbon.content_margin_left = padding.x
+		ribbon.content_margin_top = padding.y
+		ribbon.content_margin_right = padding.z
+		ribbon.content_margin_bottom = padding.w
+		return ribbon
 	var key := "panel_upgrade"
 	match kind:
 		"blue": key = "section_blue"

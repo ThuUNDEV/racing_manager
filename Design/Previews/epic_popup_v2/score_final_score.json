@@ -1,0 +1,96 @@
+{
+ "score": 90.0,
+ "color": 94.6,
+ "structure": 85.4,
+ "size": [
+  372,
+  612
+ ],
+ "cell": 24,
+ "worst_cells": [
+  {
+   "x": 312,
+   "y": 456,
+   "color": 0.816,
+   "structure": 0.056,
+   "score": 0.436
+  },
+  {
+   "x": 240,
+   "y": 456,
+   "color": 0.875,
+   "structure": 0.0,
+   "score": 0.438
+  },
+  {
+   "x": 216,
+   "y": 456,
+   "color": 0.953,
+   "structure": 0.0,
+   "score": 0.476
+  },
+  {
+   "x": 288,
+   "y": 480,
+   "color": 0.972,
+   "structure": 0.0,
+   "score": 0.486
+  },
+  {
+   "x": 24,
+   "y": 480,
+   "color": 0.973,
+   "structure": 0.0,
+   "score": 0.487
+  },
+  {
+   "x": 312,
+   "y": 480,
+   "color": 0.98,
+   "structure": 0.0,
+   "score": 0.49
+  },
+  {
+   "x": 48,
+   "y": 480,
+   "color": 0.991,
+   "structure": 0.0,
+   "score": 0.496
+  },
+  {
+   "x": 120,
+   "y": 120,
+   "color": 0.949,
+   "structure": 0.118,
+   "score": 0.533
+  },
+  {
+   "x": 216,
+   "y": 72,
+   "color": 0.974,
+   "structure": 0.107,
+   "score": 0.541
+  },
+  {
+   "x": 192,
+   "y": 240,
+   "color": 0.964,
+   "structure": 0.275,
+   "score": 0.619
+  },
+  {
+   "x": 96,
+   "y": 480,
+   "color": 0.904,
+   "structure": 0.346,
+   "score": 0.625
+  },
+  {
+   "x": 288,
+   "y": 240,
+   "color": 0.953,
+   "structure": 0.307,
+   "score": 0.63
+  }
+ ]
+}

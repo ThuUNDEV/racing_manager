@@ -10,7 +10,17 @@
     {"id": "white", "name": "@data.garage_cosmetics.white", "color": "#ece8dd", "texture": "cars/white.tres"},
     {"id": "graphite", "name": "Graphite", "color": "#3b3e44", "texture": "cars/graphite.tres"},
     {"id": "teal", "name": "@data.garage_cosmetics.teal", "color": "#2aa5a0", "texture": "cars/teal.tres"},
-    {"id": "purple", "name": "@data.garage_cosmetics.purple", "color": "#8a5bd0", "texture": "cars/purple.tres"}
+    {"id": "purple", "name": "@data.garage_cosmetics.purple", "color": "#8a5bd0", "texture": "cars/purple.tres"},
+    {"id": "epic_sapphire", "name": "@data.garage_cosmetics.epic_sapphire", "color": "#2f7ae0", "ink": "#ffd447", "finish": "pearl", "epic": "car", "car": "car_pico_epic"},
+    {"id": "epic_jade", "name": "@data.garage_cosmetics.epic_jade", "color": "#19b59a", "ink": "#fff2a8", "finish": "pearl", "epic": "car", "car": "car_nova_epic"},
+    {"id": "epic_ruby", "name": "@data.garage_cosmetics.epic_ruby", "color": "#d6304a", "ink": "#ffe08a", "finish": "pearl", "epic": "car", "car": "car_apex_epic"},
+    {"id": "epic_aurum", "name": "@data.garage_cosmetics.epic_aurum", "color": "#e8a91c", "ink": "#5b2a86", "finish": "pearl", "epic": "car", "car": "car_titan_epic"},
+    {"id": "epic_amethyst", "name": "@data.garage_cosmetics.epic_amethyst", "color": "#8a3fd0", "ink": "#f2c230", "finish": "pearl", "epic": "car", "car": "car_zenith_epic"},
+    {"id": "epic_aurora", "name": "@data.garage_cosmetics.epic_aurora", "color": "#7a6fe0", "ink": "#7ff0e0", "finish": "pearl", "epic": "paint", "sku": "epic_paint_aurora"},
+    {"id": "epic_solar", "name": "@data.garage_cosmetics.epic_solar", "color": "#ffb020", "ink": "#e8412a", "finish": "pearl", "epic": "paint", "sku": "epic_paint_solar"},
+    {"id": "epic_midnight", "name": "@data.garage_cosmetics.epic_midnight", "color": "#1b1d26", "ink": "#43d9ff", "finish": "pearl", "epic": "paint", "sku": "epic_paint_midnight"},
+    {"id": "epic_sakura", "name": "@data.garage_cosmetics.epic_sakura", "color": "#f7a8c8", "ink": "#c2386f", "finish": "pearl", "epic": "paint", "sku": "epic_paint_sakura"},
+    {"id": "epic_neon", "name": "@data.garage_cosmetics.epic_neon", "color": "#17e0c8", "ink": "#3a1d7a", "finish": "pearl", "epic": "paint", "sku": "epic_paint_neon"}
   ],
   "decals": [
     {"id": "none", "name": "@data.garage_cosmetics.none"},

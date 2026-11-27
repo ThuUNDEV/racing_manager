@@ -71,7 +71,7 @@ func _initialize() -> void:
 	print("== Dữ liệu ==")
 	_check(GameData.validate().is_empty(), "validate() không lỗi: %s" % str(GameData.validate()))
 	var prods := GameData.iap_products()
-	_check(prods.size() == 27, "27 SKU (có %d)" % prods.size())
+	_check(prods.size() == 120, "120 SKU (có %d)" % prods.size())
 	var horus: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://horus-game.json"))
 	var hp := {}
 	for e: Dictionary in horus.get("products", []):

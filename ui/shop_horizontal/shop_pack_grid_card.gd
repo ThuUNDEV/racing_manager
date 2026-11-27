@@ -34,12 +34,12 @@ func _init() -> void:
 		info.add_theme_stylebox_override(state, StyleBoxEmpty.new())
 	var dot := PanelContainer.new()
 	dot.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	dot.add_theme_stylebox_override("panel", DemoSkin.Soft.flat(Color("09aae4"), 0, 7))
+	dot.add_theme_stylebox_override("panel", DemoSkin.Soft.flat(DemoSkin.BLUE, 0, 7))
 	info.add_child(dot)
 	dot.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
 	dot.offset_left = -10; dot.offset_top = -10; dot.offset_right = 10; dot.offset_bottom = 10
 	var text := DemoSkin.label("i", 14)
-	text.add_theme_color_override("font_color", Color.WHITE)
+	text.add_theme_color_override("font_color", DemoSkin.INK)
 	text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	dot.add_child(text)
 	info.pressed.connect(info_pressed.emit)

@@ -46,13 +46,14 @@ func run() -> void:
    check(main._garage.get_global_rect().end.x <= width+1,"Garage trong khung")
    if section == 0:
     var garage = main._garage
-    check(garage.get_node("CarStats").get_index() < garage.get_node("CarActions").get_index(), "Chỉ số trước CTA")
-    check(garage.get_node("CarActions").get_index() < garage.get_node("GarageTabs").get_index(), "CTA trước tab Xe")
+    check(garage.find_child("CarStats", true, false).get_index() < garage.find_child("CarActions", true, false).get_index(), "Chỉ số trước CTA")
+    check(garage.get_node("GarageTabs").get_index() < garage.get_node("GarageContent").get_index(), "Tab cố định trước nội dung Xe")
     var cards = garage.find_children("Collection_*", "Button", true, false)
     check(cards.size() == GameData.cars().size(), "Bộ sưu tập đầy đủ")
     for i in 3:
      check(cards[i].get_global_rect().end.y <= garage.get_global_rect().end.y + 1, "Hàng đầu bộ sưu tập thấy đủ ở %d" % width)
-    check(cards[1].get_child(0).get_child(0).paint_id == "blue", "Màu biến thể bám đường")
+    check(cards[1].get_child(0).get_child(0).paint_id == gs.cosmetics_of("car_pico_bam_duong")["paint_id"], "Xe sở hữu dùng màu đã lưu")
+    check(cards[2].get_child(0).get_child(0).paint_id == "teal", "Xe chưa sở hữu dùng màu danh mục")
     check(cards[3].get_node_or_null("LockedBadge") != null, "Xe khóa có icon khóa")
    if section == 1:
     for button in main._garage.find_children("Part_*", "Button", true, false):

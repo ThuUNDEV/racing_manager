@@ -1,0 +1,121 @@
+{
+  "status": "corrected_and_visually_reviewed",
+  "reference": "Design/Demos/SoftMiniature/approved/pack_popup_benefit_gifts_v1/01_benefit_gifts.png",
+  "fixed": [
+    "Header and 48px close button docked outside scroll, verified by real click after actual content scroll at 320x568.",
+    "Primary gem art restored; amount, portrait, headline, badge and reward fonts enlarged; gold/blue chips and orange CTA skinned for the reference.",
+    "Reward tray follows actual row count; removed forced 178px single-gift tray and empty 44px character note.",
+    "All six card aspect ratios now follow the approved 390x588 card, with native text/minimum touch target allowances.",
+    "Five cutouts regenerated from approved crop references at low quality, background removed via art-tools; mipmaps enabled for the larger PNGs.",
+    "Rates action uses an underlined native Button with a full 44px hit target and centered baseline.",
+    "Driver starter value badges are placed above the name rather than over the portrait."
+  ],
+  "sizes": {
+    "starter_1": {
+      "panel_logical": [
+        16.0,
+        151.0,
+        358.0,
+        542.0
+      ],
+      "height_at_390_width": 590.4
+    },
+    "weekly_s": {
+      "panel_logical": [
+        16.0,
+        151.0,
+        358.0,
+        542.0
+      ],
+      "height_at_390_width": 590.4
+    },
+    "offer_noads_bundle": {
+      "panel_logical": [
+        16.0,
+        152.0,
+        358.0,
+        540.0
+      ],
+      "height_at_390_width": 588.3
+    },
+    "income_x2": {
+      "panel_logical": [
+        16.0,
+        152.0,
+        358.0,
+        540.0
+      ],
+      "height_at_390_width": 588.3
+    },
+    "no_ads": {
+      "panel_logical": [
+        16.0,
+        152.0,
+        358.0,
+        540.0
+      ],
+      "height_at_390_width": 588.3
+    },
+    "char_my": {
+      "panel_logical": [
+        16.0,
+        152.0,
+        358.0,
+        540.0
+      ],
+      "height_at_390_width": 588.3
+    }
+  },
+  "validation": {
+    "ui_regression": "PACK_PROMO_POPUP_TEST failures=0",
+    "widths": [
+      320,
+      390,
+      412
+    ],
+    "language_count": 8,
+    "horizontal_or_line_clipping": [],
+    "short_actual_scroll": {
+      "content_min_height": 431.0,
+      "max_value": 431.0,
+      "page": 406.0,
+      "viewport": [
+        32.0,
+        110.0,
+        256.0,
+        406.0
+      ]
+    },
+    "short_pinned_close": [
+      240.0,
+      54.0,
+      48.0,
+      48.0
+    ],
+    "native_resolution": [
+      886,
+      1920
+    ],
+    "i18n": "OK; pre-existing checker warnings remain",
+    "existing_engine_exit_warnings": "Resource/ObjectDB exit warnings also present in the earlier baseline popup test."
+  },
+  "limits": [
+    "Screenshots verified on Godot OpenGL desktop; not a web/mobile device run.",
+    "Redrawn sprite details and font rasterization can differ slightly from the raster concept; no pixel-identical or percentage-similarity claim."
+  ],
+  "runtime_sources": [
+    "ui/pack_benefit_ui.gd",
+    "ui/shop_page.gd",
+    "ui/main.gd"
+  ],
+  "evidence": [
+    "compare_all.png",
+    "compare_starter_1.png",
+    "overlay_starter_1.png",
+    "overview_390.png",
+    "measurements.json",
+    "locale_measurements.json",
+    "native_measurements.json",
+    "starter_3_short_scrolled.png"
+  ]
+}

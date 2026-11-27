@@ -20,8 +20,9 @@ func _initialize() -> void:
 	var b := "car_pico_bam_duong"
 
 	print("== Danh mục ngoại hình ==")
-	_check(GameData.paints().size() == 8 and GameData.decals().size() == 4, "8 màu và 4 decal")
-	for p: Dictionary in GameData.paints():
+	var free_paints := GameData.paints().filter(func(p: Dictionary) -> bool: return not p.has("epic"))
+	_check(free_paints.size() == 8 and GameData.paints().size() == 18 and GameData.decals().size() == 4, "8 màu thường + 10 màu Epic và 4 decal")
+	for p: Dictionary in free_paints:
 		_check(ResourceLoader.exists("res://assets/workshop_gp/" + String(p["texture"])), "có texture màu " + String(p["id"]))
 
 	print("== Ngoại hình lưu theo xe ==")

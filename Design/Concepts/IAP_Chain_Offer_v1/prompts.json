@@ -1,0 +1,29 @@
+{
+  "date": "2026-11-27",
+  "tool": "built-in image_gen (image_gen.imagegen)",
+  "model": "Built-in image_gen; model identifier not exposed by tool",
+  "agent_model": "gpt-6.1-sol",
+  "use_case": "ui-mockup",
+  "mode": "generate with style references",
+  "selected_output": "chain_offer_shop_v1.png",
+  "variants": 1,
+  "prompt": "Use case: ui-mockup.\nCreate ONE polished raster image concept of a Vietnamese idle racing game's Shop scrolled to a new sequential purchase section. Portrait mobile canvas approximately 390:844 aspect ratio, preferably 1024x2216 or equivalent ratio, full bleed UI with no phone bezel. Not a poster, not a comparison sheet.\nAll five input images are STYLE REFERENCES, not edit targets: 1 shop_v9/shop.png establishes shop context and compact section hierarchy; 2 06-shop.png establishes Soft Miniature world and type; 3 perk_card_income_x2_variants.png establishes cream rounded card and hero-left hierarchy; 4 perk_cards_section.png is the PRIMARY card, warm cream palette, orange price-button, and blue section-header reference; 5 pack_promo_starter1.png establishes cheerful miniature racer and gem/red driver ticket/blue-yellow gear ticket imagery. Use their existing visual vocabulary closely. Do not copy their old English text or reward numbers.\nStyle: high-quality Soft Miniature toy-clay 3D illustrations, rounded sculpted cream panels, restrained soft shadows, thin warm edging, deep navy rounded bold typography, tiny raised icons, glossy vivid magenta gems, blue-yellow standard gear tickets, red Pro driver tickets, orange tactile purchase buttons with white prices. Match reference 4 card language.\nComposition: a vertically scrolling Shop slice. Narrow cropped, softly blurred adjacent shop content at very top and bottom, no legible extra offer data. The new blue rounded section bar near top has a small gift/star icon on left, EXACT title \"CHUỖI ƯU ĐÃI\", small blue-white checker motif on right. Below, TWO LARGE CREAM CARDS stacked vertically with equal width and matching corners. Both cards fully visible with generous legibility; central section takes about 88% of height. About 12 logical px side margin. No fabricated top balances or bottom nav necessary in this scroll slice.\nCard 1: title at top \"CHUỖI TAY ĐUA\". Small unobtrusive corner chip \"Mua tuần tự\". Under title/chip, a HORIZONTAL compact sequence of rounded step buttons separated by middle dots, matching code starter_steps.gd: completed 1,2,3 represented with three GREEN CHECKMARK buttons; current step is a bright orange button labelled \"4\"; next two steps show muted cream-gray LOCK buttons; ellipsis after them, and separate readable counter \"4 / 28\" on right. Do not show all 28 tiny steps. Main content: cheerful blue/yellow miniature racer with goggles on left, large navy \"$4,99\" on right. Below/alongside, two clearly separated reward rows with appropriate little icons and exact text \"255 gem\" and \"10 Phiếu tay đua Pro\" (long ticket label may wrap after 'tay đua'). Large orange purchase button towards lower right reading exactly \"$4,99\". Bottom small readable line across card EXACT \"Mua xong mở gói tiếp theo: $9,99\".\nCard 2: title \"CHUỖI GEAR\". Small corner chip \"Mua tuần tự\". Same horizontal step language: first step bright orange \"1\"; following steps muted with LOCKS; ellipsis, separate counter \"1 / 28\". No completed checks in card 2. Main content: miniature blue-yellow toolbox/gear equipment and blue-yellow gear tickets on left, large navy \"$0,99\" on right. Two reward rows EXACT \"50 gem\" and \"5 Phiếu gear Tiêu chuẩn\" (long ticket label may wrap). Matching orange purchase button towards lower right EXACT \"$0,99\". Bottom small line EXACT \"Mua xong mở gói tiếp theo: $1,99\".\nPrioritize exact Vietnamese diacritics, clean sharp text, correct numeral quantities, dollar symbols with decimal COMMA. These are sequential purchased packages, not a battle pass; do not add claim/free buttons or time limits. No new packages, no discounts, no value multipliers, no invented reward quantities or prices. Keep the title and chip from overlapping; leave typography breathing room. Generate only finished UI image, no annotations, no explanatory text outside UI, no watermark.",
+  "reference_images": [
+    "/home/thupv/Desktop/DataSSD/racing_manager/Design/Demos/SoftMiniature/approved/shop_v9/shop.png",
+    "/home/thupv/Desktop/DataSSD/racing_manager/Design/Demos/SoftMiniature/approved/06-shop.png",
+    "/home/thupv/Desktop/DataSSD/racing_manager/Design/Demos/SoftMiniature/approved/perk_card_income_x2_variants.png",
+    "/home/thupv/Desktop/DataSSD/racing_manager/Design/Demos/SoftMiniature/approved/perk_cards_section.png",
+    "/home/thupv/Desktop/DataSSD/racing_manager/Design/Demos/SoftMiniature/approved/pack_promo_starter1.png"
+  ],
+  "additional_reference": "ui/starter_steps.gd",
+  "source_image": "/home/thupv/.codex/generated_images/01a21b18-69f3-74e1-9a16-8194b243f6dd/exec-cf934bce-6947-4789-a4fd-c5eb6d48e8a2.png",
+  "review": {
+    "observed_text_errors": [],
+    "recommended_manual_checks": [
+      "Both small next-package lines and their $9,99 / $1,99 prices",
+      "Vietnamese diacritics in Phiếu tay đua Pro / Phiếu gear Tiêu chuẩn",
+      "4 / 28 and 1 / 28; 255 and 10; 50 and 5"
+    ],
+    "note": "Only one layout generated. No code modified."
+  }
+}

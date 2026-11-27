@@ -207,7 +207,7 @@ func run() -> void:
 	check(tut.step == "A3_income" and tut.wants_pause(), "A3 đang dừng game: không tự qua")
 	tut._on_primary()
 	tut._process(0.1)
-	check(tut.sub == 1 and tut._text.text.contains("Ticket Marketing"), "A3: chỉ nhóm Doanh thu và giải thích yếu tố tăng thu nhập")
+	check(tut.sub == 1 and tut._text.text.contains("Bán vé"), "A3: chỉ nhóm Doanh thu và giải thích yếu tố tăng thu nhập")
 	tut._on_primary()
 	tut._on_primary()
 	tut._process(0.1)

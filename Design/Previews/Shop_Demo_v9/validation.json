@@ -1,0 +1,50 @@
+{
+  "native_render_and_clicks": {
+    "script_errors": 0,
+    "results": [
+      "SHOP_DEMO_V9_TEST failures=0"
+    ],
+    "cleanup_warnings": true
+  },
+  "all_languages_layout": {
+    "script_errors": 0,
+    "results": [
+      "SHOP_DEMO_V9_TEST failures=0"
+    ],
+    "cleanup_warnings": true
+  },
+  "merged_gift_flow": {
+    "script_errors": 0,
+    "results": [
+      "SHOP_MERGED_GIFT_TEST failures=0"
+    ],
+    "cleanup_warnings": true
+  },
+  "pack_payments": {
+    "script_errors": 0,
+    "results": [
+      "shop_packs_test: OK"
+    ],
+    "cleanup_warnings": true
+  },
+  "existing_popups": {
+    "script_errors": 0,
+    "results": [
+      "PACK_PROMO_POPUP_TEST failures=0"
+    ],
+    "cleanup_warnings": true
+  },
+  "boot": {
+    "script_errors": 0,
+    "results": [
+      "boot_test: tất cả đạt"
+    ],
+    "cleanup_warnings": true
+  },
+  "i18n": {
+    "script_errors": 0,
+    "results": [],
+    "result": "OK",
+    "cleanup_warnings": false
+  }
+}

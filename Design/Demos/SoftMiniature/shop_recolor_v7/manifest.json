@@ -1,0 +1,34 @@
+{
+  "name": "Shop premium special packs v7",
+  "status": "concept_pending_review",
+  "date": "2026-11-26",
+  "image": "01_shop_premium_special_packs.png",
+  "prompt": "01_shop_premium_special_packs_prompt.txt",
+  "provenance": {
+    "mode": "built-in image_gen refinement edit",
+    "tool": "image_gen.imagegen",
+    "orchestrator": "Delegated GPT-6.1-Sol medium",
+    "image_model": "Tool-managed; exact model not exposed",
+    "edit_target": "Design/Demos/SoftMiniature/shop_recolor_v6/01_shop_light_sky_palette.png",
+    "raw": "output/imagegen/shop_recolor_v7/01_shop_premium_special_packs_raw.png",
+    "generation_calls": 1,
+    "postprocessing": "None; original image copied unchanged"
+  },
+  "changes": [
+    "Three special offer cards gain fine gold frames, beveled corners, larger layered art and controlled gold rays",
+    "Starter1 larger mascot/gems with prominent existing 4.4x seal",
+    "Income x2 larger garage/cash art with gold x2 medallion and permanent badge",
+    "No Ads larger TV/shield with permanent badge",
+    "Starter2 top-middle receives matching gold frame"
+  ],
+  "validation": {
+    "visual": "Special offers visibly distinct from normal cards. Sky-blue/near-white V6 palette retained elsewhere; all non-FREE actions blue, FREE green; main prices/rewards/nav preserved.",
+    "limitations": [
+      "AI image edit subtly redraws fine details and typography; not pixel-exact",
+      "Hà portrait remains placeholder goggle character instead of validated driver asset",
+      "Gold rays and framing are concept art awaiting user approval; not runtime assets",
+      "Native implementation should use proper sprite IDs and localized text"
+    ],
+    "scope": "No runtime code, data, balance or save edits."
+  }
+}

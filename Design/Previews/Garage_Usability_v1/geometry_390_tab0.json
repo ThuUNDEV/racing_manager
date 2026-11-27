@@ -1,0 +1,812 @@
+[
+  {
+    "minimum": "(0.0, 170.0)",
+    "path": "Showroom",
+    "rect": "[P: (16.0, 116.0), S: (358.0, 170.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "Showroom/@TextureRect@2126",
+    "rect": "[P: (16.0, 116.0), S: (358.0, 170.0)]"
+  },
+  {
+    "minimum": "(8.0, 52.0)",
+    "path": "GarageTabs",
+    "rect": "[P: (16.0, 292.0), S: (358.0, 52.0)]"
+  },
+  {
+    "minimum": "(0.0, 44.0)",
+    "path": "GarageTabs/@HBoxContainer@2127",
+    "rect": "[P: (20.0, 296.0), S: (350.0, 44.0)]"
+  },
+  {
+    "minimum": "(0.0, 44.0)",
+    "path": "GarageTabs/@HBoxContainer@2127/@Button@2128",
+    "rect": "[P: (20.0, 296.0), S: (116.0, 44.0)]"
+  },
+  {
+    "minimum": "(0.0, 44.0)",
+    "path": "GarageTabs/@HBoxContainer@2127/@Button@2129",
+    "rect": "[P: (136.0, 296.0), S: (117.0, 44.0)]"
+  },
+  {
+    "minimum": "(0.0, 44.0)",
+    "path": "GarageTabs/@HBoxContainer@2127/@Button@2130",
+    "rect": "[P: (253.0, 296.0), S: (117.0, 44.0)]"
+  },
+  {
+    "minimum": "(246.0, 0.0)",
+    "path": "GarageContent",
+    "rect": "[P: (16.0, 350.0), S: (358.0, 403.0)]"
+  },
+  {
+    "minimum": "(246.0, 803.0)",
+    "path": "GarageContent/@VBoxContainer@2133",
+    "rect": "[P: (16.0, 350.0), S: (358.0, 803.0)]"
+  },
+  {
+    "minimum": "(103.0, 32.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarTitle",
+    "rect": "[P: (16.0, 350.0), S: (358.0, 32.0)]"
+  },
+  {
+    "minimum": "(1.0, 26.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarTitle/@Label@2135",
+    "rect": "[P: (16.0, 353.0), S: (256.0, 26.0)]"
+  },
+  {
+    "minimum": "(90.0, 32.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarTitle/RankBadge",
+    "rect": "[P: (284.0, 350.0), S: (90.0, 32.0)]"
+  },
+  {
+    "minimum": "(45.0, 19.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarTitle/RankBadge/@Label@2136",
+    "rect": "[P: (310.0, 350.0), S: (55.0, 32.0)]"
+  },
+  {
+    "minimum": "(246.0, 47.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarStats",
+    "rect": "[P: (16.0, 388.0), S: (358.0, 47.0)]"
+  },
+  {
+    "minimum": "(61.0, 47.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarStats/@VBoxContainer@2138",
+    "rect": "[P: (16.0, 388.0), S: (85.0, 47.0)]"
+  },
+  {
+    "minimum": "(61.0, 26.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarStats/@VBoxContainer@2138/@HBoxContainer@2139",
+    "rect": "[P: (16.0, 388.0), S: (85.0, 26.0)]"
+  },
+  {
+    "minimum": "(20.0, 26.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarStats/@VBoxContainer@2138/@HBoxContainer@2139/@TextureRect@2140",
+    "rect": "[P: (28.0, 388.0), S: (20.0, 26.0)]"
+  },
+  {
+    "minimum": "(38.0, 26.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarStats/@VBoxContainer@2138/@HBoxContainer@2139/@Label@2141",
+    "rect": "[P: (51.0, 388.0), S: (38.0, 26.0)]"
+  },
+  {
+    "minimum": "(1.0, 18.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarStats/@VBoxContainer@2138/@Label@2142",
+    "rect": "[P: (16.0, 417.0), S: (85.0, 18.0)]"
+  },
+  {
+    "minimum": "(61.0, 47.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarStats/@VBoxContainer@2143",
+    "rect": "[P: (107.0, 388.0), S: (85.0, 47.0)]"
+  },
+  {
+    "minimum": "(61.0, 26.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarStats/@VBoxContainer@2143/@HBoxContainer@2144",
+    "rect": "[P: (107.0, 388.0), S: (85.0, 26.0)]"
+  },
+  {
+    "minimum": "(20.0, 26.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarStats/@VBoxContainer@2143/@HBoxContainer@2144/@TextureRect@2145",
+    "rect": "[P: (119.0, 388.0), S: (20.0, 26.0)]"
+  },
+  {
+    "minimum": "(38.0, 26.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarStats/@VBoxContainer@2143/@HBoxContainer@2144/@Label@2146",
+    "rect": "[P: (142.0, 388.0), S: (38.0, 26.0)]"
+  },
+  {
+    "minimum": "(1.0, 18.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarStats/@VBoxContainer@2143/@Label@2147",
+    "rect": "[P: (107.0, 417.0), S: (85.0, 18.0)]"
+  },
+  {
+    "minimum": "(45.0, 47.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarStats/@VBoxContainer@2148",
+    "rect": "[P: (198.0, 388.0), S: (85.0, 47.0)]"
+  },
+  {
+    "minimum": "(45.0, 26.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarStats/@VBoxContainer@2148/@HBoxContainer@2149",
+    "rect": "[P: (198.0, 388.0), S: (85.0, 26.0)]"
+  },
+  {
+    "minimum": "(20.0, 26.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarStats/@VBoxContainer@2148/@HBoxContainer@2149/@TextureRect@2150",
+    "rect": "[P: (218.0, 388.0), S: (20.0, 26.0)]"
+  },
+  {
+    "minimum": "(22.0, 26.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarStats/@VBoxContainer@2148/@HBoxContainer@2149/@Label@2151",
+    "rect": "[P: (241.0, 388.0), S: (22.0, 26.0)]"
+  },
+  {
+    "minimum": "(1.0, 18.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarStats/@VBoxContainer@2148/@Label@2152",
+    "rect": "[P: (198.0, 417.0), S: (85.0, 18.0)]"
+  },
+  {
+    "minimum": "(61.0, 47.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarStats/@VBoxContainer@2153",
+    "rect": "[P: (289.0, 388.0), S: (85.0, 47.0)]"
+  },
+  {
+    "minimum": "(61.0, 26.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarStats/@VBoxContainer@2153/@HBoxContainer@2154",
+    "rect": "[P: (289.0, 388.0), S: (85.0, 26.0)]"
+  },
+  {
+    "minimum": "(20.0, 26.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarStats/@VBoxContainer@2153/@HBoxContainer@2154/@TextureRect@2155",
+    "rect": "[P: (301.0, 388.0), S: (20.0, 26.0)]"
+  },
+  {
+    "minimum": "(38.0, 26.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarStats/@VBoxContainer@2153/@HBoxContainer@2154/@Label@2156",
+    "rect": "[P: (324.0, 388.0), S: (38.0, 26.0)]"
+  },
+  {
+    "minimum": "(1.0, 18.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarStats/@VBoxContainer@2153/@Label@2157",
+    "rect": "[P: (289.0, 417.0), S: (85.0, 18.0)]"
+  },
+  {
+    "minimum": "(109.0, 44.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarActions",
+    "rect": "[P: (16.0, 441.0), S: (358.0, 44.0)]"
+  },
+  {
+    "minimum": "(104.0, 44.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarActions/@Button@2158",
+    "rect": "[P: (16.0, 441.0), S: (177.0, 44.0)]"
+  },
+  {
+    "minimum": "(1.0, 44.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarActions/EquippedStatus",
+    "rect": "[P: (197.0, 441.0), S: (177.0, 44.0)]"
+  },
+  {
+    "minimum": "(114.0, 24.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CollectionHeading",
+    "rect": "[P: (16.0, 491.0), S: (358.0, 24.0)]"
+  },
+  {
+    "minimum": "(52.0, 632.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection",
+    "rect": "[P: (16.0, 521.0), S: (358.0, 632.0)]"
+  },
+  {
+    "minimum": "(12.0, 120.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_pico_tia_chop",
+    "rect": "[P: (16.0, 521.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(71.0, 97.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_pico_tia_chop/@VBoxContainer@2176",
+    "rect": "[P: (16.0, 521.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(0.0, 54.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_pico_tia_chop/@VBoxContainer@2176/@Control@2172",
+    "rect": "[P: (16.0, 521.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_pico_tia_chop/@VBoxContainer@2176/@Control@2172/@TextureRect@2171",
+    "rect": "[P: (16.0, 521.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(1.0, 19.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_pico_tia_chop/@VBoxContainer@2176/@Label@2173",
+    "rect": "[P: (16.0, 575.0), S: (114.0, 19.0)]"
+  },
+  {
+    "minimum": "(71.0, 24.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_pico_tia_chop/@VBoxContainer@2176/@PanelContainer@2175",
+    "rect": "[P: (16.0, 594.0), S: (114.0, 24.0)]"
+  },
+  {
+    "minimum": "(65.0, 18.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_pico_tia_chop/@VBoxContainer@2176/@PanelContainer@2175/@Label@2174",
+    "rect": "[P: (19.0, 597.0), S: (108.0, 18.0)]"
+  },
+  {
+    "minimum": "(12.0, 120.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_pico_bam_duong",
+    "rect": "[P: (138.0, 521.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(39.0, 97.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_pico_bam_duong/@VBoxContainer@2198",
+    "rect": "[P: (138.0, 521.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(0.0, 54.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_pico_bam_duong/@VBoxContainer@2198/@Control@2194",
+    "rect": "[P: (138.0, 521.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_pico_bam_duong/@VBoxContainer@2198/@Control@2194/@TextureRect@2188",
+    "rect": "[P: (138.0, 521.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(1.0, 19.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_pico_bam_duong/@VBoxContainer@2198/@Label@2195",
+    "rect": "[P: (138.0, 575.0), S: (114.0, 19.0)]"
+  },
+  {
+    "minimum": "(39.0, 24.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_pico_bam_duong/@VBoxContainer@2198/@PanelContainer@2197",
+    "rect": "[P: (138.0, 594.0), S: (114.0, 24.0)]"
+  },
+  {
+    "minimum": "(33.0, 18.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_pico_bam_duong/@VBoxContainer@2198/@PanelContainer@2197/@Label@2196",
+    "rect": "[P: (141.0, 597.0), S: (108.0, 18.0)]"
+  },
+  {
+    "minimum": "(12.0, 120.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_pico_ben_bi",
+    "rect": "[P: (260.0, 521.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(65.0, 97.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_pico_ben_bi/@VBoxContainer@2220",
+    "rect": "[P: (260.0, 521.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(0.0, 54.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_pico_ben_bi/@VBoxContainer@2220/@Control@2216",
+    "rect": "[P: (260.0, 521.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_pico_ben_bi/@VBoxContainer@2220/@Control@2216/@TextureRect@2210",
+    "rect": "[P: (260.0, 521.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(1.0, 19.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_pico_ben_bi/@VBoxContainer@2220/@Label@2217",
+    "rect": "[P: (260.0, 575.0), S: (114.0, 19.0)]"
+  },
+  {
+    "minimum": "(65.0, 24.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_pico_ben_bi/@VBoxContainer@2220/@PanelContainer@2219",
+    "rect": "[P: (260.0, 594.0), S: (114.0, 24.0)]"
+  },
+  {
+    "minimum": "(59.0, 18.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_pico_ben_bi/@VBoxContainer@2220/@PanelContainer@2219/@Label@2218",
+    "rect": "[P: (263.0, 597.0), S: (108.0, 18.0)]"
+  },
+  {
+    "minimum": "(12.0, 120.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_nova_tia_chop",
+    "rect": "[P: (16.0, 649.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_nova_tia_chop/LockedBadge",
+    "rect": "[P: (105.0, 654.0), S: (22.0, 26.0)]"
+  },
+  {
+    "minimum": "(37.0, 97.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_nova_tia_chop/@VBoxContainer@2242",
+    "rect": "[P: (16.0, 649.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(0.0, 54.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_nova_tia_chop/@VBoxContainer@2242/@Control@2238",
+    "rect": "[P: (16.0, 649.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_nova_tia_chop/@VBoxContainer@2242/@Control@2238/@TextureRect@2232",
+    "rect": "[P: (16.0, 649.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(1.0, 19.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_nova_tia_chop/@VBoxContainer@2242/@Label@2239",
+    "rect": "[P: (16.0, 703.0), S: (114.0, 19.0)]"
+  },
+  {
+    "minimum": "(37.0, 24.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_nova_tia_chop/@VBoxContainer@2242/@PanelContainer@2241",
+    "rect": "[P: (16.0, 722.0), S: (114.0, 24.0)]"
+  },
+  {
+    "minimum": "(31.0, 18.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_nova_tia_chop/@VBoxContainer@2242/@PanelContainer@2241/@Label@2240",
+    "rect": "[P: (19.0, 725.0), S: (108.0, 18.0)]"
+  },
+  {
+    "minimum": "(12.0, 120.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_nova_bam_duong",
+    "rect": "[P: (138.0, 649.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_nova_bam_duong/LockedBadge",
+    "rect": "[P: (227.0, 654.0), S: (22.0, 26.0)]"
+  },
+  {
+    "minimum": "(37.0, 97.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_nova_bam_duong/@VBoxContainer@2264",
+    "rect": "[P: (138.0, 649.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(0.0, 54.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_nova_bam_duong/@VBoxContainer@2264/@Control@2260",
+    "rect": "[P: (138.0, 649.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_nova_bam_duong/@VBoxContainer@2264/@Control@2260/@TextureRect@2254",
+    "rect": "[P: (138.0, 649.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(1.0, 19.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_nova_bam_duong/@VBoxContainer@2264/@Label@2261",
+    "rect": "[P: (138.0, 703.0), S: (114.0, 19.0)]"
+  },
+  {
+    "minimum": "(37.0, 24.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_nova_bam_duong/@VBoxContainer@2264/@PanelContainer@2263",
+    "rect": "[P: (138.0, 722.0), S: (114.0, 24.0)]"
+  },
+  {
+    "minimum": "(31.0, 18.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_nova_bam_duong/@VBoxContainer@2264/@PanelContainer@2263/@Label@2262",
+    "rect": "[P: (141.0, 725.0), S: (108.0, 18.0)]"
+  },
+  {
+    "minimum": "(12.0, 120.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_nova_ben_bi",
+    "rect": "[P: (260.0, 649.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_nova_ben_bi/LockedBadge",
+    "rect": "[P: (349.0, 654.0), S: (22.0, 26.0)]"
+  },
+  {
+    "minimum": "(37.0, 97.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_nova_ben_bi/@VBoxContainer@2286",
+    "rect": "[P: (260.0, 649.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(0.0, 54.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_nova_ben_bi/@VBoxContainer@2286/@Control@2282",
+    "rect": "[P: (260.0, 649.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_nova_ben_bi/@VBoxContainer@2286/@Control@2282/@TextureRect@2276",
+    "rect": "[P: (260.0, 649.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(1.0, 19.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_nova_ben_bi/@VBoxContainer@2286/@Label@2283",
+    "rect": "[P: (260.0, 703.0), S: (114.0, 19.0)]"
+  },
+  {
+    "minimum": "(37.0, 24.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_nova_ben_bi/@VBoxContainer@2286/@PanelContainer@2285",
+    "rect": "[P: (260.0, 722.0), S: (114.0, 24.0)]"
+  },
+  {
+    "minimum": "(31.0, 18.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_nova_ben_bi/@VBoxContainer@2286/@PanelContainer@2285/@Label@2284",
+    "rect": "[P: (263.0, 725.0), S: (108.0, 18.0)]"
+  },
+  {
+    "minimum": "(12.0, 120.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_apex_tia_chop",
+    "rect": "[P: (16.0, 777.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_apex_tia_chop/LockedBadge",
+    "rect": "[P: (105.0, 782.0), S: (22.0, 26.0)]"
+  },
+  {
+    "minimum": "(37.0, 97.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_apex_tia_chop/@VBoxContainer@2308",
+    "rect": "[P: (16.0, 777.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(0.0, 54.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_apex_tia_chop/@VBoxContainer@2308/@Control@2304",
+    "rect": "[P: (16.0, 777.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_apex_tia_chop/@VBoxContainer@2308/@Control@2304/@TextureRect@2298",
+    "rect": "[P: (16.0, 777.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(1.0, 19.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_apex_tia_chop/@VBoxContainer@2308/@Label@2305",
+    "rect": "[P: (16.0, 831.0), S: (114.0, 19.0)]"
+  },
+  {
+    "minimum": "(37.0, 24.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_apex_tia_chop/@VBoxContainer@2308/@PanelContainer@2307",
+    "rect": "[P: (16.0, 850.0), S: (114.0, 24.0)]"
+  },
+  {
+    "minimum": "(31.0, 18.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_apex_tia_chop/@VBoxContainer@2308/@PanelContainer@2307/@Label@2306",
+    "rect": "[P: (19.0, 853.0), S: (108.0, 18.0)]"
+  },
+  {
+    "minimum": "(12.0, 120.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_apex_bam_duong",
+    "rect": "[P: (138.0, 777.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_apex_bam_duong/LockedBadge",
+    "rect": "[P: (227.0, 782.0), S: (22.0, 26.0)]"
+  },
+  {
+    "minimum": "(37.0, 97.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_apex_bam_duong/@VBoxContainer@2330",
+    "rect": "[P: (138.0, 777.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(0.0, 54.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_apex_bam_duong/@VBoxContainer@2330/@Control@2326",
+    "rect": "[P: (138.0, 777.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_apex_bam_duong/@VBoxContainer@2330/@Control@2326/@TextureRect@2320",
+    "rect": "[P: (138.0, 777.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(1.0, 19.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_apex_bam_duong/@VBoxContainer@2330/@Label@2327",
+    "rect": "[P: (138.0, 831.0), S: (114.0, 19.0)]"
+  },
+  {
+    "minimum": "(37.0, 24.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_apex_bam_duong/@VBoxContainer@2330/@PanelContainer@2329",
+    "rect": "[P: (138.0, 850.0), S: (114.0, 24.0)]"
+  },
+  {
+    "minimum": "(31.0, 18.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_apex_bam_duong/@VBoxContainer@2330/@PanelContainer@2329/@Label@2328",
+    "rect": "[P: (141.0, 853.0), S: (108.0, 18.0)]"
+  },
+  {
+    "minimum": "(12.0, 120.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_apex_ben_bi",
+    "rect": "[P: (260.0, 777.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_apex_ben_bi/LockedBadge",
+    "rect": "[P: (349.0, 782.0), S: (22.0, 26.0)]"
+  },
+  {
+    "minimum": "(37.0, 97.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_apex_ben_bi/@VBoxContainer@2352",
+    "rect": "[P: (260.0, 777.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(0.0, 54.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_apex_ben_bi/@VBoxContainer@2352/@Control@2348",
+    "rect": "[P: (260.0, 777.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_apex_ben_bi/@VBoxContainer@2352/@Control@2348/@TextureRect@2342",
+    "rect": "[P: (260.0, 777.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(1.0, 19.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_apex_ben_bi/@VBoxContainer@2352/@Label@2349",
+    "rect": "[P: (260.0, 831.0), S: (114.0, 19.0)]"
+  },
+  {
+    "minimum": "(37.0, 24.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_apex_ben_bi/@VBoxContainer@2352/@PanelContainer@2351",
+    "rect": "[P: (260.0, 850.0), S: (114.0, 24.0)]"
+  },
+  {
+    "minimum": "(31.0, 18.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_apex_ben_bi/@VBoxContainer@2352/@PanelContainer@2351/@Label@2350",
+    "rect": "[P: (263.0, 853.0), S: (108.0, 18.0)]"
+  },
+  {
+    "minimum": "(12.0, 120.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_titan_tia_chop",
+    "rect": "[P: (16.0, 905.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_titan_tia_chop/LockedBadge",
+    "rect": "[P: (105.0, 910.0), S: (22.0, 26.0)]"
+  },
+  {
+    "minimum": "(37.0, 97.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_titan_tia_chop/@VBoxContainer@2374",
+    "rect": "[P: (16.0, 905.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(0.0, 54.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_titan_tia_chop/@VBoxContainer@2374/@Control@2370",
+    "rect": "[P: (16.0, 905.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_titan_tia_chop/@VBoxContainer@2374/@Control@2370/@TextureRect@2364",
+    "rect": "[P: (16.0, 905.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(1.0, 19.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_titan_tia_chop/@VBoxContainer@2374/@Label@2371",
+    "rect": "[P: (16.0, 959.0), S: (114.0, 19.0)]"
+  },
+  {
+    "minimum": "(37.0, 24.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_titan_tia_chop/@VBoxContainer@2374/@PanelContainer@2373",
+    "rect": "[P: (16.0, 978.0), S: (114.0, 24.0)]"
+  },
+  {
+    "minimum": "(31.0, 18.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_titan_tia_chop/@VBoxContainer@2374/@PanelContainer@2373/@Label@2372",
+    "rect": "[P: (19.0, 981.0), S: (108.0, 18.0)]"
+  },
+  {
+    "minimum": "(12.0, 120.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_titan_bam_duong",
+    "rect": "[P: (138.0, 905.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_titan_bam_duong/LockedBadge",
+    "rect": "[P: (227.0, 910.0), S: (22.0, 26.0)]"
+  },
+  {
+    "minimum": "(37.0, 97.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_titan_bam_duong/@VBoxContainer@2396",
+    "rect": "[P: (138.0, 905.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(0.0, 54.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_titan_bam_duong/@VBoxContainer@2396/@Control@2392",
+    "rect": "[P: (138.0, 905.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_titan_bam_duong/@VBoxContainer@2396/@Control@2392/@TextureRect@2386",
+    "rect": "[P: (138.0, 905.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(1.0, 19.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_titan_bam_duong/@VBoxContainer@2396/@Label@2393",
+    "rect": "[P: (138.0, 959.0), S: (114.0, 19.0)]"
+  },
+  {
+    "minimum": "(37.0, 24.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_titan_bam_duong/@VBoxContainer@2396/@PanelContainer@2395",
+    "rect": "[P: (138.0, 978.0), S: (114.0, 24.0)]"
+  },
+  {
+    "minimum": "(31.0, 18.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_titan_bam_duong/@VBoxContainer@2396/@PanelContainer@2395/@Label@2394",
+    "rect": "[P: (141.0, 981.0), S: (108.0, 18.0)]"
+  },
+  {
+    "minimum": "(12.0, 120.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_titan_ben_bi",
+    "rect": "[P: (260.0, 905.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_titan_ben_bi/LockedBadge",
+    "rect": "[P: (349.0, 910.0), S: (22.0, 26.0)]"
+  },
+  {
+    "minimum": "(37.0, 97.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_titan_ben_bi/@VBoxContainer@2418",
+    "rect": "[P: (260.0, 905.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(0.0, 54.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_titan_ben_bi/@VBoxContainer@2418/@Control@2414",
+    "rect": "[P: (260.0, 905.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_titan_ben_bi/@VBoxContainer@2418/@Control@2414/@TextureRect@2408",
+    "rect": "[P: (260.0, 905.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(1.0, 19.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_titan_ben_bi/@VBoxContainer@2418/@Label@2415",
+    "rect": "[P: (260.0, 959.0), S: (114.0, 19.0)]"
+  },
+  {
+    "minimum": "(37.0, 24.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_titan_ben_bi/@VBoxContainer@2418/@PanelContainer@2417",
+    "rect": "[P: (260.0, 978.0), S: (114.0, 24.0)]"
+  },
+  {
+    "minimum": "(31.0, 18.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_titan_ben_bi/@VBoxContainer@2418/@PanelContainer@2417/@Label@2416",
+    "rect": "[P: (263.0, 981.0), S: (108.0, 18.0)]"
+  },
+  {
+    "minimum": "(12.0, 120.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_zenith_tia_chop",
+    "rect": "[P: (16.0, 1033.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_zenith_tia_chop/LockedBadge",
+    "rect": "[P: (105.0, 1038.0), S: (22.0, 26.0)]"
+  },
+  {
+    "minimum": "(37.0, 97.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_zenith_tia_chop/@VBoxContainer@2440",
+    "rect": "[P: (16.0, 1033.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(0.0, 54.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_zenith_tia_chop/@VBoxContainer@2440/@Control@2436",
+    "rect": "[P: (16.0, 1033.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_zenith_tia_chop/@VBoxContainer@2440/@Control@2436/@TextureRect@2430",
+    "rect": "[P: (16.0, 1033.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(1.0, 19.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_zenith_tia_chop/@VBoxContainer@2440/@Label@2437",
+    "rect": "[P: (16.0, 1087.0), S: (114.0, 19.0)]"
+  },
+  {
+    "minimum": "(37.0, 24.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_zenith_tia_chop/@VBoxContainer@2440/@PanelContainer@2439",
+    "rect": "[P: (16.0, 1106.0), S: (114.0, 24.0)]"
+  },
+  {
+    "minimum": "(31.0, 18.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_zenith_tia_chop/@VBoxContainer@2440/@PanelContainer@2439/@Label@2438",
+    "rect": "[P: (19.0, 1109.0), S: (108.0, 18.0)]"
+  },
+  {
+    "minimum": "(12.0, 120.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_zenith_bam_duong",
+    "rect": "[P: (138.0, 1033.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_zenith_bam_duong/LockedBadge",
+    "rect": "[P: (227.0, 1038.0), S: (22.0, 26.0)]"
+  },
+  {
+    "minimum": "(37.0, 97.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_zenith_bam_duong/@VBoxContainer@2462",
+    "rect": "[P: (138.0, 1033.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(0.0, 54.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_zenith_bam_duong/@VBoxContainer@2462/@Control@2458",
+    "rect": "[P: (138.0, 1033.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_zenith_bam_duong/@VBoxContainer@2462/@Control@2458/@TextureRect@2452",
+    "rect": "[P: (138.0, 1033.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(1.0, 19.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_zenith_bam_duong/@VBoxContainer@2462/@Label@2459",
+    "rect": "[P: (138.0, 1087.0), S: (114.0, 19.0)]"
+  },
+  {
+    "minimum": "(37.0, 24.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_zenith_bam_duong/@VBoxContainer@2462/@PanelContainer@2461",
+    "rect": "[P: (138.0, 1106.0), S: (114.0, 24.0)]"
+  },
+  {
+    "minimum": "(31.0, 18.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_zenith_bam_duong/@VBoxContainer@2462/@PanelContainer@2461/@Label@2460",
+    "rect": "[P: (141.0, 1109.0), S: (108.0, 18.0)]"
+  },
+  {
+    "minimum": "(12.0, 120.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_zenith_ben_bi",
+    "rect": "[P: (260.0, 1033.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_zenith_ben_bi/LockedBadge",
+    "rect": "[P: (349.0, 1038.0), S: (22.0, 26.0)]"
+  },
+  {
+    "minimum": "(37.0, 97.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_zenith_ben_bi/@VBoxContainer@2484",
+    "rect": "[P: (260.0, 1033.0), S: (114.0, 120.0)]"
+  },
+  {
+    "minimum": "(0.0, 54.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_zenith_ben_bi/@VBoxContainer@2484/@Control@2480",
+    "rect": "[P: (260.0, 1033.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_zenith_ben_bi/@VBoxContainer@2484/@Control@2480/@TextureRect@2474",
+    "rect": "[P: (260.0, 1033.0), S: (114.0, 54.0)]"
+  },
+  {
+    "minimum": "(1.0, 19.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_zenith_ben_bi/@VBoxContainer@2484/@Label@2481",
+    "rect": "[P: (260.0, 1087.0), S: (114.0, 19.0)]"
+  },
+  {
+    "minimum": "(37.0, 24.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_zenith_ben_bi/@VBoxContainer@2484/@PanelContainer@2483",
+    "rect": "[P: (260.0, 1106.0), S: (114.0, 24.0)]"
+  },
+  {
+    "minimum": "(31.0, 18.0)",
+    "path": "GarageContent/@VBoxContainer@2133/CarCollection/Collection_car_zenith_ben_bi/@VBoxContainer@2484/@PanelContainer@2483/@Label@2482",
+    "rect": "[P: (263.0, 1109.0), S: (108.0, 18.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@TextureRect@2131",
+    "rect": "[P: (16.0, 350.0), S: (716.0, 24.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/@TextureRect@2132",
+    "rect": "[P: (16.0, 729.0), S: (716.0, 24.0)]"
+  },
+  {
+    "minimum": "(8.0, 8.0)",
+    "path": "GarageContent/_h_scroll",
+    "rect": "[P: (16.0, 753.0), S: (358.0, 8.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "GarageContent/_v_scroll",
+    "rect": "[P: (374.0, 350.0), S: (0.0, 403.0)]"
+  },
+  {
+    "minimum": "(8.0, 8.0)",
+    "path": "GarageContent/_focus",
+    "rect": "[P: (16.0, 350.0), S: (8.0, 8.0)]"
+  },
+  {
+    "minimum": "(0.0, 0.0)",
+    "path": "@VBoxContainer@2134",
+    "rect": "[P: (16.0, 759.0), S: (358.0, 0.0)]"
+  }
+]

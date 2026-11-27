@@ -1,0 +1,8 @@
+{
+  "status": "approved",
+  "approved_by": "user",
+  "approved_date": "2026-11-27",
+  "source": "Design/Concepts/ClassSwitch_v1/",
+  "scope": "Concept popup Classes (đổi class) và popup Choose Your Class theo game gốc Race Star",
+  "notes": "Win Chance 48/36/31% là số minh họa, chưa có phép tính thật (Design/22 P4). Chưa triển khai code."
+}

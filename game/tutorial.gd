@@ -243,7 +243,7 @@ static func tips() -> Array:
 
 static func tip(id: String) -> Dictionary:
 	for t: Dictionary in tips():
-		if t["id"] == id:
+		if t["id"] == id: 
 			return t
 	return {}
 

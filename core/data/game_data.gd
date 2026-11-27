@@ -147,6 +147,11 @@ static func cars() -> Array:
 	return (_load("cars") as Dictionary).get("cars", [])
 
 
+## Xe Epic chỉ bán bằng IAP (data/epic_cars.json, Design/35 đợt E1); không nằm trong cars() để giữ 15 xe mua bằng tiền.
+static func epic_cars() -> Array:
+	return (_load("epic_cars") as Dictionary).get("cars", [])
+
+
 ## Danh mục ngoại hình Garage (data/garage_cosmetics.json): màu sơn + decal, miễn phí, không đổi chỉ số.
 static func paints() -> Array:
 	return (_load("garage_cosmetics") as Dictionary).get("paints", [])
@@ -201,6 +206,9 @@ static func league(index: int) -> Dictionary:
 
 static func car(id: String) -> Dictionary:
 	for c: Dictionary in cars():
+		if c["id"] == id:
+			return c
+	for c: Dictionary in epic_cars():
 		if c["id"] == id:
 			return c
 	return {}
@@ -308,12 +316,37 @@ static func _is_num(v: Variant) -> bool:
 	return typeof(v) == TYPE_FLOAT or typeof(v) == TYPE_INT
 
 
+## data/epic_cars.json: mỗi hạng đúng một xe Epic chỉ bán bằng IAP, có SKU epic_car_*, màu sơn riêng có trong garage_cosmetics.
+static func _validate_epic_cars(base_ids: Dictionary) -> Array:
+	var errs: Array = []
+	var per_class := {}
+	for c: Dictionary in epic_cars():
+		var id := String(c.get("id", ""))
+		var where := "epic_cars.json %s: " % id
+		if id == "" or base_ids.has(id):
+			errs.append(where + "id is empty or duplicates cars.json")
+		per_class[int(c.get("class", 0))] = int(per_class.get(int(c.get("class", 0)), 0)) + 1
+		if not bool(c.get("iap_only", false)) or String(c.get("price", "")) != "0":
+			errs.append(where + "needs iap_only=true and price \"0\"")
+		for k in PART_KEYS:
+			if not _is_num((c.get("base", {}) as Dictionary).get(k)):
+				errs.append(where + "missing base.%s" % k)
+		if paint(String(c.get("default_paint", ""))).is_empty():
+			errs.append(where + "default_paint is not in garage_cosmetics.json")
+		if String(c.get("sku", "")) != "epic_car_" + String(c.get("class_name", "")).to_lower():
+			errs.append(where + "sku must be epic_car_<class>")
+	for k in range(1, 6):
+		if int(per_class.get(k, 0)) != 1:
+			errs.append("Class %d needs exactly 1 epic car" % k)
+	return errs
+
+
 ## Kiểm tra toàn bộ dữ liệu. Trả về danh sách lỗi (rỗng = hợp lệ).
 static func validate() -> Array:
 	var errs: Array = []
 	var sm := sim()
 	var ec := economy()
-	for f in ["sim", "economy", "tracks", "leagues", "cars", "drivers", "garage_cosmetics", "gear", "driver_gacha", "classes", "trophy_upgrades", "ads", "iap", "daily_rewards"]:
+	for f in ["sim", "economy", "tracks", "leagues", "cars", "epic_cars", "drivers", "garage_cosmetics", "gear", "driver_gacha", "classes", "trophy_upgrades", "ads", "iap", "daily_rewards"]:
 		var d: Variant = _load(f)
 		if typeof(d) != TYPE_DICTIONARY or (d as Dictionary).is_empty():
 			errs.append("%s.json is empty or unreadable" % f)
@@ -444,6 +477,7 @@ static func validate() -> Array:
 	for k in range(1, 6):
 		if int(per_class.get(k, 0)) != 3:
 			errs.append("Tier %d needs 3 cars" % k)
+	errs.append_array(_validate_epic_cars(car_ids))
 
 	var ds := drivers()
 	if ds.size() != 12:
@@ -771,7 +805,11 @@ const AD_REWARD_KINDS := ["", "boost", "income_seconds", "gems", "driver_coupon"
 
 
 ## data/ads.json: loại thưởng hợp lệ, số dương, coupon/tính năng mở khóa phải tồn tại (Design/26).
-const IAP_KINDS := ["gems", "perk", "starter", "offer", "character", "daily", "weekly", "pass_month", "pass_growth"]
+const IAP_KINDS := ["gems", "perk", "starter", "offer", "character", "daily", "weekly", "pass_month", "pass_growth", "chain", "limited", "chooseone", "epic_car", "epic_paint"]
+const IAP_CHAINS := ["driver", "gear"]
+## Số vòng xoay theo tuần UTC của ưu đãi giới hạn / chọn một (Design/35 đợt C+D); vòng hiện tại = iap_week % số vòng + 1.
+const IAP_ROTATIONS := {"limited": 4, "chooseone": 3}
+const IAP_CHOOSE_SIZES := ["s", "m", "l", "all"]
 const IAP_PERKS := ["no_ads", "income_x2", "income_x3", "offline_plus"]
 
 
@@ -849,6 +887,8 @@ static func _validate_iap() -> Array:
 			errs.append("iap.json: popup.first_after_tutorial '%s' is not in tutorial.json" % first)
 		if not _is_num((pop as Dictionary).get("next_gap_hours")) or float((pop as Dictionary)["next_gap_hours"]) < 0.0:
 			errs.append("iap.json: popup.next_gap_hours must be >= 0")
+		if typeof((pop as Dictionary).get("groups")) != TYPE_ARRAY or ((pop as Dictionary)["groups"] as Array).is_empty():
+			errs.append("iap.json: popup.groups must be a non-empty array (order = popup group priority)")
 	var flags: Variant = d.get("flags", {})
 	if typeof(flags) != TYPE_DICTIONARY:
 		errs.append("iap.json: flags must be an object")
@@ -908,6 +948,24 @@ static func _validate_iap() -> Array:
 					errs.append(where + "%s: unknown coupon type '%s'" % [key, String(ct)])
 				elif not _is_num(grant[key][ct]) or int(grant[key][ct]) < 1:
 					errs.append(where + "%s.%s must be >= 1" % [key, String(ct)])
+		if grant.has("car") and not (car(String(grant["car"])).has("iap_only")):
+			errs.append(where + "grant.car '%s' is not an IAP-only car in epic_cars.json" % String(grant["car"]))
+		if grant.has("paint") and String(paint(String(grant["paint"])).get("sku", "")) != sku:
+			errs.append(where + "grant.paint '%s' must be an epic paint whose sku is this SKU" % String(grant["paint"]))
+		if grant.has("driver_shards_tier"):
+			if typeof(grant["driver_shards_tier"]) != TYPE_DICTIONARY:
+				errs.append(where + "driver_shards_tier must be an object")
+			else:
+				for tier_id in (grant["driver_shards_tier"] as Dictionary):
+					if not driver_tier_ids().has(String(tier_id)):
+						errs.append(where + "driver_shards_tier: unknown tier '%s'" % String(tier_id))
+					elif not _is_num(grant["driver_shards_tier"][tier_id]) or int(grant["driver_shards_tier"][tier_id]) < 1:
+						errs.append(where + "driver_shards_tier.%s must be >= 1" % String(tier_id))
+		if p.has("week_cap") and not _is_pos_int(p["week_cap"]):
+			errs.append(where + "week_cap must be a positive integer")
+		for conflict in (p.get("week_conflict", []) as Array):
+			if not skus.has(String(conflict)):
+				errs.append(where + "week_conflict points to '%s' which does not exist" % String(conflict))
 		for ref_key in ["requires", "hide_if_owned"]:
 			for ref in (p.get(ref_key, []) as Array):
 				if not skus.has(String(ref)) and not perks.has(String(ref)):
@@ -917,6 +975,18 @@ static func _validate_iap() -> Array:
 			errs.append(where + "auto_popup must be a positive integer (maximum number of automatic popups)")
 		if p.has("auto_next_session") and typeof(p["auto_next_session"]) != TYPE_BOOL:
 			errs.append(where + "auto_next_session must be a bool")
+		if p.has("high_priority") and typeof(p["high_priority"]) != TYPE_BOOL:
+			errs.append(where + "high_priority must be a bool")
+		for prio_key in ["prio", "strip_prio"]:
+			if p.has(prio_key) and not _is_num(p[prio_key]):
+				errs.append(where + "%s must be a number" % prio_key)
+		if p.has("popup_group") and not ((pop as Dictionary).get("groups", []) as Array).has(String(p["popup_group"])):
+			errs.append(where + "popup_group '%s' is not in popup.groups" % String(p["popup_group"]))
+		if p.has("popup_unlock"):
+			errs.append_array(_validate_iap_unlock(where, p["popup_unlock"], feature_ids, skus))
+		for other in (p.get("popup_unless", []) as Array):
+			if not skus.has(String(other)):
+				errs.append(where + "popup_unless points to '%s' which does not exist" % String(other))
 		if p.has("flag") and not (flags as Dictionary).has(String(p["flag"])):
 			errs.append(where + "flag '%s' is not in flags" % String(p["flag"]))
 		match kind:
@@ -925,6 +995,31 @@ static func _validate_iap() -> Array:
 					errs.append(where + "weekly needs weekly_limit >= 1")
 				if typeof(p.get("unlock")) != TYPE_DICTIONARY or not (p["unlock"] as Dictionary).has("tier"):
 					errs.append(where + "weekly needs unlock.tier")
+			"chain":
+				if not IAP_CHAINS.has(String(p.get("chain_id", ""))):
+					errs.append(where + "chain needs chain_id in %s" % str(IAP_CHAINS))
+				if not _is_pos_int(p.get("chain_step")):
+					errs.append(where + "chain needs chain_step >= 1")
+				elif int(p["chain_step"]) > 1 and String((p.get("unlock", {}) as Dictionary).get("bought", "")) != "%s_%02d" % [String(p.get("sku", "")).substr(0, String(p.get("sku", "")).length() - 3), int(p["chain_step"]) - 1]:
+					errs.append(where + "chain step %d must unlock after buying the previous step" % int(p["chain_step"]))
+				if not bool(p.get("once", false)):
+					errs.append(where + "chain steps must be once=true")
+			"limited", "chooseone":
+				var rotations := int(IAP_ROTATIONS[kind])
+				if not _is_pos_int(p.get("rotation")) or int(p["rotation"]) > rotations:
+					errs.append(where + "%s needs rotation 1..%d" % [kind, rotations])
+				if not _is_pos_int(p.get("week_cap")):
+					errs.append(where + "%s needs week_cap >= 1" % kind)
+				if kind == "limited" and not (_is_pos_int(p.get("slot")) and int(p["slot"]) <= 3):
+					errs.append(where + "limited needs slot 1..3")
+				if kind == "chooseone" and not IAP_CHOOSE_SIZES.has(String(p.get("size", ""))):
+					errs.append(where + "chooseone needs size in %s" % str(IAP_CHOOSE_SIZES))
+			"epic_car":
+				if not grant.has("car") or not bool(p.get("once", false)):
+					errs.append(where + "epic_car needs grant.car and once=true")
+			"epic_paint":
+				if not grant.has("paint") or not bool(p.get("once", false)):
+					errs.append(where + "epic_paint needs grant.paint and once=true")
 			"daily":
 				if not _is_num(p.get("daily_limit")) or int(p["daily_limit"]) < 1:
 					errs.append(where + "daily needs daily_limit >= 1")
@@ -965,7 +1060,7 @@ static func _validate_iap_unlock(where: String, u: Variant, feature_ids: Array, 
 		errs.append(where + "unlock.tutorial '%s' is not in tutorial.json" % String(ud["tutorial"]))
 	if ud.has("bought") and not skus.has(String(ud["bought"])):
 		errs.append(where + "unlock.bought '%s' does not exist" % String(ud["bought"]))
-	for key in ["tier", "tier_before_driver", "ad_breaks_today"]:
+	for key in ["tier", "tier_before_driver", "ad_breaks_today", "races"]:
 		if ud.has(key) and (not _is_num(ud[key]) or int(ud[key]) < 0):
 			errs.append(where + "unlock.%s must be >= 0" % key)
 	if ud.has("any"):

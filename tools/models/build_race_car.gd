@@ -1,5 +1,5 @@
 extends SceneTree
-## Original procedural miniature cars. No external meshes, textures or reference art.
+## Soft Miniature v5: native geometry matched to the approved Shop car reference.
 const OUT := "res://assets/models/race_car/"
 const NAMES := ["pico", "nova", "apex", "titan", "zenith"]
 var car: Node3D
@@ -86,84 +86,164 @@ func cylinder(label: String, radius: float, depth: float, pos: Vector3, mat: Mat
 	n.rotation.z = PI/2
 	return n
 
+
+## Continuous rounded cross sections produce a domed bonnet and tucked underbody.
+func body_point(u: float, a: float, w: float, h: float, l: float) -> Vector3:
+	var z := (u * 2.0 - 1.0) * l * 0.5
+	var end_round := pow(maxf(sin(PI * u), 0.00001), 0.22)
+	var nose := lerpf(float(NOSE_WIDTH[body_tier]), 1.0, smoothstep(0.0, 0.50, u))
+	var sx := sin(a)
+	var cy := cos(a)
+	var x := signf(sx) * pow(absf(sx), 0.72) * w * 0.5 * end_round * nose
+	var y := signf(cy) * pow(absf(cy), 0.76) * h * 0.5 * end_round
+	y += 0.31 + h * 0.5 + 0.065 * sin(PI * u)
+	return Vector3(x, y, z)
+
+func rounded_body(w: float, h: float, l: float, mat: Material) -> void:
+	var st := SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var longitudinal := 64
+	var radial := 64
+	for i in longitudinal:
+		for j in radial:
+			for corner in [Vector2i(0,0),Vector2i(1,1),Vector2i(1,0),Vector2i(0,0),Vector2i(0,1),Vector2i(1,1)]:
+				var u := float(i+corner.x)/longitudinal
+				var a := TAU*float(j+corner.y)/radial
+				var du := body_point(minf(u+0.0002,1.0),a,w,h,l)-body_point(maxf(u-0.0002,0.0),a,w,h,l)
+				var da := body_point(u,a+0.0002,w,h,l)-body_point(u,a-0.0002,w,h,l)
+				st.set_normal(du.cross(da).normalized())
+				st.add_vertex(body_point(u,a,w,h,l))
+	st.index()
+	part("Body",st.commit(),Vector3.ZERO,mat)
+
+## Thick smooth painted arch follows each tire and blends into the shoulders.
+func wheel_arch(label: String, center: Vector3, mat: Material) -> void:
+	var st := SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	for i in 40:
+		for j in 12:
+			for corner in [Vector2i(0,0),Vector2i(1,0),Vector2i(1,1),Vector2i(0,0),Vector2i(1,1),Vector2i(0,1)]:
+				var a := lerpf(-0.18,PI+0.18,float(i+corner.x)/40.0)
+				var b := TAU*float(j+corner.y)/12.0
+				var r := 0.465+0.085*cos(b)
+				st.set_normal(Vector3(sin(b),sin(a)*cos(b),cos(a)*cos(b)))
+				st.add_vertex(Vector3(0.15*sin(b),sin(a)*r,cos(a)*r))
+	st.index()
+	part(label,st.commit(),center,mat)
+
+
+func cabin_point(u: float, a: float, w: float, h: float, l: float) -> Vector3:
+	var round_end := pow(maxf(sin(PI*u),0.00001),0.45)
+	var cy := cos(a)
+	var y := signf(cy)*pow(absf(cy),0.85)*h*0.5*round_end
+	var x := sin(a)*w*0.5*round_end*(1.0-0.13*maxf(cy,0.0))
+	return Vector3(x,y,(u*2.0-1.0)*l*0.5)
+
+func rounded_cabin(size: Vector3, pos: Vector3, glass: Material, paint: Material) -> void:
+	var glazing := SurfaceTool.new()
+	var roof := SurfaceTool.new()
+	glazing.begin(Mesh.PRIMITIVE_TRIANGLES)
+	roof.begin(Mesh.PRIMITIVE_TRIANGLES)
+	for i in 64:
+		for j in 64:
+			var front_window := i >= 1 and i < 24 and (j < 19 or j >= 46)
+			var side_window := i >= 26 and i < 46 and ((j >= 10 and j < 19) or (j >= 46 and j < 55))
+			var roof_panel := not (front_window or side_window)
+			var surface := roof if roof_panel else glazing
+			for corner in [Vector2i(0,0),Vector2i(1,1),Vector2i(1,0),Vector2i(0,0),Vector2i(0,1),Vector2i(1,1)]:
+				var u := float(i+corner.x)/64.0
+				var a := TAU*float(j+corner.y)/64.0
+				var du := cabin_point(minf(u+0.0002,1.0),a,size.x,size.y,size.z)-cabin_point(maxf(u-0.0002,0.0),a,size.x,size.y,size.z)
+				var da := cabin_point(u,a+0.0002,size.x,size.y,size.z)-cabin_point(u,a-0.0002,size.x,size.y,size.z)
+				surface.set_normal(du.cross(da).normalized())
+				surface.add_vertex(cabin_point(u,a,size.x,size.y,size.z))
+	glazing.index()
+	roof.index()
+	part("Cabin_Glass",glazing.commit(),pos,glass)
+	part("Roof",roof.commit(),pos,paint)
+
 func build(tier: int) -> void:
 	body_tier = tier
 	car = Node3D.new()
 	car.name = "RaceCar"
 	root.add_child(car)
-	var paint := material("Body_Paint_Blue", "32a6e8", 0.34)
+	var paint := material("Body_Paint_Blue", "32a6e8", 0.25)
 	paint.clearcoat_enabled = true
-	paint.clearcoat = 0.28
+	paint.clearcoat = 0.55
 	paint.clearcoat_roughness = 0.3
 	var accent := material("Accent_Trim", "e86240", 0.4)
-	var rubber := material("Soft_Rubber", "28303b", 0.87)
+	var rubber := material("Soft_Rubber", "393740", 0.80)
 	var trim := material("Satin_Charcoal", "334252", 0.6)
-	var glass := material("Blue_Glazing", "238ec2", 0.16, 0.28)
-	var alloy := material("Warm_Alloy", "e4dec9", 0.3, 0.35)
+	var glass := material("Blue_Glazing", "0869b3", 0.17, 0.12)
+	var alloy := material("Warm_Alloy", "ead2ac", 0.32, 0.12)
 	var lamp := material("Ivory_Lens", "fff2bc", 0.24)
 	var red := material("Ruby_Lens", "e74d50", 0.26)
 	var widths := [1.64,1.66,1.86,1.90,1.94]
-	var lengths := [2.56,2.94,3.12,2.90,3.48]
-	var heights := [0.60,0.56,0.46,0.65,0.40]
-	var cabin_heights := [0.56,0.47,0.37,0.44,0.30]
+	var lengths := [2.56,2.80,3.04,2.90,3.34]
+	var heights := [0.73,0.65,0.52,0.73,0.46]
+	var cabin_heights := [0.66,0.56,0.44,0.52,0.38]
 	var cabin_lengths := [1.44,1.58,1.46,1.20,1.68]
 	var w: float = widths[tier]
 	var l: float = lengths[tier]
 	var h: float = heights[tier]
 	var ch: float = cabin_heights[tier]
 	var cl: float = cabin_lengths[tier]
-	var top := 0.26+h
+	var top := 0.31+h
 	var cabin_z := 0.17 if tier != 3 else 0.30
-	soft_box("Body", Vector3(w,h,l), Vector3(0,0.26+h/2,0),minf(0.29,h/2-0.01),paint)
-	soft_box("Sill", Vector3(w+0.09,0.16,l-0.25),Vector3(0,0.30,0),0.06,accent)
-	soft_box("Cabin_Glass",Vector3(w*0.80,ch,cl),Vector3(0,top+ch/2-0.06,cabin_z),minf(ch*0.49,0.28),glass,0.86,paint)
+	rounded_body(w,h,l,paint)
+	soft_box("Sill", Vector3(w*0.91,0.19,l-0.30),Vector3(0,0.34,0),0.085,paint)
+	rounded_cabin(Vector3(w*0.83,ch*1.10,cl*1.05),Vector3(0,top+ch*0.36-0.09,cabin_z),glass,paint)
 	# Painted pillars split side windows; bright inset catches the studio lights.
 	for side: float in [-1.0,1.0]:
 		soft_box("Window_Pillar",Vector3(0.045,ch*0.55,0.065),Vector3(side*w*0.347,top+ch*0.37,cabin_z+0.12),0.02,paint)
 		soft_box("Door_Handle",Vector3(0.035,0.045,0.19),Vector3(side*(w/2-0.015),top-0.18,0.22),0.016,alloy)
-		soft_box("Mirror",Vector3(0.20,0.14,0.23),Vector3(side*(w/2+0.03),top+0.12,-0.39),0.065,accent)
+		soft_box("Mirror",Vector3(0.23,0.20,0.25),Vector3(side*(w/2+0.03),top+0.12,-0.39),0.095,paint)
 		var nose_width: float = NOSE_WIDTH[tier]
 		for bezel in [true,false]:
 			var lens := SphereMesh.new()
-			lens.radius = 0.215 if bezel else 0.175
+			lens.radius = 0.205 if bezel else 0.170
 			lens.height = lens.radius*2
-			var n := part("Headlight_Bezel" if bezel else "Headlight",lens,Vector3(side*w*0.31*nose_width,top-0.17,-l/2+0.09 if bezel else -l/2+0.025),alloy if bezel else lamp)
-			n.scale = Vector3(1.0,1.05,0.48)
+			var n := part("Headlight_Bezel" if bezel else "Headlight",lens,Vector3(side*w*0.31*nose_width,top-0.24,-l/2+0.14 if bezel else -l/2+0.08),paint if bezel else lamp)
+			n.scale = Vector3(1.0,1.12,0.42) if tier == 0 or tier == 3 else Vector3(1.32,0.60,0.42)
+			if tier in [1,2,4]:
+				n.rotation.z = side * -0.28
 		soft_box("Taillight",Vector3(0.34,0.12,0.08),Vector3(side*w*0.31,top-0.19,l/2-0.01),0.035,red)
 		# Body-coloured haunches give the wheels a toy-like fender lip.
 		for z: float in [-l*0.31,l*0.31]:
-			soft_box("Fender",Vector3(0.27,0.40,0.84),Vector3(side*(w/2-0.08),0.55,z),0.13,paint)
+			wheel_arch("Fender",Vector3(side*(w/2-0.045),0.43,z),paint)
 			var x := side*(w/2+0.025)
 			var tire_mesh := TorusMesh.new()
-			tire_mesh.inner_radius = 0.265
-			tire_mesh.outer_radius = 0.405
+			tire_mesh.inner_radius = 0.255
+			tire_mesh.outer_radius = 0.43
 			tire_mesh.rings = 48
 			tire_mesh.ring_segments = 16
-			var tire := part("Tire",tire_mesh,Vector3(x,0.405,z),rubber)
+			var tire := part("Tire",tire_mesh,Vector3(x,0.43,z),rubber)
 			tire.rotation.z = PI/2
-			tire.scale.y = 1.8
-			cylinder("Rim_Recess",0.28,0.285,Vector3(x,0.40,z),trim)
-			cylinder("Rim",0.25,0.30,Vector3(x,0.40,z),alloy)
-			cylinder("Hub",0.09,0.32,Vector3(x,0.40,z),paint)
+			tire.scale.y = 2.5
+			cylinder("Rim_Recess",0.285,0.40,Vector3(x,0.43,z),trim)
+			cylinder("Rim",0.245,0.425,Vector3(x,0.43,z),alloy)
+			cylinder("Hub",0.085,0.44,Vector3(x,0.43,z),alloy)
 			for spoke in 5:
 				var a := TAU*spoke/5.0
-				var n := soft_box("Rim_Slot",Vector3(0.022,0.095,0.055),Vector3(x+side*0.165,0.40+cos(a)*0.145,z+sin(a)*0.145),0.008,trim)
+				var n := soft_box("Rim_Slot",Vector3(0.018,0.10,0.070),Vector3(x+side*0.219,0.43+cos(a)*0.145,z+sin(a)*0.145),0.008,trim)
 				n.rotation.x = -a
 			for groove in [-0.075,0.075]:
 				var torus := TorusMesh.new()
-				torus.inner_radius = 0.388
-				torus.outer_radius = 0.403
+				torus.inner_radius = 0.416
+				torus.outer_radius = 0.427
 				torus.rings = 32
 				torus.ring_segments = 6
-				var n := part("Tire_Groove",torus,Vector3(x+groove,0.40,z),trim)
+				var n := part("Tire_Groove",torus,Vector3(x+groove,0.43,z),trim)
 				n.rotation.z = PI/2
-	soft_box("Grille",Vector3(w*0.46,0.19,0.07),Vector3(0,0.47,-l/2+0.012),0.065,trim)
-	soft_box("Front_Bumper",Vector3(w*0.92*float(NOSE_WIDTH[tier]),0.13,0.16),Vector3(0,0.31,-l/2+0.06),0.055,accent)
+	soft_box("Grille",Vector3(w*0.40,0.18,0.12),Vector3(0,0.49,-l/2+0.055),0.075,trim)
+	soft_box("Front_Bumper",Vector3(w*0.82*float(NOSE_WIDTH[tier]),0.18,0.23),Vector3(0,0.34,-l/2+0.14),0.085,paint)
 	soft_box("Rear_Bumper",Vector3(w*0.91,0.14,0.16),Vector3(0,0.32,l/2-0.06),0.055,trim)
 	if tier >= 0:
 		for side: float in [-1.0,1.0]:
-			soft_box("Wing_Support",Vector3(0.065,0.20 + tier*0.045,0.10),Vector3(side*w*0.30,top+0.10 + tier*0.02,l*0.38),0.025,trim)
-		soft_box("Rear_Wing",Vector3(w+0.12,0.12,0.33 if tier<4 else 0.44),Vector3(0,top+0.23 + tier*0.04,l*0.39),0.055,accent)
+			soft_box("Wing_Support",Vector3(0.065,0.20 + tier*0.045,0.10),Vector3(side*w*0.30,top+0.19 + tier*0.02,l*0.38),0.025,trim)
+		soft_box("Rear_Wing",Vector3(w+0.16,0.18,0.39 if tier<4 else 0.46),Vector3(0,top+0.33 + tier*0.04,l*0.39),0.085,paint)
+		for side: float in [-1.0,1.0]:
+			soft_box("Wing_Endcap",Vector3(0.16,0.28,0.43),Vector3(side*(w/2+0.04),top+0.31+tier*0.04,l*0.39),0.075,paint)
 	if tier == 3:
 		for side: float in [-1.0,1.0]:
 			soft_box("Hood_Vent",Vector3(0.16,0.045,0.36),Vector3(side*0.44,top+0.01,-0.77),0.02,trim)

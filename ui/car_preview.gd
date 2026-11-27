@@ -5,13 +5,7 @@ extends Control
 
 signal yaw_changed(value: float)
 
-const MODELS := [
-	preload("res://assets/models/race_car/pico.tscn"),
-	preload("res://assets/models/race_car/nova.tscn"),
-	preload("res://assets/models/race_car/apex.tscn"),
-	preload("res://assets/models/race_car/titan.tscn"),
-	preload("res://assets/models/race_car/zenith.tscn"),
-]
+const MODELS = preload("res://ui/car_appearance.gd").MODELS
 const SCENE_RATIO := 600.0 / 1024.0
 const C_DARK := Color("1d1f24")
 const C_LIGHT := Color("fff8e7")
@@ -20,6 +14,16 @@ const PAINT_NAME := "Body_Paint_Blue"
 const DEFAULT_YAW := 145.0
 const DRAG_DEGREES_PER_UNIT := 0.8
 const FOV := 24.0
+
+## Opt in from Garage; Shop previews retain their own Racing presentation.
+var race_class_id: String = "racing":
+	set(value):
+		if race_class_id == value:
+			return
+		race_class_id = value
+		if _car != null:
+			_replace_car()
+			_update()
 
 var car_id: String = "car_pico_tia_chop":
 	set(v):
@@ -61,6 +65,17 @@ var dimmed: bool = false:  # xe chưa sở hữu: mờ nhẹ
 		_update()
 ## Optional Garage-only background; other previews keep their existing scene.
 var showroom_texture: Texture2D
+## Opt-in so collection thumbnails and other car previews keep their original rendering.
+var showroom_3d := false:
+	set(value):
+		showroom_3d = value
+		_update()
+		queue_redraw()
+## Chỉ bục xoay có ô caro, không sàn và không tường xưởng (thẻ Shop dùng nền riêng). Cần showroom_3d.
+var pedestal_only := false:
+	set(value):
+		pedestal_only = value
+		_update()
 var rotatable: bool = false:
 	set(v):
 		rotatable = v
@@ -71,7 +86,10 @@ var _viewport: SubViewport
 var _view: TextureRect
 var _car: Node3D
 var _camera: Camera3D
+var _stage: Node3D
+var _key_light: DirectionalLight3D
 var _paint_material: StandardMaterial3D
+var _paint_roughness := 0.5
 var _decals: Node3D
 var _accent_material: StandardMaterial3D
 var _decal_material: StandardMaterial3D
@@ -118,6 +136,7 @@ func _build_world() -> void:
 	environment.environment.reflected_light_source = Environment.REFLECTION_SOURCE_SKY
 	_viewport.add_child(environment)
 	var key := DirectionalLight3D.new()
+	_key_light = key
 	key.rotation_degrees = Vector3(-48, -35, 0)
 	key.light_energy = 1.0
 	key.light_color = Color("fff0d9")
@@ -140,7 +159,7 @@ func _replace_car() -> void:
 		_car.queue_free()
 	var data := GameData.car(car_id)
 	var tier := clampi(int(data.get("class", 1)), 1, 5)
-	_car = MODELS[tier - 1].instantiate()
+	_car = preload("res://ui/car_appearance.gd").model_for_class(race_class_id, tier).instantiate()
 	_viewport.add_child(_car)
 	_car.rotation_degrees.y = yaw
 	_paint_material = null
@@ -153,8 +172,11 @@ func _replace_car() -> void:
 	_decals.name = "Decals"
 	_car.add_child(_decals)
 	_car.add_child(_make_shadow())
-	_build_race_number()
-	var glass: MeshInstance3D = _car.get_node("Cabin_Glass")
+	if race_class_id == "racing" and String(data.get("variant", "")) != "epic":
+		_build_race_number()
+	var glass := _car.get_node_or_null("Cabin_Glass") as MeshInstance3D
+	if glass == null:
+		return
 	var glint := MeshInstance3D.new()
 	glint.name = "WindshieldReflection"
 	glint.mesh = glass.mesh
@@ -174,6 +196,7 @@ func _apply_paint_material(node: Node) -> void:
 		if child is MeshInstance3D and child.material_override != null and child.material_override.resource_name == PAINT_NAME:
 			if _paint_material == null:
 				_paint_material = child.material_override.duplicate()
+				_paint_roughness = _paint_material.roughness
 			child.material_override = _paint_material
 		if child is MeshInstance3D and child.material_override != null and child.material_override.resource_name == "Accent_Trim":
 			if _accent_material == null:
@@ -226,6 +249,8 @@ static func contrast_for(paint: String) -> Color:
 		return Color("dc583c")
 	if p.is_empty():
 		return C_LIGHT
+	if p.has("ink"):
+		return Color(String(p["ink"]))
 	return C_DARK if Color(String(p["color"])).get_luminance() > 0.65 else C_LIGHT
 
 
@@ -244,10 +269,18 @@ func _ready() -> void:
 func _update() -> void:
 	if _car == null:
 		return
+	_sync_stage()
 	var p := GameData.paint(paint_id)
 	if p.is_empty():
 		p = GameData.paint(GameData.default_paint_id())
 	_paint_material.albedo_color = Color(String(p["color"]))
+	var pearl := String(p.get("finish", "")) == "pearl"
+	_paint_material.metallic = 0.55 if pearl else 0.0
+	_paint_material.roughness = 0.28 if pearl else _paint_roughness
+	for panel_name in ["Body", "Roof"]:
+		var coated := preload("res://ui/car_appearance.gd").coated_material(_paint_material, paint_id, panel_name == "Roof")
+		(_car.get_node(panel_name) as MeshInstance3D).material_override = coated
+
 	_decal_material.albedo_color = contrast_for(paint_id)
 	if _accent_material != null:
 		_accent_material.albedo_color = Color("ef7047") if _paint_material.albedo_color.get_luminance() > 0.6 else contrast_for(paint_id)
@@ -263,6 +296,24 @@ func _update() -> void:
 	_request_render()
 
 
+func _sync_stage() -> void:
+	var enabled := showroom_3d and show_floor
+	if enabled and _stage == null:
+		_stage = preload("res://ui/garage_showroom_stage.gd").new(showroom_texture)
+		_viewport.add_child(_stage)
+	if _stage != null:
+		_stage.visible = enabled
+		_stage.scale = Vector3.ONE * (0.74 if pedestal_only else 1.0)
+		for node in _stage.get_children():
+			if String(node.name).begins_with("Floor"):
+				(node as Node3D).visible = not pedestal_only
+	if _key_light != null:
+		_key_light.shadow_enabled = enabled
+		_key_light.shadow_blur = 3.0 if enabled else 1.0
+		_key_light.shadow_opacity = 0.65 if enabled else 1.0
+		_key_light.directional_shadow_max_distance = 20.0 if enabled else 100.0
+
+
 ## Khu trưng bày chừa lề cho bục và nền; thẻ bộ sưu tập thì xe chiếm gần hết khung.
 func _place_camera() -> void:
 	var aspect := size.x / size.y
@@ -270,18 +321,27 @@ func _place_camera() -> void:
 	var span_y := (3.0 if top_down else 2.5) if show_floor else 1.9
 	if show_floor and showroom_texture != null:
 		span_y = 3.3
+	if showroom_3d and show_floor:
+		span_x = 3.85 if pedestal_only else 6.2
+		span_y = 2.75 if pedestal_only else 3.7
+	if race_class_id == "monster":
+		span_y = maxf(span_y, 3.0)
 	var half_tan := tan(deg_to_rad(FOV * 0.5))
 	var distance := maxf(span_y, span_x / aspect) * 0.5 / half_tan
 	var elevation := deg_to_rad(40.0 if top_down else 23.0)
 	# Điểm ngắm cao hơn tâm xe đẩy xe xuống đúng mặt bục của ảnh nền.
-	var target := Vector3(0, 0.55, 0)
+	var target := Vector3(0, 0.95 if race_class_id == "monster" else 0.55, 0)
 	if show_floor:
 		target.y = 0.50 if top_down else 0.83
 		if showroom_texture != null:
 			target.y = 0.40
+	if showroom_3d and show_floor:
+		target.y = 0.65 if pedestal_only else (0.5 if race_class_id == "monster" else (0.28 if race_class_id == "bike" else 0.05))
 	var direction := Vector3(0, sin(elevation), cos(elevation))
 	_camera.position = target + direction * distance
 	_camera.basis = Basis.looking_at(-direction)
+	if showroom_3d and show_floor and _stage != null:
+		_stage.fit_backdrop(2.0 * (_camera.position.z + 4.2) * half_tan * aspect * 1.02)
 
 
 func _request_render() -> void:
@@ -300,7 +360,7 @@ func _gui_input(event: InputEvent) -> void:
 
 
 func _draw() -> void:
-	if show_floor:
+	if show_floor and not showroom_3d:
 		var background := showroom_texture if showroom_texture != null else HdUi.Soft.texture("garage_showroom_front")
 		if background != null:
 			if showroom_texture != null:

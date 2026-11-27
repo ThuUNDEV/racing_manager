@@ -1,0 +1,41 @@
+{
+  "method": "Manual outer card edge bounds, approximate pixels on the 1254x1254 approved raster. Comparisons include 12px shadow margin and scale uniformly to a 390px card width; no stretching.",
+  "bounds_xyxy": {
+    "starter_1": [
+      27,
+      22,
+      417,
+      610
+    ],
+    "weekly_s": [
+      429,
+      22,
+      817,
+      610
+    ],
+    "offer_noads_bundle": [
+      833,
+      22,
+      1228,
+      610
+    ],
+    "income_x2": [
+      27,
+      632,
+      417,
+      1224
+    ],
+    "no_ads": [
+      429,
+      632,
+      817,
+      1224
+    ],
+    "char_my": [
+      833,
+      632,
+      1228,
+      1224
+    ]
+  }
+}

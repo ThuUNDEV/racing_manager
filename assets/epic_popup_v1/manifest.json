@@ -1,0 +1,245 @@
+{
+ "version": 1,
+ "source": "Design/Concepts/IAP_Epic_Garage_v1/epic_car_popup_v1.png",
+ "logical_width": 390,
+ "scale": 2.3487,
+ "assets": {
+  "stage_zenith": {
+   "mode": "stage",
+   "size": [
+    832,
+    596
+   ],
+   "sha256": "6290614bfa42273d7376f75f70991d4fa96937456afaea2f323f977edc6fcf26",
+   "provenance": "gpt-image-2.6-flare (tools/gen_epic_stages.py), refs stage_zenith_concept.png + ảnh chụp model 3D (tests/epic_car_ref_capture.gd); prompts: output/imagegen/epic_popup_stage/prompts.json"
+  },
+  "header_gift": {
+   "mode": "cutout",
+   "rect": [
+    26,
+    66,
+    64,
+    68
+   ],
+   "size": [
+    135,
+    140
+   ],
+   "sha256": "67da280dc70e922addd2ca914984cf612755ee45ab954e71fe80085d0000de27",
+   "provenance": "direct crop of the approved concept, background removed by art-tools remove-bg (refine=1)"
+  },
+  "close_round": {
+   "mode": "cutout",
+   "rect": [
+    328,
+    66,
+    48,
+    48
+   ],
+   "size": [
+    106,
+    106
+   ],
+   "sha256": "3972aef03afd9c4230aa9a086bf47354595fe0d3622eb340b967f690ee8226fe",
+   "provenance": "direct crop of the approved concept, background removed by art-tools remove-bg (refine=1)"
+  },
+  "tile_speed": {
+   "mode": "cutout",
+   "rect": [
+    46,
+    476,
+    68,
+    54
+   ],
+   "size": [
+    151,
+    103
+   ],
+   "sha256": "f80cd3d27ea5332eca5be13ffdb8c94d5a8a4aacc70490753bbbc4b2cc1a9c99",
+   "provenance": "direct crop of the approved concept, background removed by art-tools remove-bg (refine=1)"
+  },
+  "tile_collect": {
+   "mode": "cutout",
+   "rect": [
+    156,
+    466,
+    82,
+    61
+   ],
+   "size": [
+    177,
+    128
+   ],
+   "sha256": "ffccc91066ffafcaff4b8589ac2840ec7c9fcb7197c7be9a1d1c1a837b95910b",
+   "provenance": "direct crop of the approved concept, background removed by art-tools remove-bg (refine=1)"
+  },
+  "tile_flag": {
+   "mode": "cutout",
+   "rect": [
+    276,
+    474,
+    68,
+    58
+   ],
+   "size": [
+    148,
+    105
+   ],
+   "sha256": "58a697f7ad1ada199ea2cba069a1d42a9a5a0fcd2a76147758dee74857957bae",
+   "provenance": "direct crop of the approved concept, background removed by art-tools remove-bg (refine=1)"
+  },
+  "header_bar": {
+   "mode": "slice",
+   "rect": [
+    13,
+    83,
+    363,
+    52
+   ],
+   "size": [
+    173,
+    122
+   ],
+   "margin_left_px": 40,
+   "margin_right_px": 129,
+   "logical_height": 52,
+   "sha256": "1e77f0d2d368b98165fe0dfcaa212c38ce8fd4b0a3ef7104e31e02a6598fa30e",
+   "provenance": "direct crop of the approved concept"
+  },
+  "chip": {
+   "mode": "slice",
+   "rect": [
+    56.5,
+    434,
+    277,
+    31
+   ],
+   "size": [
+    88,
+    73
+   ],
+   "margin_left_px": 42,
+   "margin_right_px": 42,
+   "logical_height": 31,
+   "sha256": "64892c3e66e82cdd4a4f9247a03466f907d801b1a909a9e62667100e34356089",
+   "provenance": "direct crop of the approved concept"
+  },
+  "tile": {
+   "mode": "slice",
+   "rect": [
+    25,
+    476,
+    110,
+    91
+   ],
+   "size": [
+    80,
+    214
+   ],
+   "margin_left_px": 38,
+   "margin_right_px": 38,
+   "logical_height": 91,
+   "sha256": "f7058b05ea12334a424fb0a6d919f9961ed23d39f9b4839a9814ca47b6396b45",
+   "provenance": "direct crop of the approved concept"
+  },
+  "button": {
+   "mode": "slice",
+   "rect": [
+    23.4,
+    577.4,
+    343.2,
+    65
+   ],
+   "size": [
+    174,
+    153
+   ],
+   "margin_left_px": 85,
+   "margin_right_px": 85,
+   "logical_height": 65,
+   "sha256": "d3b4ef22ec06b5f893c6a03c082e1e7fb32287e480faae6c60a23dc22412a525",
+   "provenance": "direct crop of the approved concept"
+  },
+  "stage_pico": {
+   "mode": "stage",
+   "size": [
+    832,
+    596
+   ],
+   "sha256": "1d7126700ccbac442814424161e14a891f74e77954388cb68634a32fc8343ea4",
+   "provenance": "gpt-image-2.6-flare (tools/gen_epic_stages.py), refs stage_zenith_concept.png + ảnh chụp model 3D (tests/epic_car_ref_capture.gd); prompts: output/imagegen/epic_popup_stage/prompts.json"
+  },
+  "stage_nova": {
+   "mode": "stage",
+   "size": [
+    832,
+    596
+   ],
+   "sha256": "ee1aeb35ba4e832efb6e41a1cb43a1feff5fbf6ae60b205983cca8e878111a58",
+   "provenance": "gpt-image-2.6-flare (tools/gen_epic_stages.py), refs stage_zenith_concept.png + ảnh chụp model 3D (tests/epic_car_ref_capture.gd); prompts: output/imagegen/epic_popup_stage/prompts.json"
+  },
+  "stage_apex": {
+   "mode": "stage",
+   "size": [
+    832,
+    596
+   ],
+   "sha256": "5b333133341ac37700e0600a98411a95831454d303c53e98386717492c5b3b67",
+   "provenance": "gpt-image-2.6-flare (tools/gen_epic_stages.py), refs stage_zenith_concept.png + ảnh chụp model 3D (tests/epic_car_ref_capture.gd); prompts: output/imagegen/epic_popup_stage/prompts.json"
+  },
+  "stage_titan": {
+   "mode": "stage",
+   "size": [
+    832,
+    596
+   ],
+   "sha256": "68a4dee283fe6d8d7d1c3b24f990dbf54f0dddd2e4643724b03bdcf655cb5590",
+   "provenance": "gpt-image-2.6-flare (tools/gen_epic_stages.py), refs stage_zenith_concept.png + ảnh chụp model 3D (tests/epic_car_ref_capture.gd); prompts: output/imagegen/epic_popup_stage/prompts.json"
+  },
+  "stage_paint_aurora": {
+   "mode": "stage",
+   "size": [
+    832,
+    596
+   ],
+   "sha256": "4db506aa8a9f2ad3e1978c6a270458802eb65b7c7b5dcf7842c85b84c3ffb45b",
+   "provenance": "gpt-image-2.6-flare (tools/gen_epic_stages.py), refs stage_zenith_concept.png + ảnh chụp model 3D (tests/epic_car_ref_capture.gd); prompts: output/imagegen/epic_popup_stage/prompts.json"
+  },
+  "stage_paint_solar": {
+   "mode": "stage",
+   "size": [
+    832,
+    596
+   ],
+   "sha256": "04e512eb7d7d2fd722003408ac71f4416f1227d32aec3a2a442236d1510db142",
+   "provenance": "gpt-image-2.6-flare (tools/gen_epic_stages.py), refs stage_zenith_concept.png + ảnh chụp model 3D (tests/epic_car_ref_capture.gd); prompts: output/imagegen/epic_popup_stage/prompts.json"
+  },
+  "stage_paint_midnight": {
+   "mode": "stage",
+   "size": [
+    832,
+    596
+   ],
+   "sha256": "937abee71b605ae9a13c2455cbb5ec5e70146c0a4d2395a41aadaa7f0c28e8fa",
+   "provenance": "gpt-image-2.6-flare (tools/gen_epic_stages.py), refs stage_zenith_concept.png + ảnh chụp model 3D (tests/epic_car_ref_capture.gd); prompts: output/imagegen/epic_popup_stage/prompts.json"
+  },
+  "stage_paint_sakura": {
+   "mode": "stage",
+   "size": [
+    832,
+    596
+   ],
+   "sha256": "daa95b262d965ac156de59b750f8411ba00220655d555860b6f9e351ed6ab6c5",
+   "provenance": "gpt-image-2.6-flare (tools/gen_epic_stages.py), refs stage_zenith_concept.png + ảnh chụp model 3D (tests/epic_car_ref_capture.gd); prompts: output/imagegen/epic_popup_stage/prompts.json"
+  },
+  "stage_paint_neon": {
+   "mode": "stage",
+   "size": [
+    832,
+    596
+   ],
+   "sha256": "568c8e111636adce0b32b609b065f1c2e9a6a3f5e55722b618eff59b923e927b",
+   "provenance": "gpt-image-2.6-flare (tools/gen_epic_stages.py), refs stage_zenith_concept.png + ảnh chụp model 3D (tests/epic_car_ref_capture.gd); prompts: output/imagegen/epic_popup_stage/prompts.json"
+  }
+ }
+}

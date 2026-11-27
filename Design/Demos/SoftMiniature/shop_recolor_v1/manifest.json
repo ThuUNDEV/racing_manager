@@ -1,0 +1,54 @@
+{
+  "name": "Soft Miniature Shop Recolor v1",
+  "status": "concept_pending_user_review",
+  "date": "2026-11-26",
+  "image": "01_shop_recolor.png",
+  "prompt": "01_shop_recolor_prompt.txt",
+  "scope": "Shop art direction only; no runtime, economy, data or save changes.",
+  "provenance": {
+    "mode": "built-in image_gen",
+    "skill": "/home/thupv/.codex/skills/.system/imagegen/SKILL.md",
+    "orchestrator": "GPT-6.1-Sol medium delegated concept agent",
+    "tool": "image_gen.imagegen",
+    "model": "Tool-managed image model; explicit image model not exposed",
+    "original_output": "/home/thupv/.codex/generated_images/01a2171b-f6bc-7ed2-888d-640f3ef4cea5/exec-2c5c7344-781b-40db-867a-6b6cd8c08616.png",
+    "raw_copy": "output/imagegen/shop_recolor_v1/01_shop_recolor_raw.png",
+    "references": [
+      "/tmp/codex-clipboard-494b3539-4db6-4a04-9d75-06bf439caf35.png",
+      "/home/thupv/Desktop/DataSSD/racing_manager/Design/Demos/SoftMiniature/approved/06-shop.png",
+      "/home/thupv/Desktop/DataSSD/racing_manager/Design/Demos/SoftMiniature/approved/01-race.png",
+      "/home/thupv/Desktop/DataSSD/racing_manager/Design/Demos/SoftMiniature/approved/pack_popup_benefit_gifts_v1/01_benefit_gifts.png"
+    ],
+    "data_sources": [
+      "data/iap.json",
+      "data/ads.json",
+      "data/gear.json",
+      "data/driver_gacha.json",
+      "Design/28_IAP_Packs.md"
+    ],
+    "generation_calls": 1,
+    "postprocessing": "None. Copied original PNG unchanged."
+  },
+  "review": {
+    "coverage": [
+      "Free gems and tickets",
+      "Starter 1",
+      "Income x2",
+      "No Ads",
+      "Starter 2",
+      "Daily gear and driver packs",
+      "4 open pack cards",
+      "5 paid gem packs plus video gems",
+      "3 cash exchange packs",
+      "Restore purchases",
+      "Five navigation tabs"
+    ],
+    "validated": "Visually inspected generated board. Main reward quantities and USD prices match authoritative data. Currency exchange is displayed as income minutes rather than contextual cash balances.",
+    "limitations": [
+      "Art-direction concept, not a Godot screenshot or runtime implementation.",
+      "Generated typography and portrait identity remain subject to implementation review; the Hà miniature is an illustrative placeholder, not an approved Hà portrait.",
+      "Generated board adds compact shop title banner and avatar for presentation; preserve actual layout geometry when implementing.",
+      "Some tiny annotations are dense at board scale. UI text should be live localized labels in runtime."
+    ]
+  }
+}

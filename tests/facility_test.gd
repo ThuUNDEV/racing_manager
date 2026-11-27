@@ -156,5 +156,56 @@ func _initialize() -> void:
 	_check(not gs.manage_class("rally") and gs.managed_class == "racing", "lỗi ghi save: không đổi Quản lý")
 	gs.simulate_write_failure = false
 
+	print("== Chọn class đầu tiên (game mới) ==")
+	gs.active = false
+	gs.init_new_game()
+	gs.activate()
+	_check(gs.first_class_pending and gs.facilities == ["racing"], "game mới: chờ chọn class đầu")
+	gs.gate_first_class = true
+	var counter_before: int = gs.race_counter
+	_check(not gs.choose_first_class("không_có"), "class lạ bị từ chối")
+	_check(gs.choose_first_class("rally"), "chọn Rally làm class đầu")
+	_check(not gs.first_class_pending and not gs.gate_first_class, "hết chờ, mở lại vòng lặp")
+	_check(gs.facilities == ["rally"] and gs.class_owned == ["rally"] and gs.active_class == "rally" and gs.managed_class == "rally" and gs.race_class_id == "rally", "cơ sở đầu là Rally")
+	_check(gs.phase == "countdown" and gs.race_counter == counter_before and gs.sim.track_id == GameData.class_track("rally"), "countdown dựng lại theo trường đua Rally, không tốn lượt")
+	_check(not gs.choose_first_class("stock"), "chỉ chọn được một lần")
+	var first_save: Dictionary = _roundtrip(gs)
+	_check(first_save["first_class_pending"] == false and gs._valid_save(first_save), "save ghi đã chọn và hợp lệ")
+	gs._apply(first_save)
+	_check(not gs.first_class_pending and gs.facilities == ["rally"], "tải lại giữ Rally")
+	first_save["first_class_pending"] = "x"
+	_check(not gs._valid_save(first_save), "first_class_pending sai kiểu bị từ chối")
+
+	print("== Đội và tay đua tách riêng theo cơ sở ==")
+	gs.active = false
+	gs.init_new_game()
+	gs.coins = BigNumber.from_int(1000000000000)
+	gs.owned_drivers = ["driver_an"]
+	gs.player_team_name = "Đội Racing"
+	gs.scout_points = 7
+	gs.gear_owned = {}
+	var gear_id: String = String(GameData.gear_items()[0]["id"])
+	if gear_id != "":
+		gs.gear_owned[gear_id] = {"level": int(GameData.gear_config(gear_id).get("initial_level", 0)), "shards": 4}
+	gs.gear_coupons = {"standard": 2, "elite": 1}
+	gs.facilities = ["racing", "rally"]
+	gs._sync_class_owned()
+	_check(gs.manage_class("rally"), "chuyển quản lý sang Rally")
+	_check(gs.player_team_name != "Đội Racing" and gs.owned_drivers == ["driver_an"] and gs.scout_points == 0 and gs.facility_team_name("racing") == "Đội Racing", "Rally bắt đầu với tên đội mặc định, roster khởi đầu, 0 điểm tuyển")
+	_check(gs.gear_owned.is_empty() and int(gs.gear_coupons["standard"]) == 0, "Rally bắt đầu không có gear và coupon gear")
+	gs.player_team_name = "Đội Rally"
+	gs.scout_points = 3
+	var split: Dictionary = _roundtrip(gs)
+	_check(gs._valid_save(split), "save có cơ sở tách riêng vẫn hợp lệ")
+	gs._apply(split)
+	_check(gs.managed_class == "rally" and gs.player_team_name == "Đội Rally" and gs.facility_team_name("racing") == "Đội Racing", "tải lại giữ tên đội theo cơ sở")
+	_check(gs.manage_class("racing") and gs.player_team_name == "Đội Racing" and gs.scout_points == 7 and gs.facility_team_name("rally") == "Đội Rally", "quay lại Racing: tên đội và điểm tuyển cũ")
+	_check(int(gs.gear_coupons["standard"]) == 2 and (gear_id == "" or gs.gear_owned.has(gear_id)), "quay lại Racing: gear và coupon gear cũ")
+	var legacy: Dictionary = _roundtrip(gs)
+	for key in ["team_name", "owned_drivers", "driver_progress", "driver_coupons", "driver_pity", "scout_points", "gear_owned", "gear_coupons", "gear_open_count"]:
+		(legacy["businesses"]["rally"] as Dictionary).erase(key)
+	gs._apply(legacy)
+	_check(gs.facility_team_name("rally") == I18n.t("save.team"), "save cũ: cơ sở phụ nhận tên mặc định")
+
 	print("\nKết quả: %s" % ("ĐẠT" if _fails == 0 else "%d lỗi" % _fails))
 	quit(1 if _fails > 0 else 0)

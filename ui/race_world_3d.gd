@@ -1,6 +1,7 @@
 extends RefCounted
 ## One shared 3D world for the circuit, scenery and all eight cars.
-const CAR = preload("res://assets/models/race_car/race_car.tscn")
+const Appearance = preload("res://ui/car_appearance.gd")
+var vehicle_class := "racing"
 const SCALE := 0.1
 var viewport: SubViewport
 var world: Node3D
@@ -10,6 +11,7 @@ var center := Vector2.ZERO
 var portrait := false
 var cars: Dictionary = {}
 var paints: Dictionary = {}
+var _player_appearance := ""
 var materials: Dictionary = {}
 var vertices := PackedVector3Array()
 var colors := PackedColorArray()
@@ -121,6 +123,7 @@ func strip(s: float, end: float, left: float, right: float, height: float, color
 func rebuild(track: TrackLayout, size: Vector2, width: float) -> void:
 	var same_track := layout == track and world != null
 	layout = track
+	vehicle_class = Appearance.class_for_track(track.track_id)
 	road_width = width
 	center = layout.bounds.get_center()
 	portrait = layout.bounds.size.y > layout.bounds.size.x
@@ -150,18 +153,21 @@ func rebuild(track: TrackLayout, size: Vector2, width: float) -> void:
 	island("IslandSand",dims+Vector2.ONE*0.35,-0.35,0.005,"f5dc9c")
 	island("IslandGrass",dims,-0.12,0.045,"86c76a")
 	# The transparent 3D scene shares the HUD sea instead of a separate ocean rectangle.
+	var dirt := vehicle_class in ["rally", "monster"]
+	var surface := Color("b4895b") if dirt else Color("616e7b")
+	var shoulder := Color("cfac76") if dirt else Color("d6cfb6")
 	var s := 0.0
 	while s < layout.lap_length:
 		var end := minf(s+sample_step,layout.lap_length)
 		var half := layout.width_at(s)*road_width*0.5*1.55
 		var half_end := layout.width_at(end)*road_width*0.5*1.55
-		quad(at(s,half+3,0.06),at(end,half_end+3,0.06),at(end,-half_end-3,0.06),at(s,-half-3,0.06),Color("d6cfb6"))
-		quad(at(s,half,0.08),at(end,half_end,0.08),at(end,-half_end,0.08),at(s,-half,0.08),Color("616e7b"))
+		quad(at(s,half+3,0.06),at(end,half_end+3,0.06),at(end,-half_end-3,0.06),at(s,-half-3,0.06),shoulder)
+		quad(at(s,half,0.08),at(end,half_end,0.08),at(end,-half_end,0.08),at(s,-half,0.08),surface)
 		for sign_value: float in [-1.0,1.0]:
 			var inner := sign_value * half
 			var outer := sign_value * (half+2.0)
 			quad(at(s,inner,0.095),at(end,sign_value*half_end,0.095),at(end,sign_value*(half_end+2),0.095),at(s,outer,0.095),Color("f26c59") if int(s/6)%2==0 else Color("fff5dd"))
-		if int(s / sample_step) % 6 < 2:
+		if not dirt and int(s / sample_step) % 6 < 2:
 			strip(s,end,0.25,-0.25,0.10,Color("e3e8df"))
 		s = end
 	var start_half := layout.width_at(0)*road_width*0.5*1.55
@@ -189,8 +195,9 @@ func rebuild(track: TrackLayout, size: Vector2, width: float) -> void:
 	build_bridge()
 	build_fences()
 	build_props(bounds)
+	_player_appearance = ""
 	for id in Balance.CAR_COUNT:
-		var car: Node3D = CAR.instantiate()
+		var car: Node3D = Appearance.model_for_class(vehicle_class).instantiate()
 		car.name = "RaceCar%d" % id
 		car.scale = Vector3.ONE * 0.55
 		world.add_child(car)
@@ -366,9 +373,57 @@ func grandstand(pos: Vector3) -> void:
 	for stripe in 8:
 		box("StandCanopy",pos+Vector3(-1.84+stripe*0.525,2.55,-0.45),Vector3(0.53,0.16,2.2),"f4775d" if stripe%2==0 else "fff4dc")
 
+## Snapshot identity prevents a Garage selection from changing a race already in progress.
+func _sync_player_car() -> void:
+	var state := host.get_node_or_null("/root/GameState")
+	if state == null:
+		return
+	var car_id: String = state.active_car_id
+	if state.phase == "racing" and not state.race_snapshot.is_empty():
+		car_id = String(state.race_snapshot.get("car_id", car_id))
+	var cosmetics: Dictionary = state.race_cosmetics()
+	var paint_id := String(cosmetics["paint_id"])
+	var decal_id := String(cosmetics["decal_id"])
+	var signature := vehicle_class + ":" + car_id + ":" + paint_id + ":" + decal_id
+	if signature == _player_appearance:
+		return
+	_player_appearance = signature
+	var previous: Node3D = cars[0]
+	var car: Node3D = Appearance.model_for_class(vehicle_class, int(GameData.car(car_id).get("class", 1))).instantiate()
+	car.name = "RaceCar0"
+	car.transform = previous.transform
+	world.remove_child(previous)
+	previous.queue_free()
+	world.add_child(car)
+	cars[0] = car
+	var paint := (car.get_node("Body") as MeshInstance3D).material_override.duplicate() as StandardMaterial3D
+	paint.albedo_color = Color(String(GameData.paint(paint_id).get("color", "#32a6e8")))
+	paints[0] = paint
+	assign_paint(car, paint)
+	for panel_name in ["Body", "Roof"]:
+		var coated := Appearance.coated_material(paint, paint_id, panel_name == "Roof")
+		var panel := car.get_node(panel_name) as MeshInstance3D
+		panel.material_override = coated
+		if decal_id == "none":
+			continue
+		var overlay := MeshInstance3D.new()
+		overlay.name = "Livery_" + panel_name
+		overlay.mesh = panel.mesh
+		overlay.transform = panel.transform
+		var material := ShaderMaterial.new()
+		material.shader = preload("res://ui/car_livery.gdshader")
+		material.set_shader_parameter("pattern", ["none", "double_stripe", "lightning", "checker"].find(decal_id))
+		material.set_shader_parameter("ink", CarPreview.contrast_for(paint_id))
+		material.set_shader_parameter("panel_offset", panel.position)
+		material.set_shader_parameter("body_top", float(car.get_meta("body_top", 0.86)))
+		overlay.material_override = material
+		car.add_child(overlay)
+
 func update_car(id: int, s: float, lateral: float, yaw: float, color: Color) -> void:
 	if not cars.has(id):
 		return
+	if id == 0:
+		_sync_player_car()
 	var car: Node3D = cars[id]
 	car.position = at(s,lateral*1.55,0.11)
 	var direction := at(s+0.5,lateral*1.55,0.11)-car.position
@@ -377,7 +432,8 @@ func update_car(id: int, s: float, lateral: float, yaw: float, color: Color) -> 
 	paints[id].albedo_color = color
 	for child in car.get_children():
 		if String(child.name).ends_with("Wheel"):
-			child.rotation.x = -s*SCALE/(0.32*0.55)
+			var radius := float(child.get_meta("radius", 0.34))
+			child.rotation.x = -s*SCALE/(radius*0.55)
 
 func screen_point(p: Vector2, height: float = 0.0) -> Vector2:
 	return view_rect.position + camera.unproject_position(point(p,height))*0.5

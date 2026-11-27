@@ -12,7 +12,7 @@
 1. **Thước đo chung là gem.** Mọi gói được định giá bằng "gem tương đương" để so với gói gem cơ bản. Giá trị gói ghi trên thẻ (`×3 giá trị`) phải tính được từ bảng §3.
 2. **Tiền mềm trong gói = N phút thu nhập hiệu lực**, chốt BigNumber lúc bắt đầu giao dịch (12 §Ads/IAP), để gói có giá trị như nhau ở mọi giải.
 3. **Thưởng cơ bản không bao giờ nằm sau mua hàng** (05 §1.1). Pass chỉ thêm, không bớt quà miễn phí.
-4. **Không popup bán hàng sau thua, không offer ngẫu nhiên theo hành vi** (05 §1.4). Offer chỉ xuất hiện theo **mốc tiến trình** (§4.3–4.4) hoặc theo **lịch tuần cố định** (§4.9); popup tự hiện đi qua một hàng đợi chung (§5b).
+4. **Không popup bán hàng sau thua, không offer ngẫu nhiên theo hành vi** (05 §1.4). Offer chỉ xuất hiện theo **mốc tiến trình** (§4.3–4.4) hoặc theo **lịch tuần cố định** (§4.9; ngoại lệ có đồng hồ làm mới tuần: Gói Giới hạn / Chọn Một, Design/35 đợt C+D); popup tự hiện đi qua một hàng đợi chung (§5b).
 5. **Một đơn = một token.** Hàng vào save và lưu xong rồi mới `finish` (Horus AGENTS mục 3).
 6. Giá hiển thị: `platform.iap.price(sku)`; không có thì dùng giá dự phòng trong `data/iap.json`. Không viết cứng giá trong UI.
 
@@ -250,9 +250,11 @@ Tỉ lệ gói · Điều khoản · Chính sách riêng tư
 
 **Đã làm (27/11/2026):** hàng đợi ở `game/iap_service.gd` (`sales_popup_queue`, `next_sales_popup`), điều kiện màn hình ở `ui/main.gd` (`_try_sales_popup`). `auto_popup` là số lần tự hiện tối đa, `auto_next_session` đánh dấu `starter_2/3`; mỗi gói tối đa 1 lần/ngày. Popup chỉ hiện khi người chơi đang ở tab Đua; `popup_skip` có thêm `why: "position"`. Chưa làm §5c (điểm ưu tiên, trạng thái `dropped`) và giới hạn 2 offer mở cùng lúc.
 
+**Popup chuỗi Starter (27/11/2026):** popup chi tiết của `starter_1..3` có dải `1 · 2 · 3` (`ui/starter_steps.gd`): bấm số để chuyển giữa các gói đang mua được, bước đã mua hoặc chưa mở bị khóa. Thẻ Starter trong Shop vẫn tách thẻ, chưa gộp theo §4.3.
+
 ### 5b-2. Dải icon gói ở tab Đua *(19/11/2026)*
 
-Dải chặng ở tab Đua có icon lối tắt (không phải popup tự hiện, không qua hàng đợi §5b): `starter`, `offer`, `weekly` và **`perk`** (tiện ích: `income_x2`, `no_ads`). Mỗi icon chỉ hiện khi gói đầu tiên của nhóm có `Iap.block_reason` ∈ {"", "busy"}, giống thẻ Shop; bấm mở chi tiết gói đó, chấm đỏ tắt sau khi bấm trong phiên. Khi `offer_noads_bundle` đang bán thì `perk` bỏ qua `no_ads` đơn lẻ (§4.4). Chưa có icon cho tay đua, gói ngày và pass. Icon `perk` đang dùng tạm `icons/coin`, cần `icons/pack_perk` cùng bộ `assets/soft_miniature_race_ui_v3/icons/`.
+Dải chặng ở tab Đua có icon lối tắt (không phải popup tự hiện, không qua hàng đợi §5b): `starter`, `offer`, `weekly` và **`perk`** (tiện ích: `income_x2`, `no_ads`). Mỗi icon chỉ hiện khi gói đầu tiên của nhóm có `Iap.block_reason` ∈ {"", "busy"}, giống thẻ Shop; bấm mở chi tiết gói đó, chấm đỏ tắt sau khi bấm trong phiên. Khi `offer_noads_bundle` đang bán thì `perk` bỏ qua `no_ads` đơn lẻ (§4.4). **27/11/2026:** thêm `daily` và `character`. Quá 5 ô (tính cả ô ×2) thì các ô thu hẹp và cao hơn cho vừa một hàng, không cuộn; màn 320 mỗi ô rộng khoảng 40, dưới mức 44 (đã chấp nhận). Chưa có icon cho pass và gói gem. Icon đang dùng tạm: `perk` = `icons/coin`, `daily` = `icons/gift`, `character` = `nav_team`; cần `pack_perk`, `pack_daily`, `pack_character` cùng bộ `assets/soft_miniature_race_ui_v3/icons/`.
 
 ### 5c. Vòng đời popup, điều kiện vào/ra hàng đợi và ưu tiên *(đề xuất 17/11/2026, chờ duyệt)*
 

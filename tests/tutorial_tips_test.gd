@@ -164,7 +164,7 @@ func run() -> void:
 	check(tut.intro == "C4_star" and tut.tip_mode, "tab Đua: hiện mẹo C4")
 	tut.blocked = false
 	tut._process(0.1)
-	check(tut._panel.visible and tut._text.text.contains("Ticket Marketing") and tut._target.has("rect"), "callout + spotlight ô Ticket")
+	check(tut._panel.visible and tut._text.text.contains("Bán vé") and tut._target.has("rect"), "callout + spotlight ô Ticket")
 	check(not tut._skip.visible and tut._primary.text == "Đã hiểu", "chỉ có nút Đã hiểu, không có nút Tắt mẹo")
 	check(tut._panel.get_rect().end.x <= tut.size.x and tut._panel.position.x >= 0.0, "callout vừa màn 390")
 	state.levels["ticket"] = 30

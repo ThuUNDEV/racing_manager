@@ -74,28 +74,28 @@
   },
   "revenue_upgrades": {
     "ticket": {
-      "name": "Ticket Marketing",
+      "name": "@data.economy.ticket",
       "base": "8.0",
       "per_level": "0.25",
       "growth": "1.008",
       "cost": "150"
     },
     "celebration": {
-      "name": "Victory Celebrations",
+      "name": "@data.economy.celebration",
       "base": "0.0",
       "per_level": "0.75",
       "growth": "1.008",
       "cost": "300"
     },
     "parking": {
-      "name": "Parking",
+      "name": "@data.economy.parking",
       "base": "0.0",
       "per_level": "1.25",
       "growth": "1.008",
       "cost": "500"
     },
     "grandstands": {
-      "name": "Grandstands",
+      "name": "@data.economy.grandstands",
       "base": "10.0",
       "per_level": "0.5",
       "cost": "800"

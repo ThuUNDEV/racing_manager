@@ -1,4 +1,4 @@
-# Soft Miniature cars v4
+# Soft Miniature cars v5
 
 Original code-generated geometry and materials. No third-party meshes, textures,
 logos, or assets from `Design/References/RaceStar_Garage_Extract/` are used.
@@ -12,8 +12,9 @@ logos, or assets from `Design/References/RaceStar_Garage_Extract/` are used.
 | 5 | `zenith.tscn` | Long, low hypercar, side intakes, broad wing |
 
 Each family serves its three existing stat variants, selected from `GameData.car(id).class`.
-No balance data or save format changes. Garage selects all five; racing still loads
-`race_car.tscn`, the Pico-compatible default, until its separate integration is authorized.
+No balance data or save format changes. Garage and Shop select all five. Racing selects the player family and cosmetics
+from the race snapshot, retaining the current appearance until that race ends.
+Opponents retain the Pico-compatible default.
 `race_car.glb` exports the same default for external inspection.
 
 - Front: -Z; up: +Y; tire contact plane: Y=0.
@@ -50,5 +51,27 @@ Captures and review notes: `Design/Previews/Garage_Car_v4/`.
 `tests/garage_car_v4_capture.gd` captures all 15 family/paint/pattern combinations
 plus Garage tabs at 390 and the existing 320/390/412 framing checks.
 The older canvas shader `ui/car_paint.gdshader` is unchanged; 3D livery uses
-`ui/car_livery.gdshader`. Dynamic badges/livery remain in Garage; race still loads
-the valid generated default geometry without changing its renderer integration.
+`ui/car_livery.gdshader`. Epic paint construction is shared by Shop, Garage and
+racing via `ui/car_appearance.gd` and `ui/car_epic_finish.gdshader`.
+
+## Demo match (27 November 2026)
+
+Visual reference: the user-supplied Shop concept, archived as
+`Design/Previews/Car_Demo_Match_v5/reference.png`.
+Geometry remains native, deterministic GDScript; no image generator or bitmap car
+replacement was used. The reference informed the domed bodies, painted canopy
+frames, thick rounded wheel arches, chunky tires, larger wings and warm alloy.
+Generated source: `tools/models/build_race_car.gd`; all five scenes and the default
+GLB are rebuilt together. No game balance, prices, ownership or save fields change.
+
+Epic body and roof finishes use a shared native PBR shader: white racing stripes,
+Aurora colour bands, Solar flame shapes and Midnight cyan stripes. Ordinary paints
+and saved decals remain available. Epic cars omit the ordinary number badges.
+The Shop uses these live models rather than illustrations of different cars.
+These are runtime approximations of the illustrated concept; studio lighting,
+sculpted details and the concept's flame artwork are not reproduced exactly.
+
+Verification: `tests/car_demo_match_capture.gd` with `--economy-test` validates all
+five racing families, Epic materials, decals, cached meshes and snapshot isolation.
+With a real renderer it also saves `cars_and_finishes.png`. Shop captures cover
+320/390/412 logical widths. Existing Epic Garage and race-world tests also pass.

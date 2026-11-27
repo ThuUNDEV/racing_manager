@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "cars": [
+    {
+      "id": "car_pico_epic",
+      "class": 1,
+      "class_name": "Pico",
+      "variant": "epic",
+      "name": "@data.cars.pico_epic",
+      "base": {
+        "S": 50,
+        "H": 50,
+        "B": 47,
+        "A": 47
+      },
+      "price": "0",
+      "starter": false,
+      "entry_tier": 0,
+      "iap_only": true,
+      "sku": "epic_car_pico",
+      "default_paint": "epic_sapphire"
+    },
+    {
+      "id": "car_nova_epic",
+      "class": 2,
+      "class_name": "Nova",
+      "variant": "epic",
+      "name": "@data.cars.nova_epic",
+      "base": {
+        "S": 68,
+        "H": 68,
+        "B": 64,
+        "A": 64
+      },
+      "price": "0",
+      "starter": false,
+      "entry_tier": 2,
+      "iap_only": true,
+      "sku": "epic_car_nova",
+      "default_paint": "epic_jade"
+    },
+    {
+      "id": "car_apex_epic",
+      "class": 3,
+      "class_name": "Apex",
+      "variant": "epic",
+      "name": "@data.cars.apex_epic",
+      "base": {
+        "S": 87,
+        "H": 87,
+        "B": 84,
+        "A": 84
+      },
+      "price": "0",
+      "starter": false,
+      "entry_tier": 3,
+      "iap_only": true,
+      "sku": "epic_car_apex",
+      "default_paint": "epic_ruby"
+    },
+    {
+      "id": "car_titan_epic",
+      "class": 4,
+      "class_name": "Titan",
+      "variant": "epic",
+      "name": "@data.cars.titan_epic",
+      "base": {
+        "S": 109,
+        "H": 109,
+        "B": 106,
+        "A": 106
+      },
+      "price": "0",
+      "starter": false,
+      "entry_tier": 4,
+      "iap_only": true,
+      "sku": "epic_car_titan",
+      "default_paint": "epic_aurum"
+    },
+    {
+      "id": "car_zenith_epic",
+      "class": 5,
+      "class_name": "Zenith",
+      "variant": "epic",
+      "name": "@data.cars.zenith_epic",
+      "base": {
+        "S": 133,
+        "H": 133,
+        "B": 130,
+        "A": 130
+      },
+      "price": "0",
+      "starter": false,
+      "entry_tier": 5,
+      "iap_only": true,
+      "sku": "epic_car_zenith",
+      "default_paint": "epic_amethyst"
+    }
+  ]
+}

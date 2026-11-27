@@ -1,0 +1,31 @@
+{
+  "name": "Shop soft rounded special frames v8",
+  "status": "concept_pending_review",
+  "date": "2026-11-26",
+  "image": "01_shop_soft_rounded_frames.png",
+  "prompt": "01_shop_soft_rounded_frames_prompt.txt",
+  "provenance": {
+    "mode": "built-in image_gen localized edit",
+    "tool": "image_gen.imagegen",
+    "orchestrator": "Delegated GPT-6.1-Sol medium",
+    "image_model": "Tool-managed; exact model not exposed",
+    "edit_target": "Design/Demos/SoftMiniature/shop_recolor_v7/01_shop_premium_special_packs.png",
+    "raw": "output/imagegen/shop_recolor_v8/01_shop_soft_rounded_frames_raw.png",
+    "generation_calls": 3,
+    "postprocessing": "None; original image copied unchanged",
+    "correction": "Initial frame edit changed All-Star/Elite x10 cost to200; two follow-up image edits restored both to300"
+  },
+  "changes": [
+    "Four special offer frames converted from sharp beveled/clipped corners to continuous rounded gold borders",
+    "Warm thin gold edge, gentler highlight/shadow"
+  ],
+  "validation": {
+    "visual": "Rounded corners clearly visible on3 left special cards and top-middle starter2. Blue actions and green FREE preserved. All-Star and Elite x10 labels both read300 in final. Main reward quantities/prices and5 tabs visually retained.",
+    "limitations": [
+      "Repeated AI edits subtly redraw fine artwork/text; not pixel-exact",
+      "Hà portrait remains placeholder goggle character, not validated unique driver art",
+      "Concept typography/sprites require runtime implementation from proper asset IDs/live labels"
+    ],
+    "scope": "No runtime code, data, balance or save edits."
+  }
+}

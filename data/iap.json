@@ -14,7 +14,12 @@
   "gap_sec": 1800,
   "per_day": 3,
   "first_after_tutorial": "U5_drivers",
-  "next_gap_hours": 24
+  "next_gap_hours": 24,
+  "groups": [
+   "high_value",
+   "forced",
+   "superior"
+  ]
  },
  "flags": {
   "weekly_xl_enabled": false
@@ -81,10 +86,20 @@
    "usd": 9.99,
    "price_fallback": "$9.99",
    "consumable": false,
+   "popup_group": "superior",
+   "prio": 0,
+   "popup_unlock": {
+    "tier": 1
+   },
+   "popup_unless": [
+    "offer_noads_bundle"
+   ],
+   "auto_popup": 3,
    "grant": {
     "perk": "no_ads",
     "gems": 100
-   }
+   },
+   "strip_prio": 400
   },
   {
    "sku": "income_x2",
@@ -92,9 +107,73 @@
    "usd": 4.99,
    "price_fallback": "$4.99",
    "consumable": false,
+   "popup_group": "high_value",
+   "prio": 300,
+   "popup_unlock": {
+    "tier": 1
+   },
+   "auto_popup": 3,
    "grant": {
     "perk": "income_x2"
-   }
+   },
+   "strip_prio": 300
+  },
+  {
+   "sku": "income_x3",
+   "kind": "perk",
+   "usd": 9.99,
+   "price_fallback": "$9.99",
+   "consumable": false,
+   "hide_if_owned": [
+    "income_x2"
+   ],
+   "popup_group": "high_value",
+   "prio": 100,
+   "popup_unlock": {
+    "races": 5
+   },
+   "auto_popup": 3,
+   "grant": {
+    "perk": "income_x3"
+   },
+   "strip_prio": 100
+  },
+  {
+   "sku": "income_x3_up",
+   "kind": "perk",
+   "usd": 4.99,
+   "price_fallback": "$4.99",
+   "consumable": false,
+   "requires": [
+    "income_x2"
+   ],
+   "popup_group": "high_value",
+   "prio": 100,
+   "popup_unlock": {
+    "races": 5
+   },
+   "auto_popup": 3,
+   "grant": {
+    "perk": "income_x3"
+   },
+   "strip_prio": 100
+  },
+  {
+   "sku": "offline_plus",
+   "kind": "perk",
+   "usd": 4.99,
+   "price_fallback": "$4.99",
+   "consumable": false,
+   "popup_group": "high_value",
+   "prio": 0,
+   "popup_unlock": {
+    "races": 5
+   },
+   "auto_popup": 3,
+   "grant": {
+    "perk": "offline_plus"
+   },
+   "strip_prio": 0
   },
   {
    "sku": "starter_1",
@@ -237,6 +316,8 @@
    "usd": 9.99,
    "price_fallback": "$9.99",
    "consumable": true,
+   "popup_group": "superior",
+   "prio": 0,
    "once": true,
    "unlock": {
     "ad_breaks_today": 3
@@ -535,6 +616,1986 @@
      "elite": 40
     },
     "income_min": 2400
+   }
+  },
+  {
+   "sku": "chain_driver_01",
+   "kind": "chain",
+   "chain_id": "driver",
+   "chain_step": 1,
+   "usd": 0.99,
+   "price_fallback": "$0.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "any": [
+     {
+      "bought": "starter_3"
+     },
+     {
+      "tier": 2
+     }
+    ]
+   },
+   "grant": {
+    "gems": 50,
+    "driver_coupon": {
+     "pro": 5
+    }
+   }
+  },
+  {
+   "sku": "chain_driver_02",
+   "kind": "chain",
+   "chain_id": "driver",
+   "chain_step": 2,
+   "usd": 1.99,
+   "price_fallback": "$1.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_driver_01"
+   },
+   "grant": {
+    "gems": 100,
+    "driver_coupon": {
+     "pro": 10
+    }
+   }
+  },
+  {
+   "sku": "chain_driver_03",
+   "kind": "chain",
+   "chain_id": "driver",
+   "chain_step": 3,
+   "usd": 2.99,
+   "price_fallback": "$2.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_driver_02"
+   },
+   "grant": {
+    "gems": 150,
+    "driver_coupon": {
+     "pro": 15
+    }
+   }
+  },
+  {
+   "sku": "chain_driver_04",
+   "kind": "chain",
+   "chain_id": "driver",
+   "chain_step": 4,
+   "usd": 4.99,
+   "price_fallback": "$4.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_driver_03"
+   },
+   "grant": {
+    "gems": 255,
+    "driver_coupon": {
+     "pro": 10
+    }
+   }
+  },
+  {
+   "sku": "chain_driver_05",
+   "kind": "chain",
+   "chain_id": "driver",
+   "chain_step": 5,
+   "usd": 9.99,
+   "price_fallback": "$9.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_driver_04"
+   },
+   "grant": {
+    "gems": 520,
+    "driver_coupon": {
+     "pro": 18
+    }
+   }
+  },
+  {
+   "sku": "chain_driver_06",
+   "kind": "chain",
+   "chain_id": "driver",
+   "chain_step": 6,
+   "usd": 14.99,
+   "price_fallback": "$14.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_driver_05"
+   },
+   "grant": {
+    "gems": 780,
+    "driver_coupon": {
+     "pro": 26
+    }
+   }
+  },
+  {
+   "sku": "chain_driver_07",
+   "kind": "chain",
+   "chain_id": "driver",
+   "chain_step": 7,
+   "usd": 19.99,
+   "price_fallback": "$19.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_driver_06"
+   },
+   "grant": {
+    "gems": 1100,
+    "driver_coupon": {
+     "pro": 34
+    }
+   }
+  },
+  {
+   "sku": "chain_driver_08",
+   "kind": "chain",
+   "chain_id": "driver",
+   "chain_step": 8,
+   "usd": 24.99,
+   "price_fallback": "$24.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_driver_07"
+   },
+   "grant": {
+    "gems": 1375,
+    "driver_coupon": {
+     "pro": 42
+    }
+   }
+  },
+  {
+   "sku": "chain_driver_09",
+   "kind": "chain",
+   "chain_id": "driver",
+   "chain_step": 9,
+   "usd": 29.99,
+   "price_fallback": "$29.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_driver_08"
+   },
+   "grant": {
+    "gems": 1650,
+    "driver_coupon": {
+     "pro": 50
+    }
+   }
+  },
+  {
+   "sku": "chain_driver_10",
+   "kind": "chain",
+   "chain_id": "driver",
+   "chain_step": 10,
+   "usd": 34.99,
+   "price_fallback": "$34.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_driver_09"
+   },
+   "grant": {
+    "gems": 1925,
+    "driver_coupon": {
+     "pro": 58
+    }
+   }
+  },
+  {
+   "sku": "chain_driver_11",
+   "kind": "chain",
+   "chain_id": "driver",
+   "chain_step": 11,
+   "usd": 39.99,
+   "price_fallback": "$39.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_driver_10"
+   },
+   "grant": {
+    "gems": 2200,
+    "driver_coupon": {
+     "pro": 66
+    }
+   }
+  },
+  {
+   "sku": "chain_driver_12",
+   "kind": "chain",
+   "chain_id": "driver",
+   "chain_step": 12,
+   "usd": 44.99,
+   "price_fallback": "$44.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_driver_11"
+   },
+   "grant": {
+    "gems": 2475,
+    "driver_coupon": {
+     "pro": 74
+    }
+   }
+  },
+  {
+   "sku": "chain_driver_13",
+   "kind": "chain",
+   "chain_id": "driver",
+   "chain_step": 13,
+   "usd": 49.99,
+   "price_fallback": "$49.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_driver_12"
+   },
+   "grant": {
+    "gems": 2750,
+    "driver_coupon": {
+     "pro": 82
+    }
+   }
+  },
+  {
+   "sku": "chain_driver_14",
+   "kind": "chain",
+   "chain_id": "driver",
+   "chain_step": 14,
+   "usd": 54.99,
+   "price_fallback": "$54.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_driver_13"
+   },
+   "grant": {
+    "gems": 3025,
+    "driver_coupon": {
+     "pro": 90
+    }
+   }
+  },
+  {
+   "sku": "chain_driver_15",
+   "kind": "chain",
+   "chain_id": "driver",
+   "chain_step": 15,
+   "usd": 59.99,
+   "price_fallback": "$59.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_driver_14"
+   },
+   "grant": {
+    "gems": 3300,
+    "driver_coupon": {
+     "pro": 100
+    }
+   }
+  },
+  {
+   "sku": "chain_driver_16",
+   "kind": "chain",
+   "chain_id": "driver",
+   "chain_step": 16,
+   "usd": 64.99,
+   "price_fallback": "$64.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_driver_15"
+   },
+   "grant": {
+    "gems": 3575,
+    "driver_coupon": {
+     "pro": 108
+    }
+   }
+  },
+  {
+   "sku": "chain_driver_17",
+   "kind": "chain",
+   "chain_id": "driver",
+   "chain_step": 17,
+   "usd": 69.99,
+   "price_fallback": "$69.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_driver_16"
+   },
+   "grant": {
+    "gems": 3850,
+    "driver_coupon": {
+     "pro": 116
+    }
+   }
+  },
+  {
+   "sku": "chain_driver_18",
+   "kind": "chain",
+   "chain_id": "driver",
+   "chain_step": 18,
+   "usd": 74.99,
+   "price_fallback": "$74.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_driver_17"
+   },
+   "grant": {
+    "gems": 4125,
+    "driver_coupon": {
+     "pro": 124
+    }
+   }
+  },
+  {
+   "sku": "chain_driver_19",
+   "kind": "chain",
+   "chain_id": "driver",
+   "chain_step": 19,
+   "usd": 79.99,
+   "price_fallback": "$79.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_driver_18"
+   },
+   "grant": {
+    "gems": 4400,
+    "driver_coupon": {
+     "pro": 132
+    }
+   }
+  },
+  {
+   "sku": "chain_driver_20",
+   "kind": "chain",
+   "chain_id": "driver",
+   "chain_step": 20,
+   "usd": 84.99,
+   "price_fallback": "$84.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_driver_19"
+   },
+   "grant": {
+    "gems": 4675,
+    "driver_coupon": {
+     "pro": 140
+    }
+   }
+  },
+  {
+   "sku": "chain_driver_21",
+   "kind": "chain",
+   "chain_id": "driver",
+   "chain_step": 21,
+   "usd": 89.99,
+   "price_fallback": "$89.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_driver_20"
+   },
+   "grant": {
+    "gems": 4950,
+    "driver_coupon": {
+     "pro": 148
+    }
+   }
+  },
+  {
+   "sku": "chain_driver_22",
+   "kind": "chain",
+   "chain_id": "driver",
+   "chain_step": 22,
+   "usd": 94.99,
+   "price_fallback": "$94.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_driver_21"
+   },
+   "grant": {
+    "gems": 5225,
+    "driver_coupon": {
+     "pro": 156
+    }
+   }
+  },
+  {
+   "sku": "chain_driver_23",
+   "kind": "chain",
+   "chain_id": "driver",
+   "chain_step": 23,
+   "usd": 99.99,
+   "price_fallback": "$99.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_driver_22"
+   },
+   "grant": {
+    "gems": 5500,
+    "driver_coupon": {
+     "pro": 165
+    }
+   }
+  },
+  {
+   "sku": "chain_driver_24",
+   "kind": "chain",
+   "chain_id": "driver",
+   "chain_step": 24,
+   "usd": 99.99,
+   "price_fallback": "$99.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_driver_23"
+   },
+   "grant": {
+    "gems": 5500,
+    "driver_coupon": {
+     "pro": 165
+    }
+   }
+  },
+  {
+   "sku": "chain_driver_25",
+   "kind": "chain",
+   "chain_id": "driver",
+   "chain_step": 25,
+   "usd": 99.99,
+   "price_fallback": "$99.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_driver_24"
+   },
+   "grant": {
+    "gems": 5500,
+    "driver_coupon": {
+     "pro": 165
+    }
+   }
+  },
+  {
+   "sku": "chain_driver_26",
+   "kind": "chain",
+   "chain_id": "driver",
+   "chain_step": 26,
+   "usd": 99.99,
+   "price_fallback": "$99.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_driver_25"
+   },
+   "grant": {
+    "gems": 5500,
+    "driver_coupon": {
+     "pro": 165
+    }
+   }
+  },
+  {
+   "sku": "chain_driver_27",
+   "kind": "chain",
+   "chain_id": "driver",
+   "chain_step": 27,
+   "usd": 99.99,
+   "price_fallback": "$99.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_driver_26"
+   },
+   "grant": {
+    "gems": 5500,
+    "driver_coupon": {
+     "pro": 165
+    }
+   }
+  },
+  {
+   "sku": "chain_driver_28",
+   "kind": "chain",
+   "chain_id": "driver",
+   "chain_step": 28,
+   "usd": 99.99,
+   "price_fallback": "$99.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_driver_27"
+   },
+   "grant": {
+    "gems": 5500,
+    "driver_coupon": {
+     "pro": 165
+    }
+   }
+  },
+  {
+   "sku": "chain_gear_01",
+   "kind": "chain",
+   "chain_id": "gear",
+   "chain_step": 1,
+   "usd": 0.99,
+   "price_fallback": "$0.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "any": [
+     {
+      "bought": "starter_3"
+     },
+     {
+      "tier": 2
+     }
+    ]
+   },
+   "grant": {
+    "gems": 50,
+    "gear_coupon": {
+     "standard": 5
+    }
+   }
+  },
+  {
+   "sku": "chain_gear_02",
+   "kind": "chain",
+   "chain_id": "gear",
+   "chain_step": 2,
+   "usd": 1.99,
+   "price_fallback": "$1.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_gear_01"
+   },
+   "grant": {
+    "gems": 100,
+    "gear_coupon": {
+     "standard": 10
+    }
+   }
+  },
+  {
+   "sku": "chain_gear_03",
+   "kind": "chain",
+   "chain_id": "gear",
+   "chain_step": 3,
+   "usd": 2.99,
+   "price_fallback": "$2.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_gear_02"
+   },
+   "grant": {
+    "gems": 150,
+    "gear_coupon": {
+     "standard": 15
+    }
+   }
+  },
+  {
+   "sku": "chain_gear_04",
+   "kind": "chain",
+   "chain_id": "gear",
+   "chain_step": 4,
+   "usd": 4.99,
+   "price_fallback": "$4.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_gear_03"
+   },
+   "grant": {
+    "gems": 255,
+    "gear_coupon": {
+     "standard": 10
+    }
+   }
+  },
+  {
+   "sku": "chain_gear_05",
+   "kind": "chain",
+   "chain_id": "gear",
+   "chain_step": 5,
+   "usd": 9.99,
+   "price_fallback": "$9.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_gear_04"
+   },
+   "grant": {
+    "gems": 520,
+    "gear_coupon": {
+     "standard": 18
+    }
+   }
+  },
+  {
+   "sku": "chain_gear_06",
+   "kind": "chain",
+   "chain_id": "gear",
+   "chain_step": 6,
+   "usd": 14.99,
+   "price_fallback": "$14.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_gear_05"
+   },
+   "grant": {
+    "gems": 780,
+    "gear_coupon": {
+     "standard": 26
+    }
+   }
+  },
+  {
+   "sku": "chain_gear_07",
+   "kind": "chain",
+   "chain_id": "gear",
+   "chain_step": 7,
+   "usd": 19.99,
+   "price_fallback": "$19.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_gear_06"
+   },
+   "grant": {
+    "gems": 1100,
+    "gear_coupon": {
+     "standard": 34
+    }
+   }
+  },
+  {
+   "sku": "chain_gear_08",
+   "kind": "chain",
+   "chain_id": "gear",
+   "chain_step": 8,
+   "usd": 24.99,
+   "price_fallback": "$24.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_gear_07"
+   },
+   "grant": {
+    "gems": 1375,
+    "gear_coupon": {
+     "standard": 42
+    }
+   }
+  },
+  {
+   "sku": "chain_gear_09",
+   "kind": "chain",
+   "chain_id": "gear",
+   "chain_step": 9,
+   "usd": 29.99,
+   "price_fallback": "$29.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_gear_08"
+   },
+   "grant": {
+    "gems": 1650,
+    "gear_coupon": {
+     "standard": 50
+    }
+   }
+  },
+  {
+   "sku": "chain_gear_10",
+   "kind": "chain",
+   "chain_id": "gear",
+   "chain_step": 10,
+   "usd": 34.99,
+   "price_fallback": "$34.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_gear_09"
+   },
+   "grant": {
+    "gems": 1925,
+    "gear_coupon": {
+     "standard": 58
+    }
+   }
+  },
+  {
+   "sku": "chain_gear_11",
+   "kind": "chain",
+   "chain_id": "gear",
+   "chain_step": 11,
+   "usd": 39.99,
+   "price_fallback": "$39.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_gear_10"
+   },
+   "grant": {
+    "gems": 2200,
+    "gear_coupon": {
+     "standard": 66
+    }
+   }
+  },
+  {
+   "sku": "chain_gear_12",
+   "kind": "chain",
+   "chain_id": "gear",
+   "chain_step": 12,
+   "usd": 44.99,
+   "price_fallback": "$44.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_gear_11"
+   },
+   "grant": {
+    "gems": 2475,
+    "gear_coupon": {
+     "standard": 74
+    }
+   }
+  },
+  {
+   "sku": "chain_gear_13",
+   "kind": "chain",
+   "chain_id": "gear",
+   "chain_step": 13,
+   "usd": 49.99,
+   "price_fallback": "$49.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_gear_12"
+   },
+   "grant": {
+    "gems": 2750,
+    "gear_coupon": {
+     "standard": 82
+    }
+   }
+  },
+  {
+   "sku": "chain_gear_14",
+   "kind": "chain",
+   "chain_id": "gear",
+   "chain_step": 14,
+   "usd": 54.99,
+   "price_fallback": "$54.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_gear_13"
+   },
+   "grant": {
+    "gems": 3025,
+    "gear_coupon": {
+     "standard": 90
+    }
+   }
+  },
+  {
+   "sku": "chain_gear_15",
+   "kind": "chain",
+   "chain_id": "gear",
+   "chain_step": 15,
+   "usd": 59.99,
+   "price_fallback": "$59.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_gear_14"
+   },
+   "grant": {
+    "gems": 3300,
+    "gear_coupon": {
+     "standard": 100
+    }
+   }
+  },
+  {
+   "sku": "chain_gear_16",
+   "kind": "chain",
+   "chain_id": "gear",
+   "chain_step": 16,
+   "usd": 64.99,
+   "price_fallback": "$64.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_gear_15"
+   },
+   "grant": {
+    "gems": 3575,
+    "gear_coupon": {
+     "standard": 108
+    }
+   }
+  },
+  {
+   "sku": "chain_gear_17",
+   "kind": "chain",
+   "chain_id": "gear",
+   "chain_step": 17,
+   "usd": 69.99,
+   "price_fallback": "$69.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_gear_16"
+   },
+   "grant": {
+    "gems": 3850,
+    "gear_coupon": {
+     "standard": 116
+    }
+   }
+  },
+  {
+   "sku": "chain_gear_18",
+   "kind": "chain",
+   "chain_id": "gear",
+   "chain_step": 18,
+   "usd": 74.99,
+   "price_fallback": "$74.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_gear_17"
+   },
+   "grant": {
+    "gems": 4125,
+    "gear_coupon": {
+     "standard": 124
+    }
+   }
+  },
+  {
+   "sku": "chain_gear_19",
+   "kind": "chain",
+   "chain_id": "gear",
+   "chain_step": 19,
+   "usd": 79.99,
+   "price_fallback": "$79.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_gear_18"
+   },
+   "grant": {
+    "gems": 4400,
+    "gear_coupon": {
+     "standard": 132
+    }
+   }
+  },
+  {
+   "sku": "chain_gear_20",
+   "kind": "chain",
+   "chain_id": "gear",
+   "chain_step": 20,
+   "usd": 84.99,
+   "price_fallback": "$84.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_gear_19"
+   },
+   "grant": {
+    "gems": 4675,
+    "gear_coupon": {
+     "standard": 140
+    }
+   }
+  },
+  {
+   "sku": "chain_gear_21",
+   "kind": "chain",
+   "chain_id": "gear",
+   "chain_step": 21,
+   "usd": 89.99,
+   "price_fallback": "$89.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_gear_20"
+   },
+   "grant": {
+    "gems": 4950,
+    "gear_coupon": {
+     "standard": 148
+    }
+   }
+  },
+  {
+   "sku": "chain_gear_22",
+   "kind": "chain",
+   "chain_id": "gear",
+   "chain_step": 22,
+   "usd": 94.99,
+   "price_fallback": "$94.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_gear_21"
+   },
+   "grant": {
+    "gems": 5225,
+    "gear_coupon": {
+     "standard": 156
+    }
+   }
+  },
+  {
+   "sku": "chain_gear_23",
+   "kind": "chain",
+   "chain_id": "gear",
+   "chain_step": 23,
+   "usd": 99.99,
+   "price_fallback": "$99.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_gear_22"
+   },
+   "grant": {
+    "gems": 5500,
+    "gear_coupon": {
+     "standard": 165
+    }
+   }
+  },
+  {
+   "sku": "chain_gear_24",
+   "kind": "chain",
+   "chain_id": "gear",
+   "chain_step": 24,
+   "usd": 99.99,
+   "price_fallback": "$99.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_gear_23"
+   },
+   "grant": {
+    "gems": 5500,
+    "gear_coupon": {
+     "standard": 165
+    }
+   }
+  },
+  {
+   "sku": "chain_gear_25",
+   "kind": "chain",
+   "chain_id": "gear",
+   "chain_step": 25,
+   "usd": 99.99,
+   "price_fallback": "$99.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_gear_24"
+   },
+   "grant": {
+    "gems": 5500,
+    "gear_coupon": {
+     "standard": 165
+    }
+   }
+  },
+  {
+   "sku": "chain_gear_26",
+   "kind": "chain",
+   "chain_id": "gear",
+   "chain_step": 26,
+   "usd": 99.99,
+   "price_fallback": "$99.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_gear_25"
+   },
+   "grant": {
+    "gems": 5500,
+    "gear_coupon": {
+     "standard": 165
+    }
+   }
+  },
+  {
+   "sku": "chain_gear_27",
+   "kind": "chain",
+   "chain_id": "gear",
+   "chain_step": 27,
+   "usd": 99.99,
+   "price_fallback": "$99.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_gear_26"
+   },
+   "grant": {
+    "gems": 5500,
+    "gear_coupon": {
+     "standard": 165
+    }
+   }
+  },
+  {
+   "sku": "chain_gear_28",
+   "kind": "chain",
+   "chain_id": "gear",
+   "chain_step": 28,
+   "usd": 99.99,
+   "price_fallback": "$99.99",
+   "consumable": true,
+   "once": true,
+   "unlock": {
+    "bought": "chain_gear_27"
+   },
+   "grant": {
+    "gems": 5500,
+    "gear_coupon": {
+     "standard": 165
+    }
+   }
+  },
+  {
+   "sku": "limited_1_3",
+   "kind": "limited",
+   "rotation": 1,
+   "slot": 3,
+   "usd": 9.99,
+   "price_fallback": "$9.99",
+   "week_cap": 1,
+   "prio": 63,
+   "strip_prio": 90,
+   "popup_group": "forced",
+   "unlock": {
+    "tier": 2
+   },
+   "consumable": true,
+   "high_priority": true,
+   "best_value": true,
+   "grant": {
+    "gems": 520,
+    "driver_coupon": {
+     "pro": 20,
+     "allstar": 3
+    },
+    "gear_coupon": {
+     "standard": 20
+    }
+   }
+  },
+  {
+   "sku": "limited_1_2",
+   "kind": "limited",
+   "rotation": 1,
+   "slot": 2,
+   "usd": 4.99,
+   "price_fallback": "$4.99",
+   "week_cap": 1,
+   "prio": 62,
+   "strip_prio": 90,
+   "popup_group": "forced",
+   "unlock": {
+    "tier": 2
+   },
+   "consumable": true,
+   "high_priority": true,
+   "auto_popup": 1,
+   "grant": {
+    "gems": 255,
+    "driver_coupon": {
+     "pro": 13,
+     "allstar": 2
+    },
+    "gear_coupon": {
+     "standard": 13
+    }
+   }
+  },
+  {
+   "sku": "limited_1_1",
+   "kind": "limited",
+   "rotation": 1,
+   "slot": 1,
+   "usd": 2.99,
+   "price_fallback": "$2.99",
+   "week_cap": 1,
+   "prio": 61,
+   "strip_prio": 90,
+   "popup_group": "forced",
+   "unlock": {
+    "tier": 2
+   },
+   "consumable": true,
+   "high_priority": true,
+   "grant": {
+    "gems": 100,
+    "driver_coupon": {
+     "pro": 7
+    },
+    "gear_coupon": {
+     "standard": 7
+    }
+   }
+  },
+  {
+   "sku": "limited_2_3",
+   "kind": "limited",
+   "rotation": 2,
+   "slot": 3,
+   "usd": 19.99,
+   "price_fallback": "$19.99",
+   "week_cap": 1,
+   "prio": 63,
+   "strip_prio": 90,
+   "popup_group": "forced",
+   "unlock": {
+    "tier": 2
+   },
+   "consumable": true,
+   "high_priority": true,
+   "best_value": true,
+   "grant": {
+    "gems": 1100,
+    "driver_coupon": {
+     "pro": 28,
+     "allstar": 5
+    },
+    "gear_coupon": {
+     "standard": 28
+    }
+   }
+  },
+  {
+   "sku": "limited_2_2",
+   "kind": "limited",
+   "rotation": 2,
+   "slot": 2,
+   "usd": 9.99,
+   "price_fallback": "$9.99",
+   "week_cap": 1,
+   "prio": 62,
+   "strip_prio": 90,
+   "popup_group": "forced",
+   "unlock": {
+    "tier": 2
+   },
+   "consumable": true,
+   "high_priority": true,
+   "auto_popup": 1,
+   "grant": {
+    "gems": 520,
+    "driver_coupon": {
+     "pro": 20,
+     "allstar": 3
+    },
+    "gear_coupon": {
+     "standard": 20
+    }
+   }
+  },
+  {
+   "sku": "limited_2_1",
+   "kind": "limited",
+   "rotation": 2,
+   "slot": 1,
+   "usd": 4.99,
+   "price_fallback": "$4.99",
+   "week_cap": 1,
+   "prio": 61,
+   "strip_prio": 90,
+   "popup_group": "forced",
+   "unlock": {
+    "tier": 2
+   },
+   "consumable": true,
+   "high_priority": true,
+   "grant": {
+    "gems": 255,
+    "driver_coupon": {
+     "pro": 13,
+     "allstar": 2
+    },
+    "gear_coupon": {
+     "standard": 13
+    }
+   }
+  },
+  {
+   "sku": "limited_3_3",
+   "kind": "limited",
+   "rotation": 3,
+   "slot": 3,
+   "usd": 29.99,
+   "price_fallback": "$29.99",
+   "week_cap": 1,
+   "prio": 63,
+   "strip_prio": 90,
+   "popup_group": "forced",
+   "unlock": {
+    "tier": 2
+   },
+   "consumable": true,
+   "high_priority": true,
+   "best_value": true,
+   "grant": {
+    "gems": 1650,
+    "driver_coupon": {
+     "pro": 42,
+     "allstar": 8
+    },
+    "gear_coupon": {
+     "standard": 42
+    }
+   }
+  },
+  {
+   "sku": "limited_3_2",
+   "kind": "limited",
+   "rotation": 3,
+   "slot": 2,
+   "usd": 19.99,
+   "price_fallback": "$19.99",
+   "week_cap": 1,
+   "prio": 62,
+   "strip_prio": 90,
+   "popup_group": "forced",
+   "unlock": {
+    "tier": 2
+   },
+   "consumable": true,
+   "high_priority": true,
+   "auto_popup": 1,
+   "grant": {
+    "gems": 1100,
+    "driver_coupon": {
+     "pro": 28,
+     "allstar": 5
+    },
+    "gear_coupon": {
+     "standard": 28
+    }
+   }
+  },
+  {
+   "sku": "limited_3_1",
+   "kind": "limited",
+   "rotation": 3,
+   "slot": 1,
+   "usd": 9.99,
+   "price_fallback": "$9.99",
+   "week_cap": 1,
+   "prio": 61,
+   "strip_prio": 90,
+   "popup_group": "forced",
+   "unlock": {
+    "tier": 2
+   },
+   "consumable": true,
+   "high_priority": true,
+   "grant": {
+    "gems": 520,
+    "driver_coupon": {
+     "pro": 20,
+     "allstar": 3
+    },
+    "gear_coupon": {
+     "standard": 20
+    }
+   }
+  },
+  {
+   "sku": "limited_4_3",
+   "kind": "limited",
+   "rotation": 4,
+   "slot": 3,
+   "usd": 19.99,
+   "price_fallback": "$19.99",
+   "week_cap": 5,
+   "prio": 63,
+   "strip_prio": 90,
+   "popup_group": "forced",
+   "unlock": {
+    "tier": 2
+   },
+   "consumable": true,
+   "high_priority": true,
+   "best_value": true,
+   "grant": {
+    "gems": 1100,
+    "driver_coupon": {
+     "pro": 10,
+     "allstar": 3
+    },
+    "gear_coupon": {
+     "standard": 10
+    }
+   }
+  },
+  {
+   "sku": "limited_4_2",
+   "kind": "limited",
+   "rotation": 4,
+   "slot": 2,
+   "usd": 9.99,
+   "price_fallback": "$9.99",
+   "week_cap": 5,
+   "prio": 62,
+   "strip_prio": 90,
+   "popup_group": "forced",
+   "unlock": {
+    "tier": 2
+   },
+   "consumable": true,
+   "high_priority": true,
+   "auto_popup": 1,
+   "grant": {
+    "gems": 520,
+    "driver_coupon": {
+     "pro": 6,
+     "allstar": 2
+    },
+    "gear_coupon": {
+     "standard": 6
+    }
+   }
+  },
+  {
+   "sku": "limited_4_1",
+   "kind": "limited",
+   "rotation": 4,
+   "slot": 1,
+   "usd": 4.99,
+   "price_fallback": "$4.99",
+   "week_cap": 5,
+   "prio": 61,
+   "strip_prio": 90,
+   "popup_group": "forced",
+   "unlock": {
+    "tier": 2
+   },
+   "consumable": true,
+   "high_priority": true,
+   "grant": {
+    "gems": 255,
+    "driver_coupon": {
+     "pro": 3,
+     "allstar": 1
+    },
+    "gear_coupon": {
+     "standard": 3
+    }
+   }
+  },
+  {
+   "sku": "chooseone_s_1",
+   "kind": "chooseone",
+   "rotation": 1,
+   "size": "s",
+   "usd": 1.99,
+   "price_fallback": "$1.99",
+   "week_cap": 1,
+   "prio": 50,
+   "strip_prio": 85,
+   "popup_group": "forced",
+   "unlock": {
+    "tier": 2
+   },
+   "consumable": true,
+   "week_conflict": [
+    "chooseone_all_1"
+   ],
+   "grant": {
+    "gems": 50,
+    "driver_coupon": {
+     "pro": 5
+    },
+    "driver_shards_tier": {
+     "pro": 10
+    }
+   }
+  },
+  {
+   "sku": "chooseone_m_1",
+   "kind": "chooseone",
+   "rotation": 1,
+   "size": "m",
+   "usd": 4.99,
+   "price_fallback": "$4.99",
+   "week_cap": 1,
+   "prio": 50,
+   "strip_prio": 85,
+   "popup_group": "forced",
+   "unlock": {
+    "tier": 2
+   },
+   "consumable": true,
+   "week_conflict": [
+    "chooseone_all_1"
+   ],
+   "auto_popup": 1,
+   "grant": {
+    "gems": 150,
+    "driver_coupon": {
+     "pro": 8
+    },
+    "driver_shards_tier": {
+     "elite": 10
+    }
+   }
+  },
+  {
+   "sku": "chooseone_l_1",
+   "kind": "chooseone",
+   "rotation": 1,
+   "size": "l",
+   "usd": 7.99,
+   "price_fallback": "$7.99",
+   "week_cap": 1,
+   "prio": 50,
+   "strip_prio": 85,
+   "popup_group": "forced",
+   "unlock": {
+    "tier": 2
+   },
+   "consumable": true,
+   "week_conflict": [
+    "chooseone_all_1"
+   ],
+   "grant": {
+    "gems": 320,
+    "driver_coupon": {
+     "pro": 13
+    },
+    "driver_shards_tier": {
+     "legend": 10
+    }
+   }
+  },
+  {
+   "sku": "chooseone_all_1",
+   "kind": "chooseone",
+   "rotation": 1,
+   "size": "all",
+   "usd": 9.99,
+   "price_fallback": "$9.99",
+   "week_cap": 1,
+   "prio": 50,
+   "strip_prio": 85,
+   "popup_group": "forced",
+   "unlock": {
+    "tier": 2
+   },
+   "consumable": true,
+   "week_conflict": [
+    "chooseone_s_1",
+    "chooseone_m_1",
+    "chooseone_l_1"
+   ],
+   "grant": {
+    "gems": 520,
+    "driver_coupon": {
+     "pro": 26
+    },
+    "driver_shards_tier": {
+     "pro": 10,
+     "elite": 10,
+     "legend": 10
+    }
+   }
+  },
+  {
+   "sku": "chooseone_s_2",
+   "kind": "chooseone",
+   "rotation": 2,
+   "size": "s",
+   "usd": 4.99,
+   "price_fallback": "$4.99",
+   "week_cap": 1,
+   "prio": 50,
+   "strip_prio": 85,
+   "popup_group": "forced",
+   "unlock": {
+    "tier": 2
+   },
+   "consumable": true,
+   "week_conflict": [
+    "chooseone_all_2"
+   ],
+   "grant": {
+    "gems": 120,
+    "driver_coupon": {
+     "pro": 15
+    },
+    "driver_shards_tier": {
+     "pro": 25
+    }
+   }
+  },
+  {
+   "sku": "chooseone_m_2",
+   "kind": "chooseone",
+   "rotation": 2,
+   "size": "m",
+   "usd": 9.99,
+   "price_fallback": "$9.99",
+   "week_cap": 1,
+   "prio": 50,
+   "strip_prio": 85,
+   "popup_group": "forced",
+   "unlock": {
+    "tier": 2
+   },
+   "consumable": true,
+   "week_conflict": [
+    "chooseone_all_2"
+   ],
+   "auto_popup": 1,
+   "grant": {
+    "gems": 320,
+    "driver_coupon": {
+     "pro": 8
+    },
+    "driver_shards_tier": {
+     "elite": 25
+    }
+   }
+  },
+  {
+   "sku": "chooseone_l_2",
+   "kind": "chooseone",
+   "rotation": 2,
+   "size": "l",
+   "usd": 14.99,
+   "price_fallback": "$14.99",
+   "week_cap": 1,
+   "prio": 50,
+   "strip_prio": 85,
+   "popup_group": "forced",
+   "unlock": {
+    "tier": 2
+   },
+   "consumable": true,
+   "week_conflict": [
+    "chooseone_all_2"
+   ],
+   "grant": {
+    "gems": 700,
+    "driver_coupon": {
+     "pro": 23
+    },
+    "driver_shards_tier": {
+     "legend": 25
+    }
+   }
+  },
+  {
+   "sku": "chooseone_all_2",
+   "kind": "chooseone",
+   "rotation": 2,
+   "size": "all",
+   "usd": 19.99,
+   "price_fallback": "$19.99",
+   "week_cap": 1,
+   "prio": 50,
+   "strip_prio": 85,
+   "popup_group": "forced",
+   "unlock": {
+    "tier": 2
+   },
+   "consumable": true,
+   "week_conflict": [
+    "chooseone_s_2",
+    "chooseone_m_2",
+    "chooseone_l_2"
+   ],
+   "grant": {
+    "gems": 1140,
+    "driver_coupon": {
+     "pro": 46
+    },
+    "driver_shards_tier": {
+     "pro": 25,
+     "elite": 25,
+     "legend": 25
+    }
+   }
+  },
+  {
+   "sku": "chooseone_s_3",
+   "kind": "chooseone",
+   "rotation": 3,
+   "size": "s",
+   "usd": 7.99,
+   "price_fallback": "$7.99",
+   "week_cap": 1,
+   "prio": 50,
+   "strip_prio": 85,
+   "popup_group": "forced",
+   "unlock": {
+    "tier": 2
+   },
+   "consumable": true,
+   "week_conflict": [
+    "chooseone_all_3"
+   ],
+   "grant": {
+    "gems": 200,
+    "driver_coupon": {
+     "pro": 15
+    },
+    "driver_shards_tier": {
+     "pro": 50
+    }
+   }
+  },
+  {
+   "sku": "chooseone_m_3",
+   "kind": "chooseone",
+   "rotation": 3,
+   "size": "m",
+   "usd": 14.99,
+   "price_fallback": "$14.99",
+   "week_cap": 1,
+   "prio": 50,
+   "strip_prio": 85,
+   "popup_group": "forced",
+   "unlock": {
+    "tier": 2
+   },
+   "consumable": true,
+   "week_conflict": [
+    "chooseone_all_3"
+   ],
+   "auto_popup": 1,
+   "grant": {
+    "gems": 500,
+    "driver_coupon": {
+     "pro": 8
+    },
+    "driver_shards_tier": {
+     "elite": 50
+    }
+   }
+  },
+  {
+   "sku": "chooseone_l_3",
+   "kind": "chooseone",
+   "rotation": 3,
+   "size": "l",
+   "usd": 22.99,
+   "price_fallback": "$22.99",
+   "week_cap": 1,
+   "prio": 50,
+   "strip_prio": 85,
+   "popup_group": "forced",
+   "unlock": {
+    "tier": 2
+   },
+   "consumable": true,
+   "week_conflict": [
+    "chooseone_all_3"
+   ],
+   "grant": {
+    "gems": 950,
+    "driver_coupon": {
+     "pro": 23
+    },
+    "driver_shards_tier": {
+     "legend": 50
+    }
+   }
+  },
+  {
+   "sku": "chooseone_all_3",
+   "kind": "chooseone",
+   "rotation": 3,
+   "size": "all",
+   "usd": 29.99,
+   "price_fallback": "$29.99",
+   "week_cap": 1,
+   "prio": 50,
+   "strip_prio": 85,
+   "popup_group": "forced",
+   "unlock": {
+    "tier": 2
+   },
+   "consumable": true,
+   "week_conflict": [
+    "chooseone_s_3",
+    "chooseone_m_3",
+    "chooseone_l_3"
+   ],
+   "grant": {
+    "gems": 1650,
+    "driver_coupon": {
+     "pro": 46
+    },
+    "driver_shards_tier": {
+     "pro": 50,
+     "elite": 50,
+     "legend": 50
+    }
+   }
+  },
+  {
+   "sku": "epic_car_pico",
+   "kind": "epic_car",
+   "usd": 9.99,
+   "price_fallback": "$9.99",
+   "consumable": false,
+   "once": true,
+   "unlock": {
+    "races": 7
+   },
+   "popup_group": "high_value",
+   "prio": 81,
+   "popup_unlock": {
+    "races": 10,
+    "tier": 0
+   },
+   "auto_popup": 2,
+   "strip_prio": 95,
+   "grant": {
+    "car": "car_pico_epic"
+   }
+  },
+  {
+   "sku": "epic_car_nova",
+   "kind": "epic_car",
+   "usd": 9.99,
+   "price_fallback": "$9.99",
+   "consumable": false,
+   "once": true,
+   "unlock": {
+    "races": 7
+   },
+   "popup_group": "high_value",
+   "prio": 82,
+   "popup_unlock": {
+    "races": 10,
+    "tier": 1
+   },
+   "auto_popup": 2,
+   "strip_prio": 95,
+   "grant": {
+    "car": "car_nova_epic"
+   }
+  },
+  {
+   "sku": "epic_car_apex",
+   "kind": "epic_car",
+   "usd": 9.99,
+   "price_fallback": "$9.99",
+   "consumable": false,
+   "once": true,
+   "unlock": {
+    "races": 7
+   },
+   "popup_group": "high_value",
+   "prio": 83,
+   "popup_unlock": {
+    "races": 10,
+    "tier": 2
+   },
+   "auto_popup": 2,
+   "strip_prio": 95,
+   "grant": {
+    "car": "car_apex_epic"
+   }
+  },
+  {
+   "sku": "epic_car_titan",
+   "kind": "epic_car",
+   "usd": 9.99,
+   "price_fallback": "$9.99",
+   "consumable": false,
+   "once": true,
+   "unlock": {
+    "races": 7
+   },
+   "popup_group": "high_value",
+   "prio": 84,
+   "popup_unlock": {
+    "races": 10,
+    "tier": 3
+   },
+   "auto_popup": 2,
+   "strip_prio": 95,
+   "grant": {
+    "car": "car_titan_epic"
+   }
+  },
+  {
+   "sku": "epic_car_zenith",
+   "kind": "epic_car",
+   "usd": 9.99,
+   "price_fallback": "$9.99",
+   "consumable": false,
+   "once": true,
+   "unlock": {
+    "races": 7
+   },
+   "popup_group": "high_value",
+   "prio": 85,
+   "popup_unlock": {
+    "races": 10,
+    "tier": 4
+   },
+   "auto_popup": 2,
+   "strip_prio": 95,
+   "grant": {
+    "car": "car_zenith_epic"
+   }
+  },
+  {
+   "sku": "epic_paint_aurora",
+   "kind": "epic_paint",
+   "usd": 9.99,
+   "price_fallback": "$9.99",
+   "consumable": false,
+   "once": true,
+   "unlock": {
+    "races": 7
+   },
+   "popup_group": "high_value",
+   "prio": 69,
+   "popup_unlock": {
+    "races": 20,
+    "tier": 1
+   },
+   "auto_popup": 1,
+   "strip_prio": 90,
+   "grant": {
+    "paint": "epic_aurora"
+   }
+  },
+  {
+   "sku": "epic_paint_solar",
+   "kind": "epic_paint",
+   "usd": 9.99,
+   "price_fallback": "$9.99",
+   "consumable": false,
+   "once": true,
+   "unlock": {
+    "races": 7
+   },
+   "popup_group": "high_value",
+   "prio": 69,
+   "popup_unlock": {
+    "races": 20,
+    "tier": 1
+   },
+   "auto_popup": 1,
+   "strip_prio": 90,
+   "grant": {
+    "paint": "epic_solar"
+   }
+  },
+  {
+   "sku": "epic_paint_midnight",
+   "kind": "epic_paint",
+   "usd": 9.99,
+   "price_fallback": "$9.99",
+   "consumable": false,
+   "once": true,
+   "unlock": {
+    "races": 7
+   },
+   "popup_group": "high_value",
+   "prio": 68,
+   "popup_unlock": {
+    "races": 20,
+    "tier": 2
+   },
+   "auto_popup": 1,
+   "strip_prio": 90,
+   "grant": {
+    "paint": "epic_midnight"
+   }
+  },
+  {
+   "sku": "epic_paint_sakura",
+   "kind": "epic_paint",
+   "usd": 9.99,
+   "price_fallback": "$9.99",
+   "consumable": false,
+   "once": true,
+   "unlock": {
+    "races": 7
+   },
+   "popup_group": "high_value",
+   "prio": 68,
+   "popup_unlock": {
+    "races": 20,
+    "tier": 2
+   },
+   "auto_popup": 1,
+   "strip_prio": 90,
+   "grant": {
+    "paint": "epic_sakura"
+   }
+  },
+  {
+   "sku": "epic_paint_neon",
+   "kind": "epic_paint",
+   "usd": 9.99,
+   "price_fallback": "$9.99",
+   "consumable": false,
+   "once": true,
+   "unlock": {
+    "races": 7
+   },
+   "popup_group": "high_value",
+   "prio": 67,
+   "popup_unlock": {
+    "races": 20,
+    "tier": 3
+   },
+   "auto_popup": 1,
+   "strip_prio": 90,
+   "grant": {
+    "paint": "epic_neon"
    }
   }
  ]

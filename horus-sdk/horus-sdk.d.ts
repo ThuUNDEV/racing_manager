@@ -1,5 +1,5 @@
-/*! Horus SDK 0.21.1 | (c) Horus Entertainment */
-// Types of the Horus SDK 0.21.1. In a script tag: the global HorusSDK; as a module: import from './horus-sdk.mjs'.
+/*! Horus SDK 0.56.1 | (c) Horus Entertainment */
+// Types of the Horus SDK 0.56.1. In a script tag: the global HorusSDK; as a module: import from './horus-sdk.mjs'.
 export as namespace HorusSDK;
 
 export const VERSION: string;
@@ -24,7 +24,7 @@ export type Target = 'web' | 'android' | 'ios';
 /** (0.40.0) platform.hot's state */
 export interface HotStatus { on: boolean; active: string | null; pending: string | null; off: boolean; checking: boolean }
 
-export type PlatformEvent = 'pause' | 'resume' | 'ads' | 'adpaid' | 'purchase' | 'insets' | 'prices' | 'notif' | 'shortcut' | 'ua' | 'games' | 'gamesPlay' | 'trim' | 'gamemode' | 'thermal' | 'update' | (string & {});
+export type PlatformEvent = 'pause' | 'resume' | 'ads' | 'adpaid' | 'adload' | 'adclick' | 'adshowfail' | 'adclose' | 'purchase' | 'insets' | 'prices' | 'notif' | 'shortcut' | 'link' | 'ua' | 'games' | 'gamesPlay' | 'trim' | 'gamemode' | 'thermal' | 'update' | 'sheet' | (string & {});
 
 export interface Purchase {
   sku: string;
@@ -37,6 +37,26 @@ export interface Purchase {
   reason?: string;
   /** a licence tester's purchase (verify server) or any in a debug build: keep it out of real revenue */
   test?: boolean;
+  /** (subscriptions) an auto-renewing subscription that still runs: iap.pending lists it only while it does */
+  sub?: boolean;
+  /** (subscriptions, iOS) when this period ends (ms); Android: ask the server (verify answers expires) */
+  expires?: number;
+  /** (subscriptions, Android) renewal is on (false: the player cancelled, the period they paid for still runs) */
+  autoRenew?: boolean;
+}
+
+/** (subscriptions) A store product as iap.product(sku) gives it. */
+export interface StoreProduct {
+  sku: string;
+  /** formatted for the player's country; a subscription's: the base plan's recurring price */
+  price: string;
+  micros: number;
+  currency: string;
+  sub?: boolean;
+  /** ISO 8601 billing period of a subscription: 'P1W', 'P1M', 'P1Y' */
+  period?: string;
+  /** the introductory offer this player may take (first week cheaper...): its price, period and number of periods */
+  intro?: { price: string; micros: number; period: string; cycles: number };
 }
 
 export interface BuyResult {
@@ -50,23 +70,41 @@ export interface BuyResult {
   reason?: string;
   /** with status 'ok': a licence tester's purchase (verify server) or any in a debug build */
   test?: boolean;
+  /** (subscriptions) with status 'ok': the product is a subscription (finish it with consumable: false) */
+  sub?: boolean;
 }
 
 /** support.diag(): what the app knows about itself and its SDKs, for a support email (android; a browser has less). */
 export interface SupportDiag {
   /** the library version of the Android shell */
   shell?: string;
-  /** installer: 'com.android.vending' for Google Play, '' when it was put on by hand */
-  app?: { name?: string; package?: string; version?: string; build?: number; debug?: boolean; installer?: string };
+  /** installer: 'com.android.vending' for Google Play, '' when it was put on by hand (iOS 'appstore' | 'testflight');
+   * revenueBlock (0.48.0): why this phone's ad revenue is not sent to tracking, '' when it is ('installer' | 'tampered' | 'unverified') */
+  app?: { name?: string; package?: string; version?: string; build?: number; debug?: boolean; installer?: string; revenueBlock?: string };
   /** android: Android version and SDK level, maker, model, WebView version, language; web: the browser's user agent */
   device?: { android?: string; sdk?: number; maker?: string; model?: string; webview?: string; lang?: string; ua?: string };
   /**
    * each SDK module in the build: applovin { sdk, initialized, sdkKey (set), rewarded, interstitial, rvReady, interReady,
-   * region, privacyOptions }, adjust { initialized, environment, appToken, purchaseEvent, purchaseTestEvent },
+   * region, privacyOptions }, adjust { initialized, delayed, consent, firstSession, environment, appToken, purchaseEvent,
+   * purchaseTestEvent } (0.54.0 delayed: the first session still waits for the consent answer; consent: the Google DMA
+   * consent Adjust was given, 'gdpr:<ad user data><ad personalization>' as 1 / 0, 'other' or ''),
    * facebook { sdk, initialized, appId, logging }, firebase-* { initialized }, billing { ready, checks }; a plugin's
    * module its own (cloudsave { on, server, state, gen, syncedAt }: @horus/cloudsave)
    */
   modules?: Record<string, Record<string, unknown>>;
+  /**
+   * (0.54.0, android) the player's consent answer, sent to Adjust as Google's DMA consent. first: the build reads it
+   * (MAX's consent flow is on); pending: no answer yet (Adjust's first session waits); saved: read at start from what
+   * the phone kept, MAX has not answered again yet; gdpr: the player is where GDPR applies (outside it every flag is
+   * true); from the TCF purposes Google UMP writes: adStorage = 1, adUserData = 1 and 7, adPersonalization = 3 and 4,
+   * analyticsStorage = 1; region: MAX's GDPR | OTHER | UNKNOWN ('' before MAX has said); tcf: UMP left a TC string;
+   * note: what support should look at ('' when nothing)
+   */
+  consent?: {
+    first?: boolean; pending?: boolean; saved?: boolean; known?: boolean; gdpr?: boolean;
+    adStorage?: boolean; adUserData?: boolean; adPersonalization?: boolean; analyticsStorage?: boolean; region?: string;
+    tcf?: boolean; note?: string;
+  };
 }
 
 export interface Reminder {
@@ -135,6 +173,22 @@ export interface ShortcutOpen {
   openedAt: number;
 }
 
+/**
+ * (0.61.0) A link with the app's own URL scheme that opened it: link.opened (it started the app) or the 'link' event
+ * (the game ran). crashramp://shop/gems?tab=2 gives { url: 'crashramp://shop/gems?tab=2', path: 'shop/gems',
+ * query: { tab: '2' } }; crashramp://event gives path 'event'.
+ */
+export interface LinkOpen {
+  /** the whole link as the app got it */
+  url: string;
+  /** host and path without the slashes around them: 'event', 'shop/gems' ('' for scheme:// alone) */
+  path: string;
+  /** the query parameters, as strings (a name alone: '') */
+  query: Record<string, string>;
+  /** ms epoch */
+  openedAt: number;
+}
+
 /** (0.7.0) What Android allows now (notif.state). supported false: a browser, or a shell before 0.7.0. */
 export interface NotifState {
   supported: boolean;
@@ -199,6 +253,39 @@ export interface AdPaid {
   precision: string;
   /** '' the main ad unit, else the extra unit's tag */
   tag: string;
+  /** (0.87.0) the DSP that won, the network's own placement id, the MAX ad unit id, the ad request's id (ad_request_id) */
+  dsp_name: string;
+  network_placement: string;
+  ad_unit: string;
+  request_id: string;
+}
+
+/**
+ * (0.87.0) 'adload' (a MAX load answered), 'adclick', 'adshowfail' (could not show), 'adclose' (the ad closed): one ad
+ * of an ad request, for ANALYTICS.md's ad_load / ad_clicked / ad_display_failed / ad_complete (app only).
+ */
+export interface AdEvent {
+  request_id: string;
+  kind: 'rv' | 'inter';
+  tag: string;
+  ad_unit: string;
+  network: string;
+  dsp_name: string;
+  network_placement: string;
+  placement: string;
+  precision: string;
+  /** adload */
+  status?: 'success' | 'failed';
+  /** adload failed, adshowfail: MAX's error code */
+  error_code?: string;
+  /** adload: ms from the request to the answer */
+  latency_ms?: number;
+  /** adload: the loaded ad's estimated USD for one impression, -1 not known */
+  value?: number;
+  /** adclose: 'done' rewarded watched to the reward, 'quit' closed before, 'na' interstitial */
+  end_type?: 'done' | 'quit' | 'na';
+  /** adclose: ms on screen */
+  duration_ms?: number;
 }
 
 export interface Platform {
@@ -218,8 +305,21 @@ export interface Platform {
    * call once before the game starts: app info, insets, the save backup, Remote Config, what the plugins do at start
    * (the cloud save's check), store prices. The options go to the plugins too (cloudWait: @horus/cloudsave).
    */
-  init(opts?: { skus?: string[]; [option: string]: unknown }): Promise<void>;
-  /** 'pause' {reason: 'bg' | 'ad'}, 'resume', 'ads' AdsReady & {privacy}, 'adpaid' AdPaid (0.24.0, app only), 'purchase' Purchase, 'insets', 'prices', 'notif' NotifOpen, 'shortcut' ShortcutOpen, 'ua' (platform.ua), 'games' {signedIn}, 'gamesPlay' GamesPlay (0.26.0), 'trim' {tier: 'hidden' | 'critical' | 'low', level} (0.27.0, Android: free GPU memory you can rebuild on 'resume'); a plugin's ('cloud' CloudState: @horus/cloudsave) */
+  init(opts?: {
+    skus?: string[];
+    /** (0.70.0) false: no device_perf event (Remote Config wg_perf_off = true does the same) */
+    perfEvent?: boolean;
+    /** (0.85.7) browser only: Firebase Remote Config for the web build (Firebase console > Project settings > Your apps > Web app). Values apply in the same session; the app ignores it (native Firebase) */
+    rcWeb?: { apiKey: string; projectId: string; appId: string };
+    /** (0.85.7) how long init waits for rcWeb, ms (default 2000); late or offline: the browser's last values, else {} */
+    rcTimeout?: number;
+    /** (0.90.0) rv swap (on by default): false turns it off for this game, or { margin, noRv, skip }. Remote Config wg_rv_swap* and ads.rvSwap() come after it */
+    rvSwap?: boolean | RvSwapConfig;
+    /** (0.93.0) big ad offer (off by default): true or { minUsd, formats, tiers, perDay, cooldownMin, firstSession, robots } turns it on for this game. Remote Config wg_bigad* and ads.bigAdConfig() come after it */
+    bigAd?: boolean | BigAdConfig;
+    [option: string]: unknown;
+  }): Promise<void>;
+  /** 'pause' {reason: 'bg' | 'ad'}, 'resume', 'ads' AdsReady & {privacy}, 'adpaid' AdPaid (0.24.0, app only), 'purchase' Purchase, 'insets', 'prices', 'notif' NotifOpen, 'shortcut' ShortcutOpen, 'link' LinkOpen (0.61.0), 'ua' (platform.ua), 'games' {signedIn}, 'gamesPlay' GamesPlay (0.26.0), 'trim' {tier: 'hidden' | 'critical' | 'low', level} (0.27.0, Android: free GPU memory you can rebuild on 'resume'); a plugin's ('cloud' CloudState: @horus/cloudsave) */
   on(event: PlatformEvent, fn: (data: any) => void): void;
   /** the game is on screen: the app drops its splash */
   ready(): void;
@@ -231,6 +331,15 @@ export interface Platform {
   ads: {
     /** GDPR region: show a "Privacy settings" button that calls ads.privacy() */
     hasPrivacy: boolean;
+    /**
+     * (0.47.0 Android, 0.47.1 iOS) rewarded ads the player watched to the end while the page was gone: the system killed the WebView
+     * renderer (iOS: the web content process) under the ad, the page reloaded and never got the answer of rewarded(). Read it after init: give each
+     * one its placement's reward (or a fair stand-in when that context is gone, e.g. a run's x2), then call lostDone().
+     * Kept a day, the last 5. [] on the web.
+     */
+    lost: { pl: string; at: number }[];
+    /** (0.47.0) the lost rewards are given: the app forgets them */
+    lostDone(): void;
     /** what is loaded; (0.24.0) with the loaded ads' revenue estimates and networks (-1 / '' on the web and before a load) */
     ready(): AdsReady;
     /**
@@ -260,9 +369,47 @@ export interface Platform {
      * web only: the game's placeholder ad, (kind, placement) => Promise<watched>. opts.loadMs: the placeholder's load
      * time (at start and after each ad; 0 = always ready), to try the game's loading states in a browser.
      */
-    simulate(present: (kind: 'rewarded' | 'inter', placement: string) => Promise<boolean>, opts?: { loadMs?: number }): void;
-    rewarded(placement: string): Promise<{ ok: boolean; reason: '' | 'closed' | 'not_ready' | 'error' }>;
-    inter(placement: string): Promise<{ shown: boolean }>;
+    simulate(present: (kind: 'rewarded' | 'inter', placement: string) => Promise<boolean>, opts?: { loadMs?: number; /** (0.90.0) the placeholders' prices (USD for one impression), to try rv swap */ rvValue?: number; interValue?: number; /** (0.90.0) false: that format stays not loaded */ rv?: boolean; inter?: boolean }): void;
+    /** (0.52.1) true while a full-screen ad is up or on its way: an ad button's handler checks it first and does nothing. */
+    busy(): boolean;
+    /** (0.52.1) one ad at a time: while an ad is up or on its way, a second call answers at once with reason 'busy'
+     * (inter: busy true) and asks nothing of the app; the game changes nothing then (no screen, music or UI restore),
+     * the first ad's answer comes as usual. Analytics gets ad_dup { pl, kind }. */
+    /** (0.90.0) rv swap, on by default: the loaded interstitial plays instead when MAX prices it above the loaded rewarded
+     * (swap 1) or when no rewarded is loaded (swap 2); ok true once it was shown: give the same reward. Analytics gets
+     * rv_swap { pl, swap, shown, rv_v, iv_v }. Put swap on your rv_start / rv_done events. A swap is not a forced
+     * interstitial: it never spends interstitial pacing (do not call noteInter for it; noteRewarded on ok as usual). */
+    rewarded(placement: string): Promise<{ ok: boolean; reason: '' | 'closed' | 'not_ready' | 'error' | 'busy'; swap: 0 | 1 | 2 }>;
+    /** (0.90.0) what rewarded(placement) would show now: 0 a rewarded video (when one is loaded), 1 / 2 the interstitial */
+    swapOf(placement: string): 0 | 1 | 2;
+    /** (0.90.0) true when rewarded(placement) has an ad to show now (a rewarded loaded, or a swap): use it instead of ready().rv for "no video" / waiting */
+    rewardable(placement: string): boolean;
+    /** (0.90.0) rv swap at run time: false off, true on, { margin, noRv, skip }, null back to init + Remote Config. No argument: read. -> the config in use */
+    rvSwap(cfg?: boolean | RvSwapConfig | null): Required<RvSwapConfig>;
+    /**
+     * (0.93.0) big ad offer (off until init({ bigAd })): is the loaded ad worth a special card now? The ad of opts.formats
+     * (default rv + inter) with the higher known MAX price, at least minUsd, within the limits (perDay, cooldownMin, not
+     * in the first session, not on robots). tier: how many of cfg.tiers the price reaches; the game maps it to a reward.
+     * reason when not ok: off, robot, first_session, cap, cool, busy, no_ad (nothing loaded or price unknown), low.
+     * Analytics: bigad_offer { pl, usd, fmt, net, tier } when an offer comes on for pl or its tier rises (log: false to
+     * only ask). opts.pl default 'big_ad'.
+     */
+    bigAd(opts?: { pl?: string; minUsd?: number; formats?: Array<'rv' | 'inter'> | string; tiers?: number[] | string; log?: boolean }): BigAdOffer;
+    /**
+     * (0.93.0) plays the ad the last bigAd() for this placement offered (a rewarded video, never swapped, or the
+     * interstitial). ok: watched / shown: give the reward; the day's count and the cooldown move on. 'gone' / 'changed':
+     * the ad is not the one offered any more (another format, a lower tier or a lower price: draw the card again). Pay the reward the card showed. Analytics: bigad_tap, then bigad_done or bigad_fail
+     * { pl, usd, fmt, net, tier, reason }.
+     */
+    showBig(placement?: string): Promise<{ ok: boolean; reason: string; usd: number; fmt: '' | 'rv' | 'inter'; tier: number }>;
+    /** (0.93.0) app only: big rewarded videos among ads.lost (the page died under showBig's ad), with the offer's numbers;
+     * already counted in the limits. Pay each by the card's reward (not the placement's usual one); lostDone() clears it */
+    bigLost: Array<{ pl: string; usd: number; fmt: 'rv'; net: string; tier: number }>;
+    /** (0.93.0) big ad offer at run time: false off, true on, { ...BigAdConfig }, null back to init + Remote Config. No argument: read */
+    bigAdConfig(cfg?: boolean | BigAdConfig | null): Required<BigAdConfig>;
+    /** (0.93.0) the counts kept on the device: paid today, last paid (ms), all time, sessions */
+    bigAdStats(): { day: string; n: number; at: number; tot: number; ses: number };
+    inter(placement: string): Promise<{ shown: boolean; busy?: boolean }>;
     privacy(): Promise<unknown>;
     /** android: AppLovin MAX's Mediation Debugger, for testing the integration (shown: false until MAX has started; always false on the web) */
     mediationDebugger(): Promise<{ shown: boolean }>;
@@ -333,6 +480,12 @@ export interface Platform {
     restorable: boolean;
     /** the store's price string for the player's country, or null (use your own) */
     price(sku: string): string | null;
+    /** (0.94.1) ask the store for its prices again (a shop opened without them; Android / iOS, absent on the web): the prices it has, and a 'prices' event */
+    refresh?(): Promise<Record<string, string>>;
+    /** (subscriptions) the store's product with a subscription's period and intro offer, null before 'prices' / on the web */
+    product(sku: string): StoreProduct | null;
+    /** (subscriptions) the store's page (Android) / sheet (iOS) to cancel or change a subscription -> true when it opened */
+    manage(sku?: string): Promise<boolean>;
     buy(sku: string): Promise<BuyResult>;
     pending(): Promise<Purchase[]>;
     /**
@@ -359,6 +512,13 @@ export interface Platform {
     /** Firebase Analytics in the app (gtag / dataLayer on the web). Flat params: numbers and short strings */
     log(name: string, params?: Record<string, string | number | boolean>): void;
     user(props: Record<string, string | number | null>): void;
+    /**
+     * (0.67.0) The player's own id (account / cloud save id) as Firebase's user_id on Analytics and Crashlytics (gtag's
+     * user_id on the web). null clears it. Up to 256 characters; never an email, phone number or name.
+     */
+    userId(id: string | null): void;
+    /** (0.87.0) The stage now, put by the app on its ad_impression: stage_id, stage_number, stage_config_version, game_mode. */
+    context(c: { stage_id?: string | number; stage_number?: number; stage_config_version?: string | number; game_mode?: string }): void;
     /** (0.10.0) a run (level, match) ended: sets win_streak and lose_streak, kept on the device between sessions */
     result(won: boolean): void;
     /** (0.10.0) the player's amount of a resource: '<name>_balance' (coin -> coin_balance), sent at most every 2 s */
@@ -378,8 +538,10 @@ export interface Platform {
    * (0.10.0) Where the install came from (Adjust's attribution, app only): null until Adjust knows it (it can come
    * during the first session, platform.on('ua')). Remote Config can also differ by campaign: a condition on the user
    * property ua_campaign; the first session has the defaults, the next start the campaign's values.
+   * (0.74.0) costType ('cpi', 'cpc'...), cost (what the install cost, -1 when Adjust gave none) and costCurrency: Adjust
+   * gives them only when "Cost data in SDK" is on in its dashboard and it has the network's spend.
    */
-  readonly ua: { network: string; campaign: string; adgroup: string; creative: string } | null;
+  readonly ua: { network: string; campaign: string; adgroup: string; creative: string; costType: string; cost: number; costCurrency: string } | null;
 
   /** Remote Config values activated for this session, as strings */
   rc: { values: Record<string, string> };
@@ -449,6 +611,19 @@ export interface Platform {
   };
 
   /**
+   * (0.61.0) Deep links: a link with the app's own URL scheme (webgame.config.json urlScheme) opens the game, such as
+   * the "Event deep link" of an App Store In-App Event (crashramp://event). The app logs link_open {path}.
+   */
+  link: {
+    /** the app has a URL scheme of its own; false on the web, with no urlScheme and with a shell before 0.61.0 */
+    supported: boolean;
+    /** the app's URL scheme ('' when none) */
+    scheme: string;
+    /** the link that started the app, or null; one opened while the game runs: 'link' event */
+    opened: LinkOpen | null;
+  };
+
+  /**
    * (0.38.0) The phone's share sheet with a picture, a line of text and a link (a result card, a challenge, an invite).
    * Android: the system chooser (ok once it opened: Android never says what the player did next); iOS: the share sheet
    * (app = the activity type the player picked); the web: navigator.share, else the text and link copied (via 'copy').
@@ -458,6 +633,38 @@ export interface Platform {
     /** the shell has app.share (0.38.0); on the web: the browser can share or copy */
     supported: boolean;
     open(o: ShareContent): Promise<ShareResult>;
+  };
+
+  /**
+   * (0.91.0) What the game offers the video editors' build: Horus Play adds a VIDEO panel (freeze, speed, UI editing,
+   * recording, window.HorusVideo for agents' frame-exact recorder) to every web page it serves; the game registers its
+   * unlocks here. Store builds and playable ads carry no panel; in the app these calls only keep the entries.
+   */
+  video: {
+    /** the panel is on this page (Horus Play) */
+    readonly on: boolean;
+    /** the panel's speed, 1 = normal, 0 = frozen (time itself is already slowed for the game's loop) */
+    readonly speed: number;
+    /** a button in the panel's "Mở khoá" tab (and HorusVideo.cheat(name) for agents) */
+    cheat(name: string, fn: () => void): void;
+    /** a number the editor sets (- / + / max / typed) */
+    number(name: string, get: () => number, set: (v: number) => void, opts?: { min?: number; max?: number; step?: number }): void;
+    /** a value agents read in HorusVideo.state (the map, the level) to time their shots */
+    watch(name: string, get: () => unknown): void;
+    /** a part of the UI listed first in "Chỉnh UI": a CSS selector or an element */
+    ui(target: string | Element, label?: string): void;
+    /** called with the panel's speed (0 = frozen) when it changes: for what the clock does not cover (music rate) */
+    onSpeed(fn: (speed: number) => void): void;
+    /** (0.92.0) camera angles for the panel's "Góc máy & cảnh" tab: each preset's numbers are editable there; apply(null) = the game's own camera */
+    cameras(presets: Record<string, { name?: string; desc?: string; [num: string]: unknown }>, apply: (id: string | null, nums: Record<string, number> | null) => void,
+      opts?: { fields?: Record<string, [label: string, min: number, max: number, step: number]> }): void;
+    /** (0.92.0) a ready-made shot: ▶ plays run(), ● records the tab while it plays and stops after `seconds` (the clip's length, slow motion included);
+     *  run() may return a Promise that resolves once the shot is set up (map loaded): the seconds count from then, the recording waits paused. stop() ends it early */
+    shot(id: string, info: string | { name?: string; seconds?: number; desc?: string }, run: () => unknown, stop?: () => void): void;
+    /** (0.92.0) an on/off switch in "Góc máy & cảnh" (show the HUD on the menu...) */
+    toggle(name: string, get: () => boolean, set: (on: boolean) => void): void;
+    /** (0.92.0) text for the panel's "Hướng dẫn" tab (blank lines split paragraphs) */
+    guide(text: string): void;
   };
 
   /** ms, or [on, off, on, ...] ms like navigator.vibrate */
@@ -507,12 +714,23 @@ export interface Platform {
    * changes. thermal: Android 10+ status, headroom (Android 11+, 1.0 = severe throttling, -1 unknown), 'thermal' event
    * when it moves: step effects down before the phone throttles. exits: how the last runs ended when Android ended
    * them ('low_memory', 'anr', 'crash', 'crash_native', 'excessive_resource', 'signaled'... each once), for analytics.
-   * iOS and the web: 'unsupported', 'unknown', [].
+   * iOS and the web: 'unsupported', 'unknown', []. (0.51.0) iOS reports thermal too, from ProcessInfo.thermalState:
+   * nominal 'none', fair 'light', serious 'moderate', critical 'severe', headroom -1.
    */
   readonly device: {
     readonly gameMode: 'standard' | 'performance' | 'battery' | 'custom' | 'unsupported';
     readonly thermal: { status: 'none' | 'light' | 'moderate' | 'severe' | 'critical' | 'emergency' | 'shutdown' | 'unknown'; headroom: number };
     readonly exits: { reason: string; at: number; foreground: boolean; pssKb: number; rssKb: number }[];
+    /**
+     * (0.68.0) Android: this page was started again in the same process because its WebView renderer died (Android
+     * killed it for memory, often under a full-screen ad whose page runs in the same renderer, or it crashed): why
+     * 'renderer_gone' | 'renderer_crash', state 'fg' (on screen) | 'ad' (under one of our ads) | 'bg', net the ad's
+     * network, ram the phone's GB, at (ms). null otherwise (a normal start, iOS, the web). The game can land where the
+     * player was (a result screen under an x2 ad) instead of its first screen; rewards of rewarded ads the player
+     * finished meanwhile are in ads.lost. When the death came with the app out of sight (state 'ad' or 'bg') the new
+     * page starts when the player is back, under the last frame they saw (see keepFrame) until app.ready.
+     */
+    readonly relaunch: { why: string; state: string; net: string; ram: number; at: number } | null;
     /** (0.33.0) Android 6+: the screen's refresh rate now and the rates its modes offer at this resolution (0 / []: unknown) */
     readonly display: { hz: number; modes: number[] };
     /**
@@ -526,6 +744,20 @@ export interface Platform {
      * Resolves to the rate the screen runs at now (0: the shell cannot; iOS and the web: 0, WKWebView draws at 60).
      */
     setFrameRate(hz: number): Promise<{ hz: number }>;
+    /**
+     * (0.68.0) Android 8+: the shell keeps a copy of the frame on screen now (the WebGL canvas and the HTML on it, half
+     * size, a JPEG in memory). If the renderer dies before the player is back, the page that starts again is covered by
+     * it, a small spinner on it, until app.ready. The shell takes one by itself when the player leaves the app; before a
+     * full-screen ad call this BEFORE the game lightens itself (a 1x1 drawing buffer would be the picture), and once a
+     * page has called it the shell no longer takes its own under ads. Resolves { kept } (false: iOS, the web, Android 7).
+     */
+    keepFrame(): Promise<{ kept: boolean }>;
+    /**
+     * (0.68.0) Android: the loading screen's progress (0-100) for the bar on the cover over a page that started again
+     * after its renderer died (relaunch). Posted, nothing comes back; call it with each loading step. Hide the loading
+     * screen at once (no fade) on a relaunch: the cover goes 300 ms after app.ready.
+     */
+    loading(pct: number): void;
   };
   /**
    * (0.33.0) Android: Firebase Test Lab's Game Loop test started the app (scenario from the test's --scenario-numbers).
@@ -533,6 +765,21 @@ export interface Platform {
    * and the app closes, which ends the test. null otherwise.
    */
   readonly testLoop: { scenario: number; done(report: string): Promise<{ written: boolean }> } | null;
+  /**
+   * (0.70.0) device_perf: one analytics event a session (the app only, Android and iOS) with the frame rate while
+   * playing (p50, p10 of 1 s windows), the time to platform.ready() (boot_ms; app_ms from the process start on
+   * Android), first session, RAM, cores, GPU name, refresh rate and thermal state. Counts from platform.ready() by
+   * itself; the windows count only in play once the game calls gameState(). Sent after 60 s of counted play or when the
+   * player leaves the app. README "device_perf".
+   */
+  readonly perf: {
+    /** true once this session's event went */
+    readonly sent: boolean;
+    /** a game that draws only some of the page's frames (a 30 fps lock, a 120 Hz screen drawn at 60): call once per frame drawn */
+    frame(): void;
+    /** the game's own params on the event (at most 6): { tier: 2, cap: 30 } */
+    note(params: Record<string, number | boolean | string>): void;
+  };
   /** (0.28.0) Android 13+ Game State: in a menu, in play (a run), or showing content (an ad, a video); loading a level */
   gameState(mode: 'menu' | 'play' | 'content', loading?: boolean): void;
   /** a JS error for Crashlytics (non-fatal) */
@@ -554,6 +801,48 @@ export const target: Target;
 export const platform: Platform;
 export function createWeb(): Platform;
 export function createAndroid(bridge?: { post(json: string): void }): Platform;
+
+/** (0.93.0) big ad offer: platform.init({ bigAd }), Remote Config wg_bigad (0/1), wg_bigad_min, wg_bigad_formats, wg_bigad_tiers, wg_bigad_per_day, wg_bigad_cooldown_min, wg_bigad_first_session, wg_bigad_robots, platform.ads.bigAdConfig() */
+export interface BigAdConfig {
+  /** default false: a game opts in */
+  on?: boolean;
+  /** the ad must be worth at least this, USD for one impression; default 0.2 */
+  minUsd?: number;
+  /** which loaded ads may play; default ['rv', 'inter'] */
+  formats?: Array<'rv' | 'inter'> | string;
+  /** price bands, USD; default [0.2, 0.5, 1, 2] */
+  tiers?: number[] | string;
+  /** big ads paid a local day, 0 no cap; default 3 */
+  perDay?: number;
+  /** minutes after a paid big ad before the next offer; default 20 */
+  cooldownMin?: number;
+  /** true: also in the first session after install; default false */
+  firstSession?: boolean;
+  /** true: also on Test Lab / pre-launch devices; default false */
+  robots?: boolean;
+}
+/** (0.93.0) platform.ads.bigAd() */
+export interface BigAdOffer {
+  ok: boolean;
+  reason: '' | 'off' | 'robot' | 'first_session' | 'cap' | 'cool' | 'busy' | 'no_ad' | 'low';
+  /** MAX's estimate for one impression, USD (0 when nothing is offered) */
+  usd: number;
+  fmt: '' | 'rv' | 'inter';
+  /** the network that filled it ('' unknown, always in a browser) */
+  net: string;
+  tier: number;
+}
+/** (0.90.0) rv swap: platform.init({ rvSwap }), Remote Config wg_rv_swap (0/1), wg_rv_swap_margin, wg_rv_swap_norv, wg_rv_swap_skip, platform.ads.rvSwap() */
+export interface RvSwapConfig {
+  /** default true */
+  on?: boolean;
+  /** the interstitial must be worth more than rvValue x (1 + margin); default 0 */
+  margin?: number;
+  /** also when no rewarded is loaded but an interstitial is; default true */
+  noRv?: boolean;
+  /** placements that never swap (a list or a comma string); default none */
+  skip?: string[] | string;
+}
 
 /** start() turns the cloud save on (@horus/cloudsave's plugin) */
 export interface Platform {
@@ -597,6 +886,9 @@ export namespace cloud {
   export interface Cloud {
     /** the build has the cloudsave module with a server url (after platform.init; always false in a browser) */
     enabled: boolean;
+    /** (1.14.0) the game's cloud save server, https://... with no "/" at the end ('' in a browser, without cloud save, or an
+     *  app built before 1.14.0); the game's online levels are at levelsUrl(url) (@horus/levels) */
+    url: string;
     /** what the start-up check found (platform.init) */
     boot: CloudState;
     status(): Promise<CloudState>;
@@ -780,6 +1072,111 @@ export namespace save {
   }): ConflictRules<S>;
 }
 
+/** Online levels for puzzle games: createLevels({ app, count, builtin, url: levelsUrl(sdk.cloudsave.url), platform }); sets published on the game's cloud save admin page (Level online) reach the players without a store build; started / won / lost send level_start / level_end (pass rate per level in Firebase). */
+export namespace levels {
+  /** A level as the game gets it: the JSON value of a .json file, the text of a .txt, the bytes (Uint8Array) of others. */
+  export type Level = unknown;
+
+  export interface LevelsOptions {
+    /** the game's package (com.horus.puzzle), as on the admin page */
+    app: string;
+    /** the highest level format this build of the game reads (1) */
+    format?: number;
+    /** how many levels the app has inside */
+    count: number;
+    /** n => the app's own level n */
+    builtin: (n: number) => Level | Promise<Level>;
+    /** the level server; default levelsUrl(platform.cloud.url), the game's own cloud save Worker (the app knows it,
+     *  @horus/cloudsave 1.14.0); '': built-in levels only */
+    url?: string;
+    /** @horus/webgame's platform (HorusSDK.platform): kind, app version, support ID, analytics (level_* events) */
+    platform?: unknown;
+    /** instead of what platform knows */
+    kind?: 'android' | 'ios' | 'web';
+    version?: string;
+    uid?: string;
+    /** false (or throw) when a level is not one this game can play: the set is then not used */
+    validate?: (value: Level, n: number) => boolean | void;
+    /** false: no checks in the background (tests) */
+    auto?: boolean;
+    store?: LevelsStore;
+    fetch?: typeof fetch;
+    now?: () => number;
+    confirmMs?: number;
+  }
+
+  export interface LevelsStore {
+    get(key: string): Promise<string | null | undefined>;
+    set(key: string, value: string): Promise<void>;
+    del(key: string): Promise<void>;
+    keys(): Promise<string[]>;
+  }
+
+  export interface LevelsInfo {
+    /** the set in use (0: the levels inside the app) */
+    set: number;
+    source: 'app' | 'online';
+    count: number;
+    /** the set's format (0 for the levels inside the app) */
+    format: number;
+    /** a newer set downloaded, used from the next start or apply() */
+    pending: number | null;
+    /** sets this phone found bad (crash after the switch, a level validate refused, a missing pack) */
+    bad: number[];
+    /** when the server was last asked (ms) */
+    checked: number;
+  }
+
+  export interface Levels {
+    /** the stored set at once (no network); a check in the background */
+    start(): Promise<LevelsInfo>;
+    /** level n of the set in use (1..count) */
+    get(n: number): Promise<Level>;
+    /** how many levels the set in use has */
+    readonly count: number;
+    /** ask the server now (at most once per index.check s unless force) */
+    check(o?: { force?: boolean }): Promise<LevelsInfo>;
+    /** use the downloaded set now (call between levels, never during one) */
+    apply(): Promise<LevelsInfo>;
+    info(): LevelsInfo;
+    /** analytics level_start */
+    started(n: number): void;
+    /** analytics level_end success 1, with the game's own numbers (moves, stars...) */
+    won(n: number, extra?: Record<string, string | number | boolean>): void;
+    /** analytics level_end success 0 */
+    lost(n: number, extra?: Record<string, string | number | boolean>): void;
+    on(event: 'ready' | 'change' | 'bad', fn: (data: unknown) => void): void;
+    /** this install's id when the platform has no support ID (what QA puts under Máy thử) */
+    readonly uid: string;
+    stop(): void;
+  }
+
+  /** The game's levels: online sets published on the admin page, else the app's own. */
+  export function createLevels(o: LevelsOptions): Levels;
+  /** The level server of a game: its cloud save URL (platform.cloud.url) + /levels/v1 ('' when there is none). */
+  export function levelsUrl(cloudsaveUrl: string): string;
+  export function memoryStore(): LevelsStore;
+  /** IndexedDB, or null where there is none */
+  export function idbStore(name?: string): LevelsStore | null;
+
+  export const PACK: number;
+  export const MAX_LEVELS: number;
+  export const PLATFORMS: string[];
+  export function cmpVersion(a: string, b: string): number;
+  /** the number in a level file's name: the last number in it (level_57.json -> 57) */
+  export function levelNumber(name: string): number;
+  export interface LevelFile { name: string; data: string | Uint8Array }
+  export interface Pack { first: number; last: number; sha: string; size: number; text?: string }
+  export interface MadeSet { count: number; levels: Record<number, string>; packs: Pack[]; errors: string[] }
+  /** a whole set from level files (one per level, 1..N with no gap) */
+  export function makeSet(files: LevelFile[]): Promise<MadeSet>;
+  /** a set from an earlier one and only the files that changed or were added: only their packs are new */
+  export function patchSet(base: unknown, files: LevelFile[], loadPack: (sha: string) => Promise<string>): Promise<MadeSet & { changed: number[]; added: number[]; same: number[] }>;
+  export function diff(a: Record<number, string>, b: Record<number, string>): { added: number[]; changed: number[]; removed: number[] };
+  /** "1-5, 9, 12-14" */
+  export function ranges(list: number[]): string;
+}
+
 /** When an interstitial may show, waiting for a rewarded ad, the short-of-coins steps, Remote Config overrides (no SDK calls: the game calls platform.ads). */
 export namespace monetize {
   export const VERSION: string;
@@ -830,8 +1227,9 @@ export namespace monetize {
   export function noteInter(state: Partial<PacingState>, runs: number, now: number): void;
   export function noteRewarded(state: Partial<PacingState>, now: number): void;
   /** @horus/webgame's platform.ads, or anything with ready() (and load()) */
-  export interface AdsLike { ready(): { rv?: boolean }; load?(kind: string): void }
-  export function waitRewarded(ads: AdsLike, o?: { waitMs?: number; poll?: number; gone?: () => boolean; clock?: () => number }): Promise<'ready' | 'timeout' | 'gone'>;
+  export interface AdsLike { ready(): { rv?: boolean }; load?(kind: string): void; /** (0.90.0 rv swap) @horus/webgame 0.90.0: a rewarded video or an rv swap is ready for this placement */ rewardable?(placement: string): boolean }
+  /** pl (0.90.0 rv swap): the button's placement, for ads.rewardable(pl) (rv swap) */
+  export function waitRewarded(ads: AdsLike, o?: { waitMs?: number; poll?: number; gone?: () => boolean; clock?: () => number; pl?: string }): Promise<'ready' | 'timeout' | 'gone'>;
 
   export interface ShortConfig { afterBuys: number; freeAds: number; gemStep: number; adsForGems: number; maxSteps: number; pin: number; fromRun: number }
   export const SHORT_DEFAULTS: Readonly<ShortConfig>;
@@ -1834,6 +2232,25 @@ export namespace app {
   export function mergeParts(THREE: any, parts: Array<{ geometry: any; matrix: any }>): any | null;
   /** Groups of [{ geometry, matrix }] -> one merged result per group, on a worker (inline source, no three); on the main thread where there is none, or when it fails or passes `timeout` (10000 ms). */
   export function mergePartsAsync(groups: Array<Array<{ geometry: any; matrix: any }>>, o?: { worker?: boolean; timeout?: number }): Promise<Array<MergedMesh | null>>;
+
+  /** One draw call for a chunked scenery set along a track (Crash Ramp v98o). three.js is passed in. */
+  export class InstanceWindow {
+    constructor(THREE: any, geometry: any, material: any, chunks: Array<{ d0: number; d1: number; matrices: Float32Array; colors?: Float32Array | null }>);
+    static fromMeshes(THREE: any, meshes: any[]): InstanceWindow & { map(mesh: any, i: number): number };
+    static fromItems(THREE: any, geometry: any, material: any, items: Array<{ d: number; matrix: any; color?: any }>, o?: { chunk?: number; d0?: number }): InstanceWindow;
+    /** the InstancedMesh to add to the scene */
+    readonly mesh: any;
+    /** every instance's matrix (master copy), 16 numbers each, in chunk order */
+    readonly M: Float32Array;
+    readonly C: Float32Array | null;
+    /** show the chunks with d1 > lo && d0 < hi; true when any is shown */
+    update(lo: number, hi: number): boolean;
+    get(i: number, out: any): any;
+    set(i: number, matrix: any): void;
+    snapshot(): Float32Array;
+    reload(matrices: ArrayLike<number>): void;
+    dispose(): void;
+  }
 }
 
 /** GPU effects for three.js: sparks, glows, smoke, rings, decals, damage numbers, coin fly (pass THREE in). */

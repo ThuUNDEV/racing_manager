@@ -1,0 +1,33 @@
+{
+  "name": "Shop light sky palette v6",
+  "status": "concept_pending_review",
+  "date": "2026-11-26",
+  "image": "01_shop_light_sky_palette.png",
+  "prompt": "01_shop_light_sky_palette_prompt.txt",
+  "provenance": {
+    "mode": "built-in image_gen colors-only edit",
+    "tool": "image_gen.imagegen",
+    "orchestrator": "Delegated GPT-6.1-Sol medium",
+    "image_model": "Tool-managed; exact model not exposed",
+    "edit_target": "Design/Demos/SoftMiniature/shop_recolor_v5/01_shop_refined_hierarchy.png",
+    "raw": "output/imagegen/shop_recolor_v6/01_shop_light_sky_palette_raw.png",
+    "generation_calls": 1,
+    "postprocessing": "None; original image copied unchanged"
+  },
+  "changes": [
+    "Near-white ivory surfaces replace yellow-beige wash",
+    "Pale clean sky section strips",
+    "Fresh lighter sky azure purchase buttons replace dark cobalt",
+    "HUD softened to bright sky blue",
+    "Green FREE, blue other actions, purple currency art retained"
+  ],
+  "validation": {
+    "visual": "Same three-panel framing, content arrangement, primary reward sizes and five tabs as v5. Main quantities/prices visually preserved. Color change is visible on cards, buttons, HUD and background.",
+    "limitations": [
+      "AI edit is not pixel-exact and can subtly redraw fine detail",
+      "Hà portrait remains placeholder goggle character rather than validated unique driver asset",
+      "Concept image text/icon fidelity is not proof of runtime correctness; native implementation should use catalog sprites/localized labels"
+    ],
+    "scope": "No runtime code, data, balance or save edits."
+  }
+}

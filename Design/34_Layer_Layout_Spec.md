@@ -1,611 +1,216 @@
 # 34. Đặc tả layer và layout (bản đang chạy)
 
-Ngày 17/11/2026 · **Tài liệu dựng layout, trích từ cây node thật của `ui/main.gd` khi chạy game**, không phải từ ảnh hay thiết kế đề xuất. Dùng khi dựng/đối chiếu giao diện; mọi số liệu có thể kiểm lại bằng cách chạy lại script dump (§10).
+Cập nhật 27/11/2026 · Trích từ cây node thật của `ui/main.gd` bằng `tools/dump_layout.gd` (viewport logical 390×845, `RM_LANG=vi`, dữ liệu giả lập: 25 lượt đua, 12 cúp, 3 coupon gear, 2 coupon tay đua, không gating). Số đo lấy trên working tree ngày này, **gồm cả thay đổi chưa commit** (chuỗi gói IAP, popup bán hàng, Ads Break). Cây đầy đủ từng màn: `output/layout/<màn>.txt` sau khi chạy script (§8).
 
 ## 0. Quy ước
 
 | Mục | Giá trị |
 |---|---|
-| Viewport thiết kế | 886 × 1920 px (`project.godot`), `stretch/mode=canvas_items`, `scale=2.2718` |
-| **Đơn vị trong tài liệu** | **logical px = 389.99 × 845.14** (886 ÷ 2.2718). Mọi `x y w h` bên dưới theo đơn vị này, gốc (0,0) ở góc trên trái |
-| Khung dọc | màn hình 9:19.5 cố định; lề ngang chuẩn **12**, khoảng cách dọc giữa khối **6–8** |
-| Chạm tối thiểu | 44 × 44 (nút HUD tròn 44, nút cài đặt 48) |
-| Ngôn ngữ nhãn | tiếng Anh (mặc định), có `vi/id/ms/th/ja/ko/zh_Hans` qua `I18n` |
+| Viewport thiết kế | 886 × 1920 px, `canvas_items`, scale 2.2718 |
+| Đơn vị | logical px ≈ 390 × 845; mọi `x,y w×h` gốc ở góc trên trái |
+| Lề nội dung | Đua/Túi/Đội/Giải: x16, rộng 358. Shop: x12, rộng 366 |
+| Vùng chạm tối thiểu | 44×44 (ngoại lệ đo được ở §9) |
+| Nav | Shop · Túi · Đua · Đội · Giải |
 
-Cây gốc của `Main`:
+## 1. Cây gốc và z-order
 
 ```text
-Main (Control, full rect 390×845)
-├─ ColorRect            nền toàn màn hình
-├─ HeaderScenery        TextureRect 0,0 390×140   ảnh khán đài làm nền HUD (ẩn bớt ở Shop)
-├─ MarginContainer (full rect, lề 12 trái/phải, 14 trên)
-│  └─ VBoxContainer 12,14 365×823
-│     ├─ HBox  Header HUD            y14   h48
-│     ├─ VBox  RaceBlock (khung đua) y70   h494   ← chỉ Race/Bag/Team
-│     ├─ Control  Content            y572  h191  (Race/Bag/Team)  |  y70 h693 (League/Shop)
-│     └─ BottomNavigation            y771  h66
-├─ ShopReferenceShell   chỉ tab Shop: phủ 0,64 390×781 (thay vùng Content + nav riêng)
-├─ Overlay              popup chung (Settings, Offline, Info…)
-├─ PlayerProfile        popup toàn màn hình
-├─ ClassPage            popup toàn màn hình
-├─ DailyRewardsPopup    popup phủ 0,61 390×722
-└─ TutorialOverlay      phủ toàn màn hình, trên cùng
+Main 0,0 390×845
+├─ PageBackground          0,0 390×845
+├─ SoftHeaderBackground    0,0 390×45
+├─ ResourceHeader          0,0 390×44      mọi tab
+├─ ContentArea             4,48 382×711    trang theo tab
+├─ BottomNavigationSpace   4,762 382×83    giữ chỗ
+├─ BottomNavigation        -10,762 410×93  tràn mép
+├─ PromotionPopup · ClassPage              popup riêng, toàn màn hình
+├─ Overlay                                 popup chung
+├─ AdsPopup                                popup xem video
+└─ TutorialOverlay         0,0 390×845     trên cùng
 ```
 
-## 1. Hệ layer (z-order từ dưới lên)
-
-| Layer | Nội dung | Rect | Hiện ở |
-|---|---|---|---|
-| **L0 Nền** | `ColorRect` + `HeaderScenery` (ảnh khán đài) | 0,0 390×845 / ảnh 0,0 390×140 | mọi tab |
-| **L1 HUD** | avatar, tiền, gem, cài đặt | 12,14 365×48 | mọi tab |
-| **L2 Dải giải** | chip giải, thu nhập/s, quà ngày | 12,70 365×44 | Race, Gear, Team |
-| **L3 Khung đua** | thông số đội, hạng/lap, ×2 quảng cáo, khán đài, đường đua | 12,120 365×419 | Race, Gear, Team |
-| **L4 Nội dung** | trang theo tab (cuộn dọc) | xem §3 | mọi tab |
-| **L5 Nav đáy** | 5 tab | 12,771 365×66 | mọi tab (Shop dùng nav riêng, §3.6) |
-| **L6 Popup** | overlay/profile/class/daily + scrim | §5 | khi mở |
-| **L7 Tutorial** | spotlight, thoại Linh, tay chỉ | full rect | khi có hướng dẫn |
-
-Quy tắc ẩn/hiện:
-
-- Race/Gear/Team: L2 + L3 hiện, L4 cao 191.
-- League: ẩn L2 + L3, L4 chiếm y70–763 (cao 693).
-- Shop: ẩn L2 + L3; `ShopReferenceShell` thay L4 và có nav riêng (§3.6).
-- Khung đua ghim cùng kích thước ở Race/Gear/Team (`RACE_HEIGHT = 400`, co lại nếu màn thấp: `min(400, w×0.9+60)` và `h−340`).
+Không còn avatar/hồ sơ trên HUD, popup Quà hằng ngày, dải giải riêng hay nav riêng của Shop.
 
 ## 2. Layer dùng chung
 
-### 2.1 L1 HUD (y14, h48)
-
-```text
-x12            x60              x194             x329 x377
-┌────┐ ┌───────────────┐ ┌───────────────┐ ┌────┐
-│ava │ │ 💵  1K        │ │ 💎  100       │ │ ⚙  │
-└────┘ └───────────────┘ └───────────────┘ └────┘
-44×44    130×46            131×46            48×48
-```
+### 2.1 HUD (`ResourceHeader`, h44)
 
 | Node | Rect | Ghi chú |
 |---|---|---|
-| `PlayerProfileButton` | 12,14 44×44 | mở Hồ sơ (`_show_profile`); icon `PlayerAvatarIcon` 44×44 |
-| `HudCoins` | 60,14 130×46 | pill 116×34 tại x74,y20 + icon cash 46×46 đè bên trái (x56); số căn giữa; `Link_cash` là nút phủ cả khối (mở Shop → Exchange Cash) |
-| `HudGems` | 194,14 131×46 | pill 117×34 tại x208,y20; icon gem 46×46 tại x190; `Link_gem` mở Shop → Gem |
-| `SettingsButton` | 329,14 48×48 | icon bánh răng 28×28 căn giữa |
+| `HudCoins` / `Link_cash` | 8,5 155×33 | chữ số 42,5 95×33; bấm mở Shop → Đổi tiền |
+| `HudGems` / `Link_gem` | 182,5 155×33 | bấm mở Shop → Gem |
+| `SettingsButton` | 352,6 33×31 | |
 
-Cách xếp: ba khối coin/gem/cài đặt cùng nằm trong HBox 365 rộng; avatar 44, hai pill tiền chia đều phần còn lại, cài đặt 48.
+### 2.2 Nav đáy
 
-### 2.2 L2 Dải giải · thu nhập · quà (y70, h44)
-
-| Node | Rect | Nội dung |
-|---|---|---|
-| Chip giải | 12,70 129×44 | icon cờ 22×22 (x20,y81) + nhãn giải, vd. `Apprentice` |
-| `IncomePill` | 149,70 176×44 | khung xanh đậm; icon tiền 30×30 (x155,y77) + `IncomeLabel` `8/s` (cỡ 27) |
-| `DailyRewardsButton` | 333,70 44×44 | icon quà 22×22; `DailyDot` chấm đỏ 14×14 tại 362,74 khi có quà |
-
-### 2.3 L3 Khung đua (y120, h419)
-
-```text
-┌ PanelContainer 12,120 365×419 ───────────────────────────┐
-│ RaceRoundedClip 20,128 349×400 (cắt bo góc)              │
-│ ┌ HUD đua  (RaceView.HUD_H = 44)                        ┐│
-│ │ 440.0 YOUR TEAM │  P7/8  Lap 1   │ [×2 ▶ Watch ad]    ││
-│ ├ Khán đài STAND_H = 44, 3 hàng, nền #a9b8d0           ┤│
-│ │ ●  ● ●● ●●●  (chấm = xe, mật độ theo Parking)         ││
-│ ├ Đường đua (phần còn lại ~ 302 px)                     ┤│
-│ │  sa bàn cỏ xanh, đường nhựa tối, vạch xuất phát       ││
-│ │  số đếm ngược 3·2·1 ở giữa khi countdown              ││
-│ └───────────────────────────────────────────────────────┘│
-└───────────────────────────────────────────────────────────┘
-Dòng gợi ý (Label@80) 12,545 365×19  — dòng chữ "Coming soon…" khi có gating
-```
-
-| Thành phần | Rect | Ghi chú |
-|---|---|---|
-| `AdsRaceControls` | 20,128 349×400 | phủ lên khung đua |
-| `BoostChip` | 253,132 104×36 | icon 27×20 + `×2` (cỡ 24) + dòng `Watch ad` (cỡ 14) ở y153; mở popup xem video |
-| Ba cột HUD đua | trong 44 px đầu | trái: sức mạnh đội + nhãn `YOUR TEAM`; giữa: `P7/8` + `Lap 1`; phải: chip ×2 |
-| Bảng kết quả lượt | thẻ 280 rộng, căn giữa, phủ lên **chỉ khung đua** (`_result_panel`), không phải popup toàn màn hình | §5.3 |
-
-### 2.4 L5 Nav đáy (y771, h66)
-
-`BottomNavigation` 12,771 365×66, vùng trong `Control` 15,774 359×60. Năm mục theo thứ tự cố định:
-
-| # | Tab | Nhãn | Icon | Khi chọn |
-|---|---|---|---|---|
-| 0 | Race | `Race` | flag | pill xanh 115×60, icon 42×42, hiện chữ (x15) |
-| 1 | Bag | `Gear` | tools/briefcase | icon 32×32 |
-| 2 | Team | `Team` | staff | icon 32×32 |
-| 3 | League | `Leagues` | trophy | icon 32×32 |
-| 4 | Shop | `Shop` | shop | icon 32×32 |
-
-- `NavPill` là một `Panel` 115×60 **trượt** giữa các tab (x = 15 / 75 / 136 / 197 / 258). Tab chọn rộng 115, bốn tab còn lại chia đều ~61 và chỉ hiện icon; nhãn `NavLabel` 22 cao ở y809.
-- Chấm báo `NavDot` 18×18 ở góc phải trên của ô (vd. Shop tại 353,774) khi có thứ mới; ổ khóa `NavLock` khi tab chưa mở (gating).
-- Thứ tự mở khóa: Gear `U3_bag`, Team `U5_drivers`, Leagues `U2_league`, Shop `U4_shop`; Race luôn mở.
-
-## 3. Layer nội dung từng tab (L4)
-
-Mỗi tab là một `ScrollContainer` dọc; ô nội dung cách lề 12 (rộng 357 trong 365).
-
-### 3.1 Race — y572 h191
-
-```text
-CarSectionHeader   12,572 357×26   icon xe 28×20 + "RACE CAR"
-CarUpgradeGrid     12,606 357×224  2 cột × 2 hàng, ô ~173×108
-RevenueSectionHeader 12,838 357×26 "REVENUE"
-RevenueUpgradeGrid 12,872 357×224  2 cột × 2 hàng
-```
-
-Mỗi thẻ nâng cấp (vd. Engine, 12–185 × 606–714):
-
-| Phần tử | Vị trí tương đối | Ghi chú |
-|---|---|---|
-| Icon `Art_<id>` | +10, +7, 32×32 | engine · tyre · chassis · gearbox · ticket · celebration · parking · grandstands |
-| Tên | +48, +4, 117×21 | `Engine`, `Tyres`, `Chassis`, `Gearbox`; doanh thu: `Ticket Marketing`, `Victory Celebrations`, `Parking`, `Grandstands` |
-| `Level 0` | +48, +25, 117×17 | |
-| Hiệu ứng xe | +38, +44 | `46.0 → 47.2` (số mới màu xanh) |
-| Hiệu ứng doanh thu | +41, +50 | `+0.252/sec` |
-| Nút mua | +89, +72, ~38×30 | icon tiền + giá (`39`, `20`, `32`, `27`; doanh thu `37`, `73`, `122`, `195`) |
-
-Cột trái x=12 (thẻ 1·3), cột phải x≈195 (thẻ 2·4); hàng 1 y606, hàng 2 y722 (xe) / 872–988 (doanh thu).
-
-### 3.2 Gear (Bag) — y572 h191
-
-```text
-Header "GEAR BAG"            12,572 357×23
-ShopShortcut (PanelContainer) 12,605 357×56
-   Art_standard_gear_pack 40×40 @20,613 | "Gear packs · Coupons: 0" @68,624 | [Open packs] 265,613 96×40
-"GEAR STORAGE"  12,671 275×21        "Owned 0 / 30"  291,672 78×18
-InventoryScroll 12,702 357×(cuộn)
-   Lưới 3 cột, ô 64×64 icon + nhãn 99×17 ("Not owned")
-   Cột x: 37 / 158 / 279 (tâm cách nhau 121); hàng cách nhau 140 (icon y710, 850, 990…)
-   30 ô = 10 hàng
-```
-
-### 3.3 Team · Tay đua — y572 h191
-
-```text
-TeamTabs (PanelContainer) 12,572 357×52   [Drivers 16,576 172×44] [Garage 192,576 173×44]  (segmented)
-ShopShortcut 12,634 357×56    Art_standard_driver_pack | "Driver packs · Coupons: N" | [Open packs]
-Section "OWNED / IN USE" → thẻ tay đua  (cao 100, cách nhau 100)
-   Art_driver_<id> 44×52 @24 | tên (cỡ 23) | nhãn độ hiếm (Rookie/Pro/Elite/Legend) | kiểu đua |
-   dòng chỉ số "Launch 40 · Pace 40" | nút phải 82×44 @279: "In use" / "Locked" / "Use"
-"LOCKED (11)" 12,802 357×18 → các thẻ khóa; dòng điều kiện "Finish 5 races", "Unlock league Semi-Pro"…
-```
-
-12 tay đua: Ashford (đang dùng), Varga, Delacroix, Halvorsen, Marchetti, Quinlan, Ferreira, Zielinski, Calloway, Ibarra, …
-
-### 3.4 Team · Garage
-
-```text
-TeamTabs (như 3.3, Garage được chọn)
-Tiêu đề "Garage" 12,634 261×30   "Pico Lightning · Tier 1" 12,664 261×19    [Change car] 277,634 92×49
-Khu trưng bày xe 12,~690 357×~200 (preview xe, nền sàn xưởng)
-"✓ In use" 12,899 357×18
-Segmented 3 mục y927 h44: [Cars 12 113×44] [Parts 133 114×44] [Appearance 255 114×44]
-Thẻ chỉ số 2×2 (y989 và y1072):  Pace 46 | Grip 38 / Stability 38 | Acceleration 38  — nhãn cỡ 19, số cỡ 30
-Ghi chú "Part levels are kept separately…" 12,1149 357×17
-Nút chính "In use" 12,1176 357×48
-```
-
-### 3.5 Leagues — y70 h693 (không có L2/L3)
-
-`TrophyPanel` 12,82 357×685 (cuộn):
-
-| Node | Rect | Nội dung |
-|---|---|---|
-| `LeagueHeader` | 12,82 357×69 | nhãn nhỏ `LEAGUES`, tên `League Apprentice` (cỡ 28); chip phải `TROPHIES ×1` 62×14 tại 288,109 |
-| `TrophyBanner` | 12,156 357×169 | cúp lớn trái; `Trophies owned` (112,167); số `TrophyCount` cỡ 46; nút `TrophyInfo` 36×36 @322,167; hàng `Total earned` + `0 / 100`; thanh `TrophyCapProgress` 335×7 @23,253; `Top 3 reward` + 3 ô `P1 +3`, `P2 +2`, `P3 +1` (x51/164/277, y289) |
-| Tiêu đề nhóm | 12,330 232×19 `Upgrade with trophies`; phải: `Applies from the next race` |
-| Segmented 3 nút y354 h44 | `Attack` (12–128), `Defense` (132–248), `Income` (252–369) |
-| `Upgrade_speed_tune` | 12,403 357×127 | icon 80 vuông trái; tên `Racing engine` (104,415); `Level 0 / 10` + `LevelSegments` 10 vạch 188×6; mô tả; dòng `Pace +0 → +1`; nút mua 76×40 @281,478 (icon cúp + giá) |
-| `Upgrade_launch_boost` | 12,535 357×127 | `Fast start`, `Acceleration +0 → +1` |
-| `Upgrade_overtake_kit` | 12,667 357×100 | `Overtaking momentum`, `Level 0 / 6`, dòng khóa `Unlocks in league Professional` thay cho nút mua |
-
-Cách nhau giữa các thẻ nâng cấp: 5 (cạnh dưới → cạnh trên).
-
-### 3.6 Shop — `ShopReferenceShell` 0,64 390×781
-
-Shop **không dùng** L4 chuẩn: nó đặt một shell riêng phủ từ y64 xuống tận đáy, kèm nav riêng (`ShopNav_0..4`, 70×52 mỗi nút, y781, nền `Panel` 9,779 373×57).
-
-| Node | Rect | Ghi chú |
-|---|---|---|
-| `ShopChrome` | 0,64 390×39 | tiêu đề `CỬA HÀNG` có cờ caro, ghim khi cuộn; ảnh 262×39 tại x70 |
-| `@ScrollContainer` | 18,111 355×662 | nội dung cuộn, tổng cao ~2069 |
-| Lề trái/phải | 18 / 17 | |
-
-Thứ tự cố định trong cuộn (y theo nội dung, gốc cuộn = 111):
-
-| # | Khối | Rect | Cao |
+| Mục | Ô chạm | Icon | Nhãn `NavLabel` |
 |---|---|---|---|
-| 1 | `Section_SPECIAL PACKS` (nhãn) | 18,111 355×31 | 31 |
-| 2 | `Offer_starter_1` Rookie Pack | 18,151 355×122 | 122 |
-| 3 | `Offer_income_x2` | 18,281 355×90 | 90 |
-| 4 | `Offer_no_ads` | 18,379 355×76 | 76 |
-| 5 | `DailyGiftBanner` | 18,463 355×61 | 61 |
-| 6 | `FreeGemBanner` | 18,532 355×71 | 71 |
-| 7 | `Section_DAILY PACKS` | 18,611 355×31 | 31 |
-| 8 | `Offer_daily_gear` · `Offer_daily_driver` | 18,651 174×93 · 200,651 173×93 | 93 |
-| 9 | `Section_GEM` + `GemGrid` | 18,752 → 792 355×208 | 208 (3 cột) |
-| 10 | `Section_EXCHANGE CASH` + `CashGrid` | 18,1008 → 1048 355×109 | 109 (3 ô: 10/30/50 gem) |
-| 11 | `OpenPacksHeading` + `OpenPacks` | 18,1165 → 1203 355×374 | 374 (Pro Pack, All-Star Pack, hạng ×1/×10) |
-| 12 | `Section_FREE TICKETS` | 18,1585 | — |
-| 13 | `Section_MORE PERKS`: `Offer_income_x3` 129, `Offer_offline_plus` 110 | 18,1789 → 1829 / 1966 | — |
-| 14 | `RestorePurchases` | 18,2084 355×44 | 44 |
-| 15 | `OpenDailyRewards` ("Claim reward") | 197,2136 176×44 | 44 |
+| Shop | 3,765 76×77 | 40×40 | 3,809 76×22 |
+| Túi | 79,765 77×77 | 40×40 | 79,809 77×22 |
+| Đua (giữa, nhô lên) | 156,759 77×84 | 48×48 (đang chọn) | 156,809 77×22 |
+| Đội | 233,765 77×77 | 40×40 | 233,809 77×22 |
+| Giải | 310,765 ~77×77 | 40×40 | y809 |
 
-Mệnh giá gem trong thiết kế: 50 / 275 / 600 / 1300 / 3500 (xem Design/28).
+`NavPill` trượt tới ô đang chọn: 77×64 tại y767 (Đua: 77×73 tại y759), x = 3 / 80 / 157 / 233 / 310. `NavRim` cao 7 ở y762. `NavDot` 13×13 ở góc phải trên ô.
 
-## 4. Trạng thái và chuyển cảnh
+## 3. Nội dung từng tab
 
-| Chuyển | Hiệu ứng |
-|---|---|
-| Đổi tab | `_select_tab`: ẩn/hiện L2+L3, `NavPill` trượt (`_animate_nav`), nội dung đổi tại chỗ |
-| Mở popup | `PopupAnim.open` (scale/fade), scrim tối phủ toàn màn hình |
-| Race ↔ khác | khung đua tiếp tục chạy ngầm; ×2 chip ẩn khi không ở tab Race |
+### 3.1 Đua
 
-## 5. Layer popup (L6)
-
-### 5.1 Overlay chung (`Overlay`)
-
-Các popup dùng `_begin_overlay()` chia sẻ một khuôn: `PanelContainer` căn giữa + `ScrollContainer` bên trong.
-
-| Thuộc tính | Giá trị mặc định | Ghi chú |
-|---|---|---|
-| Chiều rộng nội dung | **316** (`preferred_width`), `min(316, w − 32 − padding)` | |
-| Lề màn hình | 16 trái/phải (`margin_left/right`) | |
-| Chiều cao tối đa | `h − 120` (`vertical_gutter`), tối thiểu 200 | cuộn khi dài |
-| Căn dọc | giữa màn hình | |
-| Khung | `HdUi.panel(6.0)` (panel trắng-xanh, bo góc) | |
-| Khoảng cách dọc giữa phần tử | 8 (một số popup 12) | |
-| Nội dung | x36→352 (316 rộng) | |
-
-Các popup dùng khuôn này, tất cả có tiêu đề + nút đóng 48×48 ở góc phải (x304):
-
-| Popup | Hàm | Vị trí/nội dung |
-|---|---|---|
-| **Settings** | `_show_settings` | `SettingsContent` 36,244 316×353: tiêu đề `Settings` (cỡ 26) + icon bánh răng 36 + `SettingsClose`; nhãn `AUDIO`; hàng `Music` + `MusicToggle` (CheckButton 55×57, x286); hàng `Sound effects` + `SfxToggle`; `LanguageRow` 36,529 316×68: `Language` + `LanguageButton` 140×44 (@201) |
-| **Language picker** | `_show_language_picker` | `PopupHeader` 36,273 316×48; `LanguagePicker` lưới 2 cột 153×52, khoảng cách 10 (x36/199; y329, 391, 453, 515); 8 ngôn ngữ: English, Tiếng Việt, Bahasa Indonesia, Bahasa Melayu, ไทย, 日本語, 한국어, 简体中文; mục đang chọn có `✓` |
-| **Offline income** | `_show_offline` | tiêu đề `OFFLINE INCOME` + icon tiền 36 @36,224; ảnh minh hoạ (xưởng + đồng hồ + xe); ô số tiền cam nhạt `+28.5K` (cỡ 36 vàng); `OfflineProgress` 316×28 (thanh vàng, chữ `115/120 min` hoặc `Full · 120/120 min`); `OfflineContinue` 316×52 xanh lá |
-| **Gear/Driver pack info** | `_show_gear_info`, `_show_driver_info` | header (cỡ 24) + nút đóng; dòng tỉ lệ cách nhau 29 (`Rare: 85.0%`, `Epic: 15.0%` / `Rookie 60%`, `Pro 33%`, `Elite 7%`); đoạn ghi chú bảo hiểm/trùng lặp |
-| **IAP detail** | `_show_iap_detail` | rộng 333 (lề 28): header tên gói + nút đóng; mô tả 317×19; ảnh gói 333×218 @28,242; lưới phần thưởng 4 cột (150 Gem, ×3 Pro ticket, ×3 Standard ticket, 1 h Income) ở y~480–550; ghi chú; nút mua `$0.99` 333×48 @28,597; hàng cuối `Buy once` + `View rates` 165×44 |
-| **Feedback/khóa tính năng** | `_show_feedback` | tiêu đề 27, thân 19, nút `Done` 316×48 |
-
-### 5.2 Daily Gift (`DailyRewardsPopup`)
-
-Phủ 0,61 390×722, không dùng khuôn chung (`preferred_width` 430, `horizontal_gutter` 0, `margin` 0):
+```text
+y0   [💵 1,25M      ] [💎 1.240      ]            [⚙]
+y58  ┌ FixedRaceCluster (RaceView) 16,58 358×287 ────┐
+y63  │ [hạng] [+8/giây]                    [Class]   │
+y327 │                 Kéo để xoay                   │
+y345 ├ ActionStrip 16,345 358×56 ────────────────────┤
+     │   [×2 ▶] [perk] [starter] [daily]   mỗi ô 64×51
+y407 ├ UpgradeScroll 16,407 358×352 (cuộn) ──────────┤
+     │ ▌Nâng cấp xe        358×39                    │
+y454 │ 4 hàng 358×59, bước 60                        │
+y701 │ ▌Thu nhập           358×39                    │
+y748 │ 4 hàng 358×59, bước 60                        │
+y762 └ Nav ──────────────────────────────────────────┘
+```
 
 | Node | Rect |
 |---|---|
-| Tiêu đề `DAILY GIFT` | 81,118 231×38 (ruy-băng xanh có cờ, hộp quà trên đầu) |
-| Mô tả | 67,165 255×16; `Claimed: 0 days` 140,183 109×16 |
-| `PopupClose` | 333,97 52×52 (nút đỏ) |
-| Hàng 1: `DailyCell1/2/3` | y209 cao 109: x25 (115), x145 (106), x256 (108) |
-| Hàng 2: `DailyCell4/5/6` | y324 cao 96: cùng x |
-| `DailyCell7` (Day 7) | 22,426 345×120, rương + `30 gem` + `2× All-Star ticket`, dòng `Complete 7 days to claim` y523 |
-| `DailyMilestones` | 23,554 344×137: `MILESTONE GIFT` + `0 / 10 days`; 4 mốc Day 10/20/30/40 (x32/115/199/283, 79×62), chú thích y673 |
-| `ClaimDailyReward` | 51,697 287×43 xanh lá, chữ `CLAIM GIFT` cỡ 29 |
+| `RaceStageRow` (nút giải) | 23,63 43×27 |
+| `IncomePill` | 75,63 104×27 |
+| `FacilitiesButton` | 283,63 84×27 |
+| `BoostChip` | 53,347 64×51 |
+| `PackPromo_perk` / `_starter` / `_daily` | x126 / 199 / 273, y347, 64×51; `Dot` 10×10 |
+| `CarSectionHeader` / `RevenueSectionHeader` | y407 / y701, 358×39 |
 
-Phần thưởng: D1 2× Pro ticket · D2 2× Standard ticket · D3 15 gem · D4 1× All-Star ticket · D5 1× Elite ticket · D6 20 gem · D7 30 gem + 2× All-Star ticket; mốc 10/20/30/40: 40 gem / 2× All-Star ticket / 80 + 2× / 40 gem.
+Mỗi hàng `Upgrade_<id>` 358×59 (**một cột**, không còn lưới 2×2). Toạ độ tương đối: icon +5,+5 56×48 · tên +68 rộng 82 (xuống 2 dòng được) · cấp +157,+4 95×22 · hiệu ứng +157,+27 95×26 · `Buy_<id>` +270,+12 82×34. Thứ tự: engine, tyre, chassis, gearbox; ticket, celebration, parking, grandstands.
 
-### 5.3 Bảng kết quả đua (`_result_panel`)
+Bảng kết quả lượt (`_result_panel`, trong khung đua): thẻ 55,101 280×201; đầu thẻ 268×59 với huy hiệu hạng 60×39; mỗi dòng thưởng cách 42.
 
-Không phải overlay: `Control` full rect **bên trong `RaceView`**, có `CenterContainer` căn giữa một thẻ **rộng tối thiểu 280**, lề trong 6/6/6/8.
+### 3.2 Túi
 
-```text
-┌ thẻ 280× ───────────────────────────┐
-│ [ Victory | Podium | Finished ]  P2 │  header màu (xanh lá nếu top 3, xám nếu không), bo góc trên 14, lề 10
-│ Cash          +100                  │  mỗi hàng: lề 16/8, nhãn #5d6b80 cỡ 15, giá trị màu
-│ Trophies      +2 (có N)             │  chỉ hiện khi có cúp
-│ Recruit pts   +8                    │
-│ Unlocked      <tên>                 │  nếu có mở khóa
-│ Gift          <quà>                 │  nếu có quà
-│            [ Continue ]             │
-└─────────────────────────────────────┘
-```
-
-Khi bảng hiện, đua tạm dừng (`result_hold`) đến khi bấm Continue; thu nhập vẫn chạy.
-
-### 5.4 Hồ sơ người chơi (`PlayerProfile`, toàn màn hình)
-
-`ProfilePopup` 16,62 357×720. Header: `ProfileTitle` `Player profile` (30,86 271×27), `ProfileBack` 311,76 48×48. `ProfileScroll` 16,138 357×564, các khối theo thứ tự:
-
-1. Thẻ danh tính: nhãn `WORKSHOP GP`, `ProfileTeamName`, chip giải `◆ Apprentice`, hàng `Your profile` + `Edit team name` 123×44.
-2. Hàng Class: `Class` + `ClassButton` 59×44; `ClassSwitcher` (hàng `Racing` · `● Racing` · `✓ Managing` 86×44).
-3. `Racing journey` / `Accumulated`: hai ô số lớn (cỡ 32) `Races completed`, `Facilities opened`.
-4. `Collection` / `Owned`: ba hàng `Race car 1/15`, `Drivers 1/12`, `Gear 0/30` kèm thanh tiến độ (hàng cách 54).
-5. `Current lineup`: hai thẻ `Drivers` và `Race car` (tên tay đua, `Pico Lightning`).
-6. `ProfileStorageStatus` `Data on this device`.
-
-Footer cố định `ProfileClose` 309,718 48×48. Dialog sửa tên (`_build_edit_dialog`) phủ lên trên.
-
-### 5.5 Classes (`ClassPage`)
-
-`ClassBackdrop` full rect (scrim), `ClassPopup` 12,115 365×615. Header: `Classes` (22,125, cỡ 34) + phụ đề `Manage race facilities`; chip tiền 283,138; `ClassClose` 319,125 48×48. `ClassScroll` 12,184 365×546:
-
-| Khối | Rect |
+| Node | Rect (cuộn từ y58, vùng 358×701) |
 |---|---|
-| `YOUR FACILITIES` `1 / 6` | 22,196 |
-| `ClassCard_racing` | 22,228 345×317: biểu tượng class + tên `Racing` + chip `● Racing`, mô tả `Balanced, the original`; `TEAM NAME` `Your Team`; hai ô `CURRENT LEAGUE` / `INCOME` (`+8/sec`); `Suggested car: Lightning`; `S · H · B · A even` |
-| `FacilityPanel` | 22,557 345×159: `Open a new facility`, mô tả, `FacilityNote` (`1.27M short`), nút `FacilityBuy` 317×48 (`Open facility · 1.27M`) |
+| `GearBagHeader` | 16,58 358×39 |
+| Thẻ kho | 16,107 358×56; `GearPowerTotal` 267,111 100×47 |
+| `ShopShortcut` | 16,173 358×56; `OpenPacksInShop` 270,181 96×40 |
+| `InventoryScroll` | 16,239; lưới 3 cột ô 116×140 (x16/138/259), bước dọc 146; ảnh 100×68 |
 
-### 5.6 Các layer động khác
+### 3.3 Đội · Tay đua
 
-| Layer | Nguồn | Mô tả |
+`TeamTabs` 16,58 358×52 (hai nút 173×44) ghim; vùng cuộn 16,116 358×643.
+
+| Node | Rect |
+|---|---|
+| `TeamSummary` | 16,116 358×92 |
+| `ShopShortcut` | 16,220 358×42; nút Mở gói 272,223 96×34 |
+| `DriverGrid` | 16,274; 2 cột, thẻ 175×286 (x16/199) |
+| Trong thẻ (tương đối) | tên +9,+11 · nút `i` 30×30 góc phải · trạng thái +24,+43 · `TierChip` 61×18 · chân dung +9,+88 157×132 · SP 157×29 · `ShardBar` 157×20 |
+
+Chi tiết tay đua (`sheet`): panel 16,86 358×673; nội dung 330 rộng; đóng 48×48 tại 312,117; `DriverRadar` 30,191 330×250; hai khối thông tin 330×59 và 330×94; nút 30,618 330×52.
+
+### 3.4 Đội · Garage
+
+| Khối | Tab Xe | Phụ tùng | Ngoại hình |
+|---|---|---|---|
+| `Showroom` | 16,116 358×170 | 16,116 358×185 | 16,116 358×185 |
+| `CarTitle` + `RankBadge` | 80,292 230×32 | – | – |
+| `CarStats` (4 chip) | 16,330 358×71 | – | – |
+| `CarActions` (2 nút 177×48) | 16,407 358×48 | – | – |
+| `GarageTabs` (3 nút 114×44) | 16,461 358×52 | 16,307 | 16,307 |
+| `GarageContent` | 16,519 358×234 | 16,365 358×239 | 16,365 358×311 |
+
+- Xe: `CarCollection` 3 cột, ô 106×104 (x28/142/256), bước dọc 112.
+- Phụ tùng: `PartsGrid` 2×2, thẻ 175×112; footer 16,610 358×149: ×1/×10/Tối đa (107×44), dòng cấp, CTA 338×48.
+- Ngoại hình: màu 4 cột, ô ~81×60 (swatch 42); họa tiết ở khay riêng. Chi tiết: mục Garage bên dưới.
+
+### 3.5 Giải đấu
+
+`TrophyPanel` 16,70 358×524 trong vùng cuộn 16,58 358×701.
+
+| Node | Rect |
+|---|---|
+| `LeagueHeader` | 16,70 358×84 |
+| `TrophyBanner` | 16,159 358×112; số cúp 111,188; `TrophyInfo` 280,188 30×30; ×N 320,183 48×40; thanh 22,245 346×20 |
+| `Group_offense/defense/income` | y276, 116×66 (x16/136/257); `NotifyDot` 12×12 |
+| Tiêu đề "Nâng cấp bằng cúp" | 16,347 358×45 |
+| `Upgrade_<id>` | 358×96, bước 101 (y397, 498…); tên x120; hiệu ứng 162×25; `Buy_<id>` x289 78×47 |
+
+### 3.6 Shop
+
+Cuộn 4,58 382×701; nội dung 12,58 366 rộng, cao ~2410. HUD và nav dùng chung. y dưới đây là toạ độ nội dung khi chưa cuộn; khối hiện/ẩn theo điều kiện IAP nên y thay đổi theo dữ liệu.
+
+| Khối | y | cao |
+|---|---:|---:|
+| ▌Quà miễn phí | 58 | 34 |
+| `FreeGrid`: gem (84) + 2 hàng vé (54) | 98 | 208 |
+| ▌Gói đặc biệt | 312 | 34 |
+| `Offer_starter_1` | 352 | 148 |
+| `Offer_income_x2` | 506 | 119 |
+| `Offer_income_x3` | 631 | 119 |
+| `Offer_offline_plus` | 756 | 148 |
+| `Offer_no_ads` | 910 | 117 |
+| ▌Gói Khởi động + `Offer_starter_2` | 1033 / 1073 | 34 / 125 |
+| ▌Gói ngày | 1204 | 34 |
+| ▌Mở gói + `OpenPacks` (2×2, thẻ 179×132) | 1490 / 1530 | 34 / 272 |
+| ▌Gem + `GemGrid` (3 cột, thẻ 118×167) | 1808 / 1848 | 34 / 340 |
+| ▌Đổi tiền + `CashGrid` | 2194 / 2234 | 34 / 184 |
+| `RestorePurchases` | 2424 | 44 |
+
+Nút mua trong thẻ gói 112×44; nút mở gói 82×44, nút `i` 44×44.
+
+## 4. Popup
+
+### 4.1 Overlay chung
+
+`_begin_overlay()`: panel căn giữa, rộng 348 (x21), nội dung 316 (x37), nút đóng 48×48 tại x305; cao theo nội dung, cuộn khi dài.
+
+| Popup | Panel | Thành phần chính |
 |---|---|---|
-| Toast | `_show_toast` | dải nổi trên nav, tự biến mất |
-| `PowerIncreaseBanner` | `ui/power_increase_banner.gd` | banner “+Power” khi sức mạnh đội tăng (Design/21) |
-| `AdsRaceControls` popup | `_build_popup` | popup xem video ×2 thu nhập, phủ trong khung đua |
-| `RewardBurst` | `ui/reward_burst.gd` | hiệu ứng nổ phần thưởng |
-| Shop: popup mở gói | `_show_gear_result` | “Pack results”, lưới món vừa mở |
-| Loading / Splash | `scenes/loading.tscn`, `splash.tscn` | trước khi vào Main (Design/09) |
+| Cài đặt | 21,239 348×366 | 3 hàng 316×68; toggle 55×49; `LanguageButton` 140×44 |
+| Ngôn ngữ | 21,260 348×324 | lưới 2 cột (157 / 149) × 52, bước 62 |
+| Luật cúp | 21,314 348×216 | 3 ô thưởng 102×34; `TrophyCapInfo` 316×60 |
+| Tỉ lệ gói | 21,330 348×185 | dòng bậc bước 30, ghi chú |
+| Thông báo / khóa | 21,323 348×199 | tiêu đề, thân, nút Xong 316×48 |
+| Thu nhập vắng mặt | 16,170 358×505 | header 314×54; ảnh 330×194; số tiền 330×99; thanh 330×36; nút 278×48 |
+| Chi tiết gói IAP (`starter_1`) | 16,125 358×594 | header 326×48 ghim trên; `StarterSteps` 3 bước 64×44; `PromoPrimary` 326×142; `PromoRewards` 326×183; mua 326×53; chân 152×44 |
 
-## 6. Tutorial (L7, `TutorialOverlay`)
+### 4.2 Popup riêng
 
-Phủ toàn màn hình, nằm trên mọi popup. Thành phần: scrim có **lỗ spotlight** quanh mục tiêu; tay chỉ (con trỏ); hộp thoại trắng ở **đáy** (cao ~ 120, rộng gần hết màn hình, lề 12) gồm chân dung `Linh` (nhân vật Chief Engineer) trái, tên + vai trò, nhãn trạng thái (`UNLOCKED`), thân thoại. Ba nhóm: Onboarding (A), Feature intro (B), Tips (C) — xem Design/23 và `data/tutorials/`.
+| Popup | Rect | Thành phần chính |
+|---|---|---|
+| `PromotionPopup` | 16,206 358×433 | ribbon trên mép; giải 332×142; 3 điều kiện cao 105; thưởng 332×58; nút 332×52 |
+| `ClassPage` | 12,110 366×626 | header cao 71, đóng 48×48; `ClassCard_<id>` 346×321; `FacilityPanel` 346×163 |
+| `AdsPopup` ×2 thu nhập | 16,167 358×510 | đóng 48×48 tại 310,160; art 308×264; nút xem 308×55; Để sau 301×40 |
 
-## 7. Kích thước tham chiếu nhanh
+## 5. Hiển thị và chuyển cảnh
 
-| Thành phần | w × h |
-|---|---|
-| Nút HUD (avatar) | 44 × 44 |
-| Pill tiền | 130 × 46 |
-| Cài đặt | 48 × 48 |
-| Dải giải | 365 × 44 |
-| Khung đua | 365 × 419 (bên trong 349 × 400) |
-| Thẻ nâng cấp xe/doanh thu | ~173 × 108 |
-| Nav đáy | 365 × 66 (pill chọn 115 × 60) |
-| Nút nhỏ trong thẻ (mua, Open packs) | 76–96 × 40 |
-| Nút chính popup | 316 × 48–52 |
-| Nút đóng popup | 48 × 48 |
+- Đổi tab: nội dung `ContentArea` đổi tại chỗ, `NavPill` trượt. Khung đua chỉ có ở tab Đua.
+- Popup: `PopupAnim` mở/đóng, nền tối phủ toàn màn.
+- Chưa dump: Toast, `PowerIncreaseBanner`, `RewardBurst`, thẻ Ads Break (`ui/ads_break_card.gd`), popup bán hàng tự động, `TutorialOverlay` từng bước, popup cờ thưởng, đổi tên đội, chọn cơ sở, kết quả mở gói, Splash/Loading.
 
-## 8. Màn nhỏ / thích ứng
+## 6. Màn nhỏ
 
-- Co khung đua: `min(400, w×0.9+60)` và không quá `h − 340` (tối thiểu 250); phần còn lại dành cho L4.
-- Popup co theo `size.x − gutter − padding`; chiều cao `h − gutter` (mặc định 120, Daily 80).
-- Shop dùng shell riêng, không phụ thuộc chiều cao L4.
-- Các màn Preview chuẩn dùng 320 / 390 / 412 (xem `Design/Previews`).
+Chuẩn kiểm ở 320 / 390 / 412 (`tools/capture_all_screens.gd`). Bảng trong tài liệu này chỉ đo ở 390×845; số 320/412 của Garage ở mục review v3 bên dưới.
 
-## 9. Đối chiếu tài liệu liên quan
+## 7. Tài liệu liên quan
 
-| Tài liệu | Quan hệ |
-|---|---|
-| [17_Layout_Asset_Redesign](17_Layout_Asset_Redesign.md) | đề xuất layout/asset; tài liệu này là **hiện trạng thực tế** để đối chiếu |
-| [06_UI_UX_Release](06_UI_UX_Release.md), [01_UI_Design](01_UI_Design.md) | tài liệu cũ, có chỗ lỗi thời (4 tab…) |
-| [15_Advanced_Garage](15_Advanced_Garage.md) | chi tiết Garage (Xe · Phụ tùng · Ngoại hình) |
-| [20_Player_Profile_Layout](20_Player_Profile_Layout.md) | Hồ sơ |
-| [22_Race_Classes](22_Race_Classes.md) | Classes |
-| [29_IAP_Packs_UI](29_IAP_Packs_UI.md), [28_IAP_Packs](28_IAP_Packs.md) | Shop/IAP |
-| [30_Daily_Rewards](30_Daily_Rewards.md) | Daily Gift |
+[15](15_Advanced_Garage.md) Garage · [22](22_Race_Classes.md) Classes · [28](28_IAP_Packs.md), [29](29_IAP_Packs_UI.md) Shop/IAP. [01](01_UI_Design.md), [06](06_UI_UX_Release.md), [17](17_Layout_Asset_Redesign.md) có chỗ lỗi thời so với bản này.
 
-## 10. Cách tạo lại số liệu
-
-Số liệu lấy bằng script SceneTree: dựng `Main`, gọi `_select_tab(i)`, `_show_settings()`, `_show_daily_rewards()`… rồi duyệt cây `Control` in `get_global_rect()` của mọi node đang hiển thị. Chạy ở chế độ không cửa sổ để không tạo cửa sổ/âm thanh:
+## 8. Cách tạo lại số liệu
 
 ```bash
-XDG_DATA_HOME=<thư mục tạm> godot --headless --audio-driver Dummy --path . -s <script>.gd
+XDG_DATA_HOME=$(mktemp -d) RM_LANG=vi godot --headless --path . -s res://tools/dump_layout.gd
 ```
 
-Dùng `XDG_DATA_HOME` riêng để không ghi đè `save.json` thật.
+Mỗi màn ra một tệp trong `output/layout/`. Lưới và danh sách dài chỉ in vài phần tử đầu (nên nút Giải trong nav không có trong tệp; số của nó suy từ `NavPill`).
 
-## 11. Chưa có trong bản này
+## 9. Vùng chạm dưới 44×44 đo được
 
-- Bên trong khung đua (khán đài, đường đua) chỉ nêu khối lớn; chi tiết vẽ ở `ui/race_view.gd`/`race_diorama.gd`.
-- Chưa dump: Garage tab con **Parts / Appearance**, popup Edit team name, `_show_gear_result`, popup ads video, Loading/Splash, từng bước Tutorial.
-- Vị trí các node dạng `@Label@N` (không đặt tên) chỉ lấy khi cần; nên đặt tên node nếu muốn tự động đối chiếu về sau.
+`SettingsButton` 33×31 · `HudCoins`/`HudGems` cao 33 · `RaceStageRow` 43×27 · `FacilitiesButton` 84×27 · nút mua nâng cấp 82×34 · `OpenPacksInShop` cao 34 (Đội) / 40 (Túi) · `DriverDetails` và `TrophyInfo` 30×30 · `AdsLater` cao 40. Chưa kiểm vùng bắt chạm thực có rộng hơn khung node hay không.
 
-## 12. Ảnh tham chiếu (cùng thư mục `Design/Previews/Layout_Ref/`)
+## 10. Skin và màu
 
-Ảnh chụp từ chính bản đang chạy, 871 × 1888 px (≈ 2× logical, tỉ lệ khớp 390 × 845). Dùng để nhìn **phong cách và độ nặng thị giác**; toạ độ và kích thước lấy từ các bảng ở trên. Ảnh thuộc phiên bản tại ngày 17/11/2026, nếu giao diện đổi thì chụp lại.
+Chuẩn: Soft Miniature (`Demos/SoftMiniature/approved/`, `assets/soft_miniature_ui_v1/` + `ui/soft_miniature.gd`, `ui/hd_ui.gd`, `ui/button_skin.gd`). Màu lấy từ các helper đó, không chép vào đây. Shop dùng `shop_demo_theme.gd` (mục Shop v9).
 
-| Ảnh | Màn | Mục |
-|---|---|---|
-| `01_race.png` | Tab Đua | §2, §3.1 |
-| `02_gear.png` | Tab Gear | §3.2 |
-| `03_team_drivers.png` | Team · Tay đua | §3.3 |
-| `04_team_garage.png` | Team · Garage | §3.4 |
-| `05_leagues.png` | Tab Giải | §3.5 |
-| `06_shop.png` | Tab Shop | §3.6 |
-| `07_popup_daily_gift.png` | Popup Quà hằng ngày (nền tối) | §5.2 |
-
-## 13. Sơ đồ bố cục (ASCII)
-
-Tỉ lệ ngang: 1 ký tự ≈ 8 logical px; dọc không theo tỉ lệ. Số bên trái là y logical.
-
-### 13.1 Khung chung (Race / Gear / Team)
-
-```text
-y0   ┌──────────────────────────────────────────────┐ L0 nền + HeaderScenery (0–140)
-y14  │ (ava) [💵 1K    ] [💎 100   ]          (⚙)  │ L1 HUD        h48
-y70  │ [🏁 Apprentice ] [💵 8/s       ]    (🎁●)  │ L2 dải giải   h44
-y120 │ ┌──────────────────────────────────────────┐ │
-     │ │ 440.0 YOUR TEAM │ P7/8 Lap 1 │ [×2 ▶ Ad] │ │ L3 khung đua  h419
-     │ │ ░░░░ khán đài 3 hàng (h44) ░░░░░░░░░░░░ │ │   HUD đua h44
-     │ │ ┌──────────────────────────────────────┐ │ │   khán đài h44
-     │ │ │      đường đua cỏ xanh, số "3"       │ │ │   đường đua ~302
-     │ │ └──────────────────────────────────────┘ │ │
-y545 │ └──────────────────────────────────────────┘ │ dòng gợi ý (19)
-y572 │ ┌ Content (cuộn dọc) 365×191 ───────────────┐ │ L4
-y763 │ └───────────────────────────────────────────┘ │
-y771 │ [▌ Race ▐] ( Gear ) ( Team ) ( Leagues ) (Shop●) │ L5 nav h66
-y837 └──────────────────────────────────────────────┘
-```
-
-### 13.2 Race content
-
-```text
-y572 ▌🚗 RACE CAR ▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔  (header 357×26)
-y606 ┌───────────────────┐ ┌───────────────────┐
-     │ ⚙ Engine   Lv 0   │ │ ◎ Tyres    Lv 0   │
-     │ 46.0 → 47.2       │ │ 38.0 → 38.7       │
-     │      [💵 39]      │ │      [💵 20]      │
-     └───────────────────┘ └───────────────────┘
-     (Chassis / Gearbox: hàng 2 tại y722)
-y838 ▌ REVENUE ▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔
-y872 ┌ Ticket Marketing ┐ ┌ Victory Celebrations ┐   thẻ 2×2, hiệu ứng "+0.252/sec"
-     └ Parking          ┘ └ Grandstands          ┘
-```
-
-### 13.3 Gear
-
-```text
-y572 ▌ GEAR BAG
-y605 ┌─────────────────────────────────────────────┐
-     │ [📦40] Gear packs · Coupons: 0 [Open packs] │ 357×56
-     └─────────────────────────────────────────────┘
-y671 GEAR STORAGE                          Owned 0 / 30
-y702 ┌────────┐ ┌────────┐ ┌────────┐   ô icon 64×64 + "Not owned" (99×17)
-     │  ◌     │ │  ◌     │ │  ◌     │   3 cột, hàng cách 140, 10 hàng
-     └────────┘ └────────┘ └────────┘
-```
-
-### 13.4 Team · Tay đua
-
-```text
-y572 ┌───────── Drivers ─────────┬──── Garage ────┐ segmented 357×52
-y634 │ [📦] Driver packs · Coupons: N [Open packs] │ 357×56
-y700 ┌─ OWNED ─────────────────────────────────────┐
-     │ [ảnh 44×52] Button   Rookie                 │ thẻ cao 100
-     │             Counterpuncher       [ In use ] │ nút 82×44
-     │             Launch 40 · Pace 40             │
-y802 LOCKED (11)
-     │ [ảnh] Varga      Rookie           [ Locked ]│
-     │       Finish 5 races                        │
-```
-
-### 13.5 Team · Garage
-
-```text
-y572 [ Drivers ][■■ Garage ■■]
-y634 Garage                               [Change car]
-y664 Pico Lightning · Tier 1               92×49
-y690 ┌─────────────────────────────────────────────┐
-     │          xe 2D trên sàn xưởng               │ ~200 cao
-y899 └─────────────────────────────────────────────┘
-     ✓ In use
-y927 [ Cars ] [ Parts ] [ Appearance ]   44 cao
-y989 ┌ Pace 46     ┐ ┌ Grip 38        ┐
-y1072└ Stability 38┘ └ Acceleration 38┘
-y1149 Part levels are kept separately…
-y1176 [            In use            ]   357×48
-```
-
-### 13.5b Leagues
-
-```text
-y82  ┌ LEAGUES                          [TROPHIES ×1] ┐ banner xanh đậm 357×69
-     └ League Apprentice                              ┘
-y156 ┌────────────────────────────────────────────────┐
-     │ 🏆   Trophies owned                       (i) │ 357×169, nền kem
-     │      0 trophies                                │
-     │ Total earned                            0/100  │
-     │ ▔▔▔▔▔▔▔▔▔ thanh tiến độ ▔▔▔▔▔                  │
-     │ Top 3 reward  [P1 +3] [P2 +2] [P3 +1]          │
-y330 └────────────────────────────────────────────────┘
-     Upgrade with trophies            Applies from the next race
-y354 [■ Attack ■][ Defense ][ Income ]    44 cao
-y403 ┌ [icon] Racing engine   Level 0/10 ▏▏▏▏▏▏▏▏▏▏  ┐ 127 cao
-     │        mô tả · Pace +0 → +1          [🏆 1]    │
-y535 ├ Fast start …                                   ┤ 127
-y667 └ Overtaking momentum  🔒 Unlocks in league Professional ┘ 100
-```
-
-### 13.6 Shop
-
-```text
-y64  ▒▒ CỬA HÀNG ▒▒  (ShopChrome, ghim)           39
-y111 ▌ SPECIAL PACKS ▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔  (31)
-y151 ┌ Rookie Pack  [150💎 ×3 ×3 1h]   [$0.99] ┐ 122
-y281 ├ Income ×2                       [$4.99] ┤  90
-y379 ├ Ad-Free                         [$9.99] ┤  76
-y463 ├ TODAY'S GIFT                    [Claim] ┤  61
-y532 └ Free gems                 [▶ Watch video]┘  71
-y611 ▌ DAILY PACKS ▔▔▔
-y651 ┌ Gear 50💎 $0.99 ┐ ┌ Drivers 50💎 $0.99 ┐  93
-y752 ▌ GEM ▔▔▔   GemGrid 3 cột, cao 208
-y1008▌ EXCHANGE CASH ▔▔▔  3 ô (10 / 30 / 50 💎), cao 109
-y1165▌ OPEN PACKS ▔▔▔  Pro Pack · All-Star Pack (×1, ×10), cao 374
-y1585▌ FREE TICKETS   y1789 ▌ MORE PERKS   y2084 [Restore purchases]
-y779 [Race][Gear][Team][Leagues][■Shop■]  nav riêng 70×52
-```
-
-### 13.7 Popup chung (316 rộng, giữa màn hình)
-
-```text
-     ░░░░░░░░ scrim tối phủ toàn màn hình ░░░░░░░░
-        ┌──────────────────────────────────┐
-  x36   │ ⚙ Settings                  (✕)  │ header cỡ 26 + nút 48×48
-        │ AUDIO                            │
-        │ ♪ Music                  [  ●─ ] │ toggle 55×57
-        │ 🔊 Sound effects          [  ●─ ] │
-        │ Language            [English  ▾] │ 140×44
-        └──────────────────────────────────┘
-          x36 ────────── 316 ───────── x352
-```
-
-### 13.8 Daily Gift
-
-```text
-y97   ╔═ 🎁 DAILY GIFT ═╗                         (✕ 52×52 @333,97)
-y165  Log in every day and get great racing rewards!
-y183  [Claimed: 0 days]
-y209  [Day1 2×Pro ][Day2 2×Std][Day3 15💎]   ô 115/106/108 × 109
-y324  [Day4 1×AllS][Day5 1×Elite][Day6 20💎]  ô × 96
-y426  ┌ DAY 7 · SPECIAL REWARD   🧰  30💎  2×All-Star ┐ 345×120
-y554  ┌ MILESTONE GIFT                   0 / 10 days ┐ 344×137
-      │ ●───○───○───○   Day10 Day20 Day30 Day40       │
-y697  [        🎁 CLAIM GIFT        ] 287×43 xanh lá
-```
-
-### 13.9 Bảng kết quả đua (trong khung đua)
-
-```text
-          ┌────────────────────────────┐ 280 rộng, căn giữa khung đua
-          │▓▓ Podium            (P2) ▓▓│ header xanh lá / xám
-          │ Cash            +100       │
-          │ Trophies        +2         │
-          │ Recruit pts     +8         │
-          │       [  Continue  ]       │
-          └────────────────────────────┘
-```
-
-## 14. Skin, màu và asset
-
-Nguồn: `ui/hd_ui.gd` (`ROOT = res://assets/racing_ui_hd/`), `ui/main.gd`, art thay thế trong `assets/clean_modern/`. Tên màu theo mã hex trong code.
-
-| Phần tử | Skin / asset | Màu chính |
-|---|---|---|
-| Nền trang | `ColorRect` | `#f1f7fc` (Shop: `#eff8ff`) |
-| Nền HUD | `HeaderScenery` (ảnh khán đài) | trang trí, 0–140 |
-| Pill tiền/gem | `surfaces/hud_bar.png` (9-slice) | xanh đậm, chữ trắng; icon `icons/cash.png`, `icons/gem.png` đè trái |
-| Avatar | `icons/avatar.png` | |
-| Nút cài đặt | `icons/gear.png`, `Button` xanh | |
-| Chip giải | `StyleBoxFlat` `#0864bc`, bo 9, viền `#8ed5ff` | chữ trắng; icon `icons/flag.png` |
-| Pill thu nhập | `#087ee6`, bo 12, viền `#5bb8ff` | chữ trắng |
-| Nút quà | `icons/gift.png`; chấm báo `#ef4444` | |
-| Panel/khung | `surfaces/panel_body.png` (9-slice 0.34, lề 15/14/15/17) | trắng-xanh nhạt |
-| Thẻ gọn (coupon) | `panel_body.png` (9-slice 0.20) | |
-| Nút nâng cấp | `surfaces/button_upgrade.png` | xanh lá, giá trắng viền `#28550c` |
-| Nút nhận (Claim) | `surfaces/button_claim.png` | xanh lá |
-| Nút hành động chính | `surfaces/button_race.png` / `clean_modern/icons/button_raised_blue.svg` | xanh dương |
-| Nút phụ/hủy | `surfaces/button_cancel.png`; kiểu code `#e8f3fd`/viền `#adc9de`, bo 12 | |
-| Nút vàng cam | `surfaces/button_amber.png` | cam/vàng |
-| Nút menu/nav | `surfaces/button_menu.png`, `button_nav.png` | |
-| Nav đáy | nền `#e6f2fc`, bo 16, viền `#adc9de` | |
-| Tab Nav đang chọn | `NavPill` `Panel`, `HdUi.button("tab_on")` | xanh dương |
-| Segmented (Drivers/Garage, Attack…) | track `#e2edf6` viền `#cbdde9`; chọn `#1675dc` chữ trắng; không chọn `#e2edf6` chữ `#47627b` | focus `#69b9ff` |
-| Toggle | `controls/toggle_on.png`, `toggle_off.png` | |
-| Checkbox | `controls/checkbox_on.png`, `checkbox_off.png` | |
-| Đường đua | `backgrounds/racetrack_background.png` + `ui/race_diorama.gd` | cỏ xanh, đường nhựa tối |
-| Khán đài | vẽ trong `race_view.gd` | nền `#a9b8d0`, vạch `#8fa0bb` |
-| Icon tab | `icons/flag.png`, `tools.png`, `staff.png`, `trophy.png`, `shop.png` (đã có bản thay trong `clean_modern/`) | |
-| Daily Gift | `assets/daily_rewards/` (`art.png`, `skin.png`, `today.png`, `crops/`) | xanh dương + ruy-băng, nút `button_free_skin.gdshader` |
-| Shop | `assets/shop_blue_white/` (`sprites/`, `crops/`), `assets/iap_offers/` | trắng-xanh |
-| Offline popup | `rewards/offline_garage.png` | số tiền màu vàng `C_GOLD` |
-| Thẻ kết quả | header `#22c55e` (top 3) / `#64748b`; nhãn `#5d6b80` | |
-| Tutorial | `assets/tutorial/portraits/linh_*.tres` | |
-| Chữ | font trong `assets/clean_modern/fonts/`; chữ có viền sáng `#ffffffd9` hoặc tối `#173b59dd`, bóng 1 px | chữ chính `#102d60` |
-
-Quy tắc phong cách: Soft Miniature (nền kem, thẻ bo tròn kiểu đất sét, nút cam cho hành động, thanh tiêu đề xanh có cờ caro); chuẩn tham chiếu là `Demos/SoftMiniature/approved/` và `Demos/SoftMiniature/layout-review.html`. Mục này viết theo style glossy cũ nên phần màu bên dưới cần rà lại.
-
+Các mục dưới là ghi chép theo đợt triển khai; nếu số đo khác §1–§4 thì §1–§4 mới hơn.
 
 ## Popup pack: quyền lợi chính + quà kèm (sửa theo review 26/11/2026)
 
@@ -710,3 +315,17 @@ Chuẩn vẫn là Garage_Redesign_v2 (01-car/02-parts/03-look). Bằng chứng v
 | 412 | Ngoại hình | [P: (16.0, 118.0), S: (380.0, 185.0)] | [P: (16.0, 309.0), S: (380.0, 52.0)] | [P: (16.0, 367.0), S: (380.0, 364.0)] |
 
 320: stat h65, part card h88 / icon46×60, paint hit48 / swatch control30, decal hit56 / glyph34. 390/412: stat h71, part card h112 / icon62×76, paint hit60 / swatch42, decal hit74 / glyph40×42. Geometry chi tiết trong 9 JSON của thư mục review. Khác biệt tỷ lệ 2:3 của concept và 390:845 của game vẫn được giữ, không ép méo ảnh so sánh.
+
+## Garage — usability pass (27/11/2026)
+
+Yêu cầu mới theo review ba ảnh runtime trong chat thay thế bố cục Garage v2/v3 phía trên. `ui/garage_page.gd` giữ showroom và thanh Xe/Phụ tùng/Ngoại hình cùng vị trí giữa ba mục: showroom cao104 ở320 và170 ở390/412; tabs lần lượt y218/h44, y292/h52 và y294/h52. Tên/hạng xe, stats và hành động Xe chuyển xuống dưới tabs, cuộn cùng bộ sưu tập bằng một `GarageContent` duy nhất. Trạng thái đang dùng là nhãn, không còn nút disabled lớn. Footer Phụ tùng/Ngoại hình vẫn ghim đáy.
+
+Chọn mục/thẻ/màu/họa tiết dùng xanh dịu; cam dành cho CTA giao dịch. Bỏ bóng xếp lớp và khay collection xanh; tăng cỡ nhãn phụ, dùng Nunito weight750 cho chữ≤14. PartPurchase có dòng chỉ số trước/sau bên cạnh ngữ cảnh cấp/giá thật. Ngoại hình giữ preview tức thì, bản nháp và guard lưu/hủy hiện có. Bằng chứng mới và số đo: `Design/Previews/Garage_Usability_v1/`.
+
+Garage selection preview fix: showroom và thumbnail dùng chung `_preview_cosmetics()`. Xe chưa sở hữu dùng palette xem trước theo family/variant, không còn ép tất cả về cam hoặc làm mờ showroom. Xe sở hữu dùng cosmetics đã lưu/mặc định thật. Không ghi cosmetics khi chỉ xem xe. Bằng chứng: `Design/Previews/Garage_Selection_Fix/`.
+
+## Garage — thử sân khấu 3D (27/11/2026)
+
+Theo yêu cầu thử mới, Garage bật `CarPreview.showroom_3d`: thay bục/sàn vẽ trong ảnh bằng geometry 3D của `ui/garage_showroom_stage.gd`. Phần trên53,5% ảnh showroom hiện hành làm tường sau; không render bục cũ trong texture. Bục tròn xanh, mép bo/checker xanh-kem, sàn gạch màu đào và xe dùng cùng camera/ánh sáng, có directional shadow. Mặt bục y0 cùng cao độ tiếp đất xe; chỉ xe xoay khi kéo. Thumbnail và preview ngoài Garage không bật chế độ này. Giữ nguyên rect showroom/tabs của usability pass. Bằng chứng 320/390/412 × góc90/145/210 tại `Design/Previews/Garage_3D_Stage_v1/`; harness `tests/garage_stage_preview.gd`. Đây là lượt thử mỹ thuật đầu tiên, chưa đo hiệu năng GPU mobile.
+
+Garage scroll fix: khi dựng lại cùng mục, giữ offset của `GarageContent`; ở tab Xe bù thay đổi vị trí đầu lưới `CarCollection` do summary/CTA đổi chiều cao, để hàng xe không nhảy khi chọn. Khôi phục sau layout và bỏ qua callback thuộc scroll cũ. Đổi sang mục khác bắt đầu ở đầu nội dung. Regression: `tests/garage_scroll_ui_test.gd` kiểm ba độ rộng, chọn xe ở giữa/cuối danh sách và refresh, có chế độ `--click-input` cho input chuột thật trong viewport.

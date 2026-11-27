@@ -56,7 +56,7 @@ static func video_icon() -> Texture2D:
 	return ImageTexture.create_from_image(image)
 
 static func reference_surface(_extent: Vector2, cyan: bool = false) -> StyleBoxTexture:
-	return HdUi.Soft.surface("selected" if cyan else "panel", Vector4.ZERO)
+	return HdUi.Soft.surface("selected" if cyan else "panel", Vector4.ZERO) as StyleBoxTexture
 
 ## Standalone artwork from assets/shop_blue_white/crops (see tools/export_shop_crops.py).
 static func sprite(name: String) -> TextureRect:
@@ -106,7 +106,7 @@ static func surface(id: String, margin: float = 8.0) -> StyleBoxTexture:
 	elif id.begins_with("buy") or id.begins_with("action"): kind = "cancel"
 	elif id.begins_with("tab"): kind = "cancel"
 	elif id == "free": kind = "reward"
-	return HdUi.Soft.surface(kind, Vector4.ONE * margin)
+	return HdUi.Soft.surface(kind, Vector4.ONE * margin) as StyleBoxTexture
 
 static func picture(id: String, extent: Vector2) -> TextureRect:
 	var key: String = {"gem_single": "currency_gem", "cash_small": "currency_cash", "cash_medium": "currency_cash", "cash_large": "currency_cash", "gift": "gift_red", "income": "currency_cash", "no_ads": "shop_no_ads", "offline": "garage_with_car"}.get(id, "")

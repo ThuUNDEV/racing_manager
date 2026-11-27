@@ -1,15 +1,15 @@
 extends Control
 const PopupAnim = preload("res://ui/popup_anim.gd")
+const ClassSwitchLoading = preload("res://ui/class_switch_loading.gd")
 ## Popup Classes: cơ sở đua, quản lý và mở rộng. Đua vẫn chạy sau lớp nền tối.
 signal closed
+signal first_class_chosen
 
 const INK := Color("0e2b5c")
 const MUTED := Color("5f7391")
 const TouchScroll = preload("res://ui/touch_scroll.gd")
 const TILE := {"blue": Color("cfe3f7"), "orange": Color("ffdcae"), "red": Color("ffd0c8"),
 	"purple": Color("e2d6f5"), "gold": Color("fbe9a8"), "green": Color("cdeec0")}
-const CAR_ART := {"blue": "race_car_blue", "orange": "race_car_yellow", "red": "race_car_red",
-	"purple": "race_car_purple", "gold": "race_car_yellow", "green": "race_car_green"}
 const EDGE := Color("d8d7ca")
 const CARD_FILL := Color("f6edd9")
 var _popup: PanelContainer
@@ -20,6 +20,7 @@ var _rename_dialog: Control
 var _toast: Label
 var _picker: Control
 var _picker_choice: String = ""
+var _picker_first := false
 
 
 func _ready() -> void:
@@ -107,6 +108,13 @@ func open() -> void:
 	_fit_popup.call_deferred()
 
 
+## Game mới: chỉ hiện popup chọn class đầu tiên (không hiện danh sách cơ sở), không đóng được cho tới khi chọn.
+func open_first_choice() -> void:
+	show()
+	_popup.hide()
+	_open_picker(true)
+
+
 func _close() -> void:
 	_rename_dialog.hide()
 	_close_picker()
@@ -114,6 +122,10 @@ func _close() -> void:
 
 
 func _fit_popup() -> void:
+	if is_instance_valid(_picker):
+		var picker_panel := _picker.find_child("PickerPanel", true, false) as PanelContainer
+		if picker_panel != null:
+			picker_panel.custom_minimum_size.x = minf(358.0, maxf(0.0, size.x - 32.0))
 	if not is_instance_valid(_popup):
 		return
 	var width := minf(420.0, maxf(0.0, size.x - 24.0))
@@ -128,6 +140,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if is_visible_in_tree() and event.is_action_pressed("ui_cancel"):
 		if _rename_dialog.visible:
 			_rename_dialog._hide_dialog()
+		elif _picker_first:
+			pass
 		elif is_instance_valid(_picker):
 			_close_picker()
 		else:
@@ -139,14 +153,48 @@ func refresh() -> void:
 	for c in _list.get_children():
 		_list.remove_child(c)
 		c.queue_free()
-	var section := HBoxContainer.new()
-	section.add_child(_label(I18n.t("class.facilities"), 13, INK, true))
-	section.add_child(_label("%d / %d" % [GameState.facilities.size(), GameState.facility_limit()], 16, INK))
-	_list.add_child(section)
+	var progress := _label(I18n.t("class.unlocked_progress") % [GameState.facilities.size(), GameState.facility_limit()], 16, INK, true)
+	progress.name = "ClassProgress"
+	progress.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_list.add_child(progress)
+	if GameState.pending_class != "" and GameState.class_has(GameState.pending_class):
+		_list.add_child(_pending_banner(String(GameData.race_class(GameState.pending_class)["name"])))
 	for cls: Dictionary in GameData.race_classes():
 		if GameState.class_has(String(cls["id"])):
 			_list.add_child(_card(cls))
 	_list.add_child(_facility_panel())
+	_list.add_child(_coming_soon())
+	if OS.is_debug_build():
+		_list.add_child(_dev_panel())
+
+
+func _pending_banner(class_name_text: String) -> Control:
+	var banner := _surface(Color("d6ebfb"), Color("9fcdf0"), 16, 10)
+	banner.name = "ClassPendingBanner"
+	var text := _label(I18n.t("class.switching_banner") % class_name_text, 15, INK, true)
+	text.name = "ClassPendingText"
+	text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	banner.add_child(text)
+	return banner
+
+
+func _coming_soon() -> Control:
+	var card := _surface(Color("efe9dc"), EDGE, 18, 12)
+	card.name = "ClassComingSoon"
+	card.modulate = Color(1, 1, 1, 0.8)
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 10)
+	card.add_child(row)
+	var tile := _surface(Color("e4e0d6"), EDGE, 14, 4)
+	tile.add_child(HdUi.Soft.art("nav_race", Vector2(44, 44)))
+	row.add_child(tile)
+	var col := VBoxContainer.new()
+	col.size_flags_horizontal = SIZE_EXPAND_FILL
+	col.add_theme_constant_override("separation", 2)
+	row.add_child(col)
+	col.add_child(_label(I18n.t("class.more_soon"), 18, MUTED, true))
+	col.add_child(_label(I18n.t("class.more_soon_hint"), 12, MUTED, true))
+	return card
 
 
 func _card(cls: Dictionary) -> Control:
@@ -164,7 +212,13 @@ func _card(cls: Dictionary) -> Control:
 	var tint: Color = TILE.get(String(cls.get("color", "blue")), TILE["blue"])
 	var tile := _surface(tint, EDGE, 16, 4)
 	tile.size_flags_vertical = SIZE_SHRINK_CENTER
-	tile.add_child(HdUi.Soft.art(String(CAR_ART.get(String(cls.get("color", "blue")), "race_car_blue")), Vector2(60, 60)))
+	var art := TextureRect.new()
+	art.texture = _class_texture(id)
+	art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	art.custom_minimum_size = Vector2(60, 60)
+	art.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	tile.add_child(art)
 	head.add_child(tile)
 	var names := VBoxContainer.new()
 	names.size_flags_horizontal = SIZE_EXPAND_FILL
@@ -174,13 +228,15 @@ func _card(cls: Dictionary) -> Control:
 	name_row.add_theme_constant_override("separation", 6)
 	names.add_child(name_row)
 	name_row.add_child(_label(String(cls["name"]), 22, INK, true))
+	names.add_child(_label(String(cls.get("blurb", "")), 12, MUTED, true))
 	if is_active:
-		var badge := HdUi.Soft.pill(I18n.t("class.racing"), Color("d3f2c6"), 11)
+		var badge := HdUi.Soft.pill(I18n.t("class.active"), Color("d3f2c6"), 13)
 		badge.size_flags_vertical = SIZE_SHRINK_CENTER
 		badge.get_child(0).name = "ClassActive_" + id
 		badge.get_child(0).add_theme_color_override("font_color", Color("238331"))
-		name_row.add_child(badge)
-	names.add_child(_label(String(cls.get("blurb", "")), 12, MUTED, true))
+		head.add_child(badge)
+	else:
+		head.add_child(_watch_button(id))
 	var line := ColorRect.new()
 	line.color = EDGE
 	line.custom_minimum_size.y = 1
@@ -189,7 +245,7 @@ func _card(cls: Dictionary) -> Control:
 	var team := VBoxContainer.new()
 	team.add_theme_constant_override("separation", 2)
 	team.add_child(_label(I18n.t("class.team_name"), 11, MUTED))
-	var team_name := _label(GameState.player_team_name, 20, INK, true)
+	var team_name := _label(GameState.facility_team_name(id), 20, INK, true)
 	team_name.name = "ClassTeamName_" + id
 	team.add_child(team_name)
 	var team_row := HBoxContainer.new()
@@ -205,7 +261,7 @@ func _card(cls: Dictionary) -> Control:
 	edit.size_flags_vertical = SIZE_SHRINK_CENTER
 	edit.add_theme_font_size_override("font_size", 22)
 	HdUi.style_button(edit, "amber")
-	edit.disabled = not GameState.feature_unlocked("U2_league")
+	edit.disabled = not GameState.feature_unlocked("U2_league") or not managed
 	edit.pressed.connect(_rename_dialog._show_edit)
 	team_row.add_child(edit)
 	box.add_child(team_row)
@@ -234,27 +290,41 @@ func _card(cls: Dictionary) -> Control:
 	if variant != "":
 		hints.add_child(_label(I18n.t("class.suggested_car") + variant, 13, INK, true))
 	hints.add_child(_label(String(cls.get("key_stats", "")), 12, MUTED, true))
-	if not is_active:
-		var pending := id == GameState.pending_class
-		var watch := Button.new()
-		watch.name = "ClassWatch_" + id
-		watch.text = I18n.t("class.after_this_race") if pending else I18n.t("class.watch_race")
-		watch.custom_minimum_size.y = 48
-		watch.add_theme_font_size_override("font_size", 18)
-		HdUi.style_button(watch, "amber")
-		watch.pressed.connect(_on_watch.bind(id))
-		box.add_child(watch)
 	return card
 
 
+func _watch_button(id: String) -> Button:
+	var pending := id == GameState.pending_class
+	var watch := Button.new()
+	watch.name = "ClassWatch_" + id
+	watch.text = I18n.t("class.after_this_race") if pending else I18n.t("class.watch_race")
+	watch.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	watch.custom_minimum_size = Vector2(98, 48)
+	watch.size_flags_vertical = SIZE_SHRINK_CENTER
+	watch.add_theme_font_size_override("font_size", 15)
+	HdUi.style_button(watch, "claim")
+	watch.pressed.connect(_on_watch.bind(id))
+	return watch
+
+
 func _on_watch(id: String) -> void:
-	var cname := String(GameData.race_class(id)["name"])
-	if not GameState.select_class(id):
+	if not GameState.class_has(id):
 		_say(I18n.t("class.could_not_change_class"))
-	elif GameState.pending_class == id:
-		_say(I18n.t("class.switching_after_current_race_ends") % cname)
-	else:
-		_say(I18n.t("class.switched") % cname)
+		return
+	var cname := String(GameData.race_class(id)["name"])
+	var loader := ClassSwitchLoading.new()
+	loader.setup(cname, func() -> bool:
+		if not GameState.select_class(id) or not GameState.manage_class(id):
+			return false
+		if GameState.pending_class == id:
+			loader.note = I18n.t("class.switching_after_current_race_ends") % cname
+		return true)
+	loader.finished.connect(func(ok: bool) -> void:
+		if not ok:
+			open()
+			_say(I18n.t("class.could_not_change_class")))
+	get_tree().root.add_child(loader)
+	_close()
 
 
 func _metric(icon_path: String, caption: String, value: String, color: Color) -> Control:
@@ -283,39 +353,73 @@ func _variant_name(variant: String) -> String:
 	return {"tia_chop": I18n.t("common.lightning"), "bam_duong": I18n.t("common.grip"), "ben_bi": I18n.t("class.endurance")}.get(variant, "")
 
 
+## Chỉ bản debug: đổi sang bất kỳ class nào, kể cả class chưa mở, không tốn tiền.
+func _dev_panel() -> Control:
+	var card := _surface(Color("ffe9e5"), Color("e8a89c"), 20, 12)
+	card.name = "DevClassPanel"
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 8)
+	card.add_child(box)
+	box.add_child(_label("DEV · đổi class", 15, INK, true))
+	for cls: Dictionary in GameData.race_classes():
+		var id := String(cls["id"])
+		var button := Button.new()
+		button.name = "DevClass_" + id
+		button.text = String(cls["name"]) + (" (đang dùng)" if id == GameState.active_class else "")
+		button.custom_minimum_size = Vector2(0, 44)
+		button.disabled = id == GameState.active_class and GameState.pending_class == ""
+		button.pressed.connect(_on_dev_class.bind(id))
+		box.add_child(button)
+	return card
+
+
+func _on_dev_class(id: String) -> void:
+	if not GameState.dev_switch_class(id):
+		_say("Không đổi được class")
+		return
+	_close()
+
+
 func _facility_panel() -> Control:
-	var card := _surface(Color("ffe9c4"), Color("f0b866"), 22, 14)
+	var card := _surface(Color("eef0f3"), Color("cfd6de"), 20, 12)
 	card.name = "FacilityPanel"
 	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 12)
+	box.add_theme_constant_override("separation", 10)
 	card.add_child(box)
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 10)
 	box.add_child(row)
-	row.add_child(HdUi.Soft.art("facility_garage", Vector2(72, 64)))
+	var tile := _surface(Color("d5e3f2"), EDGE, 16, 4)
+	tile.size_flags_vertical = SIZE_SHRINK_CENTER
+	tile.custom_minimum_size = Vector2(68, 68)
+	var mark := _label("?", 38, Color("7f95b3"))
+	mark.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	tile.add_child(mark)
+	row.add_child(tile)
 	var col := VBoxContainer.new()
 	col.size_flags_horizontal = SIZE_EXPAND_FILL
+	col.add_theme_constant_override("separation", 2)
 	row.add_child(col)
 	var state: String = GameState.facility_state()
-	col.add_child(_label(I18n.t("class.all_facilities_unlocked") if state == "full" else I18n.t("class.open_new_facility"), 21, INK, true))
-	col.add_child(_label(I18n.t("class.add_race_types_earn_more"), 12, MUTED, true))
-	var note: String = {"ok": I18n.t("class.ready_open_new_facility"),
-		"unassigned": I18n.t("class.new_facility_waiting_you_pick"),
+	col.add_child(_label(I18n.t("class.all_facilities_unlocked") if state == "full" else I18n.t("class.unlock_new"), 19, INK, true))
+	col.add_child(_label(I18n.t("class.facility_count") % [GameState.facilities.size(), GameState.facility_limit()], 14, MUTED, true))
+	var note: String = {"unassigned": I18n.t("class.new_facility_waiting_you_pick"),
 		"short": I18n.t("class.short") % Balance.fmt_money(GameState.facility_price().subtract_checked(GameState.coins)) if GameState.coins.compare(GameState.facility_price()) < 0 else "",
-		"full": I18n.t("class.all_facilities_every_class_are"), "save_error": I18n.t("class.waiting_progress_save")}.get(state, "")
+		"save_error": I18n.t("class.waiting_progress_save")}.get(state, "")
 	var nl := _label(note, 13, Color("99600a"), true)
 	nl.name = "FacilityNote"
+	nl.visible = note != ""
 	col.add_child(nl)
 	if state == "ok" or state == "short":
 		var buy := Button.new()
 		buy.name = "FacilityBuy"
-		buy.text = I18n.t("class.open_facility") + Balance.fmt_money(GameState.facility_price())
+		buy.text = I18n.t("class.unlock_price") + Balance.fmt_money(GameState.facility_price())
 		buy.icon = HdUi.Soft.icon("cash")
 		buy.expand_icon = true
 		buy.add_theme_constant_override("icon_max_width", 26)
 		buy.add_theme_font_size_override("font_size", 18)
 		buy.custom_minimum_size.y = 48
-		HdUi.style_button(buy, "amber")
+		HdUi.style_button(buy, "blue")
 		buy.add_theme_color_override("font_disabled_color", Color("4c6589"))
 		buy.add_theme_constant_override("outline_size", 1)
 		buy.disabled = state != "ok"
@@ -326,7 +430,7 @@ func _facility_panel() -> Control:
 		pick.name = "FacilityPick"
 		pick.text = I18n.t("class.pick_type")
 		pick.custom_minimum_size.y = 48
-		HdUi.style_button(pick, "amber")
+		HdUi.style_button(pick, "blue")
 		pick.pressed.connect(_open_picker)
 		box.add_child(pick)
 	return card
@@ -340,10 +444,11 @@ func _on_open_facility() -> void:
 
 
 ## Popup chọn loại cơ sở: lưới 2 cột, chọn một ô rồi bấm OK. Bấm ra ngoài thì cơ sở vẫn chờ (nút đổi thành "Chọn loại").
-func _open_picker() -> void:
+func _open_picker(first: bool = false) -> void:
 	if _picker != null:
 		_picker.queue_free()
 	_picker_choice = ""
+	_picker_first = first
 	_picker = Control.new()
 	_picker.name = "FacilityPicker"
 	_picker.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -353,7 +458,7 @@ func _open_picker() -> void:
 	dim.color = Color(0.09, 0.21, 0.36, 0.6)
 	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	dim.gui_input.connect(func(e: InputEvent) -> void:
-		if e is InputEventMouseButton and e.pressed:
+		if e is InputEventMouseButton and e.pressed and not _picker_first:
 			_close_picker())
 	_picker.add_child(dim)
 	var center := CenterContainer.new()
@@ -361,6 +466,7 @@ func _open_picker() -> void:
 	center.mouse_filter = MOUSE_FILTER_IGNORE
 	_picker.add_child(center)
 	var panel := PanelContainer.new()
+	panel.name = "PickerPanel"
 	var ps := HdUi.Soft.flat(HdUi.Soft.BG, 16, 22)
 	ps.set_border_width_all(2)
 	panel.add_theme_stylebox_override("panel", ps)
@@ -369,10 +475,10 @@ func _open_picker() -> void:
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 10)
 	panel.add_child(box)
-	var t := _label(I18n.t("class.pick_facility_type"), 20, INK)
+	var t := _label(I18n.t("class.first_class_title" if first else "class.choose_title"), 20, INK)
 	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(t)
-	var sub := _label(I18n.t("class.pick_class_new_facility_this"), 13, MUTED, true)
+	var sub := _label(I18n.t("class.first_class_hint" if first else "class.pick_class_new_facility_this"), 13, MUTED, true)
 	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(sub)
 	var grid := GridContainer.new()
@@ -382,7 +488,7 @@ func _open_picker() -> void:
 	grid.add_theme_constant_override("v_separation", 10)
 	box.add_child(grid)
 	for cls: Dictionary in GameData.race_classes():
-		if not GameState.class_has(String(cls["id"])):
+		if first or not GameState.class_has(String(cls["id"])):
 			grid.add_child(_option(cls))
 	var ok := Button.new()
 	ok.name = "PickerOk"
@@ -404,7 +510,7 @@ func _option(cls: Dictionary) -> Button:
 	b.text = "%s
 %s" % [String(cls["name"]), String(cls.get("blurb", ""))]
 	b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	b.icon = HdUi.Soft.texture(String(CAR_ART.get(String(cls.get("color", "blue")), "race_car_blue")))
+	b.icon = _class_texture(id)
 	b.expand_icon = true
 	b.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	b.vertical_icon_alignment = VERTICAL_ALIGNMENT_TOP
@@ -437,7 +543,16 @@ func _on_option(id: String) -> void:
 
 func _on_picker_ok() -> void:
 	var cname := String(GameData.race_class(_picker_choice)["name"])
-	if GameState.assign_facility(_picker_choice):
+	if _picker_first:
+		if GameState.choose_first_class(_picker_choice):
+			_picker_first = false
+			_close_picker()
+			_popup.show()
+			hide()
+			first_class_chosen.emit()
+		else:
+			_say(I18n.t("class.could_not_pick") % cname)
+	elif GameState.assign_facility(_picker_choice):
 		_close_picker()
 		_say(I18n.t("class.opened_facility_tap_watch_race") % cname)
 	else:
@@ -472,3 +587,7 @@ func _label(text: String, font_size: int = 14, color: Color = INK, wrap: bool = 
 		l.size_flags_horizontal = SIZE_EXPAND_FILL
 	return l
 
+
+
+func _class_texture(id: String) -> Texture2D:
+	return load("res://assets/models/class_vehicles/%s.png" % id) as Texture2D

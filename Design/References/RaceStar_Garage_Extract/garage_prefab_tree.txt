@@ -1,0 +1,570 @@
+GarageContentView a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0,0) | Canvas GraphicRaycaster GarageContentView CanvasScaler
+  UnlockedContainer a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+    PopupBG_base a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedSquare_4|#f8fafc|sliced] Button
+    Container_TopSection a(0,1)-(1,1) pos(0,0) sz(0,420) pv(0.5,1) | 
+      Image_ContainerBackground a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedSquare_4|#e2e8f0|sliced]
+      Container_CurrencyWidgets a(0.5,0)-(0.5,0) pos(0,150) sz(1100,125) pv(0.5,0) | 
+        CoinsDisplay a(0.5,1)-(0.5,1) pos(-15,-20) sz(350,75) pv(1,1) | CurrencyDisplay
+          Image_DropShadow a(0,0)-(1,1) pos(0,0) sz(30,30) pv(0.5,0.5) | Image[UISPrite_Glow_128|#ffffff@35%|sliced]
+          Image_Frame a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#ffffff|sliced]
+          Image_FrameOutline a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90_Outline_5|#cbd5e1|sliced]
+          Text_Amount a(0,0)-(1,1) pos(12.5,0) sz(-125,0) pv(0.5,0.5) | Text['22.2AB'|fs~35.0|#ffffff] LE[min-,- pref100,- flex1,-]
+          Image_Icon a(0,0.5)-(0,0.5) pos(50,0) sz(55,55) pv(0.5,0.5) | Image[Icon_DollarBill_128|#ffffff|simple]
+          Btn_HitArea [off] a(0,0)-(1,1) pos(0,0) sz(16,30) pv(0.5,0.5) | Button LE[min-,- pref-,- flex-,- ignore]
+            Button_ClickArea1 a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Hit
+          Attractor_Coins a(0.5,1)-(0.5,1) pos(-124.9,-45) sz(100,100) pv(0.5,0.5) | 
+        GemsDisplayNew a(0.5,1)-(0.5,1) pos(15,-20) sz(350,75) pv(0,1) | CurrencyDisplay
+          Image_DropShadow a(0,0)-(1,1) pos(0,0) sz(30,30) pv(0.5,0.5) | Image[UISPrite_Glow_128|#ffffff|sliced]
+          Image_Frame a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#ffffff|sliced]
+          Image_FrameOutline a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90_Outline_5|#cbd5e1|sliced]
+          Text_Amount a(0,0)-(1,1) pos(12.5,0) sz(-125,0) pv(0.5,0.5) | Text['22.2AB'|fs~35.0|#ffffff] LE[min-,- pref100,- flex1,-]
+          Image_Icon a(0,0.5)-(0,0.5) pos(50,0) sz(45,45) pv(0.5,0.5) | Image[icon_Gem_128_Blue|#ffffff|simple]
+          Btn_HitArea [off] a(0,0)-(1,1) pos(0,0) sz(16,30) pv(0.5,0.5) | Button LE[min-,- pref-,- flex-,- ignore]
+            Button_ClickArea1 a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Hit
+          Attractor_Gems a(0.5,1)-(0.5,1) pos(-124.9,-45) sz(100,100) pv(0.5,0.5) | 
+      TabView a(0.5,0)-(0.5,0) pos(0,0) sz(1100,150) pv(0.5,0) | SimpleTabView
+        Container_Tabs a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | HLG[pad0,0,20,20|MC|sp20]
+          TabButton_cars a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | SimpleTabButtonView
+            Active a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Button Image[UISprite_SlicedCircle_60|#2e6de5|sliced]
+              Text (TMP) a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['Garage'|fs~42.0|#ffffff] Loc
+            InActive [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_60|#ffffff|sliced] Button
+              Text (TMP) a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Loc Text['Garage'|fs~40.0|#ffffff]
+            NotificationIcon a(1,1)-(1,1) pos(-15,-10) sz(25,25) pv(0.5,0.5) | 
+              Container [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                Background a(0,0)-(1,1) pos(0,0) sz(40,40) pv(0.5,0.5) | Image[UISprite_GlowingDot|#fe5d70|simple]
+          TabButton_gears a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | SimpleTabButtonView
+            Active a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_60|#2e6de5|sliced] Button
+              Text (TMP) a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['Parts'|fs~42.0|#ffffff] Loc
+            InActive [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Button Image[UISprite_SlicedCircle_60|#ffffff|sliced]
+              Text (TMP) a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['Parts'|fs~40.0|#ffffff] Loc
+            NotificationIcon a(1,1)-(1,1) pos(-15,-10) sz(25,25) pv(0.5,0.5) | 
+              Container [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                Background a(0,0)-(1,1) pos(0,0) sz(40,40) pv(0.5,0.5) | Image[UISprite_GlowingDot|#fe5d70|simple]
+          TabButton_customization a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | SimpleTabButtonView
+            Active a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Button Image[UISprite_SlicedCircle_60|#2e6de5|sliced]
+              Text (TMP) a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Loc Text['Customization'|fs~42.0|#ffffff]
+            InActive [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_60|#ffffff|sliced] Button
+              Text (TMP) a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['Customization'|fs~40.0|#ffffff] Loc
+            NotificationIcon a(1,1)-(1,1) pos(-15,-10) sz(25,25) pv(0.5,0.5) | 
+              Container [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                Background a(0,0)-(1,1) pos(0,0) sz(40,40) pv(0.5,0.5) | Image[UISprite_GlowingDot|#fe5d70|simple]
+      Image a(0,0)-(1,0) pos(0,0) sz(0,4) pv(0.5,0) | Image[UISprite_SlicedSquare_4|#cbd5e1|sliced]
+    Container_MainContent a(0,0)-(1,1) pos(0,-420) sz(0,-420) pv(0.5,1) | 
+      GarageCarsTabView a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | GarageCarsTabView LE[min-,1900 pref1100,- flex-,-]
+        Container_Top a(0,1)-(1,1) pos(0,0) sz(0,1106) pv(0.5,1) | 
+          Container_VehicleAndStats a(0.5,0)-(0.5,1) pos(0,0) sz(1100,0) pv(0.5,0.5) | 
+            Image_Vehicle a(0,0)-(0,1) pos(290,92.5) sz(580,-235) pv(0.5,0.5) | Image[CarBase_Racing|#ffffff|simple] GarageCarImage
+            Container_VehicleStats a(1,0)-(1,1) pos(0,100) sz(500,-200) pv(1,0.5) | VLG[pad0,0,30,0|UR|sp20] RarityProgressWidget RarityWidget
+              Container_NameAndRarity a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | VLG[pad0,0,0,0|UC|sp0] LE[min-,100 pref-,150 flex-,-]
+                Text_OutfitName a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['Super Long Amazing Car Name'|fs~35.0|#ffffff]
+                Container_RarityBadge a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | HLG[pad0,0,5,0|MC|sp0]
+                  Image_GradientLeft a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | LE[min40,4 pref40,4 flex-,-] Image[UISprite_Glow_Right|#f9a825|sliced]
+                  Image_StarLeft a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | LE[min40,40 pref40,40 flex-,-] Image[fx_star_white|#f9a825|simple]
+                  Text_RarityName a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['Legendary'|fs~30.0|#ffffff]
+                  Image_StarRight a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | LE[min40,40 pref40,40 flex-,-] Image[fx_star_white|#f9a825|simple]
+                  Image_GradientRight a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | LE[min40,4 pref40,4 flex-,-] Image[UISprite_Glow_Left|#f9a825|sliced]
+              Container_Stars a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | VLG[pad15,15,10,10|UL|sp5]
+                Image_DropShadow a(0,0)-(1,1) pos(0,0) sz(30,30) pv(0.5,0.5) | Image[UISPrite_Glow_128|#000000@30%|sliced] LE[min-,- pref-,- flex-,- ignore]
+                Image_Background a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_40|#ffffff|sliced] LE[min-,- pref-,- flex-,- ignore]
+                Text_StarLevel a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['Star Level'|fs~25.0|#ffffff] Loc
+                Container_StarRow a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0) | LE[min-,60 pref-,60 flex-,-] HLG[pad0,0,0,0|MC|sp10]
+                  Icon_Star (1) a(0,0)-(0,0) pos(0,0) sz(60,0) pv(0.5,0.5) | Image[Icon_StarFilled_128|#ffc30b|simple]
+                    StarBumpAnimation a(0,1)-(0,1) pos(120,-30) sz(100,0) pv(0.5,0.5) | 
+                  Icon_Star (2) a(0,0)-(0,0) pos(0,0) sz(60,0) pv(0.5,0.5) | Image[Icon_StarFilled_128|#ffc30b|simple]
+                    StarBumpAnimation a(0,1)-(0,1) pos(120,-30) sz(100,0) pv(0.5,0.5) | 
+                  Icon_Star (3) a(0,0)-(0,0) pos(0,0) sz(60,0) pv(0.5,0.5) | Image[Icon_StarFilled_128|#ffc30b|simple]
+                    StarBumpAnimation a(0,1)-(0,1) pos(120,-30) sz(100,0) pv(0.5,0.5) | 
+                  Icon_Star (4) a(0,0)-(0,0) pos(0,0) sz(60,0) pv(0.5,0.5) | Image[Icon_StarFilled_128|#ffc30b|simple]
+                    StarBumpAnimation a(0,1)-(0,1) pos(120,-30) sz(100,0) pv(0.5,0.5) | 
+                  Icon_Star (5) a(0,0)-(0,0) pos(0,0) sz(60,0) pv(0.5,0.5) | Image[Icon_StarFilled_128|#ffc30b|simple]
+                    StarBumpAnimation a(0,1)-(0,1) pos(120,-30) sz(100,0) pv(0.5,0.5) | 
+              Container_Shards a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | VLG[pad15,15,10,10|UL|sp5]
+                Image_DropShadow a(0,0)-(1,1) pos(0,0) sz(30,30) pv(0.5,0.5) | LE[min-,- pref-,- flex-,- ignore] Image[UISPrite_Glow_128|#000000@30%|sliced]
+                Image_Background a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | LE[min-,- pref-,- flex-,- ignore] Image[UISprite_SlicedCircle_40|#ffffff|sliced]
+                Text_StarLevel a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['Shards to upgrade'|fs~25.0|#ffffff]
+                Container_ShardProgress a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | LE[min-,50 pref-,50 flex-,-]
+                  Image_ShardIcon a(0,0.5)-(0,0.5) pos(0,0) sz(50,50) pv(0,0.5) | Image[Icon_History|#ffffff|simple]
+                  UIComponent_Slider a(0,0)-(1,1) pos(32.5,0) sz(-65,0) pv(0.5,0.5) | Slider
+                    Fill_Mask a(0,0)-(1,1) pos(0,0) sz(0,-10) pv(0.5,0.5) | Mask Image[UISprite_SlicedCircle_40|#ffffff@1%|sliced]
+                      Fill_Background a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedSquare_4|#b35900@60%|sliced]
+                      Fill_Progress a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedSquare_4|#f9a825|sliced]
+                        Fill_Highlight a(0,0)-(1,1) pos(1.52588e-05,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_Glow_Right|#ffffff@10%|sliced]
+                      Text_Progress a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['2 / 5'|fs~35.0|#ffffff]
+              StatsGroupWidget_Owning a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | StatsGroupWidget VLG[pad10,10,15,10|UC|sp10]
+                Image_DropShadow a(0,0)-(1,1) pos(0,0) sz(30,30) pv(0.5,0.5) | LE[min-,- pref-,- flex-,1 ignore] Image[UISPrite_Glow_128|#000000@30%|sliced]
+                Image_BG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | LE[min-,- pref-,- flex-,1 ignore] Image[UISprite_SlicedCircle_60|#ffffff|sliced]
+                Text_Stats a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | Loc Text['For Owning'|fs~25.0|#ffffff]
+                Container_PlayerStats a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0) | VLG[pad0,0,0,0|UL|sp5]
+                  Container_NoEffects [off] a(0,1)-(0,1) pos(220,-82.5) sz(440,165) pv(0.5,0.5) | LE[min-,165 pref-,165 flex-,-]
+                    Text_NoEffect a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Loc Text['No effects'|fs~30.0|#ffffff]
+                  Container_Stats a(0,0)-(0,0) pos(0,0) sz(0,80) pv(0.5,0.5) | StatWidget StatView
+                    Image_Background a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | LE[min-,- pref-,- flex-,- ignore] Image[UISprite_SlicedCircle_40|#f1f5f9|sliced]
+                    Image_StatIcon a(0,0.5)-(0,0.5) pos(10,0) sz(45,45) pv(0,0.5) | LE[min-,- pref45,- flex-,-] Image[Icon_SwordsFilled_128|#ef4444|simple]
+                    Text_StatName a(0,0)-(1,1) pos(-22.5,10) sz(-165,-20) pv(0.5,0) | Loc Text['Offense'|fs~30.0|#ffffff]
+                    Text_StatValue a(1,0)-(1,1) pos(-15,0) sz(85,-20) pv(1,0.5) | Text['22.2K'|fs~30.0|#ffffff]
+                    StatBumpAnimation a(0,1)-(0,1) pos(125,255.5) sz(100,0) pv(0.5,0.5) | 
+              StatsGroupWidget_Equipped a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | StatsGroupWidget VLG[pad10,10,15,10|UC|sp10]
+                Image_DropShadow a(0,0)-(1,1) pos(0,0) sz(30,30) pv(0.5,0.5) | LE[min-,- pref-,- flex-,1 ignore] Image[UISPrite_Glow_128|#000000@30%|sliced]
+                Image_BG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | LE[min-,- pref-,- flex-,1 ignore] Image[UISprite_SlicedCircle_60|#ffffff|sliced]
+                Text_Stats a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['For Equipping'|fs~25.0|#ffffff] Loc
+                Container_PlayerStats a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0) | VLG[pad0,0,0,0|UL|sp5]
+                  Container_NoEffects [off] a(0,1)-(0,1) pos(220,-82.5) sz(440,165) pv(0.5,0.5) | LE[min-,165 pref-,165 flex-,-]
+                    Text_NoEffect a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['No effects'|fs~30.0|#ffffff] Loc
+                  Container_Stats a(0,0)-(0,0) pos(0,0) sz(0,80) pv(0.5,0.5) | StatWidget StatView
+                    Image_Background a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_40|#f1f5f9|sliced] LE[min-,- pref-,- flex-,- ignore]
+                    Image_StatIcon a(0,0.5)-(0,0.5) pos(10,0) sz(45,45) pv(0,0.5) | LE[min-,- pref45,- flex-,-] Image[Icon_SwordsFilled_128|#ef4444|simple]
+                    Text_StatName a(0,0)-(1,1) pos(-22.5,10) sz(-165,-20) pv(0.5,0) | Loc Text['Offense'|fs~30.0|#ffffff]
+                    Text_StatValue a(1,0)-(1,1) pos(-15,0) sz(85,-20) pv(1,0.5) | Text['22.2K'|fs~30.0|#ffffff]
+                    StatBumpAnimation a(0,1)-(0,1) pos(125,255.5) sz(100,0) pv(0.5,0.5) | 
+          Container_Buttons_Unlocked a(0.5,0)-(0.5,0) pos(0,30) sz(1100,140) pv(0.5,0) | HLG[pad10,10,6,6|MC|sp50]
+            Btn_Gryphon_Update a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | Button GryphonButton LE[min300,- pref650,- flex-,-]
+              Hitbox a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Hit
+              AnimRoot a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                Image_DropShadow a(0,0)-(1,1) pos(0,0) sz(50,50) pv(0.5,0.5) | Image[UISPrite_Glow_128|#000000@30%|sliced]
+                Image_Button a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_60|#22c55e|sliced]
+                Container_ButtonContent a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                  Text_Content a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Loc Text['Upgrade'|fs~50.0|#ffffff]
+            Btn_Gryphon_Equipe a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | Button GryphonButton LE[min300,- pref650,- flex-,-]
+              Hitbox a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Hit
+              AnimRoot a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                Image_DropShadow a(0,0)-(1,1) pos(0,0) sz(50,50) pv(0.5,0.5) | Image[UISPrite_Glow_128|#000000@30%|sliced]
+                Image_Button a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_60|#2e6de5|sliced]
+                Container_Button a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                  Text_ContentEquip a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Loc Text['Equip'|fs~50.0|#ffffff]
+                  Text_ContentEquipped [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['Equip'|fs~50.0|#ffffff] Loc
+          Container_Buttons_Locked a(0.5,0)-(0.5,0) pos(0,30) sz(1100,140) pv(0.5,0) | HLG[pad10,10,6,6|MC|sp50]
+            Btn_Gryphon_Unlock a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | GryphonButton LE[min300,- pref650,- flex-,-] Button
+              Hitbox a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Hit
+              AnimRoot a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                Image_DropShadow a(0,0)-(1,1) pos(0,0) sz(50,50) pv(0.5,0.5) | Image[UISPrite_Glow_128|#000000@30%|sliced]
+                Image_Button a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_60|#d4d4d8|sliced]
+                Container_ButtonContent a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                  Text_Content a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['Unlock'|fs~50.0|#ffffff] Loc
+            Btn_Gryphon_Gems [off] a(0,1)-(0,1) pos(550,-70) sz(326.667,128) pv(0.5,0.5) | LE[min300,- pref650,- flex-,-] GryphonButton Button GemsCarUnlockButton
+              Hitbox a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Hit
+              AnimRoot a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                Image_DropShadow a(0,0)-(1,1) pos(0,0) sz(50,50) pv(0.5,0.5) | Image[UISPrite_Glow_128|#000000@30%|sliced]
+                Image_Button a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_60|#2e6de5|sliced]
+                Container_ButtonContent a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | HLG[pad0,0,0,0|MC|sp10]
+                  Text_Content a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['500'|fs~35.0|#ffffff]
+                  Image_Gem a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | LE[min60,- pref60,- flex-,-] Image[icon_gem_128|#ffffff|simple]
+            Btn_Gryphon_LuckyDraw [off] a(0,1)-(0,1) pos(860,-70) sz(300,128) pv(0.5,0.5) | LuckyDrawCarUnlockButton GryphonButton LE[min300,- pref650,- flex-,-] Button
+              Hitbox a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Hit
+              AnimRoot a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                Image_DropShadow a(0,0)-(1,1) pos(0,0) sz(50,50) pv(0.5,0.5) | Image[UISPrite_Glow_128|#000000@30%|sliced]
+                Image_Button a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_60|#eab308|sliced]
+                Container_ButtonContent a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                  Text_Content a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Loc Text['Lucky Draw'|fs~50.0|#ffffff]
+            Btn_Gryphon_Collections [off] a(0,1)-(0,1) pos(550,-70) sz(326.667,128) pv(0.5,0.5) | CollectionCarUnlockButton Button LE[min300,- pref650,- flex-,-] GryphonButton
+              Hitbox a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Hit
+              AnimRoot a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                Image_DropShadow a(0,0)-(1,1) pos(0,0) sz(50,50) pv(0.5,0.5) | Image[UISPrite_Glow_128|#000000@30%|sliced]
+                Image_Button a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_60|#a855f7|sliced]
+                Container_ButtonContent a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                  Text_Content a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['Collection'|fs~50.0|#ffffff] Loc
+            Btn_Gryphon_IAP a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | IapButtonView IapCarUnlockButton Button LE[min300,- pref650,- flex-,-]
+              Hitbox a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Hit
+              AnimRoot a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                Image_DropShadow a(0,0)-(1,1) pos(0,0) sz(50,50) pv(0.5,0.5) | Image[UISPrite_Glow_128|#000000@30%|sliced]
+                Image_Button a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_60|#2563eb|sliced]
+                Text_Price a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['99.99 EUR'|fs~50.0|#ffffff]
+        SkinCollection_Container a(0,0)-(1,0) pos(0,0) sz(0,800) pv(0.5,0) | 
+          Image_ContainerBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedSquare_4|#e2e8f0|sliced] Gradient
+          Container_ScrollableListContent a(0.5,0)-(0.5,1) pos(0,0) sz(1100,0) pv(0.5,0) | ScrollRect LE[min-,- pref-,- flex1,-] Hit
+            Viewport_ScrollArea a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | RectMask2D
+              Container_Grid a(0.5,0)-(0.5,1) pos(0,0) sz(1100,0) pv(0.5,1) | ContentSizeFitter TrueGridLayoutGroup
+                GarageCarCardView a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,1) | GarageCarCardView GryphonButton Button
+                  Hitbox a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Hit
+                  AnimRoot a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                    Image_DropShadow a(0,0)-(1,1) pos(0,0) sz(50,50) pv(0.5,0.5) | Image[UISPrite_Glow_128|#000000@30%|sliced]
+                    Container_ContentBase a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                      Image_Bg a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_40|#c084fc|sliced]
+                      Image_Mask_Icon a(0,0.2)-(1,1) pos(0,-5) sz(-10,-8) pv(0.5,1) | Mask Image[UISprite_SlicedCircle_40|#ffffff@1%|sliced]
+                        Image_Icon a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,1) | Image[Icon_u1f3d2_Hockey_128|#ffffff|simple]
+                      Container_ProgressBar a(0,0)-(1,0.2) pos(0,10) sz(-24,-20) pv(0.5,0) | 
+                        UIComponent_Slider (1) a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Slider
+                          Fill_Mask a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_40|#ffffff@1%|sliced] Mask
+                            Fill_Background a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedSquare_4|#1e293b|sliced]
+                            Fill_Progress a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedSquare_4|#22c55e|sliced]
+                              Fill_Highlight a(0,0)-(1,1) pos(1.52588e-05,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_Glow_Right|#ffffff@10%|sliced]
+                            Text_Progress a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['2 / 5'|fs~35.0|#ffffff]
+                      Container_Selected [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                        Image_Bg_Outline a(0,0)-(1,1) pos(0,0) sz(12,12) pv(0.5,0.5) | Image[UISprite_SlicedCircle_40_Outline_5|#fcd34d|sliced]
+                    Container_States a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                      Container_Locked [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                        Image_Bg a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_40|#e2e8f0@30%|sliced]
+                        Image_Lock_BG a(1,1)-(1,1) pos(-15,-15) sz(40,40) pv(1,1) | Image[UISprite_SlicedCircle_40|#1e293b|sliced]
+                          Image_Lock a(0,0)-(1,1) pos(0,0) sz(-10,-10) pv(0.5,0.5) | Image[PictoIcon_Lock_2|#ffffff|simple]
+                      Container_Equipped [off] a(0,0.2)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                        Image_EquipBackground a(0,0)-(1,0) pos(0,8) sz(-20,35) pv(0.5,0) | Image[UISprite_SlicedCircle_40|#1e293b|sliced]
+                        Text_Equipped a(0,0)-(1,0) pos(0,8) sz(-20,35) pv(0.5,0) | Loc Text['Equipped'|fs~20.0|#ffffff]
+          Image_ContainerTopBorder a(0,1)-(1,1) pos(0,0) sz(0,4) pv(0.5,1) | Image[UISprite_SlicedSquare_4|#cbd5e1|sliced]
+        GlobalUpgradeAnimation a(0.5,0.5)-(0.5,0.5) pos(0,0) sz(100,100) pv(0.5,0.5) | 
+          UIParticle a(0.5,0.5)-(0.5,0.5) pos(-206,447) sz(0,0) pv(0.5,0.5) | UIParticle
+      GarageGearTabView [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | LE[min-,1900 pref1200,- flex-,-] GarageGearTabView
+        Container_ScrollableListContent a(0.5,1)-(0.5,1) pos(0,0) sz(1100,1675) pv(0.5,1) | ScrollRect Hit LE[min-,- pref-,1000 flex1,-]
+          Viewport_ScrollArea a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | RectMask2D
+            Container_VerticalContent_Base a(0,1)-(1,1) pos(0,0) sz(0,1445) pv(0.5,1) | TrueGridLayoutGroup ContentSizeFitter LE[min-,1000 pref-,- flex-,-]
+              GarageGearListItemView a(0,1)-(0,1) pos(180,-252.5) sz(335,425) pv(0.5,0.5) | GarageGearCardView
+                Image_CardBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#6c757d|sliced]
+                Mask_BGgradient a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Mask Image[UISprite_SlicedCircle_90|#fef08a@1%|sliced]
+                  Image_BGgradient a(0,1)-(1,1) pos(0,0) sz(0,150) pv(0.5,1) | Image[UISprite_Glow_Top|#868e96|sliced]
+                Container_Content a(0,0)-(1,1) pos(0,0) sz(-16,-16) pv(0.5,0.5) | 
+                  Container_ArtZone a(0,0.45)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                    StarsView a(0,1)-(1,1) pos(0,-10) sz(-60,50) pv(0.5,1) | HLG[pad0,0,0,0|MC|sp5] StarView
+                      Image_Star (1) a(0,1)-(0,1) pos(41.5,-25) sz(83,50) pv(0.5,0.5) | Image[Icon_StarFilled_128|#e9ecef|simple]
+                      Image_Star (2) a(0,1)-(0,1) pos(129.5,-25) sz(83,50) pv(0.5,0.5) | Image[Icon_StarFilled_128|#64748b|simple]
+                      Image_Star (3) a(0,1)-(0,1) pos(217.5,-25) sz(83,50) pv(0.5,0.5) | Image[Icon_StarFilled_128|#64748b|simple]
+                    Image_GearIcon a(0.5,0.5)-(0.5,0.5) pos(0,-30) sz(150,150) pv(0.5,0.5) | Image[Icon_CatchersMitt_128|#ffffff|simple]
+                  Container_DataStrip a(0,0)-(1,0.45) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                    Image_DataStripBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90_HalfBottom|#ffffff|sliced]
+                    Text_GearName a(0,1)-(1,1) pos(0,-8) sz(-24,50) pv(0.5,1) | Text['Jahan Rodrigues'|fs~40.0|#ffffff]
+                    Container_Stats a(0,0.5)-(1,0.5) pos(0,0) sz(-30,45) pv(0.5,0.5) | HLG[pad0,0,0,0|MC|sp14]
+                      Container_Attack a(0,1)-(0,1) pos(68.75,-22.5) sz(137.5,45) pv(0.5,0.5) | HLG[pad14,14,4,4|MC|sp4] StatBonusView
+                        Image_ChipBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | LE[min-,- pref-,- flex-,- ignore] Image[UISprite_SlicedCircle_36|#edf0f5|sliced]
+                        Image_Icon a(0,1)-(0,1) pos(37.2825,-22.5) sz(46.565,30) pv(0.5,0.5) | LE[min-,- pref30,30 flex-,-] Image[Icon_Swords_128|#ef4444|simple]
+                        Text_Value a(0,1)-(0,1) pos(94.0325,-22.5) sz(58.935,37) pv(0.5,0.5) | Text['22'|fs~45.0|#ffffff]
+                      Container_Defense a(0,1)-(0,1) pos(220.25,-22.5) sz(137.5,45) pv(0.5,0.5) | HLG[pad14,14,4,4|MC|sp4] StatBonusView
+                        Image_ChipBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_36|#edf0f5|sliced] LE[min-,- pref-,- flex-,- ignore]
+                        Image_Icon a(0,1)-(0,1) pos(37.2825,-22.5) sz(46.565,30) pv(0.5,0.5) | LE[min-,- pref30,30 flex-,-] Image[Icon_ShieldFilled_128|#2e6de5|simple]
+                        Text_Value a(0,1)-(0,1) pos(94.0325,-22.5) sz(58.935,37) pv(0.5,0.5) | Text['22'|fs~45.0|#ffffff]
+                    Container_Progressbar a(0,0)-(1,0) pos(0,10) sz(-30,45) pv(0.5,0) | 
+                      UIComponent_Slider a(0,0)-(1,1) pos(0,0) sz(0,0) pv(1,0.5) | Slider
+                        Fill_Mask a(0,0)-(1,1) pos(0,0) sz(-4,-4) pv(0.5,0.5) | Mask Image[UISprite_SlicedCircle_40|#ffffff@1%|sliced]
+                          Fill_Background a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedSquare_4|#94a3b8|sliced]
+                          Fill_Progress a(0,0)-(0.4,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedSquare_4|#22c55e|sliced]
+                            Fill_Highlight a(0,0)-(1,1) pos(1.52588e-05,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_Glow_Right|#ffffff@10%|sliced]
+                          Text_Progress a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['2 / 5'|fs~35.0|#ffffff]
+                        Image_Outline [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_40_Outline_3|#1e293b|sliced]
+                Container_Locked [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                  Image_LockedContainerBGOutline a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#6c757d|sliced]
+                  Image_LockedContainerBG a(0,0)-(1,1) pos(0,0) sz(-20,-20) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#ffffff@45%|sliced]
+                  Image_Questionmark a(0.5,0.5)-(0.5,0.5) pos(0,0) sz(128,128) pv(0.5,0.5) | Image[Pictoicon_Question_128|#ffffff@80%|simple]
+              GarageGearListItemView (1) a(0,1)-(0,1) pos(550,-252.5) sz(335,425) pv(0.5,0.5) | GarageGearCardView
+                Image_CardBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#6c757d|sliced]
+                Mask_BGgradient a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#fef08a@1%|sliced] Mask
+                  Image_BGgradient a(0,1)-(1,1) pos(0,0) sz(0,150) pv(0.5,1) | Image[UISprite_Glow_Top|#868e96|sliced]
+                Container_Content a(0,0)-(1,1) pos(0,0) sz(-16,-16) pv(0.5,0.5) | 
+                  Container_ArtZone a(0,0.45)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                    StarsView a(0,1)-(1,1) pos(0,-10) sz(-60,50) pv(0.5,1) | StarView HLG[pad0,0,0,0|MC|sp5]
+                      Image_Star (1) a(0,1)-(0,1) pos(41.5,-25) sz(83,50) pv(0.5,0.5) | Image[Icon_StarFilled_128|#e9ecef|simple]
+                      Image_Star (2) a(0,1)-(0,1) pos(129.5,-25) sz(83,50) pv(0.5,0.5) | Image[Icon_StarFilled_128|#64748b|simple]
+                      Image_Star (3) a(0,1)-(0,1) pos(217.5,-25) sz(83,50) pv(0.5,0.5) | Image[Icon_StarFilled_128|#64748b|simple]
+                    Image_GearIcon a(0.5,0.5)-(0.5,0.5) pos(0,-30) sz(150,150) pv(0.5,0.5) | Image[Icon_CatchersMitt_128|#ffffff|simple]
+                  Container_DataStrip a(0,0)-(1,0.45) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                    Image_DataStripBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90_HalfBottom|#ffffff|sliced]
+                    Text_GearName a(0,1)-(1,1) pos(0,-8) sz(-24,50) pv(0.5,1) | Text['Jahan Rodrigues'|fs~40.0|#ffffff]
+                    Container_Stats a(0,0.5)-(1,0.5) pos(0,0) sz(-30,45) pv(0.5,0.5) | HLG[pad0,0,0,0|MC|sp14]
+                      Container_Attack a(0,1)-(0,1) pos(68.75,-22.5) sz(137.5,45) pv(0.5,0.5) | HLG[pad14,14,4,4|MC|sp4] StatBonusView
+                        Image_ChipBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | LE[min-,- pref-,- flex-,- ignore] Image[UISprite_SlicedCircle_36|#edf0f5|sliced]
+                        Image_Icon a(0,1)-(0,1) pos(37.2825,-22.5) sz(46.565,30) pv(0.5,0.5) | Image[Icon_Swords_128|#ef4444|simple] LE[min-,- pref30,30 flex-,-]
+                        Text_Value a(0,1)-(0,1) pos(94.0325,-22.5) sz(58.935,37) pv(0.5,0.5) | Text['22'|fs~45.0|#ffffff]
+                      Container_Defense a(0,1)-(0,1) pos(220.25,-22.5) sz(137.5,45) pv(0.5,0.5) | StatBonusView HLG[pad14,14,4,4|MC|sp4]
+                        Image_ChipBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | LE[min-,- pref-,- flex-,- ignore] Image[UISprite_SlicedCircle_36|#edf0f5|sliced]
+                        Image_Icon a(0,1)-(0,1) pos(37.2825,-22.5) sz(46.565,30) pv(0.5,0.5) | LE[min-,- pref30,30 flex-,-] Image[Icon_ShieldFilled_128|#2e6de5|simple]
+                        Text_Value a(0,1)-(0,1) pos(94.0325,-22.5) sz(58.935,37) pv(0.5,0.5) | Text['22'|fs~45.0|#ffffff]
+                    Container_Progressbar a(0,0)-(1,0) pos(0,10) sz(-30,45) pv(0.5,0) | 
+                      UIComponent_Slider a(0,0)-(1,1) pos(0,0) sz(0,0) pv(1,0.5) | Slider
+                        Fill_Mask a(0,0)-(1,1) pos(0,0) sz(-4,-4) pv(0.5,0.5) | Image[UISprite_SlicedCircle_40|#ffffff@1%|sliced] Mask
+                          Fill_Background a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedSquare_4|#94a3b8|sliced]
+                          Fill_Progress a(0,0)-(0.4,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedSquare_4|#22c55e|sliced]
+                            Fill_Highlight a(0,0)-(1,1) pos(1.52588e-05,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_Glow_Right|#ffffff@10%|sliced]
+                          Text_Progress a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['2 / 5'|fs~35.0|#ffffff]
+                        Image_Outline [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_40_Outline_3|#1e293b|sliced]
+                Container_Locked [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                  Image_LockedContainerBGOutline a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#6c757d|sliced]
+                  Image_LockedContainerBG a(0,0)-(1,1) pos(0,0) sz(-20,-20) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#ffffff@45%|sliced]
+                  Image_Questionmark a(0.5,0.5)-(0.5,0.5) pos(0,0) sz(128,128) pv(0.5,0.5) | Image[Pictoicon_Question_128|#ffffff@80%|simple]
+              GarageGearListItemView (2) a(0,1)-(0,1) pos(920,-252.5) sz(335,425) pv(0.5,0.5) | GarageGearCardView
+                Image_CardBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#6c757d|sliced]
+                Mask_BGgradient a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#fef08a@1%|sliced] Mask
+                  Image_BGgradient a(0,1)-(1,1) pos(0,0) sz(0,150) pv(0.5,1) | Image[UISprite_Glow_Top|#868e96|sliced]
+                Container_Content a(0,0)-(1,1) pos(0,0) sz(-16,-16) pv(0.5,0.5) | 
+                  Container_ArtZone a(0,0.45)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                    StarsView a(0,1)-(1,1) pos(0,-10) sz(-60,50) pv(0.5,1) | StarView HLG[pad0,0,0,0|MC|sp5]
+                      Image_Star (1) a(0,1)-(0,1) pos(41.5,-25) sz(83,50) pv(0.5,0.5) | Image[Icon_StarFilled_128|#e9ecef|simple]
+                      Image_Star (2) a(0,1)-(0,1) pos(129.5,-25) sz(83,50) pv(0.5,0.5) | Image[Icon_StarFilled_128|#64748b|simple]
+                      Image_Star (3) a(0,1)-(0,1) pos(217.5,-25) sz(83,50) pv(0.5,0.5) | Image[Icon_StarFilled_128|#64748b|simple]
+                    Image_GearIcon a(0.5,0.5)-(0.5,0.5) pos(0,-30) sz(150,150) pv(0.5,0.5) | Image[Icon_CatchersMitt_128|#ffffff|simple]
+                  Container_DataStrip a(0,0)-(1,0.45) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                    Image_DataStripBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90_HalfBottom|#ffffff|sliced]
+                    Text_GearName a(0,1)-(1,1) pos(0,-8) sz(-24,50) pv(0.5,1) | Text['Jahan Rodrigues'|fs~40.0|#ffffff]
+                    Container_Stats a(0,0.5)-(1,0.5) pos(0,0) sz(-30,45) pv(0.5,0.5) | HLG[pad0,0,0,0|MC|sp14]
+                      Container_Attack a(0,1)-(0,1) pos(68.75,-22.5) sz(137.5,45) pv(0.5,0.5) | HLG[pad14,14,4,4|MC|sp4] StatBonusView
+                        Image_ChipBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_36|#edf0f5|sliced] LE[min-,- pref-,- flex-,- ignore]
+                        Image_Icon a(0,1)-(0,1) pos(37.2825,-22.5) sz(46.565,30) pv(0.5,0.5) | Image[Icon_Swords_128|#ef4444|simple] LE[min-,- pref30,30 flex-,-]
+                        Text_Value a(0,1)-(0,1) pos(94.0325,-22.5) sz(58.935,37) pv(0.5,0.5) | Text['22'|fs~45.0|#ffffff]
+                      Container_Defense a(0,1)-(0,1) pos(220.25,-22.5) sz(137.5,45) pv(0.5,0.5) | StatBonusView HLG[pad14,14,4,4|MC|sp4]
+                        Image_ChipBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | LE[min-,- pref-,- flex-,- ignore] Image[UISprite_SlicedCircle_36|#edf0f5|sliced]
+                        Image_Icon a(0,1)-(0,1) pos(37.2825,-22.5) sz(46.565,30) pv(0.5,0.5) | LE[min-,- pref30,30 flex-,-] Image[Icon_ShieldFilled_128|#2e6de5|simple]
+                        Text_Value a(0,1)-(0,1) pos(94.0325,-22.5) sz(58.935,37) pv(0.5,0.5) | Text['22'|fs~45.0|#ffffff]
+                    Container_Progressbar a(0,0)-(1,0) pos(0,10) sz(-30,45) pv(0.5,0) | 
+                      UIComponent_Slider a(0,0)-(1,1) pos(0,0) sz(0,0) pv(1,0.5) | Slider
+                        Fill_Mask a(0,0)-(1,1) pos(0,0) sz(-4,-4) pv(0.5,0.5) | Image[UISprite_SlicedCircle_40|#ffffff@1%|sliced] Mask
+                          Fill_Background a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedSquare_4|#94a3b8|sliced]
+                          Fill_Progress a(0,0)-(0.4,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedSquare_4|#22c55e|sliced]
+                            Fill_Highlight a(0,0)-(1,1) pos(1.52588e-05,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_Glow_Right|#ffffff@10%|sliced]
+                          Text_Progress a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['2 / 5'|fs~35.0|#ffffff]
+                        Image_Outline [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_40_Outline_3|#1e293b|sliced]
+                Container_Locked [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                  Image_LockedContainerBGOutline a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#6c757d|sliced]
+                  Image_LockedContainerBG a(0,0)-(1,1) pos(0,0) sz(-20,-20) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#ffffff@45%|sliced]
+                  Image_Questionmark a(0.5,0.5)-(0.5,0.5) pos(0,0) sz(128,128) pv(0.5,0.5) | Image[Pictoicon_Question_128|#ffffff@80%|simple]
+              GarageGearListItemView (3) a(0,1)-(0,1) pos(180,-722.5) sz(335,425) pv(0.5,0.5) | GarageGearCardView
+                Image_CardBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#6c757d|sliced]
+                Mask_BGgradient a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#fef08a@1%|sliced] Mask
+                  Image_BGgradient a(0,1)-(1,1) pos(0,0) sz(0,150) pv(0.5,1) | Image[UISprite_Glow_Top|#868e96|sliced]
+                Container_Content a(0,0)-(1,1) pos(0,0) sz(-16,-16) pv(0.5,0.5) | 
+                  Container_ArtZone a(0,0.45)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                    StarsView a(0,1)-(1,1) pos(0,-10) sz(-60,50) pv(0.5,1) | StarView HLG[pad0,0,0,0|MC|sp5]
+                      Image_Star (1) a(0,1)-(0,1) pos(41.5,-25) sz(83,50) pv(0.5,0.5) | Image[Icon_StarFilled_128|#e9ecef|simple]
+                      Image_Star (2) a(0,1)-(0,1) pos(129.5,-25) sz(83,50) pv(0.5,0.5) | Image[Icon_StarFilled_128|#64748b|simple]
+                      Image_Star (3) a(0,1)-(0,1) pos(217.5,-25) sz(83,50) pv(0.5,0.5) | Image[Icon_StarFilled_128|#64748b|simple]
+                    Image_GearIcon a(0.5,0.5)-(0.5,0.5) pos(0,-30) sz(150,150) pv(0.5,0.5) | Image[Icon_CatchersMitt_128|#ffffff|simple]
+                  Container_DataStrip a(0,0)-(1,0.45) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                    Image_DataStripBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90_HalfBottom|#ffffff|sliced]
+                    Text_GearName a(0,1)-(1,1) pos(0,-8) sz(-24,50) pv(0.5,1) | Text['Jahan Rodrigues'|fs~40.0|#ffffff]
+                    Container_Stats a(0,0.5)-(1,0.5) pos(0,0) sz(-30,45) pv(0.5,0.5) | HLG[pad0,0,0,0|MC|sp14]
+                      Container_Attack a(0,1)-(0,1) pos(68.75,-22.5) sz(137.5,45) pv(0.5,0.5) | StatBonusView HLG[pad14,14,4,4|MC|sp4]
+                        Image_ChipBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | LE[min-,- pref-,- flex-,- ignore] Image[UISprite_SlicedCircle_36|#edf0f5|sliced]
+                        Image_Icon a(0,1)-(0,1) pos(37.2825,-22.5) sz(46.565,30) pv(0.5,0.5) | Image[Icon_Swords_128|#ef4444|simple] LE[min-,- pref30,30 flex-,-]
+                        Text_Value a(0,1)-(0,1) pos(94.0325,-22.5) sz(58.935,37) pv(0.5,0.5) | Text['22'|fs~45.0|#ffffff]
+                      Container_Defense a(0,1)-(0,1) pos(220.25,-22.5) sz(137.5,45) pv(0.5,0.5) | StatBonusView HLG[pad14,14,4,4|MC|sp4]
+                        Image_ChipBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | LE[min-,- pref-,- flex-,- ignore] Image[UISprite_SlicedCircle_36|#edf0f5|sliced]
+                        Image_Icon a(0,1)-(0,1) pos(37.2825,-22.5) sz(46.565,30) pv(0.5,0.5) | Image[Icon_ShieldFilled_128|#2e6de5|simple] LE[min-,- pref30,30 flex-,-]
+                        Text_Value a(0,1)-(0,1) pos(94.0325,-22.5) sz(58.935,37) pv(0.5,0.5) | Text['22'|fs~45.0|#ffffff]
+                    Container_Progressbar a(0,0)-(1,0) pos(0,10) sz(-30,45) pv(0.5,0) | 
+                      UIComponent_Slider a(0,0)-(1,1) pos(0,0) sz(0,0) pv(1,0.5) | Slider
+                        Fill_Mask a(0,0)-(1,1) pos(0,0) sz(-4,-4) pv(0.5,0.5) | Image[UISprite_SlicedCircle_40|#ffffff@1%|sliced] Mask
+                          Fill_Background a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedSquare_4|#94a3b8|sliced]
+                          Fill_Progress a(0,0)-(0.4,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedSquare_4|#22c55e|sliced]
+                            Fill_Highlight a(0,0)-(1,1) pos(1.52588e-05,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_Glow_Right|#ffffff@10%|sliced]
+                          Text_Progress a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['2 / 5'|fs~35.0|#ffffff]
+                        Image_Outline [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_40_Outline_3|#1e293b|sliced]
+                Container_Locked [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                  Image_LockedContainerBGOutline a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#6c757d|sliced]
+                  Image_LockedContainerBG a(0,0)-(1,1) pos(0,0) sz(-20,-20) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#ffffff@45%|sliced]
+                  Image_Questionmark a(0.5,0.5)-(0.5,0.5) pos(0,0) sz(128,128) pv(0.5,0.5) | Image[Pictoicon_Question_128|#ffffff@80%|simple]
+              GarageGearListItemView (4) a(0,1)-(0,1) pos(550,-722.5) sz(335,425) pv(0.5,0.5) | GarageGearCardView
+                Image_CardBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#6c757d|sliced]
+                Mask_BGgradient a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Mask Image[UISprite_SlicedCircle_90|#fef08a@1%|sliced]
+                  Image_BGgradient a(0,1)-(1,1) pos(0,0) sz(0,150) pv(0.5,1) | Image[UISprite_Glow_Top|#868e96|sliced]
+                Container_Content a(0,0)-(1,1) pos(0,0) sz(-16,-16) pv(0.5,0.5) | 
+                  Container_ArtZone a(0,0.45)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                    StarsView a(0,1)-(1,1) pos(0,-10) sz(-60,50) pv(0.5,1) | HLG[pad0,0,0,0|MC|sp5] StarView
+                      Image_Star (1) a(0,1)-(0,1) pos(41.5,-25) sz(83,50) pv(0.5,0.5) | Image[Icon_StarFilled_128|#e9ecef|simple]
+                      Image_Star (2) a(0,1)-(0,1) pos(129.5,-25) sz(83,50) pv(0.5,0.5) | Image[Icon_StarFilled_128|#64748b|simple]
+                      Image_Star (3) a(0,1)-(0,1) pos(217.5,-25) sz(83,50) pv(0.5,0.5) | Image[Icon_StarFilled_128|#64748b|simple]
+                    Image_GearIcon a(0.5,0.5)-(0.5,0.5) pos(0,-30) sz(150,150) pv(0.5,0.5) | Image[Icon_CatchersMitt_128|#ffffff|simple]
+                  Container_DataStrip a(0,0)-(1,0.45) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                    Image_DataStripBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90_HalfBottom|#ffffff|sliced]
+                    Text_GearName a(0,1)-(1,1) pos(0,-8) sz(-24,50) pv(0.5,1) | Text['Jahan Rodrigues'|fs~40.0|#ffffff]
+                    Container_Stats a(0,0.5)-(1,0.5) pos(0,0) sz(-30,45) pv(0.5,0.5) | HLG[pad0,0,0,0|MC|sp14]
+                      Container_Attack a(0,1)-(0,1) pos(68.75,-22.5) sz(137.5,45) pv(0.5,0.5) | StatBonusView HLG[pad14,14,4,4|MC|sp4]
+                        Image_ChipBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | LE[min-,- pref-,- flex-,- ignore] Image[UISprite_SlicedCircle_36|#edf0f5|sliced]
+                        Image_Icon a(0,1)-(0,1) pos(37.2825,-22.5) sz(46.565,30) pv(0.5,0.5) | LE[min-,- pref30,30 flex-,-] Image[Icon_Swords_128|#ef4444|simple]
+                        Text_Value a(0,1)-(0,1) pos(94.0325,-22.5) sz(58.935,37) pv(0.5,0.5) | Text['22'|fs~45.0|#ffffff]
+                      Container_Defense a(0,1)-(0,1) pos(220.25,-22.5) sz(137.5,45) pv(0.5,0.5) | StatBonusView HLG[pad14,14,4,4|MC|sp4]
+                        Image_ChipBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_36|#edf0f5|sliced] LE[min-,- pref-,- flex-,- ignore]
+                        Image_Icon a(0,1)-(0,1) pos(37.2825,-22.5) sz(46.565,30) pv(0.5,0.5) | Image[Icon_ShieldFilled_128|#2e6de5|simple] LE[min-,- pref30,30 flex-,-]
+                        Text_Value a(0,1)-(0,1) pos(94.0325,-22.5) sz(58.935,37) pv(0.5,0.5) | Text['22'|fs~45.0|#ffffff]
+                    Container_Progressbar a(0,0)-(1,0) pos(0,10) sz(-30,45) pv(0.5,0) | 
+                      UIComponent_Slider a(0,0)-(1,1) pos(0,0) sz(0,0) pv(1,0.5) | Slider
+                        Fill_Mask a(0,0)-(1,1) pos(0,0) sz(-4,-4) pv(0.5,0.5) | Mask Image[UISprite_SlicedCircle_40|#ffffff@1%|sliced]
+                          Fill_Background a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedSquare_4|#94a3b8|sliced]
+                          Fill_Progress a(0,0)-(0.4,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedSquare_4|#22c55e|sliced]
+                            Fill_Highlight a(0,0)-(1,1) pos(1.52588e-05,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_Glow_Right|#ffffff@10%|sliced]
+                          Text_Progress a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['2 / 5'|fs~35.0|#ffffff]
+                        Image_Outline [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_40_Outline_3|#1e293b|sliced]
+                Container_Locked [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                  Image_LockedContainerBGOutline a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#6c757d|sliced]
+                  Image_LockedContainerBG a(0,0)-(1,1) pos(0,0) sz(-20,-20) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#ffffff@45%|sliced]
+                  Image_Questionmark a(0.5,0.5)-(0.5,0.5) pos(0,0) sz(128,128) pv(0.5,0.5) | Image[Pictoicon_Question_128|#ffffff@80%|simple]
+              GarageGearListItemView (5) a(0,1)-(0,1) pos(920,-722.5) sz(335,425) pv(0.5,0.5) | GarageGearCardView
+                Image_CardBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#6c757d|sliced]
+                Mask_BGgradient a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Mask Image[UISprite_SlicedCircle_90|#fef08a@1%|sliced]
+                  Image_BGgradient a(0,1)-(1,1) pos(0,0) sz(0,150) pv(0.5,1) | Image[UISprite_Glow_Top|#868e96|sliced]
+                Container_Content a(0,0)-(1,1) pos(0,0) sz(-16,-16) pv(0.5,0.5) | 
+                  Container_ArtZone a(0,0.45)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                    StarsView a(0,1)-(1,1) pos(0,-10) sz(-60,50) pv(0.5,1) | HLG[pad0,0,0,0|MC|sp5] StarView
+                      Image_Star (1) a(0,1)-(0,1) pos(41.5,-25) sz(83,50) pv(0.5,0.5) | Image[Icon_StarFilled_128|#e9ecef|simple]
+                      Image_Star (2) a(0,1)-(0,1) pos(129.5,-25) sz(83,50) pv(0.5,0.5) | Image[Icon_StarFilled_128|#64748b|simple]
+                      Image_Star (3) a(0,1)-(0,1) pos(217.5,-25) sz(83,50) pv(0.5,0.5) | Image[Icon_StarFilled_128|#64748b|simple]
+                    Image_GearIcon a(0.5,0.5)-(0.5,0.5) pos(0,-30) sz(150,150) pv(0.5,0.5) | Image[Icon_CatchersMitt_128|#ffffff|simple]
+                  Container_DataStrip a(0,0)-(1,0.45) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                    Image_DataStripBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90_HalfBottom|#ffffff|sliced]
+                    Text_GearName a(0,1)-(1,1) pos(0,-8) sz(-24,50) pv(0.5,1) | Text['Jahan Rodrigues'|fs~40.0|#ffffff]
+                    Container_Stats a(0,0.5)-(1,0.5) pos(0,0) sz(-30,45) pv(0.5,0.5) | HLG[pad0,0,0,0|MC|sp14]
+                      Container_Attack a(0,1)-(0,1) pos(68.75,-22.5) sz(137.5,45) pv(0.5,0.5) | StatBonusView HLG[pad14,14,4,4|MC|sp4]
+                        Image_ChipBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | LE[min-,- pref-,- flex-,- ignore] Image[UISprite_SlicedCircle_36|#edf0f5|sliced]
+                        Image_Icon a(0,1)-(0,1) pos(37.2825,-22.5) sz(46.565,30) pv(0.5,0.5) | LE[min-,- pref30,30 flex-,-] Image[Icon_Swords_128|#ef4444|simple]
+                        Text_Value a(0,1)-(0,1) pos(94.0325,-22.5) sz(58.935,37) pv(0.5,0.5) | Text['22'|fs~45.0|#ffffff]
+                      Container_Defense a(0,1)-(0,1) pos(220.25,-22.5) sz(137.5,45) pv(0.5,0.5) | HLG[pad14,14,4,4|MC|sp4] StatBonusView
+                        Image_ChipBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_36|#edf0f5|sliced] LE[min-,- pref-,- flex-,- ignore]
+                        Image_Icon a(0,1)-(0,1) pos(37.2825,-22.5) sz(46.565,30) pv(0.5,0.5) | Image[Icon_ShieldFilled_128|#2e6de5|simple] LE[min-,- pref30,30 flex-,-]
+                        Text_Value a(0,1)-(0,1) pos(94.0325,-22.5) sz(58.935,37) pv(0.5,0.5) | Text['22'|fs~45.0|#ffffff]
+                    Container_Progressbar a(0,0)-(1,0) pos(0,10) sz(-30,45) pv(0.5,0) | 
+                      UIComponent_Slider a(0,0)-(1,1) pos(0,0) sz(0,0) pv(1,0.5) | Slider
+                        Fill_Mask a(0,0)-(1,1) pos(0,0) sz(-4,-4) pv(0.5,0.5) | Mask Image[UISprite_SlicedCircle_40|#ffffff@1%|sliced]
+                          Fill_Background a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedSquare_4|#94a3b8|sliced]
+                          Fill_Progress a(0,0)-(0.4,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedSquare_4|#22c55e|sliced]
+                            Fill_Highlight a(0,0)-(1,1) pos(1.52588e-05,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_Glow_Right|#ffffff@10%|sliced]
+                          Text_Progress a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['2 / 5'|fs~35.0|#ffffff]
+                        Image_Outline [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_40_Outline_3|#1e293b|sliced]
+                Container_Locked [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                  Image_LockedContainerBGOutline a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#6c757d|sliced]
+                  Image_LockedContainerBG a(0,0)-(1,1) pos(0,0) sz(-20,-20) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#ffffff@45%|sliced]
+                  Image_Questionmark a(0.5,0.5)-(0.5,0.5) pos(0,0) sz(128,128) pv(0.5,0.5) | Image[Pictoicon_Question_128|#ffffff@80%|simple]
+              GarageGearListItemView (6) a(0,1)-(0,1) pos(365,-1192.5) sz(335,425) pv(0.5,0.5) | GarageGearCardView
+                Image_CardBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#6c757d|sliced]
+                Mask_BGgradient a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Mask Image[UISprite_SlicedCircle_90|#fef08a@1%|sliced]
+                  Image_BGgradient a(0,1)-(1,1) pos(0,0) sz(0,150) pv(0.5,1) | Image[UISprite_Glow_Top|#868e96|sliced]
+                Container_Content a(0,0)-(1,1) pos(0,0) sz(-16,-16) pv(0.5,0.5) | 
+                  Container_ArtZone a(0,0.45)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                    StarsView a(0,1)-(1,1) pos(0,-10) sz(-60,50) pv(0.5,1) | HLG[pad0,0,0,0|MC|sp5] StarView
+                      Image_Star (1) a(0,1)-(0,1) pos(41.5,-25) sz(83,50) pv(0.5,0.5) | Image[Icon_StarFilled_128|#e9ecef|simple]
+                      Image_Star (2) a(0,1)-(0,1) pos(129.5,-25) sz(83,50) pv(0.5,0.5) | Image[Icon_StarFilled_128|#64748b|simple]
+                      Image_Star (3) a(0,1)-(0,1) pos(217.5,-25) sz(83,50) pv(0.5,0.5) | Image[Icon_StarFilled_128|#64748b|simple]
+                    Image_GearIcon a(0.5,0.5)-(0.5,0.5) pos(0,-30) sz(150,150) pv(0.5,0.5) | Image[Icon_CatchersMitt_128|#ffffff|simple]
+                  Container_DataStrip a(0,0)-(1,0.45) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                    Image_DataStripBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90_HalfBottom|#ffffff|sliced]
+                    Text_GearName a(0,1)-(1,1) pos(0,-8) sz(-24,50) pv(0.5,1) | Text['Jahan Rodrigues'|fs~40.0|#ffffff]
+                    Container_Stats a(0,0.5)-(1,0.5) pos(0,0) sz(-30,45) pv(0.5,0.5) | HLG[pad0,0,0,0|MC|sp14]
+                      Container_Attack a(0,1)-(0,1) pos(68.75,-22.5) sz(137.5,45) pv(0.5,0.5) | HLG[pad14,14,4,4|MC|sp4] StatBonusView
+                        Image_ChipBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_36|#edf0f5|sliced] LE[min-,- pref-,- flex-,- ignore]
+                        Image_Icon a(0,1)-(0,1) pos(37.2825,-22.5) sz(46.565,30) pv(0.5,0.5) | LE[min-,- pref30,30 flex-,-] Image[Icon_Swords_128|#ef4444|simple]
+                        Text_Value a(0,1)-(0,1) pos(94.0325,-22.5) sz(58.935,37) pv(0.5,0.5) | Text['22'|fs~45.0|#ffffff]
+                      Container_Defense a(0,1)-(0,1) pos(220.25,-22.5) sz(137.5,45) pv(0.5,0.5) | StatBonusView HLG[pad14,14,4,4|MC|sp4]
+                        Image_ChipBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_36|#edf0f5|sliced] LE[min-,- pref-,- flex-,- ignore]
+                        Image_Icon a(0,1)-(0,1) pos(37.2825,-22.5) sz(46.565,30) pv(0.5,0.5) | LE[min-,- pref30,30 flex-,-] Image[Icon_ShieldFilled_128|#2e6de5|simple]
+                        Text_Value a(0,1)-(0,1) pos(94.0325,-22.5) sz(58.935,37) pv(0.5,0.5) | Text['22'|fs~45.0|#ffffff]
+                    Container_Progressbar a(0,0)-(1,0) pos(0,10) sz(-30,45) pv(0.5,0) | 
+                      UIComponent_Slider a(0,0)-(1,1) pos(0,0) sz(0,0) pv(1,0.5) | Slider
+                        Fill_Mask a(0,0)-(1,1) pos(0,0) sz(-4,-4) pv(0.5,0.5) | Mask Image[UISprite_SlicedCircle_40|#ffffff@1%|sliced]
+                          Fill_Background a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedSquare_4|#94a3b8|sliced]
+                          Fill_Progress a(0,0)-(0.4,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedSquare_4|#22c55e|sliced]
+                            Fill_Highlight a(0,0)-(1,1) pos(1.52588e-05,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_Glow_Right|#ffffff@10%|sliced]
+                          Text_Progress a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['2 / 5'|fs~35.0|#ffffff]
+                        Image_Outline [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_40_Outline_3|#1e293b|sliced]
+                Container_Locked [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                  Image_LockedContainerBGOutline a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#6c757d|sliced]
+                  Image_LockedContainerBG a(0,0)-(1,1) pos(0,0) sz(-20,-20) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#ffffff@45%|sliced]
+                  Image_Questionmark a(0.5,0.5)-(0.5,0.5) pos(0,0) sz(128,128) pv(0.5,0.5) | Image[Pictoicon_Question_128|#ffffff@80%|simple]
+              GarageGearListItemView (7) a(0,1)-(0,1) pos(735,-1192.5) sz(335,425) pv(0.5,0.5) | GarageGearCardView
+                Image_CardBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#6c757d|sliced]
+                Mask_BGgradient a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Mask Image[UISprite_SlicedCircle_90|#fef08a@1%|sliced]
+                  Image_BGgradient a(0,1)-(1,1) pos(0,0) sz(0,150) pv(0.5,1) | Image[UISprite_Glow_Top|#868e96|sliced]
+                Container_Content a(0,0)-(1,1) pos(0,0) sz(-16,-16) pv(0.5,0.5) | 
+                  Container_ArtZone a(0,0.45)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                    StarsView a(0,1)-(1,1) pos(0,-10) sz(-60,50) pv(0.5,1) | HLG[pad0,0,0,0|MC|sp5] StarView
+                      Image_Star (1) a(0,1)-(0,1) pos(41.5,-25) sz(83,50) pv(0.5,0.5) | Image[Icon_StarFilled_128|#e9ecef|simple]
+                      Image_Star (2) a(0,1)-(0,1) pos(129.5,-25) sz(83,50) pv(0.5,0.5) | Image[Icon_StarFilled_128|#64748b|simple]
+                      Image_Star (3) a(0,1)-(0,1) pos(217.5,-25) sz(83,50) pv(0.5,0.5) | Image[Icon_StarFilled_128|#64748b|simple]
+                    Image_GearIcon a(0.5,0.5)-(0.5,0.5) pos(0,-30) sz(150,150) pv(0.5,0.5) | Image[Icon_CatchersMitt_128|#ffffff|simple]
+                  Container_DataStrip a(0,0)-(1,0.45) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                    Image_DataStripBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90_HalfBottom|#ffffff|sliced]
+                    Text_GearName a(0,1)-(1,1) pos(0,-8) sz(-24,50) pv(0.5,1) | Text['Jahan Rodrigues'|fs~40.0|#ffffff]
+                    Container_Stats a(0,0.5)-(1,0.5) pos(0,0) sz(-30,45) pv(0.5,0.5) | HLG[pad0,0,0,0|MC|sp14]
+                      Container_Attack a(0,1)-(0,1) pos(68.75,-22.5) sz(137.5,45) pv(0.5,0.5) | HLG[pad14,14,4,4|MC|sp4] StatBonusView
+                        Image_ChipBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_36|#edf0f5|sliced] LE[min-,- pref-,- flex-,- ignore]
+                        Image_Icon a(0,1)-(0,1) pos(37.2825,-22.5) sz(46.565,30) pv(0.5,0.5) | LE[min-,- pref30,30 flex-,-] Image[Icon_Swords_128|#ef4444|simple]
+                        Text_Value a(0,1)-(0,1) pos(94.0325,-22.5) sz(58.935,37) pv(0.5,0.5) | Text['22'|fs~45.0|#ffffff]
+                      Container_Defense a(0,1)-(0,1) pos(220.25,-22.5) sz(137.5,45) pv(0.5,0.5) | StatBonusView HLG[pad14,14,4,4|MC|sp4]
+                        Image_ChipBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_36|#edf0f5|sliced] LE[min-,- pref-,- flex-,- ignore]
+                        Image_Icon a(0,1)-(0,1) pos(37.2825,-22.5) sz(46.565,30) pv(0.5,0.5) | LE[min-,- pref30,30 flex-,-] Image[Icon_ShieldFilled_128|#2e6de5|simple]
+                        Text_Value a(0,1)-(0,1) pos(94.0325,-22.5) sz(58.935,37) pv(0.5,0.5) | Text['22'|fs~45.0|#ffffff]
+                    Container_Progressbar a(0,0)-(1,0) pos(0,10) sz(-30,45) pv(0.5,0) | 
+                      UIComponent_Slider a(0,0)-(1,1) pos(0,0) sz(0,0) pv(1,0.5) | Slider
+                        Fill_Mask a(0,0)-(1,1) pos(0,0) sz(-4,-4) pv(0.5,0.5) | Mask Image[UISprite_SlicedCircle_40|#ffffff@1%|sliced]
+                          Fill_Background a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedSquare_4|#94a3b8|sliced]
+                          Fill_Progress a(0,0)-(0.4,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedSquare_4|#22c55e|sliced]
+                            Fill_Highlight a(0,0)-(1,1) pos(1.52588e-05,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_Glow_Right|#ffffff@10%|sliced]
+                          Text_Progress a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['2 / 5'|fs~35.0|#ffffff]
+                        Image_Outline [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_40_Outline_3|#1e293b|sliced]
+                Container_Locked [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                  Image_LockedContainerBGOutline a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#6c757d|sliced]
+                  Image_LockedContainerBG a(0,0)-(1,1) pos(0,0) sz(-20,-20) pv(0.5,0.5) | Image[UISprite_SlicedCircle_90|#ffffff@45%|sliced]
+                  Image_Questionmark a(0.5,0.5)-(0.5,0.5) pos(0,0) sz(128,128) pv(0.5,0.5) | Image[Pictoicon_Question_128|#ffffff@80%|simple]
+        Container_Purchasing a(0.5,0)-(0.5,0) pos(0,30) sz(1100,425) pv(0.5,0) | 
+          Image_Shadow a(0,0)-(1,1) pos(0,0) sz(60,60) pv(0.5,0.5) | Image[UISPrite_Glow_128|#000000@30%|sliced]
+          Image_BG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_60|#f1f5f9|sliced]
+          Image_Frame a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_60_Outline_3|#cbd5e1|sliced]
+          Text_Title a(0,1)-(1,1) pos(0,-15) sz(-80,85) pv(0.5,1) | Text['Boost Your Ride'|fs~50.0|#ffffff] Loc
+          Text_Description a(0,0)-(1,1) pos(0,45) sz(-80,-310) pv(0.5,0.5) | Text['Collect fresh parts and upgrade them to make your car even more powerful. Tune your ride to perfection!'|fs~30.0|#ffffff] Loc
+          Container_AmountRow a(0,0)-(1,0) pos(0,145) sz(-40,40) pv(0.5,0) | LE[min-,- pref-,- flex-,- ignore] HLG[pad0,0,0,0|UL|sp40]
+            Text_X1 a(0,1)-(0,1) pos(250.95,-20) sz(501.9,40) pv(0.5,0.5) | Loc Text['Open x1'|fs~30.0|#ffffff]
+            Text_X10 a(0,1)-(0,1) pos(800.95,-20) sz(518.1,40) pv(0.5,0.5) | Text['Open x10'|fs~30.0|#ffffff] Loc
+          Container_ButtonRow a(0,0)-(1,0) pos(0,20) sz(-40,120) pv(0.5,0) | HLG[pad0,0,0,0|UL|sp40]
+            Btn_Buy_X1 a(0,1)-(0,1) pos(255,-60) sz(510,120) pv(0.5,0.5) | Animator LE[min300,- pref650,- flex-,-] BuyWithGemsButtonView Button
+              Button_ClickArea1 a(0,0)-(1,1) pos(0,0) sz(40,40) pv(0.5,0.5) | Hit
+              AnimRoot_ButtonVisuals a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                Image_DropShadow a(0,0)-(1,1) pos(0,0) sz(40,40) pv(0.5,0.5) | Image[UISPrite_Glow_128|#000000@30%|sliced]
+                Image_ClickGlow a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISPrite_Glow_128|#ffffff@15%|sliced]
+                Image_Button a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_60|#2e6de5|sliced]
+                BtnText_Base a(0,0)-(1,1) pos(0,0) sz(-40,-20) pv(0.5,0.5) | HLG[pad0,0,0,0|MC|sp15]
+                  Image_Gem a(0,1)-(0,1) pos(217.575,-50) sz(60,100) pv(0.5,0.5) | LE[min60,- pref60,- flex-,-] Image[icon_gem_256|#ffffff|simple]
+                  Text_ButtonText a(0,1)-(0,1) pos(272.5,-50) sz(19.85,100) pv(0.5,0.5) | Text['1'|fs~50.0|#ffffff]
+            Btn_Buy_X10 a(0,1)-(0,1) pos(805,-60) sz(510,120) pv(0.5,0.5) | Animator LE[min300,- pref650,- flex-,-] BuyWithGemsButtonView Button
+              Button_ClickArea1 a(0,0)-(1,1) pos(0,0) sz(40,40) pv(0.5,0.5) | Hit
+              AnimRoot_ButtonVisuals a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                Image_DropShadow a(0,0)-(1,1) pos(0,0) sz(40,40) pv(0.5,0.5) | Image[UISPrite_Glow_128|#000000@30%|sliced]
+                Image_ClickGlow a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISPrite_Glow_128|#ffffff@15%|sliced]
+                Image_Button a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_60|#2e6de5|sliced]
+                BtnText_Base a(0,0)-(1,1) pos(0,0) sz(-40,-20) pv(0.5,0.5) | HLG[pad0,0,0,0|MC|sp15]
+                  Image_Gem a(0,1)-(0,1) pos(201.6,-50) sz(60,100) pv(0.5,0.5) | LE[min60,- pref60,- flex-,-] Image[icon_gem_256|#ffffff|simple]
+                  Text_ButtonText a(0,1)-(0,1) pos(272.5,-50) sz(51.8,100) pv(0.5,0.5) | Text['10'|fs~50.0|#ffffff]
+      GarageCustomizationTabView [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | LE[min-,1900 pref1200,- flex-,-] GarageCustomizationTabView
+        Image_CarPreview a(0.5,1)-(0.5,1) pos(0,-25) sz(580,871) pv(0.5,1) | Image[none|#ffffff|simple] GarageCarImage
+        SkinCollection_Container a(0,0)-(1,0) pos(0,0) sz(0,965) pv(0.5,0) | 
+          Image_ContainerBG a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Gradient Image[UISprite_SlicedSquare_4|#e2e8f0|sliced]
+          Container_ScrollableListContent a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0) | Hit LE[min-,- pref-,- flex1,-] ScrollRect
+            Viewport_ScrollArea a(0.5,0)-(0.5,1) pos(0,87.5) sz(1100,-175) pv(0.5,0.5) | RectMask2D
+              Container_Content a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,1) | ContentSizeFitter VLG[pad0,0,30,30|UC|sp0]
+                Section_Colors a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | VLG[pad0,0,0,0|UL|sp0]
+                  Container_Title a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | LE[min-,100 pref-,100 flex-,-]
+                    Text_Label a(0,0)-(1,1) pos(0,2.5) sz(0,-5) pv(0.5,0.5) | Text['Car Color'|fs~40.0|#ffffff] Loc
+                    Image_Underline a(0,0)-(1,0) pos(0,0) sz(0,4) pv(0.5,0) | Image[UISprite_SlicedSquare_4|#64748b|sliced]
+                  Container_Grid a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | GridLG
+                Section_Stripes a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | VLG[pad0,0,0,0|UL|sp0]
+                  Container_Title a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | LE[min-,100 pref-,100 flex-,-]
+                    Text_Label a(0,0)-(1,1) pos(0,2.5) sz(0,-5) pv(0.5,0.5) | Text['Decals'|fs~40.0|#ffffff] Loc
+                    Image_Underline a(0,0)-(1,0) pos(0,0) sz(0,4) pv(0.5,0) | Image[UISprite_SlicedSquare_4|#64748b|sliced]
+                  Container_Grid a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | GridLG
+                Section_StripeColors a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | VLG[pad0,0,0,0|UL|sp0]
+                  Container_Title a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | LE[min-,60 pref-,60 flex-,-]
+                    Image_Underline a(0,0.5)-(1,0.5) pos(0,0) sz(0,4) pv(0.5,0.5) | Image[UISprite_SlicedSquare_4|#cbd5e1|sliced]
+                  Container_Grid a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | GridLG
+          Container_Buttons a(0.5,0)-(0.5,0) pos(0,30) sz(1100,130) pv(0.5,0) | HLG[pad0,0,0,0|MC|sp30]
+            Btn_Equip a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | Button LE[min300,- pref650,- flex-,-] GryphonButton
+              Hitbox a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Hit
+              AnimRoot a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                Image_DropShadow a(0,0)-(1,1) pos(0,0) sz(50,50) pv(0.5,0.5) | Image[UISPrite_Glow_128|#000000@30%|sliced]
+                Image_Button a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_60|#2e6de5|sliced]
+                Container_ButtonContent a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                  Text_Equip a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['Equip'|fs~50.0|#ffffff] Loc
+                  Text_AlreadyEquipped [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['Equipped'|fs~50.0|#ffffff] Loc
+            Btn_Gems a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | GemsColorUnlockButton Button LE[min300,- pref650,- flex-,-] GryphonButton
+              Hitbox a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Hit
+              AnimRoot a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                Image_DropShadow a(0,0)-(1,1) pos(0,0) sz(50,50) pv(0.5,0.5) | Image[UISPrite_Glow_128|#000000@30%|sliced]
+                Image_Button a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_60|#2e6de5|sliced]
+                Container_ButtonContent a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | HLG[pad0,0,0,0|MC|sp15]
+                  Image_Gem a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[icon_gem_256|#ffffff|simple] LE[min60,- pref60,- flex-,-]
+                  Text_GemCost a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['999'|fs~50.0|#ffffff]
+            Btn_Ad a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | RewardedAdButtonView GryphonButton LE[min300,- pref650,- flex-,-] Button
+              Hitbox a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Hit
+              AnimRoot a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+                Image_DropShadow a(0,0)-(1,1) pos(0,0) sz(50,50) pv(0.5,0.5) | Image[UISPrite_Glow_128|#000000@30%|sliced]
+                Image_Button a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_60|#2e6de5|sliced]
+                Container_ButtonContent a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | HLG[pad0,0,0,0|MC|sp15]
+                  Image_Ad a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | LE[min60,- pref60,- flex-,-] Image[PictoIcon_Ad_1_64|#ffffff|simple]
+                  Text_Free a(0,0)-(0,0) pos(0,0) sz(0,0) pv(0.5,0.5) | Text['Free'|fs~50.0|#ffffff] Loc
+          Image_ContainerTopBorder a(0,1)-(1,1) pos(0,0) sz(0,4) pv(0.5,1) | Image[UISprite_SlicedSquare_4|#cbd5e1|sliced]
+  Container_Locked [off] a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | 
+    Container_LockedTab a(0,0)-(1,1) pos(0,0) sz(0,-80) pv(0.5,0.5) | 
+      Image_DropShadow a(0,0)-(1,1) pos(0,0) sz(50,50) pv(0.5,0.5) | Image[UISPrite_Glow_128|#000000@20%|sliced]
+      Image_Background a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_60|#ffffff|sliced]
+      Image_Outline a(0,0)-(1,1) pos(0,0) sz(0,0) pv(0.5,0.5) | Image[UISprite_SlicedCircle_60_Outline_3|#e2e8f0|sliced]
+      Image_Lock a(0.5,0.5)-(0.5,0.5) pos(0,10) sz(140,140) pv(0.5,0) | Image[PictoIcon_Lock_2|#64748b|simple]
+      Text_LockedTabName a(0,0.5)-(1,0.5) pos(0,-10) sz(-200,60) pv(0.5,1) | Text['Garage Locked'|fs~40.0|#ffffff] Loc
+      Text_LockedRequirements a(0,0.5)-(1,0.5) pos(0,-70) sz(-200,120) pv(0.5,1) | Text['Play 5 games to unlock'|fs~30.0|#ffffff]

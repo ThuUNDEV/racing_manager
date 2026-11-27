@@ -1,0 +1,31 @@
+{
+  "name": "Shop softened gray-cream background v9",
+  "status": "concept_pending_review",
+  "date": "2026-11-26",
+  "image": "01_shop_soft_gray_cream_background.png",
+  "prompt": "01_shop_soft_gray_cream_background_prompt.txt",
+  "provenance": {
+    "mode": "built-in image_gen surface-color edit",
+    "tool": "image_gen.imagegen",
+    "orchestrator": "Delegated GPT-6.1-Sol medium",
+    "image_model": "Tool-managed; exact model not exposed",
+    "edit_target": "Design/Demos/SoftMiniature/shop_recolor_v8/01_shop_soft_rounded_frames.png",
+    "raw": "output/imagegen/shop_recolor_v9/01_shop_soft_gray_cream_background_raw.png",
+    "generation_calls": 1,
+    "postprocessing": "None; original image copied unchanged"
+  },
+  "changes": [
+    "White page and board backgrounds lowered to warm gray-beige",
+    "Card faces/navigation softened to ivory with separation from darker base",
+    "Special-card rays lowered in intensity"
+  ],
+  "validation": {
+    "visual": "Glare visibly reduced; vivid art, blue actions, green FREE and rounded gold frames retained. Main quantities/USD prices visually preserved; All-Star/Elite x10 both300 and Pro/Standard x10 both100.",
+    "limitations": [
+      "AI edit subtly redraws fine detail; not pixel-exact",
+      "Hà portrait remains concept placeholder",
+      "Rendered text/icon fidelity must be validated with proper runtime sprite IDs/live localized labels"
+    ],
+    "scope": "No runtime code, data, balance or save edits."
+  }
+}

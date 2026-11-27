@@ -137,15 +137,15 @@ static func box(rel: String, f: float, m: Vector4, c: Vector4, tint: Color = Col
 
 ## Panel xanh nhạt có viền xanh đậm và bóng đáy (thẻ, ô nâng cấp, khung nội dung).
 static func panel(pad: float = 0.0) -> StyleBoxTexture:
-	return Soft.surface("panel", Vector4(10 + pad, 8 + pad, 10 + pad, 10 + pad))
+	return Soft.surface("panel", Vector4(10 + pad, 8 + pad, 10 + pad, 10 + pad)) as StyleBoxTexture
 
 
 ## Compact rows need a smaller source, not cuts through the full-size panel's corners.
 static func coupon() -> StyleBoxTexture:
-	return Soft.surface("panel", Vector4(6, 3, 6, 5))
+	return Soft.surface("panel", Vector4(6, 3, 6, 5)) as StyleBoxTexture
 
 
-static func pack_header(_hue: float) -> StyleBoxTexture:
+static func pack_header(_hue: float) -> StyleBox:
 	return Soft.surface("section", Vector4(6, 3, 6, 5))
 
 
@@ -158,14 +158,14 @@ static func card_style(style_name: String) -> StyleBoxTexture:
 		"reward":
 			return _variant("reward")
 		"card_locked", "locked":
-			return Soft.surface("inventory")
+			return Soft.surface("inventory") as StyleBoxTexture
 		"modal":
 			return panel(6.0)
 	return panel()
 
 
 static func _variant(mode: String) -> StyleBoxTexture:
-	return Soft.surface(mode)
+	return Soft.surface(mode) as StyleBoxTexture
 
 
 ## Theme dùng chung cho thẻ/dialog của gói cũ (đã gồm font đậm, nút xanh, panel xanh); tạo một lần.
@@ -178,7 +178,7 @@ static func theme() -> Theme:
 
 ## Thanh tài nguyên xanh đậm dạng viên thuốc (tiền, gem).
 static func hud_bar() -> StyleBoxTexture:
-	return Soft.surface("hud", Vector4(24, 3, 8, 5))
+	return Soft.surface("hud", Vector4(24, 3, 8, 5)) as StyleBoxTexture
 
 
 ## Nút hành động. kind: upgrade (xanh), amber (nâng cấp hổ phách), race (cam/vàng), claim (xanh lá), cancel (xám), nav (xanh nghiêng), menu (vuông xanh).
@@ -186,7 +186,7 @@ static func hud_bar() -> StyleBoxTexture:
 static func button(kind: String, state: String = "normal") -> StyleBoxTexture:
 	var face := "disabled" if state == "disabled" else kind
 	if face == "nav": face = "blue"
-	var skin := Soft.surface(face, Vector4(10, 4, 10, 6))
+	var skin := Soft.surface(face, Vector4(10, 4, 10, 6)) as StyleBoxTexture
 	if state == "hover": skin.modulate_color = Color(1.03, 1.03, 1.03)
 	elif state in ["pressed", "hover_pressed"]: skin.modulate_color = Color("e6e9e8")
 	return skin
@@ -209,7 +209,7 @@ static func _swapped_box(rel: String, f: float, m: Vector4, c: Vector4, tint: Co
 
 ## Thanh nhỏ trong ô (tiến độ): dùng lại hud_bar làm máng.
 static func trough() -> StyleBoxTexture:
-	return Soft.surface("trough", Vector4.ZERO)
+	return Soft.surface("trough", Vector4.ZERO) as StyleBoxTexture
 
 
 ## Bundled typography: real bold outlines and Vietnamese glyphs, independent of OS fonts.

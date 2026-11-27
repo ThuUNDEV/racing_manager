@@ -15,9 +15,9 @@ dest_files=["res://.godot/imported/vfx_finish_flash.png-eaf2ecad130c64b2b3d7469a
 
 [params]
 
-compress/mode=0
+compress/mode=1
 compress/high_quality=false
-compress/lossy_quality=0.7
+compress/lossy_quality=0.8
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1

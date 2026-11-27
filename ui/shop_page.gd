@@ -20,11 +20,14 @@ const INK := ShopSkin.LEGACY_INK
 const MUTED := ShopSkin.MUTED
 const PackUi = preload("res://ui/shop_pack_ui.gd")
 const BenefitUi = preload("res://ui/pack_benefit_ui.gd")
+const EpicDetail = preload("res://ui/shop_epic_detail.gd")
 const RewardItems = preload("res://core/data/reward_items.gd")
 const Soft = preload("res://ui/soft_miniature.gd")
 const PromoUi = preload("res://ui/pack_promo_ui.gd")
 const UnitScale = preload("res://ui/unit_scale.gd")
 const PerkCard = preload("res://ui/shop_demo_offer_card.gd")
+const ChainCard = preload("res://ui/shop_chain_card.gd")
+const TimedCard = preload("res://ui/shop_timed_card.gd")
 const DemoTheme = preload("res://ui/shop_demo_theme.gd")
 const CurrencyCard = preload("res://ui/shop_demo_currency_card.gd")
 const FreeGiftCard = preload("res://ui/shop_free_gift_card.gd")
@@ -174,8 +177,13 @@ func _build() -> void:
 	add_theme_constant_override("separation", 8)
 	# Thứ tự Shop: nhận miễn phí -> gói đặc biệt -> mở rương -> mua gem -> đổi tiền.
 	_build_free_section()
-	_offer_section(I18n.t("shop.special_packs"), ["starter", "perk", "offer"], ["starter_1", "income_x2", "no_ads", "offer_noads_bundle"], 228.0)
+	_offer_section(I18n.t("shop.special_packs"), ["starter", "perk", "offer"], ["starter_1", "income_x2", "income_x3", "income_x3_up", "offline_plus", "no_ads", "offer_noads_bundle"], 228.0)
 	_offer_section(I18n.t("data.offers.starter_pack"), ["starter"], ["starter_2", "starter_3"], 228.0)
+	_chain_section()
+	_timed_section("limited", I18n.t("shop.limited_offers"), "Section_Limited")
+	_timed_section("chooseone", I18n.t("shop.chooseone_offers"), "Section_ChooseOne")
+	_epic_section("car", I18n.t("shop.epic_cars"), "Section_EpicCars")
+	_epic_section("paint", I18n.t("shop.epic_paints"), "Section_EpicPaints")
 	_offer_section(I18n.t("shop.breakthrough_combo"), ["offer"], ["offer_combo_1", "offer_combo_2"], 210.0)
 	_offer_section(I18n.t("shop.weekly_packs"), ["weekly"], [], 225.0)
 	_offer_section(I18n.t("shop.daily_packs"), ["daily"], [], 220.0)
@@ -317,6 +325,9 @@ const OFFER_TEXT := {
 }
 ## Lý do khóa làm thẻ ẩn hẳn (chưa tới lúc bán / không còn bán).
 const HIDDEN_REASONS := ["flag", "hidden", "locked", "requires", "maxed", "none"]
+var _epic_cards: Dictionary = {}   # "car" | "paint" -> EpicCard (Xe Epic / Bộ sơn Epic, Design/35 đợt E1)
+var _timed_cards: Dictionary = {}   # "limited" | "chooseone" -> TimedCard (ưu đãi xoay tuần)
+var _chain_cards: Dictionary = {}   # chain_id -> ChainCard (một thẻ cho mỗi chuỗi Chain Offer)
 var _offer_cards: Dictionary = {}   # sku -> Control (thẻ, ẩn/hiện theo lý do bán)
 
 
@@ -390,7 +401,7 @@ func _title_case(text: String) -> String:
 
 func _sentence(text: String) -> String:
 	var lower := text.to_lower()
-	return lower.left(1).to_upper() + lower.substr(1)
+	return (lower.left(1).to_upper() + lower.substr(1)).replace("epic", "Epic")
 
 
 func _h_tex(id: String) -> Texture2D:
@@ -480,7 +491,7 @@ func _h_offer_card(parent: Node, p: Dictionary, _row_h: float) -> void:
 
 func _perk_card(parent: Node, product: Dictionary, opts: Dictionary = {}) -> void:
 	var sku := String(product["sku"])
-	# Lề ngang 8 của cả trang Shop do ScrollContainer đảm nhiệm (main.gd), thẻ không tự lùi thêm.
+	# Lề ngang của cả trang Shop (CONTENT_SIDE, 8 ở màn hẹp) do ScrollContainer đảm nhiệm (main.gd), thẻ không tự lùi thêm.
 	var inset := MarginContainer.new()
 	inset.name = "Offer_" + sku
 	inset.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -545,6 +556,43 @@ func _offer_section(title: String, kinds: Array, only_skus: Array = [], row_h: f
 			steps.add_child(step)
 			_starter_steps[sku] = step
 	_sections.append({"heading": heading, "content": grid, "group": group, "steps": steps, "mixed": mixed})
+
+
+## Mục Chain Offer: mỗi chuỗi một thẻ, hiện bước đang bán (Iap.chain_state qua view["chains"]).
+func _chain_section() -> void:
+	var section := _h_section(I18n.t("shop.chain_offers"), "gift_red", "featured", "Section_Chains")
+	var grid: GridContainer = section["grid"]
+	for chain: String in GameData.IAP_CHAINS:
+		var card := ChainCard.new()
+		grid.add_child(card)
+		card.setup(chain)
+		card.buy_pressed.connect(func(sku: String) -> void: iap_requested.emit(sku))
+		_chain_cards[chain] = card
+	_sections.append({"heading": section["heading"], "content": grid, "group": "featured"})
+
+
+## Mục ưu đãi xoay tuần (Gói Giới hạn / Gói Chọn Một): một thẻ, hiện khi vòng xoay hiện tại có ô mở (Iap.timed_state qua view["timed"]).
+func _timed_section(mode: String, title: String, heading_name: String) -> void:
+	var section := _h_section(title, "gift_red", "featured", heading_name)
+	var grid: GridContainer = section["grid"]
+	var card := TimedCard.new()
+	grid.add_child(card)
+	card.setup(mode)
+	card.buy_pressed.connect(func(sku: String) -> void: iap_requested.emit(sku))
+	_timed_cards[mode] = card
+	_sections.append({"heading": section["heading"], "content": grid, "group": "featured"})
+
+
+## Mục Xe Epic / Bộ sơn Epic: một thẻ có hàng cuộn ngang; mua rồi thì nút chuyển thành "Đã mua".
+func _epic_section(mode: String, title: String, heading_name: String) -> void:
+	var section := _h_section(title, "gift_red", "featured", heading_name)
+	var grid: GridContainer = section["grid"]
+	var card := preload("res://ui/shop_epic_card.gd").new() as PanelContainer
+	grid.add_child(card)
+	card.setup(mode)
+	card.buy_pressed.connect(func(sku: String) -> void: details_requested.emit(sku))
+	_epic_cards[mode] = card
+	_sections.append({"heading": section["heading"], "content": grid, "group": "featured"})
 
 
 func _offer_card(parent: Node, p: Dictionary) -> void:
@@ -1035,6 +1083,12 @@ func update_iap(view: Dictionary) -> void:
 			if owned != bool(_iap_buttons[sku].get("owned", false)):
 				_render_rewards(_iap_buttons[sku]["rewards"], GameData.iap_product(sku), bool(_iap_buttons[sku]["full"]), owned)
 				_iap_buttons[sku]["owned"] = owned
+	for mode: String in _epic_cards:
+		(_epic_cards[mode] as Control).update_view(items, busy)
+	for mode: String in _timed_cards:
+		(_timed_cards[mode] as Control).update_view((view.get("timed", {}) as Dictionary).get(mode, {}), items, busy)
+	for chain: String in _chain_cards:
+		(_chain_cards[chain] as Control).update_view((view.get("chains", {}) as Dictionary).get(chain, {}), items, busy)
 	if is_instance_valid(_restore_button):
 		_restore_button.visible = bool(view.get("restorable", false))
 		_restore_button.disabled = busy
@@ -1069,7 +1123,7 @@ func _adapt_grids() -> void:
 		if heading is Label:
 			heading.custom_minimum_size.y = 44 * factor
 			heading.add_theme_font_size_override("font_size", roundi(30 * factor))
-			var style := heading.get_theme_stylebox("normal") as StyleBoxTexture
+			var style: StyleBox = heading.get_theme_stylebox("normal")
 			style.content_margin_top = 4 * factor
 			style.content_margin_bottom = 4 * factor
 		var grid = entry["content"]
@@ -1300,6 +1354,8 @@ func _sync_sections() -> void:
 ## Content for Main's existing modal: no second confirmation step before store checkout.
 func build_detail(sku: String) -> VBoxContainer:
 	var p := GameData.iap_product(sku)
+	if EpicDetail.is_epic(p):
+		return _build_epic_detail(p)
 	var column := VBoxContainer.new()
 	column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var scale := BenefitUi.scale_for(get_viewport_rect().size.x)
@@ -1322,6 +1378,9 @@ func build_detail(sku: String) -> VBoxContainer:
 	note_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	note_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	column.add_child(note_label)
+	GameState.iap_target_class = ""
+	if GameState.iap_per_class(sku) and GameState.class_owned.size() > 1:
+		column.add_child(_class_target_row(scale))
 	var space := Control.new()
 	space.name = "PromoActionSpace"
 	space.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -1358,6 +1417,85 @@ func build_detail(sku: String) -> VBoxContainer:
 		odds.pressed.connect(func() -> void: odds_requested.emit(sku))
 		footer.add_child(odds)
 	column.add_child(footer)
+	_refresh_detail()
+	return column
+
+
+## Gói có coupon/tay đua gắn với từng class: người chơi chọn cơ sở nhận (mặc định cơ sở đang quản lý). Chỉ hiện khi có từ 2 class.
+func _class_target_row(scale: float) -> Control:
+	var box := VBoxContainer.new()
+	box.name = "PromoClassTarget"
+	box.add_theme_constant_override("separation", 4)
+	var caption := _text(I18n.t("shop.deliver_to") + ":", roundi(14 * scale), BenefitUi.INK)
+	caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	box.add_child(caption)
+	var row := HFlowContainer.new()
+	row.alignment = FlowContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override("h_separation", 6)
+	row.add_theme_constant_override("v_separation", 4)
+	box.add_child(row)
+	var group := ButtonGroup.new()
+	for id: String in GameState.class_owned:
+		var chip := Button.new()
+		var label := String(GameData.race_class(id).get("name", id))
+		chip.name = "PromoTarget_" + id
+		chip.text = label
+		chip.toggle_mode = true
+		chip.button_group = group
+		chip.custom_minimum_size = Vector2(0, 32)
+		chip.add_theme_font_size_override("font_size", 13)
+		chip.add_theme_color_override("font_color", BenefitUi.INK)
+		chip.add_theme_color_override("font_pressed_color", Color.WHITE)
+		chip.add_theme_stylebox_override("normal", _chip_style(Color("efe3c9"), Color("c9b98f")))
+		chip.add_theme_stylebox_override("hover", _chip_style(Color("efe3c9"), Color("c9b98f")))
+		chip.add_theme_stylebox_override("pressed", _chip_style(Color("2f9e44"), Color("1f7a32")))
+		chip.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
+		chip.button_pressed = id == GameState.managed_class
+		chip.toggled.connect(func(on: bool) -> void:
+			chip.text = ("✓ " if on else "") + label
+			if on:
+				GameState.iap_target_class = id)
+		if chip.button_pressed:
+			chip.text = "✓ " + label
+		row.add_child(chip)
+	return box
+
+
+func _chip_style(fill: Color, border: Color) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = fill
+	style.border_color = border
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(16)
+	style.content_margin_left = 12
+	style.content_margin_right = 12
+	return style
+
+
+## Popup Xe Epic / Bộ sơn Epic (concept IAP_Epic_Garage_v1): nút giá mua thẳng, "Để sau" đóng popup (Main nối EpicLater).
+func _build_epic_detail(p: Dictionary) -> VBoxContainer:
+	var sku := String(p["sku"])
+	var parts := EpicDetail.build(p, BenefitUi.scale_for(get_viewport_rect().size.x))
+	var column := parts["column"] as VBoxContainer
+	_detail_sku = sku
+	GameState.iap_target_class = ""
+	if GameState.iap_per_class(sku) and GameState.class_owned.size() > 1:
+		var target_row := _class_target_row(1.0)
+		var wrap := MarginContainer.new()
+		wrap.add_theme_constant_override("margin_left", 9)
+		wrap.add_theme_constant_override("margin_right", 9)
+		wrap.add_theme_constant_override("margin_bottom", 8)
+		wrap.add_child(target_row)
+		var buy_slot := (parts["buy"] as Control).get_parent() as Control
+		column.add_child(wrap)
+		column.move_child(wrap, buy_slot.get_index())
+	_detail_buy = parts["buy"]
+	_detail_buy.name = "DetailBuy_" + sku
+	_detail_buy.pressed.connect(func() -> void: iap_requested.emit(sku))
+	_detail_status = _text("", 12, MUTED)
+	_detail_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	column.add_child(_detail_status)
+	column.move_child(_detail_status, (parts["buy"] as Control).get_index() + 1)
 	_refresh_detail()
 	return column
 
