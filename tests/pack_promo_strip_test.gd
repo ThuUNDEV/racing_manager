@@ -68,7 +68,7 @@ func run() -> void:
 	check(not shown("offer"), "offer_noads_bundle ẩn khi chưa đủ 3 lần Ads Break")
 	check((main._promo_ui["starter"]["dot"] as Control).visible, "chấm đỏ hiện khi chưa bấm")
 
-	state.ad_state["breaks_today"] = 3
+	state.ad_state["break"] = {"day": int(Time.get_unix_time_from_system() / 86400.0), "today": 3}
 	main._refresh_pack_promos()
 	check(shown("offer") and main._promo_ui["offer"]["sku"] == "offer_noads_bundle", "offer_noads_bundle hiện khi đủ 3 lần")
 

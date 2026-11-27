@@ -5,6 +5,7 @@ extends AdsProvider
 
 var _bridge: JavaScriptObject = null
 var _show_cb: JavaScriptObject = null  # phải giữ tham chiếu tới khi JS gọi lại, nếu không callback bị giải phóng
+var _inter_cb: JavaScriptObject = null
 
 
 func _init(bridge: JavaScriptObject = null) -> void:
@@ -43,3 +44,21 @@ func show_rewarded(placement: String, done: Callable) -> void:
 	_show_cb = JavaScriptBridge.create_callback(func(args: Array) -> void:
 		done.call({"status": map_status(args)}))
 	_bridge.showRewarded(placement, _show_cb)
+
+
+func is_inter_ready() -> bool:
+	return _bridge != null and bool(_bridge.inter)
+
+
+func load_interstitial() -> void:
+	if _bridge != null:
+		_bridge.loadInter()
+
+
+func show_interstitial(placement: String, done: Callable) -> void:
+	if _bridge == null:
+		done.call({"shown": false})
+		return
+	_inter_cb = JavaScriptBridge.create_callback(func(args: Array) -> void:
+		done.call({"shown": not args.is_empty() and typeof(args[0]) == TYPE_BOOL and bool(args[0])}))
+	_bridge.showInter(placement, _inter_cb)

@@ -17,9 +17,12 @@ var provider: IapProvider = null
 var _busy := false
 var _busy_sku := ""
 var _startup_done := false
+## Mốc bắt đầu phiên chơi: gói "auto_next_session" chỉ tự hiện khi đạt mốc từ phiên trước.
+var session_start := 0.0
 
 
 func _ready() -> void:
+	session_start = _now()
 	if provider == null:
 		var mock := MockIapProvider.new()
 		mock.tree = get_tree()
@@ -85,9 +88,25 @@ func _unlocked(u: Dictionary) -> bool:
 		return false
 	if u.has("tier_before_driver"):
 		return false  # chỉ dùng được cùng grant.driver, xử lý ở _driver_open
-	if u.has("ad_breaks_today") and int(GameState.ad_state.get("breaks_today", 0)) < int(u["ad_breaks_today"]):
+	if u.has("ad_breaks_today") and Ads.breaks_today() < int(u["ad_breaks_today"]):
 		return false
 	return true
+
+
+## Gói đã đạt mốc theo ngày một lần thì mở luôn (Design/28 §4.4: nằm trong Shop cho tới khi mua).
+func _reached(sku: String) -> bool:
+	return bool(((GameState.iap["offers"] as Dictionary).get(sku, {}) as Dictionary).get("unlocked", false))
+
+
+## Ads Break gọi sau mỗi lần xem, trong cùng giao dịch save.
+func note_ad_breaks(today: int) -> void:
+	for p: Dictionary in products():
+		var u: Dictionary = p.get("unlock", {})
+		if u.has("ad_breaks_today") and today >= int(u["ad_breaks_today"]):
+			var offers: Dictionary = GameState.iap["offers"]
+			var o: Dictionary = offers.get(String(p["sku"]), {})
+			o["unlocked"] = true
+			offers[String(p["sku"])] = o
 
 
 ## Gói nhân vật mở khi business_tier >= unlock.league - 1 của tay đua (Design/28 §4.5).
@@ -132,7 +151,7 @@ func block_reason(sku: String) -> String:
 		var did := String(g.get("driver", ""))
 		if GameState.driver_has(did) and GameState.driver_level(did) >= GameState.driver_max_level(did):
 			return "maxed"
-	elif not _unlocked(p.get("unlock", {})):
+	elif not _reached(sku) and not _unlocked(p.get("unlock", {})):
 		return "locked"
 	var now := _now()
 	if p.has("daily_limit") and int((GameState.iap["daily"] as Dictionary).get(sku, -1)) == GameState.iap_day(now):
@@ -148,6 +167,90 @@ func block_reason(sku: String) -> String:
 
 func can_buy(sku: String) -> bool:
 	return block_reason(sku) == ""
+
+
+# ---------------------------------------------------------------- popup tự hiện (Design/28 §5b)
+# Trạng thái: iap.offers[sku] = {open_t, popup_count, last_popup_day}; iap.popup = {last_t, day_utc, count_today}.
+# Điều kiện màn hình (tutorial, overlay, hạng về đích) do ui/main.gd kiểm.
+
+## Các gói đang chờ tự hiện, mốc đạt trước đứng trước (hòa: theo thứ tự trong data). Ghi mốc cho gói mới đủ điều kiện.
+func sales_popup_queue(now: float = -1.0) -> Array:
+	if now < 0.0:
+		now = _now()
+	var offers: Dictionary = GameState.iap["offers"]
+	var waiting: Array = []
+	var opened := false
+	var index := 0
+	for p: Dictionary in products():
+		index += 1
+		var sku := String(p["sku"])
+		if not p.has("auto_popup") or block_reason(sku) != "":
+			continue
+		var o: Dictionary = offers.get(sku, {})
+		if not o.has("open_t"):
+			o.merge({"open_t": now, "popup_count": 0, "last_popup_day": -1})
+			offers[sku] = o
+			opened = true
+		if int(o.get("popup_count", 0)) < int(p["auto_popup"]):
+			waiting.append([float(o.get("open_t", now)), index, sku])
+	if opened:
+		GameState.save_game()  # lỗi ghi: giữ trong bộ nhớ, lần lưu sau ghi lại
+	waiting.sort()
+	return waiting.map(func(w: Array) -> String: return String(w[2]))
+
+
+## Gói được tự hiện lúc này: {"sku", "why"}. sku rỗng thì why: "" (không có gì chờ), "tutorial", "gap", "day_cap", "session".
+func next_sales_popup(now: float = -1.0) -> Dictionary:
+	if now < 0.0:
+		now = _now()
+	var queue := sales_popup_queue(now)
+	if queue.is_empty():
+		return {"sku": "", "why": ""}
+	var cfg: Dictionary = GameData.iap().get("popup", {})
+	var first := String(cfg.get("first_after_tutorial", ""))
+	if first != "" and not GameState.feature_unlocked(first):
+		return {"sku": "", "why": "tutorial"}
+	var state: Dictionary = GameState.iap["popup"]
+	var today := GameState.iap_day(now)
+	if int(state.get("day_utc", -1)) == today and int(state.get("count_today", 0)) >= int(cfg.get("per_day", 1)):
+		return {"sku": "", "why": "day_cap"}
+	var last := float(state.get("last_t", -1.0))
+	var since := now - last if last >= 0.0 else INF
+	if since >= 0.0 and since < float(cfg.get("gap_sec", 0)):
+		return {"sku": "", "why": "gap"}
+	var why := ""
+	for sku: String in queue:
+		var o: Dictionary = GameState.iap["offers"][sku]
+		if int(o.get("last_popup_day", -1)) == today:
+			why = "day_cap"
+		elif bool(product(sku).get("auto_next_session", false)) and float(o.get("open_t", now)) >= session_start:
+			why = "session"
+		elif bool(product(sku).get("auto_next_session", false)) and since >= 0.0 and since < float(cfg.get("next_gap_hours", 0)) * 3600.0:
+			why = "gap"
+		else:
+			return {"sku": sku, "why": ""}
+	return {"sku": "", "why": why}
+
+
+## Ghi nhận một popup vừa hiện và lưu.
+func note_sales_popup(sku: String, now: float = -1.0) -> void:
+	if now < 0.0:
+		now = _now()
+	var today := GameState.iap_day(now)
+	var o: Dictionary = (GameState.iap["offers"] as Dictionary).get(sku, {"open_t": now})
+	o["popup_count"] = int(o.get("popup_count", 0)) + 1
+	o["last_popup_day"] = today
+	GameState.iap["offers"][sku] = o
+	var state: Dictionary = GameState.iap["popup"]
+	state["count_today"] = int(state.get("count_today", 0)) + 1 if int(state.get("day_utc", -1)) == today else 1
+	state["day_utc"] = today
+	state["last_t"] = now
+	GameState.save_game()
+	iap_event.emit("offer_show", {"sku": sku, "why": "milestone"})
+
+
+func note_popup_skip(why: String) -> void:
+	iap_event.emit("popup_skip", {"why": why})
 
 
 # ---------------------------------------------------------------- mua

@@ -102,6 +102,11 @@ const PACK_PROMOS := [
 ]
 var _promo_ui: Dictionary = {}
 var _promo_seen: Dictionary = {}
+## Popup bán hàng tự hiện (Design/28 §5b): hạng của lượt chờ xét, và gói đang giữ vòng đua.
+var _sales_position := 0
+var _sales_tutorial_hit := false
+var _sales_sku := ""
+var _break_card: Control
 var _race_no_label: Label
 var _income_label: Label
 var _status_label: Label
@@ -238,6 +243,7 @@ func activate() -> void:
 	_active = true
 	GameState.race_started.connect(_on_race_started)
 	GameState.race_finished.connect(_on_race_finished)
+	Ads.break_ctl.finished.connect(_on_break_reward)
 	_seen_result = GameState.results_serial
 	_refresh()
 	if GameState.load_error != "":
@@ -604,6 +610,9 @@ func _build_ui() -> void:
 	add_child(_class_page)
 	_class_page.hide()
 	_build_overlay()
+	_break_card = preload("res://ui/ads_break_card.gd").new()
+	_break_card.name = "AdsBreakCard"
+	add_child(_break_card)
 	_tutorial = TutorialOverlay.new()
 	_tutorial.name = "TutorialOverlay"
 	_tutorial.target_provider = _tutorial_target
@@ -1298,6 +1307,8 @@ func _on_iap_result(r: Dictionary) -> void:
 		"ok":
 			var g: Dictionary = GameState.last_iap_grant
 			_sfx("daily_gift")
+			if _sales_sku != "" and String(r.get("sku", "")) == _sales_sku:
+				_close_overlay()
 			_show_toast(I18n.t("main.purchase_successful") + (" · +%d gem" % int(g["gems"]) if int(g.get("gems", 0)) > 0 else ""))
 		"pending":
 			_show_toast(I18n.t("main.waiting_payment_finish"))
@@ -2135,7 +2146,8 @@ func _process(delta: float) -> void:
 	# Bảng tổng kết tự tắt sau RESULT_SHOW_SEC giây (thời gian thật) rồi thả đua tiếp.
 	var modal_open: bool = _overlay.visible \
 		or (is_instance_valid(_promotion) and _promotion.visible) \
-		or (is_instance_valid(_class_page) and _class_page.visible)
+		or (is_instance_valid(_class_page) and _class_page.visible) \
+		or Ads.break_ctl.active()
 	_ads_controls.blocked = modal_open or _result_panel.visible or _tab != Tab.RACE or _tutorial.running \
 		or _tutorial.intro != "" or _tutorial.nav != "" or GameState.phase != "racing"
 	_sync_tutorial_nav()
@@ -2160,7 +2172,9 @@ func _process(delta: float) -> void:
 			_result_bar.value = maxf(_result_timer, 0.0)
 		if _result_timer <= 0.0:
 			_result_panel.hide()
-	if GameState.result_hold and not _result_panel.visible:
+	var popup_hold := GameState.result_hold and not _result_panel.visible and _hold_for_sales_popup()
+	var break_hold := _tick_ads_break(delta)
+	if GameState.result_hold and not _result_panel.visible and not popup_hold and not break_hold:
 		GameState.result_hold = false
 	GameState.time_scale = 10.0 if _fast_forced else RACE_SPEED
 	_row_timer += delta
@@ -2209,6 +2223,89 @@ func _on_race_finished(res: Dictionary) -> void:
 	if _shot_prefix == "" and not _auto_race:
 		GameState.result_hold = true
 		_show_race_result(res.duplicate(true))
+		_sales_position = int(res.get("position", 0))
+		_sales_tutorial_hit = _tutorial._active()  # lượt có bước hướng dẫn thì không bán hàng, kể cả khi vừa xong
+
+
+## Sau bảng kết quả, trước countdown: xét popup bán hàng một lần, không có thì xét Ads Break (không bao giờ cả hai).
+## Trả true khi popup đang giữ vòng đua.
+func _hold_for_sales_popup() -> bool:
+	if _sales_position > 0:
+		var position := _sales_position
+		_sales_position = 0
+		_try_sales_popup(position)
+		if _sales_sku == "":
+			_try_ads_break()
+	if _sales_sku != "" and not _overlay.visible:
+		_sales_sku = ""
+	return _sales_sku != ""
+
+
+## Lý do màn hình không cho chen popup hay quảng cáo: "" (được), "tutorial", "overlay".
+func _interrupt_block() -> String:
+	if _sales_tutorial_hit or _tutorial._active():
+		return "tutorial"
+	if _overlay.visible or _promotion.visible or _class_page.visible or _tab != Tab.RACE or _offline_popup_pending \
+			or GameState.suspended or GameState.ad_pause or GameState.phase == "save_error":
+		return "overlay"
+	return ""
+
+
+func _try_sales_popup(position: int) -> void:
+	if Iap.sales_popup_queue().is_empty():  # ghi mốc đạt cả khi lượt này bị chặn
+		return
+	_pump_intro()  # hướng dẫn đến hạn được ưu tiên hơn popup bán hàng
+	var why := _interrupt_block()
+	if why == "" and position >= 5:
+		why = "position"
+	var sku := ""
+	if why == "":
+		var pick: Dictionary = Iap.next_sales_popup()
+		sku = String(pick["sku"])
+		why = String(pick["why"])
+	if sku == "":
+		if why != "":
+			Iap.note_popup_skip(why)
+		return
+	_sales_sku = sku
+	_promo_seen[sku] = true
+	_refresh_pack_promos()
+	_show_iap_detail(sku)
+	Iap.note_sales_popup(sku)
+
+
+func _try_ads_break() -> void:
+	_pump_intro()
+	if _interrupt_block() != "":
+		Ads.break_ctl.skip("blocked")
+		return
+	Ads.break_ctl.begin()
+
+
+## Chạy Ads Break và vẽ thẻ báo trước. Trả true khi vòng đua còn phải đứng yên.
+func _tick_ads_break(delta: float) -> bool:
+	var ctl = Ads.break_ctl
+	var blocked: bool = _overlay.visible or _promotion.visible or _class_page.visible or _tab != Tab.RACE \
+		or _tutorial._active() or GameState.suspended or GameState.phase == "save_error"
+	ctl.tick(delta, blocked and ctl.step != ctl.Step.SHOWING)
+	var show_card: bool = ctl.step == ctl.Step.CARD or ctl.step == ctl.Step.SHOWING
+	if show_card and not _break_card.visible:
+		_break_card.open(Balance.fmt_money(ctl.amount))
+	elif not show_card and _break_card.visible:
+		_break_card.hide()
+	return ctl.active()
+
+
+func _on_break_reward(amount: Variant) -> void:
+	_sfx("daily_gift")
+	_show_toast("+%s" % Balance.fmt_money(amount))
+	_refresh()
+
+
+## Ghi nhận chạm: Ads Break chờ người chơi ngơi tay rồi mới hiện.
+func _input(event: InputEvent) -> void:
+	if event is InputEventScreenTouch or event is InputEventScreenDrag or event is InputEventMouseButton:
+		Ads.break_ctl.note_touch()
 
 
 ## Trạng thái vòng lặp: countdown / thời gian còn lại / vị trí; lỗi lưu.
@@ -2409,7 +2506,7 @@ func _open_next_overlay() -> void:
 
 ## Báo cáo offline chờ hết phần làm quen (bao gồm A7), không chen vào thoại/modal khác.
 func _pump_offline_popup() -> void:
-	if not _offline_popup_pending or _tutorial._active() or _overlay.visible or _result_panel.visible:
+	if not _offline_popup_pending or _tutorial._active() or _overlay.visible or _result_panel.visible or Ads.break_ctl.active():
 		return
 	if (is_instance_valid(_promotion) and _promotion.visible) or (is_instance_valid(_class_page) and _class_page.visible):
 		return

@@ -843,6 +843,12 @@ static func _validate_iap() -> Array:
 	if typeof(pop) != TYPE_DICTIONARY or not _is_num((pop as Dictionary).get("gap_sec")) or float((pop as Dictionary)["gap_sec"]) <= 0.0 \
 			or not _is_num((pop as Dictionary).get("per_day")) or int((pop as Dictionary)["per_day"]) < 1:
 		errs.append("iap.json: popup.gap_sec must be > 0 and popup.per_day >= 1")
+	if typeof(pop) == TYPE_DICTIONARY:
+		var first := String((pop as Dictionary).get("first_after_tutorial", ""))
+		if first != "" and not feature_ids.has(first):
+			errs.append("iap.json: popup.first_after_tutorial '%s' is not in tutorial.json" % first)
+		if not _is_num((pop as Dictionary).get("next_gap_hours")) or float((pop as Dictionary)["next_gap_hours"]) < 0.0:
+			errs.append("iap.json: popup.next_gap_hours must be >= 0")
 	var flags: Variant = d.get("flags", {})
 	if typeof(flags) != TYPE_DICTIONARY:
 		errs.append("iap.json: flags must be an object")
@@ -907,6 +913,10 @@ static func _validate_iap() -> Array:
 				if not skus.has(String(ref)) and not perks.has(String(ref)):
 					errs.append(where + "%s points to '%s' which does not exist" % [ref_key, String(ref)])
 		errs.append_array(_validate_iap_unlock(where, p.get("unlock", {}), feature_ids, skus))
+		if p.has("auto_popup") and not _is_pos_int(p["auto_popup"]):
+			errs.append(where + "auto_popup must be a positive integer (maximum number of automatic popups)")
+		if p.has("auto_next_session") and typeof(p["auto_next_session"]) != TYPE_BOOL:
+			errs.append(where + "auto_next_session must be a bool")
 		if p.has("flag") and not (flags as Dictionary).has(String(p["flag"])):
 			errs.append(where + "flag '%s' is not in flags" % String(p["flag"]))
 		match kind:

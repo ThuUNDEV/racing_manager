@@ -1,5 +1,7 @@
 {
  "ads.active_x": "発動中 ×%d",
+ "ads.break_reward": "視聴後に +%s",
+ "ads.break_title": "広告タイム",
  "ads.bonus_cash": "ボーナス資金",
  "ads.busy_try_again_later": "処理中です。しばらくしてからお試しください。",
  "ads.cash_gift": "資金ギフト",

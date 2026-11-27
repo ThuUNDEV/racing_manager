@@ -248,6 +248,8 @@ Tỉ lệ gói · Điều khoản · Chính sách riêng tư
 - Lá cờ khán đài không tạo khi có popup bán hàng đang mở (26 đã chặn "popup khác"); Ads Break không hiện khi có popup đang mở (26 §7).
 - Analytics: `popup_skip` ghi lý do chặn (§7.4).
 
+**Đã làm (27/11/2026):** hàng đợi ở `game/iap_service.gd` (`sales_popup_queue`, `next_sales_popup`), điều kiện màn hình ở `ui/main.gd` (`_try_sales_popup`). `auto_popup` là số lần tự hiện tối đa, `auto_next_session` đánh dấu `starter_2/3`; mỗi gói tối đa 1 lần/ngày. Popup chỉ hiện khi người chơi đang ở tab Đua; `popup_skip` có thêm `why: "position"`. Chưa làm §5c (điểm ưu tiên, trạng thái `dropped`) và giới hạn 2 offer mở cùng lúc.
+
 ### 5b-2. Dải icon gói ở tab Đua *(19/11/2026)*
 
 Dải chặng ở tab Đua có icon lối tắt (không phải popup tự hiện, không qua hàng đợi §5b): `starter`, `offer`, `weekly` và **`perk`** (tiện ích: `income_x2`, `no_ads`). Mỗi icon chỉ hiện khi gói đầu tiên của nhóm có `Iap.block_reason` ∈ {"", "busy"}, giống thẻ Shop; bấm mở chi tiết gói đó, chấm đỏ tắt sau khi bấm trong phiên. Khi `offer_noads_bundle` đang bán thì `perk` bỏ qua `no_ads` đơn lẻ (§4.4). Chưa có icon cho tay đua, gói ngày và pass. Icon `perk` đang dùng tạm `icons/coin`, cần `icons/pack_perk` cùng bộ `assets/soft_miniature_race_ui_v3/icons/`.

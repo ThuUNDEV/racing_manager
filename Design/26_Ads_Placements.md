@@ -321,7 +321,7 @@ Không vị trí nào xuất hiện trong lúc một bước tutorial đang gi�
 
 **Test.** `tests/ads_v1_test.gd` (cấu hình thật): 78 kiểm tra. Đã thử đột biến 4 lần (boost không nhân, thưởng đua không nhân, boost cộng dồn, khoảng chờ cờ không nhân đôi), cả 4 đều bị test bắt. `horus-game.json` khai báo 5 placement mới.
 
-**Chưa có (các bước sau):** UI (P2b–P2d), Ads Break và bridge/provider interstitial (P2e), `boost_start/boost_end` chưa nối vào shop/HUD.
+**Chưa có (các bước sau):** UI (P2b–P2d), Ads Break và bridge/provider interstitial (P2e, đã code 27/11/2026, xem §17), `boost_start/boost_end` chưa nối vào shop/HUD.
 
 ## 15. P2c: chip ×2 và lá cờ (đã code, UI thô)
 
@@ -342,3 +342,99 @@ Không vị trí nào xuất hiện trong lúc một bước tutorial đang gi�
 - **Toast** sau khi nhận (`+5 gem`, `+1 Coupon Pro`) hoặc lý do không nhận được.
 - **Code:** `ui/shop_page.gd` (signal `ad_requested`, `update_ads`), `ui/main.gd` (`_ads_view`, `_watch_shop_ad`), `game/ads_service.gd` (`card_state`, `shop_ready`, `status_text`). **Test:** `tests/ads_shop_test.gd`.
 - **Chưa làm:** dấu chấm đỏ trên chính thẻ, nút phụ ở tab Túi và Đội (P2d). Chưa xem trong game thật.
+
+
+---
+
+## 17. P2e: thiết kế kỹ thuật Ads Break *(duyệt và code 27/11/2026)*
+
+Luật chơi giữ nguyên §7. Mục này chỉ nói cách làm và bù các chỗ §7 chưa định nghĩa.
+
+**Code:** `game/ads_break.gd` (`Ads.break_ctl`), `ui/ads_break_card.gd`, `ui/main.gd` (`_try_ads_break`, `_tick_ads_break`), test `tests/ads_break_test.gd`. Khác bản đề xuất: người bỏ qua tutorial (`skipped`) cũng gặp Ads Break như người đã xong; break chỉ xét khi đang ở tab Đua; sau khi xem chỉ có tiếng và toast số tiền, chưa có hiệu ứng tiền bay.
+
+### 17.1. Thứ tự sau lượt đua
+
+```
+bảng kết quả tắt → popup bán hàng (28 §5b) → nếu không có popup thì xét Ads Break → countdown
+```
+
+Cùng một lượt không bao giờ có cả popup bán hàng lẫn Ads Break. Cả hai dùng chung chỗ giữ vòng đua (`result_hold`).
+
+### 17.2. Máy trạng thái (`game/ads_break.gd`, do `AdsService` giữ)
+
+| Trạng thái | Thời gian | Chuyển sang |
+|---|---|---|
+| `idle` | | `waiting_touch` khi `break_due()` trả đủ điều kiện |
+| `waiting_touch` | tối đa 3 s | `card` khi đã 1,2 s không chạm; quá 3 s → bỏ lượt (`inter_skip: blocked`) |
+| `card` | 1,5 s | `showing`; kiểm lại điều kiện chặn ngay trước khi gọi |
+| `showing` | tối đa 90 s | `shown: true` → `reward`; `shown: false`, lỗi, quá giờ → `idle`, không thưởng, không tính cooldown |
+| `reward` | | cộng thưởng + lưu → `idle` → countdown |
+
+Trong `showing`: `GameState.ad_pause = true`, tắt tiếng. Callback đến muộn hoặc đến hai lần bị bỏ qua (cùng cách `try_show_rewarded`).
+
+### 17.3. Điều kiện và nguồn dữ liệu
+
+`break_due(now)` trả `{"due": bool, "why": String}`, thuần logic để test headless.
+
+| Điều kiện (§7) | Đọc từ | `why` |
+|---|---|---|
+| Chưa mua "Đội tự do" | `Ads.entitled()` | `no_ads` |
+| Xong tutorial, ≥ `interFromRun` lượt | `tutorial.state`, `completed_races` | `early` |
+| ≥ `firstPlayMin` phút chơi đầu đời | **mới** `ad_state.play_sec` | `early` |
+| ≥ `sessionWarmup` từ lúc mở app hoặc trở lại từ nền | **mới**, trong bộ nhớ | `warmup` |
+| ≥ `interEvery` lượt từ break trước | **mới** `ad_state.break.last_race` | `every` |
+| ≥ `interCooldown` giây | **mới** `ad_state.break.last_t` | `cooldown` |
+| < `maxPerHour` trong 60 phút gần nhất | **mới** `ad_state.break.times` (chỉ giữ 1 giờ) | `cooldown` |
+| ≥ `rewardedGrace` từ rewarded vừa xem | `ad_state.last` (mốc mới nhất) | `rewarded` |
+| Có mạng, interstitial đã tải | `provider.is_online()`, `is_inter_ready()` | `blocked` |
+
+Điều kiện màn hình do `ui/main.gd` kiểm, giống popup bán hàng: không overlay/trang khác, không `save_error`, không `suspended`, không tutorial đang giữ màn hình.
+
+`play_sec` chỉ tăng khi đang chơi (cùng điều kiện với `_flag_clock_runs`). Save cũ không có thì bắt đầu từ 0.
+
+### 17.4. Thưởng
+
+- Số tiền = `total_online_rate()` × `bonusIncomeSec`, cùng cách tính `flag_cash` (không nhân boost ×2), chốt trước khi hiện thẻ để số trên thẻ đúng bằng số nhận.
+- ID `ad/break/n<completed_races>` trong `processed_rewards`.
+- Không tính vào `daily_cap` 12.
+- Tiền, bộ đếm break và `breaks_today` ghi trong **một** giao dịch save. Lưu lỗi: giữ thưởng chờ trong bộ nhớ, thử lại ở bảng kết quả kế tiếp; cooldown vẫn tính vì người chơi đã xem.
+
+### 17.5. Bộ đếm ngày và gói `offer_noads_bundle`
+
+- `ad_state.break.day` (ngày UTC) và `ad_state.break.today`. Bỏ khóa cũ `ad_state["breaks_today"]`; `Iap._unlocked` hỏi `Ads.breaks_today()`, hàm này trả 0 khi đã sang ngày khác.
+- **Đề xuất:** đã đạt 3 break trong một ngày thì gói mở **luôn** tới khi mua (đúng 28 §4.4 "nằm trong Shop cho tới khi mua"). Ghi vào `iap.offers.offer_noads_bundle`. Đọc thẳng bộ đếm ngày thì thẻ sẽ biến mất lúc 00:00 UTC.
+- Với số ở §7, sớm nhất khoảng 29 phút chơi trong ngày đầu mới thấy gói (15 phút đầu + 2 × 7 phút).
+
+### 17.6. Provider và cầu nối
+
+| Lớp | Thêm |
+|---|---|
+| `AdsProvider` | `is_inter_ready() -> bool`, `show_interstitial(placement, done)`, `done({"shown": bool})` |
+| `MockAdsProvider` | `inter_ready`, `inter_shown`, `inter_shows`; tái dùng `delay_sec`, `double_fire` |
+| `HorusAdsProvider` | gọi `rm.inter`, `rm.showInter` |
+| `web/shell.html` | `rm.inter` cập nhật từ `platform.ads.ready().inter`; `rm.showInter(placement, cb)` gọi `platform.ads.inter` |
+| `horus-game.json` | `ads.inter: ["ad_break"]` |
+
+Lớp phủ giả lập trên web đã nhận `kind`; với interstitial chỉ cần một nút "Đóng".
+
+### 17.7. Thẻ báo trước (đơn vị logical 390×845)
+
+```
+BreakCard (Control, full rect, chặn chạm, nền mờ như overlay)
+└─ CenterContainer
+   └─ PanelContainer  HdUi.panel(), rộng 280
+      └─ VBoxContainer  separation 8
+         ├─ Label  I18n "ads.break_title"            16 px, giữa, tự xuống dòng
+         └─ Label  I18n "ads.break_reward" ("+%s …")  22 px, xanh, giữa
+```
+
+Không nút, không đóng bằng chạm ngoài. Đóng quảng cáo xong thì ẩn thẻ và hiện toast số tiền (hiệu ứng tiền bay dùng `reward_burst.gd` nếu khớp).
+
+### 17.8. Test (`tests/ads_break_test.gd`)
+
+Từng dòng ở bảng 17.3 chặn đúng `why`; popup bán hàng đã hiện thì không break; `shown: false` và quá 90 s không thưởng, không cooldown; callback hai lần chỉ thưởng một lần; lưu lỗi rồi thử lại; `breaks_today` sang ngày về 0; đủ 3 break thì gói mở và còn mở hôm sau; mua `no_ads` thì không còn break.
+
+### 17.9. Cần xác minh trước khi phát hành
+
+- `platform.ads.inter()` trả kết quả sau khi đóng quảng cáo hay ngay lúc hiện (`horus-sdk.d.ts` không nói). Thử trên app thật; nếu trả ngay thì lấy `resume` làm tín hiệu đóng.
+- Chính sách interstitial hiện hành của Google Play và App Store.

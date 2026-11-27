@@ -16,6 +16,7 @@ extends Node
 ## flag_begin() khi bắt đầu cho cờ chạy và flag_end(tapped) khi cờ mất.
 
 const BigNumber = preload("res://core/math/big_number.gd")
+const AdsBreak = preload("res://game/ads_break.gd")
 
 ## Sự kiện analytics: rv_offer / rv_start / rv_done / rv_fail (tên theo horus-sdk/AGENTS.md).
 signal ad_event(name: String, params: Dictionary)
@@ -28,9 +29,14 @@ var _pending: Dictionary = {}   # {placement, occasion, amount}: đã xem xong n
 var _flag_wait := -1.0          # giây chơi còn lại tới lá cờ kế; < 0 = chưa bắt đầu đếm
 var _flag_live := false         # có lá cờ đang chạy hoặc popup của nó đang mở
 var _boost_was := false
+## Interstitial xen giữa hai lượt (Design/26 §7, §17).
+var break_ctl: AdsBreak = null
+var _frame_unix := 0.0
+var _suspend_was := false
 
 
 func _ready() -> void:
+	break_ctl = AdsBreak.new(self)
 	if provider == null:
 		var mock := MockAdsProvider.new()
 		mock.tree = get_tree()
@@ -42,7 +48,24 @@ func is_busy() -> bool:
 	return _busy
 
 
+## Số Ads Break đã xem hôm nay (điều kiện mở offer_noads_bundle).
+func breaks_today() -> int:
+	return break_ctl.today_count()
+
+
+## Đếm phút chơi đầu đời, và tính lại "khởi động phiên" sau khi trở lại từ nền (Design/26 §7).
+func _track_play(delta: float) -> void:
+	var now := Time.get_unix_time_from_system()
+	if (_suspend_was and not GameState.suspended) or (_frame_unix > 0.0 and now - _frame_unix > 5.0 and not break_ctl.active()):
+		break_ctl.warm_from = now
+	_frame_unix = now
+	_suspend_was = GameState.suspended
+	if _flag_clock_runs() and not GameState.tutorial_pause:
+		GameState.ad_state["play_sec"] = float(GameState.ad_state.get("play_sec", 0.0)) + minf(delta, 1.0)
+
+
 func _process(delta: float) -> void:
+	_track_play(delta)
 	var boosting: bool = GameState.income_boost_left > 0.0
 	if _boost_was and not boosting:
 		ad_event.emit("boost_end", {})

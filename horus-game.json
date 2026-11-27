@@ -22,7 +22,9 @@
       "free_driver_coupon",
       "free_gear_coupon"
     ],
-    "inter": []
+    "inter": [
+      "ad_break"
+    ]
   },
   "products": [
     {

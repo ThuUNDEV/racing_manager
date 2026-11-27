@@ -140,6 +140,7 @@
     ]
    },
    "auto_popup": 1,
+   "auto_next_session": true,
    "grant": {
     "driver": "driver_ha",
     "gems": 500,
@@ -172,6 +173,7 @@
     ]
    },
    "auto_popup": 1,
+   "auto_next_session": true,
    "grant": {
     "driver": "driver_my",
     "gems": 800,

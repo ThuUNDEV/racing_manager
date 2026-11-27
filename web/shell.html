@@ -114,7 +114,7 @@ body {
 window.rmHorus = (function () {
 	/* SKU bán trong game (khớp data/iap.json và horus-game.json -> products; tests/iap_test.gd kiểm). */
 	const IAP_SKUS = ["gems_pack_1", "gems_pack_2", "gems_pack_3", "gems_pack_4", "gems_pack_5", "no_ads", "income_x2", "income_x3", "income_x3_up", "offline_plus", "starter_1", "starter_2", "starter_3", "offer_combo_1", "offer_combo_2", "offer_noads_bundle", "char_lam", "char_my", "char_nhan", "char_phuong", "char_quang", "char_son", "daily_gear", "daily_driver", "pass_month", "pass_growth", "weekly_s", "weekly_m", "weekly_l", "weekly_xl"];
-	const rm = { ok: false, rv: false, backup: '', sdk: '', kind: '', error: '', onLifecycle: null };
+	const rm = { ok: false, rv: false, inter: false, backup: '', sdk: '', kind: '', error: '', onLifecycle: null };
 	let platform = null;
 	const queued = [];
 
@@ -135,8 +135,12 @@ window.rmHorus = (function () {
 				b.onclick = function () { box.remove(); done(result); };
 				box.appendChild(b);
 			}
-			btn('Xem hết', true);
-			btn('Đóng sớm', false);
+			if (kind === 'inter') {
+				btn('Đóng', true);
+			} else {
+				btn('Xem hết', true);
+				btn('Đóng sớm', false);
+			}
 			document.body.appendChild(box);
 		});
 	}
@@ -150,7 +154,8 @@ window.rmHorus = (function () {
 			await HorusSDK.start({ cloud: false, skus: IAP_SKUS });
 			rm.backup = platform.save.backup || '';
 			rm.rv = !!platform.ads.ready().rv;
-			platform.on('ads', function (s) { rm.rv = !!(s && s.rv); });
+			rm.inter = !!platform.ads.ready().inter;
+			platform.on('ads', function (s) { rm.rv = !!(s && s.rv); rm.inter = !!(s && s.inter); });
 			platform.on('pause', function (e) { emit('pause', (e && e.reason) || 'bg'); });
 			platform.on('resume', function () { emit('resume', ''); });
 			rm.sdk = HorusSDK.VERSION;
@@ -174,6 +179,14 @@ window.rmHorus = (function () {
 		platform.ads.rewarded(placement).then(
 			function (r) { cb(r && r.ok ? 'rewarded' : (r && r.reason === 'closed' ? 'cancelled' : 'error')); },
 			function () { cb('error'); });
+	};
+	rm.loadInter = function () { try { platform.ads.load('inter'); } catch (e) { /* bỏ qua */ } };
+	/* Interstitial cho Ads Break (Design/26 §17). cb nhận true khi quảng cáo đã hiện. Luôn gọi đúng một lần. */
+	rm.showInter = function (placement, cb) {
+		if (!rm.ok) { cb(false); return; }
+		platform.ads.inter(placement).then(
+			function (r) { cb(!!(r && r.shown)); },
+			function () { cb(false); });
 	};
 	/* IAP (Design/28 §7). Mọi kết quả về Godot dưới dạng chuỗi JSON để GDScript tự kiểm. */
 	rm.iapPrice = function (sku) { try { return platform.iap.price(sku); } catch (e) { return null; } };

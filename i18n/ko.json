@@ -1,5 +1,7 @@
 {
  "ads.active_x": "적용 중 ×%d",
+ "ads.break_reward": "시청 후 +%s",
+ "ads.break_title": "광고 시간",
  "ads.bonus_cash": "보너스 자금",
  "ads.busy_try_again_later": "처리 중입니다. 잠시 후 다시 시도하세요.",
  "ads.cash_gift": "자금 선물",

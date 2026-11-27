@@ -22,3 +22,17 @@ func load_rewarded() -> void:
 ## Provider có thể gọi done nhiều lần hoặc trễ; AdsService tự chống lặp.
 func show_rewarded(_placement: String, done: Callable) -> void:
 	done.call({"status": "error"})
+
+
+## Đã có interstitial tải sẵn chưa (Ads Break, Design/26 §7).
+func is_inter_ready() -> bool:
+	return false
+
+
+func load_interstitial() -> void:
+	pass
+
+
+## Hiện interstitial rồi gọi done.call({"shown": bool}). Có thể gọi trễ hoặc nhiều lần.
+func show_interstitial(_placement: String, done: Callable) -> void:
+	done.call({"shown": false})
