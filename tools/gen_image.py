@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Sinh ảnh bằng OpenAI Images API (gpt-image-2.5-flare) và ghi thẳng vào thư mục asset.
+"""Sinh ảnh bằng OpenAI Images API (gpt-image-2.6-flare) và ghi thẳng vào thư mục asset.
 
 Key đọc từ file (không nằm trong repo): đặt đường dẫn qua OPENAI_KEY_FILE,
 mặc định ~/.t3/userdata/secrets/files/b90802df318e841a42e54b4c281c5652.
@@ -12,7 +12,7 @@ Mặc định: nền trong suốt (background=transparent) png. --ref dùng endp
 """
 import argparse, base64, json, os, sys, urllib.request, uuid
 
-MODEL = os.environ.get("OPENAI_IMAGE_MODEL", "gpt-image-2.5-flare")
+MODEL = os.environ.get("OPENAI_IMAGE_MODEL", "gpt-image-2.6-flare")
 KEY_FILE = os.environ.get(
     "OPENAI_KEY_FILE",
     os.path.expanduser("~/.t3/userdata/secrets/files/b90802df318e841a42e54b4c281c5652"),

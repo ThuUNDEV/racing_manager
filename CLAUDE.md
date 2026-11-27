@@ -64,7 +64,7 @@ Quy trình 2 phần:
 **Phần 2: Cắt sprite từ concept đã duyệt**
 - Dùng MCP `art-tools` (`http://192.168.11.181:8790/mcp`): `remove_background` để tách nền, `outline` để thêm viền/bóng/glow, `upscale` để phóng to. Ảnh vào là `file_id` (POST `/upload`) hoặc base64, kết quả tải bằng `download_url`.
 - Kiểm tra chất lượng từng sprite sau khi cắt (viền răng cưa, mờ, mất chi tiết, sai màu).
-- Nếu chất lượng thấp, **sinh lại icon** bằng `gpt-image-2.5-flare`, `--quality low`, dùng sprite đã cắt hoặc crop concept làm `--ref`. Chỉ tăng lên `high` khi `low` vẫn không đạt và phải hỏi người dùng trước.
+- Nếu chất lượng thấp, **sinh lại icon** bằng `gpt-image-2.6-flare`, `--quality low`, dùng sprite đã cắt hoặc crop concept làm `--ref`. Chỉ tăng lên `high` khi `low` vẫn không đạt và phải hỏi người dùng trước.
 
 Công cụ sinh lại: `tools/gen_image.py NAME "prompt" [--size 1024x1024] [--quality low|high] [--ref a.png] [--opaque] [--out DIR]`. Mặc định nền trong suốt; `--ref` dùng endpoint edits để giữ thiết kế; `--opaque` cho cảnh nền đầy khung. Đổi model chỉ qua `OPENAI_IMAGE_MODEL` và phải hỏi người dùng.
 
